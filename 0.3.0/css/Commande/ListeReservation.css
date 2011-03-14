@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+/*ListeReservation*/
+#texte-liste-vide {
+	text-align:center;
+}
+
+.lst-resa-th-num {
+	text-align:center;
+	width:35px;
+}
+
+.detail-resa-npro {
+	width:250px;
+}
+
+.detail-resa-qte{
+	width:80px;
+}
+
+.detail-resa-unite {
+	width:100px;
+}
+
+.detail-resa-prix {
+	width:90px;
+}
