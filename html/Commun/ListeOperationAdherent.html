@@ -1,0 +1,58 @@
+<div id="liste_operation_adherent_int">
+	<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+		<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Solde : {ADH_SOLDE} {SIGLE_MONETAIRE}</div>		
+		<div>
+			<span id="content-nav-liste-operation" class="ui-helper-clearfix ui-state-default ui-corner-all" >
+				<a id="icone-nav-liste-operation-w" class="ui-state-default ui-corner-all com-button" href={LIEN_OPERATION_PRECEDENT}>
+					<span class="ui-icon ui-icon-circle-arrow-w"></span>
+				</a>				
+				<a id="icone-nav-liste-operation-e" class="ui-state-default ui-corner-all com-button" href={LIEN_OPERATION_SUIVANT}>	
+					<span class="ui-icon ui-icon-circle-arrow-e"></span>
+				</a>
+				<span>Page : {PAGE_ACTUELLE_OPERATION}/{NOMBRE_PAGE_OPERATION}</span>
+			</span>
+		
+			<table class="com-table">
+				<tr class="ui-widget ui-widget-header" >
+					<th class="com-table-th">Libellé</th>
+					<th class="com-table-th">Date</th>
+					<th class="com-table-th">Type de paiement</th>
+					<th class="com-table-th">Débit</th>
+					<th class="com-table-th">Crédit</th>
+				</tr>
+			<!-- BEGIN operation -->
+				<tr>
+					<td class="com-table-td">{operation.OPE_LIBELLE}</td>
+					<td class="com-table-td">{operation.OPE_DATE}</td>
+					<td class="com-table-td">{operation.OPE_TYPE_PAIEMENT}</td>
+					<td class="com-table-td">{operation.OPE_DEBIT}</td>
+					<td class="com-table-td">{operation.OPE_CREDIT}</td>
+				</tr>
+			<!-- END operation -->
+			</table>
+		</div>
+	</div>
+	<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+		<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Achat(s) Futur(s)</div>		
+		<div>		
+			<table class="com-table">
+				<tr class="ui-widget ui-widget-header" >
+					<th class="com-table-th">Libellé</th>
+					<th class="com-table-th">Date Réservation</th>
+					<th class="com-table-th">Date Marché</th>
+					<th class="com-table-th">Débit</th>
+					<th class="com-table-th">Nouveau Solde</th>
+				</tr>
+			<!-- BEGIN operation_avenir -->
+				<tr>
+					<td class="com-table-td">{operation_avenir.OPE_LIBELLE}</td>
+					<td class="com-table-td">{operation_avenir.OPE_DATE}</td>
+					<td class="com-table-td">{operation_avenir.OPE_DATE_MARCHE}</td>
+					<td class="com-table-td">{operation_avenir.OPE_DEBIT}</td>
+					<td class="com-table-td">{operation_avenir.OPE_SOLDE}</td>
+				</tr>
+			<!-- END operation_avenir -->
+			</table>
+		</div>
+	</div>
+</div>
