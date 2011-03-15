@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+/*EditerCommande*/
+#edt-com-info {
+	width:300px;
+	margin-right:10px;
+}
+
+#edt-com-liste {
+	width:670px;
+}
+
+.edt-com-progressbar-pdt {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.edt-com-span-rech-right {
+	height:20px;
+	padding-top:4px;
+	position:relative;
+	float:right;
+}
+
+/*.edt-com-btn-edt-commande {
+	margin-right:4px;
+}*/
+
+/*.edt-com-btn-detail-pdt{
+	position:relative;
+	float:right;
+	margin-top:1px;
+}*/
