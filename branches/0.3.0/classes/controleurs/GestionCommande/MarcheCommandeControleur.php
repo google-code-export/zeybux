@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
@@ -101,11 +102,13 @@ class MarcheCommandeControleur
 			$lReservation = ReservationViewManager::selectAchat($pIdCommande,$lAdherent->getAdhIdCompte());
 			$lCommande = CommandeCompleteEnCoursViewManager::select($pIdCommande);
 			$lStock = StockProduitViewManager::selectByIdCommande($pIdCommande);
+			$lStockSolidaire = StockSolidaireViewManager::select($pIdCommande);
 			
 			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
 
 			$lResponse->setCommande($lCommande);
 			$lResponse->setStock($lStock);
+			$lResponse->setStockSolidaire($lStockSolidaire);
 			$lResponse->setAdherent($lAdherent);
 			$lResponse->setReservation($lReservation);
 			$lResponse->setTypePaiement($lTypePaiement);

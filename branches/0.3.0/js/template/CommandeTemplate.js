@@ -87,10 +87,13 @@
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero}" +
 				"</div>" +
-				"<div>" +
+				"<div id=\"resa-info-commande\">" +
 					"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
 					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span> <span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+				"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -100,35 +103,26 @@
 				"<div>" +
 					"<table>" +
 						"<!-- BEGIN produit -->" +
-						"<tr class=\"pdt\" id=\"pdt-{produit.proId}\">" +
-							"<td class=\"passer-com-radio\" ><input type=\"checkbox\" {produit.checked}/></td>" +
-							"<td class=\"passer-com-radio\" ><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
-							"<td colspan=\"5\" class=\"passer-com-npro\">{produit.nproNom}</td>" +
+						"<tr class=\"pdt\">" +
+							"<td><input type=\"checkbox\" {produit.checked}/></td>" +
+							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
+							"<td>{produit.nproNom}</td>" +
 							"<td>" +
-								"<span>{produit.proMaxProduitCommande}</span>" +
-								" <span>{produit.proUniteMesure}</span> Max" +
+								"<select id=\"lot-{produit.proId}\">" +
+									"<!-- BEGIN produit.lot -->" +
+									"<option value=\"{produit.lot.dcomId}\">par {produit.lot.dcomTaille} {produit.proUniteMesure}</option>" +
+									"<!-- END produit.lot -->" +
+								"</select>" +
 							"</td>" +
-							"<td colspan=\"3\"></td>" +
+							"<td>à <span id=\"prix-unitaire-{produit.proId}\">{produit.prixUnitaire}</span> {sigleMonetaire}/{produit.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-moins\">-</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}\"></span> {produit.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-plus\">+</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId} com-text-align-right\"><span id=\"prix-pdt-{produit.proId}\"></span> {sigleMonetaire}</td>" +
 						"</tr>" +
-						"<!-- BEGIN produit.lot -->" +
-						"<tr class=\"lot lot-pdt-{produit.proId}\">" +
-							"<td class=\"passer-com-radio\"><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span><span class=\"lot-id\">{produit.lot.dcomId}</span></span></td>" +
-							"<td class=\"passer-com-radio\"><input type=\"radio\" name=\"lot-produit-{produit.proId}\" {produit.lot.checked}/></td>" +
-							"<td class=\"com-text-align-right detail-resa-qte\">{produit.lot.dcomTaille}</td>" +
-							"<td class=\"detail-resa-unite\">{produit.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\">{produit.lot.dcomPrix}</td>" +
-							"<td class=\"passer-com-sigle\" >{sigleMonetaire}</td>" +
-							"<td class=\"passer-com-btn-qte\"><button class=\"btn-moins btn-pdt-{produit.proId}\" id=\"btn-moins-lot-{produit.lot.dcomId}\">-</button></td>" +
-							"<td class=\"passer-com-qte\"><span id=\"colonne-qte-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"qte\">{produit.lot.stoQuantiteReservation}</span>" +
-								" <span>{produit.proUniteMesure}</span></span></td>" +
-							"<td class=\"passer-com-btn-qte\"><button class=\"btn-plus btn-pdt-{produit.proId}\" id=\"btn-plus-lot-{produit.lot.dcomId}\">+</button></td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"colonne-prix-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\"><span id=\"prix-pdt-{produit.proId}-lot-{produit.lot.dcomId}\">{produit.lot.prixReservation}</span></span></td>" +
-							"<td><span id=\"colonne-sigle-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\">{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END produit.lot -->" +
 						"<!-- END produit -->" +
 						"<tr>" +
-							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
+							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
 							"<td>{sigleMonetaire}</td>" +
 						"</tr>" +
@@ -139,6 +133,8 @@
 				"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-valider\">Valider</button>" +		
 			"</div>" +
 		"</div>";
+	this.lotUnique = 
+		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 	
 	this.modifierReservation =
 		"<div id=\"contenu\">" +
@@ -158,6 +154,32 @@
 				"<div>" +
 					"<table>" +
 						"<!-- BEGIN produit -->" +
+						"<tr class=\"pdt\">" +
+							"<td><input type=\"checkbox\" {produit.checked}/></td>" +
+							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
+							"<td>{produit.nproNom}</td>" +
+							"<td>" +
+								"<select id=\"lot-{produit.proId}\">" +
+									"<!-- BEGIN produit.lot -->" +
+									"<option value=\"{produit.lot.dcomId}\">par {produit.lot.dcomTaille} {produit.proUniteMesure}</option>" +
+									"<!-- END produit.lot -->" +
+								"</select>" +
+							"</td>" +
+							"<td>à <span id=\"prix-unitaire-{produit.proId}\">{produit.prixUnitaire}</span> {sigleMonetaire}/{produit.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-moins\">-</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}\"></span> {produit.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-plus\">+</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId} com-text-align-right\"><span id=\"prix-pdt-{produit.proId}\"></span> {sigleMonetaire}</td>" +
+						"</tr>" +
+						"<!-- END produit -->" +
+						"<tr>" +
+							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
+							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
+							"<td>{sigleMonetaire}</td>" +
+						"</tr>" +
+					"</table>" +
+					/*"<table>" +
+						"<!-- BEGIN produit -->" +
 						"<tr class=\"pdt\" id=\"pdt-{produit.proId}\">" +
 							"<td class=\"passer-com-radio\" ><input type=\"checkbox\" {produit.checked}/></td>" +
 							"<td class=\"passer-com-radio\" ><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
@@ -190,7 +212,7 @@
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
 							"<td>{sigleMonetaire}</td>" +
 						"</tr>" +
-					"</table>" +
+					"</table>" +*/
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +

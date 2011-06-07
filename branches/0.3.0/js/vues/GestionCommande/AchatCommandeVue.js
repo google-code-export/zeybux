@@ -2,11 +2,13 @@
 	this.idCommande = null;
 	this.idAdherent = null;
 	this.idCompte = null;
-	this.listeLot = new Array();
+//	this.listeLot = new Array();
 	this.mTypePaiement = [];
 	this.solde = null;
 	this.mCommunVue = new CommunVue();
 	this.etapeValider = 0;
+	
+	this.pdtCommande = new Array();
 	
 	this.construct = function(pParam) {
 		var that = this;		 // TODO gestion avec param pour le server aussi
@@ -20,8 +22,55 @@
 						if(pParam && pParam.vr) {
 							Infobulle.generer(pParam.vr,'');
 						}
-						that.idCompte = lResponse.adherent.adhIdCompte;					
-						for(lLigne in lResponse.commande) {
+						that.idCompte = lResponse.adherent.adhIdCompte;
+												
+						$(lResponse.commande).each(function() {
+							var lLot = new Object();
+							
+							lLot.dcomId = this.dcomId;
+							lLot.dcomIdProduit = this.dcomIdProduit;
+							lLot.dcomTaille = this.dcomTaille;
+							lLot.dcomPrix = this.dcomPrix;
+							
+							if(that.pdtCommande[this.proId]) {
+								that.pdtCommande[this.proId].lot[lLot.dcomId] = lLot;
+								that.pdtCommande[this.proId].prixUnitaire = null;
+							} else {			
+								var lproduit = new Object();
+								lproduit.proId = this.proId;
+								lproduit.proUniteMesure = this.proUniteMesure;
+								lproduit.proMaxProduitCommande = this.proMaxProduitCommande;
+								
+								$(lResponse.stock).each(function() { 
+									if(this.proId == lproduit.proId) {
+										if(parseFloat(this.stoQuantite) < parseFloat(lproduit.proMaxProduitCommande)) {
+											 lproduit.proMaxProduitCommande = this.stoQuantite;
+										}
+									}
+								});
+
+								lproduit.nproNom = this.nproNom;
+								lproduit.nproDescription = this.nproDescription;
+								lproduit.nproIdCategorie = this.nproIdCategorie;
+								lproduit.prixUnitaire = lLot.dcomPrix/lLot.dcomTaille;								
+								
+								lproduit.lot = new Array();
+								lproduit.lot[lLot.dcomId] = lLot;								
+								that.pdtCommande[lproduit.proId] = lproduit;
+							}
+						});
+						
+						/*$(that.pdtCommande).each(function() {
+							if(this.proId) {
+								$(this.lot).each(function() {alert('t');});
+								if($(this.lot).size() == 1) {
+									this.prixUnitaire = $(this.lot).first().dcomPrix/$(this.lot).first().dcomTaille;
+								} else {
+									this.prixUnitaire = null;
+								}
+							}
+						});*/
+						/*for(lLigne in lResponse.commande) {
 							var lLot = new Object();
 							lLot.quantite = lResponse.commande[lLigne].dcomTaille;
 							lLot.prix = lResponse.commande[lLigne].dcomPrix						
@@ -31,7 +80,7 @@
 								}
 							}
 							that.listeLot[lResponse.commande[lLigne].proId].push(lLot);
-						}						
+						}	*/					
 						
 						$(lResponse.typePaiement).each(function() {
 							that.mTypePaiement[this.tppId] = this;
@@ -65,7 +114,37 @@
 			lData.total = 0;
 			
 			lData.produits = new Array();
-			lListeIdProduit = new Array();
+			lData.produitsSolidaire = new Array();
+			
+			$(this.pdtCommande).each(function() {
+				if(this.proId) {
+					var lProduitCommande = this;
+					var lProduit = new Object();
+					lProduit.proId = this.proId;
+					lProduit.nproNom = this.nproNom;
+					lProduit.proUniteMesure = this.proUniteMesure;
+					lProduit.stoQuantite = 0;
+					lProduit.proPrix = 0;
+					var lPrix = 0;
+					$(pResponse.reservation).each(function() {
+						if(this.proId == lProduit.proId) {
+							lProduit.stoQuantite = this.stoQuantite * -1;
+							lPrix = (lProduitCommande.lot[this.dcomId].dcomPrix/lProduitCommande.lot[this.dcomId].dcomTaille)*lProduit.stoQuantite;
+							lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+						}
+					});
+					lData.total += lPrix;
+					lData.produits.push(lProduit);
+
+					$(pResponse.stockSolidaire).each(function() {
+						if(lProduit.proId == this.proId){
+							lData.produitsSolidaire.push(lProduit);
+						}
+					});
+				}
+			});
+			
+			/*lListeIdProduit = new Array();
 			for(lLigne in pResponse.commande) {
 				lPush = true;
 				for(lId in lListeIdProduit) {
@@ -91,13 +170,29 @@
 					}
 					lData.total += lPrix;
 					lData.produits.push(lProduit);
+				
+				
+					$(pResponse.stockSolidaire).each(function() {
+						if(pResponse.commande[lLigne].proId == this.proId){
+							var lProduitSolidaire = {};
+							lProduitSolidaire.proId = this.proId;
+							lProduitSolidaire.nproNom = pResponse.commande[lLigne].nproNom;
+							lProduitSolidaire.proUniteMesure = pResponse.commande[lLigne].proUniteMesure;
+							lData.produitsSolidaire.push(lProduitSolidaire);
+						}
+					});
 				}
-			}
+			}*/
+			
 			lData.adhSolde = parseFloat(pResponse.adherent.opeMontant);
-			lData.adhNouveauSolde =  lData.adhSolde-lData.total;
+			//lData.adhNouveauSolde =  lData.adhSolde-lData.total;
+			/*alert('Solde :'+ lData.adhSolde);
+			alert('total :'+ lData.total);
+			alert('NvSolde :'+ lData.adhNouveauSolde);
+			alert('NvSolde2 :'+ lData.adhSolde-lData.total);*/
 			
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
-			lData.adhNouveauSolde = lData.adhNouveauSolde.nombreFormate(2,',',' ');
+			//lData.adhNouveauSolde = lData.adhNouveauSolde.nombreFormate(2,',',' ');
 			lData.total = lData.total.nombreFormate(2,',',' ');
 			
 			lData.typePaiement = that.mTypePaiement;
@@ -133,6 +228,10 @@
 		var that = this;
 		pData.find(":input[name=montant-rechargement], .produit-prix").keyup(function() {
 			that.majNouveauSolde();	
+			that.controlerAchat();
+		});
+		pData.find(".produit-solidaire-prix").keyup(function() {
+			that.majNouveauSoldeSolidaire();	
 			that.controlerAchat();
 		});
 		return pData;
@@ -176,11 +275,20 @@
 		if(isNaN(lQuantite)) {lQuantite = 0;}
 		var ligne = Obj.parent().parent();
 		var lIdProduit = ligne.find(".produit-id").text();
-		var lNvPrix = this.calculPrixProduit(lIdProduit,lQuantite);		
+		var lNvPrix = 0;
+		
+		if(this.pdtCommande[lIdProduit].prixUnitaire != null) {
+			lNvPrix = this.pdtCommande[lIdProduit].prixUnitaire * lQuantite;
+		}			
 		if(isNaN(lNvPrix)) {lNvPrix = 0;}
 
-		ligne.find(".produit-prix").val(lNvPrix.nombreFormate(2,',',' '));	
-		this.majNouveauSolde();	
+		if(lNvPrix != 0) {
+			ligne.find(".produit-prix").val(lNvPrix.nombreFormate(2,',',' '));
+		} else {
+			ligne.find(".produit-prix").val('');
+		}
+		
+		this.majNouveauSolde();		
 	}
 	
 	this.controlerAchat = function() {
@@ -191,10 +299,10 @@
 		return lVr;
 	}
 	
-	this.calculPrixProduit = function(pIdProduit,pQuantite) {
-		if(this.listeLot[pIdProduit]) {
+	/*this.calculPrixProduit = function(pIdProduit,pQuantite) {
+		if(this.pdtCommande[pIdProduit]) {
 			var lLots = this.listeLot[pIdProduit];
-			var lPrix = 0;
+			var lPrix = 0;			
 			for(lLot in lLots) {
 				if(pQuantite % lLots[lLot].quantite == 0) {
 					lPrix = (pQuantite / lLots[lLot].quantite) * lLots[lLot].prix;
@@ -203,16 +311,31 @@
 			return lPrix;
 		}
 		return 0;
-	}
+	}*/
 	
 	this.majTotal = function() {
 		var that = this;
 		$("#total-achat").text(that.calculerTotal().nombreFormate(2,',',' '));
 	}
 	
+	this.majTotalSolidaire = function() {
+		var that = this;
+		$("#total-achat-solidaire").text(that.calculerTotalSolidaire().nombreFormate(2,',',' '));
+	}
+	
 	this.calculerTotal = function() {
 		var lTotal = 0;
 		$(".produit-prix").each(function() {
+			var lMontant = parseFloat($(this).val().numberFrToDb());
+			if(isNaN(lMontant)) {lMontant = 0;}
+			lTotal += lMontant;
+		});
+		return lTotal;		
+	}
+	
+	this.calculerTotalSolidaire = function() {
+		var lTotal = 0;
+		$(".produit-solidaire-prix").each(function() {
 			var lMontant = parseFloat($(this).val().numberFrToDb());
 			if(isNaN(lMontant)) {lMontant = 0;}
 			lTotal += lMontant;
@@ -233,12 +356,27 @@
 		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
 	}
 	
+	this.majNouveauSoldeSolidaire = function() {
+		this.majTotalSolidaire();		
+		var lTotal = this.calculNouveauSolde();
+		if(lTotal <= 0) {
+			$("#nouveau-solde").addClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
+		} else {
+			$("#nouveau-solde").removeClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
+		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
+	}
+	
 	this.calculNouveauSolde = function() {
 		var lAchats = parseFloat($("#total-achat").text().numberFrToDb());
 		if(isNaN(lAchats)) {lAchats = 0;}
+		var lAchatsSolidaire = parseFloat($("#total-achat-solidaire").text().numberFrToDb());
+		if(isNaN(lAchatsSolidaire)) {lAchatsSolidaire = 0;}
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
-		if(isNaN(lRechargement)) {lRechargement = 0;}
-		return this.solde - lAchats + lRechargement;
+		if(isNaN(lRechargement)) {lRechargement = 0;}		
+		return this.solde - lAchats - lAchatsSolidaire + lRechargement;
 	}
 		
 	this.changerTypePaiement = function(pObj) {
@@ -269,6 +407,7 @@
 		lVo.id = this.idCommande;
 		lVo.idCompte = this.idCompte;
 		lVo.produits = this.getProduitsVO();
+		lVo.produitsSolidaire = this.getProduitsSolidaireVO();
 		lVo.rechargement = this.getRechargementVO();
 		return lVo;
 	}	
@@ -285,6 +424,28 @@
 			lVoProduit.quantite = lQuantite;
 			
 			var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+			if(!isNaN(lprix) && !lprix.isEmpty()){
+				lprix = parseFloat(lprix);
+			}
+			lVoProduit.prix = lprix;
+			
+			lVo.push(lVoProduit);			
+		});		
+		return lVo;
+	}
+	
+	this.getProduitsSolidaireVO = function() {
+		var lVo = new Array();		
+		$(".ligne-produit-solidaire").each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).find(".produit-id").text();			
+			var lQuantite = $(this).find(".produit-solidaire-quantite").val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){
+				lQuantite = parseFloat(lQuantite);
+			}
+			lVoProduit.quantite = lQuantite;
+			
+			var lprix = $(this).find(".produit-solidaire-prix").val().numberFrToDb();
 			if(!isNaN(lprix) && !lprix.isEmpty()){
 				lprix = parseFloat(lprix);
 			}
