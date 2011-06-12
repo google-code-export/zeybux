@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+
+#formulaire_identification_ext {
+	margin-left:320px;
+	margin-top:150px;
+}
+
+.action-ifb {
+	color:#3A8104;
+	text-decoration:underline;
+}
