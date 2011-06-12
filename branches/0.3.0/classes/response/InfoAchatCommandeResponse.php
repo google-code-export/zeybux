@@ -178,7 +178,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 	* @desc Renvoie le Adherent
 	*/
 	public function getAdherent() {
-		return $this->mAdherento;
+		return $this->mAdherent;
 	}
 
 	/**

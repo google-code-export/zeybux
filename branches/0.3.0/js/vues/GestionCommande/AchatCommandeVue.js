@@ -7,6 +7,8 @@
 	this.solde = null;
 	this.mCommunVue = new CommunVue();
 	this.etapeValider = 0;
+	this.total = 0;
+	this.totalSolidaire = 0;
 	
 	this.pdtCommande = new Array();
 	
@@ -194,6 +196,7 @@
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
 			//lData.adhNouveauSolde = lData.adhNouveauSolde.nombreFormate(2,',',' ');
 			lData.total = lData.total.nombreFormate(2,',',' ');
+			that.total = lData.total;
 			
 			lData.typePaiement = that.mTypePaiement;
 			
@@ -214,13 +217,17 @@
 		pData = this.affectValider(pData);
 		pData = this.affectAnnuler(pData);
 		pData = this.affectModifier(pData);
+		pData = this.affectSupprimerPdt(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 	
 	this.affectSelectTypePaiement = function(pData) {
 		var that = this;
-		pData.find(":input[name=typepaiement]").change(function () {that.changerTypePaiement($(this))});
+		pData.find(":input[name=typepaiement]").change(function () {
+			that.changerTypePaiement($(this));
+			that.controlerAchat();
+		});
 		return pData;
 	}
 	
@@ -242,6 +249,9 @@
 		pData.find(".produit-quantite").keyup(function() {
 				that.majPrixProduit($(this));
 				that.controlerAchat();
+		});
+		pData.find(".produit-solidaire-quantite").keyup(function() {
+			that.controlerAchat();
 		});
 		return pData;
 	}
@@ -267,6 +277,16 @@
 	this.affectModifier = function(pData) {
 		var that = this;
 		pData.find("#btn-modifier").click(function() {that.boutonModifier();});		
+		return pData;
+	}
+	
+	this.affectSupprimerPdt = function(pData) {
+		if(pData.find(".ligne-produit").size() == 0) {
+			pData.find("#achat-pdt-widget").remove();
+		}
+		if(pData.find(".ligne-produit-solidaire").size() == 0) {
+			pData.find("#achat-pdt-solidaire-widget").remove();
+		}
 		return pData;
 	}
 	
@@ -314,13 +334,15 @@
 	}*/
 	
 	this.majTotal = function() {
-		var that = this;
-		$("#total-achat").text(that.calculerTotal().nombreFormate(2,',',' '));
+		var lTotal = this.calculerTotal();
+		$("#total-achat").text(lTotal.nombreFormate(2,',',' '));
+		this.total = lTotal;
 	}
 	
 	this.majTotalSolidaire = function() {
-		var that = this;
-		$("#total-achat-solidaire").text(that.calculerTotalSolidaire().nombreFormate(2,',',' '));
+		var lTotalSolidaire = this.calculerTotalSolidaire();
+		$("#total-achat-solidaire").text(lTotalSolidaire.nombreFormate(2,',',' '));
+		this.totalSolidaire = lTotalSolidaire;
 	}
 	
 	this.calculerTotal = function() {
@@ -370,9 +392,9 @@
 	}
 	
 	this.calculNouveauSolde = function() {
-		var lAchats = parseFloat($("#total-achat").text().numberFrToDb());
+		var lAchats = this.total;// parseFloat($("#total-achat").val().numberFrToDb());
 		if(isNaN(lAchats)) {lAchats = 0;}
-		var lAchatsSolidaire = parseFloat($("#total-achat-solidaire").text().numberFrToDb());
+		var lAchatsSolidaire = this.totalSolidaire; //parseFloat($("#total-achat-solidaire").val().numberFrToDb());
 		if(isNaN(lAchatsSolidaire)) {lAchatsSolidaire = 0;}
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
 		if(isNaN(lRechargement)) {lRechargement = 0;}		
@@ -408,7 +430,9 @@
 		lVo.idCompte = this.idCompte;
 		lVo.produits = this.getProduitsVO();
 		lVo.produitsSolidaire = this.getProduitsSolidaireVO();
-		lVo.rechargement = this.getRechargementVO();
+		lVo.rechargement = this.getRechargementVO();		
+		lVo.NbProduits = $('.ligne-produit').size();
+		lVo.NbProduitsSolidaire = $('.ligne-produit-solidaire').size();		
 		return lVo;
 	}	
 	
@@ -428,7 +452,7 @@
 				lprix = parseFloat(lprix);
 			}
 			lVoProduit.prix = lprix;
-			
+						
 			lVo.push(lVoProduit);			
 		});		
 		return lVo;
@@ -478,8 +502,8 @@
 		var lVr = this.controlerAchat();
 		if(lVr.valid) {
 			if(this.etapeValider == 0) {
-				$(".produit-quantite,#rechargementchampComplementaire,#typepaiement").each(function() {$(this).inputToText();});
-				$(".produit-prix,#rechargementmontant").each(function() {$(this).inputToText("montant");});
+				$(".produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).inputToText();});
+				$(".produit-prix,.produit-solidaire-prix,#rechargementmontant").each(function() {$(this).inputToText("montant");});
 				$("#btn-modifier").show();
 				$("#btn-annuler").hide();
 				this.etapeValider = 1;
@@ -509,7 +533,7 @@
 	
 	this.boutonModifier = function() {
 		if(this.etapeValider == 1) {
-			$(".produit-prix,#rechargementmontant,.produit-quantite,#rechargementchampComplementaire,#typepaiement").each(function() {$(this).textToInput();});
+			$(".produit-prix,.produit-solidaire-prix,#rechargementmontant,.produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).textToInput();});
 			$("#btn-modifier").hide();
 			$("#btn-annuler").show();
 			this.etapeValider = 0;

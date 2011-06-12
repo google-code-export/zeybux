@@ -117,3 +117,5 @@ const ERR_304_CODE = 304;
 const ERR_304_MSG = 'Quantité maximale de réservation atteinte pour ce produit.';
 const ERR_305_CODE = 305;
 const ERR_305_MSG = 'Connexion réussie.';
+const ERR_306_CODE = 306;
+const ERR_306_MSG = 'Compte mis à jour.';

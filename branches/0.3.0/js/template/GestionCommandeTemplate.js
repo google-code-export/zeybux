@@ -868,7 +868,7 @@
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
 					"<div class=\"com-widget-content\">" +
-					"<table id=\"achat-commande-table-pdt\">" +
+					"<table class=\"achat-commande-table-pdt\">" +
 						"<thead>" +
 							"<tr>" +
 								"<th>Produit</th>" +
@@ -901,10 +901,10 @@
 					"</div>" +
 				"</div>" +
 			
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
 					"<div class=\"com-widget-content\">" +
-					"<table>" +
+					"<table class=\"achat-commande-table-pdt\">" +
 						"<thead>" +
 							"<tr>" +
 								"<th>Produit</th>" +
@@ -918,9 +918,9 @@
 						"<!-- BEGIN produitsSolidaire -->" +
 							"<tr class=\"ligne-produit-solidaire\">" +
 								"<td><span class=\"produit-id ui-helper-hidden\">{produitsSolidaire.proId}</span>{produitsSolidaire.nproNom}</td>" +
-								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{produitsSolidaire.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
 								"<td class=\"td-unite\">{produitsSolidaire.proUniteMesure}</td>" +
-								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{produitsSolidaire.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
 								"<td><span>{sigleMonetaire}</span></td>" +
 							"</tr>" +
 						"<!-- END produitsSolidaire -->" +
@@ -954,7 +954,7 @@
 							"<tr>" +
 								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
 								"<td class=\"com-center\">" +
-									"<select name=\"typepaiement\" id=\"typePaiement\">" +
+									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
 										"<option value=\"0\">== Choisir ==</option>" +
 										"<!-- BEGIN typePaiement -->" +
 										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +

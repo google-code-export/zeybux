@@ -55,7 +55,8 @@ if(MAINTENANCE == 1) {
 	define("MOD_COMMANDE", "Commande");
 	define("MOD_GESTION_COMMANDE", "GestionCommande");
 	define("MOD_GESTION_PRODUCTEUR", "GestionProducteur");
-	define("MOD_COMPTE_ZEYBU", "CompteZeybu");
+	define("MOD_COMPTE_ZEYBU", "CompteZeybu");	
+	define("MOD_RECHARGEMENT_COMPTE", "RechargementCompte");
 	
 	// Définition des constantes de titre
 	include_once("./configuration/Version.php");
