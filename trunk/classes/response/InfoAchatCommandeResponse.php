@@ -37,6 +37,12 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mStock;
 	
 	/**
+	 * @var array(StockProduitViewVO)
+	 * @desc Les Stocks solidaire
+	 */
+	protected $mStockSolidaire;
+	
+	/**
 	 * @var AdherentViewVO
 	 * @desc L'Adherent
 	 */
@@ -62,6 +68,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 		$this->mValid = true;
 		$this->mCommande = array();
 		$this->mStock = array();
+		$this->mStockSolidaire = array();
 		$this->mReservation = array();
 		$this->mTypePaiement = array();
 	}
@@ -139,12 +146,39 @@ class InfoAchatCommandeResponse extends DataTemplate
 	}
 	
 	/**
+	* @name getStockSolidaire()
+	* @return array(StockProduitViewVO)
+	* @desc Renvoie le StockSolidaire
+	*/
+	public function getStockSolidaire() {
+		return $this->mStockSolidaire;
+	}
+
+	/**
+	* @name setStockSolidaire($pStockSolidaire)
+	* @param array(StockProduitViewVO)
+	* @desc Remplace le StockSolidaire par $pStockSolidaire
+	*/
+	public function setStockSolidaire($pStockSolidaire) {
+		$this->mStockSolidaire = $pStockSolidaire;
+	}
+	
+	/**
+	* @name addStockSolidaire($pStockSolidaire)
+	* @param StockProduitViewVO
+	* @desc Remplace le StockSolidaire par $pStockSolidaire
+	*/
+	public function addStockSolidaire($pStockSolidaire) {
+		array_push($this->mStockSolidaire, $pStockSolidaire);
+	}
+	
+	/**
 	* @name getAdherent()
 	* @return AdherentViewVO
 	* @desc Renvoie le Adherent
 	*/
 	public function getAdherent() {
-		return $this->mAdherento;
+		return $this->mAdherent;
 	}
 
 	/**

@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
@@ -101,11 +102,13 @@ class MarcheCommandeControleur
 			$lReservation = ReservationViewManager::selectAchat($pIdCommande,$lAdherent->getAdhIdCompte());
 			$lCommande = CommandeCompleteEnCoursViewManager::select($pIdCommande);
 			$lStock = StockProduitViewManager::selectByIdCommande($pIdCommande);
+			$lStockSolidaire = StockSolidaireViewManager::select($pIdCommande);
 			
 			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
 
 			$lResponse->setCommande($lCommande);
 			$lResponse->setStock($lStock);
+			$lResponse->setStockSolidaire($lStockSolidaire);
 			$lResponse->setAdherent($lAdherent);
 			$lResponse->setReservation($lReservation);
 			$lResponse->setTypePaiement($lTypePaiement);
@@ -137,7 +140,7 @@ class MarcheCommandeControleur
 			/* Tri des infos sur la commande
 			 * Ajout/Modification/Suppression de ligne de stock en fonction des achats
 			 */
-			if(is_array($lReservations) && is_array($pAchat['produits'])) {
+			if(is_array($lReservations) && is_array($pAchat['produits']) && is_array($pAchat['produitsSolidaire'])) {
 				//$lTotal = 0;
 				$lProduitMaj = array();
 				$lProduitSupprime = array();
@@ -146,6 +149,7 @@ class MarcheCommandeControleur
 				$lCommande = CommandeManager::select($lIdCommande);
 				foreach($lReservations as $lReservation) {
 					$lMaj = true;
+			//		echo "Resa Pro ID : " .$lReservation->getProId(). "\n";
 					foreach($pAchat['produits'] as $lProduit) {
 						if($lProduit['id'] == $lReservation->getProId() && !empty($lProduit['quantite'])) {							
 							//$lTotal += $lProduit['prix'];	
@@ -170,17 +174,21 @@ class MarcheCommandeControleur
 							array_push($lProduitMaj,$lStock);
 							$lMaj = false;
 						}
+			//			echo "Achat Pro ID : " .$lProduit['id'] . " // Quantite : " . $lProduit['quantite'] . " // Maj : " . $lMaj . "\n";
 					}
 					if($lMaj) {
 						array_push($lProduitSupprime,$lReservation->getStoId());					
 					}
 				}
+			//	echo "\n\n";
 				foreach($pAchat['produits'] as $lProduit) {
 					$lAjout = true;
 					foreach($lReservations as $lReservation) {
+			//			echo "Achat Pro ID : " .$lProduit['id'] . " // Quantite : " . $lProduit['quantite'] . "\n";
 						if($lProduit['id'] == $lReservation->getProId()) {
 							$lAjout = false;
-						}						
+						}				
+			//			echo "Resa Pro ID : " .$lReservation->getProId(). " // Ajout : ".$lAjout."\n";		
 					}
 					if($lAjout && !empty($lProduit['quantite'])) {
 						//$lTotal += $lProduit['prix'];
@@ -229,8 +237,30 @@ class MarcheCommandeControleur
 						OperationManager::insert($lOperation);
 					}*/
 					
-					
-					
+					// Les achats solidaire
+					foreach($pAchat['produitsSolidaire'] as $lProduitSolidaire) {
+						if( !empty($lProduitSolidaire['quantite'])	) {			
+							$lOperation = new OperationVO();
+							$lOperation->setIdCompte($lIdCompte);
+							$lOperation->setMontant($lProduitSolidaire['prix'] * -1);
+							$lOperation->setLibelle("Marché N°" . $lCommande->getNumero());
+							$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+							$lOperation->setTypePaiement(7);
+							$lOperation->setTypePaiementChampComplementaire($lProduitSolidaire['id']);
+							$lOperation->setType(1);
+							$lOperation->setIdCommande($lIdCommande);				
+							OperationManager::insert($lOperation);
+	
+							$lDcom = DetailCommandeManager::selectByIdProduit($lProduitSolidaire['id']);
+							$lStock = new StockVO();
+							$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
+							$lStock->setQuantite($lProduitSolidaire['quantite'] * -1);
+							$lStock->setType(5);
+							$lStock->setIdCompte($lIdCompte);
+							$lStock->setIdDetailCommande($lDcom[0]->getId());
+							array_push($lProduitAjout,$lStock);
+						}
+					}
 					
 					//Maj des stocks
 					foreach($lProduitMaj as $lPdt) {

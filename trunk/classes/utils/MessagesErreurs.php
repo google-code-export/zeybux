@@ -51,8 +51,8 @@ class MessagesErreurs
 	const ERR_115_CODE = 115;
 	const ERR_115_MSG = 'Le champ doit être de type tableau.';
 	const ERR_116_CODE = 116;
-	const ERR_116_MSG = 'Session expirée. Veuillez vous reconnecter.';
-	
+	const ERR_116_MSG = 'Session expirée. Veuillez vous <span class="action-ifb com-cursor-pointer" id="action-ifb-116">reconnecter</span>.';
+		
 	//Erreurs fonctionelles
 	const ERR_201_CODE = 201;
 	const ERR_201_MSG = 'Ce champ est obligatoire.';
@@ -134,6 +134,12 @@ class MessagesErreurs
 	const ERR_302_MSG = 'Mot de passe mis à jour.';
 	const ERR_303_CODE = 303;
 	const ERR_303_MSG = 'Réservation supprimée.';
+	const ERR_304_CODE = 304;
+	const ERR_304_MSG = 'Quantité maximale de réservation atteinte pour ce produit.';
+	const ERR_305_CODE = 305;
+	const ERR_305_MSG = 'Connexion réussie.';
+	const ERR_306_CODE = 306;
+	const ERR_306_MSG = 'Compte mis à jour.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

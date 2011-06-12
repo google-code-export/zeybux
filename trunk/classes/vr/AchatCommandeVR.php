@@ -50,6 +50,12 @@ class AchatCommandeVR extends DataTemplate
 	 * @desc Produits de la AchatCommandeVR
 	 */
 	protected $mProduits;
+	
+	/**
+	 * @var array(VRelement)
+	 * @desc Produits de la AchatCommandeVR
+	 */
+	protected $mProduitsSolidaire;
 
 	/**
 	 * @var VRelement
@@ -68,6 +74,7 @@ class AchatCommandeVR extends DataTemplate
 		$this->mId = new VRelement();
 		$this->mIdCompte = new VRelement();
 		$this->mProduits = array();
+		$this->mProduitsSolidaire = array();
 		$this->mRechargement = new VRelement();
 	}
 
@@ -168,6 +175,33 @@ class AchatCommandeVR extends DataTemplate
 	*/
 	public function addProduits($pProduits) {
 		array_push($this->mProduits,$pProduits);
+	}
+	
+	/**
+	* @name getProduitsSolidaire()
+	* @return VRelement
+	* @desc Renvoie le VRelement mProduitsSolidaire
+	*/
+	public function getProduitsSolidaire() {
+		return $this->mProduitsSolidaire;
+	}
+
+	/**
+	* @name setProduitsSolidaire($pProduitsSolidaire)
+	* @param VRelement
+	* @desc Remplace le mProduitsSolidaire par $pProduitsSolidaire
+	*/
+	public function setProduitsSolidaire($pProduitsSolidaire) {
+		$this->mProduitsSolidaire = $pProduitsSolidaire;
+	}
+
+	/**
+	* @name addProduitsSolidaire($pProduitsSolidaire)
+	* @param VRelement
+	* @desc Ajoute le $pProduitsSolidaire à mProduitsSolidaire
+	*/
+	public function addProduitsSolidaire($pProduitsSolidaire) {
+		array_push($this->mProduitsSolidaire,$pProduitsSolidaire);
 	}
 
 	/**

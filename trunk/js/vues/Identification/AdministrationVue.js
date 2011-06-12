@@ -68,6 +68,11 @@
 				CompteZeybuVue();
 				return false;
 			});
+			
+			pData.find('#menu-RechargementCompte-RechargerCompte').click(function() {
+				RechargerCompteVue();
+				return false;
+			});
 				
 			return pData;
 		}

@@ -179,9 +179,10 @@
 								lLotReservation = this.dcomId;
 								lLot.checked = 'checked="checked"';
 						}
-												
-						lLot.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
-						lLot.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+						
+						lPdt.prixUnitaire = (lLot.prixReservation / lLot.stoQuantiteReservation).nombreFormate(2,',',' '); 						
+						lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
+						lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
 						
 						lPdt.lot.push(lLot);			
 					}
@@ -202,7 +203,6 @@
 				lData.produit.push(lPdt);			
 			}
 		});
-				
 		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
 		this.majNouveauSolde();
 	}
@@ -225,30 +225,50 @@
 	
 	this.affectModifier = function(pData) {
 		pData = this.affectBtnQte(pData);
+		pData = this.preparerAffichageModifier(pData);
 		pData = this.affectChangementLot(pData);
 		pData = this.affectChangementProduit(pData);
-		pData = this.preparerAffichageModifier(pData);
 		pData = this.affectDetailReservation(pData);
+		pData = this.supprimerSelect(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = this.affectInitLot(pData);
+
 		return pData;
 	}
 	
 	this.affectBtnQte = function(pData) {
 		var that = this;
 		pData.find('.btn-plus').click(function() {
-			that.nouvelleQuantite($(this).parent().parent().find(".pdt-id").text(),$(this).parent().parent().find(".lot-id").text(),1);
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			that.nouvelleQuantite(	lIdPdt,
+									$(this).parent().parent().find('#lot-' + lIdPdt).val(),
+									1);
 		});	
 		pData.find('.btn-moins').click(function() {
-			that.nouvelleQuantite($(this).parent().parent().find(".pdt-id").text(),$(this).parent().parent().find(".lot-id").text(),-1);
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			that.nouvelleQuantite(lIdPdt,$(this).parent().parent().find('#lot-' + lIdPdt).val(),-1);
 		});
 		return pData;		
 	}
 	
+	this.affectInitLot = function(pData) {
+		var that = this;
+		pData.find('.pdt select').each(function() {
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			var lIdLot = $(this).val();
+			var lPrix = that.pdtCommande[lIdPdt].lot[lIdLot].dcomPrix;
+			var lQte = that.pdtCommande[lIdPdt].lot[lIdLot].dcomTaille;
+			var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+			
+			$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
+		});
+		return pData;
+	}
+	
 	this.affectChangementLot = function(pData) {
 		var that = this;
-		pData.find('.lot').click(function() {
-			$(this).find(':radio').attr("checked","checked");
-			that.changerLot($(this).find(".pdt-id").text(),$(this).find(".lot-id").text());
+		pData.find('.pdt select').change(function() {
+			that.changerLot($(this).parent().parent().find(".pdt-id").text(),$(this).val());
 		});
 		return pData;
 	}
@@ -260,14 +280,6 @@
 		});
 		return pData;
 	}
-		
-	/*this.affectAnnulerReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-annuler').click(function() {			
-			that.afficherDetailReservation();		
-		});
-		return pData;
-	}*/
 	
 	this.affectModifierReservation = function(pData) {
 		var that = this;
@@ -316,61 +328,63 @@
 			// Mise à jour de la quantite reservée
 			this.reservation[pIdPdt].stoQuantite = lNvQteReservation;			
 			
-			$('#qte-pdt-' + pIdPdt + '-lot-' + pIdLot).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
-			$('#prix-pdt-' + pIdPdt + '-lot-' + pIdLot).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
+			$('#qte-pdt-' + pIdPdt).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
+			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
 
 			this.majTotal();
+		} else if(lNvQteReservation > lMax) {
+			var lVr = new TemplateVR();
+			lVr.valid = false;
+			lVr.log.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_304_CODE;
+			erreur.message = ERR_304_MSG;
+			lVr.log.erreurs.push(erreur);							
+			
+			Infobulle.generer(lVr,'');
 		}		
 	}	
 	
-	this.changerLot = function(pIdPdt,pIdLot) {		
-		// Masque tout les lots
-		$('.btn-pdt-' + pIdPdt).attr("disabled","disabled").addClass("ui-helper-hidden");
-		$('.colonne-pdt-' + pIdPdt).addClass("ui-helper-hidden");
-				
-		// Affiche uniquement le lot sélectionné
-		$('#btn-moins-lot-' + pIdLot + ',#btn-plus-lot-' + pIdLot).removeAttr("disabled").removeClass("ui-helper-hidden");
-		$('#colonne-qte-pdt-' + pIdPdt + '-lot-' + pIdLot + ',#colonne-prix-pdt-' + pIdPdt + '-lot-' + pIdLot + ',#colonne-sigle-pdt-' + pIdPdt + '-lot-' + pIdLot).removeClass("ui-helper-hidden");
-	
-		// Mise à jour de la quantite reservée
-		this.reservation[pIdPdt].stoQuantite = $('#qte-pdt-' + pIdPdt + '-lot-' + pIdLot).text().numberFrToDb();
-		this.reservation[pIdPdt].dcomId = pIdLot;
+	this.changerLot = function(pIdPdt,pIdLot) {
+		var lPrix = this.pdtCommande[pIdPdt].lot[pIdLot].dcomPrix;
+		var lQte = this.pdtCommande[pIdPdt].lot[pIdLot].dcomTaille;
+		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		
+		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
+		
+		if(this.reservation[pIdPdt]) {
+			this.reservation[pIdPdt].dcomId = pIdLot;
+			this.reservation[pIdPdt].stoQuantite = lQte;
+			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
+			$('#prix-pdt-' + pIdPdt).text(lPrix.nombreFormate(2,',',' '));
+		}
 		
 		this.majTotal();
 	}
 	
 	this.changerProduit = function(pIdPdt) {
-		var that = this;
-		if($('#pdt-' + pIdPdt).find(':checkbox').attr("checked")) {
-			$('.lot-pdt-' + pIdPdt).show();
+		if(this.reservation[pIdPdt] != null) {
+			$('.resa-pdt-' + pIdPdt).hide();
+			$('#qte-pdt-' + pIdPdt).text('');
+			$('#prix-pdt-' + pIdPdt).text('');
+			this.reservation[pIdPdt] = null;
+		} else {
+			var lIdLot = $('#lot-' + pIdPdt).val();
+			var lQte = this.pdtCommande[pIdPdt].lot[lIdLot].dcomTaille;			
 			
-			// Mise à jour de la quantite reservée
-			$('[name=lot-produit-' + pIdPdt + ']').each(function() {
-				//alert(this.attr('checked'));
-				if($(this).attr('checked')) {
-					var lIdLot = $(this).parent().parent().find(".lot-id").text();
-					var lQte = $('#qte-pdt-' + pIdPdt + '-lot-' + lIdLot).text().numberFrToDb();
-					if(that.reservation[pIdPdt]) {
-						that.reservation[pIdPdt].stoQuantite = lQte;
-					} else {
-						var lResa = {};
-						lResa.comId = that.infoCommande.comId;
-						lResa.proId = pIdPdt;
-						lResa.dcomId = lIdLot;
-						lResa.stoQuantite = lQte;						
-						that.reservation[pIdPdt] = lResa;
-					}
-				}
-			});
-		} else {			
-			$('.lot-pdt-' + pIdPdt).hide();
+			var lResa = {};
+			lResa.comId = this.infoCommande.comId;
+			lResa.proId = pIdPdt;
+			lResa.dcomId = lIdLot;
+			lResa.stoQuantite = lQte;						
+			this.reservation[pIdPdt] = lResa;
 			
-			// Mise à jour de la quantite reservée
-			if(this.reservation[pIdPdt]) {
-				this.reservation[pIdPdt] = null;
-			}
+			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
+			var lPrix = this.pdtCommande[pIdPdt].lot[lIdLot].dcomPrix.nombreFormate(2,',',' ');
+			$('#prix-pdt-' + pIdPdt).text(lPrix);
+			
+			$('.resa-pdt-' + pIdPdt).show();
 		}
-		
 		this.majTotal();
 	}
 	
@@ -412,17 +426,21 @@
 	
 	this.preparerAffichageModifier = function(pData) {
 		var that = this;
-		// Cache les lots
-		pData.find(':checkbox:not(:checked)').each(function() {			
-			pData.find('.lot-pdt-' + $(this).parent().parent().find('.pdt-id').text()).hide();
-		});
-		//Cache les autres lots
-		pData.find(':radio:not(:checked)').each(function() {	
-			var lIdLot = $(this).parent().parent().find('.lot-id').text();
-			var lIdPdt = $(this).parent().parent().find('.pdt-id').text();
-			
-			pData.find('#btn-moins-lot-' + lIdLot + ',#btn-plus-lot-' + lIdLot).attr("disabled","disabled").addClass("ui-helper-hidden");
-			pData.find('#colonne-qte-pdt-' + lIdPdt + '-lot-' + lIdLot + ',#colonne-prix-pdt-' + lIdPdt + '-lot-' + lIdLot + ',#colonne-sigle-pdt-' + lIdPdt + '-lot-' + lIdLot).addClass("ui-helper-hidden");
+		
+		$(pData).find('.pdt').each(function() {
+			var lIdPdt = $(this).find('.pdt-id').text();
+			if(that.reservation[lIdPdt] != null) {
+				var lResa = that.reservation[lIdPdt];
+				var lIdLot = lResa.dcomId;
+				var lQte = lResa.stoQuantite;			
+				$(pData).find('#qte-pdt-' + lIdPdt).text(lQte.nombreFormate(2,',',' '));
+				
+				var lPrix = ((that.pdtCommande[lIdPdt].lot[lIdLot].dcomPrix * lResa.stoQuantite)/that.pdtCommande[lIdPdt].lot[lIdLot].dcomTaille).nombreFormate(2,',',' ');
+				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
+				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
+				
+				$(pData).find('.resa-pdt-' + lIdPdt).show();
+			}
 		});
 		return pData;
 	}
@@ -488,7 +506,24 @@
 	this.afficherRetour = function() {		
 		var lCommandeTemplate = new CommandeTemplate();
 		$('#contenu').replaceWith(lCommandeTemplate.reservationOk);	
-	}	
+	}
+	
+	this.supprimerSelect = function(pData) {
+		pData.find('.pdt select').each(function() {
+			if($(this).find('option').size() == 1) {				
+				var lCommandeTemplate = new CommandeTemplate();
+				var lTemplate = lCommandeTemplate.lotUnique;
+				var lData = {};
+				lData.IdPdt = $(this).parent().parent().find(".pdt-id").text();
+				lData.valeur = $(this).val();
+				lData.text = $(this).text();
+				
+				$(this).replaceWith(lTemplate.template(lData));
+			}
+		});
+		
+		return pData;
+	}
 	
 	this.construct(pParam);
 }
