@@ -37,14 +37,14 @@
 #achat-rechgt-widget {
 	width:456px;
 }
-#achat-commande-table-pdt {
+.achat-commande-table-pdt {
 	width:100%;
 }
 
-#achat-commande-table-pdt .td-qte {
+.achat-commande-table-pdt .td-qte {
 	width:80px;
 }
 
-#achat-commande-table-pdt .td-unite {
+.achat-commande-table-pdt .td-unite {
 	width:90px;
 }

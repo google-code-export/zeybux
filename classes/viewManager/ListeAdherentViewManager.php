@@ -52,6 +52,7 @@ class ListeAdherentViewManager
 		$lSql = Dbutils::executerRequete($lRequete);
 
 		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
 			return ListeAdherentViewManager::remplir(
 				$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],

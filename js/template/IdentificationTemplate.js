@@ -1,4 +1,20 @@
 ;function IdentificationTemplate() {
+	this.connexion =
+		"<div id=\"formulaire_identification_int\" title=\"Connexion à Zeybux\" >" +
+			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+				"<table>" +
+					"<tr>" +
+						"<td>Login</td>" +
+						"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\"/></td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Mot de Passe</td>" +
+						"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"/></td>" +
+					"</tr>" +
+				"</table>" +
+			"</form>" +
+		"</div>";
+
 	this.debutMenu = "<div id=\"menu_int\" ><ul id=\"menu_liste\" >";
 	this.finMenu = "</ul></div>";
 		

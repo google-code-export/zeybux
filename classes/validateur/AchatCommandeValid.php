@@ -57,6 +57,9 @@ class AchatCommandeValid
 			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 			$lVr->getIdCompte()->addErreur($lErreur);	
 		}
+		
+		$lNbProduit = 0;
+		$lTestNbProduit = false;
 		if(!is_array($pData['produits'])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
@@ -65,7 +68,7 @@ class AchatCommandeValid
 			$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
 			$lVr->getLog()->addErreur($lErreur);	
 		} else {
-			$lNbProduit = 0;
+			$lTestNbProduit = true;
 			$lProduitValid = new ProduitAchatValid();
 			foreach($pData['produits'] as $lProduit) {
 				$lVrProduit = $lProduitValid->validAjout($lProduit);
@@ -74,17 +77,36 @@ class AchatCommandeValid
 								
 				if($lProduit['quantite'] != 0 && !empty($lProduit['quantite'])) {$lNbProduit++;}
 			}
-			if($lNbProduit == 0) {
-				$lVr->setValid(false);
-				$lVr->getProduits()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
-				$lVr->getProduits()->addErreur($lErreur);
-			}
 		}	
-
+		if(!is_array($pData['produitsSolidaire'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
+		} else {
+			$lTestNbProduit = true;
+			$lProduitValid = new ProduitAchatValid();
+			foreach($pData['produitsSolidaire'] as $lProduit) {
+				$lVrProduit = $lProduitValid->validAjout($lProduit);
+				if(!$lVrProduit->getValid()) {$lVr->setValid(false);}
+				$lVr->addProduits($lVrProduit);
+								
+				if($lProduit['quantite'] != 0 && !empty($lProduit['quantite'])) {$lNbProduit++;}
+			}
+		}
+	
 		//Tests Fonctionnels
+		if($lTestNbProduit && $lNbProduit == 0) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
+			$lVr->getLog()->addErreur($lErreur);
+		}
+		
 		if(empty($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -128,7 +150,17 @@ class AchatCommandeValid
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getProduits()->addErreur($lErreur);	
-		}		
+		}
+		
+		if(empty($pData['produitsSolidaire'])) {
+			$lVr->setValid(false);
+			$lVr->getProduitsSolidaire()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getProduitsSolidaire()->addErreur($lErreur);	
+		}
+		
 		if(!empty($pData['rechargement']['montant']) && $pData['rechargement']['montant'] != 0) {
 			$lValidRechargement = new RechargementCompteValid();
 			$lVr->setRechargement($lValidRechargement->validAjout($pData['rechargement']));

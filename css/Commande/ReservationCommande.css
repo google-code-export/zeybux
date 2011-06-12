@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 /*ReservationCommande*/
+#resa-info-commande {
+float:left;
+margin-right:145px;
+}
 
 .passer-com-radio {
 	text-align:center;

@@ -23,15 +23,27 @@
 							e['code'] =  pData[i].erreurs[err].code;
 							if(String(e['code'])[0] == 3){lMessageInformation = true;} // Test si c'est un message d'information
 							//e['code'] =  pNomObj + i;
-							e['message'] = pData[i].erreurs[err].message;							
+							e['message'] = pData[i].erreurs[err].message;
 							membre['erreurs'].push(e);
 						}
 						
 						if(i == 'log' || $("#" + pNomObj + i ).length == 0) {
-							var lDataTemp = new Array();
+							/*var lDataTemp = new Array();
 							lDataTemp['membres'] = new Array();	
 							lDataTemp['membres'].push(membre);
-							$("#contenu_message_information").html($("#contenu_message_information").html() + TemplateData.infobulleLog.template(membre));
+							*/
+							var lHtml = $("#contenu_message_information").html() + TemplateData.infobulleLog.template(membre);
+							lHtml = $(lHtml);
+							
+							// Ajout des actions sur les infobulles
+							if(lHtml.find('.action-ifb').size() > 0) {								
+								var lAction = new ActionInfobulles();
+								$(membre['erreurs']).each(function() {
+									lHtml = lAction.affect(lHtml,this.code);									
+								});								
+							}							
+							
+							$("#contenu_message_information").html(lHtml);
 							
 							// Si il s'agit d'un message (code commence par 3) d'information il y a un autohide
 							if(lMessageInformation) {
@@ -54,7 +66,7 @@
 		}	
 		$('body').append(TemplateData.infobulle.template(lData));
 	}
-	
+		
 	this.generer = function(pData,pNomObj) {
 		this.init();
 		if(!pNomObj) {lNomObj = '';} else {lNomObj = pNomObj;}

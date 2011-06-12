@@ -150,7 +150,15 @@ String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) 
 			 for (i = 0; i < nDecimalesManquantes; i++) {
 				 nDiv *= 10;
 			 }
-			 _sDecimales = Math.round(Number(sDecimalesTmp) / nDiv);
+			 var j = '';
+			 for (i = 0; i < sDecimalesTmp.length; i++) {
+				 if(sDecimalesTmp[i] == '0') {
+					 j+= '0';
+				 } else {
+					 i = sDecimalesTmp.length;
+				 }
+			 }
+			 _sDecimales = j + Math.round(Number(sDecimalesTmp) / nDiv);
 		} else if (sDecimalesTmp.length < decimales) {
 			 var nDecimalesManquantes = decimales - sDecimalesTmp.length;
 			 var sNvDecimale = '';

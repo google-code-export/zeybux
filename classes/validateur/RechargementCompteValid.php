@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "RechargementCompteVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 
 /**
  * @name RechargementCompteVR
@@ -88,6 +89,16 @@ class RechargementCompteValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId()->addErreur($lErreur);	
 		}
+		$lAdherent = AdherentViewManager::selectByIdCompte($pData['id']);
+		if($lAdherent[0]->getAdhIdCompte() != $pData['id']) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
+		}
+		
 		if(empty($pData['montant'])) {
 			$lVr->setValid(false);
 			$lVr->getMontant()->setValid(false);

@@ -27,6 +27,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			<option value="test">Test</option>
 			<option value="local">Local</option>
 			<option value="localr7">Local R7</option>
+			<option value="free">Free</option>
 		</select>		
 	</span><br/>
 	<input type="submit" value="Exporter"/>
@@ -184,18 +185,43 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		copy('../css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		
 		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.
-		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); // Copie du css
+		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
 		
 		// Configuration du fichier d'environnement
 		switch($lEnv) {
 			case 'test':
-				copy('./configuration/testDB.php' , $lPath . '/configuration/DB.php'); // Copie du css
+				copy('./configuration/testDB.php' , $lPath . '/configuration/DB.php'); 
 				break;
 			case 'local':
-				copy('./configuration/DB.php' , $lPath . '/configuration/DB.php'); // Copie du css
+				copy('./configuration/DB.php' , $lPath . '/configuration/DB.php'); 
 				break;
 			case 'localr7':
-				copy('./configuration/LocalR7DB.php' , $lPath . '/configuration/DB.php'); // Copie du css
+				copy('./configuration/LocalR7DB.php' , $lPath . '/configuration/DB.php'); 
+				break;
+			case 'free':
+				copy('./configuration/freeDB.php' , $lPath . '/configuration/DB.php');
+				copy('./classes/utils/JSON.php' , $lPath . '/classes/utils/JSON.php');
+				copy('./classes/utils/CompatibiliteFree.php' , $lPath . '/classes/utils/CompatibiliteFree.php');
+				
+				// Ajout dans l'index du lien avec les classes pour la compatibilité avec les serveurs free
+				$handle = @fopen($lPath . "/index.php", "r");
+				if ($handle) {
+					$fp = fopen('indextmp.php', 'w');
+					$i = 1;
+				    while (($buffer = fgets($handle)) !== false) {
+				    	if($i == 57) {
+				    		fwrite($fp,"// Compatibilite avec le server free\n");
+							fwrite($fp,"include_once(CHEMIN_CLASSES_UTILS . \"CompatibiliteFree.php\");\n\n");
+				    	}
+				        fwrite($fp, $buffer);
+				        $i++;
+				    }
+				    fclose($fp);
+				    fclose($handle);
+				}
+				copy('indextmp.php' , $lPath . "/index.php");
+				unlink('indextmp.php');
+				
 				break;
 		}
 		
@@ -226,6 +252,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				<option value="test">Test</option>
 				<option value="local">Local</option>
 				<option value="localr7">Local R7</option>
+				<option value="free">Free</option>
 			</select>		
 		</span><br/>
 		<input type="submit" value="Exporter"/>
