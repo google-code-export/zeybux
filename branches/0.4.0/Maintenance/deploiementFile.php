@@ -1,10 +1,11 @@
 <?php
 
 // Supression de l'ancien site excepté dossier maintenance, index.php, dossier configuration et Maintenance.php du dossier configuration
+// Pas de suppression des logs
 function supprimerDossier($pPath) {
 	$d = dir($pPath);
 	while (false !== ($entry = $d->read())) {	   
-	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' ) {
+	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'logs') {
    		if(is_dir($d->path.'/'.$entry)) {
    			supprimerDossier($d->path.'/'.$entry);
 			if($entry != 'configuration') {
