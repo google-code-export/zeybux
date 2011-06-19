@@ -186,6 +186,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		
 		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.
 		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
+
+		copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
 		
 		// Configuration du fichier d'environnement
 		switch($lEnv) {
