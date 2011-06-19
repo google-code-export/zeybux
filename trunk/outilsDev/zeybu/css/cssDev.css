@@ -178,6 +178,19 @@
 	margin-left:320px;
 	margin-top:150px;
 }
+
+.action-ifb {
+	color:#3A8104;
+	text-decoration:underline;
+}
+
+#maintenance{
+	margin-left:320px;
+	margin-top:150px;
+	padding:5px;
+	width: 360px;
+	text-align:center;
+}
 /*
 #formulaire_confirmation_suppression_adherent_ext {
 	width:700px;
@@ -404,15 +417,15 @@
 #achat-rechgt-widget {
 	width:456px;
 }
-#achat-commande-table-pdt {
+.achat-commande-table-pdt {
 	width:100%;
 }
 
-#achat-commande-table-pdt .td-qte {
+.achat-commande-table-pdt .td-qte {
 	width:80px;
 }
 
-#achat-commande-table-pdt .td-unite {
+.achat-commande-table-pdt .td-unite {
 	width:90px;
 }
 /*EditerCommande*/
@@ -487,6 +500,10 @@
 	text-align:center;
 }
 /*ReservationCommande*/
+#resa-info-commande {
+float:left;
+margin-right:145px;
+}
 
 .passer-com-radio {
 	text-align:center;

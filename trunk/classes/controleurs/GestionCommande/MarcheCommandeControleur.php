@@ -245,7 +245,7 @@ class MarcheCommandeControleur
 							$lOperation->setMontant($lProduitSolidaire['prix'] * -1);
 							$lOperation->setLibelle("Marché N°" . $lCommande->getNumero());
 							$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-							$lOperation->setTypePaiement(7);
+							$lOperation->setTypePaiement(8);
 							$lOperation->setTypePaiementChampComplementaire($lProduitSolidaire['id']);
 							$lOperation->setType(1);
 							$lOperation->setIdCommande($lIdCommande);				
