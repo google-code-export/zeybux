@@ -20,6 +20,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "AdherentValid.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . "AjoutAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_TOVO . "AdherentToVO.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 
 /**
  * @name AjoutAdherentControleur
@@ -79,15 +80,9 @@ class AjoutAdherentControleur
 						
 			// Insertion de la première mise à jour
 			$lAdherent->setDateMaj( StringUtils::dateTimeAujourdhuiDb() );
-	
-			// Crypte le mot de passe
-			$lAdherent->setPass( md5( $lAdherent->getPass() ) );
 			
 			// L'adherent n'est pas supprimé
 			$lAdherent->setEtat(1);
-			
-			// Ne donne pas les droits de super zeybu
-			$lAdherent->setSuperZeybu(0);
 			
 			// Enregistre l'adherent dans la BDD
 			$lId = AdherentManager::insert( $lAdherent );
@@ -101,11 +96,20 @@ class AjoutAdherentControleur
 				AutorisationManager::insert($lAutorisation);
 			}
 			
-			$lResponse = new AjoutAdherentResponse();
-			$lResponse->setId($lId);
 			$lAdherent = AdherentManager::select($lId);
-			$lResponse->setNumero($lAdherent->getNumero());
 			
+			// Insertion des informations de connexion
+			$lIdentification = new IdentificationVO();
+			$lIdentification->setIdLogin($lId);
+			$lIdentification->setLogin($lAdherent->getNumero());
+			$lIdentification->setPass( md5( $pParam['motPasse'] ) );
+			$lIdentification->setType(1);
+			$lIdentification->setAutorise(1);
+			IdentificationManager::insert( $lIdentification );
+			
+			$lResponse = new AjoutAdherentResponse();
+			$lResponse->setId($lId);			
+			$lResponse->setNumero($lAdherent->getNumero());
 			return $lResponse;
 						
 		}	

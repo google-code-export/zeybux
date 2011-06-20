@@ -652,5 +652,4 @@ class AdherentValid
 		}
 		return $lTestId;
 	}
-
 }

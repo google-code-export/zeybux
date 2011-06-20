@@ -13,10 +13,8 @@
 if( isset($_SESSION[DROIT_ID]) ) {
 	
 	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/AdministrationControleur.php");
-	
-	$lParam["id_adherent"] = $_SESSION[DROIT_ID];
 	$lControleur = new AdministrationControleur();
-	echo $lControleur->getMenu($lParam)->exportToJson();
+	echo $lControleur->getMenu()->exportToJson();
 
 	$lLogger->log("Affichage de la vue Menu par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
 } else {

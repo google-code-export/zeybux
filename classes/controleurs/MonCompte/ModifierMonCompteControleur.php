@@ -9,7 +9,7 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "InfoAdherentValid.php");
 
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
@@ -32,9 +32,10 @@ class ModifierMonCompteControleur
 		$lVr = InfoAdherentValid::validAjout($pParam);
 
 		if($lVr->getValid()) {
-			$lAdherent = AdherentManager::select($pParam['id_adherent']);
-			$lAdherent->setPass( md5( $pParam['motPasseNouveau'] ) );
-			AdherentManager::update( $lAdherent );
+			$lIdentification = IdentificationManager::selectByIdType($pParam['id_adherent'],1);
+			$lIdentification = $lIdentification[0];
+			$lIdentification->setPass( md5( $pParam['motPasseNouveau'] ) );
+			IdentificationManager::update( $lIdentification );
 
 			$lVr = new TemplateVR();	
 			return $lVr;

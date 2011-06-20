@@ -29,30 +29,12 @@ class IdentificationViewVO extends DataTemplate
 	* @desc AdhIdCompte de la IdentificationViewVO
 	*/
 	protected $mAdhIdCompte;
-	
-	/**
-	* @var varchar(5)
-	* @desc AdhNumero de la IdentificationViewVO
-	*/
-	protected $mAdhNumero;
-
-	/**
-	* @var varchar(100)
-	* @desc AdhMotPasse de la IdentificationViewVO
-	*/
-	protected $mAdhMotPasse;
 
 	/**
 	* @var varchar(5)
 	* @desc ModNom de la IdentificationViewVO
 	*/
 	protected $mModNom;
-	
-	/**
-	* @var tinyint(1)
-	* @desc AdhSuperZeybu de la IdentificationViewVO
-	*/
-	protected $mAdhSuperZeybu;
 
 	/**
 	* @name getAdhId()
@@ -89,42 +71,6 @@ class IdentificationViewVO extends DataTemplate
 	public function setAdhIdCompte($pAdhIdCompte) {
 		$this->mAdhIdCompte = $pAdhIdCompte;
 	}
-	
-	/**
-	* @name getAdhNumero()
-	* @return varchar(5)
-	* @desc Renvoie le membre AdhNumero de la IdentificationViewVO
-	*/
-	public function getAdhNumero(){
-		return $this->mAdhNumero;
-	}
-
-	/**
-	* @name setId($pAdhNumero)
-	* @param varchar(5)
-	* @desc Remplace le membre AdhNumero de la IdentificationViewVO par $pAdhNumero
-	*/
-	public function setAdhNumero($pAdhNumero) {
-		$this->mAdhNumero = $pAdhNumero;
-	}
-
-	/**
-	* @name getAdhMotPasse()
-	* @return varchar(100)
-	* @desc Renvoie le membre AdhMotPasse de la CompteVO
-	*/
-	public function getAdhMotPasse(){
-		return $this->mAdhMotPasse;
-	}
-
-	/**
-	* @name setAdhMotPasse($pAdhMotPasse)
-	* @param varchar(100)
-	* @desc Remplace le membre AdhMotPasse de la IdentificationViewVO par $pAdhMotPasse
-	*/
-	public function setAdhMotPasse($pAdhMotPasse) {
-		$this->mAdhMotPasse = $pAdhMotPasse;
-	}
 
 	/**
 	* @name getModNom()
@@ -142,24 +88,6 @@ class IdentificationViewVO extends DataTemplate
 	*/
 	public function setModNom($pModNom) {
 		$this->mModNom = $pModNom;
-	}
-	
-	/**
-	* @name getAdhSuperZeybu()
-	* @return tinyint(1)
-	* @desc Renvoie le membre AdhSuperZeybu de la IdentificationViewVO
-	*/
-	public function getAdhSuperZeybu(){
-		return $this->mAdhSuperZeybu;
-	}
-
-	/**
-	* @name setAdhSuperZeybu($pAdhSuperZeybu)
-	* @param tinyint(1)
-	* @desc Remplace le membre AdhSuperZeybu de la IdentificationViewVO par $pAdhSuperZeybu
-	*/
-	public function setAdhSuperZeybu($pAdhSuperZeybu) {
-		$this->mAdhSuperZeybu = $pAdhSuperZeybu;
 	}
 }
 ?>

@@ -18,14 +18,6 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
-/*
-include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
-include_once(CHEMIN_CLASSES_PO . MOD_GESTION_ADHERENTS . "/ModificationAdherentPO.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierAdherentResponse.php" );*/
 
 /**
  * @name ModificationProducteurControleur

@@ -217,9 +217,10 @@ class DbUtils
 						$lResultat .= $lTri['champ'] . " " . $lTri['sens'] . ",";
 					}			
 				}
-			}							
-			// suppression de la dernière virgule
-			$lResultat = substr($lResultat, 0, sizeof($lResultat) - 2);
+									
+				// suppression de la dernière virgule
+				$lResultat = substr($lResultat, 0, sizeof($lResultat) - 2);
+			}
 			
 			$lResultat .= ";";
 			return $lResultat;

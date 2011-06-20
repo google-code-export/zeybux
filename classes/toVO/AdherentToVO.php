@@ -28,7 +28,6 @@ class AdherentToVO
 		$lJson = json_decode($pJson);
 
 		$lValid = isset($lJson->id)
-			&& isset($lJson->motPasse)
 			&& isset($lJson->numero)
 			&& isset($lJson->compte)
 			&& isset($lJson->nom)
@@ -48,7 +47,6 @@ class AdherentToVO
 		if($lValid) {
 			$lVo = new AdherentVO();
 			$lVo->setId($lJson->id);
-			$lVo->setPass($lJson->motPasse);
 			$lVo->setNumero($lJson->numero);
 			$lVo->setIdCompte($lJson->compte);
 			$lVo->setNom($lJson->nom);
@@ -76,7 +74,6 @@ class AdherentToVO
 	*/
 	public static function convertFromArray($pArray) {
 		$lValid = isset($pArray['id'])
-			&& isset($pArray['motPasse'])
 			&& isset($pArray['numero'])
 			&& isset($pArray['compte'])
 			&& isset($pArray['nom'])
@@ -96,7 +93,6 @@ class AdherentToVO
 		if($lValid) {
 			$lVo = new AdherentVO();
 			$lVo->setId($pArray['id']);
-			$lVo->setPass($pArray['motPasse']);
 			$lVo->setNumero($pArray['numero']);
 			$lVo->setIdCompte($pArray['compte']);
 			$lVo->setNom($pArray['nom']);
