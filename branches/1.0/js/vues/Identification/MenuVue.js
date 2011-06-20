@@ -133,6 +133,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-CaisseListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
+			
 			return pData;
 		}
 		return null;

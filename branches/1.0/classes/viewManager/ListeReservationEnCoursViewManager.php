@@ -41,8 +41,7 @@ class ListeReservationEnCoursViewManager
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
-			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . 
+			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
 			"," . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -63,7 +62,6 @@ class ListeReservationEnCoursViewManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -90,8 +88,7 @@ class ListeReservationEnCoursViewManager
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
-			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . 
+			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
 			"," . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -111,7 +108,6 @@ class ListeReservationEnCoursViewManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -145,7 +141,6 @@ class ListeReservationEnCoursViewManager
 			    AdherentManager::CHAMP_ADHERENT_ID .
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU .
 			"," . CommandeManager::CHAMP_COMMANDE_ID .
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
@@ -171,7 +166,6 @@ class ListeReservationEnCoursViewManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -191,11 +185,10 @@ class ListeReservationEnCoursViewManager
 	}
 
 	/**
-	* @name remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pAdhSuperZeybu, $pComId, $pComNumero, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive)
+	* @name remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pComId, $pComNumero, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive)
 	* @param int(11)
 	* @param varchar(5)
 	* @param int(11)
-	* @param tinyint(1)
 	* @param int(11)
 	* @param int(11)
 	* @param datetime
@@ -205,12 +198,11 @@ class ListeReservationEnCoursViewManager
 	* @return ListeReservationEnCoursViewVO
 	* @desc Retourne une ListeReservationEnCoursViewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pAdhSuperZeybu, $pComId, $pComNumero, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive) {
+	private static function remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pComId, $pComNumero, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive) {
 		$lListeReservationEnCours = new ListeReservationEnCoursViewVO();
 		$lListeReservationEnCours->setAdhId($pAdhId);
 		$lListeReservationEnCours->setAdhNumero($pAdhNumero);
 		$lListeReservationEnCours->setAdhIdCompte($pAdhIdCompte);
-		$lListeReservationEnCours->setAdhSuperZeybu($pAdhSuperZeybu);
 		$lListeReservationEnCours->setComId($pComId);
 		$lListeReservationEnCours->setComNumero($pComNumero);
 		$lListeReservationEnCours->setComDateMarcheDebut($pComDateMarcheDebut);

@@ -28,11 +28,23 @@
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
 						if(lResponse.valid) {
-							// TODO Lancement de l'identification
-							MenuVue();
-							
-							MonCompteVue();
-							
+							// TODO charger les modules
+							switch(lResponse.type) {
+								case '1':
+									MenuVue();
+									MonCompteVue();
+								break;
+								
+								case '2':
+									MenuVue();
+									AdministrationVue();
+								break;
+								
+								case '3':
+									MenuVue();
+									CaisseListeCommandeVue();
+								break;
+							}
 							
 						} else {
 							Infobulle.generer(lResponse,'');

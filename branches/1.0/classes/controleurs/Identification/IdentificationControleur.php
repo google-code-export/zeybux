@@ -11,9 +11,11 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "IdentificationViewManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "IdentificationValid.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . "IdentificationResponse.php" );
 
 /**
  * @name IdentificationControleur
@@ -41,46 +43,94 @@ class IdentificationControleur
 			$lPass = md5($pParam["pass"]);
 				
 			// Sélection des adhérents ayant le login de l'identification
-			$lListeIdentification = IdentificationViewManager::select($lLogin);
+			$lListeIdentification = IdentificationManager::selectByLogin($lLogin);
 	
 			// Recherche de correspondance de login et mot de passe dans la base 
 			$lAutorisation = false;
-			
+			$lModules = array();
 			if(is_array($lListeIdentification)) {
-				$lIdentification = $lListeIdentification[0];
-				
-				if($lIdentification->getAdhNumero() === $lLogin && $lIdentification->getAdhMotPasse() === $lPass ) {
-					// Création d'une variable de session avec l'id de l'adherent lui permettant de lui donner les droits de connexion
-					$_SESSION[DROIT_ID] = $lIdentification->getAdhId();
-					$_SESSION[ID_COMPTE] = $lIdentification->getAdhIdCompte();
-					// Ajout des droits de super zeybu
-					if($lIdentification->getAdhSuperZeybu() == 1) {
-						$_SESSION['superzeybu'] = $lIdentification->getAdhId();
+				foreach($lListeIdentification as $lIdentification) {
+					if($lIdentification->getLogin() === $lLogin && $lIdentification->getPass() === $lPass && $lIdentification->getAutorise() == 1) {
+						switch($lIdentification->getType()) {
+							case 1 : // Adhérent
+								$lModules = $this->identifierAdherent($lIdentification);
+								break;
+							
+							case 2 : // SuperZeybu
+								$lModules = $this->identifierSuperZeybu($lIdentification);
+								break;
+								
+							case 3 : // Caisse
+								$lModules = $this->identifierCaisse($lIdentification);
+								break;
+						}
+						$_SESSION[TYPE_ID] = $lIdentification->getType();
+						$lAutorisation = true;
 					}
-					$_SESSION[$lIdentification->getModNom()] = true;
-					$lAutorisation = true;
-				}
-				
-				// Création d'un varible de session pour tout les modules auquels l'adherent possède les autorisations. 
-				$i = 1;
-				while(isset($lListeIdentification[$i])) {
-					$lIdentification = $lListeIdentification[$i];
-					$_SESSION[$lIdentification->getModNom()] = true;
-					$i++;
 				}
 			}
 			
-			if(!$lAutorisation) {
+			if($lAutorisation) {
+				$lResponse = new IdentificationResponse();
+				$lResponse->setType($_SESSION[TYPE_ID]);
+				$lResponse->setModules($lModules);
+				return $lResponse;				
+			} else {
 				$lVr = new TemplateVR();
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_222_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_222_MSG);
-				$lVr->getLog()->addErreur($lErreur);				
-			}		
+				$lVr->getLog()->addErreur($lErreur);
+			}
+			
 		}		
 		return $lVr;
+	}
+	
+	/**
+	* @name identifierAdherent($pIdentification)
+	* @return 
+	* @desc Effectue les actions de connexion d'un adhérent
+	*/
+	public function identifierAdherent($pIdentification) {
+		$lListeIdentification = IdentificationViewManager::select($pIdentification->getIdLogin());		
+		$lModules = array();
+		if(is_array($lListeIdentification)) { 
+			// Création d'une variable de session avec l'id de l'adherent lui permettant de lui donner les droits de connexion
+			$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
+			$_SESSION[ID_COMPTE] = $lListeIdentification[0]->getAdhIdCompte(); // TODO Vérifier l'utilisation de cette variable
+			foreach($lListeIdentification as $lLigne) {
+				$_SESSION[$lLigne->getModNom()] = true;
+				array_push($lModules,$lLigne->getModNom());
+			}	
+		}
+		return $lModules;
+	}
+	
+	/**
+	* @name identifierSuperZeybu($pIdentification)
+	* @return 
+	* @desc Effectue les actions de connexion d'un SuperZeybu
+	*/
+	public function identifierSuperZeybu($pIdentification) {	
+		$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
+		$_SESSION[DROIT_SUPER_ZEYBU] = $pIdentification->getIdLogin();
+		return array();
+	}
+	
+	/**
+	* @name identifierCaisse($pIdentification)
+	* @return 
+	* @desc Effectue les actions de connexion d'une Caisse
+	*/
+	public function identifierCaisse($pIdentification) {
+		$lModules = array();
+		$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
+		$_SESSION[MOD_CAISSE] = true;
+		array_push($lModules,MOD_CAISSE);
+		return $lModules;
 	}
 }
 ?>

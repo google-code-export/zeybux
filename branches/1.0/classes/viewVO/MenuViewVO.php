@@ -23,12 +23,6 @@ class MenuViewVO extends DataTemplate
 	* @desc AdhId de la MenuViewVO
 	*/
 	protected $mAdhId;
-	
-	/**
-	* @var tinyint(1)
-	* @desc AdhSuperZeybu de la MenuViewVO
-	*/
-	protected $mAdhSuperZeybu;
 
 	/**
 	* @var int(11)
@@ -70,24 +64,6 @@ class MenuViewVO extends DataTemplate
 	*/
 	public function setAdhId($pAdhId) {
 		$this->mAdhId = $pAdhId;
-	}
-
-	/**
-	* @name getAdhSuperZeybu()
-	* @return tinyint(1)
-	* @desc Renvoie le membre AdhSuperZeybu de la MenuViewVO
-	*/
-	public function getAdhSuperZeybu(){
-		return $this->mAdhSuperZeybu;
-	}
-
-	/**
-	* @name setAdhSuperZeybu($pAdhSuperZeybu)
-	* @param tinyint(1)
-	* @desc Remplace le membre AdhSuperZeybu de la MenuViewVO par $pAdhSuperZeybu
-	*/
-	public function setAdhSuperZeybu($pAdhSuperZeybu) {
-		$this->mAdhSuperZeybu = $pAdhSuperZeybu;
 	}
 	
 	/**

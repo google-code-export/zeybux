@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "InfoAdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 
 /**
  * @name InfoAdherentVR
@@ -117,8 +118,21 @@ class InfoAdherentValid
 		
 		}
 		
+		$lIdentification = IdentificationManager::selectByIdType($pData['id_adherent'],1);
+		$lIdentification = $lIdentification[0];
+		// L'adhérent existe	
+		if($lIdentification->getIdLogin() != $pData['id_adherent']) {
+			$lVr->setValid(false);
+			$lVr->getId_adherent()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+			$lVr->getId_adherent()->addErreur($lErreur);
+		
+		}
+		
 		// L'ancien mot de passe n'est pas conforme
-		if($lAdherent->getPass() != md5( $pData['motPasse'] )) {
+		if($lIdentification->getPass() != md5( $pData['motPasse'] )) {
 			$lVr->setValid(false);
 			$lVr->getMotPasse()->setValid(false);
 			$lErreur = new VRerreur();
@@ -145,7 +159,7 @@ class InfoAdherentValid
 	* @return InfoAdherentVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validDelete($pData) {
+	/*public static function validDelete($pData) {
 		$lVr = new InfoAdherentVR();
 		if(!is_int((int)$pData['id_adherent'])) {
 			$lVr->setValid(false);
@@ -163,7 +177,7 @@ class InfoAdherentValid
 	* @return InfoAdherentVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validUpdate($pData) {
+	/*public static function validUpdate($pData) {
 		$lTestId = InfoAdherentValid::validDelete($pData);
 		if($lTestId->getValid()) {
 			$lVr = new InfoAdherentVR();
@@ -221,6 +235,6 @@ class InfoAdherentValid
 			return $lVr;
 		}
 		return $lTestId;
-	}
+	}*/
 
 }

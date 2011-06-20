@@ -23,12 +23,6 @@ class AdherentVO extends DataTemplate
 	* @desc Id de la AdherentVO
 	*/
 	protected $mId;
-
-	/**
-	 * @var string
-	 * @desc Mot de passe de l'adhérent
-	 */
-	protected $mPass;
 	
 	/**
 	* @var varchar(5)
@@ -125,12 +119,6 @@ class AdherentVO extends DataTemplate
 	* @desc Etat de la AdherentVO
 	*/
 	protected $mEtat;
-
-	/**
-	* @var tinyint(1)
-	* @desc SuperZeybu de la AdherentVO
-	*/
-	protected $mSuperZeybu;
 	
 	/**
 	 * @var array(OperationVO) 
@@ -160,24 +148,6 @@ class AdherentVO extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
-	}
-
-	/**
-	* @name getPass()
-	* @return varchar(100)
-	* @desc Renvoie le membre MotPasse de la AdherentVO
-	*/
-	public function getPass() {
-		return $this->mPass;
-	}
-
-	/**
-	* @name setPass($pPass)
-	* @param string
-	* @desc Remplace le Mot de Passe de l'adherent par $pPass
-	*/
-	public function setPass($pPass) {
-		$this->mPass = $pPass;
 	}
 
 	/**
@@ -448,24 +418,6 @@ class AdherentVO extends DataTemplate
 	*/
 	public function setCommentaire($pCommentaire) {
 		$this->mCommentaire = $pCommentaire;
-	}
-
-	/**
-	* @name getSuperZeybu()
-	* @return tinyint(1)
-	* @desc Renvoie le membre SuperZeybu de la AdherentVO
-	*/
-	public function getSuperZeybu() {
-		return $this->mSuperZeybu;
-	}
-
-	/**
-	* @name setSuperZeybu($pSuperZeybu)
-	* @param tinyint(1)
-	* @desc Remplace le membre SuperZeybu de la AdherentVO par $pSuperZeybu
-	*/
-	public function setSuperZeybu($pSuperZeybu) {
-		$this->mSuperZeybu = $pSuperZeybu;
 	}
 	
 	/**

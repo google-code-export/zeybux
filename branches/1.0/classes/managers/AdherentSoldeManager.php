@@ -32,7 +32,7 @@ class AdherentSoldeManager extends AdherentManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		
-		$lRequete = "SELECT " . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . "," . AdherentManager::CHAMP_ADHERENT_NUMERO . "," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "," . AdherentManager::CHAMP_ADHERENT_NOM . "," . AdherentManager::CHAMP_ADHERENT_PRENOM . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_ADRESSE . "," . AdherentManager::CHAMP_ADHERENT_CODE_POSTAL . "," . AdherentManager::CHAMP_ADHERENT_VILLE . "," . AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE . "," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . "," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . "," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . "," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . " 
+		$lRequete = "SELECT " . AdherentManager::CHAMP_ADHERENT_NUMERO . "," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "," . AdherentManager::CHAMP_ADHERENT_NOM . "," . AdherentManager::CHAMP_ADHERENT_PRENOM . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_ADRESSE . "," . AdherentManager::CHAMP_ADHERENT_CODE_POSTAL . "," . AdherentManager::CHAMP_ADHERENT_VILLE . "," . AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE . "," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . "," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . "," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . " 
 					FROM " . AdherentManager::TABLE_ADHERENT . " 
 					WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '". StringUtils::securiser($pId) . "'";
 		
@@ -43,7 +43,6 @@ class AdherentSoldeManager extends AdherentManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			$lAdherent = AdherentSoldeManager::remplirAdherent(
 								$pId,
-								$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -58,8 +57,7 @@ class AdherentSoldeManager extends AdherentManager
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
-								$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-								$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);
+								$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE]);
 								
 		
 			
@@ -93,7 +91,7 @@ class AdherentSoldeManager extends AdherentManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		
-		$lRequete = "SELECT SELECT " . AdherentManager::CHAMP_ADHERENT_ID . "," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . "," . AdherentManager::CHAMP_ADHERENT_NUMERO . "," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "," . AdherentManager::CHAMP_ADHERENT_NOM . "," . AdherentManager::CHAMP_ADHERENT_PRENOM . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_ADRESSE . "," . AdherentManager::CHAMP_ADHERENT_CODE_POSTAL . "," . AdherentManager::CHAMP_ADHERENT_VILLE . "," . AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE . "," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . "," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . "," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . "," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . " 
+		$lRequete = "SELECT SELECT " . AdherentManager::CHAMP_ADHERENT_ID . "," . AdherentManager::CHAMP_ADHERENT_NUMERO . "," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "," . AdherentManager::CHAMP_ADHERENT_NOM . "," . AdherentManager::CHAMP_ADHERENT_PRENOM . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_COURRIEL_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL . "," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_SECONDAIRE . "," . AdherentManager::CHAMP_ADHERENT_ADRESSE . "," . AdherentManager::CHAMP_ADHERENT_CODE_POSTAL . "," . AdherentManager::CHAMP_ADHERENT_VILLE . "," . AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE . "," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . "," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . "," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . " 
 					FROM " . AdherentManager::TABLE_ADHERENT;
 		
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -108,7 +106,6 @@ class AdherentSoldeManager extends AdherentManager
 	
 				$lAdherent = AdherentSoldeManager::remplirAdherent(
 								$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-								$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -123,8 +120,7 @@ class AdherentSoldeManager extends AdherentManager
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 								$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
-								$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-								$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);
+								$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE]);
 	
 				// Ajout des modules d'accés
 				$lListeAutorisation = AutorisationManager::selectByIdAdherent( $lAdherent->getId() );
@@ -165,7 +161,6 @@ class AdherentSoldeManager extends AdherentManager
 		// Préparation de la requète
 		$lChamps = array( 
 				AdherentManager::CHAMP_ADHERENT_ID .
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE .
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
@@ -180,8 +175,7 @@ class AdherentSoldeManager extends AdherentManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE .
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION .
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ .
-			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE .
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU );
+			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE);
 		
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(AdherentManager::TABLE_ADHERENT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -199,7 +193,6 @@ class AdherentSoldeManager extends AdherentManager
 		
 					$lAdherent = AdherentSoldeManager::remplirAdherent(
 									$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-									$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 									$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 									$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 									$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -214,8 +207,7 @@ class AdherentSoldeManager extends AdherentManager
 									$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_NAISSANCE],
 									$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 									$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
-									$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-									$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);
+									$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE]);
 									
 					// Ajout des modules d'accés
 					$lListeAutorisation = AutorisationManager::selectByIdAdherent( $lAdherent->getId() );
@@ -242,9 +234,8 @@ class AdherentSoldeManager extends AdherentManager
 	}
 	
 	/**
-	* @name remplirAdherent($pId, $pPass, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pSuperZeybu)
+	* @name remplirAdherent($pId,  $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire)
 	* @param integer
-	* @param string
 	* @param string
 	* @param integer
 	* @param string
@@ -260,15 +251,13 @@ class AdherentSoldeManager extends AdherentManager
 	* @param date
 	* @param date
 	* @param string
-	* @param integer
 	* @return AdherentSoldeVO
 	* @desc Retourne un AdherentSoldeVO remplis
 	*/
-	private static function remplirAdherent($pId, $pPass, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pSuperZeybu) {
+	private static function remplirAdherent($pId, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire) {
 		$lAdherent = new AdherentSoldeVO();
 
 		$lAdherent->setId($pId);
-		$lAdherent->setPass($pPass);
 		$lAdherent->setNumero($pNumero);
 		$lAdherent->setIdCompte($pIdCompte);
 		$lAdherent->setNom($pNom);
@@ -284,7 +273,6 @@ class AdherentSoldeManager extends AdherentManager
 		$lAdherent->setDateAdhesion($pDateAdhesion);
 		$lAdherent->setDateMaj($pDateMaj);
 		$lAdherent->setCommentaire($pCommentaire);
-		$lAdherent->setSuperZeybu($pSuperZeybu);
 		
 		// Ajout des Opérations
 		$lAdherent->setListeOperation(OperationManager::selectByIdCompte( $lAdherent->getIdCompte() ));

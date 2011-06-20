@@ -37,12 +37,6 @@ class ListeReservationArchiveViewVO extends DataTemplate
 	protected $mAdhIdCompte;
 
 	/**
-	* @var tinyint(1)
-	* @desc AdhSuperZeybu de la ListeReservationArchiveViewVO
-	*/
-	protected $mAdhSuperZeybu;
-
-	/**
 	* @var int(11)
 	* @desc ComId de la ListeReservationArchiveViewVO
 	*/
@@ -130,24 +124,6 @@ class ListeReservationArchiveViewVO extends DataTemplate
 	*/
 	public function setAdhIdCompte($pAdhIdCompte) {
 		$this->mAdhIdCompte = $pAdhIdCompte;
-	}
-
-	/**
-	* @name getAdhSuperZeybu()
-	* @return tinyint(1)
-	* @desc Renvoie le membre AdhSuperZeybu de la ListeReservationArchiveViewVO
-	*/
-	public function getAdhSuperZeybu() {
-		return $this->mAdhSuperZeybu;
-	}
-
-	/**
-	* @name setAdhSuperZeybu($pAdhSuperZeybu)
-	* @param tinyint(1)
-	* @desc Remplace le membre AdhSuperZeybu de la ListeReservationArchiveViewVO par $pAdhSuperZeybu
-	*/
-	public function setAdhSuperZeybu($pAdhSuperZeybu) {
-		$this->mAdhSuperZeybu = $pAdhSuperZeybu;
 	}
 
 	/**

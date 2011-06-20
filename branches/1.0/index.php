@@ -47,6 +47,7 @@ if(MAINTENANCE == 1) {
 	define("DROIT_ID", "id");
 	define("ID_COMPTE", "id_compte");
 	define("DROIT_SUPER_ZEYBU", "superzeybu");
+	define("TYPE_ID", "type_id");
 	
 	// Définition des constantes de module
 	define("MOD_IDENTIFICATION", "Identification");
@@ -56,7 +57,8 @@ if(MAINTENANCE == 1) {
 	define("MOD_GESTION_COMMANDE", "GestionCommande");
 	define("MOD_GESTION_PRODUCTEUR", "GestionProducteur");
 	define("MOD_COMPTE_ZEYBU", "CompteZeybu");	
-	define("MOD_RECHARGEMENT_COMPTE", "RechargementCompte");
+	define("MOD_RECHARGEMENT_COMPTE", "RechargementCompte");	
+	define("MOD_CAISSE", "Caisse");
 	
 	// Définition des constantes de titre
 	include_once("./configuration/Version.php");
@@ -121,7 +123,7 @@ $lTemps = $lTempsFin - $lTempsDepart;
 // Affiche le temps d'exécution du script
 //echo "<div class=\"ui-priority-primary\" >Temps d'exécution : ". substr($lTemps,0,5) . " secondes.</div>";
 //if(LOG_LEVEL == PEAR_LOG_DEBUG) {
-if(false) {
+/*if(false) {
 	echo "<div class=\"ui-widget\" style=\"position:absolute; top:0px; right:20px; width:180px; font-size:10.5pt;\" >
 		<div class=\"ui-state-highlight ui-corner-all\" style=\"margin-top: 20px; padding: 0 .7em;\"> 
 			<p style=\"margin:5px;\"><span class=\"ui-icon ui-icon-info\" style=\"float: left; margin-right: .3em;\"></span>
@@ -129,7 +131,7 @@ if(false) {
 			Temps d'exécution<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .substr($lTemps,0,5) ." secondes !!</p>
 		</div>
 	</div>";
-}
+}*/
 ?>
 
 

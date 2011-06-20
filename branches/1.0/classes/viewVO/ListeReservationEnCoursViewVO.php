@@ -37,12 +37,6 @@ class ListeReservationEnCoursViewVO extends DataTemplate
 	protected $mAdhIdCompte;
 
 	/**
-	* @var tinyint(1)
-	* @desc AdhSuperZeybu de la ListeReservationEnCoursViewVO
-	*/
-	protected $mAdhSuperZeybu;
-
-	/**
 	* @var int(11)
 	* @desc ComId de la ListeReservationEnCoursViewVO
 	*/
@@ -130,24 +124,6 @@ class ListeReservationEnCoursViewVO extends DataTemplate
 	*/
 	public function setAdhIdCompte($pAdhIdCompte) {
 		$this->mAdhIdCompte = $pAdhIdCompte;
-	}
-
-	/**
-	* @name getAdhSuperZeybu()
-	* @return tinyint(1)
-	* @desc Renvoie le membre AdhSuperZeybu de la ListeReservationEnCoursViewVO
-	*/
-	public function getAdhSuperZeybu() {
-		return $this->mAdhSuperZeybu;
-	}
-
-	/**
-	* @name setAdhSuperZeybu($pAdhSuperZeybu)
-	* @param tinyint(1)
-	* @desc Remplace le membre AdhSuperZeybu de la ListeReservationEnCoursViewVO par $pAdhSuperZeybu
-	*/
-	public function setAdhSuperZeybu($pAdhSuperZeybu) {
-		$this->mAdhSuperZeybu = $pAdhSuperZeybu;
 	}
 
 	/**

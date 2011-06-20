@@ -45,51 +45,21 @@ class ReservationAdherentControleur
 		$lVr = AfficheReservationAdherentValid::validAjout($pParam);
 		if($lVr->getValid()) {
 			$lIdAdherent = $pParam["id_adherent"];
-			$lIdCommande = $pParam["id_commande"];		
-					
-		/*	$lVr = new TemplateVR();
-			
-			if(!is_int((int)$lIdCommande) || !is_int((int)$lIdAdherent)) {
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-			}
-			if(empty($lIdCommande) || empty($lIdAdherent)) {			
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getLog()->addErreur($lErreur);
-			}		
-			if(!$lVr->getvalid()) {return $lVr;}*/
+			$lIdCommande = $pParam["id_commande"];
 			
 			$lResponse = new ReservationAdherentResponse();
 			
 			$lAdherent = AdherentViewManager::select($lIdAdherent);
-			/*if($lAdherent->getAdhId() == $lIdAdherent) {*/
-				$lReservation = ReservationViewManager::selectAchat($lIdCommande,$lAdherent->getAdhIdCompte());
-				$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
-				$lStock = StockProduitViewManager::selectByIdCommande($lIdCommande);
-	
-				$lResponse->setAdherent($lAdherent);
-				$lResponse->setCommande($lCommande);
-				$lResponse->setStock($lStock);
-				$lResponse->setReservation($lReservation);
-				
-				return $lResponse;
-			/*} else {
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);
-				return $lVr;
-			}*/
+			$lReservation = ReservationViewManager::selectAchat($lIdCommande,$lAdherent->getAdhIdCompte());
+			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
+			$lStock = StockProduitViewManager::selectByIdCommande($lIdCommande);
+
+			$lResponse->setAdherent($lAdherent);
+			$lResponse->setCommande($lCommande);
+			$lResponse->setStock($lStock);
+			$lResponse->setReservation($lReservation);
+			
+			return $lResponse;
 		}
 		return $lVr;
 	}
