@@ -20,3 +20,5 @@ create or replace view view_menu as select `adh_adherent`.`adh_id` AS `adh_id`,`
 INSERT INTO `cpt_compte` (`cpt_id`, `cpt_label`) VALUES ('-1', 'ZEYBU');
 INSERT INTO `cpt_compte` (`cpt_id`, `cpt_label`) VALUES ('-2', 'EAU');
 
+INSERT INTO `mod_module` (`mod_id`, `mod_nom`, `mod_label`, `mod_defaut`, `mod_ordre`, `mod_admin`) VALUES (NULL, 'GestionCaisse', 'Gérer la caisse', '0', '8', '1');
+INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`) VALUES (NULL, '8', 'GestionCaisse', 'Gérer les accès à la caisse', '1');

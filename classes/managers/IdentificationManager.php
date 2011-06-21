@@ -139,6 +139,21 @@ class IdentificationManager
 			array(''),
 			array(''));
 	}
+	
+	/**
+	* @name selectByType($pType)
+	* @param integer
+	* @return array(IdentificationVO)
+	* @desc Récupères toutes les lignes de la table ayant pour Type $pType et les renvoie sous forme d'une collection de IdentificationVO
+	*/
+	public static function selectByType($pType) {		
+		return IdentificationManager::recherche(
+			array(IdentificationManager::CHAMP_IDENTIFICATION_TYPE),
+			array('='),
+			array($pType),
+			array(''),
+			array(''));
+	}
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

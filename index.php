@@ -59,6 +59,7 @@ if(MAINTENANCE == 1) {
 	define("MOD_COMPTE_ZEYBU", "CompteZeybu");	
 	define("MOD_RECHARGEMENT_COMPTE", "RechargementCompte");	
 	define("MOD_CAISSE", "Caisse");
+	define("MOD_GESTION_CAISSE", "GestionCaisse");
 	
 	// Définition des constantes de titre
 	include_once("./configuration/Version.php");
