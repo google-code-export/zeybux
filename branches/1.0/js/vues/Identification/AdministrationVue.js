@@ -73,6 +73,11 @@
 				RechargerCompteVue();
 				return false;
 			});
+			
+			pData.find('#menu-GestionCaisse-GestionCaisse').click(function() {
+				GestionCaisseVue();
+				return false;
+			});
 				
 			return pData;
 		}
