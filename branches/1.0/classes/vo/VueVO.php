@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 01/02/2010
+// Date de creation : 25/06/2011
 // Fichier : VueVO.php
 //
 // Description : Classe VueVO
@@ -13,45 +13,51 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name VueVO
  * @author Julien PIERRE
- * @since 01/02/2010
- * @desc Classe représentant une Vue
+ * @since 25/06/2011
+ * @desc Classe représentant une VueVO
  */
-class VueVO extends DataTemplate
+class VueVO  extends DataTemplate
 {
 	/**
-	 * @var integer 
-	 * @desc ID de la vue
-	 */
+	* @var int(11)
+	* @desc Id de la VueVO
+	*/
 	protected $mId;
 
 	/**
-	 * @var integer 
-	 * @desc ID du Module
-	 */
+	* @var int(11)
+	* @desc IdModule de la VueVO
+	*/
 	protected $mIdModule;
 
 	/**
-	 * @var string 
-	 * @desc Nom de la vue
-	 */
+	* @var varchar(50)
+	* @desc Nom de la VueVO
+	*/
 	protected $mNom;
 
 	/**
-	 * @var string 
-	 * @desc Label de la vue
-	 */
+	* @var varchar(80)
+	* @desc Label de la VueVO
+	*/
 	protected $mLabel;
 
 	/**
-	 * @var integer 
-	 * @desc Ordre de la vue
-	 */
+	* @var int(11)
+	* @desc Ordre de la VueVO
+	*/
 	protected $mOrdre;
 
 	/**
+	* @var tinyint(1)
+	* @desc Visible de la VueVO
+	*/
+	protected $mVisible;
+
+	/**
 	* @name getId()
-	* @return integer
-	* @desc Renvoie l'Id de la vue
+	* @return int(11)
+	* @desc Renvoie le membre Id de la VueVO
 	*/
 	public function getId() {
 		return $this->mId;
@@ -59,8 +65,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name setId($pId)
-	* @param integer
-	* @desc Remplace l'Id de la vue par $pId
+	* @param int(11)
+	* @desc Remplace le membre Id de la VueVO par $pId
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
@@ -68,8 +74,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name getIdModule()
-	* @return integer
-	* @desc Renvoie l'Id du Module
+	* @return int(11)
+	* @desc Renvoie le membre IdModule de la VueVO
 	*/
 	public function getIdModule() {
 		return $this->mIdModule;
@@ -77,8 +83,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name setIdModule($pIdModule)
-	* @param integer
-	* @desc Remplace l'Id du Module par $pIdModule
+	* @param int(11)
+	* @desc Remplace le membre IdModule de la VueVO par $pIdModule
 	*/
 	public function setIdModule($pIdModule) {
 		$this->mIdModule = $pIdModule;
@@ -86,8 +92,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name getNom()
-	* @return string
-	* @desc Renvoie le nom de la vue
+	* @return varchar(50)
+	* @desc Renvoie le membre Nom de la VueVO
 	*/
 	public function getNom() {
 		return $this->mNom;
@@ -95,8 +101,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name setNom($pNom)
-	* @param string
-	* @desc Remplace le Nom de la vue par $pNom
+	* @param varchar(50)
+	* @desc Remplace le membre Nom de la VueVO par $pNom
 	*/
 	public function setNom($pNom) {
 		$this->mNom = $pNom;
@@ -104,8 +110,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name getLabel()
-	* @return string
-	* @desc Renvoie le Label de la vue
+	* @return varchar(80)
+	* @desc Renvoie le membre Label de la VueVO
 	*/
 	public function getLabel() {
 		return $this->mLabel;
@@ -113,8 +119,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name setLabel($pLabel)
-	* @param string
-	* @desc Remplace le Label de la vue par $pLabel
+	* @param varchar(80)
+	* @desc Remplace le membre Label de la VueVO par $pLabel
 	*/
 	public function setLabel($pLabel) {
 		$this->mLabel = $pLabel;
@@ -122,8 +128,8 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name getOrdre()
-	* @return integer
-	* @desc Renvoie la position de classement du module
+	* @return int(11)
+	* @desc Renvoie le membre Ordre de la VueVO
 	*/
 	public function getOrdre() {
 		return $this->mOrdre;
@@ -131,11 +137,30 @@ class VueVO extends DataTemplate
 
 	/**
 	* @name setOrdre($pOrdre)
-	* @param integer
-	* @desc Remplace la position de classement du module par $pOrdre
+	* @param int(11)
+	* @desc Remplace le membre Ordre de la VueVO par $pOrdre
 	*/
 	public function setOrdre($pOrdre) {
 		$this->mOrdre = $pOrdre;
 	}
+
+	/**
+	* @name getVisible()
+	* @return tinyint(1)
+	* @desc Renvoie le membre Visible de la VueVO
+	*/
+	public function getVisible() {
+		return $this->mVisible;
+	}
+
+	/**
+	* @name setVisible($pVisible)
+	* @param tinyint(1)
+	* @desc Remplace le membre Visible de la VueVO par $pVisible
+	*/
+	public function setVisible($pVisible) {
+		$this->mVisible = $pVisible;
+	}
+
 }
 ?>

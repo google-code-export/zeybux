@@ -62,7 +62,7 @@ class ModificationAdherentControleur
 		$lResponse->setCommentaire($lAdherent->getAdhCommentaire());
 		
 		$lResponse->setAutorisations(AutorisationManager::selectByIdAdherent( $lIdAdherent ));
-		$lResponse->setModules(ModuleManager::selectAll());
+		$lResponse->setModules(ModuleManager::selectAllVisible());
 		return $lResponse;
 	}
 

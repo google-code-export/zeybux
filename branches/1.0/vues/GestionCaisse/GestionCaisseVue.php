@@ -24,15 +24,15 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_CAISSE]) || isse
 						$lLogger->log("Affichage de l'état de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
-				/*case "infoRechargement":
-						echo $lControleur->getInfoRechargement($pParam)->exportToJson();
-						$lLogger->log("Affichage des infos de rechargement : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+				case "fermerCaisse":
+						echo $lControleur->fermerCaisse()->exportToJson();
+						$lLogger->log("Fermeture de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
-				case "rechargerCompte":
-						echo $lControleur->rechargerCompte($pParam)->exportToJson();
-						$lLogger->log("Rechargement de compte par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
-					break;*/
+				case "ouvrirCaisse":
+						echo $lControleur->ouvrirCaisse()->exportToJson();
+						$lLogger->log("Ouverture de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+					break;
 					
 				default:
 					$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs

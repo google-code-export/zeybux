@@ -22,3 +22,9 @@ INSERT INTO `cpt_compte` (`cpt_id`, `cpt_label`) VALUES ('-2', 'EAU');
 
 INSERT INTO `mod_module` (`mod_id`, `mod_nom`, `mod_label`, `mod_defaut`, `mod_ordre`, `mod_admin`) VALUES (NULL, 'GestionCaisse', 'Gérer la caisse', '0', '8', '1');
 INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`) VALUES (NULL, '8', 'GestionCaisse', 'Gérer les accès à la caisse', '1');
+
+ALTER TABLE `mod_module` ADD `mod_visible` TINYINT( 1 ) NOT NULL;
+update`mod_module` set `mod_visible`=1;
+
+ALTER TABLE `vue_vues` ADD `vue_visible` TINYINT( 1 ) NOT NULL;
+UPDATE `vue_vues` SET `vue_visible` =1;

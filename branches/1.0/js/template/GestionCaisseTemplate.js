@@ -3,11 +3,10 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">État de la caisse</div>" +
-					"<div>La caisse est " ;
+					"<div class=\"com-center\">La caisse est " ;
 	
 	this.etatCaisseMilieu = 			
-					"</div>" +
-					"<div><button>" ;
+					" : <button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-caisse\">" ;
 					
 	this.etatCaisseFin = "</button></div>" +
 				"</div>" +	

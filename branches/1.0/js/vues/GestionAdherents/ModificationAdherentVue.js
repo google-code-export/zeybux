@@ -22,13 +22,24 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+		var lData = lResponse;
+		var lModules_default= [], lModules = [];
+		$(lResponse.modules).each(function() {
+			if(this.defaut == 1) {
+				lModules_default.push(this);
+			} else {
+				lModules.push(this);
+			}
+		});
+		lData.modules_default = lModules_default;
+		lData.modules = lModules;
 		
-		lResponse.dateAdhesion = lResponse.dateAdhesion.extractDbDate().dateDbToFr();
-		lResponse.dateNaissance = lResponse.dateNaissance.extractDbDate().dateDbToFr();
+		lData.dateAdhesion = lResponse.dateAdhesion.extractDbDate().dateDbToFr();
+		lData.dateNaissance = lResponse.dateNaissance.extractDbDate().dateDbToFr();
 		
 		$(lResponse.autorisations).each(function() {
 			var lIdModule = this.idModule;
-			$(lResponse.modules).each(function() {
+			$(lData.modules).each(function() {
 				if(this.id == lIdModule) {
 					this.checked = "checked=\"checked\"";
 				}
@@ -37,8 +48,8 @@
 		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
-		var lHtml = lTemplate.template(lResponse);
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		//var lHtml = lTemplate.template(lResponse);
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
 	}
 	
 	this.affect = function(pData) {
@@ -94,6 +105,7 @@
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
 		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
+		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
 
 		var lValid = new AdherentValid();
 		var lVr = lValid.validUpdate(lVo);
