@@ -37,7 +37,7 @@ class AjoutAdherentControleur
 	*/
 	public function getListeModule() {
 		$lResponse = new AfficheAjoutAdherentResponse();
-		$lResponse->setModules(ModuleManager::selectAll());
+		$lResponse->setModules(ModuleManager::selectAllVisible());
 		return $lResponse;
 	}
 	

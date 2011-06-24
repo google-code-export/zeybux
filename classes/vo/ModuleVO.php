@@ -19,45 +19,51 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 class ModuleVO extends DataTemplate
 {
 	/**
-	 * @var integer 
-	 * @desc ID du Module
-	 */
+	* @var int(11)
+	* @desc Id de la ModuleVO
+	*/
 	protected $mId;
 
 	/**
-	 * @var string 
-	 * @desc Nom du Module
-	 */
+	* @var varchar(50)
+	* @desc Nom de la ModuleVO
+	*/
 	protected $mNom;
 
 	/**
-	 * @var string 
-	 * @desc Label du Module
-	 */
+	* @var varchar(80)
+	* @desc Label de la ModuleVO
+	*/
 	protected $mLabel;
-	
+
 	/**
-	 * @var integer 
-	 * @desc Si c'est un Module par défaut ou non
-	 */
+	* @var tinyint(1)
+	* @desc Defaut de la ModuleVO
+	*/
 	protected $mDefaut;
 
 	/**
-	 * @var integer 
-	 * @desc Ordre du Module
-	 */
+	* @var int(11)
+	* @desc Ordre de la ModuleVO
+	*/
 	protected $mOrdre;
-	
+
 	/**
-	 * @var integer 
-	 * @desc Si c'est un module d'admin
-	 */
+	* @var tinyint(1)
+	* @desc Admin de la ModuleVO
+	*/
 	protected $mAdmin;
 
 	/**
+	* @var tinyint(1)
+	* @desc Visible de la ModuleVO
+	*/
+	protected $mVisible;
+
+	/**
 	* @name getId()
-	* @return integer
-	* @desc Renvoie l'Id du Module
+	* @return int(11)
+	* @desc Renvoie le membre Id de la ModuleVO
 	*/
 	public function getId() {
 		return $this->mId;
@@ -65,8 +71,8 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setId($pId)
-	* @param integer
-	* @desc Remplace l'Id du Module par $pId
+	* @param int(11)
+	* @desc Remplace le membre Id de la ModuleVO par $pId
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
@@ -74,8 +80,8 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name getNom()
-	* @return string
-	* @desc Renvoie le nom du Module
+	* @return varchar(50)
+	* @desc Renvoie le membre Nom de la ModuleVO
 	*/
 	public function getNom() {
 		return $this->mNom;
@@ -83,8 +89,8 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setNom($pNom)
-	* @param string
-	* @desc Remplace le Nom du Module par $pNom
+	* @param varchar(50)
+	* @desc Remplace le membre Nom de la ModuleVO par $pNom
 	*/
 	public function setNom($pNom) {
 		$this->mNom = $pNom;
@@ -92,8 +98,8 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name getLabel()
-	* @return string
-	* @desc Renvoie le Label du Module
+	* @return varchar(80)
+	* @desc Renvoie le membre Label de la ModuleVO
 	*/
 	public function getLabel() {
 		return $this->mLabel;
@@ -101,17 +107,17 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setLabel($pLabel)
-	* @param string
-	* @desc Remplace le Label du Module par $pLabel
+	* @param varchar(80)
+	* @desc Remplace le membre Label de la ModuleVO par $pLabel
 	*/
 	public function setLabel($pLabel) {
 		$this->mLabel = $pLabel;
 	}
-	
+
 	/**
 	* @name getDefaut()
-	* @return integer
-	* @desc Renvoie la valeur par défaut du module
+	* @return tinyint(1)
+	* @desc Renvoie le membre Defaut de la ModuleVO
 	*/
 	public function getDefaut() {
 		return $this->mDefaut;
@@ -119,17 +125,17 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setDefaut($pDefaut)
-	* @param integer
-	* @desc Remplace Defaut du module par $pDefaut
+	* @param tinyint(1)
+	* @desc Remplace le membre Defaut de la ModuleVO par $pDefaut
 	*/
 	public function setDefaut($pDefaut) {
 		$this->mDefaut = $pDefaut;
 	}
-	
+
 	/**
 	* @name getOrdre()
-	* @return integer
-	* @desc Renvoie la position de classement du module
+	* @return int(11)
+	* @desc Renvoie le membre Ordre de la ModuleVO
 	*/
 	public function getOrdre() {
 		return $this->mOrdre;
@@ -137,17 +143,17 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setOrdre($pOrdre)
-	* @param integer
-	* @desc Remplace la position de classement du module par $pOrdre
+	* @param int(11)
+	* @desc Remplace le membre Ordre de la ModuleVO par $pOrdre
 	*/
 	public function setOrdre($pOrdre) {
 		$this->mOrdre = $pOrdre;
 	}
-	
+
 	/**
 	* @name getAdmin()
-	* @return integer
-	* @desc Renvoie si c'est un module admin
+	* @return tinyint(1)
+	* @desc Renvoie le membre Admin de la ModuleVO
 	*/
 	public function getAdmin() {
 		return $this->mAdmin;
@@ -155,11 +161,30 @@ class ModuleVO extends DataTemplate
 
 	/**
 	* @name setAdmin($pAdmin)
-	* @param integer
-	* @desc Remplace l'Admin par $pAdmin
+	* @param tinyint(1)
+	* @desc Remplace le membre Admin de la ModuleVO par $pAdmin
 	*/
 	public function setAdmin($pAdmin) {
 		$this->mAdmin = $pAdmin;
 	}
+
+	/**
+	* @name getVisible()
+	* @return tinyint(1)
+	* @desc Renvoie le membre Visible de la ModuleVO
+	*/
+	public function getVisible() {
+		return $this->mVisible;
+	}
+
+	/**
+	* @name setVisible($pVisible)
+	* @param tinyint(1)
+	* @desc Remplace le membre Visible de la ModuleVO par $pVisible
+	*/
+	public function setVisible($pVisible) {
+		$this->mVisible = $pVisible;
+	}
+
 }
 ?>

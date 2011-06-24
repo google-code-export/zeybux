@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 25/06/2011
 // Fichier : ModuleVO.php
 //
 // Description : Classe ModuleVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ModuleVO
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 25/06/2011
  * @desc Classe représentant une ModuleVO
  */
 class ModuleVO  extends DataTemplate
@@ -53,6 +53,12 @@ class ModuleVO  extends DataTemplate
 	* @desc Admin de la ModuleVO
 	*/
 	protected $mAdmin;
+
+	/**
+	* @var tinyint(1)
+	* @desc Visible de la ModuleVO
+	*/
+	protected $mVisible;
 
 	/**
 	* @name getId()
@@ -160,6 +166,24 @@ class ModuleVO  extends DataTemplate
 	*/
 	public function setAdmin($pAdmin) {
 		$this->mAdmin = $pAdmin;
+	}
+
+	/**
+	* @name getVisible()
+	* @return tinyint(1)
+	* @desc Renvoie le membre Visible de la ModuleVO
+	*/
+	public function getVisible() {
+		return $this->mVisible;
+	}
+
+	/**
+	* @name setVisible($pVisible)
+	* @param tinyint(1)
+	* @desc Remplace le membre Visible de la ModuleVO par $pVisible
+	*/
+	public function setVisible($pVisible) {
+		$this->mVisible = $pVisible;
 	}
 
 }

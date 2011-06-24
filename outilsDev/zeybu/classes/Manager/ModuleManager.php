@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 25/06/2011
 // Fichier : ModuleManager.php
 //
 // Description : Classe de gestion des Module
@@ -16,7 +16,7 @@ include_once(CHEMIN_CLASSES_VO . "ModuleVO.php");
 /**
  * @name ModuleManager
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 25/06/2011
  * 
  * @desc Classe permettant l'accès aux données des Module
  */
@@ -29,6 +29,7 @@ class ModuleManager
 	const CHAMP_MODULE_DEFAUT = "mod_defaut";
 	const CHAMP_MODULE_ORDRE = "mod_ordre";
 	const CHAMP_MODULE_ADMIN = "mod_admin";
+	const CHAMP_MODULE_VISIBLE = "mod_visible";
 
 	/**
 	* @name select($pId)
@@ -48,7 +49,8 @@ class ModuleManager
 			"," . ModuleManager::CHAMP_MODULE_LABEL . 
 			"," . ModuleManager::CHAMP_MODULE_DEFAUT . 
 			"," . ModuleManager::CHAMP_MODULE_ORDRE . 
-			"," . ModuleManager::CHAMP_MODULE_ADMIN . "
+			"," . ModuleManager::CHAMP_MODULE_ADMIN . 
+			"," . ModuleManager::CHAMP_MODULE_VISIBLE . "
 			FROM " . ModuleManager::TABLE_MODULE . " 
 			WHERE " . ModuleManager::CHAMP_MODULE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -63,7 +65,8 @@ class ModuleManager
 				$lLigne[ModuleManager::CHAMP_MODULE_LABEL],
 				$lLigne[ModuleManager::CHAMP_MODULE_DEFAUT],
 				$lLigne[ModuleManager::CHAMP_MODULE_ORDRE],
-				$lLigne[ModuleManager::CHAMP_MODULE_ADMIN]);
+				$lLigne[ModuleManager::CHAMP_MODULE_ADMIN],
+				$lLigne[ModuleManager::CHAMP_MODULE_VISIBLE]);
 		} else {
 			return new ModuleVO();
 		}
@@ -85,7 +88,8 @@ class ModuleManager
 			"," . ModuleManager::CHAMP_MODULE_LABEL . 
 			"," . ModuleManager::CHAMP_MODULE_DEFAUT . 
 			"," . ModuleManager::CHAMP_MODULE_ORDRE . 
-			"," . ModuleManager::CHAMP_MODULE_ADMIN . "
+			"," . ModuleManager::CHAMP_MODULE_ADMIN . 
+			"," . ModuleManager::CHAMP_MODULE_VISIBLE . "
 			FROM " . ModuleManager::TABLE_MODULE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -101,7 +105,8 @@ class ModuleManager
 					$lLigne[ModuleManager::CHAMP_MODULE_LABEL],
 					$lLigne[ModuleManager::CHAMP_MODULE_DEFAUT],
 					$lLigne[ModuleManager::CHAMP_MODULE_ORDRE],
-					$lLigne[ModuleManager::CHAMP_MODULE_ADMIN]));
+					$lLigne[ModuleManager::CHAMP_MODULE_ADMIN],
+					$lLigne[ModuleManager::CHAMP_MODULE_VISIBLE]));
 			}
 		} else {
 			$lListeModule[0] = new ModuleVO();
@@ -131,80 +136,57 @@ class ModuleManager
 			"," . ModuleManager::CHAMP_MODULE_LABEL .
 			"," . ModuleManager::CHAMP_MODULE_DEFAUT .
 			"," . ModuleManager::CHAMP_MODULE_ORDRE .
-			"," . ModuleManager::CHAMP_MODULE_ADMIN		);
-
-		if(is_array($pTypeRecherche) && is_array($pCritereRecherche)) {
-			$lFiltres = array();
-			$i = 0;
-			foreach($pTypeRecherche as $lTypeRecherche) {
-				$lLigne = array();
-				$lLigne['champ'] = StringUtils::securiser($lTypeRecherche);
-				$lLigne['valeur'] = StringUtils::securiser($pCritereRecherche[$i]);
-				array_push($lFiltres,$lLigne);
-				$i++;
-			}
-		} else {
-			$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
-		}
-
-		if(is_array($pTypeCritere)) {
-			$lTypeFiltre = $pTypeCritere;
-		} else {
-			$lTypeFiltre = array($pTypeCritere);
-		}
-
-		// Protection du critère de tri
-		if($pCritereTri != 'ASC' && $pCritereTri != 'DESC') {
-			$pCritereTri = 'ASC';
-		}
-
-		// Protection du type de tri
-		if($pTypeTri == '') {
-			$pTypeTri = ModuleManager::CHAMP_MODULE_ID;
-		}
-
-		$lTris = array( array('champ' => StringUtils::securiser($pTypeTri), 'sens'=> StringUtils::securiser($pCritereTri)) );
+			"," . ModuleManager::CHAMP_MODULE_ADMIN .
+			"," . ModuleManager::CHAMP_MODULE_VISIBLE		);
 
 		// Préparation de la requète de recherche
-		$lRequete = DbUtils::prepareRequeteRecherche(ModuleManager::TABLE_MODULE, $lChamps, $lFiltres, $lTypeFiltre, $lTris);
-
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
+		$lRequete = DbUtils::prepareRequeteRecherche(ModuleManager::TABLE_MODULE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeModule = array();
 
-		if( mysql_num_rows($lSql) > 0 ) {
+		if($lRequete !== false) {
 
-			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			$lSql = Dbutils::executerRequete($lRequete);
 
-				array_push($lListeModule,
-					ModuleManager::remplirModule(
-					$lLigne[ModuleManager::CHAMP_MODULE_ID],
-					$lLigne[ModuleManager::CHAMP_MODULE_NOM],
-					$lLigne[ModuleManager::CHAMP_MODULE_LABEL],
-					$lLigne[ModuleManager::CHAMP_MODULE_DEFAUT],
-					$lLigne[ModuleManager::CHAMP_MODULE_ORDRE],
-					$lLigne[ModuleManager::CHAMP_MODULE_ADMIN]));
+			if( mysql_num_rows($lSql) > 0 ) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
+					array_push($lListeModule,
+						ModuleManager::remplirModule(
+						$lLigne[ModuleManager::CHAMP_MODULE_ID],
+						$lLigne[ModuleManager::CHAMP_MODULE_NOM],
+						$lLigne[ModuleManager::CHAMP_MODULE_LABEL],
+						$lLigne[ModuleManager::CHAMP_MODULE_DEFAUT],
+						$lLigne[ModuleManager::CHAMP_MODULE_ORDRE],
+						$lLigne[ModuleManager::CHAMP_MODULE_ADMIN],
+						$lLigne[ModuleManager::CHAMP_MODULE_VISIBLE]));
+				}
+			} else {
+				$lListeModule[0] = new ModuleVO();
 			}
-		} else {
-			$lListeModule[0] = new ModuleVO();
+
+			return $lListeModule;
 		}
 
+		$lListeModule[0] = new ModuleVO();
 		return $lListeModule;
 	}
 
 	/**
-	* @name remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin)
+	* @name remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin, $pVisible)
 	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(80)
 	* @param tinyint(1)
 	* @param int(11)
 	* @param tinyint(1)
+	* @param tinyint(1)
 	* @return ModuleVO
 	* @desc Retourne une ModuleVO remplie
 	*/
-	private static function remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin) {
+	private static function remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin, $pVisible) {
 		$lModule = new ModuleVO();
 		$lModule->setId($pId);
 		$lModule->setNom($pNom);
@@ -212,6 +194,7 @@ class ModuleManager
 		$lModule->setDefaut($pDefaut);
 		$lModule->setOrdre($pOrdre);
 		$lModule->setAdmin($pAdmin);
+		$lModule->setVisible($pVisible);
 		return $lModule;
 	}
 
@@ -233,13 +216,15 @@ class ModuleManager
 				," . ModuleManager::CHAMP_MODULE_LABEL . "
 				," . ModuleManager::CHAMP_MODULE_DEFAUT . "
 				," . ModuleManager::CHAMP_MODULE_ORDRE . "
-				," . ModuleManager::CHAMP_MODULE_ADMIN . ")
+				," . ModuleManager::CHAMP_MODULE_ADMIN . "
+				," . ModuleManager::CHAMP_MODULE_VISIBLE . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
 				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDefaut() ) . "'
 				,'" . StringUtils::securiser( $pVo->getOrdre() ) . "'
-				,'" . StringUtils::securiser( $pVo->getAdmin() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getAdmin() ) . "'
+				,'" . StringUtils::securiser( $pVo->getVisible() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -263,6 +248,7 @@ class ModuleManager
 				," . ModuleManager::CHAMP_MODULE_DEFAUT . " = '" . StringUtils::securiser( $pVo->getDefaut() ) . "'
 				," . ModuleManager::CHAMP_MODULE_ORDRE . " = '" . StringUtils::securiser( $pVo->getOrdre() ) . "'
 				," . ModuleManager::CHAMP_MODULE_ADMIN . " = '" . StringUtils::securiser( $pVo->getAdmin() ) . "'
+				," . ModuleManager::CHAMP_MODULE_VISIBLE . " = '" . StringUtils::securiser( $pVo->getVisible() ) . "'
 			 WHERE " . ModuleManager::CHAMP_MODULE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

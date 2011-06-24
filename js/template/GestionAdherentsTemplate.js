@@ -87,10 +87,14 @@
 							"<table id=\"formulaire-modifier-adherent-table-autorisation\" class=\"com-table-form\">" +
 								"<tr>" +
 									"<th class=\"com-table-form-th ui-widget-content ui-corner-all\">Modules autorisés</th>" +
+							"<!-- BEGIN modules_default -->" +								
+									"<input type=\"hidden\" name=\"modules_default[]\" value=\"{modules_default.id}\"/>" +
+							"<!-- END modules_default -->" +
 								"</tr>" +
+								
 							"<!-- BEGIN modules -->" +
 								"<tr class=\"ui-widget-content\" >" +
-									"<td class=\"com-table-form-td\" ><input type=\"checkbox\" name=\"modules[]\" value=\"{modules.id}\" {modules.checked} />{modules.label}</td>" +
+									"<td class=\"com-table-form-td\" ><input type=\"checkbox\" name=\"modules[]\" value=\"{modules.id}\" {modules.checked}/>{modules.label}</td>" +
 								"</tr>" +
 							"<!-- END modules -->" +
 								"<tr>" +
