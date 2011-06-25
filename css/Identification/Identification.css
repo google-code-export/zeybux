@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-#formulaire_identification_ext {
+#formulaire_identification_int {
 	margin-left:320px;
 	margin-top:150px;
 }
@@ -8,4 +8,24 @@
 .action-ifb {
 	color:#3A8104;
 	text-decoration:underline;
+}
+
+#liste-naviguateur {
+	margin-top: 20px;
+}
+
+#liste-naviguateur a{
+	text-decoration:none;
+}
+
+#liste-naviguateur a:hover{
+	text-decoration:underline;
+}
+
+#liste-naviguateur img{
+	border:none;
+}
+
+#naviguateur-1 {
+	margin-left: 250px;
 }

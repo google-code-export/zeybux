@@ -4,15 +4,28 @@
 		if(pParam && pParam.vr) {
 			Infobulle.generer(pParam.vr,'');
 		}	
-		this.affect();
+		//this.affect();
+		this.afficher();
 	}
 	
-	this.affect = function() {		
+	this.afficher = function() {
 		var that = this;
-		$('#identification-form').submit(function() {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+	}
+	
+	this.affect = function(pData) {		
+		pData = this.affectIdentifier(pData);
+		return pData;
+	}
+	
+	this.affectIdentifier = function(pData) {
+		var that = this;
+		pData.find('#identification-form').submit(function() {
 			that.identifier($(this));
 			return false;
 		});
+		return pData;
 	}
 	
 	this.identifier = function(pObj) {
@@ -58,7 +71,3 @@
 	
 	this.construct(pParam);
 }
-	
-$(document).ready(function() {	
-	IdentificationVue();
-});
