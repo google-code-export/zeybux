@@ -28,3 +28,28 @@ update`mod_module` set `mod_visible`=1;
 
 ALTER TABLE `vue_vues` ADD `vue_visible` TINYINT( 1 ) NOT NULL;
 UPDATE `vue_vues` SET `vue_visible` =1;
+
+
+CREATE TABLE `hope_historique_operation` (
+`hope_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`hope_id_operation` INT NOT NULL ,
+`hope_id_compte` INT NOT NULL ,
+`hope_montant` DECIMAL( 10, 2 ) NOT NULL ,
+`hope_libelle` VARCHAR( 100 ) NOT NULL ,
+`hope_date` DATETIME NOT NULL ,
+`hope_type_paiement` INT NOT NULL ,
+`hope_type_paiement_champ_complementaire` VARCHAR( 50 ) NOT NULL ,
+`hope_type` INT NOT NULL ,
+`hope_id_commande` INT NOT NULL `hope_id_connexion` INT NOT NULL
+) ENGINE = MYISAM ;
+
+
+CREATE TABLE `acc_acces` (
+`acc_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`acc_id_login` INT NOT NULL ,
+`acc_type_login` INT NOT NULL ,
+`acc_ip` VARCHAR( 40 ) NOT NULL ,
+`acc_date_creation` DATETIME NOT NULL ,
+`acc_date_modification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+`acc_autorise` INT NOT NULL
+) ENGINE = MYISAM ;

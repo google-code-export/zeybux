@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "IdentificationViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "AccesManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "IdentificationValid.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
@@ -66,6 +67,14 @@ class IdentificationControleur
 						}
 						$_SESSION[TYPE_ID] = $lIdentification->getType();
 						$lAutorisation = true;
+						
+						$lAcces = new AccesVO();
+						$lAcces->setIdLogin($lIdentification->getIdLogin());
+						$lAcces->setTypeLogin($lIdentification->getType());
+						$lAcces->setIp($_SERVER["REMOTE_ADDR"]);
+						$lAcces->setDateCreation(StringUtils::dateTimeAujourdhuiDb());
+						$lAcces->setAutorise(1);
+						$_SESSION[ID_CONNEXION] = AccesManager::insert($lAcces);
 					}
 				}
 			}

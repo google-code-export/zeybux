@@ -5,7 +5,7 @@ const gTempsTransitionMsgInfo = gTempsTransition * 10;
 // TODO mettre le sigle en lien avec le fichier de configuration
 const gSigleMonetaire = "€";
 
-const gTextEdition = "Editer";
+const gTextEdition = "Editer"; // TODO Ne pas utiliser il faut mettre ces variables dans le template.
 const gTextValider = "Valider";
 
 var TemplateData = new TemplateData();
@@ -21,5 +21,8 @@ $(document).ready(function() {
 	
 	$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition)} );
 	$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
+	
+	
+	AccueilVue(); // Lancement de l'accueil
 
 });
