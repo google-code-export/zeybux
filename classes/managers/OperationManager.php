@@ -352,7 +352,6 @@ class OperationManager
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lId = Dbutils::executerRequeteInsertRetourId($lRequete);
 		$pVo->setId($lId);
-		OperationManager::insertHistorique($pVo); // Ajout dans l'historique	
 		return $lId;
 	}
 
@@ -380,7 +379,6 @@ class OperationManager
 			 WHERE " . OperationManager::CHAMP_OPERATION_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		OperationManager::insertHistorique($pVo); // Ajout dans l'historique
 		Dbutils::executerRequete($lRequete);
 	}
 
@@ -394,10 +392,6 @@ class OperationManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
-		$lVo = OperationManager::select($pId);
-		$lVo->setlibelle("Supression");
-		OperationManager::insertHistorique($lVo); // Ajout dans l'historique
-		
 		$lRequete = "DELETE FROM " . OperationManager::TABLE_OPERATION . "
 			WHERE " . OperationManager::CHAMP_OPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
 
