@@ -24,10 +24,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 	<span>Version</span><input type="text" name="version" /><br/>
 	<span>Environnement de destination
 		<select name="env">
-			<option value="test">Test</option>
+			<option value="free">Free</option>
 			<option value="local">Local</option>
 			<option value="localr7">Local R7</option>
-			<option value="free">Free</option>
 		</select>		
 	</span><br/>
 	<input type="submit" value="Exporter"/>
@@ -191,9 +190,6 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		
 		// Configuration du fichier d'environnement
 		switch($lEnv) {
-			case 'test':
-				copy('./configuration/testDB.php' , $lPath . '/configuration/DB.php'); 
-				break;
 			case 'local':
 				copy('./configuration/DB.php' , $lPath . '/configuration/DB.php'); 
 				break;
@@ -211,7 +207,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 					$fp = fopen('indextmp.php', 'w');
 					$i = 1;
 				    while (($buffer = fgets($handle)) !== false) {
-				    	if($i == 57) {
+				    	if($i == 28) {
 				    		fwrite($fp,"// Compatibilite avec le server free\n");
 							fwrite($fp,"include_once(CHEMIN_CLASSES_UTILS . \"CompatibiliteFree.php\");\n\n");
 				    	}
@@ -251,10 +247,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		<span>Version</span><input type="text" name="version" /><br/>
 		<span>Environnement de destination
 			<select name="env">
-				<option value="test">Test</option>
+				<option value="free">Free</option>
 				<option value="local">Local</option>
 				<option value="localr7">Local R7</option>
-				<option value="free">Free</option>
 			</select>		
 		</span><br/>
 		<input type="submit" value="Exporter"/>

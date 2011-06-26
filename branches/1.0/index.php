@@ -34,7 +34,6 @@ if(MAINTENANCE == 1) {
 	$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 	$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
-
 	// Inclusion de la vue demandée
 	if ( isset($_GET['m']) && isset($_GET['v'])) {
 		$lVue = CHEMIN_VUES . $_GET['m'] . "/" . $_GET['v'] . "Vue.php";
