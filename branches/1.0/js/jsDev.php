@@ -21,16 +21,20 @@ function parcourirDossier($pPath) {
 	   		&& $entry != 'jquery.selectboxes.pack.js'
 	   		&& $entry != 'zeybux-min.js'
 	   		&& $entry != 'package'
+	   		&& $entry != 'MessagesErreurs.js'
+	   		&& $entry != 'Configuration.js'
+	   		&& $entry != 'zeybux-configuration.php'
 	   		) {
 	   		if(is_dir($d->path.'/'.$entry)) {
 	   			parcourirDossier($d->path.'/'.$entry);
 	   		} else {
 	   			$filename = $d->path.'/'.$entry;
-				$handle = fopen($filename, "r");
+				/*$handle = fopen($filename, "r");
 	   		 	while (!feof($handle)) {
 			      echo fgets($handle);
 			    }
-				fclose($handle);
+				fclose($handle);*/
+				echo file_get_contents($filename);
 	   		}
 	   }
 	}

@@ -3,8 +3,7 @@
 	this.construct = function(pParam) {	
 		if(pParam && pParam.vr) {
 			Infobulle.generer(pParam.vr,'');
-		}	
-		//this.affect();
+		}
 		this.afficher();
 	}
 	
@@ -16,6 +15,7 @@
 	
 	this.affect = function(pData) {		
 		pData = this.affectIdentifier(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 	
@@ -56,6 +56,22 @@
 								case '3':
 									MenuVue();
 									CaisseListeCommandeVue();
+								break;
+								
+								case '4':
+									MenuVue();
+									CompteSolidaireVue();
+								break;
+								
+								default :
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_222_CODE;
+									erreur.message = ERR_222_MSG;
+									lVr.log.erreurs.push(erreur);
+									Infobulle.generer(lVr,'');
 								break;
 							}
 							

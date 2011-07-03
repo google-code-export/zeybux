@@ -133,6 +133,13 @@ body {
 	text-align:left;
 }
 
+.com-table-100 {
+	margin-bottom:5px;
+	width:100%;
+	border-collapse:collapse;	
+	text-align:left;
+}
+
 .com-table tr:hover {
 	background-color:#4eb305;
 }

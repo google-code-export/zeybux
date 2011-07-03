@@ -55,8 +55,8 @@ class IdVirementValid extends IdValid
 	*/
 	public function format($pIdVirement) {
 		if($this->estIdVirement($pIdVirement)) {
-			return ( $this->estId($pIdVirement>getIdDebit()) && $this->estId($pIdVirement>getIdCredit()) );
-		} else {
+			return ( $this->estId($pIdVirement->getIdDebit()) && $this->estId($pIdVirement->getIdCredit()) );
+		} else {	
 			return false;
 		}
 	}
@@ -82,7 +82,7 @@ class IdVirementValid extends IdValid
 	* @desc Test si le paramètre est un id d'une opération de crédit
 	*/
 	public function estCredit($pIdOperation) {
-		if($this->estId($pIdOperation)) {
+		if($this->estId($pIdOperation) && !empty($pIdOperation)) {
 			$lOperationService = new OperationService();
 			$lOperation = $lOperationService->get($pIdOperation);
 			return ($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10);

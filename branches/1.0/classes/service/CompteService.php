@@ -22,6 +22,57 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . "CompteValid.php" );
 class CompteService
 {	
 	/**
+	* @name set($pCompte)
+	* @param CompteVO
+	* @return integer
+	* @desc Ajoute ou modifie un compte
+	*/
+	public function set($pCompte) {
+		$lCompteValid = new CompteValid();
+		if($lCompteValid->insert($pCompte)) {
+			return $this->insert($pCompte);			
+		} else if($lCompteValid->update($pCompte)) {
+			return $this->update($pCompte);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	* @name insert($pCompte)
+	* @param CompteVO
+	* @return integer
+	* @desc Ajoute un compte
+	*/
+	private function insert($pCompte) {		
+		return CompteManager::insert($pCompte);
+	}
+	
+	/**
+	* @name update($pCompte)
+	* @param CompteVO
+	* @return integer
+	* @desc Met à jour un compte
+	*/
+	private function update($pCompte) {		
+		return CompteManager::update($pCompte);
+	}
+	
+	/**
+	* @name delete($pId)
+	* @param integer
+	* @desc Supprime un compte
+	*/
+	public function delete($pId) {
+		$lOperationValid = new OperationValid();
+		if($lOperationValid->delete($pId)){			
+			return CompteManager::delete($pId); // delete le compte	
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	* @name existe($pCompte)
 	* @param CompteVO ou String
 	* @return bool
@@ -29,20 +80,22 @@ class CompteService
 	*/
 	public function existe($pCompte) {
 		if(	is_object($pCompte) && CompteValid::estCompte($pCompte)) {
-			$lCompte = CompteManager::select($pCompte);
+			$lCompte = $this->get($pCompte);
 			if($lCompte->getId() == $pCompte->getId()) {
 				return true;
 			} else {
 				return false;
 			}
+		} else if(is_int((int)$pCompte)) {
+			$lCompte = $this->get((int)$pCompte);
+			if($lCompte->getId() == $pCompte) {
+				return true;
+			} else {
+				return false;
+			}
 		} else if(is_string($pCompte)){
-			$lCompte = CompteManager::recherche(
-				array(CompteManager::CHAMP_COMPTE_LABEL),
-				array('='),
-				array($pCompte),
-				array(''),
-				array(''));
-			if($lCompte[0]->getLabel() == $pCompte) {
+			$lCompte = $this->get($pCompte);
+			if($lCompte->getLabel() == $pCompte) {
 				return true;
 			} else {
 				return false;
@@ -50,6 +103,62 @@ class CompteService
 		} else {
 			return false;
 		}
+	}
+			
+	/**
+	* @name get($pId)
+	* @param integer
+	* @return array(CompteVO) ou CompteVO
+	* @desc Retourne une liste de compte
+	*/
+	public function get($pId = null) {
+		if($pId != null) {
+			if(is_int((int)$pId)) {
+				return $this->select($pId);
+			} else if(is_string($pId)) {
+				return $this->selectByLabel($pId);
+			} else {
+				return false;
+			}
+		} else {
+			return $this->selectAll();
+		}
+	}
+	
+	/**
+	* @name select($pId)
+	* @param integer
+	* @return CompteVO
+	* @desc Retourne un compte
+	*/
+	public function select($pId) {
+		return CompteManager::select($pId);
+	}
+	
+	/**
+	* @name selectByLabel($pLabel)
+	* @param string
+	* @return CompteVO
+	* @desc Retourne un compte
+	*/
+	public function selectByLabel($pLabel) {
+		$lCompte = CompteManager::recherche(
+				array(CompteManager::CHAMP_COMPTE_LABEL),
+				array('='),
+				array($pLabel),
+				array(''),
+				array(''));
+				
+		return $lCompte[0];
+	}
+	
+	/**
+	* @name selectAll()
+	* @return array(CompteVO)
+	* @desc Retourne une liste de compte
+	*/
+	public function selectAll() {
+		return CompteManager::selectAll();
 	}
 }
 ?>
