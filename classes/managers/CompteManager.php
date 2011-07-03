@@ -25,6 +25,7 @@ class CompteManager
 	const TABLE_COMPTE = "cpt_compte";
 	const CHAMP_COMPTE_ID = "cpt_id";
 	const CHAMP_COMPTE_LABEL = "cpt_label";
+	const CHAMP_COMPTE_SOLDE = "cpt_solde";
 
 	/**
 	* @name select($pId)
@@ -40,7 +41,8 @@ class CompteManager
 		$lRequete =
 			"SELECT "
 			    . CompteManager::CHAMP_COMPTE_ID . 
-			"," . CompteManager::CHAMP_COMPTE_LABEL . "
+			"," . CompteManager::CHAMP_COMPTE_LABEL . 
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
 			FROM " . CompteManager::TABLE_COMPTE . " 
 			WHERE " . CompteManager::CHAMP_COMPTE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -51,14 +53,15 @@ class CompteManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return CompteManager::remplirCompte(
 				$pId,
-				$lLigne[CompteManager::CHAMP_COMPTE_LABEL]);
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]);
 		} else {
 			return new CompteVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(CompteVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de CompteVO
 	*/
@@ -69,7 +72,8 @@ class CompteManager
 		$lRequete =
 			"SELECT "
 			    . CompteManager::CHAMP_COMPTE_ID . 
-			"," . CompteManager::CHAMP_COMPTE_LABEL . "
+			"," . CompteManager::CHAMP_COMPTE_LABEL . 
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
 			FROM " . CompteManager::TABLE_COMPTE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -81,14 +85,15 @@ class CompteManager
 				array_push($lListeCompte,
 					CompteManager::remplirCompte(
 					$lLigne[CompteManager::CHAMP_COMPTE_ID],
-					$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
+					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+					$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
 			}
 		} else {
 			$lListeCompte[0] = new CompteVO();
 		}
 		return $lListeCompte;
 	}
-	
+
 	/**
 	* @name selectByLabel($pLabel)
 	* @param string
@@ -122,48 +127,53 @@ class CompteManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    CompteManager::CHAMP_COMPTE_ID .
-			"," . CompteManager::CHAMP_COMPTE_LABEL );
+			"," . CompteManager::CHAMP_COMPTE_LABEL .
+			"," . CompteManager::CHAMP_COMPTE_SOLDE		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(CompteManager::TABLE_COMPTE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
-	
+
 		$lListeCompte = array();
 
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeCompte,
 						CompteManager::remplirCompte(
 						$lLigne[CompteManager::CHAMP_COMPTE_ID],
-						$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
+						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
 				}
 			} else {
 				$lListeCompte[0] = new CompteVO();
 			}
-	
+
 			return $lListeCompte;
 		}
-			
+
 		$lListeCompte[0] = new CompteVO();
 		return $lListeCompte;
 	}
 
 	/**
-	* @name remplirCompte($pId, $pLabel)
+	* @name remplirCompte($pId, $pLabel, $pSolde)
 	* @param int(11)
 	* @param varchar(30)
+	* @param int(11)
 	* @return CompteVO
 	* @desc Retourne une CompteVO remplie
 	*/
-	private static function remplirCompte($pId, $pLabel) {
+	private static function remplirCompte($pId, $pLabel, $pSolde) {
 		$lCompte = new CompteVO();
 		$lCompte->setId($pId);
 		$lCompte->setLabel($pLabel);
+		$lCompte->setSolde($pSolde);
 		return $lCompte;
 	}
 
@@ -181,9 +191,11 @@ class CompteManager
 		$lRequete =
 			"INSERT INTO " . CompteManager::TABLE_COMPTE . "
 				(" . CompteManager::CHAMP_COMPTE_ID . "
-				," . CompteManager::CHAMP_COMPTE_LABEL . ")
+				," . CompteManager::CHAMP_COMPTE_LABEL . "
+				," . CompteManager::CHAMP_COMPTE_SOLDE . ")
 			VALUES (NULL
-				,'" . StringUtils::securiser( $pVo->getLabel() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
+				,'" . StringUtils::securiser( $pVo->getSolde() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -203,6 +215,7 @@ class CompteManager
 			"UPDATE " . CompteManager::TABLE_COMPTE . "
 			 SET
 				 " . CompteManager::CHAMP_COMPTE_LABEL . " = '" . StringUtils::securiser( $pVo->getLabel() ) . "'
+				," . CompteManager::CHAMP_COMPTE_SOLDE . " = '" . StringUtils::securiser( $pVo->getSolde() ) . "'
 			 WHERE " . CompteManager::CHAMP_COMPTE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

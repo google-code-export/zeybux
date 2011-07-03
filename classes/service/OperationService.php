@@ -13,6 +13,7 @@
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 
 /**
  * @name OperationService
@@ -30,7 +31,7 @@ class OperationService
 	*/
 	public function set($pOperation) {
 		$lOperationValid = new OperationValid();
-		if($lOperationValid->insert($pOperation)) {			
+		if($lOperationValid->insert($pOperation)) {
 			return $this->insert($pOperation);			
 		} else if($lOperationValid->update($pOperation)) {
 			return $this->update($pOperation);
@@ -49,6 +50,12 @@ class OperationService
 		$lId = OperationManager::insert($pOperation); // Ajout de l'opération
 		$pOperation->setId($lId);
 		$this->insertHistorique($pOperation); // Ajout historique
+
+		$lCompteService = new CompteService(); // Mise à jour du solde
+		$lCompte = $lCompteService->get($pOperation->getIdCompte());
+		$lCompte->setSolde($lCompte->getSolde() + $pOperation->getMontant());
+		$lCompteService->set($lCompte);
+		
 		return $lId;
 	}
 	
@@ -60,6 +67,14 @@ class OperationService
 	*/
 	private function update($pOperation) {
 		$this->insertHistorique($pOperation); // Ajout historique
+		
+		$lOperationActuelle = $this->get($pOperation->getId());
+		
+		$lCompteService = new CompteService(); // Mise à jour du solde
+		$lCompte = $lCompteService->get($pOperation->getIdCompte());
+		$lCompte->setSolde($lCompte->getSolde() - $lOperationActuelle->getMontant() + $pOperation->getMontant());
+		$lCompteService->set($lCompte);
+		
 		return OperationManager::update($pOperation); // update de l'opération
 	}
 	
@@ -74,6 +89,12 @@ class OperationService
 			$lOperation = $this->get($pId);
 			$lOperation->setlibelle("Supression");
 			$this->insertHistorique($lOperation); // Ajout historique
+				
+			$lCompteService = new CompteService(); // Mise à jour du solde
+			$lCompte = $lCompteService->get($lOperation->getIdCompte());
+			$lCompte->setSolde($lCompte->getSolde() - $lOperation->getMontant());
+			$lCompteService->set($lCompte);
+			
 			return OperationManager::delete($pId); // delete de l'opération		
 		} else {
 			return false;
@@ -132,6 +153,23 @@ class OperationService
 	*/
 	public function selectAll() {
 		return OperationManager::selectAll();
+	}
+	
+	/**
+	* @name selectByCompte($pIdCompte)
+	* @param integer
+	* @return array(OperationVO)
+	* @desc Retourne une liste d'Operation
+	*/
+	public function selectByCompte($pIdCompte) {
+		$lOperation = OperationManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_ID_COMPTE),
+				array('='),
+				array($pIdCompte),
+				array(''),
+				array(''));
+				
+		return $lOperation;
 	}
 }
 ?>

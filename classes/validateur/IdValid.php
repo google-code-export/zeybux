@@ -29,6 +29,8 @@ class IdValid
 			return $pId <= 99999999999;
 		} else if(is_string($pId)) {
 			return TestFonction::checkLength($pId,0,11); // si string ne doit pas dépasser 11 de long. Peut être vide
+		} else if(empty($pId)) {
+			return true;
 		} else {
 			return false;
 		}

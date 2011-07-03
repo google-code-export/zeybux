@@ -54,7 +54,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   			parcourirDossierCss($d->path.'/'.$entry);
 			   		} else {
 			   			$filename = $d->path.'/'.$entry;
-						$handle = fopen($filename, "r");
+						/*$handle = fopen($filename, "r");
 			   		 	while (!feof($handle)) {	   	
 			   		 		$lLigne = fgets($handle);	 		
 			   		 		$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",$lLigne);   		 		
@@ -62,7 +62,13 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   			fwrite($fp,$lLigne);
 				   			fclose($fp);
 					    }
-						fclose($handle);
+						fclose($handle);*/
+						
+						$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",file_get_contents($filename));
+						$fp = fopen("./zeybu/css/cssDev.css", 'a');
+					    fwrite($fp,$lLigne);
+					    fclose($fp);
+						
 			   		}
 			   }
 			}
@@ -103,18 +109,31 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   		&& $entry != 'jquery-ui-1.8.custom.min.js'
 			   		&& $entry != 'jquery-1.4.2.min.js'
 			   		&& $entry != 'jquery.selectboxes.pack.js'
+			   		&& $entry != 'MessagesErreurs.js'
+			   		&& $entry != 'Configuration.js'
+			   		&& $entry != 'zeybux-configuration.php'
 			   		) {
 			   		if(is_dir($d->path.'/'.$entry)) {
 			   			parcourirDossier($d->path.'/'.$entry);
 			   		} else {
 			   			$filename = $d->path.'/'.$entry;
-						$handle = fopen($filename, "r");
+						/*$handle = fopen($filename, "r");
 			   		 	while (!feof($handle)) {
 					     	$fp = fopen("./zeybu/js/jsDev.js", 'a');
 				   			fwrite($fp,fgets($handle));
 				   			fclose($fp);
-					    }
-						fclose($handle);
+					    }*/
+			   			$lLigne = file_get_contents($filename);
+			   			if($entry == "AccueilVue.js") {			   				
+			   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
+			   			}
+			   			if($entry == "IdentificationTemplate.js") {
+			   				$lLigne = preg_replace('#value=\\\"(Z|zeybu)\\\"#',"",$lLigne);	
+			   			}
+					    $fp = fopen("./zeybu/js/jsDev.js", 'a');
+					    fwrite($fp,$lLigne);
+					    fclose($fp);				    
+						//fclose($handle);
 			   		}
 			   }
 			}
@@ -129,6 +148,26 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$fp = fopen("./zeybu/js/zeybux-min.js", 'w');
 		fclose($fp);
 		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/jsDev.js -o ./zeybu/js/zeybux-min.js');
+		echo $output;
+		
+		// Création de zeybux-configuration
+		//$Path = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js";
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'w');
+		fclose($fp);
+		
+		$filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/classes/utils/MessagesErreurs.js";
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
+	    fwrite($fp,file_get_contents($filename));
+	    fclose($fp);
+	    
+	    $filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/Commun/Configuration.js";
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
+	    fwrite($fp,file_get_contents($filename));
+	    fclose($fp);
+		
+		$fp = fopen("./zeybu/js/zeybux-configuration-min.js", 'w');
+		fclose($fp);
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-configuration.js -o ./zeybu/js/zeybux-configuration-min.js');
 		echo $output;
 		
 		/************** Création des dossier **************/
@@ -180,11 +219,13 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				
 		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index
 		copy('./zeybu/js/zeybux-min.js' , $lPath.'/js/zeybux-min.js'); // Copie du js
+		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min.js'); // Copie du js
 		copy('./zeybu/css/cssDev-min.css' , $lPath.'/css/cssDev-min.css'); // Copie du css
 		copy('../css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		
 		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.
 		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
+		copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
 
 		copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
 		

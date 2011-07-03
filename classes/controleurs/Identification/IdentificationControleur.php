@@ -64,6 +64,10 @@ class IdentificationControleur
 							case 3 : // Caisse
 								$lModules = $this->identifierCaisse($lIdentification);
 								break;
+								
+							case 4 : // Compte Solidaire
+								$lModules = $this->identifierCompteSolidaire($lIdentification);
+								break;
 						}
 						$_SESSION[TYPE_ID] = $lIdentification->getType();
 						$lAutorisation = true;
@@ -139,6 +143,19 @@ class IdentificationControleur
 		$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
 		$_SESSION[MOD_CAISSE] = true;
 		array_push($lModules,MOD_CAISSE);
+		return $lModules;
+	}
+	
+	/**
+	* @name identifierCompteSolidaire($pIdentification)
+	* @return 
+	* @desc Effectue les actions de connexion du compte Solidaire
+	*/
+	public function identifierCompteSolidaire($pIdentification) {
+		$lModules = array();
+		$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
+		$_SESSION[MOD_COMPTE_SOLIDAIRE] = true;
+		array_push($lModules,MOD_COMPTE_SOLIDAIRE);
 		return $lModules;
 	}
 }

@@ -43,6 +43,10 @@ class MenuControleur
 			case 3 : // Caisse
 				return $this->getMenuCaisse();
 				break;
+				
+			case 4 : // Compte Solidaire
+				return $this->getMenuCompteSolidaire();
+				break;
 		}
 	}
 	
@@ -121,6 +125,34 @@ class MenuControleur
 			$lMenuModule->setNom('CaisseListeMarche');
 			$lMenuModule->setLabel('Liste des Marchés');						
 			$lMenu->addModules($lMenuModule);		
+		}
+		
+		$lResponse = new MenuResponse();
+		$lResponse->setMenu($lMenu);
+		$lResponse->setAdmin(false);
+		return $lResponse;
+	}
+	
+	/**
+	* @name getMenuCompteSolidaire()
+	* @return MenuResponse
+	* @desc Retourne le menu du Compte Solidaire
+	*/
+	public function getMenuCompteSolidaire() {
+		$lMenu = new MenuVO();
+		
+		if(isset($_SESSION[MOD_COMPTE_SOLIDAIRE]) && $_SESSION[MOD_COMPTE_SOLIDAIRE]) {
+			$lMenuModule = new MenuModuleVO();
+			$lMenuModule->setModuleNom(MOD_COMPTE_SOLIDAIRE);
+			$lMenuModule->setNom('CompteSolidaire');
+			$lMenuModule->setLabel('Compte');						
+			$lMenu->addModules($lMenuModule);		
+			
+			$lMenuModule = new MenuModuleVO();
+			$lMenuModule->setModuleNom(MOD_COMPTE_SOLIDAIRE);
+			$lMenuModule->setNom('ListeAdherent');
+			$lMenuModule->setLabel('Virements');						
+			$lMenu->addModules($lMenuModule);
 		}
 		
 		$lResponse = new MenuResponse();

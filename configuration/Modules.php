@@ -18,4 +18,5 @@ define("MOD_COMPTE_ZEYBU", "CompteZeybu");
 define("MOD_RECHARGEMENT_COMPTE", "RechargementCompte");	
 define("MOD_CAISSE", "Caisse");
 define("MOD_GESTION_CAISSE", "GestionCaisse");
+define("MOD_COMPTE_SOLIDAIRE", "CompteSolidaire");
 ?>

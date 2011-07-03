@@ -125,8 +125,8 @@
 													erreur.code = ERR_306_CODE;
 													erreur.message = ERR_306_MSG;
 													lVr.log.erreurs.push(erreur);
-													
-													that.construct();
+													var lParam = {vr:lVr};
+													that.construct(lParam);
 													
 													$(lDialog).dialog("close");										
 												} else {

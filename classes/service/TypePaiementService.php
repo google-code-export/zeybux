@@ -11,7 +11,7 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "TypePaiementManagerValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . "TypePaiementValid.php");
 
 /**
  * @name TypePaiementService
@@ -94,7 +94,7 @@ class TypePaiementService
 			} else {
 				return false;
 			}
-		} else if(is_int($pTypePaiement)){
+		} else if(is_int((int)$pTypePaiement)){
 			if($lTypePaiementValid->id($pTypePaiement)) {
 				$lTypePaiement = $this->get($pTypePaiement);
 				if($lTypePaiement->getId() == $pTypePaiement) {

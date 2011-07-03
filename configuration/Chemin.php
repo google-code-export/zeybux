@@ -27,6 +27,7 @@ define("CHEMIN_CLASSES_SERVICE", CHEMIN_CLASSES . "service/");
 define("CHEMIN_VUES", CHEMIN_RACINE . "/vues/");
 define("CHEMIN_TEMPLATE", CHEMIN_RACINE . "/html/");
 define("CHEMIN_CONFIGURATION", CHEMIN_RACINE . "/configuration/");
+define("CHEMIN_JS", CHEMIN_RACINE . "/js/");
 
 define("CHEMIN_FICHIER_LOGS", CHEMIN_RACINE . "/logs/" . date('Ymd') . ".log");
 ?>

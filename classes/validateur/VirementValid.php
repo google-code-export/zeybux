@@ -61,8 +61,8 @@ class VirementValid
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function typeVirement($pType) {
-		return $pType == 3 || $pType == 4 || $pType == 9 || $pType == 10;
+	public function type($pType) {
+		return $pType == 1 || $pType == 2; // 1 Virement, 2 Virement solidaire
 	}
 	
 	/**
@@ -78,7 +78,7 @@ class VirementValid
 				return $this->compte($pVirement->getCptDebit())
 				&& $this->compte($pVirement->getCptCredit())
 				&& $this->montant($pVirement->getMontant())
-				&& $this->typeVirement($pVirement->getTypeVirement());
+				&& $this->type($pVirement->getType());
 			} else {
 				return false;
 			}
@@ -96,11 +96,9 @@ class VirementValid
 		if($this->estVirement($pVirement)) {
 			$lIdVirementValid = new IdVirementValid();
 			$lIdValid = $lIdVirementValid->estVide($pVirement->getId());
-			if($lIdValid != NULL && !$lIdValid) {
-				return $this->compte($pVirement->getCptDebit())
-				&& $this->compte($pVirement->getCptCredit())
-				&& $this->montant($pVirement->getMontant())
-				&& $this->typeVirement($pVirement->getTypeVirement());
+			if(!$lIdValid) {
+				return $this->montant($pVirement->getMontant())
+				&& $this->type($pVirement->getType());
 			} else {
 				return false;
 			}
@@ -116,7 +114,7 @@ class VirementValid
 	*/
 	public function delete($pIdVirement) {
 		$lIdVirementValid = new IdVirementValid();
-		$lIdValid = $lIdVirementValid->estValide($pIdVirement);		
+		$lIdValid = $lIdVirementValid->estValide($pIdVirement);
 		if($lIdValid != NULL) {
 			return $lIdValid;
 		} else {

@@ -15,7 +15,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "MontantValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
-include_once(CHEMIN_CLASSES_VR . "OperationVR.php" );
+//include_once(CHEMIN_CLASSES_VR . "OperationVR.php" );
 
 /**
  * @name OperationValid
@@ -29,14 +29,14 @@ class OperationValid
 	* @var int(11)
 	* @desc Vr de la OperationValid
 	*/
-	protected $mVr;
+	/*protected $mVr;
 	
 	/**
 	* @name getVr()
 	* @return int(11)
 	* @desc Renvoie le membre Vr de la OperationValid
 	*/
-	public function getVr() {
+	/*public function getVr() {
 		return $this->mVr;
 	}
 
@@ -45,9 +45,9 @@ class OperationValid
 	* @param int(11)
 	* @desc Remplace le membre Vr de la OperationValid par $pVr
 	*/
-	public function setVr($pVr) {
+	/*public function setVr($pVr) {
 		$this->mVr = $pVr;
-	}
+	}*/
 	
 	/**
 	* @name estOperation($pOperation)
@@ -69,21 +69,11 @@ class OperationValid
 	*/
 	public function id($pId) {
 		$lIdValid = new IdValid();
-		$lValid = $lIdValid->estId($pId);
-		if(!$lValid->getValid()) {
-			$this->getVr()->setValid(false);
-			$this->getVr()->getId()->setValid(false);
-			$this->getVr()->getId()->addErreur($lValid);
+		if(!empty($pId)){
+			return $lIdValid->estId($pId);
+		} else {
+			return false;
 		}
-		if(empty($pId)){
-			$this->getVr()->setValid(false);
-			$this->getVr()->getId()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$this->getVr()->getId()->addErreur($lErreur);			
-		}			
-		return $this->getVr();
 	}
 	
 	/**
@@ -134,7 +124,6 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function typePaiement($pTypePaiement) {
-		$lIdValid = new IdValid();
 		$lTypePaiementService = new TypePaiementService();
 		return $lTypePaiementService->existe($pTypePaiement);
 	}
@@ -145,7 +134,7 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function typePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		if(is_string($pTypePaiementChampComplementaire)) {
+		if(is_string((string)$pTypePaiementChampComplementaire)) {
 			return TestFonction::checkLength($pTypePaiementChampComplementaire,0,50);
 		} else {
 			return false;
@@ -178,8 +167,11 @@ class OperationValid
 	*/
 	public function insert($pOperation) {
 		if($this->estOperation($pOperation)) {
-			$lIdValid = new IdValid()
-			return $lIdValid->estId($pOperation->getId())
+			$lIdValid = new IdValid();
+			$lId = $pOperation->getId();
+						
+			return $lIdValid->estId($lId)
+				&& empty($lId)
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
 				&& $this->libelle($pOperation->getLibelle())
@@ -188,6 +180,7 @@ class OperationValid
 				&& $this->typePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire())
 				&& $this->type($pOperation->getType())
 				&& $this->idCommande($pOperation->getIdCommande());
+				
 		} else {
 			return false;
 		}
@@ -200,7 +193,7 @@ class OperationValid
 	*/
 	public function update($pOperation) {
 		if($this->estOperation($pOperation)) {
-			$lIdValid = new IdValid()
+			$lIdValid = new IdValid();
 			return $this->id($pOperation->getId())
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
@@ -220,7 +213,7 @@ class OperationValid
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function update($pId) {
+	public function delete($pId) {
 		return $this->id($pId);
 	}
 }
