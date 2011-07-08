@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . "CompteSolidaireResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireOperationViewManager.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireListeAdherentViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ListeAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_SOLIDAIRE . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "VirementService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "CompteSolidaireVirementValid.php" );
@@ -48,6 +48,8 @@ class CompteSolidaireControleur
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentResponse();
 		$lResponse->setListeAdherent(CompteSolidaireListeAdherentViewManager::selectAll());
+		$lCompteService = new CompteService();
+		$lResponse->setSolde( $lCompteService->get(-2)->getSolde());
 		return $lResponse;
 	}
 	

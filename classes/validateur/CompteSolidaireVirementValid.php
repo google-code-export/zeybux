@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VR . "CompteSolidaireAjoutVirementVR.php" );
 include_once(CHEMIN_CLASSES_VR . "CompteSolidaireModifierVirementVR.php" );
 include_once(CHEMIN_CLASSES_VR . "CompteSolidaireSupprimerVirementVR.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 
 /**
  * @name CompteSolidaireVirementValid
@@ -102,6 +103,24 @@ class CompteSolidaireVirementValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getMontant()->addErreur($lErreur);	
 			}
+			if($pData['montant'] <= 0) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_215_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			
+			$lCompteService = new CompteService();
+			if($pData['montant'] > $lCompteService->get(-2)->getSolde()) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_237_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_237_MSG);
+				$lVr->getMontant()->addErreur($lErreur);			
+			}
 		}
 		return $lVr;
 	}
@@ -182,6 +201,41 @@ class CompteSolidaireVirementValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			if($pData['montant'] <= 0) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_215_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			
+			if($lVr->getValid()) {				
+				$lOperationService = new OperationService();			
+				$lOperation = $lOperationService->get($pData['id']);
+				$lOperationSoeur = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+				
+				$lAdherents = AdherentViewManager::selectByIdCompte($lOperationSoeur->getIdCompte());
+				if($lAdherents[0]->getAdhIdCompte() != $lOperationSoeur->getIdCompte()) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getLog()->addErreur($lErreur);
+				}			
+			
+				$lCompteService = new CompteService();
+				// Le Montant dans l'operation est négatif donc solde - montant
+				if($pData['montant'] > ($lCompteService->get(-2)->getSolde() - $lOperation->getMontant() )) {
+					$lVr->setValid(false);
+					$lVr->getMontant()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_237_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_237_MSG);
+					$lVr->getMontant()->addErreur($lErreur);			
+				}
 			}
 		}
 		return $lVr;
