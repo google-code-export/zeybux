@@ -122,9 +122,9 @@ class AdherentViewVO extends DataTemplate
 
 	/**
 	* @var decimal(32,2)
-	* @desc OpeMontant de la AdherentViewVO
+	* @desc CptSolde de la AdherentViewVO
 	*/
-	protected $mOpeMontant;
+	protected $mCptSolde;
 
 	/**
 	* @name getAdhId()
@@ -433,21 +433,21 @@ class AdherentViewVO extends DataTemplate
 	}
 
 	/**
-	* @name getOpeMontant()
+	* @name getCptSolde()
 	* @return decimal(32,2)
-	* @desc Renvoie le membre OpeMontant de la AdherentViewVO
+	* @desc Renvoie le membre CptSolde de la AdherentViewVO
 	*/
-	public function getOpeMontant() {
-		return $this->mOpeMontant;
+	public function getCptSolde() {
+		return $this->mCptSolde;
 	}
 
 	/**
-	* @name setOpeMontant($pOpeMontant)
+	* @name setCptSolde($pCptSolde)
 	* @param decimal(32,2)
-	* @desc Remplace le membre OpeMontant de la AdherentViewVO par $pOpeMontant
+	* @desc Remplace le membre CptSolde de la AdherentViewVO par $pCptSolde
 	*/
-	public function setOpeMontant($pOpeMontant) {
-		$this->mOpeMontant = $pOpeMontant;
+	public function setCptSolde($pCptSolde) {
+		$this->mCptSolde = $pCptSolde;
 	}
 }
 ?>

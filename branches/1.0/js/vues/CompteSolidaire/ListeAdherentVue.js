@@ -1,6 +1,8 @@
 ;function CompteSolidaireListeAdherentVue(pParam) {	
 	this.mCommunVue = new CommunVue();
 	this.listeAdherent = [];
+	this.solde = 0;
+	
 	this.construct = function(pParam) {
 	var that = this;
 	var lParam = {fonction:"adherent"};
@@ -14,6 +16,8 @@
 					$(lResponse.listeAdherent).each(function() {
 						that.listeAdherent[this.adhId] = this;
 					});
+					
+					that.solde = lResponse.solde;
 					
 					that.afficher(lResponse);
 				} else {
@@ -102,7 +106,8 @@
 	this.envoyerVirement = function(pDialog,pId) {
 		var lVo = new CompteSolidaireAjoutVirementVO();								
 		lVo.id = pId;
-		lVo.montant = $(pDialog).find(":input[name=montant]").val();
+		lVo.montant = $(pDialog).find(":input[name=montant]").val().numberFrToDb();
+		lVo.solde = this.solde;
 		
 		var lValid = new CompteSolidaireVirementValid();
 		var lVr = lValid.validAjout(lVo);

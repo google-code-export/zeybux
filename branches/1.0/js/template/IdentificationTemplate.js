@@ -1,6 +1,6 @@
 ;function IdentificationTemplate() {
 	this.connexion =
-		"<div id=\"formulaire_identification_int\" title=\"Connexion à Zeybux\" >" +
+		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
 			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 				"<table>" +
 					"<tr>" +

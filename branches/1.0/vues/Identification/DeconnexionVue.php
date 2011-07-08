@@ -16,6 +16,6 @@ if( isset($_SESSION[DROIT_ID]) ) {
 	$lControleur->deconnecter();
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à Deconnexion",PEAR_LOG_INFO);	// Maj des logs
-	header('location:./index.php?cx=1');
+	header('location:./index.php');
 }
 ?>

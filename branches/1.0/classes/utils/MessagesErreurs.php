@@ -126,6 +126,8 @@ class MessagesErreurs
 	const ERR_235_MSG = 'Le mot de passe actuel n\'est pas valide.';
 	const ERR_236_CODE = 236;
 	const ERR_236_MSG = 'Choisir une option.';
+	const ERR_237_CODE = 237;
+	const ERR_237_MSG = 'Le montant dépasse le solde du compte.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;
@@ -140,6 +142,12 @@ class MessagesErreurs
 	const ERR_305_MSG = 'Connexion réussie.';
 	const ERR_306_CODE = 306;
 	const ERR_306_MSG = 'Compte mis à jour.';
+	const ERR_307_CODE = 307;
+	const ERR_307_MSG = 'Virement effectué.';
+	const ERR_308_CODE = 308;
+	const ERR_308_MSG = 'Virement modifié.';
+	const ERR_309_CODE = 309;
+	const ERR_309_MSG = 'Virement supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */
