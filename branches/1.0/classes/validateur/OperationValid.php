@@ -136,9 +136,10 @@ class OperationValid
 	public function typePaiementChampComplementaire($pTypePaiementChampComplementaire) {
 		if(is_string((string)$pTypePaiementChampComplementaire)) {
 			return TestFonction::checkLength($pTypePaiementChampComplementaire,0,50);
-		} else {
-			return false;
+		} else if(is_null($pTypePaiementChampComplementaire)) {
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -169,13 +170,11 @@ class OperationValid
 		if($this->estOperation($pOperation)) {
 			$lIdValid = new IdValid();
 			$lId = $pOperation->getId();
-						
 			return $lIdValid->estId($lId)
 				&& empty($lId)
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
 				&& $this->libelle($pOperation->getLibelle())
-				&& $this->date($pOperation->getDate())
 				&& $this->typePaiement($pOperation->getTypePaiement())
 				&& $this->typePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire())
 				&& $this->type($pOperation->getType())
@@ -198,7 +197,6 @@ class OperationValid
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
 				&& $this->libelle($pOperation->getLibelle())
-				&& $this->date($pOperation->getDate())
 				&& $this->typePaiement($pOperation->getTypePaiement())
 				&& $this->typePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire())
 				&& $this->type($pOperation->getType())

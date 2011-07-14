@@ -41,7 +41,7 @@ class TypePaiementValid
 	public function id($pId) {
 		$lIdValid = new IdValid();
 		return $lIdValid->estId($pId)
-			&& !empty($pId);
+			&& (!empty($pId) || $pId == 0);
 	}
 }
 ?>

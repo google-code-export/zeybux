@@ -13,7 +13,6 @@
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "VirementValid.php");
 
 /**
@@ -60,8 +59,7 @@ class VirementService
 		} else if($pVirement->getType() == 2) {			
 			$lOperationDebit->setLibelle("Virement Solidaire");
 			$lOperationDebit->setTypePaiement(9);
-		}
-		$lOperationDebit->setDate(StringUtils::dateTimeAujourdhuiDb());				
+		}		
 		$lOperationDebit->setTypePaiementChampComplementaire('');
 		$lOperationDebit->setType(1);
 		$lOperationDebit->setIdCommande(0);
@@ -77,8 +75,7 @@ class VirementService
 		} else if($pVirement->getType() == 2) {			
 			$lOperationCredit->setLibelle("Virement Solidaire");
 			$lOperationCredit->setTypePaiement(10);
-		}
-		$lOperationCredit->setDate(StringUtils::dateTimeAujourdhuiDb());				
+		}				
 		$lOperationCredit->setTypePaiementChampComplementaire($lIdDebit);
 		$lOperationCredit->setType(1);
 		$lOperationCredit->setIdCommande(0);
@@ -135,7 +132,6 @@ class VirementService
 			$lOperationService->set($lOperationDebit);
 						
 			$lOperationDebit->setId('');
-			$lOperationDebit->setDate(StringUtils::dateTimeAujourdhuiDb());
     		$lOperationDebit->setMontant($lOperationDebit->getMontant() * -1);
 			$lOperationDebit->setLibelle("Annulation Virement");
 			$lOperationService->set($lOperationDebit);
@@ -148,7 +144,6 @@ class VirementService
 			$lOperationService->set($lOperationCredit);
 			
 			$lOperationCredit->setId('');
-			$lOperationCredit->setDate(StringUtils::dateTimeAujourdhuiDb());
     		$lOperationCredit->setMontant($lOperationCredit->getMontant() * -1);
 			$lOperationCredit->setLibelle("Annulation Virement");
 			$lOperationService->set($lOperationCredit);

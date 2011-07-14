@@ -3,9 +3,9 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : ReservationCommandeVR.php
+// Fichier : CommandeDetailReservationVR.php
 //
-// Description : Classe ReservationCommandeVR
+// Description : Classe CommandeDetailReservationVR
 //
 //****************************************************************
 // Inclusion des classes
@@ -14,12 +14,12 @@ include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name ReservationCommandeVR
+ * @name CommandeDetailReservationVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une ReservationCommandeVR
+ * @desc Classe représentant une CommandeDetailReservationVR
  */
-class ReservationCommandeVR extends DataTemplate
+class CommandeDetailReservationVR extends DataTemplate
 {
 	/**
 	 * @var bool
@@ -41,28 +41,28 @@ class ReservationCommandeVR extends DataTemplate
 
 	/**
 	 * @var VRelement
-	 * @desc StoQuantite de la ReservationCommandeVR
+	 * @desc StoQuantite de la CommandeDetailReservationVR
 	 */
 	protected $mStoQuantite;
 	
 	/**
 	 * @var VRelement
-	 * @desc mStoIdProduit de la ReservationCommandeVR
+	 * @desc mStoIdProduit de la CommandeDetailReservationVR
 	 */
 	protected $mStoIdProduit;
 
 	/**
 	 * @var VRelement
-	 * @desc StoIdDetailCommande de la ReservationCommandeVR
+	 * @desc StoIdDetailCommande de la CommandeDetailReservationVR
 	 */
 	protected $mStoIdDetailCommande;
 
 	/**
-	* @name ReservationCommandeVR()
+	* @name CommandeDetailReservationVR()
 	* @return bool
 	* @desc Constructeur
 	*/
-	function ReservationCommandeVR() {
+	function CommandeDetailReservationVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();

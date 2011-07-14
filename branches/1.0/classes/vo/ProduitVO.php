@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 12/07/2011
 // Fichier : ProduitVO.php
 //
 // Description : Classe ProduitVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProduitVO
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 12/07/2011
  * @desc Classe représentant une ProduitVO
  */
-class ProduitVO extends DataTemplate
+class ProduitVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -43,23 +43,29 @@ class ProduitVO extends DataTemplate
 	protected $mUniteMesure;
 
 	/**
-	* @var int(11)
+	* @var decimal(10,2)
 	* @desc MaxProduitCommande de la ProduitVO
 	*/
 	protected $mMaxProduitCommande;
-	
+
 	/**
-	 * @var int(11)
-	 * @desc ID du Producteur
-	 */
+	* @var int(11)
+	* @desc IdProducteur de la ProduitVO
+	*/
 	protected $mIdProducteur;
+
+	/**
+	* @var decimal(10,2)
+	* @desc StockReservation de la ProduitVO
+	*/
+	protected $mStockReservation;
 
 	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la ProduitVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -77,7 +83,7 @@ class ProduitVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdCommande de la ProduitVO
 	*/
-	public function getIdCommande(){
+	public function getIdCommande() {
 		return $this->mIdCommande;
 	}
 
@@ -95,7 +101,7 @@ class ProduitVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdNomProduit de la ProduitVO
 	*/
-	public function getIdNomProduit(){
+	public function getIdNomProduit() {
 		return $this->mIdNomProduit;
 	}
 
@@ -113,7 +119,7 @@ class ProduitVO extends DataTemplate
 	* @return varchar(20)
 	* @desc Renvoie le membre UniteMesure de la ProduitVO
 	*/
-	public function getUniteMesure(){
+	public function getUniteMesure() {
 		return $this->mUniteMesure;
 	}
 
@@ -128,26 +134,26 @@ class ProduitVO extends DataTemplate
 
 	/**
 	* @name getMaxProduitCommande()
-	* @return int(11)
+	* @return decimal(10,2)
 	* @desc Renvoie le membre MaxProduitCommande de la ProduitVO
 	*/
-	public function getMaxProduitCommande(){
+	public function getMaxProduitCommande() {
 		return $this->mMaxProduitCommande;
 	}
 
 	/**
 	* @name setMaxProduitCommande($pMaxProduitCommande)
-	* @param int(11)
+	* @param decimal(10,2)
 	* @desc Remplace le membre MaxProduitCommande de la ProduitVO par $pMaxProduitCommande
 	*/
 	public function setMaxProduitCommande($pMaxProduitCommande) {
 		$this->mMaxProduitCommande = $pMaxProduitCommande;
 	}
-	
+
 	/**
 	* @name getIdProducteur()
 	* @return int(11)
-	* @desc Renvoie l'IdProducteur du Produit
+	* @desc Renvoie le membre IdProducteur de la ProduitVO
 	*/
 	public function getIdProducteur() {
 		return $this->mIdProducteur;
@@ -156,10 +162,29 @@ class ProduitVO extends DataTemplate
 	/**
 	* @name setIdProducteur($pIdProducteur)
 	* @param int(11)
-	* @desc Remplace l'IdProducteur par $pIdProducteur
+	* @desc Remplace le membre IdProducteur de la ProduitVO par $pIdProducteur
 	*/
 	public function setIdProducteur($pIdProducteur) {
 		$this->mIdProducteur = $pIdProducteur;
 	}
+
+	/**
+	* @name getStockReservation()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre StockReservation de la ProduitVO
+	*/
+	public function getStockReservation() {
+		return $this->mStockReservation;
+	}
+
+	/**
+	* @name setStockReservation($pStockReservation)
+	* @param decimal(10,2)
+	* @desc Remplace le membre StockReservation de la ProduitVO par $pStockReservation
+	*/
+	public function setStockReservation($pStockReservation) {
+		$this->mStockReservation = $pStockReservation;
+	}
+
 }
 ?>

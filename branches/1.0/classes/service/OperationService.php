@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 
 /**
  * @name OperationService
@@ -46,16 +47,22 @@ class OperationService
 	* @return integer
 	* @desc Ajoute une opération
 	*/
-	private function insert($pOperation) {		
+	private function insert($pOperation) {
+		
+		$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+		
 		$lId = OperationManager::insert($pOperation); // Ajout de l'opération
 		$pOperation->setId($lId);
 		$this->insertHistorique($pOperation); // Ajout historique
 
-		$lCompteService = new CompteService(); // Mise à jour du solde
-		$lCompte = $lCompteService->get($pOperation->getIdCompte());
-		$lCompte->setSolde($lCompte->getSolde() + $pOperation->getMontant());
-		$lCompteService->set($lCompte);
-		
+		// Selon le type on met à jour le solde du compte
+		$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
+			$lCompteService = new CompteService(); // Mise à jour du solde
+			$lCompte = $lCompteService->get($pOperation->getIdCompte());
+			$lCompte->setSolde($lCompte->getSolde() + $pOperation->getMontant());
+			$lCompteService->set($lCompte);
+		}
 		return $lId;
 	}
 	
@@ -66,15 +73,21 @@ class OperationService
 	* @desc Met à jour une opération
 	*/
 	private function update($pOperation) {
+		
+		$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+		
 		$this->insertHistorique($pOperation); // Ajout historique
 		
-		$lOperationActuelle = $this->get($pOperation->getId());
 		
-		$lCompteService = new CompteService(); // Mise à jour du solde
-		$lCompte = $lCompteService->get($pOperation->getIdCompte());
-		$lCompte->setSolde($lCompte->getSolde() - $lOperationActuelle->getMontant() + $pOperation->getMontant());
-		$lCompteService->set($lCompte);
-		
+		$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
+			$lOperationActuelle = $this->get($pOperation->getId());
+			
+			$lCompteService = new CompteService(); // Mise à jour du solde
+			$lCompte = $lCompteService->get($pOperation->getIdCompte());
+			$lCompte->setSolde($lCompte->getSolde() - $lOperationActuelle->getMontant() + $pOperation->getMontant());
+			$lCompteService->set($lCompte);
+		}
 		return OperationManager::update($pOperation); // update de l'opération
 	}
 	
@@ -85,7 +98,9 @@ class OperationService
 	*/
 	public function delete($pId) {
 		$lOperationValid = new OperationValid();
-		if($lOperationValid->delete($pId)){
+		if($lOperationValid->delete($pId)){			
+			$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+		
 			$lOperation = $this->get($pId);
 			$lOperation->setlibelle("Supression");
 			$this->insertHistorique($lOperation); // Ajout historique
@@ -121,7 +136,36 @@ class OperationService
 		$lHistoriqueOperation->setIdConnexion($_SESSION[ID_CONNEXION]);
 		return HistoriqueOperationManager::insert($lHistoriqueOperation);
 	}
-		
+	
+	/**
+	* @name existe($pOperation)
+	* @param OperationVO ou interger
+	* @return bool
+	* @desc Vérifie si l'Operation existe
+	*/
+	public function existe($pOperation) {
+		$lOperationValid = new OperationValid();
+		if(	is_object($pOperation) && $lOperationValid->estOperation($pOperation)) {
+			$lOperation = $this->get($pOperation);
+			if($lOperation->getId() == $pOperation->getId()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if(is_int((int)$pOperation)){
+			if($lOperationValid->id($pOperation)) {
+				$lOperation = $this->get($pOperation);
+				if($lOperation->getId() == $pOperation) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	* @name get($pId)
 	* @param integer

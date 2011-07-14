@@ -107,7 +107,7 @@ class ListeCommandeEnCoursViewManager
 	* @return array(ListeCommandeEnCoursViewVO)
 	* @desc Récupères les commandes en cours non réservées par l'adhérent
 	*/
-	public static function selectNonReservee($pIdCompte) {			
+	/*public static function selectNonReservee($pIdCompte) {			
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -143,7 +143,7 @@ class ListeCommandeEnCoursViewManager
 			$lListeListeCommandeEnCours[0] = new ListeCommandeEnCoursViewVO();
 		}
 		return $lListeListeCommandeEnCours;	
-	}
+	}*/
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

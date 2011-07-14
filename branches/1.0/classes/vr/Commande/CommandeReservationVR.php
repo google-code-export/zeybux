@@ -3,9 +3,9 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : ListeReservationCommandeVR.php
+// Fichier : CommandeReservationVR.php
 //
-// Description : Classe ListeReservationCommandeVR
+// Description : Classe CommandeReservationVR
 //
 //****************************************************************
 // Inclusion des classes
@@ -14,12 +14,12 @@ include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name ListeReservationCommandeVR
+ * @name CommandeReservationVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une ListeReservationCommandeVR
+ * @desc Classe représentant une CommandeReservationVR
  */
-class ListeReservationCommandeVR extends DataTemplate
+class CommandeReservationVR extends DataTemplate
 {
 	/**
 	 * @var bool
@@ -34,26 +34,19 @@ class ListeReservationCommandeVR extends DataTemplate
 	protected $mLog;
 
 	/**
-	 * @var VRelement
-	 * @desc L'Id de l'objet
-	 */
-	protected $mId;
-
-	/**
 	 * @var array(VRelement)
-	 * @desc Commandes de la ListeReservationCommandeVR
+	 * @desc Commandes de la CommandeReservationVR
 	 */
 	protected $mCommandes;
 
 	/**
-	* @name ListeReservationCommandeVR()
+	* @name CommandeReservationVR()
 	* @return bool
 	* @desc Constructeur
 	*/
-	function ListeReservationCommandeVR() {
+	function CommandeReservationVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
-		$this->mId = new VRelement();
 		$this->mCommandes = array();
 	}
 
@@ -91,24 +84,6 @@ class ListeReservationCommandeVR extends DataTemplate
 	*/
 	public function setLog($pLog) {
 		$this->mLog = $pLog;
-	}
-
-	/**
-	* @name getId()
-	* @return VRelement
-	* @desc Renvoie le VRelement Id
-	*/
-	public function getId() {
-		return $this->mId;
-	}
-
-	/**
-	* @name setId($pId)
-	* @param VRelement
-	* @desc Remplace le VRelement Id par $pId
-	*/
-	public function setId($pId) {
-		$this->mId = $pId;
 	}
 
 	/**

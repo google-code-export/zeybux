@@ -74,7 +74,7 @@ class VirementValid
 		if($this->estVirement($pVirement)) {
 			$lIdVirementValid = new IdVirementValid();
 			$lIdValid = $lIdVirementValid->estVide($pVirement->getId());
-			if($lIdValid != NULL && $lIdValid) {
+			if(!is_null($lIdValid) && $lIdValid) {
 				return $this->compte($pVirement->getCptDebit())
 				&& $this->compte($pVirement->getCptCredit())
 				&& $this->montant($pVirement->getMontant())
@@ -96,7 +96,7 @@ class VirementValid
 		if($this->estVirement($pVirement)) {
 			$lIdVirementValid = new IdVirementValid();
 			$lIdValid = $lIdVirementValid->estVide($pVirement->getId());
-			if(!$lIdValid) {
+			if(!is_null($lIdValid) && !$lIdValid) {
 				return $this->montant($pVirement->getMontant())
 				&& $this->type($pVirement->getType());
 			} else {

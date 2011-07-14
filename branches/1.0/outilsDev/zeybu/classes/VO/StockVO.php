@@ -2,63 +2,64 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 02/09/2010
+// Date de creation : 12/07/2011
 // Fichier : StockVO.php
 //
 // Description : Classe StockVO
 //
 //****************************************************************
+include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
  * @name StockVO
  * @author Julien PIERRE
- * @since 02/09/2010
+ * @since 12/07/2011
  * @desc Classe représentant une StockVO
  */
-class StockVO
+class StockVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
 	* @desc Id de la StockVO
 	*/
-	private $mId;
+	protected $mId;
 
 	/**
 	* @var datetime
 	* @desc Date de la StockVO
 	*/
-	private $mDate;
+	protected $mDate;
 
 	/**
 	* @var decimal(10,2)
 	* @desc Quantite de la StockVO
 	*/
-	private $mQuantite;
+	protected $mQuantite;
 
 	/**
 	* @var tinyint(1)
 	* @desc Type de la StockVO
 	*/
-	private $mType;
+	protected $mType;
 
 	/**
 	* @var int(11)
 	* @desc IdCompte de la StockVO
 	*/
-	private $mIdCompte;
+	protected $mIdCompte;
 
 	/**
 	* @var int(11)
-	* @desc IdProduit de la StockVO
+	* @desc IdDetailCommande de la StockVO
 	*/
-	private $mIdProduit;
+	protected $mIdDetailCommande;
 
 	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la StockVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -76,7 +77,7 @@ class StockVO
 	* @return datetime
 	* @desc Renvoie le membre Date de la StockVO
 	*/
-	public function getDate(){
+	public function getDate() {
 		return $this->mDate;
 	}
 
@@ -94,7 +95,7 @@ class StockVO
 	* @return decimal(10,2)
 	* @desc Renvoie le membre Quantite de la StockVO
 	*/
-	public function getQuantite(){
+	public function getQuantite() {
 		return $this->mQuantite;
 	}
 
@@ -112,7 +113,7 @@ class StockVO
 	* @return tinyint(1)
 	* @desc Renvoie le membre Type de la StockVO
 	*/
-	public function getType(){
+	public function getType() {
 		return $this->mType;
 	}
 
@@ -130,7 +131,7 @@ class StockVO
 	* @return int(11)
 	* @desc Renvoie le membre IdCompte de la StockVO
 	*/
-	public function getIdCompte(){
+	public function getIdCompte() {
 		return $this->mIdCompte;
 	}
 
@@ -144,21 +145,21 @@ class StockVO
 	}
 
 	/**
-	* @name getIdProduit()
+	* @name getIdDetailCommande()
 	* @return int(11)
-	* @desc Renvoie le membre IdProduit de la StockVO
+	* @desc Renvoie le membre IdDetailCommande de la StockVO
 	*/
-	public function getIdProduit(){
-		return $this->mIdProduit;
+	public function getIdDetailCommande() {
+		return $this->mIdDetailCommande;
 	}
 
 	/**
-	* @name setIdProduit($pIdProduit)
+	* @name setIdDetailCommande($pIdDetailCommande)
 	* @param int(11)
-	* @desc Remplace le membre IdProduit de la StockVO par $pIdProduit
+	* @desc Remplace le membre IdDetailCommande de la StockVO par $pIdDetailCommande
 	*/
-	public function setIdProduit($pIdProduit) {
-		$this->mIdProduit = $pIdProduit;
+	public function setIdDetailCommande($pIdDetailCommande) {
+		$this->mIdDetailCommande = $pIdDetailCommande;
 	}
 
 }

@@ -10,9 +10,9 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+/*include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficherReservationCommandeResponse.php" );
+//include_once(CHEMIN_CLASSES_RESPONSE . "AfficherReservationCommandeResponse.php" );
 
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
@@ -24,8 +24,19 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ListeReservationCommandeValid.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "GroupeCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");*/
+//include_once(CHEMIN_CLASSES_MANAGERS . "GroupeCommandeManager.php");
+
+
+
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/DetailMarcheResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/CommandeReservationValid.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+
+include_once(CHEMIN_CLASSES_VO . "ReservationVO.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+
 
 /**
  * @name ReservationCommandeControleur
@@ -42,7 +53,21 @@ class ReservationCommandeControleur
 	* @desc Retourne les détails d'une réservation et de la commande
 	*/
 	public function getReservation($pParam) {
-		$lIdCompte = $pParam["id_compte"];
+		$lResponse = new DetailMarcheResponse();
+		$lMarcheService = new MarcheService();
+		$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
+		$lResponse->setAdherent(AdherentViewManager::select($_SESSION[DROIT_ID]));
+		return $lResponse;
+		
+		/* TODO
+		 * 1 : Test si le compte n'a pas déjà une réservation
+		 * 2 : MarcheService -> get(id_commande) 
+		 * */
+		
+		
+		
+		
+		/*$lIdCompte = $pParam["id_compte"];
 		$lIdCommande = $pParam["id_commande"];
 		$lIdAdherent = $pParam["id_adherent"];		
 				
@@ -106,7 +131,7 @@ class ReservationCommandeControleur
 			$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 			$lVr->getLog()->addErreur($lErreur);
 			return $lVr;
-		}
+		}*/
 	}
 	
 	/**
@@ -115,102 +140,37 @@ class ReservationCommandeControleur
 	* @desc Met à jour une réservation
 	*/
 	public function enregistrerReservation($pParam) {		
-		$lVr = ListeReservationCommandeValid::validAjout($pParam["reservation"]);
-		
+		$lVr = CommandeReservationValid::validAjout($pParam); // TODO tester pas déjà une réservation
+
 		if($lVr->getValid()) {
-			$lDcom = DetailCommandeManager::select($pParam["reservation"]["commandes"][0]['stoIdDetailCommande']);
-			$lPdt = ProduitManager::select($lDcom->getIdProduit());
-			$lIdCommande = $lPdt->getIdcommande();
-			$lIdCompte = $pParam["id_compte"];
-						
-			/* Tri des infos sur la commande
-			 * Ajout de ligne de stock en fonction des achats
-			 */
-			if(is_array($pParam["reservation"])) {
-				$lCommande = CommandeManager::select($lIdCommande);
-				if($lCommande->getId() == $lIdCommande) {
-					$lTotal = 0;
-					$lProduitAjout = array();
-				
-					foreach($pParam["reservation"]["commandes"] as $lProduit) {
-						$lLot = DetailCommandeManager::select($lProduit['stoIdDetailCommande']);
-						$lTotal += ($lProduit['stoQuantite'] / $lLot->getTaille()) * $lLot->getPrix();	
-						
-						$lStock = new StockVO();
-						$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
-						$lStock->setQuantite($lProduit['stoQuantite']);
-						$lStock->setType(0);
-						$lStock->setIdCompte($lIdCompte);
-						$lStock->setIdDetailCommande($lProduit['stoIdDetailCommande']);
-						$lStock->setIdCommande($lIdCommande);
-						array_push($lProduitAjout,$lStock);
-					}
-					
-					if($lTotal != 0) {
-						$lOperations = OperationManager::selectOpeReservation($lIdCompte,$lIdCommande);
-						
-						if(count($lOperations) == 1 && isset($lOperations[0]) && $lOperations[0]->getId() == '') {
-							//Ajout des stocks
-							foreach($lProduitAjout as $lPdt) {
-								StockManager::insert($lPdt);
-							}
-							$lOperation = new OperationVO();
-					
-							$lOperation->setIdCompte($lIdCompte);
-							$lOperation->setMontant($lTotal);
-							$lOperation->setLibelle("Marché N°" . $lCommande->getNumero());
-							$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-							$lOperation->setTypePaiement(0);
-							$lOperation->setType(0);
-							$lOperation->setIdCommande($lIdCommande);
-							OperationManager::insert( $lOperation );
+			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
+			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
 			
-							// Ajout compte et commande au groupe commande
-							$lGroupeCommande = new GroupeCommandeVO();
-							$lGroupeCommande->setIdCompte($lIdCompte);
-							$lGroupeCommande->setIdCommande($lIdCommande);
-							$lGroupeCommande->setEtat(0);
-							GroupeCommandeManager::insert($lGroupeCommande);
-						} else {
-							$lVr = new TemplateVR();
-							$lVr->setValid(false);
-							$lVr->getLog()->setValid(false);
-							$lErreur = new VRerreur();
-							$lErreur->setCode(MessagesErreurs::ERR_220_CODE);
-							$lErreur->setMessage(MessagesErreurs::ERR_220_MSG);
-							$lVr->getLog()->addErreur($lErreur);	
-							return $lVr;
-						}
-					} else {
-						$lVr = new TemplateVR();
-						$lVr->setValid(false);
-						$lVr->getLog()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
-						$lVr->getLog()->addErreur($lErreur);	
-						return $lVr;
-					}
-				} else {
-					$lVr = new TemplateVR();
-					$lVr->setValid(false);
-					$lVr->getLog()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-					$lVr->getLog()->addErreur($lErreur);	
-					return $lVr;
-				}
-			} else {
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_111_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_111_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-				return $lVr;
+			//$lMarcheService = new MarcheService();
+			//$lMarche = $lMarcheService->get($lDetailMarche[0]->getComId());
+			
+			$lReservation = new ReservationVO();
+			$lReservation->getId()->setIdCompte($_SESSION[ID_COMPTE]);
+			$lReservation->getId()->setIdCommande($lDetailMarche[0]->getComId());
+			
+			foreach($pParam["detailReservation"] as $lDetail){
+				$lDetailCommande = DetailCommandeManager::select($lDetail["stoIdDetailCommande"]);				
+				$lPrix = $lDetail["stoQuantite"] / $lDetailCommande->getTaille() * $lDetailCommande->getPrix();
+				
+				
+				$lDetailReservation = new DetailReservationVO();
+				
+				$lDetailReservation->setIdDetailCommande($lDetail["stoIdDetailCommande"]);
+				$lDetailReservation->setQuantite($lDetail["stoQuantite"]);
+				$lDetailReservation->setMontant($lPrix);
+				
+				$lReservation->addDetailReservation($lDetailReservation);
 			}
+						
+			$lReservationService = new ReservationService();
+			$lIdOperation = $lReservationService->set($lReservation);
+			
+			// TODO si $lIdOperation est null -> afficher l'erreur.
 		}				
 		return $lVr;
 	}
