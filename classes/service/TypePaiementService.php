@@ -89,7 +89,7 @@ class TypePaiementService
 		$lTypePaiementValid = new TypePaiementValid();
 		if(	is_object($pTypePaiement) && $lTypePaiementValid->estTypePaiement($pTypePaiement)) {
 			$lTypePaiement = $this->get($pTypePaiement);
-			if($lTypePaiement->getId() == $pTypePaiement) {
+			if($lTypePaiement->getId() == $pTypePaiement->getId()) {
 				return true;
 			} else {
 				return false;
@@ -115,7 +115,7 @@ class TypePaiementService
 	* @desc Retourne une liste de virement
 	*/
 	public function get($pTypePaiement = null) {
-		if($pTypePaiement != null) {
+		if(!is_null($pTypePaiement)) {
 			return $this->select($pTypePaiement);
 		} else {
 			return $this->selectAll();

@@ -3,34 +3,34 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : ReservationCommandeValid.php
+// Fichier : CommandeDetailReservationValid.php
 //
-// Description : Classe ReservationCommandeValid
+// Description : ClasseCommandeDetailReservationValid
 //
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VR . "ReservationCommandeVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/CommandeDetailReservationVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 /**
- * @name ReservationCommandeVR
+ * @name CommandeDetailReservationVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une ReservationCommandeValid
+ * @desc Classe représentant une CommandeDetailReservationValid
  */
-class ReservationCommandeValid
+class CommandeDetailReservationValid
 {
 	/**
 	* @name validAjout($pData)
-	* @return ReservationCommandeVR
+	* @returnCommandeDetailReservationVR
 	* @desc Test la validite de l'élément
 	*/
 	public static function validAjout($pData) {
-		$lVr = new ReservationCommandeVR();
+		$lVr = new CommandeDetailReservationVR();
 		//Tests inputs
 		if(!isset($pData['stoQuantite'])) {
 			$lVr->setValid(false);
@@ -138,8 +138,8 @@ class ReservationCommandeValid
 						$lErreur->setMessage(MessagesErreurs::ERR_217_MSG);
 						$lVr->getStoIdProduit()->addErreur($lErreur);
 					}				
-					$lStock = StockProduitViewManager::select($lPdt->getId());
-					if($lQte > $lStock[0]->getStoQuantite()) {
+					//$lStock = StockProduitViewManager::select($lPdt->getId());
+					if($lQte > $lPdt->getStockReservation()) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();
@@ -155,11 +155,11 @@ class ReservationCommandeValid
 
 	/**
 	* @name validDelete($pData)
-	* @return ReservationCommandeVR
+	* @returnCommandeDetailReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validDelete($pData) {
-		$lVr = new ReservationCommandeVR();
+	/*public static function validDelete($pData) {
+		$lVr = new CommandeDetailReservationVR();
 		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
@@ -184,13 +184,13 @@ class ReservationCommandeValid
 
 	/**
 	* @name validUpdate($pData)
-	* @return ReservationCommandeVR
+	* @returnCommandeDetailReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validUpdate($pData) {
+	/*public static function validUpdate($pData) {
 		$lTestId = TestFonction::validDelete($pData);
 		if($lTestId->getValid()) {
-			$lVr = new ReservationCommandeVR();
+			$lVr = new CommandeDetailReservationVR();
 			
 			//Tests inputs
 			if(!isset($pData['stoQuantite'])) {
@@ -315,6 +315,5 @@ class ReservationCommandeValid
 			return $lVr;
 		}
 		return $lTestId;
-	}
-
+	}*/
 }

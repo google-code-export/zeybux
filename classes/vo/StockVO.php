@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 16/05/2010
+// Date de creation : 12/07/2011
 // Fichier : StockVO.php
 //
 // Description : Classe StockVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name StockVO
  * @author Julien PIERRE
- * @since 16/05/2010
+ * @since 12/07/2011
  * @desc Classe représentant une StockVO
  */
-class StockVO extends DataTemplate
+class StockVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -53,19 +53,13 @@ class StockVO extends DataTemplate
 	* @desc IdDetailCommande de la StockVO
 	*/
 	protected $mIdDetailCommande;
-	
-	/**
-	* @var int(11)
-	* @desc IdCommande de la StockVO
-	*/
-	protected $mIdCommande;
 
 	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la StockVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -83,7 +77,7 @@ class StockVO extends DataTemplate
 	* @return datetime
 	* @desc Renvoie le membre Date de la StockVO
 	*/
-	public function getDate(){
+	public function getDate() {
 		return $this->mDate;
 	}
 
@@ -101,7 +95,7 @@ class StockVO extends DataTemplate
 	* @return decimal(10,2)
 	* @desc Renvoie le membre Quantite de la StockVO
 	*/
-	public function getQuantite(){
+	public function getQuantite() {
 		return $this->mQuantite;
 	}
 
@@ -119,7 +113,7 @@ class StockVO extends DataTemplate
 	* @return tinyint(1)
 	* @desc Renvoie le membre Type de la StockVO
 	*/
-	public function getType(){
+	public function getType() {
 		return $this->mType;
 	}
 
@@ -137,7 +131,7 @@ class StockVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdCompte de la StockVO
 	*/
-	public function getIdCompte(){
+	public function getIdCompte() {
 		return $this->mIdCompte;
 	}
 
@@ -155,7 +149,7 @@ class StockVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdDetailCommande de la StockVO
 	*/
-	public function getIdDetailCommande(){
+	public function getIdDetailCommande() {
 		return $this->mIdDetailCommande;
 	}
 
@@ -166,24 +160,6 @@ class StockVO extends DataTemplate
 	*/
 	public function setIdDetailCommande($pIdDetailCommande) {
 		$this->mIdDetailCommande = $pIdDetailCommande;
-	}
-	
-	/**
-	* @name getIdCommande()
-	* @return int(11)
-	* @desc Renvoie le membre IdCommande de la StockVO
-	*/
-	public function getIdCommande(){
-		return $this->mIdCommande;
-	}
-
-	/**
-	* @name setIdCommande($pIdCommande)
-	* @param int(11)
-	* @desc Remplace le membre IdCommande de la StockVO par $pIdCommande
-	*/
-	public function setIdCommande($pIdCommande) {
-		$this->mIdCommande = $pIdCommande;
 	}
 
 }

@@ -29,6 +29,7 @@ class ProduitManager
 	const CHAMP_PRODUIT_UNITE_MESURE = "pro_unite_mesure";
 	const CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE = "pro_max_produit_commande";
 	const CHAMP_PRODUIT_ID_PRODUCTEUR = "pro_id_producteur";
+	const CHAMP_PRODUIT_STOCK_RESERVATION = "pro_stock_reservation";
 
 	/**
 	* @name select($pId)
@@ -48,7 +49,8 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . "
+			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . "
 			FROM " . ProduitManager::TABLE_PRODUIT . " 
 			WHERE " . ProduitManager::CHAMP_PRODUIT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -63,7 +65,8 @@ class ProduitManager
 				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR]);
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION]);
 		} else {
 			return new ProduitVO();
 		}
@@ -85,7 +88,8 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . "
+			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . "
 			FROM " . ProduitManager::TABLE_PRODUIT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -101,7 +105,8 @@ class ProduitManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR]));
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION]));
 			}
 		} else {
 			$lListeProduit[0] = new ProduitVO();
@@ -131,7 +136,8 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR		);
+			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ProduitManager::TABLE_PRODUIT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -139,13 +145,14 @@ class ProduitManager
 		$lListeProduit = array();
 
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeProduit,
 						ProduitManager::remplirProduit(
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
@@ -153,31 +160,33 @@ class ProduitManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR]));
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION]));
 				}
 			} else {
 				$lListeProduit[0] = new ProduitVO();
 			}
-	
+
 			return $lListeProduit;
 		}
-	
+
 		$lListeProduit[0] = new ProduitVO();
 		return $lListeProduit;
 	}
 
 	/**
-	* @name remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdProducteur)
+	* @name remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdProducteur, $pStockReservation)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(20)
 	* @param decimal(10,2)
 	* @param int(11)
+	* @param decimal(10,2)
 	* @return ProduitVO
 	* @desc Retourne une ProduitVO remplie
 	*/
-	private static function remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdProducteur) {
+	private static function remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdProducteur, $pStockReservation) {
 		$lProduit = new ProduitVO();
 		$lProduit->setId($pId);
 		$lProduit->setIdCommande($pIdCommande);
@@ -185,6 +194,7 @@ class ProduitManager
 		$lProduit->setUniteMesure($pUniteMesure);
 		$lProduit->setMaxProduitCommande($pMaxProduitCommande);
 		$lProduit->setIdProducteur($pIdProducteur);
+		$lProduit->setStockReservation($pStockReservation);
 		return $lProduit;
 	}
 
@@ -206,13 +216,15 @@ class ProduitManager
 				," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . "
 				," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . "
 				," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . "
-				," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . ")
+				," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . "
+				," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getIdCommande() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
 				,'" . StringUtils::securiser( $pVo->getUniteMesure() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMaxProduitCommande() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdProducteur() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getIdProducteur() ) . "'
+				,'" . StringUtils::securiser( $pVo->getStockReservation() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -236,6 +248,7 @@ class ProduitManager
 				," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . " = '" . StringUtils::securiser( $pVo->getUniteMesure() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . " = '" . StringUtils::securiser( $pVo->getMaxProduitCommande() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . " = '" . StringUtils::securiser( $pVo->getIdProducteur() ) . "'
+				," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . " = '" . StringUtils::securiser( $pVo->getStockReservation() ) . "'
 			 WHERE " . ProduitManager::CHAMP_PRODUIT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

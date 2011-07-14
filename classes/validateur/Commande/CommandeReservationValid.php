@@ -3,34 +3,34 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : ListeReservationCommandeValid.php
+// Fichier : CommandeReservationValid.php
 //
-// Description : Classe ListeReservationCommandeValid
+// Description : Classe CommandeReservationValid
 //
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VR . "ListeReservationCommandeVR.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationCommandeValid.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/CommandeReservationVR.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/CommandeDetailReservationValid.php" );
 
 /**
- * @name ListeReservationCommandeVR
+ * @name CommandeReservationVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une ListeReservationCommandeValid
+ * @desc Classe représentant une CommandeReservationValid
  */
-class ListeReservationCommandeValid
+class CommandeReservationValid
 {
 	/**
 	* @name validAjout($pData)
-	* @return ListeReservationCommandeVR
+	* @return CommandeReservationVR
 	* @desc Test la validite de l'élément
 	*/
 	public static function validAjout($pData) {
-		$lVr = new ListeReservationCommandeVR();
+		$lVr = new CommandeReservationVR();
 		//Tests inputs
-		if(!isset($pData['commandes'])) {
+		if(!isset($pData['detailReservation'])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
 			$lErreur = new VRerreur();
@@ -41,7 +41,7 @@ class ListeReservationCommandeValid
 
 		if($lVr->getValid()) {		
 			//Tests Techniques
-			if(!is_array($pData['commandes'])) {
+			if(!is_array($pData['detailReservation'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
@@ -51,7 +51,7 @@ class ListeReservationCommandeValid
 			}
 	
 			//Tests Fonctionnels
-			if(empty($pData['commandes'])) {
+			if(empty($pData['detailReservation'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
@@ -61,8 +61,8 @@ class ListeReservationCommandeValid
 			}
 			
 			if($lVr->getValid()) {
-				foreach($pData['commandes'] as $lReservation) {
-					$lVrReservation = ReservationCommandeValid::validAjout($lReservation);
+				foreach($pData['detailReservation'] as $lReservation) {
+					$lVrReservation = CommandeDetailReservationValid::validAjout($lReservation);
 					if(!$lVrReservation->getValid()){$lVr->setValid(false);}
 					$lVr->addCommandes($lVrReservation);
 				}	
@@ -73,11 +73,11 @@ class ListeReservationCommandeValid
 
 	/**
 	* @name validDelete($pData)
-	* @return ListeReservationCommandeVR
+	* @return CommandeReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validDelete($pData) {
-		$lVr = new ListeReservationCommandeVR();
+	/*public static function validDelete($pData) {
+		$lVr = new CommandeReservationVR();
 		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
@@ -103,10 +103,10 @@ class ListeReservationCommandeValid
 
 	/**
 	* @name validUpdate($pData)
-	* @return ListeReservationCommandeVR
+	* @return CommandeReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validUpdate($pData) {
+	/*public static function validUpdate($pData) {
 		$lTestId = TestFonction::validDelete($pData);
 		if($lTestId->getValid()) {
 			//Tests inputs
@@ -120,7 +120,7 @@ class ListeReservationCommandeValid
 			}
 	
 			if($lVr->getValid()) {		
-				$lVr = new ListeReservationCommandeVR();
+				$lVr = new CommandeReservationVR();
 				//Tests Techniques
 				if(!is_array($pData['commandes'])) {
 					$lVr->setValid(false);
@@ -152,6 +152,6 @@ class ListeReservationCommandeValid
 			return $lVr;
 		}
 		return $lTestId;
-	}
+	}*/
 
 }

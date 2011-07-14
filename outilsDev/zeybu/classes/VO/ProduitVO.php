@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 25/12/2010
+// Date de creation : 12/07/2011
 // Fichier : ProduitVO.php
 //
 // Description : Classe ProduitVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProduitVO
  * @author Julien PIERRE
- * @since 25/12/2010
+ * @since 12/07/2011
  * @desc Classe représentant une ProduitVO
  */
 class ProduitVO  extends DataTemplate
@@ -53,6 +53,12 @@ class ProduitVO  extends DataTemplate
 	* @desc IdProducteur de la ProduitVO
 	*/
 	protected $mIdProducteur;
+
+	/**
+	* @var decimal(10,2)
+	* @desc StockReservation de la ProduitVO
+	*/
+	protected $mStockReservation;
 
 	/**
 	* @name getId()
@@ -160,6 +166,24 @@ class ProduitVO  extends DataTemplate
 	*/
 	public function setIdProducteur($pIdProducteur) {
 		$this->mIdProducteur = $pIdProducteur;
+	}
+
+	/**
+	* @name getStockReservation()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre StockReservation de la ProduitVO
+	*/
+	public function getStockReservation() {
+		return $this->mStockReservation;
+	}
+
+	/**
+	* @name setStockReservation($pStockReservation)
+	* @param decimal(10,2)
+	* @desc Remplace le membre StockReservation de la ProduitVO par $pStockReservation
+	*/
+	public function setStockReservation($pStockReservation) {
+		$this->mStockReservation = $pStockReservation;
 	}
 
 }

@@ -16,44 +16,44 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
  * @since 12/09/2010
  * @desc Classe représentant une ListeCommandeEnCoursViewVO
  */
-class ListeCommandeEnCoursViewVO extends DataTemplate
+/*class ListeCommandeEnCoursViewVO extends DataTemplate
 {
 	/**
 	* @var int(11)
 	* @desc ComId de la ListeCommandeEnCoursViewVO
 	*/
-	protected $mComId;
+	/*protected $mComId;
 
 	/**
 	* @var int(11)
 	* @desc ComNumero de la ListeCommandeEnCoursViewVO
 	*/
-	protected $mComNumero;
+	/*protected $mComNumero;
 
 	/**
 	* @var datetime
 	* @desc ComDateFinReservation de la ListeCommandeEnCoursViewVO
 	*/
-	protected $mComDateFinReservation;
+	/*protected $mComDateFinReservation;
 
 	/**
 	* @var datetime
 	* @desc ComDateMarcheDebut de la ListeCommandeEnCoursViewVO
 	*/
-	protected $mComDateMarcheDebut;
+	/*protected $mComDateMarcheDebut;
 
 	/**
 	* @var datetime
 	* @desc ComDateMarcheFin de la ListeCommandeEnCoursViewVO
 	*/
-	protected $mComDateMarcheFin;
+	/*protected $mComDateMarcheFin;
 
 	/**
 	* @name getComId()
 	* @return int(11)
 	* @desc Renvoie le membre ComId de la ListeCommandeEnCoursViewVO
 	*/
-	public function getComId() {
+	/*public function getComId() {
 		return $this->mComId;
 	}
 
@@ -62,7 +62,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @param int(11)
 	* @desc Remplace le membre ComId de la ListeCommandeEnCoursViewVO par $pComId
 	*/
-	public function setComId($pComId) {
+	/*public function setComId($pComId) {
 		$this->mComId = $pComId;
 	}
 
@@ -71,7 +71,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre ComNumero de la ListeCommandeEnCoursViewVO
 	*/
-	public function getComNumero() {
+	/*public function getComNumero() {
 		return $this->mComNumero;
 	}
 
@@ -80,7 +80,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @param int(11)
 	* @desc Remplace le membre ComNumero de la ListeCommandeEnCoursViewVO par $pComNumero
 	*/
-	public function setComNumero($pComNumero) {
+	/*public function setComNumero($pComNumero) {
 		$this->mComNumero = $pComNumero;
 	}
 
@@ -89,7 +89,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @return datetime
 	* @desc Renvoie le membre ComDateFinReservation de la ListeCommandeEnCoursViewVO
 	*/
-	public function getComDateFinReservation() {
+	/*public function getComDateFinReservation() {
 		return $this->mComDateFinReservation;
 	}
 
@@ -98,7 +98,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @param datetime
 	* @desc Remplace le membre ComDateFinReservation de la ListeCommandeEnCoursViewVO par $pComDateFinReservation
 	*/
-	public function setComDateFinReservation($pComDateFinReservation) {
+	/*public function setComDateFinReservation($pComDateFinReservation) {
 		$this->mComDateFinReservation = $pComDateFinReservation;
 	}
 
@@ -107,7 +107,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @return datetime
 	* @desc Renvoie le membre ComDateMarcheDebut de la ListeCommandeEnCoursViewVO
 	*/
-	public function getComDateMarcheDebut() {
+	/*public function getComDateMarcheDebut() {
 		return $this->mComDateMarcheDebut;
 	}
 
@@ -116,7 +116,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @param datetime
 	* @desc Remplace le membre ComDateMarcheDebut de la ListeCommandeEnCoursViewVO par $pComDateMarcheDebut
 	*/
-	public function setComDateMarcheDebut($pComDateMarcheDebut) {
+	/*public function setComDateMarcheDebut($pComDateMarcheDebut) {
 		$this->mComDateMarcheDebut = $pComDateMarcheDebut;
 	}
 
@@ -125,7 +125,7 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @return datetime
 	* @desc Renvoie le membre ComDateMarcheFin de la ListeCommandeEnCoursViewVO
 	*/
-	public function getComDateMarcheFin() {
+	/*public function getComDateMarcheFin() {
 		return $this->mComDateMarcheFin;
 	}
 
@@ -134,8 +134,8 @@ class ListeCommandeEnCoursViewVO extends DataTemplate
 	* @param datetime
 	* @desc Remplace le membre ComDateMarcheFin de la ListeCommandeEnCoursViewVO par $pComDateMarcheFin
 	*/
-	public function setComDateMarcheFin($pComDateMarcheFin) {
+	/*public function setComDateMarcheFin($pComDateMarcheFin) {
 		$this->mComDateMarcheFin = $pComDateMarcheFin;
 	}
-}
+}*/
 ?>
