@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 12/07/2011
+// Date de creation : 18/07/2011
 // Fichier : HistoriqueStockManager.php
 //
 // Description : Classe de gestion des HistoriqueStock
@@ -16,7 +16,7 @@ include_once(CHEMIN_CLASSES_VO . "HistoriqueStockVO.php");
 /**
  * @name HistoriqueStockManager
  * @author Julien PIERRE
- * @since 12/07/2011
+ * @since 18/07/2011
  * 
  * @desc Classe permettant l'accès aux données des HistoriqueStock
  */
@@ -30,6 +30,7 @@ class HistoriqueStockManager
 	const CHAMP_HISTORIQUESTOCK_TYPE = "hsto_type";
 	const CHAMP_HISTORIQUESTOCK_ID_COMPTE = "hsto_id_compte";
 	const CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE = "hsto_id_detail_commande";
+	const CHAMP_HISTORIQUESTOCK_ID_OPERATION = "hsto_id_operation";
 	const CHAMP_HISTORIQUESTOCK_ID_CONNEXION = "hsto_id_connexion";
 
 	/**
@@ -52,6 +53,7 @@ class HistoriqueStockManager
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE . 
+			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION . "
 			FROM " . HistoriqueStockManager::TABLE_HISTORIQUESTOCK . " 
 			WHERE " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -69,6 +71,7 @@ class HistoriqueStockManager
 				$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE],
 				$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE],
 				$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE],
+				$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION],
 				$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION]);
 		} else {
 			return new HistoriqueStockVO();
@@ -93,6 +96,7 @@ class HistoriqueStockManager
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE . 
+			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . 
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION . "
 			FROM " . HistoriqueStockManager::TABLE_HISTORIQUESTOCK;
 
@@ -111,6 +115,7 @@ class HistoriqueStockManager
 					$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE],
 					$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE],
 					$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE],
+					$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION],
 					$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION]));
 			}
 		} else {
@@ -143,6 +148,7 @@ class HistoriqueStockManager
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE .
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE .
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION .
 			"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION		);
 
 		// Préparation de la requète de recherche
@@ -168,6 +174,7 @@ class HistoriqueStockManager
 						$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE],
 						$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE],
 						$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE],
+						$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION],
 						$lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION]));
 				}
 			} else {
@@ -182,7 +189,7 @@ class HistoriqueStockManager
 	}
 
 	/**
-	* @name remplirHistoriqueStock($pId, $pStoId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdConnexion)
+	* @name remplirHistoriqueStock($pId, $pStoId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdOperation, $pIdConnexion)
 	* @param int(11)
 	* @param int(11)
 	* @param datetime
@@ -191,10 +198,11 @@ class HistoriqueStockManager
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
+	* @param int(11)
 	* @return HistoriqueStockVO
 	* @desc Retourne une HistoriqueStockVO remplie
 	*/
-	private static function remplirHistoriqueStock($pId, $pStoId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdConnexion) {
+	private static function remplirHistoriqueStock($pId, $pStoId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdOperation, $pIdConnexion) {
 		$lHistoriqueStock = new HistoriqueStockVO();
 		$lHistoriqueStock->setId($pId);
 		$lHistoriqueStock->setStoId($pStoId);
@@ -203,6 +211,7 @@ class HistoriqueStockManager
 		$lHistoriqueStock->setType($pType);
 		$lHistoriqueStock->setIdCompte($pIdCompte);
 		$lHistoriqueStock->setIdDetailCommande($pIdDetailCommande);
+		$lHistoriqueStock->setIdOperation($pIdOperation);
 		$lHistoriqueStock->setIdConnexion($pIdConnexion);
 		return $lHistoriqueStock;
 	}
@@ -227,6 +236,7 @@ class HistoriqueStockManager
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . "
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE . "
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE . "
+				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . "
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getStoId() ) . "'
@@ -235,6 +245,7 @@ class HistoriqueStockManager
 				,'" . StringUtils::securiser( $pVo->getType() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdConnexion() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -260,6 +271,7 @@ class HistoriqueStockManager
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . " = '" . StringUtils::securiser( $pVo->getType() ) . "'
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_COMPTE . " = '" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE . " = '" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . " = '" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 				," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_CONNEXION . " = '" . StringUtils::securiser( $pVo->getIdConnexion() ) . "'
 			 WHERE " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 

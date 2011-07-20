@@ -142,3 +142,11 @@ pro_stock_reservation,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produi
 
 INSERT INTO `tpp_type_paiement` (`tpp_id`, `tpp_type`, `tpp_champ_complementaire`, `tpp_label_champ_complementaire`, `tpp_visible`) VALUES ('0', 'Réservation', '0', '', '0');
 UPDATE `tpp_type_paiement` SET `tpp_id` = '0' WHERE `tpp_type_paiement`.`tpp_id` =16;
+
+ALTER TABLE `sto_stock` ADD `sto_id_operation` INT NOT NULL;
+ALTER TABLE `hsto_historique_stock` ADD `hsto_id_operation` INT NOT NULL AFTER `hsto_id_detail_commande` ;
+
+
+
+
+

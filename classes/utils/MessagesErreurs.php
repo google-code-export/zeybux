@@ -52,6 +52,8 @@ class MessagesErreurs
 	const ERR_115_MSG = 'Le champ doit être de type tableau.';
 	const ERR_116_CODE = 116;
 	const ERR_116_MSG = 'Session expirée. Veuillez vous <span class="action-ifb com-cursor-pointer" id="action-ifb-116">reconnecter</span>.';
+	const ERR_117_CODE = 117;
+	const ERR_117_MSG = 'Format incorrect.';
 		
 	//Erreurs fonctionelles
 	const ERR_201_CODE = 201;
@@ -128,6 +130,8 @@ class MessagesErreurs
 	const ERR_236_MSG = 'Choisir une option.';
 	const ERR_237_CODE = 237;
 	const ERR_237_MSG = 'Le montant dépasse le solde du compte.';
+	const ERR_238_CODE = 238;
+	const ERR_238_MSG = 'Vous n\'avez pas de réservation pour ce marché.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

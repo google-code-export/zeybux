@@ -48,7 +48,7 @@ class DetailReservationVO  extends DataTemplate
 	* @desc Le constructeur
 	*/
 	public function DetailReservationVO() {
-		$this->mId;
+		$this->mId = new IdDetailReservationVO();
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class DetailReservationVO  extends DataTemplate
 	* @desc Renvoie le membre Id de la DetailReservationVO
 	*/
 	public function getId() {
-		return $this->mId = new IdDetailReservationVO();
+		return $this->mId;
 	}
 
 	/**

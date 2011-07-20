@@ -77,20 +77,28 @@ class DetailOperationService
 	*/
 	public function delete($pId) {
 		$lDetailOperationValid = new DetailOperationValid();
-		if($lDetailOperationValid->delete($pId)){			
-			$pDetailOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-			$pDetailOperation->setIdConnexion($_SESSION[ID_CONNEXION]);
-		
-			$lDetailOperation = $this->get($pId);
-			$lDetailOperation->setlibelle("Supression");
-			$this->insertHistorique($lDetailOperation); // Ajout historique
-			
-			return DetailOperationManager::delete($pId); // delete de l'opération		
-		} else {
-			return false;
+
+		if($lDetailOperationValid->delete($pId)){		
+			$lDetailOperation = $this->get($pId);	
+
+			switch($lDetailOperation->getTypePaiement()) {
+				case 0 : // Annulation de la reservation
+					$lDetailOperation->setTypePaiement(16);
+					return $this->update($lDetailOperation);
+					break;
+					
+				default:
+					$pDetailOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+					$pDetailOperation->setIdConnexion($_SESSION[ID_CONNEXION]);					
+					$lDetailOperation->setlibelle("Supression");
+					$this->insertHistorique($lDetailOperation); // Ajout historique
+					return DetailOperationManager::delete($pId); // delete de l'opération	
+					break;
+			}
 		}
+		return false;
 	}
-	
+
 	/**
 	* @name insertHistorique($pDetailOperation)
 	* @param DetailOperationVO
@@ -143,6 +151,20 @@ class DetailOperationService
 	*/
 	public function selectAll() {
 		return DetailOperationManager::selectAll();
+	}
+	
+	/**
+	* @name getDetailReservation($pIdOperation)
+	* @return array(DetailOperationVO)
+	* @desc Retourne une liste d'DetailOperation
+	*/
+	public function getDetailReservation($pIdOperation) {	
+		return DetailOperationManager::recherche(
+			array(DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION),
+			array('='),
+			array($pIdOperation),
+			array(DetailOperationManager::CHAMP_DETAILOPERATION_DATE,DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT),
+			array('DESC','ASC'));
 	}
 }
 ?>

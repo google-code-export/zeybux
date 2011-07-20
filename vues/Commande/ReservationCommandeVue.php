@@ -22,7 +22,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 			switch($lParam["fonction"]) {					
 				case "detailMarche":
 						echo $lControleur->getReservation($lParam)->exportToJson();
-						$lLogger->log("Affichage de la vue ReservationCommande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de la vue ReservationCommande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "reservationMarche":
@@ -31,12 +31,12 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 					break;
 
 				default:
-					$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	

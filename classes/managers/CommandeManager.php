@@ -142,7 +142,7 @@ class CommandeManager
 			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " NOT IN (
    					SELECT " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
    					FROM " . OperationManager::TABLE_OPERATION . "
-   					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (0,7,8,15,16)
+   					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (0,7,8,15)
    					AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pIdCompte . ")
    			AND " . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . " >= now()
 			AND " . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = 0
