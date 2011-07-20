@@ -99,18 +99,32 @@ class OperationService
 	public function delete($pId) {
 		$lOperationValid = new OperationValid();
 		if($lOperationValid->delete($pId)){			
-			$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 		
 			$lOperation = $this->get($pId);
-			$lOperation->setlibelle("Supression");
-			$this->insertHistorique($lOperation); // Ajout historique
-				
-			$lCompteService = new CompteService(); // Mise à jour du solde
-			$lCompte = $lCompteService->get($lOperation->getIdCompte());
-			$lCompte->setSolde($lCompte->getSolde() - $lOperation->getMontant());
-			$lCompteService->set($lCompte);
 			
-			return OperationManager::delete($pId); // delete de l'opération		
+			// Maj du solde du compte
+			$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+			if(in_array($lOperation->getTypePaiement(), $lTypeModificationSolde)) {
+				$lCompteService = new CompteService(); // Mise à jour du solde
+				$lCompte = $lCompteService->get($lOperation->getIdCompte());
+				$lCompte->setSolde($lCompte->getSolde() - $lOperation->getMontant());
+				$lCompteService->set($lCompte);
+			}
+			
+			switch($lOperation->getTypePaiement()) {
+				case 0 : // Annulation de la reservation
+					$lOperation->setTypePaiement(16);
+					return $this->update($lOperation);
+					break;
+					
+				default:
+					$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+					$lOperation->setlibelle("Supression");
+					$this->insertHistorique($lOperation); // Ajout historique
+					$this->insertHistorique($lDetailOperation); // Ajout historique
+					return OperationManager::delete($pId); // delete de l'opération	
+					break;
+			}
 		} else {
 			return false;
 		}

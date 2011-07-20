@@ -100,6 +100,16 @@ class StockValid
 	}
 	
 	/**
+	* @name idOperation($pIdOperation)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function idOperation($pIdOperation) {
+		$lIdValid = new IdValid();
+		return $lIdValid->estId($pIdOperation);
+	}
+	
+	/**
 	* @name insert($pStock)
 	* @return bool
 	* @desc Test la validite de l'élément
@@ -113,7 +123,8 @@ class StockValid
 				&& $this->quantite($pStock->getQuantite())
 				&& $this->type($pStock->getType())
 				&& $this->compte($pStock->getIdCompte())
-				&& $this->detailCommande($pStock->getIdDetailCommande());
+				&& $this->detailCommande($pStock->getIdDetailCommande())
+				&& $this->idOperation($pStock->getIdOperation());
 				
 		} else {
 			return false;
@@ -131,7 +142,8 @@ class StockValid
 				&& $this->quantite($pStock->getQuantite())
 				&& $this->type($pStock->getType())
 				&& $this->compte($pStock->getIdCompte())
-				&& $this->detailCommande($pStock->getIdDetailCommande());
+				&& $this->detailCommande($pStock->getIdDetailCommande())
+				&& $this->idOperation($pStock->getIdOperation());
 		} else {
 			return false;
 		}

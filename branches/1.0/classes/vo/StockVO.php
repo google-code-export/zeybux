@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 12/07/2011
+// Date de creation : 18/07/2011
 // Fichier : StockVO.php
 //
 // Description : Classe StockVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name StockVO
  * @author Julien PIERRE
- * @since 12/07/2011
+ * @since 18/07/2011
  * @desc Classe représentant une StockVO
  */
 class StockVO  extends DataTemplate
@@ -53,6 +53,12 @@ class StockVO  extends DataTemplate
 	* @desc IdDetailCommande de la StockVO
 	*/
 	protected $mIdDetailCommande;
+
+	/**
+	* @var int(11)
+	* @desc IdOperation de la StockVO
+	*/
+	protected $mIdOperation;
 
 	/**
 	* @name getId()
@@ -160,6 +166,24 @@ class StockVO  extends DataTemplate
 	*/
 	public function setIdDetailCommande($pIdDetailCommande) {
 		$this->mIdDetailCommande = $pIdDetailCommande;
+	}
+
+	/**
+	* @name getIdOperation()
+	* @return int(11)
+	* @desc Renvoie le membre IdOperation de la StockVO
+	*/
+	public function getIdOperation() {
+		return $this->mIdOperation;
+	}
+
+	/**
+	* @name setIdOperation($pIdOperation)
+	* @param int(11)
+	* @desc Remplace le membre IdOperation de la StockVO par $pIdOperation
+	*/
+	public function setIdOperation($pIdOperation) {
+		$this->mIdOperation = $pIdOperation;
 	}
 
 }

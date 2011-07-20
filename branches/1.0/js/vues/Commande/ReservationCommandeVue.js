@@ -35,39 +35,6 @@
 						that.infoCommande.comArchive = lResponse.marche.archive;
 						
 						that.pdtCommande = lResponse.marche.produits;
-						/*$(lResponse.commande).each(function() {
-							var lLot = new Object();
-							
-							lLot.dcomId = this.dcomId;
-							lLot.dcomIdProduit = this.dcomIdProduit;
-							lLot.dcomTaille = this.dcomTaille;
-							lLot.dcomPrix = this.dcomPrix;
-							
-							if(that.pdtCommande[this.proId]) {
-								that.pdtCommande[this.proId].lot[lLot.dcomId] = lLot;
-							} else {			
-								var lproduit = new Object();
-								lproduit.proId = this.proId;
-								lproduit.proUniteMesure = this.proUniteMesure;
-								lproduit.proMaxProduitCommande = this.proMaxProduitCommande;
-								
-								$(lResponse.stock).each(function() { 
-									if(this.proId == lproduit.proId) {
-										if(parseFloat(this.stoQuantite) < parseFloat(lproduit.proMaxProduitCommande)) {
-											 lproduit.proMaxProduitCommande = this.stoQuantite;
-										}
-									}
-								});
-
-								lproduit.nproNom = this.nproNom;
-								lproduit.nproDescription = this.nproDescription;
-								lproduit.nproIdCategorie = this.nproIdCategorie;
-								
-								lproduit.lot = new Array();
-								lproduit.lot[lLot.dcomId] = lLot;								
-								that.pdtCommande[lproduit.proId] = lproduit;
-							}
-						});*/
 												
 						that.afficher();
 					} else {
@@ -157,7 +124,8 @@
 				
 				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
 				lPdt.stock = parseFloat(this.stockReservation);
-				if(lPdt.proMaxProduitCommande < lPdt.stock) {
+
+				if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
 					lPdt.max = lPdt.proMaxProduitCommande;
 				} else {
 					lPdt.max = lPdt.stock;
@@ -334,7 +302,7 @@
 		// La quantité max soit qte max soit stock
 		var lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
 		var lStock = this.pdtCommande[pIdPdt].stockReservation;
-		if(lStock < lMax) { lMax = lStock; }
+		if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
 		
 		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;

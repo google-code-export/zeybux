@@ -82,12 +82,15 @@ class StockService
 		$this->insertHistorique($pStock); // Ajout historique
 		
 		$lStockActuel = $this->get($pStock->getId());
-		
+		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 		// TODO Mise à jour du stock selon le type
-		
 		switch($pStock->getType()) {
 			case 0 : // Reservation
 				// Maj Stock Reservation dans le produit
+				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				$lProduit = ProduitManager::select($lLot->getIdProduit());
+				$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite() - $lStockActuel->getQuantite());
+				ProduitManager::update($lProduit);
 				break;
 			
 			case 4 : // Bon de Livraison 
@@ -99,6 +102,10 @@ class StockService
 			
 			case 6 : // Reservation annulée
 				// Maj Stock Reservation dans le produit
+				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				$lProduit = ProduitManager::select($lLot->getIdProduit());
+				$lProduit->setStockReservation($lProduit->getStockReservation() - $lStockActuel->getQuantite());
+				ProduitManager::update($lProduit);
 				break;
 		}
 		
@@ -114,16 +121,19 @@ class StockService
 		$lStockValid = new StockValid();
 		if($lStockValid->delete($pId)){
 			$lStock = $this->get($pId);
-			$lStock->setlibelle("Supression");
-			$this->insertHistorique($lStock); // Ajout historique
-				
-			// TODO Mise à jour du stock selon le type
-			/*$lCompteService = new CompteService(); // Mise à jour du solde
-			$lCompte = $lCompteService->get($lStock->getIdCompte());
-			$lCompte->setSolde($lCompte->getSolde() - $lStock->getMontant());
-			$lCompteService->set($lCompte);*/
-			
-			return StockManager::delete($pId); // delete de l'opération		
+			switch($lStock->getType()) {
+				case 0 : // Annulation de la reservation
+					$lStock->setType(6);
+					return $this->update($lStock);
+					break;
+					
+				default:
+					$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
+					$lStock->setlibelle("Supression");
+					$this->insertHistorique($lStock); // Ajout historique
+					return StockManager::delete($pId);
+					break;
+			}	
 		} else {
 			return false;
 		}
@@ -143,6 +153,7 @@ class StockService
 		$lHistoriqueStock->setType($pStock->getType());
 		$lHistoriqueStock->setIdCompte($pStock->getIdCompte());
 		$lHistoriqueStock->setIdDetailCommande($pStock->getIdDetailCommande());
+		$lHistoriqueStock->setIdOperation($pStock->getIdOperation());
 		$lHistoriqueStock->setIdConnexion($_SESSION[ID_CONNEXION]);
 		return HistoriqueStockManager::insert($lHistoriqueStock);
 	}
@@ -178,6 +189,20 @@ class StockService
 	*/
 	public function selectAll() {
 		return StockManager::selectAll();
+	}
+	
+	/**
+	* @name getDetailReservation($pIdOperation)
+	* @return array(StockVO)
+	* @desc Retourne une liste d'Stock
+	*/
+	public function getDetailReservation($pIdOperation) {	
+		return StockManager::recherche(
+			array(StockManager::CHAMP_STOCK_ID_OPERATION),
+			array('='),
+			array($pIdOperation),
+			array(StockManager::CHAMP_STOCK_DATE,StockManager::CHAMP_STOCK_TYPE),
+			array('DESC','ASC'));
 	}
 }
 ?>

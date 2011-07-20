@@ -108,5 +108,19 @@ class ReservationValid
 		}*/
 		return false;
 	}
+	
+	/**
+	* @name select($pIdReservation)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function select($pIdReservation) {		
+		$lIdReservationValid = new IdReservationValid();
+		$lIdValid = $lIdReservationValid->estVide($pIdReservation);
+		if(!is_null($lIdValid) && !$lIdValid) {
+			return true;
+		}
+		return false;
+	}
 }
 ?>
