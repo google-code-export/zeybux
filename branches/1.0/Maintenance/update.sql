@@ -146,6 +146,100 @@ UPDATE `tpp_type_paiement` SET `tpp_id` = '0' WHERE `tpp_type_paiement`.`tpp_id`
 ALTER TABLE `sto_stock` ADD `sto_id_operation` INT NOT NULL;
 ALTER TABLE `hsto_historique_stock` ADD `hsto_id_operation` INT NOT NULL AFTER `hsto_id_detail_commande` ;
 
+create view view_gestion_commande_liste_reservation as
+
+select 
+`com_commande`.`com_id` AS `com_id`,
+`com_commande`.`com_numero` AS `com_numero`,
+`adh_adherent`.`adh_id` AS `adh_id`,
+`adh_adherent`.`adh_numero` AS `adh_numero`,
+`cpt_compte`.`cpt_label` AS `cpt_label`,
+`adh_adherent`.`adh_nom` AS `adh_nom`,
+`adh_adherent`.`adh_prenom` AS `adh_prenom` 
+
+from ope_operation 
+join `cpt_compte` on ope_id_compte = cpt_id
+join `adh_adherent` on `adh_adherent`.`adh_id_compte` = `cpt_compte`.`cpt_id`
+join `com_commande` on com_id = ope_id_commande
+where com_archive = 0
+and ope_type_paiement = 0;
+
+DROP TABLE `view_liste_adherent_commande_reservation`;
+
+create view view_achat_detail_solidaire as
+SELECT 
+sto_id_operation,
+sto_id,
+dope_id,
+sto_id_detail_commande,
+dope_montant,
+sto_quantite
+FROM `sto_stock` 
+left join dope_detail_operation on sto_id_operation = dope_id_operation 
+AND sto_id_detail_commande = dope_id_detail_commande
+WHERE sto_type = 2
+
+order by `sto_date` DESC, `sto_type` ASC;
+
+create view view_achat_detail as
+SELECT 
+sto_id_operation,
+sto_id,
+dope_id,
+sto_id_detail_commande,
+dope_montant,
+sto_quantite
+FROM `sto_stock` 
+left join dope_detail_operation on sto_id_operation = dope_id_operation 
+AND sto_id_detail_commande = dope_id_detail_commande
+WHERE sto_type = 1
+
+order by `sto_date` DESC, `sto_type` ASC;
+
+INSERT INTO `tpp_type_paiement` (
+`tpp_id` ,
+`tpp_type` ,
+`tpp_champ_complementaire` ,
+`tpp_label_champ_complementaire` ,
+`tpp_visible`
+)
+VALUES (
+'15', 'Réservation non récupérée', '0', '', '0'
+);
+
+INSERT INTO `tpp_type_paiement` (
+`tpp_id` ,
+`tpp_type` ,
+`tpp_champ_complementaire` ,
+`tpp_label_champ_complementaire` ,
+`tpp_visible`
+)
+VALUES (
+'16', 'Annulation réservation', '0', '', '0'
+);
+
+create view view_reservation_detail as
+SELECT 
+sto_id_operation,
+sto_id,
+dope_id,
+sto_id_detail_commande,
+dope_montant,
+sto_quantite
+FROM `sto_stock` 
+left join dope_detail_operation on sto_id_operation = dope_id_operation 
+AND sto_id_detail_commande = dope_id_detail_commande
+WHERE sto_type = 0
+
+order by `sto_date` DESC, `sto_type` ASC;
+
+
+
+
+
+
+
+
 
 
 

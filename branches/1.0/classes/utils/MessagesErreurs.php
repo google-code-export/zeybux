@@ -132,6 +132,8 @@ class MessagesErreurs
 	const ERR_237_MSG = 'Le montant dépasse le solde du compte.';
 	const ERR_238_CODE = 238;
 	const ERR_238_MSG = 'Vous n\'avez pas de réservation pour ce marché.';
+	const ERR_239_CODE = 239;
+	const ERR_239_MSG = 'Le marché n\'est plus ouvert.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

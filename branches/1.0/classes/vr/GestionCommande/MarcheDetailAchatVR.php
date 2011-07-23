@@ -2,10 +2,10 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 21/09/2010
-// Fichier : ProduitAchatVR.php
+// Date de creation : 22/07/2011
+// Fichier : MarcheDetailAchatVR.php
 //
-// Description : Classe ProduitAchatVR
+// Description : Classe MarcheDetailAchatVR
 //
 //****************************************************************
 // Inclusion des classes
@@ -14,12 +14,12 @@ include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name ProduitAchatVR
+ * @name MarcheDetailAchatVR
  * @author Julien PIERRE
- * @since 21/09/2010
- * @desc Classe représentant une ProduitAchatVR
+ * @since 22/07/2011
+ * @desc Classe représentant une MarcheDetailAchatVR
  */
-class ProduitAchatVR extends DataTemplate
+class MarcheDetailAchatVR extends DataTemplate
 {
 	/**
 	 * @var bool
@@ -41,22 +41,22 @@ class ProduitAchatVR extends DataTemplate
 
 	/**
 	 * @var VRelement
-	 * @desc Quantite de la ProduitAchatVR
+	 * @desc Quantite de la MarcheDetailAchatVR
 	 */
 	protected $mQuantite;
 
 	/**
 	 * @var VRelement
-	 * @desc Prix de la ProduitAchatVR
+	 * @desc Prix de la MarcheDetailAchatVR
 	 */
 	protected $mPrix;
 
 	/**
-	* @name ProduitAchatVR()
+	* @name MarcheDetailAchatVR()
 	* @return bool
 	* @desc Constructeur
 	*/
-	function ProduitAchatVR() {
+	function MarcheDetailAchatVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();

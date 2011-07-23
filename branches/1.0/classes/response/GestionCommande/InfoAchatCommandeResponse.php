@@ -22,13 +22,13 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @var bool
 	 * @desc Donne la validité de l'objet
 	 */
-	protected $mValid;
+	protected $mValid = true;
 
 	/**
 	 * @var array(CommandeCompleteViewVO)
-	 * @desc La commande
+	 * @desc Le Marche
 	 */
-	protected $mCommande;
+	protected $mMarche;
 	
 	/**
 	 * @var array(StockProduitViewVO)
@@ -61,12 +61,12 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	* @name InfoAchatCommandeResponse()
-	* @desc Le constructeur de InfoAchatCommandeResponse
+	* @name InfoAchatMarcheResponse()
+	* @desc Le constructeur de InfoAchatMarcheResponse
 	*/	
-	public function InfoAchatCommandeResponse() {
+	public function InfoAchatMarcheResponse() {
 		$this->mValid = true;
-		$this->mCommande = array();
+		$this->mMarche = array();
 		$this->mStock = array();
 		$this->mStockSolidaire = array();
 		$this->mReservation = array();
@@ -92,30 +92,30 @@ class InfoAchatCommandeResponse extends DataTemplate
 	}
 
 	/**
-	* @name getCommande()
-	* @return array(CommandeCompleteViewVO)
-	* @desc Renvoie le Commande
+	* @name getMarche()
+	* @return array(MarcheCompleteViewVO)
+	* @desc Renvoie le Marche
 	*/
-	public function getCommande() {
-		return $this->mCommande;
+	public function getMarche() {
+		return $this->mMarche;
 	}
 
 	/**
-	* @name setCommande($pCommande)
-	* @param array(CommandeCompleteViewVO)
-	* @desc Remplace le Commande par $pCommande
+	* @name setMarche($pMarche)
+	* @param array(MarcheCompleteViewVO)
+	* @desc Remplace le Marche par $pMarche
 	*/
-	public function setCommande($pCommande) {
-		$this->mCommande = $pCommande;
+	public function setMarche($pMarche) {
+		$this->mMarche = $pMarche;
 	}
 	
 	/**
-	* @name addCommande($pCommande)
-	* @param CommandeCompleteViewVO
-	* @desc Ajoute le $pCommande à Commande
+	* @name addMarche($pMarche)
+	* @param MarcheCompleteViewVO
+	* @desc Ajoute le $pMarche à Marche
 	*/
-	public function addCommande($pCommande) {
-		array_push($this->mCommande, $pCommande);
+	public function addMarche($pMarche) {
+		array_push($this->mMarche, $pMarche);
 	}
 	
 	/**

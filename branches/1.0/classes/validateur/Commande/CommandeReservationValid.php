@@ -162,8 +162,7 @@ class CommandeReservationValid
 			$lVr->getLog()->addErreur($lErreur);	
 		}
 
-		if($lVr->getValid()) {		
-			$lVr = new CommandeReservationVR();
+		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!is_int((int)$pData['id_commande'])) {
 				$lVr->setValid(false);
@@ -362,8 +361,7 @@ class CommandeReservationValid
 			$lVr->getLog()->addErreur($lErreur);	
 		}
 
-		if($lVr->getValid()) {		
-			$lVr = new CommandeReservationVR();
+		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!is_int((int)$pData['id_commande'])) {
 				$lVr->setValid(false);
@@ -448,7 +446,6 @@ class CommandeReservationValid
 		}
 
 		if($lVr->getValid()) {
-			$lVr = new CommandeReservationVR();
 			//Tests Techniques
 			if(!is_int((int)$pData['id_commande'])) {
 				$lVr->setValid(false);
