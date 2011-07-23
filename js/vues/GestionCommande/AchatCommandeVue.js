@@ -10,14 +10,15 @@
 	this.total = 0;
 	this.totalSolidaire = 0;
 	
-	this.pdtCommande = new Array();
+	this.pdtCommande = [];
 	
 	this.construct = function(pParam) {
-		var that = this;		 // TODO gestion avec param pour le server aussi
+		var that = this;
 		this.idCommande = pParam.id_commande;
 		this.idAdherent = pParam.id_adherent;
-		
-		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","id_commande=" + pParam.id_commande + "&id_adherent=" + pParam.id_adherent,
+
+		pParam.fonction = "infoAchat";
+		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse.valid) {						
@@ -25,71 +26,13 @@
 							Infobulle.generer(pParam.vr,'');
 						}
 						that.idCompte = lResponse.adherent.adhIdCompte;
-												
-						$(lResponse.commande).each(function() {
-							var lLot = new Object();
-							
-							lLot.dcomId = this.dcomId;
-							lLot.dcomIdProduit = this.dcomIdProduit;
-							lLot.dcomTaille = this.dcomTaille;
-							lLot.dcomPrix = this.dcomPrix;
-							
-							if(that.pdtCommande[this.proId]) {
-								that.pdtCommande[this.proId].lot[lLot.dcomId] = lLot;
-								that.pdtCommande[this.proId].prixUnitaire = null;
-							} else {			
-								var lproduit = new Object();
-								lproduit.proId = this.proId;
-								lproduit.proUniteMesure = this.proUniteMesure;
-								lproduit.proMaxProduitCommande = this.proMaxProduitCommande;
-								
-								$(lResponse.stock).each(function() { 
-									if(this.proId == lproduit.proId) {
-										if(parseFloat(this.stoQuantite) < parseFloat(lproduit.proMaxProduitCommande)) {
-											 lproduit.proMaxProduitCommande = this.stoQuantite;
-										}
-									}
-								});
-
-								lproduit.nproNom = this.nproNom;
-								lproduit.nproDescription = this.nproDescription;
-								lproduit.nproIdCategorie = this.nproIdCategorie;
-								lproduit.prixUnitaire = lLot.dcomPrix/lLot.dcomTaille;								
-								
-								lproduit.lot = new Array();
-								lproduit.lot[lLot.dcomId] = lLot;								
-								that.pdtCommande[lproduit.proId] = lproduit;
-							}
-						});
-						
-						/*$(that.pdtCommande).each(function() {
-							if(this.proId) {
-								$(this.lot).each(function() {alert('t');});
-								if($(this.lot).size() == 1) {
-									this.prixUnitaire = $(this.lot).first().dcomPrix/$(this.lot).first().dcomTaille;
-								} else {
-									this.prixUnitaire = null;
-								}
-							}
-						});*/
-						/*for(lLigne in lResponse.commande) {
-							var lLot = new Object();
-							lLot.quantite = lResponse.commande[lLigne].dcomTaille;
-							lLot.prix = lResponse.commande[lLigne].dcomPrix						
-							if(!that.listeLot[lResponse.commande[lLigne].proId]) {
-								if(!isArray(that.listeLot[lResponse.commande[lLigne].proId])) {
-									that.listeLot[lResponse.commande[lLigne].proId] = new Array();
-								}
-							}
-							that.listeLot[lResponse.commande[lLigne].proId].push(lLot);
-						}	*/					
+						that.pdtCommande = lResponse.marche.produits;			
 						
 						$(lResponse.typePaiement).each(function() {
 							that.mTypePaiement[this.tppId] = this;
 						});
-						
-						
-						that.solde = parseFloat(lResponse.adherent.opeMontant);
+
+						that.solde = parseFloat(lResponse.adherent.cptSolde);
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -106,7 +49,7 @@
 			var lTemplate = lGestionCommandeTemplate.achatCommandePage;
 			
 			var lData = new Object();
-			lData.comNumero = pResponse.commande[0].comNumero;
+			lData.comNumero = pResponse.marche.numero;
 			
 			lData.adhNumero = pResponse.adherent.adhNumero;
 			lData.adhCompte = pResponse.adherent.cptLabel;
@@ -118,26 +61,33 @@
 			lData.produits = new Array();
 			lData.produitsSolidaire = new Array();
 			
-			$(this.pdtCommande).each(function() {
-				if(this.proId) {
+			$.each(that.pdtCommande,function() {
+				if(this.id) {
 					var lProduitCommande = this;
-					var lProduit = new Object();
-					lProduit.proId = this.proId;
-					lProduit.nproNom = this.nproNom;
-					lProduit.proUniteMesure = this.proUniteMesure;
+					var lProduit = {};
+					lProduit.proId = this.id;
+					lProduit.nproNom = this.nom;
+					lProduit.proUniteMesure = this.unite;
 					lProduit.stoQuantite = 0;
 					lProduit.proPrix = 0;
 					var lPrix = 0;
-					$(pResponse.reservation).each(function() {
-						if(this.proId == lProduit.proId) {
-							lProduit.stoQuantite = this.stoQuantite * -1;
-							lPrix = (lProduitCommande.lot[this.dcomId].dcomPrix/lProduitCommande.lot[this.dcomId].dcomTaille)*lProduit.stoQuantite;
-							lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+					$.each(this.lots, function() {
+						if(this.id) {
+							var lIdLot = this.id;
+							$(pResponse.reservation).each(function() {
+								if(this.idDetailCommande == lIdLot) {
+									lProduit.stoQuantite = this.quantite * -1;
+									//lPrix = (parseFloat(lProduitCommande.lots[this.idDetailCommande].prix) / parseFloat(lProduitCommande.lots[this.idDetailCommande].taille)) * parseFloat(lProduit.stoQuantite);
+									lPrix = this.montant * -1;
+									lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+								}											
+							});
 						}
 					});
+					
 					lData.total += lPrix;
 					lData.produits.push(lProduit);
-
+					
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proId == this.proId){
 							lData.produitsSolidaire.push(lProduit);
@@ -145,58 +95,11 @@
 					});
 				}
 			});
-			
-			/*lListeIdProduit = new Array();
-			for(lLigne in pResponse.commande) {
-				lPush = true;
-				for(lId in lListeIdProduit) {
-					if(lListeIdProduit[lId] == pResponse.commande[lLigne].proId) {
-						lPush = false;
-					}
-				}
-				if(lPush) {
-					lListeIdProduit.push(pResponse.commande[lLigne].proId);
-					var lProduit = new Object();
-					lProduit.proId = pResponse.commande[lLigne].proId;
-					lProduit.nproNom = pResponse.commande[lLigne].nproNom;
-					lProduit.proUniteMesure = pResponse.commande[lLigne].proUniteMesure;
-					lProduit.stoQuantite = 0;
-					lProduit.proPrix = 0;
-					var lPrix = 0;
-					for(lReservation in pResponse.reservation) {
-						if(pResponse.reservation[lReservation].proId == lProduit.proId) {
-							lProduit.stoQuantite = pResponse.reservation[lReservation].stoQuantite * -1;
-							lPrix = this.calculPrixProduit(lProduit.proId,lProduit.stoQuantite);
-							lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
-						}						
-					}
-					lData.total += lPrix;
-					lData.produits.push(lProduit);
-				
-				
-					$(pResponse.stockSolidaire).each(function() {
-						if(pResponse.commande[lLigne].proId == this.proId){
-							var lProduitSolidaire = {};
-							lProduitSolidaire.proId = this.proId;
-							lProduitSolidaire.nproNom = pResponse.commande[lLigne].nproNom;
-							lProduitSolidaire.proUniteMesure = pResponse.commande[lLigne].proUniteMesure;
-							lData.produitsSolidaire.push(lProduitSolidaire);
-						}
-					});
-				}
-			}*/
-			
-			lData.adhSolde = parseFloat(pResponse.adherent.opeMontant);
-			//lData.adhNouveauSolde =  lData.adhSolde-lData.total;
-			/*alert('Solde :'+ lData.adhSolde);
-			alert('total :'+ lData.total);
-			alert('NvSolde :'+ lData.adhNouveauSolde);
-			alert('NvSolde2 :'+ lData.adhSolde-lData.total);*/
-			
+						
+			lData.adhSolde = this.solde;
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
-			//lData.adhNouveauSolde = lData.adhNouveauSolde.nombreFormate(2,',',' ');
 			lData.total = lData.total.nombreFormate(2,',',' ');
-			that.total = lData.total;
+			that.total = lData.total; 
 			
 			lData.typePaiement = that.mTypePaiement;
 			
@@ -304,9 +207,9 @@
 
 		if(lNvPrix != 0) {
 			ligne.find(".produit-prix").val(lNvPrix.nombreFormate(2,',',' '));
-		} else {
+		} /*else {
 			ligne.find(".produit-prix").val('');
-		}
+		}*/
 		
 		this.majNouveauSolde();		
 	}
@@ -318,31 +221,24 @@
 		Infobulle.generer(lVr,'');
 		return lVr;
 	}
-	
-	/*this.calculPrixProduit = function(pIdProduit,pQuantite) {
-		if(this.pdtCommande[pIdProduit]) {
-			var lLots = this.listeLot[pIdProduit];
-			var lPrix = 0;			
-			for(lLot in lLots) {
-				if(pQuantite % lLots[lLot].quantite == 0) {
-					lPrix = (pQuantite / lLots[lLot].quantite) * lLots[lLot].prix;
-				}
-			}			
-			return lPrix;
-		}
-		return 0;
-	}*/
-	
+			
 	this.majTotal = function() {
 		var lTotal = this.calculerTotal();
 		$("#total-achat").text(lTotal.nombreFormate(2,',',' '));
 		this.total = lTotal;
+		this.majTotalGlobal();		
 	}
 	
 	this.majTotalSolidaire = function() {
 		var lTotalSolidaire = this.calculerTotalSolidaire();
 		$("#total-achat-solidaire").text(lTotalSolidaire.nombreFormate(2,',',' '));
 		this.totalSolidaire = lTotalSolidaire;
+		this.majTotalGlobal();		
+	}
+	
+	this.majTotalGlobal = function() {
+		var lTotal = this.totalSolidaire + this.total;
+		$("#total-global").text(lTotal.nombreFormate(2,',',' '));
 	}
 	
 	this.calculerTotal = function() {
@@ -366,7 +262,7 @@
 	}
 	
 	this.majNouveauSolde = function() {
-		this.majTotal();		
+		this.majTotal();
 		var lTotal = this.calculNouveauSolde();
 		if(lTotal <= 0) {
 			$("#nouveau-solde").addClass("com-nombre-negatif");
@@ -379,7 +275,7 @@
 	}
 	
 	this.majNouveauSoldeSolidaire = function() {
-		this.majTotalSolidaire();		
+		this.majTotalSolidaire();
 		var lTotal = this.calculNouveauSolde();
 		if(lTotal <= 0) {
 			$("#nouveau-solde").addClass("com-nombre-negatif");
@@ -431,8 +327,8 @@
 		lVo.produits = this.getProduitsVO();
 		lVo.produitsSolidaire = this.getProduitsSolidaireVO();
 		lVo.rechargement = this.getRechargementVO();		
-		lVo.NbProduits = $('.ligne-produit').size();
-		lVo.NbProduitsSolidaire = $('.ligne-produit-solidaire').size();		
+		//lVo.NbProduits = $('.ligne-produit').size();
+		//lVo.NbProduitsSolidaire = $('.ligne-produit-solidaire').size();		
 		return lVo;
 	}	
 	
@@ -442,18 +338,18 @@
 			var lVoProduit = new ProduitAchatVO();
 			lVoProduit.id = $(this).find(".produit-id").text();			
 			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
 				lQuantite = parseFloat(lQuantite);
-			}
-			lVoProduit.quantite = lQuantite;
+				lVoProduit.quantite = lQuantite * -1;			
 			
-			var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-			if(!isNaN(lprix) && !lprix.isEmpty()){
-				lprix = parseFloat(lprix);
-			}
-			lVoProduit.prix = lprix;
-						
-			lVo.push(lVoProduit);			
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					lVo.push(lVoProduit);
+				}						
+			}		
+					
 		});		
 		return lVo;
 	}
@@ -464,37 +360,38 @@
 			var lVoProduit = new ProduitAchatVO();
 			lVoProduit.id = $(this).find(".produit-id").text();			
 			var lQuantite = $(this).find(".produit-solidaire-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
 				lQuantite = parseFloat(lQuantite);
-			}
-			lVoProduit.quantite = lQuantite;
+				lVoProduit.quantite = lQuantite * -1;
 			
-			var lprix = $(this).find(".produit-solidaire-prix").val().numberFrToDb();
-			if(!isNaN(lprix) && !lprix.isEmpty()){
-				lprix = parseFloat(lprix);
-			}
-			lVoProduit.prix = lprix;
-			
-			lVo.push(lVoProduit);			
+				var lprix = $(this).find(".produit-solidaire-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					
+					lVo.push(lVoProduit);	
+				}
+			}	
 		});		
 		return lVo;
 	}
 	
 	this.getRechargementVO = function() {
-		var lVo = new RechargementCompteVO();
-		lVo.id = this.idCompte;
+		var lVo = new RechargementCompteVO();		
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
-		if(!isNaN(lMontant) && !lMontant.isEmpty()){
+		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){
+			lVo.id = this.idCompte;
+			
 			lMontant = parseFloat(lMontant);
-		}
-		lVo.montant = lMontant;
-		lVo.typePaiement = $(":input[name=typepaiement]").val();
-		if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
-			lVo.champComplementaireObligatoire = 1;
-			lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
-		} else {
-			lVo.champComplementaireObligatoire = 0;
-		}
+			lVo.montant = lMontant;
+			lVo.typePaiement = $(":input[name=typepaiement]").val();
+			if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
+				lVo.champComplementaireObligatoire = 1;
+				lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
+			} else {
+				lVo.champComplementaireObligatoire = 0;
+			}
+		}		
 		return lVo;
 	}
 	
@@ -516,7 +413,8 @@
 	this.enregistrerAchat = function() {
 		var that = this;
 		var lVo = this.getAchatCommandeVO();
-		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","achat=" + $.toJSON(lVo),
+		lVo.fonction = "acheter";
+		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(lVo),
 				function(lVoRetour) {
 					if(lVoRetour.valid) {
 						var lGestionCommandeTemplate = new GestionCommandeTemplate();

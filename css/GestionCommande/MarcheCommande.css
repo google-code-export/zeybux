@@ -29,7 +29,7 @@
 	width:300px;
 }
 
-#achat-pdt-widget {
+#achat-pdt-widget, #achat-pdt-solidaire-widget {
 	width:487px;
 	margin-right:5px;
 }
@@ -47,4 +47,10 @@
 
 .achat-commande-table-pdt .td-unite {
 	width:90px;
+}
+
+#achat-info-marche {
+float: left;
+margin-left: 140px;
+margin-right: 255px;
 }

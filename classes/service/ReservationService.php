@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationDetailViewManager.php");
 
 /**
  * @name ReservationService
@@ -284,7 +285,7 @@ class ReservationService
 		$lStockService = new StockService();
 		switch($lOperations[0]->getTypePaiement()) {
 			case 7: // Un achat
-				foreach($lOperations as $lOperation) {					
+				/*foreach($lOperations as $lOperation) {					
 					$lDetailsOperation = $lDetailOperationService->getDetailReservation($lOperation->getId());
 					$lDetailOperation = $lDetailsOperation[0];
 					$lStocks = $lStockService->getDetailReservation($lOperation->getId());
@@ -300,18 +301,32 @@ class ReservationService
 						
 						$lReservation->addDetailReservation($lDetailReservation);
 					}					
-				}				
+				}	*/			
 				break;
 				
 			case 0: // Reservation en cours	
+				$lOperation = $lOperations[0];
+				$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+				foreach($lDetailsReservation as $lDetail) {
+					$lDetailReservation = new DetailReservationVO();
+					$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+					$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+					$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+					$lDetailReservation->setMontant($lDetail->getDopeMontant());
+					$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+					
+					$lReservation->addDetailReservation($lDetailReservation);
+				}
+				break;
 			case 15: // Reservation non récupérée
 			case 16: // Reservation annulée
-				$lOperation = $lOperations[0];
+				
+				/*$lOperation = $lOperations[0];
 				$lDetailsOperation = $lDetailOperationService->getDetailReservation($lOperation->getId());
 				$lDetailOperation = $lDetailsOperation[0];
 				$lStocks = $lStockService->getDetailReservation($lOperation->getId());
 				$lStock = $lStocks[0];
-								
+				
 				$lDetailReservation = new DetailReservationVO();
 				$lDetailReservation->getId()->setIdStock($lStock->getId());
 				$lDetailReservation->getId()->setIdDetailOperation($lDetailOperation->getId());
@@ -319,7 +334,7 @@ class ReservationService
 				$lDetailReservation->setMontant($lDetailOperation->getMontant());
 				$lDetailReservation->setQuantite($lStock->getQuantite());
 
-				$lReservation->addDetailReservation($lDetailReservation);
+				$lReservation->addDetailReservation($lDetailReservation);*/
 				break;
 		}		
 		return $lReservation;

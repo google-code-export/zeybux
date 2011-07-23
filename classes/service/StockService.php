@@ -50,7 +50,7 @@ class StockService
 	*/
 	private function insert($pStock) {
 
-		// TODO les test : on insere que les types 0/1/3/4/5
+		// TODO les test : on insere que les types 0/1/2/3/4
 		
 		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 		
@@ -123,13 +123,14 @@ class StockService
 			$lStock = $this->get($pId);
 			switch($lStock->getType()) {
 				case 0 : // Annulation de la reservation
+				case 1 : // Annulation de l'achat
+				case 2 : // Annulation de l'achat solidaire
 					$lStock->setType(6);
 					return $this->update($lStock);
 					break;
 					
 				default:
 					$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
-					$lStock->setlibelle("Supression");
 					$this->insertHistorique($lStock); // Ajout historique
 					return StockManager::delete($pId);
 					break;

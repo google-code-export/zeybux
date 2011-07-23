@@ -78,14 +78,18 @@ class OperationService
 		
 		$this->insertHistorique($pOperation); // Ajout historique
 		
-		
 		$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
 			$lOperationActuelle = $this->get($pOperation->getId());
 			
 			$lCompteService = new CompteService(); // Mise à jour du solde
 			$lCompte = $lCompteService->get($pOperation->getIdCompte());
-			$lCompte->setSolde($lCompte->getSolde() - $lOperationActuelle->getMontant() + $pOperation->getMontant());
+			// Si l'operation actuelle impacte le solde
+			if(in_array($lOperationActuelle->getTypePaiement(), $lTypeModificationSolde)) {
+				$lCompte->setSolde($lCompte->getSolde() - $lOperationActuelle->getMontant() + $pOperation->getMontant());
+			} else {
+				$lCompte->setSolde($lCompte->getSolde() + $pOperation->getMontant());
+			}
 			$lCompteService->set($lCompte);
 		}
 		return OperationManager::update($pOperation); // update de l'opération

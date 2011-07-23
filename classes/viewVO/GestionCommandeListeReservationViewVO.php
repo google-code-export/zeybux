@@ -3,67 +3,67 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 17/11/2010
-// Fichier : ListeAdherentCommandeReservationViewVO.php
+// Fichier : GestionCommandeListeReservationViewVO.php
 //
-// Description : Classe ListeAdherentCommandeReservationViewVO
+// Description : Classe GestionCommandeListeReservationViewVO
 //
 //****************************************************************
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name ListeAdherentCommandeReservationViewVO
+ * @name GestionCommandeListeReservationViewVO
  * @author Julien PIERRE
  * @since 17/11/2010
- * @desc Classe représentant une ListeAdherentCommandeReservationViewVO
+ * @desc Classe représentant une GestionCommandeListeReservationViewVO
  */
-class ListeAdherentCommandeReservationViewVO extends DataTemplate
+class GestionCommandeListeReservationViewVO extends DataTemplate
 {
 	/**
 	* @var int(11)
-	* @desc ComId de la ListeAdherentCommandeReservationViewVO
+	* @desc ComId de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mComId;
 	
 	/**
 	* @var int(11)
-	* @desc ComNumero de la ListeAdherentCommandeReservationViewVO
+	* @desc ComNumero de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mComNumero;
 
 	/**
 	* @var int(11)
-	* @desc AdhId de la ListeAdherentCommandeReservationViewVO
+	* @desc AdhId de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mAdhId;
 
 	/**
 	* @var varchar(5)
-	* @desc AdhNumero de la ListeAdherentCommandeReservationViewVO
+	* @desc AdhNumero de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mAdhNumero;
 
 	/**
 	* @var int(11)
-	* @desc AdhLabelCompte de la ListeAdherentCommandeReservationViewVO
+	* @desc AdhLabelCompte de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mAdhLabelCompte;
 
 	/**
 	* @var varchar(50)
-	* @desc AdhNom de la ListeAdherentCommandeReservationViewVO
+	* @desc AdhNom de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mAdhNom;
 
 	/**
 	* @var varchar(50)
-	* @desc AdhPrenom de la ListeAdherentCommandeReservationViewVO
+	* @desc AdhPrenom de la GestionCommandeListeReservationViewVO
 	*/
 	protected $mAdhPrenom;
 
 	/**
 	* @name getComId()
 	* @return int(11)
-	* @desc Renvoie le membre ComId de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre ComId de la GestionCommandeListeReservationViewVO
 	*/
 	public function getComId() {
 		return $this->mComId;
@@ -72,7 +72,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setComId($pComId)
 	* @param int(11)
-	* @desc Remplace le membre ComId de la ListeAdherentCommandeReservationViewVO par $pComId
+	* @desc Remplace le membre ComId de la GestionCommandeListeReservationViewVO par $pComId
 	*/
 	public function setComId($pComId) {
 		$this->mComId = $pComId;
@@ -81,7 +81,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getComNumero()
 	* @return int(11)
-	* @desc Renvoie le membre ComNumero de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre ComNumero de la GestionCommandeListeReservationViewVO
 	*/
 	public function getComNumero() {
 		return $this->mComNumero;
@@ -90,7 +90,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setComNumero($pComNumero)
 	* @param int(11)
-	* @desc Remplace le membre ComNumero de la ListeAdherentCommandeReservationViewVO par $pComNumero
+	* @desc Remplace le membre ComNumero de la GestionCommandeListeReservationViewVO par $pComNumero
 	*/
 	public function setComNumero($pComNumero) {
 		$this->mComNumero = $pComNumero;
@@ -99,7 +99,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getAdhId()
 	* @return int(11)
-	* @desc Renvoie le membre AdhId de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre AdhId de la GestionCommandeListeReservationViewVO
 	*/
 	public function getAdhId() {
 		return $this->mAdhId;
@@ -108,7 +108,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setAdhId($pAdhId)
 	* @param int(11)
-	* @desc Remplace le membre AdhId de la ListeAdherentCommandeReservationViewVO par $pAdhId
+	* @desc Remplace le membre AdhId de la GestionCommandeListeReservationViewVO par $pAdhId
 	*/
 	public function setAdhId($pAdhId) {
 		$this->mAdhId = $pAdhId;
@@ -117,7 +117,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getAdhNumero()
 	* @return varchar(5)
-	* @desc Renvoie le membre AdhNumero de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre AdhNumero de la GestionCommandeListeReservationViewVO
 	*/
 	public function getAdhNumero() {
 		return $this->mAdhNumero;
@@ -126,7 +126,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setAdhNumero($pAdhNumero)
 	* @param varchar(5)
-	* @desc Remplace le membre AdhNumero de la ListeAdherentCommandeReservationViewVO par $pAdhNumero
+	* @desc Remplace le membre AdhNumero de la GestionCommandeListeReservationViewVO par $pAdhNumero
 	*/
 	public function setAdhNumero($pAdhNumero) {
 		$this->mAdhNumero = $pAdhNumero;
@@ -135,7 +135,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getAdhLabelCompte()
 	* @return int(11)
-	* @desc Renvoie le membre AdhLabelCompte de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre AdhLabelCompte de la GestionCommandeListeReservationViewVO
 	*/
 	public function getAdhLabelCompte() {
 		return $this->mAdhLabelCompte;
@@ -144,7 +144,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setAdhLabelCompte($pAdhLabelCompte)
 	* @param int(11)
-	* @desc Remplace le membre AdhLabelCompte de la ListeAdherentCommandeReservationViewVO par $pAdhLabelCompte
+	* @desc Remplace le membre AdhLabelCompte de la GestionCommandeListeReservationViewVO par $pAdhLabelCompte
 	*/
 	public function setAdhLabelCompte($pAdhLabelCompte) {
 		$this->mAdhLabelCompte = $pAdhLabelCompte;
@@ -153,7 +153,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getAdhNom()
 	* @return varchar(50)
-	* @desc Renvoie le membre AdhNom de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre AdhNom de la GestionCommandeListeReservationViewVO
 	*/
 	public function getAdhNom() {
 		return $this->mAdhNom;
@@ -162,7 +162,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setAdhNom($pAdhNom)
 	* @param varchar(50)
-	* @desc Remplace le membre AdhNom de la ListeAdherentCommandeReservationViewVO par $pAdhNom
+	* @desc Remplace le membre AdhNom de la GestionCommandeListeReservationViewVO par $pAdhNom
 	*/
 	public function setAdhNom($pAdhNom) {
 		$this->mAdhNom = $pAdhNom;
@@ -171,7 +171,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name getAdhPrenom()
 	* @return varchar(50)
-	* @desc Renvoie le membre AdhPrenom de la ListeAdherentCommandeReservationViewVO
+	* @desc Renvoie le membre AdhPrenom de la GestionCommandeListeReservationViewVO
 	*/
 	public function getAdhPrenom() {
 		return $this->mAdhPrenom;
@@ -180,7 +180,7 @@ class ListeAdherentCommandeReservationViewVO extends DataTemplate
 	/**
 	* @name setAdhPrenom($pAdhPrenom)
 	* @param varchar(50)
-	* @desc Remplace le membre AdhPrenom de la ListeAdherentCommandeReservationViewVO par $pAdhPrenom
+	* @desc Remplace le membre AdhPrenom de la GestionCommandeListeReservationViewVO par $pAdhPrenom
 	*/
 	public function setAdhPrenom($pAdhPrenom) {
 		$this->mAdhPrenom = $pAdhPrenom;
