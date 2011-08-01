@@ -188,7 +188,7 @@
 									'<select name="producteur" id="ajout-produit-idProducteur">' +
 										'<option value="0" >== Choisir un producteur ==</option>' +
 										'<!-- BEGIN producteurs -->' +
-										'<option value="{producteurs.prdtId}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
+										'<option value="{producteurs.prdtIdCompte}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
 										'<!-- END producteurs -->' +
 									'</select>' +
 								'</td>' +
@@ -258,20 +258,20 @@
 	this.ajoutProduitModifierCommande = 
 		"<div class=\"produit-div com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"<span class=\"produit-nom-id ui-helper-hidden\">{proIdNomProduit}</span><span class=\"produit-nom\">{nproNom}</span>" +				
+				"<span class=\"produit-nom-id ui-helper-hidden\">{idNom}</span><span class=\"produit-nom\">{nom}</span>" +				
 				"<span class=\"com-delete com-btn-header ui-widget-content ui-corner-all\" title=\"Supprimer\">" +
 					"<span class=\"ui-icon ui-icon-circle-close\">" +
 					"</span>" +
 				"</span>" +
 			"</div>" +
 			"<div class=\"com-widget-content\">" +				
-				"<span class=\"produit-id ui-helper-hidden\">{proId}</span>" +
+				"<span class=\"produit-id ui-helper-hidden\">{id}</span>" +
 				
 				"Producteur : <span class=\"info-produit\" id=\"nom-producteur\">{nomProducteur}</span>" +
 				"<select name=\"producteur\" id=\"commande-produits{idNom}idProducteur\" class=\"info-produit ui-helper-hidden\">" +
 					"<option value=\"0\" >== Choisir un producteur ==</option>" +
 					"<!-- BEGIN producteurs -->" +
-					"<option value=\"{producteurs.prdtId}\" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
+					"<option value=\"{producteurs.prdtIdCompte}\" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
 					"<!-- END producteurs -->" +
 				"</select>" +
 				
@@ -285,16 +285,16 @@
 				"</span><br/>" +	
 			
 				"Quantité en stock : " +
-				"<span class=\"info-produit produit-stock\">{quantiteInit}</span>" +
-				"<input class=\"info-produit ui-helper-hidden com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"stock\" value=\"{quantiteInit}\" id=\"produit-{proIdNomProduit}-qteRestante\" maxlength=\"11\"/>" +
-				" <span class=\"info-produit produit-unite\">{proUniteMesure}</span>" +	
-				" <input class=\"info-produit ui-helper-hidden com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"unite\" value=\"{proUniteMesure}\" id=\"produit-{proIdNomProduit}-unite\" maxlength=\"20\"/>" +						
+				"<span class=\"info-produit produit-stock\">{stockInitial}</span>" +
+				"<input class=\"info-produit ui-helper-hidden com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"stock\" value=\"{stockInitial}\" id=\"produit-{idNom}-qteRestante\" maxlength=\"11\"/>" +
+				" <span class=\"info-produit produit-unite\">{unite}</span>" +	
+				" <input class=\"info-produit ui-helper-hidden com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"unite\" value=\"{unite}\" id=\"produit-{idNom}-unite\" maxlength=\"20\"/>" +						
 				"<br/>" +
 				
 				"Quantité max par adhérent : " +
-				"<input class=\"info-produit ui-helper-hidden com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"qmax\" value=\"{proMaxProduitCommande}\" id=\"produit-{proIdNomProduit}-qteMaxCommande\" maxlength=\"11\"/>" +
-				"<span class=\"info-produit produit-qmax\">{proMaxProduitCommande}</span>" +
-				" <span class=\"produit-unite\">{proUniteMesure}</span>" +
+				"<input class=\"info-produit ui-helper-hidden com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"qmax\" value=\"{qteMaxCommande}\" id=\"produit-{idNom}-qteMaxCommande\" maxlength=\"11\"/>" +
+				"<span class=\"info-produit produit-qmax\">{qteMaxCommande}</span>" +
+				" <span class=\"produit-unite\">{unite}</span>" +
 				
 				"<div class=\"lots-section\" >" +
 					"<div class=\"form-ajout-lot-creation-commande\">" +
@@ -320,7 +320,7 @@
 			"</div>" +
 		"</div>";	
 	
-	this.modifCommandeSucces = 
+	/*this.modifCommandeSucces = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -330,7 +330,7 @@
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Marché n°{numero} modifié avec succès.</p>" +
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.formulaireAjoutCommande = 
 		'<div id="contenu">' +
@@ -991,7 +991,7 @@
 			"</div>" +
 		"</div>";
 	
-	this.cloturerCommandeSucces = 
+	/*this.cloturerCommandeSucces = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -1002,7 +1002,7 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
-	
+	*/
 	this.dialogClotureCommande = 				
 			"<div id=\"dialog-cloturer-com\" title=\"Cloture du Marché n°{comNumero}\">" +
 				"<p>Vous allez cloturer le Marché n°{comNumero}</p>" +
@@ -1039,8 +1039,16 @@
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Marché n°{comNumero}" +
-						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-cloture-com\" title=\"Cloturer\">" +
-							"<span class=\"ui-icon ui-icon-disk\">" +
+						"<span class=\"ui-helper-hidden marche-archive-1 com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-cloture-com\" title=\"Cloturer\">" +
+							"<span class=\"ui-icon ui-icon-locked\">" +
+							"</span>" +
+						"</span>" +
+						"<span class=\"ui-helper-hidden marche-archive-1 com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-play-com\" title=\"Ouvrir les ventes et réservations\">" +
+							"<span class=\"ui-icon ui-icon-play\">" +
+							"</span>" +
+						"</span>" +
+						"<span class=\"ui-helper-hidden marche-archive-0  com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-pause-com\" title=\"Arrêter les ventes et réservations\">" +
+							"<span class=\"ui-icon ui-icon-pause\">" +
 							"</span>" +
 						"</span>" +
 						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-modif-com\" title=\"Modifier\">" +
@@ -1065,29 +1073,10 @@
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
 						"{pdtCommande.nproNom}" +
-						"<span class=\"com-btn-header ui-widget-content ui-corner-all com-cursor-pointer pdt-{pdtCommande.proId}-afficher-detail\">" +
-							"<span class=\"ui-icon ui-icon-plusthick\">" +
-							"</span>" +
-						"</span>" +
-						"<span class=\"ui-helper-hidden com-btn-header ui-widget-content ui-corner-all com-cursor-pointer pdt-{pdtCommande.proId}-afficher-detail\">" +
-							"<span class=\"ui-icon ui-icon-minusthick\">" +
-							"</span>" +
-						"</span>" +
 					"</div>" +
 					"<div>" +
-						"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\"></div>" +
-						"<div class=\"ui-helper-hidden\" id=\"pdt-{pdtCommande.proId}-detail\">" +
-							"Stock Initial : {pdtCommande.quantiteInit} {pdtCommande.proUniteMesure}<br/>" +
-							"Stock Actuel : {pdtCommande.quantite} {pdtCommande.proUniteMesure}<br/>" +
-							"Stock Commandé : {pdtCommande.quantiteCommande} {pdtCommande.proUniteMesure}<br/>" +
-							"Max par adhérent {pdtCommande.proMaxProduitCommande} {pdtCommande.proUniteMesure}" +
-							"<div>" +
-								"<div>Lots : </div>" +
-								"<!-- BEGIN pdtCommande.lot -->" +
-									"{pdtCommande.lot.dcomTaille} {pdtCommande.proUniteMesure} à " +
-									"{pdtCommande.lot.dcomPrix} {sigleMonetaire}<br/>" +
-								"<!-- END pdtCommande.lot -->" +
-							"</div>" +
+						"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\">" +
+							"<div class=\"edt-com-info-progressbar-pdt\">{pdtCommande.quantiteCommande} {pdtCommande.unite} / {pdtCommande.quantiteInit} {pdtCommande.unite}</div>" +
 						"</div>" +
 					"</div>" +
 				"</div>" +
@@ -1374,7 +1363,7 @@
 							"<select id=\"select-prdt\">" +
 								"<option value=\"0\" >== Choisir un producteur ==</option>" +
 								"<!-- BEGIN producteurs -->" +
-								"<option value=\"{producteurs.prdtId}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
+								"<option value=\"{producteurs.prdtIdCompte}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
 								"<!-- END producteurs -->" +
 							"</select>" +
 						"</span>" +
@@ -1405,7 +1394,7 @@
 						"<td>{produits.nproNom}</td>" +
 						"<td>{produits.stoQuantite} {produits.proUniteMesure}</td>" +
 						"<td><span class=\"pro-id ui-helper-hidden\">{produits.proId}</span><input class=\"qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"qte-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.proId}quantite\"/> {produits.proUniteMesure}</td>" +
-						"<td><input class=\"prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"prix-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.opeMontant}\" id=\"produits{produits.proId}prix\" /> {sigleMonetaire}</td>" +
+						"<td><input class=\"prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"prix-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.proId}prix\" /> {sigleMonetaire}</td>" +
 						"<td><div id=\"etat-commande-{produits.proId}\" class=\"{produits.classEtat} ui-corner-all\"></div></td>" +
 					"</tr>" +
 					"<!-- END produits -->" +
@@ -1450,7 +1439,7 @@
 							"<select id=\"select-prdt\">" +
 								"<option value=\"0\" >== Choisir un producteur ==</option>" +
 								"<!-- BEGIN producteurs -->" +
-								"<option value=\"{producteurs.prdtId}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
+								"<option value=\"{producteurs.prdtIdCompte}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
 								"<!-- END producteurs -->" +
 							"</select>" +
 						"</span>" +
@@ -1575,4 +1564,9 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
+	this.produitIndisponible = 
+		"<tr>Le produit {nom} n'est plus disponible.</tr>";
+
+	this.lotUnique = 
+		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 }

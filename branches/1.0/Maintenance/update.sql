@@ -136,7 +136,7 @@ DROP TABLE `gpc_groupe_commande` ;
 
 create or replace view view_detail_marche as
 
-select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_producteur` AS `pro_id_producteur`,
+select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
 pro_stock_reservation,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`npro_nom_produit`.`npro_description` AS `npro_description`,`npro_nom_produit`.`npro_id_categorie` AS `npro_id_categorie`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,`dcom_detail_commande`.`dcom_taille` AS `dcom_taille`,`dcom_detail_commande`.`dcom_prix` AS `dcom_prix` from (((`com_commande` join `pro_produit` on((`pro_produit`.`pro_id_commande` = `com_commande`.`com_id`))) join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`)));
 
 
@@ -233,9 +233,221 @@ WHERE sto_type = 0
 
 order by `sto_date` DESC, `sto_type` ASC;
 
+create or replace view
+view_liste_adherent
+as
+select `adh_adherent`.`adh_id` AS `adh_id`,`adh_adherent`.`adh_numero` AS `adh_numero`,`adh_adherent`.`adh_nom` AS `adh_nom`,`adh_adherent`.`adh_prenom` AS `adh_prenom`,`adh_adherent`.`adh_courriel_principal` AS `adh_courriel_principal`,cpt_solde
+
+from `adh_adherent` 
+left join cpt_compte on `adh_adherent`.`adh_id_compte` = cpt_id
+
+where `adh_adherent`.`adh_etat` = 1;
+
+ALTER TABLE `pro_produit` CHANGE `pro_id_producteur` `pro_id_compte_producteur` INT( 11 ) NOT NULL;
+
+create or replace view
+
+view_stock_produit_initiaux
+as
+select 
+`sto_stock`.`sto_id` AS `sto_id`,
+`sto_stock`.`sto_date` AS `sto_date`,
+`sto_stock`.`sto_quantite` AS `sto_quantite`,
+`sto_stock`.`sto_type` AS `sto_type`,
+pro_id_commande,
+`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit` 
+
+
+from `sto_stock` 
+join `dcom_detail_commande` on `sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`
+join pro_produit on pro_id = dcom_id_produit AND sto_id_compte = pro_id_compte_producteur
+where `sto_stock`.`sto_type` in (0,4);
+
+ALTER TABLE `pro_produit` ADD `pro_stock_initial` INT NOT NULL ;
+
+create or replace view view_detail_marche
+
+as
+
+select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_stock_reservation` AS `pro_stock_reservation`,pro_stock_initial,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`npro_nom_produit`.`npro_description` AS `npro_description`,`npro_nom_produit`.`npro_id_categorie` AS `npro_id_categorie`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,`dcom_detail_commande`.`dcom_taille` AS `dcom_taille`,`dcom_detail_commande`.`dcom_prix` AS `dcom_prix` from (((`com_commande` join `pro_produit` on((`pro_produit`.`pro_id_commande` = `com_commande`.`com_id`))) join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`)));
+
+ALTER TABLE `pro_produit` CHANGE `pro_stock_initial` `pro_stock_initial` DECIMAL( 10, 2 ) NOT NULL ;
+ALTER TABLE `pro_produit` ADD `pro_etat` INT NOT NULL ;
+ALTER TABLE `dcom_detail_commande` ADD `dcom_etat` INT NOT NULL ;
+
+create or replace view view_detail_marche as
+
+select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_stock_reservation` AS `pro_stock_reservation`,`pro_produit`.`pro_stock_initial` AS `pro_stock_initial`,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`npro_nom_produit`.`npro_description` AS `npro_description`,`npro_nom_produit`.`npro_id_categorie` AS `npro_id_categorie`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,`dcom_detail_commande`.`dcom_taille` AS `dcom_taille`,`dcom_detail_commande`.`dcom_prix` AS `dcom_prix` 
+from (((`com_commande` join `pro_produit` on((`pro_produit`.`pro_id_commande` = `com_commande`.`com_id`))) join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`)))
+where pro_etat = 0 AND dcom_etat = 0;
+
+create or replace view view_liste_producteur_marche as 
+
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`prdt_id_compte`,`prdt_producteur`.`prdt_nom` AS `prdt_nom`,`prdt_producteur`.`prdt_prenom` AS `prdt_prenom` from (`pro_produit` join `prdt_producteur` on((`prdt_producteur`.`prdt_id_compte` = `pro_produit`.`pro_id_compte_producteur`))) 
+group by pro_id_commande,`pro_produit`.`pro_id_compte_producteur`
+ order by `prdt_producteur`.`prdt_nom`,`prdt_producteur`.`prdt_prenom`;
+
+
+create or replace view view_liste_producteur_commande as
+
+select`pro_id_commande`,
+
+ `prdt_id`,
+ `prdt_nom`,
+ `prdt_prenom` 
+
+from pro_produit 
+join prdt_producteur on prdt_id_compte = pro_id_compte_producteur
+group by pro_id_compte_producteur
+order by `prdt_nom`,`prdt_prenom`;
+
+
+DROP VIEW `view_liste_producteur_commande`;
+
+create or replace view view_stock_produit_reservation as
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_id_compte_producteur`,
+pro_id,
+pro_unite_mesure,
+npro_nom,
+(pro_stock_initial - pro_stock_reservation) as sto_quantite
+
+from `pro_produit` 
+join npro_nom_produit on npro_id = pro_id_nom_produit;
+
+create or replace view view_info_bon_commande as
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,`prdt_producteur`.`prdt_nom` AS `prdt_nom`,`prdt_producteur`.`prdt_prenom` AS `prdt_prenom`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id` AS `sto_id` from (((((`pro_produit` join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `prdt_producteur` on((`prdt_producteur`.`prdt_id_compte` = `pro_produit`.`pro_id_compte_producteur`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `dope_detail_operation` on((`dope_detail_operation`.`dope_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where ((`dope_detail_operation`.`dope_type_paiement` = 5) and (`sto_stock`.`sto_type` = 3)) 
+group by `pro_produit`.`pro_id_commande`,pro_id,`pro_produit`.`pro_id_compte_producteur`;
+
+
+create or replace view view_info_bon_livraison as
+
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
+`pro_produit`.`pro_id` AS `pro_id`,
+`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,
+`npro_nom_produit`.`npro_nom` AS `npro_nom`,
+`dope_detail_operation`.`dope_montant` AS `dope_montant`,
+`sto_stock`.`sto_quantite` AS `sto_quantite`,
+`prdt_producteur`.`prdt_nom` AS `prdt_nom`,
+`prdt_producteur`.`prdt_prenom` AS `prdt_prenom`,
+
+`dope_detail_operation`.`dope_id` AS `dope_id`,
+`sto_stock`.`sto_id` AS `sto_id`
+
+from (((((`pro_produit` join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `prdt_producteur` on((`prdt_producteur`.`prdt_id_compte` = `pro_produit`.`pro_id_compte_producteur`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `dope_detail_operation` on((`dope_detail_operation`.`dope_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where ((`dope_detail_operation`.`dope_type_paiement` = 6) and (`sto_stock`.`sto_type` = 4)) group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id`,`pro_produit`.`pro_id_compte_producteur`;
+
+create or replace view view_stock_solidaire as
+
+
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`sto_stock`.`sto_quantite` AS `sto_quantite` from ((`sto_stock` join `dcom_detail_commande` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `pro_produit` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) where (`sto_stock`.`sto_type` = 2);
+
+create or replace view view_gestion_commande_reservation_producteur as
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
+`pro_produit`.`pro_id` AS `pro_id`,
+`sto_stock`.`sto_id` AS `sto_id` 
+
+from `pro_produit` 
+join `dcom_detail_commande` on `dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`
+join `sto_stock` on `sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`
+
+where `sto_stock`.`sto_type` = 0;
+
+create or replace VIEW `view_gestion_liste_commande_en_cours` AS select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from `com_commande` where (`com_commande`.`com_archive` in (0,1)) order by `com_commande`.`com_date_marche_debut`;
+
+
+create or replace VIEW `view_gestion_liste_commande_archive` AS select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from `com_commande` where (`com_commande`.`com_archive` = 2);
 
 
 
+create or replace VIEW `view_gestion_commande_liste_reservation` AS select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`adh_adherent`.`adh_id` AS `adh_id`,`adh_adherent`.`adh_numero` AS `adh_numero`,`cpt_compte`.`cpt_label` AS `cpt_label`,`adh_adherent`.`adh_nom` AS `adh_nom`,`adh_adherent`.`adh_prenom` AS `adh_prenom` from (((`ope_operation` join `cpt_compte` on((`ope_operation`.`ope_id_compte` = `cpt_compte`.`cpt_id`))) join `adh_adherent` on((`adh_adherent`.`adh_id_compte` = `cpt_compte`.`cpt_id`))) join `com_commande` on((`com_commande`.`com_id` = `ope_operation`.`ope_id_commande`))) where ((`com_commande`.`com_archive` in (0,1)) and (`ope_operation`.`ope_type_paiement` = 0));
+
+create or replace view view_info_achat_solidaire as
+select 
+`pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
+`pro_produit`.`pro_id` AS `pro_id`,
+
+`sto_stock`.`sto_id` AS `sto_id`,
+`dcom_detail_commande`.`dcom_id` AS `dcom_id`,
+
+sum(`sto_stock`.`sto_quantite`) AS `sto_quantite` ,
+sum(dope_montant) AS dope_montant
+
+from pro_produit
+join dcom_detail_commande on dcom_id_produit = pro_id
+join sto_stock on sto_id_detail_commande = dcom_id
+join dope_detail_operation on dope_id_detail_commande = dcom_id
+
+where `sto_stock`.`sto_type` = 2 
+and `sto_stock`.`sto_quantite` < 0
+and dope_type_paiement = 8
+and dope_montant < 0
+group by `pro_produit`.`pro_id`;
+
+create or replace view view_info_achat as
+select 
+`pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
+`pro_produit`.`pro_id` AS `pro_id`,
+
+`sto_stock`.`sto_id` AS `sto_id`,
+`dcom_detail_commande`.`dcom_id` AS `dcom_id`,
+
+sum(`sto_stock`.`sto_quantite`) AS `sto_quantite` ,
+sum(dope_montant) AS dope_montant
+
+from pro_produit
+join dcom_detail_commande on dcom_id_produit = pro_id
+join sto_stock on sto_id_detail_commande = dcom_id
+join dope_detail_operation on dope_id_detail_commande = dcom_id
+
+where `sto_stock`.`sto_type` = 1 
+and `sto_stock`.`sto_quantite` < 0
+and dope_type_paiement = 7 
+and dope_montant < 0
+group by `pro_produit`.`pro_id`;
+
+create or replace view view_info_commande as
+
+select `pro_produit`.`pro_id_commande` AS `com_id`,
+`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,
+`pro_produit`.`pro_id` AS `pro_id`,
+`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,
+`npro_nom_produit`.`npro_nom` AS `npro_nom`,
+
+view_info_bon_commande.dope_montant,
+view_info_bon_commande.sto_quantite,
+
+view_info_bon_livraison.dope_montant AS dope_montant_livraison,
+view_info_bon_livraison.sto_quantite AS sto_quantite_livraison,
+view_stock_solidaire.sto_quantite AS sto_quantite_solidaire ,
+
+(`view_info_achat`.`sto_quantite` * -(1)) AS `sto_quantite_vente`,
+(`view_info_achat_solidaire`.`sto_quantite` * -(1)) AS `sto_quantite_vente_solidaire`,
+
+(`view_info_achat`.`dope_montant` * -(1)) AS `dope_montant_vente`,
+(`view_info_achat_solidaire`.`dope_montant` * -(1)) AS `dope_montant_vente_solidaire` 
+
+from `pro_produit`
+join `npro_nom_produit` on `npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`
+
+left join view_info_bon_commande on view_info_bon_commande.pro_id = `pro_produit`.`pro_id`
+left join view_info_bon_livraison on view_info_bon_livraison.pro_id = `pro_produit`.`pro_id`
+left join view_stock_solidaire on view_stock_solidaire.pro_id = `pro_produit`.`pro_id`
+left join view_info_achat on view_info_achat.pro_id = `pro_produit`.`pro_id`
+left join view_info_achat_solidaire on view_info_achat_solidaire.pro_id = `pro_produit`.`pro_id`
+
+where pro_etat = 0
+
+
+group by `pro_produit`.`pro_id`;
+
+create or replace view view_liste_producteur_marche as
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`prdt_producteur`.`prdt_id_compte` AS `prdt_id_compte`,`prdt_producteur`.`prdt_nom` AS `prdt_nom`,`prdt_producteur`.`prdt_prenom` AS `prdt_prenom` from (`pro_produit` join `prdt_producteur` on((`prdt_producteur`.`prdt_id_compte` = `pro_produit`.`pro_id_compte_producteur`))) 
+where pro_etat = 0
+group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` order by `prdt_producteur`.`prdt_nom`,`prdt_producteur`.`prdt_prenom`;
 
 
 

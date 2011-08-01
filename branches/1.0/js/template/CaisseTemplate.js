@@ -29,12 +29,6 @@
 
 	this.listeCommandeVide =
 	"<div id=\"contenu\">" +
-		"<div class=\"com-barre-menu-2\">" +
-			"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-marche-archive\">" +
-				"<span class=\"com-float-left\">Les Marchés cloturés</span>" +
-				"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-e\"></span>" +
-			"</button>" +
-		"</div>" +
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
 			"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	

@@ -17,7 +17,7 @@
 		return lVR;
 	}
 
-	this.validDelete = function(pData) {
+	/*this.validDelete = function(pData) {
 		var lVR = new ProduitBonDeCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
@@ -40,6 +40,6 @@
 			return lVR;
 		}
 		return lTestId;
-	}
+	}*/
 
 }

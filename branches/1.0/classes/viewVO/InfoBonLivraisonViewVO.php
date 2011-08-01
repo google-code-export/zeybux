@@ -20,15 +20,15 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
-	* @desc comId de la InfoBonLivraisonViewVO
+	* @desc ProIdCommande de la InfoBonLivraisonViewVO
 	*/
-	protected $mcomId;
+	protected $mProIdCommande;
 
 	/**
 	* @var int(11)
-	* @desc ProIdProducteur de la InfoBonLivraisonViewVO
+	* @desc ProIdCompteProducteur de la InfoBonLivraisonViewVO
 	*/
-	protected $mProIdProducteur;
+	protected $mProIdCompteProducteur;
 
 	/**
 	* @var int(11)
@@ -52,78 +52,72 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	* @var decimal(10,2)
 	* @desc OpeMontant de la InfoBonLivraisonViewVO
 	*/
-	protected $mOpeMontant;
+	protected $mDopeMontant;
 
 	/**
-	* @var decimal(10,2)
+	* @var decimal(33,2)
 	* @desc StoQuantite de la InfoBonLivraisonViewVO
 	*/
 	protected $mStoQuantite;
-
+	
 	/**
 	* @var varchar(50)
 	* @desc PrdtNom de la InfoBonLivraisonViewVO
 	*/
 	protected $mPrdtNom;
-
+	
 	/**
 	* @var varchar(50)
 	* @desc PrdtPrenom de la InfoBonLivraisonViewVO
 	*/
 	protected $mPrdtPrenom;
-
-	/**
-	* @var decimal(10,2)
-	* @desc OpeMontantLivraison de la InfoBonLivraisonViewVO
-	*/
-	protected $mOpeMontantLivraison;
-
-	/**
-	* @var decimal(10,2)
-	* @desc StoQuantiteLivraison de la InfoBonLivraisonViewVO
-	*/
-	protected $mStoQuantiteLivraison;
 	
 	/**
-	* @var decimal(10,2)
-	* @desc StoQuantiteSolidaire de la InfoBonLivraisonViewVO
+	* @var int(11)
+	* @desc DopeId de la InfoBonLivraisonViewVO
 	*/
-	protected $mStoQuantiteSolidaire;
+	protected $mDopeId;
+	
+	/**
+	* @var int(11)
+	* @desc StoId de la InfoBonLivraisonViewVO
+	*/
+	protected $mStoId;
 
 	/**
-	* @name getcomId()
+	* @name getProIdCommande()
 	* @return int(11)
-	* @desc Renvoie le membre comId de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre ProIdCommande de la InfoBonLivraisonViewVO
 	*/
-	public function getcomId() {
-		return $this->mcomId;
+	public function getProIdCommande() {
+		return $this->mProIdCommande;
 	}
 
 	/**
-	* @name setcomId($pcomId)
+	* @name setProIdCommande($pProIdCommande)
 	* @param int(11)
-	* @desc Remplace le membre comId de la InfoBonLivraisonViewVO par $pcomId
+	* @desc Remplace le membre ProIdCommande de la InfoBonLivraisonViewVO par $pProIdCommande
 	*/
-	public function setcomId($pcomId) {
-		$this->mcomId = $pcomId;
+	public function setProIdCommande($pProIdCommande) {
+		$this->mProIdCommande = $pProIdCommande;
 	}
 
 	/**
-	* @name getProIdProducteur()
+	* @name getProIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdProducteur de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO
 	*/
-	public function getProIdProducteur() {
-		return $this->mProIdProducteur;
+	public function getProIdCompteProducteur() {
+		return $this->mProIdCompteProducteur;
 	}
 
 	/**
-	* @name setProIdProducteur($pProIdProducteur)
+	* @name setProIdCompteProducteur($pProIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre ProIdProducteur de la InfoBonLivraisonViewVO par $pProIdProducteur
+	* @desc Remplace le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO par $pProIdCompteProducteur
 	*/
-	public function setProIdProducteur($pProIdProducteur) {
-		$this->mProIdProducteur = $pProIdProducteur;
+	public function setProIdCompteProducteur($pProIdCompteProducteur) {
+		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
 	}
 
 	/**
@@ -181,26 +175,26 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getOpeMontant()
+	* @name getDopeMontant()
 	* @return decimal(10,2)
-	* @desc Renvoie le membre OpeMontant de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre DopeMontant de la InfoBonLivraisonViewVO
 	*/
-	public function getOpeMontant() {
-		return $this->mOpeMontant;
+	public function getDopeMontant() {
+		return $this->mDopeMontant;
 	}
 
 	/**
-	* @name setOpeMontant($pOpeMontant)
+	* @name setDopeMontant($pDopeMontant)
 	* @param decimal(10,2)
-	* @desc Remplace le membre OpeMontant de la InfoBonLivraisonViewVO par $pOpeMontant
+	* @desc Remplace le membre DopeMontant de la InfoBonLivraisonViewVO par $pDopeMontant
 	*/
-	public function setOpeMontant($pOpeMontant) {
-		$this->mOpeMontant = $pOpeMontant;
+	public function setDopeMontant($pDopeMontant) {
+		$this->mDopeMontant = $pDopeMontant;
 	}
 
 	/**
 	* @name getStoQuantite()
-	* @return decimal(10,2)
+	* @return decimal(33,2)
 	* @desc Renvoie le membre StoQuantite de la InfoBonLivraisonViewVO
 	*/
 	public function getStoQuantite() {
@@ -209,13 +203,13 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 
 	/**
 	* @name setStoQuantite($pStoQuantite)
-	* @param decimal(10,2)
+	* @param decimal(33,2)
 	* @desc Remplace le membre StoQuantite de la InfoBonLivraisonViewVO par $pStoQuantite
 	*/
 	public function setStoQuantite($pStoQuantite) {
 		$this->mStoQuantite = $pStoQuantite;
 	}
-
+	
 	/**
 	* @name getPrdtNom()
 	* @return varchar(50)
@@ -233,7 +227,7 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	public function setPrdtNom($pPrdtNom) {
 		$this->mPrdtNom = $pPrdtNom;
 	}
-
+	
 	/**
 	* @name getPrdtPrenom()
 	* @return varchar(50)
@@ -251,59 +245,41 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	public function setPrdtPrenom($pPrdtPrenom) {
 		$this->mPrdtPrenom = $pPrdtPrenom;
 	}
-
+	
 	/**
-	* @name getOpeMontantLivraison()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre OpeMontantLivraison de la InfoBonLivraisonViewVO
+	* @name getDopeId()
+	* @return int(11)
+	* @desc Renvoie le membre DopeId de la InfoBonLivraisonViewVO
 	*/
-	public function getOpeMontantLivraison() {
-		return $this->mOpeMontantLivraison;
+	public function getDopeId() {
+		return $this->mDopeId;
 	}
 
 	/**
-	* @name setOpeMontantLivraison($pOpeMontantLivraison)
-	* @param decimal(10,2)
-	* @desc Remplace le membre OpeMontantLivraison de la InfoBonLivraisonViewVO par $pOpeMontantLivraison
+	* @name setDopeId($pDopeId)
+	* @param int(11)
+	* @desc Remplace le membre DopeId de la InfoBonLivraisonViewVO par $pDopeId
 	*/
-	public function setOpeMontantLivraison($pOpeMontantLivraison) {
-		$this->mOpeMontantLivraison = $pOpeMontantLivraison;
+	public function setDopeId($pDopeId) {
+		$this->mDopeId = $pDopeId;
+	}
+	
+	/**
+	* @name getStoId()
+	* @return int(11)
+	* @desc Renvoie le membre StoId de la InfoBonLivraisonViewVO
+	*/
+	public function getStoId() {
+		return $this->mStoId;
 	}
 
 	/**
-	* @name getStoQuantiteLivraison()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre StoQuantiteLivraison de la InfoBonLivraisonViewVO
+	* @name setStoId($pStoId)
+	* @param int(11)
+	* @desc Remplace le membre StoId de la InfoBonLivraisonViewVO par $pStoId
 	*/
-	public function getStoQuantiteLivraison() {
-		return $this->mStoQuantiteLivraison;
-	}
-
-	/**
-	* @name setStoQuantiteLivraison($pStoQuantiteLivraison)
-	* @param decimal(10,2)
-	* @desc Remplace le membre StoQuantiteLivraison de la InfoBonLivraisonViewVO par $pStoQuantiteLivraison
-	*/
-	public function setStoQuantiteLivraison($pStoQuantiteLivraison) {
-		$this->mStoQuantiteLivraison = $pStoQuantiteLivraison;
-	}
-
-	/**
-	* @name getStoQuantiteSolidaire()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre StoQuantiteSolidaire de la InfoBonSolidaireViewVO
-	*/
-	public function getStoQuantiteSolidaire() {
-		return $this->mStoQuantiteSolidaire;
-	}
-
-	/**
-	* @name setStoQuantiteSolidaire($pStoQuantiteSolidaire)
-	* @param decimal(10,2)
-	* @desc Remplace le membre StoQuantiteSolidaire de la InfoBonSolidaireViewVO par $pStoQuantiteSolidaire
-	*/
-	public function setStoQuantiteSolidaire($pStoQuantiteSolidaire) {
-		$this->mStoQuantiteSolidaire = $pStoQuantiteSolidaire;
+	public function setStoId($pStoId) {
+		$this->mStoId = $pStoId;
 	}
 }
 ?>

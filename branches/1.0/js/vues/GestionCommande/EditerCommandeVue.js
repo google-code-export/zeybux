@@ -5,7 +5,7 @@
 	
 	this.construct = function(pParam) {
 		var that = this;
-		pParam.export_type = 0;
+		pParam.fonction = 'afficher';
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -26,71 +26,45 @@
 				
 		var lData = {};
 		
-		lData.comId = pResponse.commande[0].comId;
+		lData.comId = pResponse.marche.id;
 		this.mIdCommande = lData.comId;
-		lData.comNumero = pResponse.commande[0].comNumero;
-		lData.comDescription = pResponse.commande[0].comDescription;
-		lData.dateTimeFinReservation = pResponse.commande[0].comDateFinReservation;
-		lData.dateFinReservation = pResponse.commande[0].comDateFinReservation.extractDbDate().dateDbToFr();
-		lData.heureFinReservation = pResponse.commande[0].comDateFinReservation.extractDbHeure();
-		lData.minuteFinReservation = pResponse.commande[0].comDateFinReservation.extractDbMinute();
-		lData.dateMarcheDebut = pResponse.commande[0].comDateMarcheDebut.extractDbDate().dateDbToFr();
-		lData.heureMarcheDebut = pResponse.commande[0].comDateMarcheDebut.extractDbHeure();
-		lData.minuteMarcheDebut = pResponse.commande[0].comDateMarcheDebut.extractDbMinute();
-		lData.heureMarcheFin = pResponse.commande[0].comDateMarcheFin.extractDbHeure();
-		lData.minuteMarcheFin = pResponse.commande[0].comDateMarcheFin.extractDbMinute();
+		lData.comNumero = pResponse.marche.numero;
+		lData.comDescription = pResponse.marche.description;
+		lData.dateTimeFinReservation = pResponse.marche.dateFinReservation;
+		lData.dateFinReservation = pResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
+		lData.heureFinReservation = pResponse.marche.dateFinReservation.extractDbHeure();
+		lData.minuteFinReservation = pResponse.marche.dateFinReservation.extractDbMinute();
+		lData.dateMarcheDebut = pResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
+		lData.heureMarcheDebut = pResponse.marche.dateMarcheDebut.extractDbHeure();
+		lData.minuteMarcheDebut = pResponse.marche.dateMarcheDebut.extractDbMinute();
+		lData.heureMarcheFin = pResponse.marche.dateMarcheFin.extractDbHeure();
+		lData.minuteMarcheFin = pResponse.marche.dateMarcheFin.extractDbMinute();
+		lData.archive = pResponse.marche.archive;
 		
 		lData.pdtCommande = [];
 		
-		$(pResponse.commande).each(function() {
-			var lLot = {"dcomTaille":this.dcomTaille.nombreFormate(2,',',' '),"dcomPrix":this.dcomPrix.nombreFormate(2,',',' ')};
+		$.each(pResponse.marche.produits,function() {
 			
-			if(lData.pdtCommande[this.proId]) {
-				lData.pdtCommande[this.proId].lot[this.dcomId] = lLot;
-			} else {			
-				var lProduit = {
-						"proId":this.proId,
-						"proUniteMesure":this.proUniteMesure,
-						"proMaxProduitCommande":this.proMaxProduitCommande.nombreFormate(2,',',' '),
-						"nproNom":this.nproNom,
-						"lot":[]};
-				lProduit.lot[this.dcomId] = lLot;
-				
-				$(pResponse.stockInitiaux).each(function() {
-					if(this.idProduit == lProduit.proId) {
-						lProduit.quantiteInit = this.quantite;
-					}					
-				});
-				
-				$(pResponse.stock).each(function() {
-					if(this.proId == lProduit.proId) {
-						lProduit.quantite = this.stoQuantite;
-					}					
-				});
-				
-				
-				lProduit.quantiteCommande = lProduit.quantiteInit - lProduit.quantite;
-				that.mNiveau.push({'id':lProduit.proId,'quantite':parseInt(lProduit.quantiteCommande*100/lProduit.quantiteInit)});
-				
-				lProduit.quantiteCommande = lProduit.quantiteCommande.nombreFormate(2,',',' ');
-				lProduit.quantiteInit = lProduit.quantiteInit.nombreFormate(2,',',' ');
-				lProduit.quantite = lProduit.quantite.nombreFormate(2,',',' ');
-				
-				lData.pdtCommande[this.proId] = lProduit;
-			}
+			var lProduit = {};
+			lProduit.proId = this.id;
+			lProduit.nproNom = this.nom;
+			lProduit.quantiteCommande = parseFloat(this.stockInitial) - parseFloat(this.stockReservation);
+			lProduit.quantiteInit = parseFloat(this.stockInitial);
+			lProduit.unite = this.unite;
+			
+			that.mNiveau.push({'id':this.id,
+								'quantite':parseInt(lProduit.quantiteCommande*100/lProduit.quantiteInit)});
+			
+			lData.pdtCommande.push(lProduit);
 		});
-		
+
 		lData.listeAdherentCommande = pResponse.listeAdherentCommande;
 		lData.sigleMonetaire = gSigleMonetaire;
 		
 		this.mCommande = lData;
 		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-	/*	var lTemplate = lGestionCommandeTemplate.editerCommandePageEntete;
-		var lHtml = lTemplate.template(lData);*/
-		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();		
 		var lTemplate = lGestionCommandeTemplate.editerCommandePage;
-		//lHtml += lTemplate.template(lData);
 		
 		var lHtml = that.affect($(lTemplate.template(lData)));
 		
@@ -109,10 +83,11 @@
 		pData = this.affectNiveau(pData);
 		pData = this.affectReservation(pData);
 		pData = this.affectModifier(pData);
-		pData = this.affectCloturer(pData);
+		//pData = this.affectCloturer(pData);
 		pData = this.affectExportReservation(pData);
 		pData = this.affectBonDeCommande(pData);
 		pData = this.affectBonDeLivraison(pData);
+		pData = this.affectArchive(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
@@ -134,14 +109,10 @@
 		$(this.mNiveau).each(function() {
 			var lId = this.id;
 			var lQuantite = this.quantite;
+			if(lQuantite < 1) { lQuantite = 1; }
 			pData.find('#pdt-' + lId).progressbar({
 				value:lQuantite
 			});
-			
-			pData.find('.pdt-' + lId + '-afficher-detail').click(function() {
-				pData.find('#pdt-' + lId + '-detail').slideToggle();
-				pData.find('.pdt-' + lId + '-afficher-detail').toggle();
-			});	
 		});
 		return pData;
 	}
@@ -178,6 +149,28 @@
 		return pData;
 	}
 	
+	this.affectArchive = function(pData) {
+		if(this.mCommande.archive == 0) {
+			pData.find('.marche-archive-0').show();
+		} else if(this.mCommande.archive == 1) {
+			pData.find('.marche-archive-1').show();
+		}
+		pData = this.affectPause(pData);
+		pData = this.affectPlay(pData);
+		pData = this.affectCloturer(pData);
+		return pData;
+	}
+	
+	this.modifierArchive = function() {
+		if(this.mCommande.archive == 0) {
+			$('.marche-archive-0').show();
+			$('.marche-archive-1').hide();
+		} else if(this.mCommande.archive == 1) {
+			$('.marche-archive-0').hide();
+			$('.marche-archive-1').show();
+		}
+	}
+	
 	this.affectCloturer = function(pData) {
 		var that = this;
 		pData.find('#btn-cloture-com')
@@ -193,15 +186,30 @@
 				width:600,
 				buttons: {
 					'Cloturer': function() {
-						var lParam = {id_commande:that.mIdCommande};
+						var lParam = {id_commande:that.mIdCommande,fonction:"cloturer"};
 						var lDialog = this;
-						$.post(	"./index.php?m=GestionCommande&v=CloturerCommande", "pParam=" + $.toJSON(lParam),
+						$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 								function(lResponse) {
 									Infobulle.init(); // Supprime les erreurs
 									if(lResponse.valid) {
-										var lGestionCommandeTemplate = new GestionCommandeTemplate();
+										/*var lGestionCommandeTemplate = new GestionCommandeTemplate();
 										var lTemplate = lGestionCommandeTemplate.cloturerCommandeSucces;
-										$('#contenu').replaceWith(lTemplate.template(lResponse));
+										$('#contenu').replaceWith(lTemplate.template(lResponse));*/
+										
+										// Message de confirmation
+										var lVr = new TemplateVR();
+										lVr.valid = false;
+										lVr.log.valid = false;
+										var erreur = new VRerreur();
+										erreur.code = ERR_313_CODE;
+										erreur.message = ERR_313_MSG;
+										lVr.log.erreurs.push(erreur);										
+
+										var lparam = {"id_commande":that.mIdCommande,
+												vr:lVr};
+										InfoCommandeArchiveVue(lparam);
+										
+										
 										$(lDialog).dialog('close');
 									} else {
 										Infobulle.generer(lResponse,'');
@@ -215,6 +223,68 @@
 				},
 				close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 			});
+		});
+		return pData;
+	}
+	
+	this.affectPause = function(pData) {
+		var that = this;
+		pData.find('#btn-pause-com')
+		.click(function() {
+			var lParam = {id_commande:that.mIdCommande,fonction:"pause"};
+			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse.valid) {							
+							that.mCommande.archive = 1;
+							that.modifierArchive();
+							
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_311_CODE;
+							erreur.message = ERR_311_MSG;
+							lVr.log.erreurs.push(erreur);							
+
+							// Message de confirmation
+							Infobulle.generer(lVr,'');
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					},"json"
+			);
+		});
+		return pData;
+	}
+	
+	this.affectPlay = function(pData) {
+		var that = this;
+		pData.find('#btn-play-com')
+		.click(function() {
+			var lParam = {id_commande:that.mIdCommande,fonction:"play"};
+			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse.valid) {							
+							that.mCommande.archive = 0;
+							that.modifierArchive();
+
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_312_CODE;
+							erreur.message = ERR_312_MSG;
+							lVr.log.erreurs.push(erreur);							
+
+							// Message de confirmation
+							Infobulle.generer(lVr,'');
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					},"json"
+			);
 		});
 		return pData;
 	}
@@ -243,7 +313,8 @@
 						
 						var lFormat = $(this).find(':input[name=format]:checked').val();
 						var lParam = new ExportListeReservationVO();
-						lParam = {pParam:1,export_type:1,id_commande:that.mIdCommande,id_produits:lIdProduits,format:lFormat};
+						//lParam = {pParam:1,export_type:1,id_commande:that.mIdCommande,id_produits:lIdProduits,format:lFormat};
+						lParam = {fonction:"exportReservation",id_commande:that.mIdCommande,id_produits:lIdProduits,format:lFormat};
 						
 						// Test des erreurs
 						var lValid = new ExportListeReservationValid();

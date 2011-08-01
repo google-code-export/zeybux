@@ -316,6 +316,7 @@ class CommandeManager
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
+		return $pVo->getId();
 	}
 
 	/**

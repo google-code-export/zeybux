@@ -56,7 +56,7 @@ class OperationService
 		$this->insertHistorique($pOperation); // Ajout historique
 
 		// Selon le type on met à jour le solde du compte
-		$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+		$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
 			$lCompteService = new CompteService(); // Mise à jour du solde
 			$lCompte = $lCompteService->get($pOperation->getIdCompte());
@@ -78,7 +78,7 @@ class OperationService
 		
 		$this->insertHistorique($pOperation); // Ajout historique
 		
-		$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+		$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
 			$lOperationActuelle = $this->get($pOperation->getId());
 			
@@ -107,7 +107,7 @@ class OperationService
 			$lOperation = $this->get($pId);
 			
 			// Maj du solde du compte
-			$lTypeModificationSolde = array(1,2,3,4,6,7,8,9,10,11,12,13);
+			$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
 			if(in_array($lOperation->getTypePaiement(), $lTypeModificationSolde)) {
 				$lCompteService = new CompteService(); // Mise à jour du solde
 				$lCompte = $lCompteService->get($lOperation->getIdCompte());
@@ -118,6 +118,12 @@ class OperationService
 			switch($lOperation->getTypePaiement()) {
 				case 0 : // Annulation de la reservation
 					$lOperation->setTypePaiement(16);
+					return $this->update($lOperation);
+					break;
+					
+				case 1 : // Annulation achat/dépot
+				case 2 : 
+					$lOperation->setTypePaiement(18);
 					return $this->update($lOperation);
 					break;
 					
@@ -232,6 +238,54 @@ class OperationService
 				array(''));
 				
 		return $lOperation;
+	}
+	
+	/**
+	* @name getBonCommande($pIdMarche,$pIdCompteProducteur)
+	* @param integer
+	* @return array(OperationVO)
+	* @desc Retourne une liste d'Operation
+	*/
+	public function getBonCommande($pIdMarche,$pIdCompteProducteur) {
+		$lOperation = OperationManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('=','=','='),
+				array($pIdMarche,$pIdCompteProducteur,5),
+				array(''),
+				array(''));
+				
+		return $lOperation;
+	}
+	
+	/**
+	* @name getBonLivraison($pIdCompte, $pIdCommande)
+	* @param integer
+	* @param integer
+	* @return array(OperationVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId, IdCommande $pIdCommande et de type 0 ou 1. Puis les renvoie sous forme d'une collection de OperationVO
+	*/
+	public static function getBonLivraison($pIdCommande,$pIdCompte) {
+		return OperationManager::recherche(
+			array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+			array('=','=','='),
+			array($pIdCommande,$pIdCompte, 6),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name getReservationCommande($pId)
+	* @param integer
+	* @return array(OperationVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationVO
+	*/
+	public static function getReservationCommande($pId) {		
+		return OperationManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_MONTANT),
+				array('=', '=', '<'),
+				array($pId, 0, 0),
+				array(''),
+				array(''));
 	}
 }
 ?>

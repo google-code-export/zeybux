@@ -34,8 +34,8 @@
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
 		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
-		$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition)} );
-		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );		
+		/*$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
+		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );	*/	
 	}
 	
 	this.construct(pParam);

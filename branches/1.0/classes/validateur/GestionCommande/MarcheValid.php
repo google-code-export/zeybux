@@ -16,7 +16,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "RechargementCompteValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/RechargementCompteValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/MarcheDetailAchatValid.php" );
 
 /**

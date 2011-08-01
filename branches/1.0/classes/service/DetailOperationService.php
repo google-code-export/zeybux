@@ -88,6 +88,16 @@ class DetailOperationService
 					$lDetailOperation->setTypePaiement(16);
 					return $this->update($lDetailOperation);
 					break;
+				
+				case 5 : // Annulation du Bon de commande
+					$lDetailOperation->setTypePaiement(17);
+					return $this->update($lDetailOperation);
+					break;
+					
+				case 6 : // Annulation du Bon de commande
+					$lDetailOperation->setTypePaiement(19);
+					return $this->update($lDetailOperation);
+					break;
 					
 				default:
 					$pDetailOperation->setDate(StringUtils::dateTimeAujourdhuiDb());

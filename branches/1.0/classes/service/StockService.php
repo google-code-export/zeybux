@@ -59,12 +59,30 @@ class StockService
 		$this->insertHistorique($pStock); // Ajout historique
 
 		switch($pStock->getType()) {
-			case 0 : // Reservation
-				// Maj Stock Reservation dans le produit
+			case 0 : // Reservation				
 				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
-				$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite());
-				ProduitManager::update($lProduit);
+				if($pStock->getQuantite() > 0) { // Reservation Producteur (commande)
+					// Maj Stock Reservation et qté initiale dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				} else { // Reservation Adherent
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				}
+				break;
+				
+			case 4 : // Reservation				
+				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				$lProduit = ProduitManager::select($lLot->getIdProduit());
+				if($pStock->getQuantite() > 0) { // Livraison Producteur
+					// Maj Stock Reservation et qté initiale dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				}
 				break;
 		}	
 		return $lId;
@@ -86,18 +104,29 @@ class StockService
 		// TODO Mise à jour du stock selon le type
 		switch($pStock->getType()) {
 			case 0 : // Reservation
-				// Maj Stock Reservation dans le produit
 				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
-				$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite() - $lStockActuel->getQuantite());
-				ProduitManager::update($lProduit);
+				if($pStock->getQuantite() > 0) { // Reservation Producteur (commande)
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				} else { // Reservation Adherent
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite() - $lStockActuel->getQuantite());
+					ProduitManager::update($lProduit);
+				}
 				break;
 			
-			case 4 : // Bon de Livraison 
-				// Maj Stock Reservation et stock initial dans le produit
-				/* Récupérer le stock initial du produit (produitService) -> le mettre à jour
-				 * Stock réservation = Stock réservation + Nv Stock initial - Ancien Stock initial
-				 * */
+			case 4 : // Reservation				
+				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				$lProduit = ProduitManager::select($lLot->getIdProduit());
+				if($pStock->getQuantite() > 0) { // Livraison Producteur
+					// Maj Stock Reservation et qté initiale dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				}
 				break;
 			
 			case 6 : // Reservation annulée
@@ -126,6 +155,16 @@ class StockService
 				case 1 : // Annulation de l'achat
 				case 2 : // Annulation de l'achat solidaire
 					$lStock->setType(6);
+					return $this->update($lStock);
+					break;
+					
+				case 3 : // Annulation du Bon de commande
+					$lStock->setType(7);
+					return $this->update($lStock);
+					break;
+					
+				case 4 : // Annulation du Bon de commande
+					$lStock->setType(9);
 					return $this->update($lStock);
 					break;
 					

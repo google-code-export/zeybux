@@ -185,7 +185,7 @@
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
-										"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.opeMontant} {sigleMonetaire}</span></td>" +
+										"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
 									"</tr>" +
 							"<!-- END listeAdherent -->" +
 								"</tbody>" +

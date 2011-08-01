@@ -12,6 +12,15 @@
 .edt-com-progressbar-pdt {
 	margin-top:10px;
 	margin-bottom:10px;
+	height: 12px;
+}
+
+.edt-com-info-progressbar-pdt {
+	float:left;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	width:100%;
 }
 
 .edt-com-span-rech-right {

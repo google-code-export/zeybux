@@ -98,15 +98,21 @@ class DetailMarcheViewVO extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdProducteur de la DetailMarcheViewVO
+	* @desc ProIdCompteProducteur de la DetailMarcheViewVO
 	*/
-	protected $mProIdProducteur;
+	protected $mProIdCompteProducteur;
 	
 	/**
 	* @var decimal(10,2)
 	* @desc ProStockReservation de la DetailMarcheViewVO
 	*/
 	protected $mProStockReservation;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc ProStockInitial de la DetailMarcheViewVO
+	*/
+	protected $mProStockInitial;
 	
 	/**
 	* @var int(11)
@@ -391,21 +397,21 @@ class DetailMarcheViewVO extends DataTemplate
 	}
 
 	/**
-	* @name getProIdProducteur()
+	* @name getProIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdProducteur de la DetailMarcheViewVO
+	* @desc Renvoie le membre ProIdCompteProducteur de la DetailMarcheViewVO
 	*/
-	public function getProIdProducteur() {
-		return $this->mProIdProducteur;
+	public function getProIdCompteProducteur() {
+		return $this->mProIdCompteProducteur;
 	}
 
 	/**
-	* @name setProIdProducteur($pProIdProducteur)
+	* @name setProIdCompteProducteur($pProIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre ProIdProducteur de la DetailMarcheViewVO par $pProIdProducteur
+	* @desc Remplace le membre ProIdCompteProducteur de la DetailMarcheViewVO par $pProIdCompteProducteur
 	*/
-	public function setProIdProducteur($pProIdProducteur) {
-		$this->mProIdProducteur = $pProIdProducteur;
+	public function setProIdCompteProducteur($pProIdCompteProducteur) {
+		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
 	}
 	
 	/**
@@ -424,6 +430,24 @@ class DetailMarcheViewVO extends DataTemplate
 	*/
 	public function setProStockReservation($pProStockReservation) {
 		$this->mProStockReservation = $pProStockReservation;
+	}
+	
+	/**
+	* @name getProStockInitial()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre ProStockInitial de la DetailMarcheViewVO
+	*/
+	public function getProStockInitial() {
+		return $this->mProStockInitial;
+	}
+
+	/**
+	* @name setProStockInitial($pProStockInitial)
+	* @param decimal(10,2)
+	* @desc Remplace le membre ProStockInitial de la DetailMarcheViewVO par $pProStockInitial
+	*/
+	public function setProStockInitial($pProStockInitial) {
+		$this->mProStockInitial = $pProStockInitial;
 	}
 	
 	/**

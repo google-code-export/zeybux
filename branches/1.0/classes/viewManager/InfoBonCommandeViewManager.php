@@ -12,12 +12,10 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "InfoBonCommandeViewVO.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
 
 /**
  * @name InfoBonCommandeViewManager
@@ -43,17 +41,19 @@ class InfoBonCommandeViewManager
 
 		$lRequete =
 			"SELECT "
-			    . CommandeManager::CHAMP_COMMANDE_ID . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . "
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
+			"," . StockManager::CHAMP_STOCK_ID . "
 			FROM " . InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE . " 
-			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser($pId) . "'";
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
@@ -63,15 +63,17 @@ class InfoBonCommandeViewManager
 			while ($lLigne = mysql_fetch_assoc($lSql)) {
 				array_push($lListeInfoBonCommande,
 					InfoBonCommandeViewManager::remplir(
-					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
-					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM]));
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
+					$lLigne[StockManager::CHAMP_STOCK_ID]));
 			}
 		} else {
 			$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -90,15 +92,17 @@ class InfoBonCommandeViewManager
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		$lRequete =
 			"SELECT "
-			    . CommandeManager::CHAMP_COMMANDE_ID . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . "
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
+			"," . StockManager::CHAMP_STOCK_ID . "
 			FROM " . InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -109,15 +113,17 @@ class InfoBonCommandeViewManager
 			while ($lLigne = mysql_fetch_assoc($lSql)) {
 				array_push($lListeInfoBonCommande,
 					InfoBonCommandeViewManager::remplir(
-					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
-					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM]));
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
+					$lLigne[StockManager::CHAMP_STOCK_ID]));
 			}
 		} else {
 			$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -133,7 +139,7 @@ class InfoBonCommandeViewManager
 	*/
 	public static function selectByIdCommande($pIdCommande) {
 		return InfoBonCommandeViewManager::recherche(
-			array(CommandeManager::CHAMP_COMMANDE_ID),
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE),
 			array('='),
 			array($pIdCommande),
 			array(ProducteurManager::CHAMP_PRODUCTEUR_NOM,ProducteurManager::CHAMP_PRODUCTEUR_PRENOM),
@@ -141,19 +147,19 @@ class InfoBonCommandeViewManager
 	}
 	
 	/**
-	* @name selectInfoBonCommande($pIdCommande, $pIdProducteur)
+	* @name selectInfoBonCommande($pIdCommande, $pIdCompteProducteur)
 	* @param integer
 	* @param integer
 	* @return array(InfoBonCommandeViewVO)
 	* @desc Récupères toutes les lignes de la table ayant pour IdCommande $pIdCommande et IdProducteur $pIdProducteur . Puis les renvoie sous forme d'une collection de InfoBonCommandeViewVO
 	*/
-	public static function selectInfoBonCommande($pIdCommande, $pIdProducteur) {
+	public static function selectInfoBonCommande($pIdCommande, $pIdCompteProducteur) {
 		return InfoBonCommandeViewManager::recherche(
-			array(CommandeManager::CHAMP_COMMANDE_ID,ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR),
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR),
 			array('=','='),
-			array($pIdCommande, $pIdProducteur),
-			array(CommandeManager::CHAMP_COMMANDE_ID),
-			array('ASC'));
+			array($pIdCommande, $pIdCompteProducteur),
+			array(''),
+			array(''));
 	}
 
 	/**
@@ -173,15 +179,17 @@ class InfoBonCommandeViewManager
 
 		// Préparation de la requète
 		$lChamps = array( 
-			    CommandeManager::CHAMP_COMMANDE_ID .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR .
+			    ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
-			"," . OperationManager::CHAMP_OPERATION_MONTANT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM);
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
+			"," . StockManager::CHAMP_STOCK_ID);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -199,15 +207,17 @@ class InfoBonCommandeViewManager
 
 					array_push($lListeInfoBonCommande,
 						InfoBonCommandeViewManager::remplir(
-						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
-						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM]));
+						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
+						$lLigne[StockManager::CHAMP_STOCK_ID]));
 				}
 			} else {
 				$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -221,7 +231,7 @@ class InfoBonCommandeViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pProIdProducteur, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom)
+	* @name remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom, $pDopeId, $pStoId)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -231,20 +241,24 @@ class InfoBonCommandeViewManager
 	* @param decimal(33,2)
 	* @param varchar(50)
 	* @param varchar(50)
+	* @param int(11)
+	* @param int(11)
 	* @return InfoBonCommandeViewVO
 	* @desc Retourne une InfoBonCommandeViewVO remplie
 	*/
-	private static function remplir($pComId, $pProIdProducteur, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom) {
+	private static function remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom, $pDopeId, $pStoId) {
 		$lInfoBonCommande = new InfoBonCommandeViewVO();
-		$lInfoBonCommande->setComId($pComId);
-		$lInfoBonCommande->setProIdProducteur($pProIdProducteur);
+		$lInfoBonCommande->setProIdCommande($pProIdCommande);
+		$lInfoBonCommande->setProIdCompteProducteur($pProIdCompteProducteur);
 		$lInfoBonCommande->setProId($pProId);
 		$lInfoBonCommande->setProUniteMesure($pProUniteMesure);
 		$lInfoBonCommande->setNproNom($pNproNom);
-		$lInfoBonCommande->setOpeMontant($pOpeMontant);
+		$lInfoBonCommande->setDopeMontant($pDopeMontant);
 		$lInfoBonCommande->setStoQuantite($pStoQuantite);
 		$lInfoBonCommande->setPrdtNom($pPrdtNom);
 		$lInfoBonCommande->setPrdtPrenom($pPrdtPrenom);
+		$lInfoBonCommande->setDopeId($pDopeId);
+		$lInfoBonCommande->setStoId($pStoId);
 		return $lInfoBonCommande;
 	}
 }
