@@ -107,11 +107,7 @@ class MarcheCommandeControleur
 	public function enregistrerAchat($pParam) {	
 
 		$lVr = MarcheValid::validAjout($pParam);
-		if($lVr->getValid()) {
-			//$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
-			//$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
-			
-			
+		if($lVr->getValid()) {			
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($pParam['idCompte']);
 			$lIdReservation->setIdCommande($pParam['id']);

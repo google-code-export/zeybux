@@ -154,6 +154,14 @@ class MessagesErreurs
 	const ERR_308_MSG = 'Virement modifié.';
 	const ERR_309_CODE = 309;
 	const ERR_309_MSG = 'Virement supprimé.';
+	const ERR_310_CODE = 310;
+	const ERR_310_MSG = 'Marché modifié.';
+	const ERR_311_CODE = 311;
+	const ERR_311_MSG = 'Arrêt des réservations et ventes.';
+	const ERR_312_CODE = 312;
+	const ERR_312_MSG = 'Réservations et ventes ouvertes.';
+	const ERR_313_CODE = 313;
+	const ERR_313_MSG = 'Le Marché est cloturé';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

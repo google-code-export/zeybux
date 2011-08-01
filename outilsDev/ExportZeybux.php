@@ -53,17 +53,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   		if(is_dir($d->path.'/'.$entry)) {
 			   			parcourirDossierCss($d->path.'/'.$entry);
 			   		} else {
-			   			$filename = $d->path.'/'.$entry;
-						/*$handle = fopen($filename, "r");
-			   		 	while (!feof($handle)) {	   	
-			   		 		$lLigne = fgets($handle);	 		
-			   		 		$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",$lLigne);   		 		
-					     	$fp = fopen("./zeybu/css/cssDev.css", 'a');
-				   			fwrite($fp,$lLigne);
-				   			fclose($fp);
-					    }
-						fclose($handle);*/
-						
+			   			$filename = $d->path.'/'.$entry;						
 						$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",file_get_contents($filename));
 						$fp = fopen("./zeybu/css/cssDev.css", 'a');
 					    fwrite($fp,$lLigne);
@@ -86,9 +76,260 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		fclose($fp);
 		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/cssDev.css -o ./zeybu/css/cssDev-min.css');
 		echo $output;
+		/******************************************* Generation zeybux-jquery.js *************************************/
+		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
+		$filename = "../js/jquery/jquery-1.4.2.min.js";
+		fwrite($fp,file_get_contents($filename));
+		$filename = "../js/jquery/jquery-ui-1.8.custom.min.js";
+		fwrite($fp,file_get_contents($filename));
+		fclose($fp);
+		
+		function parcourirDossierJquery($pPath) {
+			if(is_dir($pPath)) {
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {
+				   if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != '.htaccess'	
+				   		&& $entry != 'jquery-1.4.2.min.js'	
+				   		&& $entry != 'jquery-ui-1.8.custom.min.js'		   		
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+				   			parcourirDossierJquery($d->path.'/'.$entry);
+				   		} else {
+				   			$filename = $d->path.'/'.$entry;
+				   			$fp = fopen("./zeybu/js/zeybux-jquery.js", 'a');
+						    fwrite($fp,file_get_contents($filename));
+						    fclose($fp);
+				   		}
+				   }
+				}
+				$d->close();
+			} else {
+				$fp = fopen("./zeybu/js/zeybux-jquery.js", 'a');
+			    fwrite($fp,file_get_contents($pPath));
+			    fclose($fp);
+			}
+		}
+		
+		$Path = '../js/jquery';
+		parcourirDossierJquery($Path);
+		
+		$fp = fopen("./zeybu/js/zeybux-jquery-min.js", 'w');
+		fclose($fp);
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-jquery.js -o ./zeybu/js/zeybux-jquery-min.js');
+		echo $output;
+		/******************************************* Fin Generation zeybux-jquery.js *************************************/
+	
+		/******************************************* Generation zeybux-core.js *************************************/		
+		$fp = fopen("./zeybu/js/zeybux-core.js", 'w');
+		$filename = "../js/template/CommunTemplate.js";
+		fwrite($fp,file_get_contents($filename));
+		$filename = "../js/vues/CommunVue.js";
+		fwrite($fp,file_get_contents($filename));
+		$filename = "../js/template/IdentificationTemplate.js";
+		fwrite($fp,file_get_contents($filename));		
+		fclose($fp);
 
-		/******************************************* Generation zeybux-dev.js *************************************/		
-		function parcourirDossier($pPath) {
+		function parcourirDossierCore($pPath) {
+			$d = dir($pPath);
+			while (false !== ($entry = $d->read())) {
+			   if(	$entry != '.' 
+			   		&& $entry != '..' 
+			   		&& $entry != '.svn' 
+			   		&& $entry != '.project'
+			   		&& $entry != '.htaccess'
+			   		&& $entry != 'jquery'
+			   		&& $entry != 'package'
+			   		&& $entry != 'template'
+			   		&& $entry != 'vues'
+			   		&& $entry != 'zeybux-configuration.php'
+			   		&& $entry != 'zeybux-core.php' 
+			   		&& $entry != 'zeybux-jquery.php'
+			   		&& $entry != 'MessagesErreurs.js'
+			   		&& $entry != 'Configuration.js'
+			   		) {
+			   		if(is_dir($d->path.'/'.$entry)) {
+			   			parcourirDossierCore($d->path.'/'.$entry);
+			   		} else {
+			   			$filename = $d->path.'/'.$entry;
+			   			$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
+					    fwrite($fp,file_get_contents($filename));
+					    fclose($fp);
+			   		}
+			   }
+			}
+			$d->close();
+		}
+		$Path = '../js';
+		parcourirDossierCore($Path);
+				
+		function parcourirDossierIdentification($pPath) {
+			if(is_dir($pPath)) {
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {
+				   if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != '.htaccess'	   		
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+				   			parcourirDossierIdentification($d->path.'/'.$entry);
+				   		} else {		
+							$filename = $d->path.'/'.$entry;
+				   			$lLigne = file_get_contents($filename);
+				   			if($entry == "AccueilVue.js") {			   				
+				   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
+				   			}
+				   			if($entry == "IdentificationTemplate.js") {
+				   				$lLigne = preg_replace('/value=\\"(Z|zeybu)\\"/',"",$lLigne);	
+				   			}
+				   			if($entry == 'IdentificationVue.js') {
+					   			$lLigne = preg_replace('/".php"/','"-min.js"',$lLigne);		
+				   			}
+						    $fp = fopen("./zeybu/js/zeybux-core.js", 'a');
+						    fwrite($fp,$lLigne);
+						    fclose($fp);
+				   			
+				   			
+				   			
+				   			/*$filename = $d->path.'/'.$entry;
+					   		$lLigne = file_get_contents($filename);
+				   			if($entry == "AccueilVue.js") {			
+				   				$lLigne = preg_replace("#.php#","-min.js",$lLigne);
+				   			}
+				   			if($entry == "IdentificationTemplate.js") {
+				   				$lLigne = preg_replace('#value=\\\"(Z|zeybu)\\\"#',"",$lLigne);	
+				   			}
+					   		if($entry = 'IdentificationVue.js') {
+					   			$lLigne = preg_replace('#.php#',".js",$lLigne);		
+				   			}
+						   	$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
+						    fwrite($fp,file_get_contents($filename));
+						    fclose($fp);*/
+				   		}
+				   }
+				}
+				$d->close();
+			}
+		}
+		$Path = '../js/vues/Identification';
+		parcourirDossierIdentification($Path);
+		
+		$fp = fopen("./zeybu/js/zeybux-core-min.js", 'w');
+		fclose($fp);
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-core.js -o ./zeybu/js/zeybux-core-min.js');
+		echo $output;
+		/******************************************* Fin Generation zeybux-core.js *************************************/
+
+		/******************************************* Generation zeybux-configuration.js *************************************/
+		// Création de zeybux-configuration
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'w');
+		fclose($fp);
+		
+		$filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/classes/utils/MessagesErreurs.js";
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
+	    fwrite($fp,file_get_contents($filename));
+	    fclose($fp);
+	    
+	    $filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/Commun/Configuration.js";
+		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
+	    fwrite($fp,file_get_contents($filename));
+	    fclose($fp);
+		
+		$fp = fopen("./zeybu/js/zeybux-configuration-min.js", 'w');
+		fclose($fp);
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-configuration.js -o ./zeybu/js/zeybux-configuration-min.js');
+		echo $output;
+		/******************************************* Fin Generation zeybux-configuration.js *************************************/
+
+		/******************************************* Generation zeybux- Modules .js *************************************/
+		$lListeModule = array();
+		function parcourirDossierVues($pPath,$pListeModule) {
+			if(is_dir($pPath)) {
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {
+				   if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != '.htaccess'	
+				   		&& $entry != 'Identification'
+				   		&& $entry != 'CommunVues.js'   		
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+				   			array_push($pListeModule,$entry);
+				   		}
+				   }
+				}
+				$d->close();
+			}
+		}
+		$Path = '../js/vues';
+		parcourirDossierVues($Path,&$lListeModule);
+		
+		
+		function parcourirDossierModule($pPath,$pModule) {
+			if(is_dir($pPath)) {
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {
+				   if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != '.htaccess'	   		
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+				   			parcourirDossierModule($d->path.'/'.$entry,$pModule);
+				   		} else {
+						    $filename = $d->path.'/'.$entry;
+						   	$fp = fopen("./zeybu/js/package-full/zeybux-".$pModule.".js", 'a');
+						    fwrite($fp,file_get_contents($filename));
+						    fclose($fp);
+				   		}
+				   }
+				}
+				$d->close();
+			} else {
+				$fp = fopen("./zeybu/js/package-full/zeybux-".$pModule.".js", 'a');
+			    fwrite($fp,file_get_contents($pPath));
+			    fclose($fp);
+			}
+		}
+		
+		foreach($lListeModule as $lModule) {
+			$fp = fopen("./zeybu/js/package-full/zeybux-".$lModule.".js", 'w');
+			$filename = "../js/template/".$lModule."Template.js";
+			fwrite($fp,file_get_contents($filename));	
+			fclose($fp);
+
+			$Path = '../js/vues/'.$lModule;
+			parcourirDossierModule($Path,$lModule);
+			
+			$fp = fopen("./zeybu/js/package/zeybux-".$lModule."-min.js", 'w');
+			fclose($fp);
+			$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/package-full/zeybux-'.$lModule.'.js -o ./zeybu/js/package/zeybux-'.$lModule.'-min.js');
+			echo $output;
+		}
+		
+		/******************************************* Fin Generation zeybux- Modules .js *************************************/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*function parcourirDossier($pPath) {
 			$d = dir($pPath);
 			while (false !== ($entry = $d->read())) {	   
 			   if(	$entry != '.' 
@@ -123,7 +364,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   			fwrite($fp,fgets($handle));
 				   			fclose($fp);
 					    }*/
-			   			$lLigne = file_get_contents($filename);
+			   		/*	$lLigne = file_get_contents($filename);
 			   			if($entry == "AccueilVue.js") {			   				
 			   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
 			   			}
@@ -148,27 +389,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$fp = fopen("./zeybu/js/zeybux-min.js", 'w');
 		fclose($fp);
 		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/jsDev.js -o ./zeybu/js/zeybux-min.js');
-		echo $output;
+		echo $output;*/
 		
-		// Création de zeybux-configuration
-		//$Path = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js";
-		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'w');
-		fclose($fp);
 		
-		$filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/classes/utils/MessagesErreurs.js";
-		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
-	    fwrite($fp,file_get_contents($filename));
-	    fclose($fp);
-	    
-	    $filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/Commun/Configuration.js";
-		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
-	    fwrite($fp,file_get_contents($filename));
-	    fclose($fp);
-		
-		$fp = fopen("./zeybu/js/zeybux-configuration-min.js", 'w');
-		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-configuration.js -o ./zeybu/js/zeybux-configuration-min.js');
-		echo $output;
 		
 		/************** Création des dossier **************/
 		mkdir($lPath);
@@ -181,7 +404,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		mkdir($lPath . '/html');
 		mkdir($lPath . '/images');
 		mkdir($lPath . '/js');
-		mkdir($lPath . '/js/jquery');
+		mkdir($lPath . '/js/package');
 		mkdir($lPath . '/logs');
 		mkdir($lPath . '/vues');
 		/************** Fin Création des dossier **************/
@@ -214,12 +437,13 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		parcourirDossierCopie('../css/themes',$lPath . '/css/themes');
 		parcourirDossierCopie('../html',$lPath . '/html');
 		parcourirDossierCopie('../images',$lPath . '/images');
-		parcourirDossierCopie('../js/jquery',$lPath . '/js/jquery');
 		parcourirDossierCopie('../vues',$lPath . '/vues');
 				
 		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index
-		copy('./zeybu/js/zeybux-min.js' , $lPath.'/js/zeybux-min.js'); // Copie du js
+		copy('./zeybu/js/zeybux-core-min.js' , $lPath.'/js/zeybux-core-min.js'); // Copie du js
+		copy('./zeybu/js/zeybux-jquery-min.js' , $lPath.'/js/zeybux-jquery-min.js'); // Copie du js
 		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min.js'); // Copie du js
+		parcourirDossierCopie('./zeybu/js/package',$lPath . '/js/package');
 		copy('./zeybu/css/cssDev-min.css' , $lPath.'/css/cssDev-min.css'); // Copie du css
 		copy('../css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		

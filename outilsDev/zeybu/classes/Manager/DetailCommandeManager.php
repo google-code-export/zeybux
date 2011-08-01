@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 26/07/2011
 // Fichier : DetailCommandeManager.php
 //
 // Description : Classe de gestion des DetailCommande
@@ -14,9 +14,9 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailCommandeVO.php");
 
 /**
- * @name DetailCommande
+ * @name DetailCommandeManager
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 26/07/2011
  * 
  * @desc Classe permettant l'accès aux données des DetailCommande
  */
@@ -27,6 +27,7 @@ class DetailCommandeManager
 	const CHAMP_DETAILCOMMANDE_ID_PRODUIT = "dcom_id_produit";
 	const CHAMP_DETAILCOMMANDE_TAILLE = "dcom_taille";
 	const CHAMP_DETAILCOMMANDE_PRIX = "dcom_prix";
+	const CHAMP_DETAILCOMMANDE_ETAT = "dcom_etat";
 
 	/**
 	* @name select($pId)
@@ -44,7 +45,8 @@ class DetailCommandeManager
 			    . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . "
 			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " 
 			WHERE " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -57,14 +59,15 @@ class DetailCommandeManager
 				$pId,
 				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]);
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT]);
 		} else {
 			return new DetailCommandeVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(DetailCommandeVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de DetailCommandeVO
 	*/
@@ -77,7 +80,8 @@ class DetailCommandeManager
 			    . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . "
 			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -91,10 +95,11 @@ class DetailCommandeManager
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT]));
 			}
 		} else {
-			$lListeDetailCommande = new DetailCommandeVO();
+			$lListeDetailCommande[0] = new DetailCommandeVO();
 		}
 		return $lListeDetailCommande;
 	}
@@ -119,64 +124,59 @@ class DetailCommandeManager
 			    DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX		);
-
-		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
-
-		$lTypeFiltre = array($pTypeCritere);
-		// Protection du critère de tri
-		if($pCritereTri != 'ASC' && $pCritereTri != 'DESC') {
-			$pCritereTri = 'ASC';
-		}
-
-		// Protection du type de tri
-		if($pTypeTri == '') {
-			$pTypeTri = DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID;
-		}
-
-		$lTris = array( array('champ' => StringUtils::securiser($pTypeTri), 'sens'=> StringUtils::securiser($pCritereTri)) );
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT		);
 
 		// Préparation de la requète de recherche
-		$lRequete = DbUtils::prepareRequeteRecherche(DetailCommandeManager::TABLE_DETAILCOMMANDE, $lChamps, $lFiltres, $lTypeFiltre, $lTris);
-
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
+		$lRequete = DbUtils::prepareRequeteRecherche(DetailCommandeManager::TABLE_DETAILCOMMANDE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeDetailCommande = array();
 
-		if( mysql_num_rows($lSql) > 0 ) {
+		if($lRequete !== false) {
 
-			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			$lSql = Dbutils::executerRequete($lRequete);
 
-				array_push($lListeDetailCommande,
-					DetailCommandeManager::remplirDetailCommande(
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
+			if( mysql_num_rows($lSql) > 0 ) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
+					array_push($lListeDetailCommande,
+						DetailCommandeManager::remplirDetailCommande(
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT]));
+				}
+			} else {
+				$lListeDetailCommande[0] = new DetailCommandeVO();
 			}
-		} else {
-			$lListeDetailCommande[0] = new DetailCommandeVO();
+
+			return $lListeDetailCommande;
 		}
 
+		$lListeDetailCommande[0] = new DetailCommandeVO();
 		return $lListeDetailCommande;
 	}
 
 	/**
-	* @name remplirDetailCommande($pId, $pIdProduit, $pTaille, $pPrix)
-	* @param int(11)
+	* @name remplirDetailCommande($pId, $pIdProduit, $pTaille, $pPrix, $pEtat)
 	* @param int(11)
 	* @param int(11)
 	* @param decimal(10,2)
+	* @param decimal(10,2)
+	* @param int(11)
 	* @return DetailCommandeVO
 	* @desc Retourne une DetailCommandeVO remplie
 	*/
-	private static function remplirDetailCommande($pId, $pIdProduit, $pTaille, $pPrix) {
+	private static function remplirDetailCommande($pId, $pIdProduit, $pTaille, $pPrix, $pEtat) {
 		$lDetailCommande = new DetailCommandeVO();
 		$lDetailCommande->setId($pId);
 		$lDetailCommande->setIdProduit($pIdProduit);
 		$lDetailCommande->setTaille($pTaille);
 		$lDetailCommande->setPrix($pPrix);
+		$lDetailCommande->setEtat($pEtat);
 		return $lDetailCommande;
 	}
 
@@ -196,11 +196,13 @@ class DetailCommandeManager
 				(" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
 				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "
 				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . "
-				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . ")
+				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
+				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getIdProduit() ) . "'
 				,'" . StringUtils::securiser( $pVo->getTaille() ) . "'
-				,'" . StringUtils::securiser( $pVo->getPrix() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getPrix() ) . "'
+				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -219,10 +221,10 @@ class DetailCommandeManager
 		$lRequete = 
 			"UPDATE " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
 			 SET
-				 " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'
-				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = '" . StringUtils::securiser( $pVo->getIdProduit() ) . "'
+				 " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = '" . StringUtils::securiser( $pVo->getIdProduit() ) . "'
 				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " = '" . StringUtils::securiser( $pVo->getTaille() ) . "'
 				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . " = '" . StringUtils::securiser( $pVo->getPrix() ) . "'
+				," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'
 			 WHERE " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

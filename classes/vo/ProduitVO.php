@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 12/07/2011
+// Date de creation : 26/07/2011
 // Fichier : ProduitVO.php
 //
 // Description : Classe ProduitVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProduitVO
  * @author Julien PIERRE
- * @since 12/07/2011
+ * @since 26/07/2011
  * @desc Classe représentant une ProduitVO
  */
 class ProduitVO  extends DataTemplate
@@ -50,15 +50,27 @@ class ProduitVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc IdProducteur de la ProduitVO
+	* @desc IdCompteProducteur de la ProduitVO
 	*/
-	protected $mIdProducteur;
+	protected $mIdCompteProducteur;
 
 	/**
 	* @var decimal(10,2)
 	* @desc StockReservation de la ProduitVO
 	*/
 	protected $mStockReservation;
+
+	/**
+	* @var decimal(10,2)
+	* @desc StockInitial de la ProduitVO
+	*/
+	protected $mStockInitial;
+
+	/**
+	* @var int(11)
+	* @desc Etat de la ProduitVO
+	*/
+	protected $mEtat;
 
 	/**
 	* @name getId()
@@ -151,21 +163,21 @@ class ProduitVO  extends DataTemplate
 	}
 
 	/**
-	* @name getIdProducteur()
+	* @name getIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre IdProducteur de la ProduitVO
+	* @desc Renvoie le membre IdCompteProducteur de la ProduitVO
 	*/
-	public function getIdProducteur() {
-		return $this->mIdProducteur;
+	public function getIdCompteProducteur() {
+		return $this->mIdCompteProducteur;
 	}
 
 	/**
-	* @name setIdProducteur($pIdProducteur)
+	* @name setIdCompteProducteur($pIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre IdProducteur de la ProduitVO par $pIdProducteur
+	* @desc Remplace le membre IdCompteProducteur de la ProduitVO par $pIdCompteProducteur
 	*/
-	public function setIdProducteur($pIdProducteur) {
-		$this->mIdProducteur = $pIdProducteur;
+	public function setIdCompteProducteur($pIdCompteProducteur) {
+		$this->mIdCompteProducteur = $pIdCompteProducteur;
 	}
 
 	/**
@@ -184,6 +196,42 @@ class ProduitVO  extends DataTemplate
 	*/
 	public function setStockReservation($pStockReservation) {
 		$this->mStockReservation = $pStockReservation;
+	}
+
+	/**
+	* @name getStockInitial()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre StockInitial de la ProduitVO
+	*/
+	public function getStockInitial() {
+		return $this->mStockInitial;
+	}
+
+	/**
+	* @name setStockInitial($pStockInitial)
+	* @param decimal(10,2)
+	* @desc Remplace le membre StockInitial de la ProduitVO par $pStockInitial
+	*/
+	public function setStockInitial($pStockInitial) {
+		$this->mStockInitial = $pStockInitial;
+	}
+
+	/**
+	* @name getEtat()
+	* @return int(11)
+	* @desc Renvoie le membre Etat de la ProduitVO
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param int(11)
+	* @desc Remplace le membre Etat de la ProduitVO par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
 	}
 
 }

@@ -29,7 +29,7 @@ class ProduitMarcheVO extends DataTemplate
 	 * @var integer 
 	 * @desc ID du Producteur
 	 */
-	protected $mIdProducteur;
+	protected $mIdCompteProducteur;
 	
 	/**
 	* @var integer 
@@ -68,10 +68,16 @@ class ProduitMarcheVO extends DataTemplate
 	protected $mQteMaxCommande;
 	
 	/**
-	* @var integer
+	* @var decimal(10,2)
 	* @desc La quantite restante de Produit
 	*/
 	protected $mStockReservation;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc La quantite initiale de Produit
+	*/
+	protected $mStockInitial;
 	
 	/**
 	* @var array(DetailMarcheVO)
@@ -106,21 +112,21 @@ class ProduitMarcheVO extends DataTemplate
 	}
 	
 	/**
-	* @name getIdProducteur()
+	* @name getIdCompteProducteur()
 	* @return integer
-	* @desc Renvoie l'IdProducteur du Produit
+	* @desc Renvoie l'IdCompteProducteur du Produit
 	*/
-	public function getIdProducteur() {
-		return $this->mIdProducteur;
+	public function getIdCompteProducteur() {
+		return $this->mIdCompteProducteur;
 	}
 
 	/**
-	* @name setIdProducteur($pIdProducteur)
+	* @name setIdCompteProducteur($pIdCompteProducteur)
 	* @param integer
-	* @desc Remplace l'IdProducteur par $pIdProducteur
+	* @desc Remplace l'IdCompteProducteur par $pIdCompteProducteur
 	*/
-	public function setIdProducteur($pIdProducteur) {
-		$this->mIdProducteur = $pIdProducteur;
+	public function setIdCompteProducteur($pIdCompteProducteur) {
+		$this->mIdCompteProducteur = $pIdCompteProducteur;
 	}
 	
 	/**
@@ -233,7 +239,7 @@ class ProduitMarcheVO extends DataTemplate
 	
 	/**
 	* @name getStockReservation()
-	* @return integer
+	* @return decimal(10,2)
 	* @desc Renvoie le StockReservation du Produit
 	*/
 	public function getStockReservation() {
@@ -242,11 +248,29 @@ class ProduitMarcheVO extends DataTemplate
 
 	/**
 	* @name setStockReservation($pStockReservation)
-	* @param integer
+	* @param decimal(10,2)
 	* @desc Remplace le StockReservation par $pStockReservation
 	*/
 	public function setStockReservation($pStockReservation) {
 		$this->mStockReservation = $pStockReservation;
+	}
+	
+	/**
+	* @name getStockInitial()
+	* @return decimal(10,2)
+	* @desc Renvoie le StockInitial du Produit
+	*/
+	public function getStockInitial() {
+		return $this->mStockInitial;
+	}
+
+	/**
+	* @name setStockInitial($pStockInitial)
+	* @param decimal(10,2)
+	* @desc Remplace le StockInitial par $pStockInitial
+	*/
+	public function setStockInitial($pStockInitial) {
+		$this->mStockInitial = $pStockInitial;
 	}
 	
 	/**

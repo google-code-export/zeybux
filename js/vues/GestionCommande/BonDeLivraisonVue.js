@@ -5,12 +5,13 @@
 	this.mEtatEdition = false;
 	this.mListeProduit = [];
 	this.mSuiteEdition = 0;
-	this.mIdProducteur = 0;
+	this.mIdCompteProducteur = 0;
 	this.mTypePaiement = [];
 	
 	this.construct = function(pParam) {
 		var that = this;
-		pParam.export_type = 0;
+		//pParam.export_type = 0;
+		pParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -32,7 +33,7 @@
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		var lTemplate = lGestionCommandeTemplate.bonDeLivraison;
 		
-		this.mIdCommande = pResponse.producteurs[0].comId;
+		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
 		this.mComNumero = pResponse.comNumero;
 		
 		$(pResponse.typePaiement).each(function() {
@@ -73,16 +74,16 @@
 	
 	this.changementProducteur = function() {
 		var that = this;
-		var lIdProducteur = $('#select-prdt').val();
-		if(lIdProducteur > 0) {
+		var lIdCompteProducteur = $('#select-prdt').val();
+		if(lIdCompteProducteur > 0) {
 			var lParam = {	"id_commande":that.mIdCommande,
-						 	"id_producteur":lIdProducteur,
-						 	export_type:0}
+						 	"id_compte_producteur":lIdCompteProducteur,
+						 	fonction:"afficherProducteur"}
 			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
 						if(lResponse.valid) {
-							that.mIdProducteur = lIdProducteur;
+							that.mIdCompteProducteur = lIdCompteProducteur;
 							that.mEtatEdition = false;
 							var lTotal = 0;
 							$(lResponse.produits).each(function() {
@@ -94,41 +95,45 @@
 								
 								var lProId = this.proId;
 								var these = this;
+
+								these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
+								these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
+								these.stoQuantiteLivraison = '';
+								these.opeMontantLivraison = '';
+								these.stoQuantiteSolidaire = '';
+								
 								$(lResponse.produitsCommande).each(function() {
 									if(this.proId == lProId) {
-										var lMontant = 0;
-										these.stoQuantiteCommande = '';
-										these.opeMontantCommande = '';
-										these.stoQuantiteLivraison = '';
-										these.opeMontantLivraison = '';
-										these.stoQuantiteSolidaire = '';
-										
+										var lMontant = 0;										
 										if(this.stoQuantite != null) {
 											these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
 										}
-										if(this.opeMontant != null) {
-											these.opeMontantCommande = this.opeMontant.nombreFormate(2,',',' ');
-											lMontant = parseFloat(this.opeMontant);
+										if(this.dopeMontant != null) {
+											these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+											lMontant = parseFloat(this.dopeMontant);
 										}
-										if(this.stoQuantiteLivraison != null) {
-											these.stoQuantiteLivraison = this.stoQuantiteLivraison.nombreFormate(2,',',' ');
-											lQuantite += parseFloat(this.stoQuantiteLivraison);
-										}
-										if(this.opeMontantLivraison != null) {
-											these.opeMontantLivraison = this.opeMontantLivraison.nombreFormate(2,',',' ');
-										}
-										if(this.stoQuantiteSolidaire != null) {
-											these.stoQuantiteSolidaire = this.stoQuantiteSolidaire.nombreFormate(2,',',' ');
-											lQuantite += parseFloat(this.stoQuantiteSolidaire);
-										}
-										
 										lTotal += lMontant;
-									} else if(this.proId == null) {
-										these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-										these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-										these.stoQuantiteLivraison = '';
-										these.opeMontantLivraison = '';
-										these.stoQuantiteSolidaire = '';
+									}
+								});
+								
+								$(lResponse.produitsLivraison).each(function() {
+									if(this.proId == lProId) {
+										if(this.stoQuantite != null) {
+											these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
+											lQuantite += parseFloat(this.stoQuantite);
+										}
+										if(this.dopeMontant != null) {
+											these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
+										}
+									}
+								});
+								
+								$(lResponse.produitsSolidaire).each(function() {
+									if(this.proId == lProId) {										
+										if(this.stoQuantite != null) {
+											these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
+											lQuantite += parseFloat(this.stoQuantite);
+										}
 									}
 								});
 								
@@ -142,12 +147,12 @@
 							});	
 							
 							lResponse.total = '';
-							if(lResponse.operationProducteur[0]) {
-								if(lResponse.operationProducteur[0].montant != null) {
-									lResponse.total = (lResponse.operationProducteur[0].montant * -1).nombreFormate(2,',',' ');
+							if(lResponse.operationProducteur) {
+								if(lResponse.operationProducteur.montant != null) {
+									lResponse.total = (lResponse.operationProducteur.montant).nombreFormate(2,',',' ');
 								}
-								if(lResponse.operationProducteur[0].typePaiementChampComplementaire != null) {
-									lResponse.champComplementaire = lResponse.operationProducteur[0].typePaiementChampComplementaire;
+								if(lResponse.operationProducteur.typePaiementChampComplementaire != null) {
+									lResponse.champComplementaire = lResponse.operationProducteur.typePaiementChampComplementaire;
 								}
 							}
 							
@@ -160,8 +165,8 @@
 							
 							var lHtml = that.affectListeProduit($(lTemplate.template(lResponse)));
 							
-							if(lResponse.operationProducteur[0] && lResponse.operationProducteur[0].typePaiement != null) {
-								var lId = lResponse.operationProducteur[0].typePaiement;
+							if(lResponse.operationProducteur && lResponse.operationProducteur.typePaiement != null) {
+								var lId = lResponse.operationProducteur.typePaiement;
 								
 								lHtml.find(':input[name=typepaiement]').selectOptions(lId);
 								
@@ -284,8 +289,8 @@
 		var lParam = new ProduitsBonDeLivraisonVO();
 		
 		lParam.id_commande = this.mIdCommande;
-		lParam.id_producteur = this.mIdProducteur;
-		lParam.export_type = 0;
+		lParam.id_compte_producteur = this.mIdCompteProducteur;
+		//lParam.export_type = 0;
 
 		$('.pro-id').each(function() {
 			var lId = $(this).text();				
@@ -311,6 +316,7 @@
 		var lVr = lValid.validAjout(lParam);
 				
 		if(lVr.valid) {
+			lParam.fonction = "enregistrer";
 			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
@@ -333,14 +339,14 @@
 							}
 						} else {
 							Infobulle.generer(lResponse,'');
-							$('#select-prdt').selectOptions(that.mIdProducteur);
+							$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 						}
 					},"json"
 			);
 			
 		} else {
 			Infobulle.generer(lVr,'');
-			$('#select-prdt').selectOptions(that.mIdProducteur);
+			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 		}
 	}
 	
@@ -381,10 +387,11 @@
 					var lFormat = $(this).find(':input[name=format]:checked').val();
 					
 					var lParam = new ExportBonLivraisonVO();
-					lParam.pParam = 1;
-					lParam.export_type = 1;
+					//lParam.pParam = 1;
+					//lParam.export_type = 1;
 					lParam.id_commande = that.mIdCommande;
 					lParam.format = lFormat;
+					lParam.fonction = "export";
 					
 					// Test des erreurs
 					var lValid = new ExportBonLivraisonValid();
@@ -424,7 +431,7 @@
 				},
 				'Annuler': function() {
 					if(that.mSuiteEdition == 1) {
-						$('#select-prdt').selectOptions(that.mIdProducteur);
+						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 					}
 					$(this).dialog('close');
 				},

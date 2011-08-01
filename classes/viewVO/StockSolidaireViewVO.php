@@ -26,9 +26,9 @@ class StockSolidaireViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdProducteur de la StockSolidaireViewVO
+	* @desc ProIdCompteProducteur de la StockSolidaireViewVO
 	*/
-	protected $mProIdProducteur;
+	protected $mProIdCompteProducteur;
 
 	/**
 	* @var int(11)
@@ -73,21 +73,21 @@ class StockSolidaireViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getProIdProducteur()
+	* @name getProIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdProducteur de la StockSolidaireViewVO
+	* @desc Renvoie le membre ProIdCompteProducteur de la StockSolidaireViewVO
 	*/
-	public function getProIdProducteur() {
-		return $this->mProIdProducteur;
+	public function getProIdCompteProducteur() {
+		return $this->mProIdCompteProducteur;
 	}
 
 	/**
-	* @name setProIdProducteur($pProIdProducteur)
+	* @name setProIdCompteProducteur($pProIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre ProIdProducteur de la StockSolidaireViewVO par $pProIdProducteur
+	* @desc Remplace le membre ProIdCompteProducteur de la StockSolidaireViewVO par $pProIdCompteProducteur
 	*/
-	public function setProIdProducteur($pProIdProducteur) {
-		$this->mProIdProducteur = $pProIdProducteur;
+	public function setProIdCompteProducteur($pProIdCompteProducteur) {
+		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
 	}
 
 	/**

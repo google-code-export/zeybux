@@ -44,7 +44,7 @@ class SuppressionAdherentControleur
 		IdentificationManager::update( $lIdentification );
 			
 		// Supression des stocks de réservation de l'adherent
-		$lListeStock = StockManager::selectByIdCompte( $lAdherent->getIdCompte() );
+		/*$lListeStock = StockManager::selectByIdCompte( $lAdherent->getIdCompte() );
 		foreach ( $lListeStock as $lStock ) {
 			if($lStock->getType() == 0) {
 				StockManager::delete( $lStock->getId() );
@@ -65,7 +65,7 @@ class SuppressionAdherentControleur
 			if($lOperation->getType() == 0) {
 				OperationManager::delete( $lOperation->getId() );
 			}
-		}
+		}*/
 		
 		$lResponse = new ModifierAdherentResponse();
 		$lResponse->setNumero($lAdherent->getNumero());

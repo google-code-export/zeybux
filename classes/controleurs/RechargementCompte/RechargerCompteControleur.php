@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 12/061/2011
+// Date de creation : 12/06/2011
 // Fichier : RechargerCompteControleur.php
 //
 // Description : Classe RechargerCompteControleur
@@ -12,12 +12,12 @@
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ListeAdherentRechargementResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "RechargerCompteValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "RechargementCompteValid.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoRechargementResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/ListeAdherentRechargementResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/InfoRechargementResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/RechargerCompteValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/RechargementCompteValid.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 
 /**
  * @name RechargerCompteControleur
@@ -59,7 +59,7 @@ class RechargerCompteControleur
 			$lResponse->setCompte($lAdherent->getCptLabel());
 			$lResponse->setPrenom($lAdherent->getAdhPrenom());
 			$lResponse->setNom($lAdherent->getAdhNom());
-			$lResponse->setSolde($lAdherent->getOpeMontant());
+			$lResponse->setSolde($lAdherent->getCptSolde());
 			
 			return $lResponse;
 		}				
@@ -81,12 +81,9 @@ class RechargerCompteControleur
 			$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 			$lOperation->setTypePaiement($pParam['typePaiement']);		
 			$lOperation->setTypePaiementChampComplementaire($pParam['champComplementaire']);
-			$lOperation->setType(1);
 			$lOperation->setIdCommande(0);
-			OperationManager::insert($lOperation);
-			
-			$lVr = new TemplateVR();
-			return $lVr;
+			$lOperationService = new OperationService();
+			$lOperationService->set($lOperation);
 		}				
 		return $lVr;
 	}

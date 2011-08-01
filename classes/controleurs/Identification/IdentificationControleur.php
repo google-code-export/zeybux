@@ -130,7 +130,15 @@ class IdentificationControleur
 	public function identifierSuperZeybu($pIdentification) {	
 		$_SESSION[DROIT_ID] = $pIdentification->getIdLogin();
 		$_SESSION[DROIT_SUPER_ZEYBU] = $pIdentification->getIdLogin();
-		return array();
+		$lModules = array();
+		$lListeModule = ModuleManager::selectAll();
+		foreach($lListeModule as $lLigne) {	
+			// Si c'est un module admin
+			if($lLigne->getAdmin() == 1) {
+				array_push($lModules,$lLigne->getNom());
+			}
+		}
+		return $lModules;
 	}
 	
 	/**

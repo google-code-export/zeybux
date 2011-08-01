@@ -41,7 +41,7 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -58,7 +58,7 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -82,7 +82,7 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -98,7 +98,7 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -126,18 +126,33 @@ class StockSolidaireViewManager
 	}
 	
 	/**
-	* @name selectByIdProducteur($pIdProducteur)
+	* @name selectSolidaire($pIdMarche,$pIdCompteProducteur)
 	* @param integer
 	* @return array(StockSolidaireViewVO)
 	* @desc Récupères toutes les lignes de la table ayant pour IdProducteur $pIdProducteur. Puis les renvoie sous forme d'une collection de StockSolidaireViewVO
 	*/
-	public static function selectByIdProducteur($pIdProducteur) {
+	public static function selectSolidaire($pIdMarche,$pIdCompteProducteur) {
 		return StockSolidaireViewManager::recherche(
-			array(ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR),
-			array('='),
-			array($pIdProducteur),
-			array(StockManager::CHAMP_STOCK_ID),
-			array('ASC'));
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR),
+			array('=','='),
+			array($pIdMarche,$pIdCompteProducteur),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectLivraisonSolidaire($pIdMarche,$pIdCompteProducteur)
+	* @param integer
+	* @return array(StockSolidaireViewVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdProducteur $pIdProducteur. Puis les renvoie sous forme d'une collection de StockSolidaireViewVO
+	*/
+	public static function selectLivraisonSolidaire($pIdMarche) {
+		return StockSolidaireViewManager::recherche(
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,StockManager::CHAMP_STOCK_QUANTITE),
+			array('=','>'),
+			array($pIdMarche,0),
+			array(''),
+			array(''));
 	}
 	
 	/**
@@ -158,7 +173,7 @@ class StockSolidaireViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . StockManager::CHAMP_STOCK_ID .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
@@ -181,7 +196,7 @@ class StockSolidaireViewManager
 					array_push($lListeStockSolidaire,
 						StockSolidaireViewManager::remplir(
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[StockManager::CHAMP_STOCK_ID],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -199,7 +214,7 @@ class StockSolidaireViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite)
+	* @name remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -209,10 +224,10 @@ class StockSolidaireViewManager
 	* @return StockSolidaireViewVO
 	* @desc Retourne une StockSolidaireViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
+	private static function remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
 		$lStockSolidaire = new StockSolidaireViewVO();
 		$lStockSolidaire->setProIdCommande($pProIdCommande);
-		$lStockSolidaire->setProIdProducteur($pProIdProducteur);
+		$lStockSolidaire->setProIdCompteProducteur($pProIdCompteProducteur);
 		$lStockSolidaire->setProId($pProId);
 		$lStockSolidaire->setStoId($pStoId);
 		$lStockSolidaire->setDcomId($pDcomId);

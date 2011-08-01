@@ -10,20 +10,14 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentCommandeReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitInitiauxViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/EditerCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "EditerCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ExportListeReservationValid.php" );
+include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 
 /**
  * @name EditerCommandeControleur
@@ -39,44 +33,21 @@ class EditerCommandeControleur
 	* @desc Retourne la liste des adhérents qui ont réservé sur cette commande et les infos sur la commande.
 	*/
 	public function getInfoCommande($pParam) {
-		$lIdCommande = $pParam["id_commande"];		
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];
 
-		if(is_int((int)$lIdCommande)) {			
-			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
-			
-			if($lCommande[0]->getComId() == $lIdCommande) {			
-				$lResponse = new EditerCommandeResponse();
-				
-				$lStock = StockProduitViewManager::selectByIdCommande($lIdCommande);
-				$lStockInitiaux = StockProduitInitiauxViewManager::selectByIdCommande($lIdCommande);
-				$lListeAdherent = ListeAdherentCommandeReservationViewManager::select($lIdCommande);
-				
-				$lResponse->setCommande($lCommande);
-				$lResponse->setStock($lStock);
-				$lResponse->setStockInitiaux($lStockInitiaux);
-				$lResponse->setListeAdherentCommande($lListeAdherent);
-				
-				return $lResponse;
-			} else {
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-				return $lVr;
-			}				
-		} else {
-			$lVr = new TemplateVR();
-			$lVr->setValid(false);
-			$lVr->getLog()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-			$lVr->getLog()->addErreur($lErreur);	
-			return $lVr;
-		}	
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
+
+			$lResponse = new EditerCommandeResponse();
+			$lResponse->setMarche($lMarche);
+			$lResponse->setListeAdherentCommande($lListeAdherent);
+
+			return $lResponse;
+		}				
+		return $lVr;
 	}
 	
 	/**
@@ -299,5 +270,48 @@ class EditerCommandeControleur
 			return $lVr;
 		}	
 	}
+	
+	/**
+	* @name setPause($pParam)
+	* @param Id du marché
+	* @desc Met en pause le marché
+	*/
+	public function setPause($pParam) {
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lMarcheService = new MarcheService();
+			$lMarcheService->setPause($pParam["id_commande"]);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name setPlay($pParam)
+	* @param Id du marché
+	* @desc Met en play le marché
+	*/
+	public function setPlay($pParam) {		
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lMarcheService = new MarcheService();
+			$lMarcheService->setPlay($pParam["id_commande"]);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name setCloturer($pParam)
+	* @param Id du marché
+	* @desc Cloture le marché
+	*/
+	public function setCloturer($pParam) {		
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lMarcheService = new MarcheService();
+			$lMarcheService->setCloturer($pParam["id_commande"]);			
+		}
+		return $lVr;
+	}
+	
 }
 ?>

@@ -11,8 +11,6 @@
 
 // Vérification de la bonne connexion de l'adherent dans le cas contraire redirection vers le formulaire de connexion
 if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SESSION[DROIT_SUPER_ZEYBU]) ) ) {
-	
-	
 	if(isset($_POST['pParam'])) {
 		$lParam = json_decode($_POST["pParam"],true);
 		

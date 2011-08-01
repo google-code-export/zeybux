@@ -50,9 +50,9 @@ class ListeAdherentViewVO extends DataTemplate
 	
 	/**
 	* @var decimal(32,2)
-	* @desc OpeMontant de la ListeAdherentViewVO
+	* @desc CptSolde de la ListeAdherentViewVO
 	*/
-	protected $mOpeMontant;
+	protected $mCptSolde;
 
 	/**
 	* @name getAdhId()
@@ -145,21 +145,21 @@ class ListeAdherentViewVO extends DataTemplate
 	}
 	
 	/**
-	* @name getOpeMontant()
+	* @name getCptSolde()
 	* @return decimal(32,2)
-	* @desc Renvoie le membre OpeMontant de la ListeAdherentViewVO
+	* @desc Renvoie le membre CptSolde de la ListeAdherentViewVO
 	*/
-	public function getOpeMontant(){
-		return $this->mOpeMontant;
+	public function getCptSolde(){
+		return $this->mCptSolde;
 	}
 
 	/**
-	* @name setOpeMontant($pOpeMontant)
+	* @name setCptSolde($pCptSolde)
 	* @param decimal(32,2)
-	* @desc Remplace le membre OpeMontant de la ListeAdherentViewVO par $pOpeMontant
+	* @desc Remplace le membre CptSolde de la ListeAdherentViewVO par $pCptSolde
 	*/
-	public function setOpeMontant($pOpeMontant) {
-		$this->mOpeMontant = $pOpeMontant;
+	public function setCptSolde($pCptSolde) {
+		$this->mCptSolde = $pCptSolde;
 	}
 	
 	/**
@@ -167,7 +167,7 @@ class ListeAdherentViewVO extends DataTemplate
 	* @return json
 	* @desc Retourne la valeur des membres en les renommant au format tableau
 	*/
-	public function export() {
+	/*public function export() {
 		$lMembres = get_object_vars($this);
 		$lMembresJs = array();
 		foreach($lMembres as $lCle => $lValeur) {
@@ -189,7 +189,7 @@ class ListeAdherentViewVO extends DataTemplate
 	* @return json
 	* @desc Retourne la valeur des membres en les renommant au format javascript
 	*/
-	public function exportToJson() {
+	/*public function exportToJson() {
 		return json_encode($this->export());
 	}
 	
@@ -198,7 +198,7 @@ class ListeAdherentViewVO extends DataTemplate
 	* @return array()
 	* @desc Retourne la valeur des membres en les renommant au format tableau
 	*/
-	public function exportArray($pArray) {
+	/*public function exportArray($pArray) {
 		if(is_array($pArray)) {
 			$lMembresJs = array();
 			foreach($pArray as $lCle => $lValeur) {
@@ -213,6 +213,6 @@ class ListeAdherentViewVO extends DataTemplate
 			return $lMembresJs;
 		}
 		return NULL;
-	}
+	}*/
 }
 ?>

@@ -24,6 +24,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . "AjoutCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . "AfficheAjoutCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . "AjoutNomProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 
 /**
  * @name AjoutCommandeControleur
@@ -80,7 +81,9 @@ class AjoutCommandeControleur
 		
 		if($lVr->getValid()) {			
 			$lCommandeVO = CommandeCompleteToVO::convertFromArray($lCommande);
-			$lId = CommandeCompleteManager::insert($lCommandeVO);
+			//$lId = CommandeCompleteManager::insert($lCommandeVO);
+			$lMarcheService = new MarcheService();
+			$lId = $lMarcheService->insert($lCommandeVO);
 			
 			if($lId != null) {
 				$lResponse = new AjoutCommandeResponse();

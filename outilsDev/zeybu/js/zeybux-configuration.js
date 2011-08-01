@@ -31,6 +31,8 @@ const ERR_115_CODE = 115;
 const ERR_115_MSG = 'Le champ doit être de type tableau.';
 const ERR_116_CODE = 116;
 const ERR_116_MSG = 'Session expirée. Veuillez vous <span class="action-ifb com-cursor-pointer" id="action-ifb-116">reconnecter</span>.';
+const ERR_117_CODE = 117;
+const ERR_117_MSG = 'Format incorrect.';
 
 //Erreurs fonctionelles
 const ERR_201_CODE = 201;
@@ -105,6 +107,12 @@ const ERR_235_CODE = 235;
 const ERR_235_MSG = 'Le mot de passe actuel n\'est pas valide.';
 const ERR_236_CODE = 236;
 const ERR_236_MSG = 'Choisir une option.';
+const ERR_237_CODE = 237;
+const ERR_237_MSG = 'Le montant dépasse le solde du compte.';
+const ERR_238_CODE = 238;
+const ERR_238_MSG = 'Vous n\'avez pas de réservation pour ce marché.';
+const ERR_239_CODE = 239;
+const ERR_239_MSG = 'Le marché n\'est plus ouvert.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -118,7 +126,13 @@ const ERR_304_MSG = 'Quantité maximale de réservation atteinte pour ce produit
 const ERR_305_CODE = 305;
 const ERR_305_MSG = 'Connexion réussie.';
 const ERR_306_CODE = 306;
-const ERR_306_MSG = 'Compte mis à jour.';/********** Début Variables Globales ************/
+const ERR_306_MSG = 'Compte mis à jour.';
+const ERR_307_CODE = 307;
+const ERR_307_MSG = 'Virement effectué.';
+const ERR_308_CODE = 308;
+const ERR_308_MSG = 'Virement modifié.';
+const ERR_309_CODE = 309;
+const ERR_309_MSG = 'Virement supprimé.';/********** Début Variables Globales ************/
 const gTempsTransition = 150;
 const gTempsTransitionUnique = gTempsTransition * 2;
 const gTempsTransitionMsgInfo = gTempsTransition * 10;

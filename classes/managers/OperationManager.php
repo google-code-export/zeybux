@@ -127,21 +127,6 @@ class OperationManager
 	}
 	
 	/**
-	* @name selectReservationCommande($pId)
-	* @param integer
-	* @return array(OperationVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationVO
-	*/
-	public static function selectReservationCommande($pId) {		
-		return OperationManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE),
-				array('=', '='),
-				array($pId, 0),
-				array(OperationManager::CHAMP_OPERATION_DATE),
-				array('DESC'));
-	}
-	
-	/**
 	* @name selectByIdCompte($pId)
 	* @param integer
 	* @return array(OperationVO)
@@ -154,22 +139,6 @@ class OperationManager
 			array($pId),
 			array(OperationManager::CHAMP_OPERATION_DATE),
 			array('DESC'));
-	}
-	
-	/**
-	* @name selectOpeLivraison($pIdCompte, $pIdCommande)
-	* @param integer
-	* @param integer
-	* @return array(OperationVO)
-	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId, IdCommande $pIdCommande et de type 0 ou 1. Puis les renvoie sous forme d'une collection de OperationVO
-	*/
-	public static function selectOpeLivraison($pIdCompte, $pIdCommande) {
-		return OperationManager::recherche(
-			array(OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE),
-			array('=','=','in'),
-			array($pIdCompte, $pIdCommande, array(0,1)),
-			array(OperationManager::CHAMP_OPERATION_ID),
-			array('ASC'));
 	}
 	
 	/**
@@ -380,6 +349,7 @@ class OperationManager
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
+		return $pVo->getId();
 	}
 
 	/**

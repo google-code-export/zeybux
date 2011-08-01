@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 16/05/2010
+// Date de creation : 26/07/2011
 // Fichier : DetailCommandeVO.php
 //
 // Description : Classe DetailCommandeVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name DetailCommandeVO
  * @author Julien PIERRE
- * @since 16/05/2010
+ * @since 26/07/2011
  * @desc Classe représentant une DetailCommandeVO
  */
-class DetailCommandeVO extends DataTemplate
+class DetailCommandeVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -31,7 +31,7 @@ class DetailCommandeVO extends DataTemplate
 	protected $mIdProduit;
 
 	/**
-	* @var int(11)
+	* @var decimal(10,2)
 	* @desc Taille de la DetailCommandeVO
 	*/
 	protected $mTaille;
@@ -43,11 +43,17 @@ class DetailCommandeVO extends DataTemplate
 	protected $mPrix;
 
 	/**
+	* @var int(11)
+	* @desc Etat de la DetailCommandeVO
+	*/
+	protected $mEtat;
+
+	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la DetailCommandeVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -65,7 +71,7 @@ class DetailCommandeVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdProduit de la DetailCommandeVO
 	*/
-	public function getIdProduit(){
+	public function getIdProduit() {
 		return $this->mIdProduit;
 	}
 
@@ -80,16 +86,16 @@ class DetailCommandeVO extends DataTemplate
 
 	/**
 	* @name getTaille()
-	* @return int(11)
+	* @return decimal(10,2)
 	* @desc Renvoie le membre Taille de la DetailCommandeVO
 	*/
-	public function getTaille(){
+	public function getTaille() {
 		return $this->mTaille;
 	}
 
 	/**
 	* @name setTaille($pTaille)
-	* @param int(11)
+	* @param decimal(10,2)
 	* @desc Remplace le membre Taille de la DetailCommandeVO par $pTaille
 	*/
 	public function setTaille($pTaille) {
@@ -101,7 +107,7 @@ class DetailCommandeVO extends DataTemplate
 	* @return decimal(10,2)
 	* @desc Renvoie le membre Prix de la DetailCommandeVO
 	*/
-	public function getPrix(){
+	public function getPrix() {
 		return $this->mPrix;
 	}
 
@@ -112,6 +118,24 @@ class DetailCommandeVO extends DataTemplate
 	*/
 	public function setPrix($pPrix) {
 		$this->mPrix = $pPrix;
+	}
+
+	/**
+	* @name getEtat()
+	* @return int(11)
+	* @desc Renvoie le membre Etat de la DetailCommandeVO
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param int(11)
+	* @desc Remplace le membre Etat de la DetailCommandeVO par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
 	}
 
 }

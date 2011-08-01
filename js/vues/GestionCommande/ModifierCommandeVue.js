@@ -2,7 +2,7 @@
 	
 	this.etapeCreationCommande = 0;
 	this.mEditionEnCours = 0;
-	this.mListeProducteurs = null;
+	this.mListeProducteurs = [];
 	this.mCommunVue = new CommunVue();
 	this.commande = null;
 	
@@ -31,20 +31,20 @@
 	this.afficher = function(pResponse) {
 		var that = this;
 
-		var lInfoCommande = pResponse.commande[0];
+		var lMarche = pResponse.marche;
 		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.comId = lInfoCommande.comId;
-		pResponse.comNom = lInfoCommande.comNom;
-		pResponse.comNumero = lInfoCommande.comNumero;
-		pResponse.comDescription = lInfoCommande.comDescription;
-		pResponse.dateTimeFinReservation = lInfoCommande.comDateFinReservation.extractDbDate().dateDbToFr();
-		pResponse.heureFinReservation = lInfoCommande.comDateFinReservation.extractDbHeure();
-		pResponse.minuteFinReservation = lInfoCommande.comDateFinReservation.extractDbMinute();
-		pResponse.dateMarcheDebut = lInfoCommande.comDateMarcheDebut.extractDbDate().dateDbToFr();
-		pResponse.heureMarcheDebut = lInfoCommande.comDateMarcheDebut.extractDbHeure();
-		pResponse.minuteMarcheDebut = lInfoCommande.comDateMarcheDebut.extractDbMinute();
-		pResponse.heureMarcheFin = lInfoCommande.comDateMarcheFin.extractDbHeure();
-		pResponse.minuteMarcheFin = lInfoCommande.comDateMarcheFin.extractDbMinute();
+		pResponse.comId = lMarche.id;
+		pResponse.comNom = lMarche.nom;
+		pResponse.comNumero = lMarche.numero;
+		pResponse.comDescription = lMarche.description;
+		pResponse.dateTimeFinReservation = lMarche.dateFinReservation.extractDbDate().dateDbToFr();
+		pResponse.heureFinReservation = lMarche.dateFinReservation.extractDbHeure();
+		pResponse.minuteFinReservation = lMarche.dateFinReservation.extractDbMinute();
+		pResponse.dateMarcheDebut = lMarche.dateMarcheDebut.extractDbDate().dateDbToFr();
+		pResponse.heureMarcheDebut = lMarche.dateMarcheDebut.extractDbHeure();
+		pResponse.minuteMarcheDebut = lMarche.dateMarcheDebut.extractDbMinute();
+		pResponse.heureMarcheFin = lMarche.dateMarcheFin.extractDbHeure();
+		pResponse.minuteMarcheFin = lMarche.dateMarcheFin.extractDbMinute();
 		
 		// Pas d'affichage si il n' a pas de produit en base
 		if(pResponse.produits[0].id == null) {
@@ -57,67 +57,41 @@
 		
 		
 		var lData = that.affect($(lTemplate.template(pResponse)));
-				
-		pResponse.pdtCommande = [];		
-		$(pResponse.commande).each(function() {
-			var lLot = {
-					dcomId:this.dcomId,
-					dcomTaille:this.dcomTaille.nombreFormate(2,',',' '),
-					dcomPrix:this.dcomPrix.nombreFormate(2,',',' ')};
-			
-			if(pResponse.pdtCommande[this.proId]) {
-				pResponse.pdtCommande[this.proId].lots[this.dcomId] = lLot;
-			} else {			
-				var lProduit = {
-						proId:this.proId,
-						proUniteMesure:this.proUniteMesure,
-						proMaxProduitCommande:this.proMaxProduitCommande.nombreFormate(2,',',' '),
-						proIdNomProduit:this.proIdNomProduit,
-						proIdProducteur:this.proIdProducteur,
-						nproNom:this.nproNom,
-						lots:[]};
-				lProduit.lots[this.dcomId] = lLot;
-				
-				$(pResponse.stockInitiaux).each(function() {
-					if(this.idProduit == lProduit.proId) {
-						lProduit.quantiteInit = this.quantite.nombreFormate(2,',',' ');
-					}					
-				});
-				
-				pResponse.pdtCommande[this.proId] = lProduit;
-			}
-		});
+		pResponse.pdtCommande = pResponse.marche.produits;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		var lTemplate = lGestionCommandeTemplate.ajoutProduitModifierCommande;
-		$(pResponse.pdtCommande).each(function() {
-			if(this.proId != undefined) {
+		$.each(pResponse.pdtCommande,function() {
+			if(this.id != undefined) {
 				this.sigleMonetaire = gSigleMonetaire;
 
 				this.producteurs = that.mListeProducteurs;
-				var lIdProducteur = this.proIdProducteur;
+				var lIdCompteProducteur = this.idCompteProducteur;
 				var lNomProducteur = '';
 				$(that.mListeProducteurs).each(function() {
-					if(this.prdtId == lIdProducteur) {
+					if(this.prdtIdCompte == lIdCompteProducteur) {
 						lNomProducteur = this.prdtPrenom + ' ' + this.prdtNom;
 					}
 				});
 				this.nomProducteur = lNomProducteur;
-				
+
+				this.stockInitial = this.stockInitial.nombreFormate(2,',',' ');
+				this.qteMaxCommande = this.qteMaxCommande.nombreFormate(2,',',' ');
+
 				var lHtml = that.affectNouveauProduit($(lTemplate.template(this)));
 								
 				// Séléction du producteur
-				lHtml.find(':input[name=producteur]').selectOptions(lIdProducteur);
+				lHtml.find(':input[name=producteur]').selectOptions(lIdCompteProducteur);
 								
 				var pdt = this;
-				$(this.lots).each(function() {
-					if(this.dcomId != undefined) {
+				$.each(this.lots,function() {
+					if(this.id != undefined) {						
 						var lLot = {lots:[{
-							id:this.dcomId,
-							taille:this.dcomTaille,
-							prix:this.dcomPrix,
-							unite:pdt.proUniteMesure,
-							idPdt:pdt.proId}],
+							id:this.id,
+							taille:this.taille.nombreFormate(2,',',' '),
+							prix:this.prix.nombreFormate(2,',',' '),
+							unite:pdt.unite,
+							idPdt:pdt.id}],
 							siglemonetaire:gSigleMonetaire};
 						lHtml.find(".produit-lots").append( that.affectAjoutLot( $(lGestionCommandeTemplate.ajoutLotModifPdt.template(lLot)) ));
 					}
@@ -191,6 +165,10 @@
 					lVo.qteMaxCommande = $(lId + " :input[name=qmax]").val().numberFrToDb();
 					lVo.qteRestante = $(lId + " :input[name=stock]").val().numberFrToDb();
 					
+					if(isNaN(parseFloat(lVo.qteMaxCommande)) || (parseFloat(lVo.qteMaxCommande) > parseFloat(lVo.qteRestante))){
+						lVo.qteMaxCommande = lVo.qteRestante;
+					}
+					
 					var lVoLot = new DetailCommandeVO();
 					lVoLot.taille = $(lId + " :input[name=taille]").val().numberFrToDb();
 					lVoLot.prix = $(lId + " :input[name=prix]").val().numberFrToDb();
@@ -199,24 +177,23 @@
 					var lValid = new ProduitCommandeValid();
 					var lVr = lValid.validAjout(lVo);
 					
-					if(lVr.valid) { 
+					if(lVr.valid) {						
+						//lVo.stockInitial = lVo.qteRestante;						
+						
 						Infobulle.init(); // Supprime les erreurs
 						var lGestionCommandeTemplate = new GestionCommandeTemplate();
 						var lTemplate = lGestionCommandeTemplate.ajoutProduitModifierCommande;						
 						
-						lVo.proIdNomProduit = lVo.idNom;						
-						lVo.nproNom = lVo.nom;
-						lVo.proUniteMesure = lVo.unite;
 						lVo.proMaxProduitCommande = lVo.qteMaxCommande.nombreFormate(2,',',' ');
-						lVo.quantiteInit = lVo.qteRestante.nombreFormate(2,',',' ');
-						lVo.proId = lVo.idNom * -1;
+						lVo.stockInitial = lVo.qteRestante.nombreFormate(2,',',' ');
+						lVo.id = lVo.idNom * -1;
 						
-						lVo.lots = new Array();
+						lVo.lots = new Array();					
 						lVo.lots.push({	id:0,
-										idPdt:lVo.proId,
-										unite:lVo.unite,
-										taille:lVoLot.taille.nombreFormate(2,',',' '),
-										prix:lVoLot.prix.nombreFormate(2,',',' ')});
+							idPdt:lVo.id,
+							unite:lVo.unite,
+							taille:lVoLot.taille.nombreFormate(2,',',' '),
+							prix:lVoLot.prix.nombreFormate(2,',',' ')});
 
 						lVo.siglemonetaire = gSigleMonetaire;
 						
@@ -334,11 +311,20 @@
 						var lParam = {form:2,commande:lVo};
 						$.post(	"./index.php?m=GestionCommande&v=ModifierCommande", "pParam=" + $.toJSON(lParam),
 								function (lVoRetour) {	
-									if(lVoRetour.valid) {
-										lVoRetour.numero = that.commande.comNumero;
-										var lGestionCommandeTemplate = new GestionCommandeTemplate();
-										var lTemplate = lGestionCommandeTemplate.modifCommandeSucces;
-										$('#contenu').replaceWith(lTemplate.template(lVoRetour));
+									if(lVoRetour.valid) {										
+										// Message d'information
+										var lVr = new TemplateVR();
+										lVr.valid = false;
+										lVr.log.valid = false;
+										var erreur = new VRerreur();
+										erreur.code = ERR_310_CODE;
+										erreur.message = ERR_310_MSG;
+										lVr.log.erreurs.push(erreur);
+										
+										EditerCommandeVue({
+											"id_commande":that.mIdCommande,
+											vr:lVr
+										});
 									} else {
 										that.modifierCommandeFunction();
 										Infobulle.generer(lVoRetour,"commande-");
