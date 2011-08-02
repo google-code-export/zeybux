@@ -18,6 +18,7 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeReservationProducteur
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 /**
@@ -340,7 +341,7 @@ class MarcheService
 	}
 	
 	/**
-	* @name setPause()
+	* @name setPause($IdMarche)
 	* @param integer
 	* @desc Met en pause un marche
 	*/
@@ -351,7 +352,7 @@ class MarcheService
 	}
 	
 	/**
-	* @name setPlay()
+	* @name setPlay($IdMarche)
 	* @param integer
 	* @desc Met en play un marche
 	*/
@@ -362,7 +363,7 @@ class MarcheService
 	}
 	
 	/**
-	* @name setCloturer()
+	* @name setCloturer($IdMarche)
 	* @param integer
 	* @desc Cloture le marche
 	*/
@@ -381,6 +382,15 @@ class MarcheService
 		}
 
 		return CommandeManager::update($lMarche);
+	}
+	
+	/**
+	* @name getInfoMarche($IdMarche)
+	* @param integer
+	* @desc Retourne les infos d'entête du marche
+	*/
+	public function getInfoMarche($IdMarche) {
+		return CommandeManager::select($IdMarche);
 	}
 }
 ?>

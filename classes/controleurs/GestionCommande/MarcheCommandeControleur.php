@@ -57,10 +57,16 @@ class MarcheCommandeControleur
 	public function getMarcheListeReservation($pParam) {		
 		$lVr = MarcheValid::validGetMarcheListeReservation($pParam);
 		if($lVr->getValid()) {
-			$lListeAdherent = new ListeAdherentCommandeResponse();
-			$lListe = GestionCommandeListeReservationViewManager::select($pParam['id_commande']);
-			$lListeAdherent->setListeAdherentCommande($lListe);
-			return $lListeAdherent;		
+			$lResponse = new ListeAdherentCommandeResponse();
+			//$lListe = GestionCommandeListeReservationViewManager::select($pParam['id_commande']);
+			$lListe = AdherentViewManager::selectAll();
+			$lResponse->setListeAdherentCommande($lListe);
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->getInfoMarche($pParam['id_commande']);
+			$lResponse->setNumeroMarche($lMarche->getNumero());
+			
+			return $lResponse;		
 		}				
 		return $lVr;
 	}
@@ -88,7 +94,7 @@ class MarcheCommandeControleur
 			//	$lStock = StockProduitViewManager::selectByIdCommande($pIdCommande);
 			//	$lResponse->setStock($lStock);
 			
-			$lStockSolidaire = StockSolidaireViewManager::select($pParam["id_commande"]);
+			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			$lResponse->setStockSolidaire($lStockSolidaire);
 			
 			$lResponse->setAdherent($lAdherent);
@@ -114,11 +120,13 @@ class MarcheCommandeControleur
 			
 			$lReservationService = new ReservationService();
 			$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
-	
+
 			$lAchat = new AchatVO();
 			$lAchat->getId()->setIdCompte($pParam["idCompte"]);
 			$lAchat->getId()->setIdCommande($pParam["id"]);
-			$lAchat->getId()->setIdReservation($lOperations[0]->getId());
+			if($lOperations[0]->getTypePaiement() == 0) {
+				$lAchat->getId()->setIdReservation($lOperations[0]->getId());
+			}
 			
 			foreach($pParam["produits"] as $lDetail){
 				$lDetailAchat = new DetailReservationVO();	

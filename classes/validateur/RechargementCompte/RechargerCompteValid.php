@@ -11,7 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VR . "RechargerCompteVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_RECHARGEMENT_COMPTE . "/RechargerCompteVR.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 
 /**

@@ -31,6 +31,12 @@ class ListeAdherentCommandeResponse extends DataTemplate
 	protected $mListeAdherentCommande;
 	
 	/**
+	* @var integer
+	* @desc NumeroMarche de la ListeAdherentCommandeResponse
+	*/
+	protected $mNumeroMarche;
+	
+	/**
 	* @name getValid()
 	* @return bool
 	* @desc Renvoie la validite de l'élément
@@ -82,5 +88,23 @@ class ListeAdherentCommandeResponse extends DataTemplate
 	*/
 	public function addListeAdherentCommande($pListeAdherentCommande){
 		array_push($this->mListeAdherentCommande,$pListeAdherentCommande);
+	}
+	
+	/**
+	* @name getNumeroMarche()
+	* @return bool
+	* @desc Renvoie le NumeroMarche de l'élément
+	*/
+	public function getNumeroMarche() {
+		return $this->mNumeroMarche;
+	}
+
+	/**
+	* @name setNumeroMarche($pNumeroMarche)
+	* @param bool
+	* @desc Remplace le NumeroMarche par $pNumeroMarche
+	*/
+	public function setNumeroMarche($pNumeroMarche) {
+		$this->mNumeroMarche = $pNumeroMarche;
 	}
 }

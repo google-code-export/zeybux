@@ -60,30 +60,26 @@ class AchatService
 		foreach($pAchat->getDetailAchat() as $lProduit) {			
 			$lTotal += $lProduit->getMontant();
 		}
-		$lTotalSolidaire = 0;
-		foreach($pAchat->getDetailAchatSolidaire() as $lProduit) {			
-			$lTotalSolidaire += $lProduit->getMontant();
-		}
-		
-		// L'operation
-		$lOperation = new OperationVO();
-		$lOperation->setIdCompte($pAchat->getId()->getIdCompte());
-		$lOperation->setMontant($lTotal);
-		$lOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
-		$lOperation->setTypePaiement(7);
-		$lOperation->setIdCommande($pAchat->getId()->getIdCommande());
-		
-		// L'operation Solidaire
-		$lOperationSolidaire = new OperationVO();
-		$lOperationSolidaire->setIdCompte($pAchat->getId()->getIdCompte());
-		$lOperationSolidaire->setMontant($lTotalSolidaire);
-		$lOperationSolidaire->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
-		$lOperationSolidaire->setTypePaiement(8);
-		$lOperationSolidaire->setIdCommande($pAchat->getId()->getIdCommande());
 		
 		$lOperationService = new OperationService();
 		if($lTotal < 0) {
+			// L'operation
+			$lOperation = new OperationVO();
+			$lOperation->setIdCompte($pAchat->getId()->getIdCompte());
+			$lOperation->setMontant($lTotal);
+			$lOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			$lOperation->setTypePaiement(7);
+			$lOperation->setIdCommande($pAchat->getId()->getIdCommande());
 			$lIdOperation = $lOperationService->set($lOperation);
+			
+			// Operation sur le compte Zeybu
+			$lOperationZeybu = new OperationVO();
+			$lOperationZeybu->setIdCompte(-1);
+			$lOperationZeybu->setMontant($lTotal * -1);
+			$lOperationZeybu->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			$lOperationZeybu->setTypePaiement(7);
+			$lOperationZeybu->setIdCommande($pAchat->getId()->getIdCommande());
+			$lOperationService->set($lOperationZeybu);
 	
 			// Ajout detail operation		
 			$lStockService = new StockService;		
@@ -108,32 +104,10 @@ class AchatService
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
 				$lDetailOperationService->set($lDetailOperation);
 			}
-		}
+		}	
+		// Ajout des produits solidaire
+		$lIdOperation = $this->insertProduitAchatSolidaire($pAchat);
 		
-		if($lTotalSolidaire < 0) {
-			$lIdOperationSolidaire = $lOperationService->set($lOperationSolidaire);
-			// Ajout Détail Operation Solidaire
-			foreach($pAchat->getDetailAchatSolidaire() as $lProduit) {
-				// Ajout du stock
-				$lStock = new StockVO();
-				$lStock->setQuantite($lProduit->getQuantite());
-				$lStock->setType(2);
-				$lStock->setIdCompte($pAchat->getId()->getIdCompte());
-				$lStock->setIdDetailCommande($lProduit->getIdDetailCommande());
-				$lStock->setIdOperation($lIdOperationSolidaire);
-				$lStockService->set($lStock);
-					
-				// Ajout du détail de l'operation
-				$lDetailOperation = new DetailOperationVO();
-				$lDetailOperation->setIdOperation($lIdOperationSolidaire);
-				$lDetailOperation->setIdCompte($pAchat->getId()->getIdCompte());
-				$lDetailOperation->setMontant($lProduit->getMontant());
-				$lDetailOperation->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
-				$lDetailOperation->setTypePaiement(8);
-				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
-				$lDetailOperationService->set($lDetailOperation);
-			}
-		}
 		return $lIdOperation;
 	}
 	
@@ -179,7 +153,7 @@ class AchatService
 			case 0: // Une réservation
 				// Mise à jour du détail			
 				$lTotal = $this->updateProduitReservationAchat($pAchatActuel,$pNouvelAchat,$pIdOperation);
-				$lTotalSolidaire = $this->insertProduitAchatSolidaire($pNouvelAchat);
+				$lIdOperationSolidaire = $this->insertProduitAchatSolidaire($pNouvelAchat);
 				if($lTotal < 0) {
 					// Mise à jour de l'opération de réservation en achat
 					$lOperation->setMontant($lTotal);
@@ -326,7 +300,7 @@ class AchatService
 					
 					// Maj du stock
 					$lStock = new StockVO();
-					$lStock->setId($lAchatActuelle->getId()->getIdStock());
+					//$lStock->setId($lAchatActuelle->getId()->getIdStock());
 					$lStock->setQuantite($lAchatNouvelle->getQuantite());
 					$lStock->setType(1);
 					$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
@@ -336,7 +310,7 @@ class AchatService
 					
 					// Maj du détail Opération
 					$lDetailOperation = new DetailOperationVO();
-					$lDetailOperation->setId($lAchatActuelle->getId()->getIdDetailOperation());
+					//$lDetailOperation->setId($lAchatActuelle->getId()->getIdDetailOperation());
 					$lDetailOperation->setIdOperation($pIdOperation);
 					$lDetailOperation->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 					$lDetailOperation->setMontant($lAchatNouvelle->getMontant());
@@ -529,9 +503,12 @@ class AchatService
 			$lOperationZeybu->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
 			$lOperationZeybu->setTypePaiement(8);
 			$lOperationZeybu->setIdCommande($pAchat->getId()->getIdCommande());
-			$lOperationService->set($lOperationZeybu);	
+			$lOperationService->set($lOperationZeybu);
+			
+			
+			return $lIdOperationSolidaire;
 		}
-		return $lTotalSolidaire;
+		return null;
 	}
 		
 	/**
