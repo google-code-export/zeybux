@@ -813,7 +813,7 @@
 	this.listeAdherentCommandePage = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{numeroMarche}</div>" +
 					"<div class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"<form id=\"filter-form\"> " +
 							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
@@ -836,7 +836,7 @@
 						"<!-- BEGIN listeAdherentCommande -->" +
 						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
 							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
 						"</tr>" +

@@ -346,10 +346,16 @@
 				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
 					lprix = parseFloat(lprix);
 					lVoProduit.prix = lprix * -1;
+				}
+				lVo.push(lVoProduit);
+			} else {
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
 					lVo.push(lVoProduit);
-				}						
+				}
 			}		
-					
 		});		
 		return lVo;
 	}
@@ -368,8 +374,14 @@
 				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
 					lprix = parseFloat(lprix);
 					lVoProduit.prix = lprix * -1;
-					
-					lVo.push(lVoProduit);	
+				}
+				lVo.push(lVoProduit);
+			} else {
+				var lprix = $(this).find(".produit-solidaire-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					lVo.push(lVoProduit);
 				}
 			}	
 		});		

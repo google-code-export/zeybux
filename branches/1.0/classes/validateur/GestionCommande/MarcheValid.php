@@ -333,7 +333,15 @@ class MarcheValid
 			}
 			
 			$lAdherent = AdherentViewManager::select($pData["id_adherent"]);
-			$lIdReservation = new IdReservationVO();
+			if($lAdherent->getAdhId() != $pData["id_adherent"]) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
+			/*$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 			$lIdReservation->setIdCommande($pData['id_commande']);
 			
@@ -350,7 +358,7 @@ class MarcheValid
 				$lErreur->setCode(MessagesErreurs::ERR_238_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
 				$lVr->getLog()->addErreur($lErreur);
-			}
+			}*/
 		}
 		return $lVr;
 	}
