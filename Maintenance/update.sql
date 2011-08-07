@@ -449,7 +449,32 @@ select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`prdt_producteur`.`p
 where pro_etat = 0
 group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` order by `prdt_producteur`.`prdt_nom`,`prdt_producteur`.`prdt_prenom`;
 
+create or replace view view_reservation_detail as 
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite` from (`sto_stock` left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) where (`sto_stock`.`sto_type` in (0,5,6)) order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
 
+create or replace view view_achat_detail as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite` ,dcom_id_produit
+
+from (`sto_stock` 
+join dcom_detail_commande on sto_id_detail_commande = dcom_id
+left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) where (`sto_stock`.`sto_type` = 1) order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view view_achat_detail_solidaire as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite` ,dcom_id_produit
+from (`sto_stock` 
+join dcom_detail_commande on sto_id_detail_commande = dcom_id
+
+left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) where (`sto_stock`.`sto_type` = 2) order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view view_reservation_detail as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite` ,dcom_id_produit
+
+from (`sto_stock`
+join dcom_detail_commande on sto_id_detail_commande = dcom_id
+ left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) where (`sto_stock`.`sto_type` in (0,5,6)) order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
 
 
 

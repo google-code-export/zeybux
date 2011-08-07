@@ -10,7 +10,7 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentCommandeReservationViewManager.php");
+/*include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentCommandeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
@@ -25,7 +25,21 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . "AchatCommandeValid.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . "ListeAdherentCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . "InfoAchatCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );*/
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_CAISSE . "/ListeAdherentCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_CAISSE . "/MarcheValid.php");
+
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_CAISSE . "/InfoAchatCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 /**
  * @name CaisseMarcheCommandeControleur
@@ -40,7 +54,7 @@ class CaisseMarcheCommandeControleur
 	* @return ListeAdherentCommandeResponse
 	* @desc Retourne la liste des adhérents qui ont réservé sur cette commande.
 	*/
-	public function getListeAdherentCommande($pIdCommande) {
+	/*public function getListeAdherentCommande($pIdCommande) {
 		if(is_int((int)$pIdCommande)) {
 			$lListeAdherent = new ListeAdherentCommandeResponse();
 			$lListe = ListeAdherentCommandeReservationViewManager::select($pIdCommande);
@@ -67,6 +81,27 @@ class CaisseMarcheCommandeControleur
 			$lVr->getLog()->addErreur($lErreur);	
 			return $lVr;
 		}	
+	}*/
+	
+	/**
+	* @name getListeAdherentMarche($pIdCommande)
+	* @return ListeAdherentCommandeResponse
+	* @desc Retourne la liste des adhérents qui ont réservé sur ce Marche.
+	*/
+	public function getMarcheListeReservation($pParam) {		
+		$lVr = MarcheValid::validGetMarcheListeReservation($pParam);
+		if($lVr->getValid()) {
+			$lResponse = new ListeAdherentCommandeResponse();
+			$lListe = AdherentViewManager::selectAll();
+			$lResponse->setListeAdherentCommande($lListe);
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->getInfoMarche($pParam['id_commande']);
+			$lResponse->setNumeroMarche($lMarche->getNumero());
+			
+			return $lResponse;		
+		}				
+		return $lVr;
 	}
 	
 	/**
@@ -74,7 +109,7 @@ class CaisseMarcheCommandeControleur
 	* @return InfoAchatCommandeResponse
 	* @desc Retourne les infos de réservation d'un adhérent
 	*/
-	public function getInfoAchatCommande($pIdCommande,$pIdAdherent) {
+	/*public function getInfoAchatCommande($pIdCommande,$pIdAdherent) {
 		$lVr = new TemplateVR();
 		
 		if(!is_int((int)$pIdCommande) || !is_int((int)$pIdAdherent)) {
@@ -123,6 +158,39 @@ class CaisseMarcheCommandeControleur
 			$lVr->getLog()->addErreur($lErreur);
 			return $lVr;
 		}
+	}*/
+	
+	/**
+	* @name getInfoAchatMarche($pParam)
+	* @return InfoAchatCommandeResponse
+	* @desc Retourne les infos de réservation d'un adhérent
+	*/
+	public function getInfoAchatMarche($pParam) {
+		$lVr = MarcheValid::validGetInfoAchatMarche($pParam);
+		if($lVr->getValid()) {		
+			$lAdherent = AdherentViewManager::select($pParam["id_adherent"]);
+			
+			$lResponse = new InfoAchatCommandeResponse();
+			$lMarcheService = new MarcheService();
+			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
+			
+			$lReservationService = new ReservationService();
+			$lIdReservation = new IdReservationVO();
+			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
+			$lIdReservation->setIdCommande($pParam["id_commande"]);
+			$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());
+			
+			//	$lStock = StockProduitViewManager::selectByIdCommande($pIdCommande);
+			//	$lResponse->setStock($lStock);
+			
+			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			$lResponse->setStockSolidaire($lStockSolidaire);	
+			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());
+			
+			$lResponse->setAdherent($lAdherent);				
+			return $lResponse;
+		}				
+		return $lVr;
 	}
 	
 	/**
@@ -130,7 +198,7 @@ class CaisseMarcheCommandeControleur
 	* @return VR
 	* @desc Enregistre la commande d'un adhérent
 	*/
-	public function enregistrerAchat($pAchat) {		
+	/*public function enregistrerAchat($pAchat) {		
 		$lVr = AchatCommandeValid::validAjout($pAchat);
 		if($lVr->getValid()) {
 			$lIdCommande = $pAchat['id'];
@@ -140,7 +208,7 @@ class CaisseMarcheCommandeControleur
 			/* Tri des infos sur la commande
 			 * Ajout/Modification/Suppression de ligne de stock en fonction des achats
 			 */
-			if(is_array($lReservations) && is_array($pAchat['produits']) && is_array($pAchat['produitsSolidaire'])) {
+			/*if(is_array($lReservations) && is_array($pAchat['produits']) && is_array($pAchat['produitsSolidaire'])) {
 				//$lTotal = 0;
 				$lProduitMaj = array();
 				$lProduitSupprime = array();
@@ -223,7 +291,7 @@ class CaisseMarcheCommandeControleur
 						$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 						$lOperation->setType(1);
 						OperationManager::update($lOperation);*/
-						OperationManager::delete($lOperation->getId());
+					/*	OperationManager::delete($lOperation->getId());
 					} /*else {						
 						$lCommande = CommandeManager::select($lIdCommande);
 						$lOperation = new OperationVO();
@@ -238,7 +306,7 @@ class CaisseMarcheCommandeControleur
 					}*/
 					
 					// Les achats solidaire
-					foreach($pAchat['produitsSolidaire'] as $lProduitSolidaire) {
+			/*		foreach($pAchat['produitsSolidaire'] as $lProduitSolidaire) {
 						if( !empty($lProduitSolidaire['quantite'])	) {			
 							$lOperation = new OperationVO();
 							$lOperation->setIdCompte($lIdCompte);
@@ -317,6 +385,70 @@ class CaisseMarcheCommandeControleur
 				$lVr->getLog()->addErreur($lErreur);	
 				return $lVr;
 			}			
+		}				
+		return $lVr;
+	}*/
+	
+	/**
+	* @name enregistrerAchat($pParam)
+	* @return VR
+	* @desc Enregistre la commande d'un adhérent
+	*/
+	public function enregistrerAchat($pParam) {	
+
+		$lVr = MarcheValid::validAjout($pParam);
+		if($lVr->getValid()) {			
+			$lIdReservation = new IdReservationVO();
+			$lIdReservation->setIdCompte($pParam['idCompte']);
+			$lIdReservation->setIdCommande($pParam['id']);
+			
+			$lReservationService = new ReservationService();
+			$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
+
+			$lAchat = new AchatVO();
+			$lAchat->getId()->setIdCompte($pParam["idCompte"]);
+			$lAchat->getId()->setIdCommande($pParam["id"]);
+			if($lOperations[0]->getTypePaiement() == 0) {
+				$lAchat->getId()->setIdReservation($lOperations[0]->getId());
+			}
+			
+			foreach($pParam["produits"] as $lDetail){
+				$lDetailAchat = new DetailReservationVO();	
+				$lDcom = DetailCommandeManager::selectByIdProduit($lDetail["id"]);		
+				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
+				$lDetailAchat->setQuantite($lDetail["quantite"]);
+				$lDetailAchat->setMontant($lDetail["prix"]);
+				
+				$lAchat->addDetailAchat($lDetailAchat);
+			}
+			
+			foreach($pParam["produitsSolidaire"] as $lDetail){
+				$lDetailAchat = new DetailReservationVO();
+				$lDcom = DetailCommandeManager::selectByIdProduit($lDetail["id"]);		
+				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
+				$lDetailAchat->setQuantite($lDetail["quantite"]);
+				$lDetailAchat->setMontant($lDetail["prix"]);
+				
+				$lAchat->addDetailAchatSolidaire($lDetailAchat);
+			}
+						
+			$lAchatService = new AchatService();
+			$lIdOperation = $lAchatService->set($lAchat); // Achat des produits
+			
+			// Si il y a aussi un rechargement du compte
+			$lRechargement = $pParam['rechargement'];
+			if(!empty($lRechargement['montant']) && $lRechargement['montant'] != 0) {
+				$lOperation = new OperationVO();
+				$lOperation->setIdCompte($pParam['idCompte']);
+				$lOperation->setMontant($lRechargement['montant']);
+				$lOperation->setLibelle("Rechargement");
+				$lOperation->setTypePaiement($lRechargement['typePaiement']);		
+				$lOperation->setTypePaiementChampComplementaire($lRechargement['champComplementaire']);
+				$lOperation->setIdCommande(0);
+				
+				$lOperationService = new OperationService();
+				$lOperationService->set($lOperation);
+			}
 		}				
 		return $lVr;
 	}

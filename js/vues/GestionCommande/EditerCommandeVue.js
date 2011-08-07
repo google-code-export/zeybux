@@ -88,6 +88,8 @@
 		pData = this.affectBonDeCommande(pData);
 		pData = this.affectBonDeLivraison(pData);
 		pData = this.affectArchive(pData);
+		pData = this.affectListeAchatEtReservation(pData);
+		pData = this.affectListeReservation(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
@@ -339,5 +341,161 @@
 		return pData;
 	}
 	
+	this.affectListeAchatEtReservation = function(pData) {
+		var that = this;
+		pData.find("#btn-liste-achat-resa").click(function() {
+			that.afficherAchatEtReservation();
+		});
+		
+		return pData;
+	}
+	
+	
+	this.affectAchatEtReservation = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
+		pData = this.affectAchat(pData);
+		pData = this.affectExportDataEtReservation(pData);
+		return pData;
+	}
+	
+	this.affectAchat = function(pData) {
+		var that = this;
+		pData.find('.edt-com-achat-ligne').click(function() {
+			AchatAdherentVue({"id_commande":that.mIdCommande,"id_adherent":$(this).find('.id-adherent').text()});
+		});
+		return pData;
+	}
+	
+	this.afficherAchatEtReservation = function() {
+		var that = this;
+		var lParam = {id_commande:this.mIdCommande,fonction:"listeAchatReservation"};
+		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {
+						
+						// Met le bouton en actif
+						$("#btn-liste-resa").removeClass("ui-state-active");
+						$("#btn-liste-achat-resa").addClass("ui-state-active");
+						
+						$(lResponse.listeAchatEtReservation).each(function() {
+							if(this.opeMontantReservation) {this.opeMontantReservation = 'X';} else { this.opeMontantReservation = '';}
+							if(this.opeMontantAchat) {this.opeMontantAchat = 'X';} else { this.opeMontantAchat = '';}
+						});
+						
+						var lGestionCommandeTemplate = new GestionCommandeTemplate();
+						var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
+						$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+						
+						
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+		);
+	}
+	
+	this.affectExportDataEtReservation = function(pData) {		
+		var that = this;
+		pData.find('#btn-export-achat')
+		.click(function() {			
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			var lTemplate = lGestionCommandeTemplate.dialogExportListeAchatEtReservation;
+			
+			$(lTemplate.template(that.mCommande)).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Exporter': function() {
+						// Récupération du formulaire
+						/*var lIdProduits = '';
+						$(this).find(':input[name=id_produits]:checked').each(function() {
+							lIdProduits += $(this).val() + ',';
+						});
+						lIdProduits = lIdProduits.substr(0,lIdProduits.length-1);
+						
+						var lFormat = $(this).find(':input[name=format]:checked').val();
+						var lParam = new ExportListeReservationVO();
+						//lParam = {pParam:1,export_type:1,id_commande:that.mIdCommande,id_produits:lIdProduits,format:lFormat};*/
+						lParam = {fonction:"exportAchatEtReservation",id_commande:that.mIdCommande};
+						
+						// Test des erreurs
+						/*var lValid = new ExportListeReservationValid();
+						var lVr = lValid.validAjout(lParam);
+						
+						Infobulle.init(); // Supprime les erreurs
+						if(lVr.valid) {*/
+							// Affichage
+							$.download("./index.php?m=GestionCommande&v=EditerCommande", lParam);
+						/*} else {
+							Infobulle.generer(lVr,'');
+						}*/
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
+			});
+			
+		});
+		return pData;
+	}
+	
+	this.affectListeReservation = function(pData) {
+		var that = this;
+		pData.find("#btn-liste-resa").click(function() {
+			that.afficherListeReservation();
+		});
+		
+		return pData;
+	}
+	
+	this.affectReservationAction = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
+		pData = this.affectExportReservation(pData);
+		pData = this.affectReservation(pData);
+		return pData;
+	}
+
+	this.afficherListeReservation = function() {
+		var that = this;
+		var lParam = {id_commande:this.mIdCommande,fonction:"listeReservation"};
+		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {
+						
+						// Met le bouton en actif
+						$("#btn-liste-achat-resa").removeClass("ui-state-active");
+						$("#btn-liste-resa").addClass("ui-state-active");
+						
+
+						var lGestionCommandeTemplate = new GestionCommandeTemplate();
+						var lTemplate = lGestionCommandeTemplate.listeReservation;
+						
+						var lHtml = that.affectReservationAction($(lTemplate.template(lResponse)));
+						
+						// Si il n'y a pas de résa on affiche pas le tableau
+						if(!(lResponse.listeAdherentCommande.length > 0 && lResponse.listeAdherentCommande[0].adhId != null)) {			
+							lHtml.find('#edt-com-recherche').hide();
+							lHtml.find('#edt-com-liste-resa').replaceWith(lGestionCommandeTemplate.listeReservationVide);
+						}
+						
+						$('#edt-com-liste').replaceWith(lHtml);
+						
+						
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+		);
+	}
+
 	this.construct(pParam);
 }

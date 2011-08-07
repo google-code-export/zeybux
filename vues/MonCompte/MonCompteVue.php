@@ -19,7 +19,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	$lParam['id_adherent'] = $_SESSION[DROIT_ID];
 	echo $lControleur->getInfoCompte($lParam)->exportToJson();
 		
-	$lLogger->log("Affichage du compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+	$lLogger->log("Affichage du compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 } else {
 	$lLogger->log("Demande d'affichage sans autorisation du compte de l'Adhérent",PEAR_LOG_INFO);	// Maj des logs
 	header('location:./index.php?cx=1');

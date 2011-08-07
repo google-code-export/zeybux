@@ -11,24 +11,52 @@
 
 // Si le login et la pass sont transmit alors on essaye l'identification sinon on affiche le formulaire de connexion
 if( isset($_POST["pParam"]) ) {	
-	// Inclusion des classes
-	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/IdentificationControleur.php");
-	include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
-	
-	// Création du controleur
-	$lIdentificationControleur = new IdentificationControleur();
 	$lParam = json_decode($_POST["pParam"],true);
 	
-	// Identification
-	$lVr = $lIdentificationControleur->identifier($lParam);
-	
-	echo $lVr->exportToJson();
-	
-	// Authentification Réussite -> Redirection vers la vue du compte de l'utilisateur
-	if ( $lVr->getValid() ) {
-		$lLogger->log("Réussite de l'authentification pour l'utilisateur : " . $lParam["login"] ,PEAR_LOG_INFO); // Maj des logs
+	if(isset($lParam["fonction"])) {
+		// Inclusion des classes
+		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/IdentificationControleur.php");
+		include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
+		
+		// Création du controleur
+		$lControleur = new IdentificationControleur();
+		
+		switch($lParam["fonction"]) {					
+			case "identifier":
+				// Identification
+				$lVr = $lControleur->identifier($lParam);
+				
+				echo $lVr->exportToJson();
+				
+				// Authentification Réussite -> Redirection vers la vue du compte de l'utilisateur
+				if ( $lVr->getValid() ) {
+					$lLogger->log("Réussite de l'authentification pour l'utilisateur : " .  $_SESSION[ID_CONNEXION],PEAR_LOG_INFO); // Maj des logs
+				} else {
+					$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
+				}
+				break;
+			case "reconnecter":
+				// Identification
+				$lVr = $lControleur->reconnecter($lParam);
+				
+				echo $lVr->exportToJson();
+				
+				// Authentification Réussite -> Redirection vers la vue du compte de l'utilisateur
+				if ( $lVr->getValid() ) {
+					$lLogger->log("Réussite de l'authentification pour l'utilisateur : " .  $_SESSION[ID_CONNEXION],PEAR_LOG_INFO); // Maj des logs
+				} else {
+					$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
+				}
+			break;
+
+			default:
+				$lLogger->log("Demande d'accés à MarcheCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+				header('location:./index.php');
+				break;
+		}
 	} else {
-		$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
+		$lLogger->log("Demande d'identification sans paramètre.",PEAR_LOG_INFO);	// Maj des logs
+		header('location:./index.php');
 	}
 } 
 // Affichage du formulaire de connexion

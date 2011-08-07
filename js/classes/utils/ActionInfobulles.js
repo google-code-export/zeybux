@@ -33,7 +33,7 @@
 	
 	this.identifier = function(pObj) {
 		var lVo = new IdentificationVO();
-		lVo = {"login":pObj.find(':input[name=login]').val(),"pass":pObj.find(':input[name=pass]').val()};
+		lVo = {fonction:"reconnecter",idConnexion:gIdConnexion,"login":pObj.find(':input[name=login]').val(),"pass":pObj.find(':input[name=pass]').val()};
 		
 		var lValid = new IdentificationValid();
 		var lVr = lValid.validAjout(lVo);

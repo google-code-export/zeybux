@@ -21,25 +21,25 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMPTE_SOLIDAIRE]) || is
 			switch($pParam["fonction"]) {					
 				case "adherent":
 						echo $lControleur->getAdherent()->exportToJson();
-						$lLogger->log("Affichage de la liste des adhérents : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de la liste des adhérents : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 				
 				case "ajoutVirement":
 						echo $lControleur->ajoutVirement($pParam)->exportToJson();
-						$lLogger->log("Affichage de la liste des adhérents : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de la liste des adhérents : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				default:
-					$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else {
-		$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à ListeAdherentVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

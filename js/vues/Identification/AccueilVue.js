@@ -29,6 +29,7 @@
 		TemplateData = new TemplateData();
 		Infobulle = new Infobulles();
 		gCommunVue = new CommunVue(); // TODO Renommer en CommunVue et utiliser cette classe dans toutes les vues
+		gIdConnexion = null;
 	}
 	
 	this.initAction = function() {

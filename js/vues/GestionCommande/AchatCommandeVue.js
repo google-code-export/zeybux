@@ -84,10 +84,9 @@
 							});
 						}
 					});
-					
 					lData.total += lPrix;
 					lData.produits.push(lProduit);
-					
+
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proId == this.proId){
 							lData.produitsSolidaire.push(lProduit);

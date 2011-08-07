@@ -2,8 +2,9 @@
 	this.idCommande = null;
 	
 	this.construct = function(pParam) {
-		var that = this; // TODO gestion avec param pour le server aussi
-		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","id_commande=" + pParam.id_commande,
+		var that = this;
+		pParam.fonction = "listeReservation";
+		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse.valid) {

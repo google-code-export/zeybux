@@ -392,5 +392,19 @@ class MarcheService
 	public function getInfoMarche($IdMarche) {
 		return CommandeManager::select($IdMarche);
 	}
+	
+	/**
+	* @name selectCaisseListeMarche()
+	* @return array(OperationVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de OperationVO
+	*/
+	public static function selectCaisseListeMarche() {		
+		return CommandeManager::recherche(
+			array(CommandeManager::CHAMP_COMMANDE_ARCHIVE),
+			array('='),
+			array(0),
+			array(CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT),
+			array('ASC'));
+	}
 }
 ?>

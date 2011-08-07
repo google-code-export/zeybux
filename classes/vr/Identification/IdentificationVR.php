@@ -50,6 +50,12 @@ class IdentificationVR extends DataTemplate
 	 * @desc Pass de la IdentificationVR
 	 */
 	protected $mPass;
+	
+	/**
+	 * @var VRelement
+	 * @desc IdConnexion de la IdentificationVR
+	 */
+	protected $mIdConnexion;
 
 	/**
 	* @name IdentificationVR()
@@ -62,6 +68,7 @@ class IdentificationVR extends DataTemplate
 		$this->mId = new VRelement();
 		$this->mLogin = new VRelement();
 		$this->mPass = new VRelement();
+		$this->mIdConnexion = new VRelement();
 	}
 
 	/**
@@ -154,5 +161,22 @@ class IdentificationVR extends DataTemplate
 		$this->mPass = $pPass;
 	}
 
+	/**
+	* @name getIdConnexion()
+	* @return VRelement
+	* @desc Renvoie le VRelement mIdConnexion
+	*/
+	public function getIdConnexion() {
+		return $this->mIdConnexion;
+	}
+
+	/**
+	* @name setIdConnexion($pIdConnexion)
+	* @param VRelement
+	* @desc Remplace le mIdConnexion par $pIdConnexion
+	*/
+	public function setIdConnexion($pIdConnexion) {
+		$this->mIdConnexion = $pIdConnexion;
+	}
 }
 ?>

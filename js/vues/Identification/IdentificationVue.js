@@ -31,7 +31,7 @@
 	
 	this.identifier = function(pObj) {
 		var lVo = new IdentificationVO();
-		lVo = {"login":pObj.find(':input[name=login]').val(),"pass":pObj.find(':input[name=pass]').val()};
+		lVo = {fonction:"identifier","login":pObj.find(':input[name=login]').val(),"pass":pObj.find(':input[name=pass]').val()};
 		
 		var lValid = new IdentificationValid();
 		var lVr = lValid.validAjout(lVo);
@@ -45,7 +45,7 @@
 						if(lResponse.valid) {
 							that.mType = lResponse.type;
 							that.mModules = lResponse.modules;
-							
+							gIdConnexion = lResponse.idConnexion;
 							var lIdentificationTemplate = new IdentificationTemplate();
 							$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
 							that.chargerModule(0);
@@ -70,11 +70,11 @@
 			var that = this;
 			var lNvPosition = pPosition + 1;
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
-				var lNiveau = parseFloat(pPosition) / parseFloat(this.mModules.length) * 100;
+				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
 				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + ".php",function() {that.initAction();});
 			} else {
-				var lNiveau = parseFloat(pPosition) / parseFloat(this.mModules.length) * 100;
+				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
 				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + ".php",function() {that.chargerModule(lNvPosition);});
 			}			

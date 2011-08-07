@@ -30,6 +30,17 @@
 	float:right;
 }
 
+#edt-com-nav-resa-achat {
+	text-align:center;
+	width: 670px;
+	padding-top: 3px;
+}
+
+#edt-com-nav-resa-achat span{
+	padding: 3px 5px;
+	font-weight: bold;
+}
+
 /*.edt-com-btn-edt-commande {
 	margin-right:4px;
 }*/

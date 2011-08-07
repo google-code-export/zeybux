@@ -24,16 +24,16 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_PRODUCTEUR]) || 
 			echo $lResponse->exportToJson();
 			
 			if($lResponse->getValid()) {
-				$lLogger->log("Suppression du producteur " . $lParam['id_producteur'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Suppression du producteur par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			} else {
-				$lLogger->log("Echec de la suppression du producteur " . $lParam['id_producteur'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Echec de la suppression du producteur par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			}
 		} else {
-			$lLogger->log("Demande d'accés sans id producteur à la suppression des producteurs par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés sans id producteur à la suppression des producteurs par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}		
 	} else {
-		$lLogger->log("Demande d'accés sans paramètre de producteur à la suppression des producteurs par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés sans paramètre de producteur à la suppression des producteurs par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

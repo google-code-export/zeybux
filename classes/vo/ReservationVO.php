@@ -31,6 +31,18 @@ class ReservationVO extends DataTemplate
 	* @desc Produits de la ReservationVO
 	*/
 	protected $mDetailReservation;
+	
+	/**
+	* @var int(11)
+	* @desc Etat de la ReservationVO
+	*/
+	protected $mEtat;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc Total de la ReservationVO
+	*/
+	protected $mTotal;
 		
 	/**
 	* @name ReservationVO()
@@ -57,6 +69,42 @@ class ReservationVO extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
+	}
+	
+	/**
+	* @name getEtat()
+	* @return int(11)
+	* @desc Renvoie le membre Etat de la ReservationVO
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param int(11)
+	* @desc Remplace le membre Etat de la ReservationVO par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
+	}
+	
+	/**
+	* @name getTotal()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre Total de la ReservationVO
+	*/
+	public function getTotal() {
+		return $this->mTotal;
+	}
+
+	/**
+	* @name setTotal($pTotal)
+	* @param decimal(10,2)
+	* @desc Remplace le membre Total de la ReservationVO par $pTotal
+	*/
+	public function setTotal($pTotal) {
+		$this->mTotal = $pTotal;
 	}
 	
 	/**

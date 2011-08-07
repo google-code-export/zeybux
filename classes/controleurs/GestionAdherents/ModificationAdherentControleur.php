@@ -16,10 +16,10 @@ include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheModificationAdherentResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/AfficheModificationAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_TOVO . "AdherentToVO.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "AdherentValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 
 /**

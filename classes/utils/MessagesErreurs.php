@@ -161,7 +161,11 @@ class MessagesErreurs
 	const ERR_312_CODE = 312;
 	const ERR_312_MSG = 'Réservations et ventes ouvertes.';
 	const ERR_313_CODE = 313;
-	const ERR_313_MSG = 'Le Marché est cloturé';
+	const ERR_313_MSG = 'Le Marché est cloturé.';
+	const ERR_314_CODE = 314;
+	const ERR_314_MSG = 'Achat Modifié.';
+	const ERR_315_CODE = 315;
+	const ERR_315_MSG = 'Achat Supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

@@ -46,7 +46,7 @@
 	this.listeAdherentCommandePage = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{numeroMarche}</div>" +
 					"<div class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"<form id=\"filter-form\"> " +
 							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
@@ -69,7 +69,7 @@
 						"<!-- BEGIN listeAdherentCommande -->" +
 						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
 							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
 						"</tr>" +
@@ -85,7 +85,7 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
 				"<div class=\"com-widget-content\">" +
-					"<div id=\"resa-info-commande\">" +
+					"<div id=\"achat-info-marche\">" +
 						"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
 						"N° de Compte : {adhCompte}" +
 					"</div>" +
@@ -93,10 +93,13 @@
 						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
 						"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 					"</div>" +
-					//"<span>N° d'Adhérent : {adhNumero} N° de Compte : {adhCompte} Nom : {adhNom} Prénom : {adhPrenom}</span><br/>" +
-					//"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span> <span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
+			
+			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
+			"</div>" +
+			
 			"<div class=\"com-float-left\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +

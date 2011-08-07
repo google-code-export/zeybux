@@ -127,6 +127,16 @@ class OperationService
 					return $this->update($lOperation);
 					break;
 					
+				case 7 : 
+					$lOperation->setTypePaiement(18);
+					return $this->update($lOperation);
+					break;
+					
+				case 8 : 
+					$lOperation->setTypePaiement(20);
+					return $this->update($lOperation);
+					break;
+					
 				default:
 					$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 					$lOperation->setlibelle("Supression");

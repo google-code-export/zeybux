@@ -21,30 +21,30 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_CAISSE]) || isse
 			switch($pParam["fonction"]) {					
 				case "etatCaisse":
 						echo $lControleur->getEtatCaisse()->exportToJson();
-						$lLogger->log("Affichage de l'état de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de l'état de la caisse : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "fermerCaisse":
 						echo $lControleur->fermerCaisse()->exportToJson();
-						$lLogger->log("Fermeture de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Fermeture de la caisse : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "ouvrirCaisse":
 						echo $lControleur->ouvrirCaisse()->exportToJson();
-						$lLogger->log("Ouverture de la caisse : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Ouverture de la caisse : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				default:
-					$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else {
-		$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à GestionCaisseVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

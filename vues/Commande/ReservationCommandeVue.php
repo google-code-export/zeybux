@@ -41,34 +41,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 		}
 	
 	}
-
-	/*
-	if(isset($_POST['pParam'])) {
-		$lParam = json_decode($_POST['pParam'],true);
-		if(isset($lParam["id_commande"])) {
-			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/ReservationCommandeControleur.php");
-			$lParam["id_compte"] = $_SESSION[ID_COMPTE];
-			$lParam["id_adherent"] = $_SESSION[DROIT_ID];
-			$lControleur = new ReservationCommandeControleur();	
-			echo $lControleur->getReservation($lParam)->exportToJson();
-		
-			$lLogger->log("Affichage de la vue ReservationCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-		} else {
-			$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-			//header('location:./index.php');
-		}
-	} else if(isset($_POST["reservation"])) {
-		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/ReservationCommandeControleur.php");
-		$lParam["reservation"] = json_decode($_POST["reservation"],true);
-		$lParam["id_compte"] = $_SESSION[ID_COMPTE];
-		$lControleur = new ReservationCommandeControleur();	
-		echo $lControleur->enregistrerReservation($lParam)->exportToJson();	
-		
-		$lLogger->log("Réalisation d'une réservation de commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-	} else {
-		$lLogger->log("Demande d'accés à ReservationCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-		header('location:./index.php');
-	}*/
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à ReservationCommande.",PEAR_LOG_INFO);	// Maj des logs
 	header('location:./index.php?cx=1');

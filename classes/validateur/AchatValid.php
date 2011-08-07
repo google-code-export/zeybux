@@ -183,9 +183,24 @@ class AchatValid
 	public function select($pIdAchat) {	
 		$lIdValid = new IdValid();
 		if(!empty($pIdAchat)){
-			return $lIdValid->estId($pIdAchat);
+			$lIdAchatValid = new IdAchatValid();
+			return $lIdAchatValid->estAchat($pIdAchat);
 		}
 		return false;
 	}
+	
+	/**
+	* @name selectAll($pIdAchat)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function selectAll($pIdAchat) {
+		if(!empty($pIdAchat)){
+			$lIdAchatValid = new IdAchatValid();
+			return $lIdAchatValid->estAjout($pIdAchat);
+		}
+		return false;
+	}
+	
 }
 ?>

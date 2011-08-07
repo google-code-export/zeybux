@@ -39,6 +39,16 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						echo $lControleur->setCloturer($lParam)->exportToJson();
 						$lLogger->log("Cloture du marché par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
+					
+				case "listeAchatReservation":
+						echo $lControleur->getListeAchatEtReservation($lParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des réservation et achats : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "listeReservation":
+						echo $lControleur->getListeReservation($lParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des réservation : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
 
 				default:
 					$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
@@ -74,6 +84,18 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						header('location:./index.php');
 					}
 				break;
+				
+			case "exportAchatEtReservation":
+					if(isset($_POST['id_commande']) ) {
+						$lParam = array();
+						$lParam['id_commande'] = $_POST['id_commande'];				
+						echo $lControleur->getListeAchatEtReservationCSV($lParam);
+						$lLogger->log("Export de la liste des achats et reservations par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					} else {
+						$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						header('location:./index.php');
+					}
+				break;
 
 			default:
 				$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
@@ -84,56 +106,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 		$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
-	
-	
-	/*if(isset($_POST['pParam'])) {
-		$pParam = json_decode($_POST["pParam"],true);
-		if(isset($pParam["id_commande"]) && isset($pParam["export_type"])) {	
-			if($pParam["export_type"] == 0) {	
-				include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/EditerCommandeControleur.php");
-					
-				$lControleur = new EditerCommandeControleur();
-				echo $lControleur->getInfoCommande($pParam)->exportToJson();
-			
-				$lLogger->log("Affichage de la vue EditerCommande par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-			} else {
-				$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-				header('location:./index.php');
-			}
-		} else if($_POST['pParam'] == 1) {
-			if(isset($_POST['id_commande']) && isset($_POST['id_produits']) && isset($_POST['export_type']) && isset($_POST['format'])) {
-				if($_POST['export_type'] == 1) {
-					include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/EditerCommandeControleur.php");
-					$pParam = array();
-					$pParam['id_commande'] = $_POST['id_commande'];
-					$pParam['id_produits'] = explode(',',urldecode($_POST['id_produits']));
-								
-					$lControleur = new EditerCommandeControleur();
-					
-					if($_POST['format'] == 0) {					
-						echo $lControleur->getListeReservationPdf($pParam);
-					} else if ($_POST['format'] == 1) {					
-						echo $lControleur->getListeReservationCSV($pParam);						
-					} else {
-						$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans format valide par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-						header('location:./index.php');
-					}
-				} else {
-					$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-					header('location:./index.php');
-				}				
-			} else {
-				$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-				header('location:./index.php');
-			}
-		} else {
-			$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-			header('location:./index.php');
-		}
-	} else {
-		$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-		header('location:./index.php');		
-	}*/
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à EditerCommande",PEAR_LOG_INFO);	// Maj des logs
 	header('location:./index.php?cx=1');

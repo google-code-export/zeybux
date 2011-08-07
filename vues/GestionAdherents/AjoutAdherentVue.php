@@ -22,14 +22,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 		echo $lResponse->exportToJson();
 		
 		if($lResponse->getValid()) {
-			$lLogger->log("Ajout de l'adhérent " . $lResponse->getId() . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Ajout de l'adhérent " . $lResponse->getId() . " par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		} else {
-			$lLogger->log("Echec de l'Ajout d'adhérent par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Echec de l'Ajout d'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		}
 	} else {		
 		// Chargement de la liste des modules
 		echo $lControleur->getListeModule()->exportToJson();
-		$lLogger->log("Affichage du formulaire d'ajout d'adhérent par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Affichage du formulaire d'ajout d'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 	}
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à l'ajout d'adhérent",PEAR_LOG_INFO);	// Maj des logs
