@@ -11,7 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ListeAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ListeAdherentResponse.php" );
 
 /**
  * @name ListeAdherentControleur

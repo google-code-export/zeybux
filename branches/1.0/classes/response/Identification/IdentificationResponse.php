@@ -37,6 +37,12 @@ class IdentificationResponse extends DataTemplate
 	protected $mModules;
 	
 	/**
+	 * @var integer
+	 * @desc L'Id Connexion
+	 */
+	protected $mIdConnexion;
+	
+	/**
 	* @name IdentificationResponse()
 	* @desc Le constructeur
 	*/
@@ -106,6 +112,24 @@ class IdentificationResponse extends DataTemplate
 	*/
 	public function addModules($pModules) {
 		array_push($this->mModules,$pModules);
+	}
+	
+	/**
+	* @name getIdConnexion()
+	* @return integer
+	* @desc Renvoie le IdConnexion
+	*/
+	public function getIdConnexion() {
+		return $this->mIdConnexion;
+	}
+
+	/**
+	* @name setIdConnexion($pIdConnexion)
+	* @param integer
+	* @desc Remplace le IdConnexion par $pIdConnexion
+	*/
+	public function setIdConnexion($pIdConnexion) {
+		$this->mIdConnexion = $pIdConnexion;
 	}
 }
 ?>

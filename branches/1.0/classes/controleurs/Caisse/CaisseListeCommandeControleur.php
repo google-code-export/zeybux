@@ -10,8 +10,8 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionListeCommandeEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "CaisseListeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_CAISSE ."/CaisseListeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 
 /**
  * @name CaisseListeCommandeControleur
@@ -28,7 +28,8 @@ class CaisseListeCommandeControleur
 	*/
 	public function getListeCommandeEnCours() {
 		$lListeCommande = new CaisseListeCommandeResponse();
-		$lListeCommande->setListeCommande( GestionListeCommandeEnCoursViewManager::selectAll() );
+		$lMarcheService = new MarcheService();
+		$lListeCommande->setListeCommande( $lMarcheService->selectCaisseListeMarche() );
 		return $lListeCommande;
 	}
 }

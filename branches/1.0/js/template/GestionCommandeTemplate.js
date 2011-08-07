@@ -1008,6 +1008,12 @@
 				"<p>Vous allez cloturer le Marché n°{comNumero}</p>" +
 			"</div>";
 	
+	this.dialogExportListeAchatEtReservation =
+		"<div id=\"dialog-cloturer-com\" title=\"Export des Achats et Réservations du marché n°{comNumero}\">" +
+			"<p>Vous allez exporter les Achats et Réservations du Marché n°{comNumero}.<br/>" +
+			"Cette action peut être longue.</p>" +
+		"</div>";
+	
 	this.dialogExportListeReservation = 
 			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations du Marché n°{comNumero}\">" +
 				"<form>" +
@@ -1082,55 +1088,318 @@
 				"</div>" +
 				"<!-- END pdtCommande -->" +
 			"</div>" +
-			"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Liste des Réservation" +
-						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
-							"<span class=\"ui-icon ui-icon-print\">" +
-							"</span>" +
-						"</span>" +
-					"</div>" +
-						"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"<form id=\"filter-form\">" +
-
-								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-										"<span class=\"ui-icon ui-icon-search\">" +
-									"</span>" +
+			"<div>" +
+				"<div class=\"com-float-left\" id=\"edt-com-nav-resa-achat\">" +
+					"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tl com-btn-hover ui-state-active\" id=\"btn-liste-resa\">Reservation</span>" +
+					"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tr com-btn-hover\" id=\"btn-liste-achat-resa\" >Achat</span>" +
+				"</div>" +
+				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+							"Liste des Réservations" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
+								"<span class=\"ui-icon ui-icon-print\">" +
 								"</span>" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-								
-							"</form>" +
+							"</span>" +
 						"</div>" +
-						"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
-							"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-								"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-								"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-								"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-							"</tr>" +
-							"</thead>" +
-							"<tbody>" +
-							"<!-- BEGIN listeAdherentCommande -->" +
-							"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
-								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
-							"</tr>" +
-							"<!-- END listeAdherentCommande -->" +
-							"</tbody>" +
-						"</table>" +
+							"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+								"<form id=\"filter-form\">" +
+	
+									"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+											"<span class=\"ui-icon ui-icon-search\">" +
+										"</span>" +
+									"</span>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+									
+								"</form>" +
+							"</div>" +
+							"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
+								"<thead>" +
+								"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"</tr>" +
+								"</thead>" +
+								"<tbody>" +
+								"<!-- BEGIN listeAdherentCommande -->" +
+								"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
+									"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
+									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
+									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
+								"</tr>" +
+								"<!-- END listeAdherentCommande -->" +
+								"</tbody>" +
+							"</table>" +
+						"</div>" +
 					"</div>" +
 				"</div>" +
 			"</div>" +
+		"</div>";
+	
+	this.listeReservation = 
+		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Liste des Réservations" +
+					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
+						"<span class=\"ui-icon ui-icon-print\">" +
+						"</span>" +
+					"</span>" +
+				"</div>" +
+				"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<form id=\"filter-form\">" +
+	
+						"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+								"<span class=\"ui-icon ui-icon-search\">" +
+							"</span>" +
+						"</span>" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						
+					"</form>" +
+				"</div>" +
+				"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
+					"<thead>" +
+					"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+					"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN listeAdherentCommande -->" +
+					"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
+						"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
+					"</tr>" +
+					"<!-- END listeAdherentCommande -->" +
+					"</tbody>" +
+				"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.listeAchatEtReservation = 
+		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Liste des Achats et Réservations" +
+					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-achat\" title=\"Exporter les Achats et les réservations\">" +
+						"<span class=\"ui-icon ui-icon-print\">" +
+						"</span>" +
+					"</span>" +
+				"</div>" +
+				"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<form id=\"filter-form\">" +
+	
+						"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+								"<span class=\"ui-icon ui-icon-search\">" +
+							"</span>" +
+						"</span>" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						
+					"</form>" +
+				"</div>" +
+				"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
+					"<thead>" +
+					"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Réservation</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Achat</th>" +
+					"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN listeAchatEtReservation -->" +
+					"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" >" +							
+						"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAchatEtReservation.adhId}</span>{listeAchatEtReservation.adhNumero}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantReservation}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantAchat}</td>" +
+					"</tr>" +
+					"<!-- END listeAchatEtReservation -->" +
+					"</tbody>" +
+				"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.detailAchatEtReservation = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-annuler\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour au Marché" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Marché n°{comNumero}" +
+			"</div>" +
+			"<div>" +
+				"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
+				"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Adhérent" +
+				"</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<div id=\"resa-info-commande\">" +
+						"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+						"N° de Compte : {adhCompte}" +
+					"</div>" +
+					"<div>" +
+						"<span>Solde : </span><span>{adhSolde} {sigleMonetaire}</span>" +
+					"</div>" +
+					"<div class=\"com-clear-float-left\"></div>" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"La réservation : " +
+					
+					"<span class=\"resa-etat\" id=\"reservation-etat-label\">{etatReservation}</span>" +
+					"<span class=\"resa-etat ui-helper-hidden\">" +
+						"<select id=\"reservation-etat\">" +
+							"<!-- BEGIN typeEtatReservation -->" +
+							"<option value=\"{typeEtatReservation.value}\" {typeEtatReservation.selected}>{typeEtatReservation.label}</option>" +
+							"<!-- END typeEtatReservation -->" +
+						"</select>" +							
+					"</span>" +
+					
+					
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-resa ui-helper-hidden\" id=\"btn-modif-resa\" title=\"Modifier\">" +
+						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+					"</span>" +	
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-resa\" id=\"btn-check-resa\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
+					"</span>" +
+				"</div>" +
+				"<table>" +
+					"<!-- BEGIN reservation -->" +
+					"<tr class=\"ligne-produit-reservation\">" +
+						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{reservation.id}</span>{reservation.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-resa-qte\" id=\"reservation-{reservation.id}-quantite\">{reservation.stoQuantite}</td>" +
+						"<td class=\"com-text-align-right detail-resa-qte ui-helper-hidden\"><input type=\"text\" value=\"{reservation.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
+						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-resa-prix\" id=\"reservation-{reservation.id}-prix\">{reservation.prix}</td>" +
+						"<td class=\"com-text-align-right detail-resa-prix ui-helper-hidden\"><input type=\"text\" value=\"{reservation.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+					"<!-- END reservation -->" +
+					"<tr>" +
+						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						"<td class=\"com-text-align-right resa-total\" id=\"reservation-total-label\">{totalReservation}</td>" +
+						"<td class=\"com-text-align-right resa-total ui-helper-hidden\"><input type=\"text\" value=\"{totalReservation}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"reservation-total\" maxlength=\"12\" size=\"3\"/></td>" +
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+
+
+			"<!-- BEGIN achats -->" +
+			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
+					
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-supp-achat-{achats.idAchat}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-circle-close\"></span>" +
+					"</span>" +	
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achats.idAchat}\" id=\"btn-modif-achat-{achats.idAchat}\" title=\"Modifier\">" +
+						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+					"</span>" +	
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achats.idAchat}\" id=\"btn-check-achat-{achats.idAchat}\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
+					"</span>" +
+				"</div>" +
+				"<table>" +
+					"<!-- BEGIN achats.achat -->" +
+					"<tr class=\"ligne-produit-achat-{achats.idAchat}\">" +
+						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achats.achat.id}</span>{achats.achat.nproNom}</td>" +
+						//"<td class=\"com-text-align-right detail-resa-qte\">{achats.achat.stoQuantite}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte\" id=\"achat-{achats.idAchat}-{achats.achat.id}-quantite\">{achats.achat.stoQuantite}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
+						
+						"<td class=\"detail-resa-unite\">{achats.achat.proUniteMesure}</td>" +
+						//"<td class=\"com-text-align-right detail-resa-prix\">{achats.achat.prix}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix\" id=\"achat-{achats.idAchat}-{achats.achat.id}-prix\">{achats.achat.prix}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+						
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+					"<!-- END achats.achat -->" +
+					"<tr>" +
+						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						//"<td class=\"com-text-align-right\">{total}</td>" +
+						"<td class=\"com-text-align-right achat-{achats.idAchat}-total\" id=\"achat-{achats.idAchat}-total-label\">{achats.total}</td>" +
+						"<td class=\"com-text-align-right achat-{achats.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achats.total}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+			"<!-- END achats -->" +
+			
+			"<!-- BEGIN achatsSolidaire -->" +
+			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
+					
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-supp-achat-{achatsSolidaire.idAchat}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-circle-close\"></span>" +
+					"</span>" +	
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-modif-achat-{achatsSolidaire.idAchat}\" title=\"Modifier\">" +
+						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+					"</span>" +	
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-check-achat-{achatsSolidaire.idAchat}\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
+					"</span>" +
+				"</div>" +
+				"<table>" +
+					"<!-- BEGIN achatsSolidaire.achat -->" +
+					"<tr class=\"ligne-produit-achat-{achatsSolidaire.idAchat}\">" +
+						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achatsSolidaire.achat.id}</span>{achatsSolidaire.achat.nproNom}</td>" +
+						//"<td class=\"com-text-align-right detail-resa-qte\">{achatsSolidaire.achat.stoQuantite}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-quantite\">{achatsSolidaire.achat.stoQuantite}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
+						
+						"<td class=\"detail-resa-unite\">{achatsSolidaire.achat.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-prix\">{achatsSolidaire.achat.prix}</td>" +
+						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+						
+						//"<td class=\"com-text-align-right detail-resa-prix\">{achatsSolidaire.achat.prix}</td>" +
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+					"<!-- END achatsSolidaire.achat -->" +
+					"<tr>" +
+						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						//"<td class=\"com-text-align-right\">{total}</td>" +
+						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total\" id=\"achat-{achatsSolidaire.idAchat}-total-label\">{achatsSolidaire.totalSolidaire}</td>" +
+						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.totalSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
+						
+						"<td>{sigleMonetaire}</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+			"<!-- END achatsSolidaire -->" +
 		"</div>";
 	
 	this.supprimerReservationDialog =
 		"<div id=\"dialog-supprimer-reservation\" title=\"Supprimer la réservation\">" +
 			"<p>Voulez-vous supprimer la réservation ?</p>" +
 		"</div>";	
+	
+	this.dialogSupprimerAchat =
+		"<div title=\"Supprimer la réservation\">" +
+			"<p>Voulez-vous supprimer cet achat ?</p>" +
+		"</div>";
 	
 	this.detailReservation = 
 		"<div id=\"contenu\">" +		
@@ -1322,7 +1591,7 @@
 		"</div>";
 	
 	this.listeReservationVide =
-		"<p id=\"texte-liste-vide\">Aucune reservation.</p>";
+		"<p id=\"texte-liste-vide\">Aucune réservation.</p>";
 	
 	this.dialogEnregistrement =
 		"<div title=\"Enregistrer les modifications\">" +

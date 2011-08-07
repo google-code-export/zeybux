@@ -266,15 +266,7 @@ class ReservationService
 	* @return ReservationVO
 	* @desc Retourne une Reservation
 	*/
-	public function select($pId) {
-		// ORDER BY date -> récupère la dernière operation en lien avec la commande
-	/*	$lOperations = OperationManager::recherche(
-			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE),
-			array('in','=','='),
-			array(array(0,7,15,16), $pId->getIdCompte(),$pId->getIdCommande()),
-			array(OperationManager::CHAMP_OPERATION_DATE),
-			array('DESC'));*/
-			
+	public function select($pId) {			
 		$lOperations = $this->selectOperationReservation($pId);
 
 		$lReservation = new ReservationVO();
@@ -284,28 +276,33 @@ class ReservationService
 		$lDetailOperationService = new DetailOperationService();
 		$lStockService = new StockService();
 		if(!is_null($lOperations[0]->getTypePaiement())) {
+			
+			$lReservation->setEtat($lOperations[0]->getTypePaiement());
+			
 			switch($lOperations[0]->getTypePaiement()) {
 				case 7: // Un achat
-					/*foreach($lOperations as $lOperation) {					
-						$lDetailsOperation = $lDetailOperationService->getDetailReservation($lOperation->getId());
-						$lDetailOperation = $lDetailsOperation[0];
-						$lStocks = $lStockService->getDetailReservation($lOperation->getId());
-						$lStock = $lStocks[0];
-						
-						if(!is_null($lStock->getId())) {
-							$lDetailReservation = new DetailReservationVO();
-							$lDetailReservation->getId()->setIdStock($lStock->getId());
-							$lDetailReservation->getId()->setIdDetailOperation($lDetailOperation->getId());
-							$lDetailReservation->setIdDetailCommande($lDetailOperation->getIdDetailCommande());
-							$lDetailReservation->setMontant($lDetailOperation->getMontant());
-							$lDetailReservation->setQuantite($lStock->getQuantite());
-							
-							$lReservation->addDetailReservation($lDetailReservation);
-						}					
-					}	*/			
+					foreach($lOperations as $lOperation) {						
+						$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+						if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
+							foreach($lDetailsReservation as $lDetail) {
+								$lDetailReservation = new DetailReservationVO();
+								$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+								$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+								$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+								$lDetailReservation->setMontant($lDetail->getDopeMontant());
+								$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+								$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+								
+								$lReservation->addDetailReservation($lDetailReservation);
+							}
+							$lReservation->setTotal($lOperation->getMontant());
+						}			
+					}			
 					break;
 					
 				case 0: // Reservation en cours
+				case 15: // Reservation non récupérée
+				case 16: // Reservation annulée
 					$lOperation = $lOperations[0];
 					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
 					foreach($lDetailsReservation as $lDetail) {
@@ -315,12 +312,12 @@ class ReservationService
 						$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
 						$lDetailReservation->setMontant($lDetail->getDopeMontant());
 						$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+						$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
 						
 						$lReservation->addDetailReservation($lDetailReservation);
 					}
+					$lReservation->setTotal($lOperation->getMontant());
 					break;
-				case 15: // Reservation non récupérée
-				case 16: // Reservation annulée
 					
 					/*$lOperation = $lOperations[0];
 					$lDetailsOperation = $lDetailOperationService->getDetailReservation($lOperation->getId());
@@ -336,7 +333,7 @@ class ReservationService
 					$lDetailReservation->setQuantite($lStock->getQuantite());
 	
 					$lReservation->addDetailReservation($lDetailReservation);*/
-					break;
+					//break;
 			}
 		}
 		return $lReservation;

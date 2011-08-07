@@ -18,7 +18,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMPTE_ZEYBU]) || isset(
 	$lControleur = new CompteZeybuControleur();
 	echo $lControleur->getInfoCompte()->exportToJson();	
 	
-	$lLogger->log("Affichage de la vue CompteZeybu par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+	$lLogger->log("Affichage de la vue CompteZeybu par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 
 } else {
 	$lLogger->log("Demande d'accés sans autorisation au Compte Zeybu",PEAR_LOG_INFO);	// Maj des logs

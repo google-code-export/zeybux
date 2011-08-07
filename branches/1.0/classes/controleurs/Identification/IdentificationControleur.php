@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "IdentificationViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AccesManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "IdentificationValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_IDENTIFICATION . "/IdentificationValid.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "IdentificationResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_IDENTIFICATION . "/IdentificationResponse.php" );
 
 /**
  * @name IdentificationControleur
@@ -87,6 +87,7 @@ class IdentificationControleur
 				$lResponse = new IdentificationResponse();
 				$lResponse->setType($_SESSION[TYPE_ID]);
 				$lResponse->setModules($lModules);
+				$lResponse->setIdConnexion($_SESSION[ID_CONNEXION]);
 				return $lResponse;				
 			} else {
 				$lVr = new TemplateVR();
@@ -102,6 +103,83 @@ class IdentificationControleur
 		return $lVr;
 	}
 	
+	/**
+	* @name identifier($pParam)
+	* @return VR
+	* @desc Vérifie le login et mot de passe dans la BDD et renvoie un IdentificationPO avec l'authorisation et place les autorisations dans les variables de session
+	*/
+	public function reconnecter($pParam) {
+		// En cas de nouvelle connexion sans déconnexion on supprime les droits
+		session_unset();
+				
+		$lValid = new IdentificationValid();
+		$lVr = $lValid->validReconnection($pParam);
+		
+		if($lVr->getValid()) {		
+			$lLogin = $pParam["login"];
+			// Version cryptée du mot de pass pour le comparer avec celui de la BDD
+			$lPass = md5($pParam["pass"]);
+			
+			// Recherche de l'accès précédent
+			$lAcces = AccesManager::select($pParam["idConnexion"]);			
+			
+			// Sélection des adhérents ayant le login de l'identification
+			$lListeIdentification = IdentificationManager::selectByLogin($lLogin);
+	
+			// Recherche de correspondance de login et mot de passe dans la base 
+			$lAutorisation = false;
+			$lModules = array();
+			if(is_array($lListeIdentification)) {
+				foreach($lListeIdentification as $lIdentification) {
+					if($lAcces->getIdLogin() == $lIdentification->getIdLogin()
+						&& $lAcces->getIp() == $_SERVER["REMOTE_ADDR"]
+						&& $lAcces->getTypeLogin() == $lIdentification->getType()
+						&& $lIdentification->getLogin() === $lLogin 
+						&& $lIdentification->getPass() === $lPass 
+						&& $lIdentification->getAutorise() == 1) {
+							
+						switch($lIdentification->getType()) {
+							case 1 : // Adhérent
+								$lModules = $this->identifierAdherent($lIdentification);
+								break;
+							
+							case 2 : // SuperZeybu
+								$lModules = $this->identifierSuperZeybu($lIdentification);
+								break;
+								
+							case 3 : // Caisse
+								$lModules = $this->identifierCaisse($lIdentification);
+								break;
+								
+							case 4 : // Compte Solidaire
+								$lModules = $this->identifierCompteSolidaire($lIdentification);
+								break;
+						}
+						$_SESSION[TYPE_ID] = $lIdentification->getType();
+						$lAutorisation = true;
+						$lAcces->setAutorise(1);
+						AccesManager::update($lAcces);	
+						$_SESSION[ID_CONNEXION] = $lAcces->getId();
+					}
+				}
+			}
+			
+			if($lAutorisation) {
+				$lResponse = new IdentificationResponse();
+				return $lResponse;				
+			} else {
+				$lVr = new TemplateVR();
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_222_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_222_MSG);
+				$lVr->getLog()->addErreur($lErreur);
+			}
+			
+		}		
+		return $lVr;
+	}
 	/**
 	* @name identifierAdherent($pIdentification)
 	* @return 

@@ -112,9 +112,9 @@ class DetailCommandeManager
 	*/
 	public static function selectByIdProduit($pIdProduit) {
 		return DetailCommandeManager::recherche(
-			array(DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT),
-			array('='),
-			array($pIdProduit),
+			array(DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT,DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT),
+			array('=','='),
+			array($pIdProduit,0),
 			array(''),
 			array(''));
 	}

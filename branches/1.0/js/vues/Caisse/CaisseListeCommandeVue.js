@@ -21,25 +21,25 @@
 	this.afficher = function(lResponse) {
 		var that = this;
 		var lCaisseTemplate = new CaisseTemplate();
-		if(lResponse.listeCommande.length > 0 && lResponse.listeCommande[0].comId != null) {
+		if(lResponse.listeCommande.length > 0 && lResponse.listeCommande[0].id != null) {
 		
 			var lListeCommande = new Object;
 			lListeCommande.commande = new Array();
 			
 				$(lResponse.listeCommande).each(function() {
-					var lCommande = new Object();
-					lCommande.id = this.comId;
-					lCommande.numero = this.comNumero;
-					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
-					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
-					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
+					var lCommande = {};
+					lCommande.id = this.id;
+					lCommande.numero = this.numero;
+					lCommande.dateFinReservation = this.dateFinReservation.extractDbDate().dateDbToFr();
+					lCommande.heureFinReservation = this.dateFinReservation.extractDbHeure();
+					lCommande.minuteFinReservation = this.dateFinReservation.extractDbMinute();
 					
-					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
-					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
-					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
+					lCommande.dateMarcheDebut = this.dateMarcheDebut.extractDbDate().dateDbToFr();
+					lCommande.heureMarcheDebut = this.dateMarcheDebut.extractDbHeure();
+					lCommande.minuteMarcheDebut = this.dateMarcheDebut.extractDbMinute();
 					
-					lCommande.heureMarcheFin = this.comDateMarcheFin.extractDbHeure();
-					lCommande.minuteMarcheFin = this.comDateMarcheFin.extractDbMinute();
+					lCommande.heureMarcheFin = this.dateMarcheFin.extractDbHeure();
+					lCommande.minuteMarcheFin = this.dateMarcheFin.extractDbMinute();
 	
 					lListeCommande.commande.push(lCommande);
 				});

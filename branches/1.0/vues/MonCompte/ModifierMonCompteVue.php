@@ -21,9 +21,9 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 		
 		echo $lControleur->modifierAdherent($pParam)->exportToJson();
 			
-		$lLogger->log("Modification du compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Modification du compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 	} else {
-		$lLogger->log("Demande d'accés à ModifierMonCompte sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à ModifierMonCompte sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');		
 	}
 } else {

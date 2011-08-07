@@ -22,9 +22,9 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_PRODUCTEUR]) || 
 		echo $lResponse->exportToJson(); // Affichage
 		
 		if($lResponse->getValid()) {
-			$lLogger->log("Ajout du Producteur " . $lResponse->getId() . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Ajout du Producteur par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		} else {
-			$lLogger->log("Echec de l'Ajout d'un Producteur par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Echec de l'Ajout d'un Producteur par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		}
 	}
 } else {

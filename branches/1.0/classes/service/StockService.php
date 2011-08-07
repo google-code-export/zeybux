@@ -152,9 +152,17 @@ class StockService
 			$lStock = $this->get($pId);
 			switch($lStock->getType()) {
 				case 0 : // Annulation de la reservation
-				case 1 : // Annulation de l'achat
-				case 2 : // Annulation de l'achat solidaire
 					$lStock->setType(6);
+					return $this->update($lStock);
+					break;
+					
+				case 1 : // Annulation de l'achat
+					$lStock->setType(8);
+					return $this->update($lStock);
+					break;
+					
+				case 2 : // Annulation de l'achat solidaire
+					$lStock->setType(10);
 					return $this->update($lStock);
 					break;
 					

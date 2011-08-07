@@ -12,11 +12,13 @@
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "GroupeCommandeManager.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 
 /**
  * @name SuppressionAdherentControleur
@@ -42,31 +44,18 @@ class SuppressionAdherentControleur
 		$lIdentification = $lIdentification[0];
 		$lIdentification->setAutorise( 0 );
 		IdentificationManager::update( $lIdentification );
-			
-		// Supression des stocks de réservation de l'adherent
-		/*$lListeStock = StockManager::selectByIdCompte( $lAdherent->getIdCompte() );
-		foreach ( $lListeStock as $lStock ) {
-			if($lStock->getType() == 0) {
-				StockManager::delete( $lStock->getId() );
+		
+		// Suppression des réservations en cours
+		$lReservationService = new ReservationService();
+		$lReservations = MarcheListeReservationViewManager::select($lAdherent->getIdCompte());
+		if(!is_null($lReservations[0]->getComId())) {
+			foreach($lReservations as $lReservation) {
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($lAdherent->getIdCompte());
+				$lIdReservation->setIdCommande($lReservation->getComId());
+				$lReservationService->delete($lIdReservation);
 			}
 		}
-		
-		// Supression des réservations de l'adherent
-		$lListeGpc = GroupeCommandeManager::selectByIdCompte( $lAdherent->getIdCompte() );
-		foreach ( $lListeGpc as $lGpc ) {
-			if($lGpc->getEtat() == 0) {
-				GroupeCommandeManager::delete( $lGpc->getId() );
-			}
-		}
-		
-		// Supression des opérations de réservation de l'adherent
-		$lListeOperation = OperationManager::selectByIdCompte( $lAdherent->getIdCompte() );
-		foreach ( $lListeOperation as $lOperation ) {
-			if($lOperation->getType() == 0) {
-				OperationManager::delete( $lOperation->getId() );
-			}
-		}*/
-		
 		$lResponse = new ModifierAdherentResponse();
 		$lResponse->setNumero($lAdherent->getNumero());
 		

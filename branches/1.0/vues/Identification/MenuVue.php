@@ -16,7 +16,7 @@ if( isset($_SESSION[DROIT_ID]) ) {
 	$lControleur = new MenuControleur();
 	echo $lControleur->getMenu()->exportToJson();
 
-	$lLogger->log("Affichage de la vue Menu par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+	$lLogger->log("Affichage de la vue Menu par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à Menu",PEAR_LOG_INFO);	// Maj des logs
 	header('location:./index.php?cx=1');

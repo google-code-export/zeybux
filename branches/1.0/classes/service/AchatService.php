@@ -15,12 +15,14 @@ include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueReservationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );*/
 include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
+include_once(CHEMIN_CLASSES_VO . "ListeAchatReservationVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "AchatValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 
 /**
  * @name AchatService
@@ -78,8 +80,12 @@ class AchatService
 			$lOperationZeybu->setMontant($lTotal * -1);
 			$lOperationZeybu->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
 			$lOperationZeybu->setTypePaiement(7);
+			$lOperationZeybu->setTypePaiementChampComplementaire($lIdOperation);
 			$lOperationZeybu->setIdCommande($pAchat->getId()->getIdCommande());
-			$lOperationService->set($lOperationZeybu);
+			$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
+
+			$lOperation->setTypePaiementChampComplementaire($lIdOperationZeybu);
+			$lOperationService->set($lOperation);
 	
 			// Ajout detail operation		
 			$lStockService = new StockService;		
@@ -158,7 +164,7 @@ class AchatService
 					// Mise à jour de l'opération de réservation en achat
 					$lOperation->setMontant($lTotal);
 					$lOperation->setTypePaiement(7);
-					$lOperationService->set($lOperation);
+					$lIdOperation = $lOperationService->set($lOperation);
 	
 					// Operation sur le compte Zeybu
 					$lOperationZeybu = new OperationVO();
@@ -166,27 +172,61 @@ class AchatService
 					$lOperationZeybu->setMontant($lTotal * -1);
 					$lOperationZeybu->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lOperationZeybu->setTypePaiement(7);
+					$lOperationZeybu->setTypePaiementChampComplementaire($lIdOperation);
 					$lOperationZeybu->setIdCommande($pNouvelAchat->getId()->getIdCommande());
-					$lOperationService->set($lOperationZeybu);	
+					$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);	
+					
+					$lOperation->setTypePaiementChampComplementaire($lIdOperationZeybu);
+					$lOperationService->set($lOperation);
 				} else {
 					// Mise à jour de l'opération de réservation en annulation
-					$lOperation->setTypePaiement(16);
-					$lOperationService->set($lOperation);					
+					//$lOperation->setTypePaiement(16);
+					$lOperationService->delete($lOperation);					
 				}			
 				break;
 				
 			case 7: // Achat
-			/*	$lTotal = $this->updateProduitAchat($pAchatActuel,$pNouvelAchat,$pIdOperation);
-				// Mise à jour de l'opération d'achat
-				$lOperation->setMontant($lTotal);
-				$lOperationService->set($lOperation);*/
+				$lTotal = $this->updateProduitAchat($pAchatActuel,$pNouvelAchat,$pIdOperation);
+				if($pNouvelAchat->getTotal() < 0) {
+					// Mise à jour de l'opération d'achat
+					$lOperation->setMontant($pNouvelAchat->getTotal());
+					$lOperationService->set($lOperation);
+					
+					
+					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+					$lOperationZeybu->setMontant($pNouvelAchat->getTotal() * -1);
+					$lOperationService->set($lOperationZeybu);
+				} else {
+					// Mise à jour de l'opération en annulation
+					//$lOperation->setTypePaiement(18);
+					$lOperationService->delete($lOperation->getId());		
+
+					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+					//$lOperationZeybu->setTypePaiement(18);
+					$lOperationService->delete($lOperationZeybu->getId());	
+				}
 				break;
 				
 			case 8: // Achat Solidaire
-			/*	$lTotalSolidaire = $this->updateProduitAchatSolidaire($pAchatActuel,$pNouvelAchat,$pIdOperation);
-				// Mise à jour de l'opération d'achat Solidaire
-				$lOperation->setMontant($lTotalSolidaire);
-				$lOperationService->set($lOperation);*/
+				$lTotalSolidaire = $this->updateProduitAchatSolidaire($pAchatActuel,$pNouvelAchat,$pIdOperation);
+				if($pNouvelAchat->getTotal() < 0) {
+					// Mise à jour de l'opération d'achat
+					$lOperation->setMontant($pNouvelAchat->getTotal());
+					$lOperationService->set($lOperation);
+					
+					
+					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+					$lOperationZeybu->setMontant($pNouvelAchat->getTotal() * -1);
+					$lOperationService->set($lOperationZeybu);
+				} else {
+					// Mise à jour de l'opération en annulation
+					//$lOperation->setTypePaiement(20);
+					$lOperationService->delete($lOperation->getId());		
+
+					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+					//$lOperationZeybu->setTypePaiement(20);
+					$lOperationService->delete($lOperationZeybu->getId());	
+				}
 				break;			
 		}
 
@@ -502,9 +542,13 @@ class AchatService
 			$lOperationZeybu->setMontant($lTotalSolidaire * -1);
 			$lOperationZeybu->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
 			$lOperationZeybu->setTypePaiement(8);
+			$lOperationZeybu->setTypePaiementChampComplementaire($lIdOperationSolidaire);
 			$lOperationZeybu->setIdCommande($pAchat->getId()->getIdCommande());
-			$lOperationService->set($lOperationZeybu);
+			$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
 			
+			
+			$lOperationSolidaire->setTypePaiementChampComplementaire($lIdOperationZeybu);
+			$lOperationService->set($lOperationSolidaire);
 			
 			return $lIdOperationSolidaire;
 		}
@@ -514,40 +558,61 @@ class AchatService
 	/**
 	* @name delete($pId)
 	* @param IdAchatVO
-	* @desc Met à jour une réservation
+	* @desc Supprime un achat
 	*/
-	/*public function delete($pIdAchat) {
-		$lReservationsActuelle = $this->get($pIdReservation);
-		$lOperations = $this->selectOperationReservation($pIdReservation);
-		$lOperation = $lOperations[0];
-		$lIdOperation = $lOperation->getId();
-		
-		// Suppression de l'opération
-		$lOperationService = new OperationService();
-		$lOperationService->delete($lIdOperation);
-		
-		$lStockService = new StockService();
-		$lDetailOperationService = new DetailOperationService();
-		foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
-			// Suppression du stock et du detail operation
-			$lStockService->delete($lReservationActuelle->getId()->getIdStock());
-			$lDetailOperationService->delete($lReservationActuelle->getId()->getIdDetailOperation());
+	public function delete($pId) {
+		$lAchatValid = new AchatValid();
+		if(!is_null($pId) && $lAchatValid->select($pId)) {
+			$lAchatActuel = $this->get($pId);
+			
+			// Suppression de l'opération
+			$lOperationService = new OperationService();
+			$lIdOperationZeybu = $lOperationService->get($pId->getIdAchat())->getTypePaiementChampComplementaire();
+			$lOperationService->delete($pId->getIdAchat());
+			$lOperationService->delete($lIdOperationZeybu);
+			
+			$lStockService = new StockService();
+			$lDetailOperationService = new DetailOperationService();
+			foreach($lAchatActuel->getDetailAchat() as $lDetail) {
+				// Suppression du stock et du detail operation
+				$lStockService->delete($lDetail->getId()->getIdStock());
+				$lDetailOperationService->delete($lDetail->getId()->getIdDetailOperation());
+			}
+			foreach($lAchatActuel->getDetailAchatSolidaire() as $lDetail) {
+				// Suppression du stock et du detail operation
+				$lStockService->delete($lDetail->getId()->getIdStock());
+				$lDetailOperationService->delete($lDetail->getId()->getIdDetailOperation());
+			}
 		}
-	}*/
+		return false;
+	}
 			
 	/**
 	* @name get($pId)
 	* @param integer
-	* @return array(AchatVO) ou AchatVO
+	* @return AchatVO
 	* @desc Retourne une liste d'achat
 	*/
 	public function get($pId = null) {
 		$lAchatValid = new AchatValid();
 		if(!is_null($pId) && $lAchatValid->select($pId)) {
 			return $this->select($pId);
-		} else {
-			return false;
 		}
+		return false;
+	}
+	
+	/**
+	* @name getAll($pId)
+	* @param integer
+	* @return array(AchatVO)
+	* @desc Retourne une liste d'achat
+	*/
+	public function getAll($pId = null) {
+		$lAchatValid = new AchatValid();
+		if(!is_null($pId) && $lAchatValid->selectAll($pId)) {
+			return $this->selectAll($pId);
+		}
+		return false;
 	}
 	
 	/**
@@ -556,26 +621,32 @@ class AchatService
 	* @return array(OperationVO)
 	* @desc Retourne une liste d'operation
 	*/
-	/*public function selectOperationAchat($pId) {
+	private function selectOperationAchat($pId) {
 		// ORDER BY date -> récupère la dernière operation en lien avec la commande
 		return OperationManager::recherche(
 			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE),
 			array('in','=','='),
-			array(array(0,7,15,16), $pId->getIdCompte(),$pId->getIdCommande()),
-			array(OperationManager::CHAMP_OPERATION_DATE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-			array('DESC','ASC'));
+			array(array(7,8), $pId->getIdCompte(),$pId->getIdCommande()),
+			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_DATE),
+			array('ASC','DESC'));
 	}
 
 	/**
-	* @name existe($pId)
+	* @name selectAll($pId)
 	* @param IdReservation
-	* @return bool
-	* @desc Retourne si une réservation existe
+	* @return array(AchatVO)
+	* @desc Retourne les achats du compte pour un marché
 	*/
-	/*public function existe($pId) {		
-		$lOperations = $this->selectOperationReservation($pId);
-		$lIdOperation = $lOperations[0]->getId();
-		return !is_null($lIdOperation);
+	private function selectAll($pId) {		
+		$lOperations = $this->selectOperationAchat($pId);
+		$lAchats = array();
+		if(!is_null($lOperations[0]->getId())) {
+			foreach($lOperations as $lOperation) {
+				$pId->setIdAchat($lOperation->getId());
+				array_push($lAchats,$this->select($pId));
+			}
+		}
+		return $lAchats;
 	}
 	
 	/**
@@ -584,47 +655,153 @@ class AchatService
 	* @return AchatVO
 	* @desc Retourne une Reservation
 	*/
-	public function select($pId) {			
+	private function select($pId) {			
 		$lOperation = OperationManager::select($pId->getIdAchat());
-	
+
 		$lAchat = new AchatVO();
-		$lAchat->setId($pId);
+		$lAchat->getId()->setIdCompte($pId->getIdCompte());
+		$lAchat->getId()->setIdCommande($pId->getIdCommande());
+		$lAchat->getId()->setIdAchat($pId->getIdAchat());
 		
 		// Recherche du détail de la reservation
 		switch($lOperation->getTypePaiement()) {
 			case 7: // Un achat				
 				$lDetailsAchat = AchatDetailViewManager::select($lOperation->getId());
 				foreach($lDetailsAchat as $lDetail) {					
-					if(!is_null($lStock->getId())) {
+					if(!is_null($lDetail->getStoId())) {
 						$lDetailAchat = new DetailReservationVO();
 						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
 						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
 						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
+						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
 						
 						$lAchat->addDetailAchat($lDetailAchat);
 					}
-				}					
+				}		
+				$lAchat->setTotal($lOperation->getMontant());
 				break;
 				
 			case 8: // Achat Solidaire
 				$lDetailsAchat = AchatDetailSolidaireViewManager::select($lOperation->getId());
 				foreach($lDetailsAchat as $lDetail) {					
-					if(!is_null($lStock->getId())) {
+					if(!is_null($lDetail->getStoId())) {
 						$lDetailAchat = new DetailReservationVO();
 						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
 						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
 						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
+						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
 						
 						$lAchat->addDetailAchatSolidaire($lDetailAchat);
 					}
-				}
+				}		
+				$lAchat->setTotalSolidaire($lOperation->getMontant());
 				break;
-		}		
+		}
 		return $lAchat;
+	}
+	
+	
+	/**
+	* @name selectMarcheAll($pIdMarche)
+	* @param IdMarche
+	* @return 
+	* @desc Retourne une Reservation
+	*/
+	public function selectMarcheAll($pIdMarche) {	
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+			"SELECT 
+			   ADHERENT."    . AdherentManager::CHAMP_ADHERENT_ID . 
+			", ADHERENT." . AdherentManager::CHAMP_ADHERENT_NUMERO . 
+			", ADHERENT." . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
+			", ADHERENT." . CompteManager::CHAMP_COMPTE_LABEL . 
+			", ADHERENT." . AdherentManager::CHAMP_ADHERENT_NOM . 
+			", ADHERENT." . AdherentManager::CHAMP_ADHERENT_PRENOM . 
+			", OPERATION." . OperationManager::CHAMP_OPERATION_MONTANT . "_reservation" .
+			", OPERATION." . OperationManager::CHAMP_OPERATION_MONTANT . "_achat
+			FROM " . AdherentViewManager::VUE_ADHERENT . " AS ADHERENT
+			LEFT JOIN ( 
+				SELECT "
+					 	. AdherentManager::CHAMP_ADHERENT_ID . 
+					", RESERVATION." . OperationManager::CHAMP_OPERATION_MONTANT . " AS " . OperationManager::CHAMP_OPERATION_MONTANT . "_reservation" . 
+					", ACHAT." . OperationManager::CHAMP_OPERATION_MONTANT . " AS " . OperationManager::CHAMP_OPERATION_MONTANT . "_achat
+				FROM " . AdherentViewManager::VUE_ADHERENT . "
+				LEFT JOIN (
+					SELECT " 
+				 		. OperationManager::CHAMP_OPERATION_ID_COMMANDE .
+					"," . OperationManager::CHAMP_OPERATION_MONTANT .
+					"," . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+					FROM " . OperationManager::TABLE_OPERATION . "
+					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . "  = 0) AS RESERVATION 
+					ON RESERVATION." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentViewManager::VUE_ADHERENT . "." . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
+				
+				LEFT JOIN (
+					SELECT " 
+				 		. OperationManager::CHAMP_OPERATION_ID_COMMANDE .
+					", sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ") AS " . OperationManager::CHAMP_OPERATION_MONTANT .
+					"," . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+					FROM " . OperationManager::TABLE_OPERATION . "
+					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8)
+					GROUP BY " .  OperationManager::CHAMP_OPERATION_ID_COMMANDE . "," . OperationManager::CHAMP_OPERATION_ID_COMPTE . ") AS ACHAT 
+					ON ACHAT." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentViewManager::VUE_ADHERENT . "." . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
+				WHERE RESERVATION." . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = " . StringUtils::securiser($pIdMarche) . "
+				OR ACHAT." . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = " . StringUtils::securiser($pIdMarche) . "
+				GROUP BY " . AdherentViewManager::VUE_ADHERENT . "." . AdherentManager::CHAMP_ADHERENT_ID . ") AS OPERATION
+			ON ADHERENT." . AdherentManager::CHAMP_ADHERENT_ID . " = OPERATION." . AdherentManager::CHAMP_ADHERENT_ID;
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeAchatEtReservation = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeAchatEtReservation,
+					$this->remplirAchatEtReservation(
+					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
+					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT . "_reservation"],
+					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT . "_achat"]));
+			}
+		} else {
+			$lListeAchatEtReservation[0] = new ListeAchatReservationVO();
+		}
+		return $lListeAchatEtReservation;
+	}	
+	
+	/**
+	* @name remplirAchatEtReservation($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pOpeMontantReservation, $pOpeMontantAchat)
+	* @param int(11)
+	* @param int(11)
+	* @param int(11)
+	* @param varchar(30)
+	* @param varchar(50)
+	* @param varchar(50)
+	* @param decimal(10,2)
+	* @param decimal(10,2)
+	* @return ListeAchatReservationVO
+	* @desc Retourne une ListeAchatReservationVO remplie
+	*/
+	private function remplirAchatEtReservation($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pOpeMontantReservation, $pOpeMontantAchat) {
+		$lListeAchatReservation = new ListeAchatReservationVO();
+		$lListeAchatReservation->setAdhId($pAdhId);
+		$lListeAchatReservation->setAdhNumero($pAdhNumero);
+		$lListeAchatReservation->setAdhIdCompte($pAdhIdCompte);
+		$lListeAchatReservation->setCptLabel($pCptLabel);
+		$lListeAchatReservation->setAdhNom($pAdhNom);
+		$lListeAchatReservation->setAdhPrenom($pAdhPrenom);
+		$lListeAchatReservation->setOpeMontantReservation($pOpeMontantReservation);
+		$lListeAchatReservation->setOpeMontantAchat($pOpeMontantAchat);
+		return $lListeAchatReservation;
 	}
 }
 ?>

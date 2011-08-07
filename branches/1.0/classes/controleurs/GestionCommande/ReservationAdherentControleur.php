@@ -23,7 +23,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "SupprimerReservationAdherentValid.php");*/
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "AfficheReservationAdherentValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/AfficheReservationAdherentValid.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ReservationAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");

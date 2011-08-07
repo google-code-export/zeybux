@@ -12,9 +12,13 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/EditerCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAchatEtReservationResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
@@ -51,11 +55,11 @@ class EditerCommandeControleur
 	}
 	
 	/**
-	* @name getListeReservation($pParam)
+	* @name getListeReservationExport($pParam)
 	* @return array()
 	* @desc Retourne la liste des réservations pour une commande et la liste de produits demandés
 	*/
-	private function getListeReservation($pParam) {
+	private function getListeReservationExport($pParam) {
 		$lIdCommande = $pParam['id_commande'];
 		$lIdProduits = $pParam['id_produits'];
 		
@@ -110,7 +114,7 @@ class EditerCommandeControleur
 		if($lVr->getValid()) {
 			$lIdProduits = $pParam['id_produits'];
 			
-			$lTableauReservation = $this->getListeReservation($pParam);
+			$lTableauReservation = $this->getListeReservationExport($pParam);
 			
 			// Préparation du Tableau pour l'export PDF		
 			$contenuTableau = array();
@@ -220,7 +224,7 @@ class EditerCommandeControleur
 		if($lVr->getValid()) {	
 			$lIdProduits = $pParam['id_produits'];
 			
-			$lTableauReservation = $this->getListeReservation($pParam);
+			$lTableauReservation = $this->getListeReservationExport($pParam);
 	
 			$lCSV = new CSV();
 			$lCSV->setNom('Réservations.csv'); // Le Nom
@@ -272,6 +276,140 @@ class EditerCommandeControleur
 	}
 	
 	/**
+	* @name getListeAchatEtReservationCSV($pParam)
+	* @return Un Fichier CSV
+	* @desc Retourne la liste des achats et réservations pour un Marché et la liste de produits demandés
+	*/
+	public function getListeAchatEtReservationCSV($pParam) {
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {	
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($pParam["id_commande"]);
+			
+			$lCSV = new CSV();
+			$lCSV->setNom('Réservations.csv'); // Le Nom
+			
+			
+			// Les données
+			$contenuTableau = array();
+			$lLigne = array("","","","");
+			// L'entête
+			$lEntete = array("N°","Compte","Nom","Prénom");		
+			foreach($lMarche->getProduits() as $lProduit) {
+				array_push($lEntete,"","","","","",$lProduit->getNom(),"","","","","","");
+				array_push($lLigne,"","","Réservation","","","Achat","","","","Solidaire","","");
+			}
+			$lCSV->setEntete($lEntete);
+
+			
+			array_push($contenuTableau,$lLigne);
+					
+			$lAdherents = AdherentViewManager::selectAll();
+			$lReservationService = new ReservationService();
+			$lAchatService = new AchatService();
+			foreach($lAdherents as $lAdherent) {				
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdReservation->setIdCommande($pParam["id_commande"]);
+				$lReservation = $lReservationService->get($lIdReservation);
+
+				$lIdAchat = new IdAchatVO();
+				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdAchat->setIdCommande($pParam["id_commande"]);
+				$lAchats = $lAchatService->getAll($lIdAchat);	
+				
+				$lProduits = array();
+
+				$lNbResa = 0;
+				$lDetailsReservationt = $lReservation->getDetailReservation();
+				if(!empty($lDetailsReservationt)) {
+					foreach($lDetailsReservationt as $lDetail) {
+						if(!isset($lProduits[$lDetail->getIdProduit()][0])) {
+							$lProduits[$lDetail->getIdProduit()][0] = array();
+						}
+						array_push($lProduits[$lDetail->getIdProduit()][0],$lDetail);
+						$lNbResa++;
+					}
+				}
+				
+				$lNbAchat = 0;
+				$lNbAchatSolidaire = 0;
+				foreach($lAchats as $lAchat) {
+					$lDetailsAchat = $lAchat->getDetailAchat();
+					if(!empty($lDetailsAchat)) {
+						foreach($lDetailsAchat as $lDetail) {
+							if(!isset($lProduits[$lDetail->getIdProduit()][7])) {
+								$lProduits[$lDetail->getIdProduit()][7] = array();
+							}
+							array_push($lProduits[$lDetail->getIdProduit()][7],$lDetail);
+							$lNbAchat++;
+						}
+					}
+					$lDetailsAchat = $lAchat->getDetailAchatSolidaire();
+					if(!empty($lDetailsAchat)) {
+						foreach($lDetailsAchat as $lDetail) {
+							if(!isset($lProduits[$lDetail->getIdProduit()][8])) {
+								$lProduits[$lDetail->getIdProduit()][8] = array();
+							}
+							array_push($lProduits[$lDetail->getIdProduit()][8],$lDetail);
+							$lNbAchatSolidaire++;
+						}
+					}
+				}
+				
+				if($lNbAchat < $lNbResa) {$lNbAchat = $lNbResa;}
+				if($lNbAchat < $lNbAchatSolidaire) {$lNbAchat = $lNbAchatSolidaire;}
+				
+				if($lNbAchat == 0) {
+					$lLigne = array();
+					array_push($lLigne,$lAdherent->getAdhNumero(),$lAdherent->getCptLabel(),$lAdherent->getAdhNom(),$lAdherent->getAdhPrenom());
+					array_push($contenuTableau,$lLigne);					
+				}
+				
+				$lI = 0;
+				while($lI < $lNbAchat) {
+					$lLigne = array();
+					if($lI == 0) {
+						array_push($lLigne,$lAdherent->getAdhNumero(),$lAdherent->getCptLabel(),$lAdherent->getAdhNom(),$lAdherent->getAdhPrenom());
+					} else {
+						array_push($lLigne,"","","","");
+					}
+					foreach($lMarche->getProduits() as $lProduit) {
+						if(isset($lProduits[$lProduit->getId()][0][$lI])) {
+							$lDetail = $lProduits[$lProduit->getId()][0][$lI];
+							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+						} else {
+							array_push($lLigne,"","","","");
+						}
+						if(isset($lProduits[$lProduit->getId()][7][$lI])) {
+							$lDetail = $lProduits[$lProduit->getId()][7][$lI];
+							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+						} else {
+							array_push($lLigne,"","","","");
+						}
+						if(isset($lProduits[$lProduit->getId()][8][$lI])) {
+							$lDetail = $lProduits[$lProduit->getId()][8][$lI];
+							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+						} else {
+							array_push($lLigne,"","","","");
+						}
+					}
+					array_push($contenuTableau,$lLigne);
+					$lI++;
+				}
+			}
+			
+			
+			$lCSV->setData($contenuTableau);
+			
+			// Export en CSV
+			$lCSV->output();
+		} else {
+			return $lVr;
+		}
+	}
+	
+	/**
 	* @name setPause($pParam)
 	* @param Id du marché
 	* @desc Met en pause le marché
@@ -309,6 +447,38 @@ class EditerCommandeControleur
 		if($lVr->getValid()) {
 			$lMarcheService = new MarcheService();
 			$lMarcheService->setCloturer($pParam["id_commande"]);			
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name getListeAchatEtReservation($pParam)
+	* @param Id du marché
+	* @desc Cloture le marché
+	*/
+	public function getListeAchatEtReservation($pParam) {		
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+		$lResponse = new ListeAchatEtReservationResponse();
+			$lAchatService = new AchatService();
+			$lResponse->setListeAchatEtReservation($lAchatService->selectMarcheAll($pParam["id_commande"]));
+			return $lResponse;
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name getListeReservation($pParam)
+	* @param Id du marché
+	* @desc Cloture le marché
+	*/
+	public function getListeReservation($pParam) {		
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lResponse = new EditerCommandeResponse();
+			$lListeAdherent = GestionCommandeListeReservationViewManager::select($pParam["id_commande"]);
+			$lResponse->setListeAdherentCommande($lListeAdherent);
+			return $lResponse;
 		}
 		return $lVr;
 	}

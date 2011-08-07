@@ -42,6 +42,12 @@ class DetailReservationVO  extends DataTemplate
 	* @desc Montant de la DetailReservationVO
 	*/
 	protected $mMontant;
+	
+	/**
+	* @var int(11)
+	* @desc Id du produit de la DetailReservationVO
+	*/
+	protected $mIdProduit;
 
 	/**
 	* @name DetailReservationVO()
@@ -123,5 +129,22 @@ class DetailReservationVO  extends DataTemplate
 		$this->mMontant = $pMontant;
 	}
 
+	/**
+	* @name getIdProduit()
+	* @return int(11)
+	* @desc Renvoie le membre IdProduit de la DetailReservationVO
+	*/
+	public function getIdProduit() {
+		return $this->mIdProduit;
+	}
+
+	/**
+	* @name setIdProduit($pIdProduit)
+	* @param int(11)
+	* @desc Remplace le membre IdProduit de la DetailReservationVO par $pIdProduit
+	*/
+	public function setIdProduit($pIdProduit) {
+		$this->mIdProduit = $pIdProduit;
+	}
 }
 ?>

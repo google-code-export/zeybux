@@ -37,6 +37,18 @@ class AchatVO extends DataTemplate
 	* @desc Produits Solidaire de la AchatVO
 	*/
 	protected $mDetailAchatSolidaire;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc Total de la AchatVO
+	*/
+	protected $mTotal;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc TotalSolidaire de la AchatVO
+	*/
+	protected $mTotalSolidaire;
 		
 	/**
 	* @name AchatVO()
@@ -118,6 +130,42 @@ class AchatVO extends DataTemplate
 	*/
 	public function addDetailAchatSolidaire($pProduit){
 		array_push($this->mDetailAchatSolidaire,$pProduit);
+	}
+	
+	/**
+	* @name getTotal()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre Total de la AchatVO
+	*/
+	public function getTotal() {
+		return $this->mTotal;
+	}
+
+	/**
+	* @name setTotal($pTotal)
+	* @param decimal(10,2)
+	* @desc Remplace le membre Total de la AchatVO par $pTotal
+	*/
+	public function setTotal($pTotal) {
+		$this->mTotal = $pTotal;
+	}
+	
+	/**
+	* @name getTotalSolidaire()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre TotalSolidaire de la AchatVO
+	*/
+	public function getTotalSolidaire() {
+		return $this->mTotalSolidaire;
+	}
+
+	/**
+	* @name setTotalSolidaire($pTotalSolidaire)
+	* @param decimal(10,2)
+	* @desc Remplace le membre TotalSolidaire de la AchatVO par $pTotalSolidaire
+	*/
+	public function setTotalSolidaire($pTotalSolidaire) {
+		$this->mTotalSolidaire = $pTotalSolidaire;
 	}
 }
 ?>

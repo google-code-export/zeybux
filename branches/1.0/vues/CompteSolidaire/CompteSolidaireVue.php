@@ -21,30 +21,30 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMPTE_SOLIDAIRE]) || is
 			switch($pParam["fonction"]) {					
 				case "compte":
 						echo $lControleur->getCompte()->exportToJson();
-						$lLogger->log("Affichage de l'état du compte solidaire : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de l'état du compte solidaire : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "modifierVirement":
 						echo $lControleur->modifierVirement($pParam)->exportToJson();
-						$lLogger->log("Demande de modification de virement par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Demande de modification de virement par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "supprimerVirement":
 						echo $lControleur->supprimerVirement($pParam)->exportToJson();
-						$lLogger->log("Demande de suppression de virement par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Demande de suppression de virement par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				default:
-					$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else {
-		$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[DROIT_ID],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à CompteSolidaireVue sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

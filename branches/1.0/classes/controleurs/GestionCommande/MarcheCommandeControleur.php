@@ -95,11 +95,10 @@ class MarcheCommandeControleur
 			//	$lResponse->setStock($lStock);
 			
 			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
-			$lResponse->setStockSolidaire($lStockSolidaire);
-			
-			$lResponse->setAdherent($lAdherent);
+			$lResponse->setStockSolidaire($lStockSolidaire);	
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());
-				
+			
+			$lResponse->setAdherent($lAdherent);				
 			return $lResponse;
 		}				
 		return $lVr;
