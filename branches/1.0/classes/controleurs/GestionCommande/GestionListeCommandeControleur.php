@@ -12,7 +12,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionListeCommandeEnCoursViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionListeCommandeArchiveViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "GestionListeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/GestionListeCommandeResponse.php" );
 
 /**
  * @name GestionListeCommandeControleur

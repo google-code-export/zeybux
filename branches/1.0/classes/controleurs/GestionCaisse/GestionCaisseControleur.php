@@ -11,8 +11,7 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "EtatCaisseResponse.php" );
-//include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_CAISSE . "/EtatCaisseResponse.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 
 /**

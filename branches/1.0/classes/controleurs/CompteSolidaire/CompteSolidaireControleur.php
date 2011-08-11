@@ -9,14 +9,14 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_RESPONSE . "CompteSolidaireResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_SOLIDAIRE . "/CompteSolidaireResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireOperationViewManager.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_SOLIDAIRE . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "VirementService.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "CompteSolidaireVirementValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMPTE_SOLIDAIRE . "/CompteSolidaireVirementValid.php" );
 
 /**
  * @name CompteSolidaireControleur

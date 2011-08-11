@@ -134,6 +134,8 @@ class MessagesErreurs
 	const ERR_238_MSG = 'Vous n\'avez pas de réservation pour ce marché.';
 	const ERR_239_CODE = 239;
 	const ERR_239_MSG = 'Le marché n\'est plus ouvert.';
+	const ERR_240_CODE = 240;
+	const ERR_240_MSG = 'Le Type de virement n\'est pas valide.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

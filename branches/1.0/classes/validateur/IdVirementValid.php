@@ -67,13 +67,14 @@ class IdVirementValid extends IdValid
 	* @desc Test si le paramètre est un id d'une opération de débit
 	*/
 	public function estDebit($pIdOperation) {
-		if($this->estId($pIdOperation)) {
+		if($this->estId($pIdOperation) && !is_null($pIdOperation)) {
 			$lOperationService = new OperationService();
 			$lOperation = $lOperationService->get($pIdOperation);
-			return ($lOperation->getTypePaiement() == 3 || $lOperation->getTypePaiement() == 9);
-		} else {
-			return false;
+			if(!is_null($lOperation)) {
+				return ($lOperation->getTypePaiement() == 3 || $lOperation->getTypePaiement() == 9);
+			}
 		}
+		return false;
 	}
 	
 	/**
@@ -82,13 +83,14 @@ class IdVirementValid extends IdValid
 	* @desc Test si le paramètre est un id d'une opération de crédit
 	*/
 	public function estCredit($pIdOperation) {
-		if($this->estId($pIdOperation) && !empty($pIdOperation)) {
+		if($this->estId($pIdOperation) && !is_null($pIdOperation)) {
 			$lOperationService = new OperationService();
 			$lOperation = $lOperationService->get($pIdOperation);
-			return ($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10);
-		} else {
-			return false;
+			if(!is_null($lOperation)) {
+				return ($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10);
+			}
 		}
+		return false;
 	}
 	
 	/**

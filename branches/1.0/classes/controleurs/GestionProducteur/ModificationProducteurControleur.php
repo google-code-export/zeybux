@@ -10,9 +10,9 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheModificationProducteurResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierProducteurResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ProducteurValid.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/AfficheModificationProducteurResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/ModifierProducteurResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/ProducteurValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "GestionProducteurToVO.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");

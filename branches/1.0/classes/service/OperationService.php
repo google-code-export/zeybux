@@ -56,7 +56,7 @@ class OperationService
 		$this->insertHistorique($pOperation); // Ajout historique
 
 		// Selon le type on met à jour le solde du compte
-		$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
+		$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
 			$lCompteService = new CompteService(); // Mise à jour du solde
 			$lCompte = $lCompteService->get($pOperation->getIdCompte());
@@ -78,7 +78,7 @@ class OperationService
 		
 		$this->insertHistorique($pOperation); // Ajout historique
 		
-		$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
+		$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
 			$lOperationActuelle = $this->get($pOperation->getId());
 			
@@ -107,7 +107,7 @@ class OperationService
 			$lOperation = $this->get($pId);
 			
 			// Maj du solde du compte
-			$lTypeModificationSolde = array(1,2,4,7,8,9,10,11,12,13);
+			$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 			if(in_array($lOperation->getTypePaiement(), $lTypeModificationSolde)) {
 				$lCompteService = new CompteService(); // Mise à jour du solde
 				$lCompte = $lCompteService->get($lOperation->getIdCompte());
@@ -296,6 +296,59 @@ class OperationService
 				array($pId, 0, 0),
 				array(''),
 				array(''));
+	}
+	
+	
+	/**
+	* @name getSoldeCaisse()
+	* @return decimal(10,2)
+	* @desc Retourne le solde de la caisse
+	*/
+	public static function getSoldeCaisse() {	
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+			
+		$lRequete =
+			"SELECT sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ") AS " . OperationManager::CHAMP_OPERATION_MONTANT . "
+			FROM " . OperationManager::TABLE_OPERATION . " 
+			WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '1'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			return $lLigne[OperationManager::CHAMP_OPERATION_MONTANT];
+		} else {
+			return NULL;
+		}
+	}
+	
+	/**
+	* @name getSoldeBanque()
+	* @return decimal(10,2)
+	* @desc Retourne le solde en Banque
+	*/
+	public static function getSoldeBanque() {	
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+			
+		$lRequete =
+			"SELECT sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ") AS " . OperationManager::CHAMP_OPERATION_MONTANT . "
+			FROM " . OperationManager::TABLE_OPERATION . " 
+			WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '2'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			return $lLigne[OperationManager::CHAMP_OPERATION_MONTANT];
+		} else {
+			return NULL;
+		}
 	}
 }
 ?>

@@ -13,16 +13,15 @@
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
-include_once(CHEMIN_CLASSES_MANAGERS . "CommandeCompleteManager.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "CommandeCompleteValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "NomProduitValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
 include_once(CHEMIN_CLASSES_TOVO . "NomProduitToVO.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AjoutCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheAjoutCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AjoutNomProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheAjoutCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 
@@ -81,7 +80,6 @@ class AjoutCommandeControleur
 		
 		if($lVr->getValid()) {			
 			$lCommandeVO = CommandeCompleteToVO::convertFromArray($lCommande);
-			//$lId = CommandeCompleteManager::insert($lCommandeVO);
 			$lMarcheService = new MarcheService();
 			$lId = $lMarcheService->insert($lCommandeVO);
 			

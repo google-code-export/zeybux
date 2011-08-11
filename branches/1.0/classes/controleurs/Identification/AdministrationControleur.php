@@ -13,7 +13,7 @@
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MenuViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "VueManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "MenuResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_IDENTIFICATION . "/MenuResponse.php" );
 include_once(CHEMIN_CLASSES_VO . "MenuVO.php");
 include_once(CHEMIN_CLASSES_VO . "MenuModuleVO.php");
 
