@@ -2,7 +2,8 @@
 header("content-type: application/x-javascript; charset=UTF-8");
 $filename = "./jquery/jquery-1.4.2.min.js";
 echo file_get_contents($filename);
-$filename = "./jquery/jquery-ui-1.8.custom.min.js";
+//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
+$filename = "./jquery/jquery-ui-1.8.15.custom.min.js";
 echo file_get_contents($filename);
 function parcourirDossierJquery($pPath) {
 	if(is_dir($pPath)) {
@@ -14,7 +15,8 @@ function parcourirDossierJquery($pPath) {
 		   		&& $entry != '.project'
 		   		&& $entry != '.htaccess'	
 		   		&& $entry != 'jquery-1.4.2.min.js'	
-		   		&& $entry != 'jquery-ui-1.8.custom.min.js'		   		
+		   		&& $entry != 'jquery-ui-1.8.custom.min.js'	
+		   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'		   		
 		   		) {
 		   		if(is_dir($d->path.'/'.$entry)) {
 		   			parcourirDossierJquery($d->path.'/'.$entry);

@@ -10,15 +10,7 @@
 //****************************************************************
 
 // Inclusion des classes
-//include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitInitiauxViewManager.php");
-//include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-//include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-//include_once(CHEMIN_CLASSES_VALIDATEUR . "CommandeCompleteValid.php" );
-//include_once(CHEMIN_CLASSES_MANAGERS . "CommandeCompleteManager.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "NomProduitValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "NomProduitToVO.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ModifierCommandeResponse.php" );

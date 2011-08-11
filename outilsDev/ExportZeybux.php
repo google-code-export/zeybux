@@ -80,7 +80,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
 		$filename = "../js/jquery/jquery-1.4.2.min.js";
 		fwrite($fp,file_get_contents($filename));
-		$filename = "../js/jquery/jquery-ui-1.8.custom.min.js";
+		//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
+		$filename = "./jquery/jquery-ui-1.8.15.custom.min.js";
 		fwrite($fp,file_get_contents($filename));
 		fclose($fp);
 		
@@ -94,7 +95,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != '.project'
 				   		&& $entry != '.htaccess'	
 				   		&& $entry != 'jquery-1.4.2.min.js'	
-				   		&& $entry != 'jquery-ui-1.8.custom.min.js'		   		
+				   		&& $entry != 'jquery-ui-1.8.custom.min.js'		
+		   				&& $entry != 'jquery-ui-1.8.15.custom.min.js'   		
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 				   			parcourirDossierJquery($d->path.'/'.$entry);

@@ -11,7 +11,7 @@
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name AjoutCommandeResponse
+ * @name ModifierAdherentResponse
  * @author Julien PIERRE
  * @since 11/11/2010
  * @desc Classe représentant une ModifierAdherentResponse

@@ -97,8 +97,7 @@ class VirementValid
 			$lIdVirementValid = new IdVirementValid();
 			$lIdValid = $lIdVirementValid->estVide($pVirement->getId());
 			if(!is_null($lIdValid) && !$lIdValid) {
-				return $this->montant($pVirement->getMontant())
-				&& $this->type($pVirement->getType());
+				return $this->montant($pVirement->getMontant());
 			} else {
 				return false;
 			}

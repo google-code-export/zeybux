@@ -10,10 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "InfoAdherentValid.php");
-
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_MON_COMPTE . "/InfoAdherentValid.php");
 
 /**
  * @name ModifierMonCompteControleur
@@ -36,12 +33,8 @@ class ModifierMonCompteControleur
 			$lIdentification = $lIdentification[0];
 			$lIdentification->setPass( md5( $pParam['motPasseNouveau'] ) );
 			IdentificationManager::update( $lIdentification );
-
-			$lVr = new TemplateVR();	
-			return $lVr;
-		} else {
-			return $lVr;
 		}
+		return $lVr;
 	}
 }
 ?>

@@ -10,18 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
-
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
-//include_once(CHEMIN_CLASSES_MANAGERS . "GroupeCommandeManager.php");
-//include_once(CHEMIN_CLASSES_VALIDATEUR . "ListeReservationCommandeValid.php");
-include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "SupprimerReservationAdherentValid.php");*/
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/AfficheReservationAdherentValid.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ReservationAdherentResponse.php" );

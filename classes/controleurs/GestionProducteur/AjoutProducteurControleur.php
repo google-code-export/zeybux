@@ -10,12 +10,12 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ProducteurValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/ProducteurValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "GestionProducteurToVO.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "AjoutProducteurResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/AjoutProducteurResponse.php" );
 
 /**
  * @name AjoutProducteurControleur

@@ -137,12 +137,17 @@ class CSV
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0, public"); 
 		header("Expires: 0"); 
 	
-		// Export des données
-	    $outstream = fopen("php://output", 'w');		
+		// Export des données	  
+	    $lFileTemp = microtime() . ".csv";
+	    
+	    $outstream = fopen(CHEMIN_TEMPORAIRE . $lFileTemp, 'w');	
 	    function __outputCSV(&$vals, $key, $filehandler) {
 	        fputcsv($filehandler, $vals, ';', '"');
 	    }
-	    array_walk($lTableau, '__outputCSV', $outstream);		
-	    fclose($outstream);
+	    array_walk($lTableau, '__outputCSV', $outstream);	
+		fclose($outstream);	
+	    echo file_get_contents(CHEMIN_TEMPORAIRE . $lFileTemp);
+		unlink(CHEMIN_TEMPORAIRE . $lFileTemp);
+	    
 	}	
 }

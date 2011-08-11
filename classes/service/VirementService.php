@@ -104,10 +104,9 @@ class VirementService
 
 		// Si il n'y a qu'un des deux id donné on recherche l'id correspondant
 		if(	!$lIdVirementValid->estDebit($pVirement->getId()->getIdDebit()) ||
-			!$lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {				
+			!$lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {
 				$pVirement->setId($this->getIdVirement($pVirement)->getId());
 		}
-		
 		$lVirement = $this->get($pVirement->getId()->getIdDebit());
 		$this->delete($lVirement->getId());
 		$lVirement->setMontant($pVirement->getMontant());
@@ -198,9 +197,9 @@ class VirementService
 			$lOperation = $lOperationService->get($pVirement->getId()->getIdDebit());
 			$pVirement->getId()->setIdCredit($lOperation->getTypePaiementChampComplementaire());
 			return $pVirement;			
-		} else if ($lIdVirementValid->estCredit($pVirement->getId->getIdCredit()) ) {
+		} else if ($lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {
 			$lOperationService = new OperationService();			
-			$lOperation = $lOperationService->get($pVirement->getId->getIdCredit);
+			$lOperation = $lOperationService->get($pVirement->getId()->getIdCredit());
 			$pVirement->getId()->setIdDebit($lOperation->getTypePaiementChampComplementaire());
 			return $pVirement;			
 		} else {

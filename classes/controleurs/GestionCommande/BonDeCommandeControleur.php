@@ -10,20 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockCommandeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationProduitBonCommandeViewManager.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
-
-
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-
-
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );*/
-
-
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 

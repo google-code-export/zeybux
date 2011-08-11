@@ -69,6 +69,16 @@
 				return false;
 			});
 			
+			pData.find('#menu-CompteZeybu-Virements').click(function() {
+				VirementZeybuVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteZeybu-ListeVirement').click(function() {
+				ListeVirementZeybuVue();
+				return false;
+			});
+			
 			pData.find('#menu-RechargementCompte-RechargerCompte').click(function() {
 				RechargerCompteVue();
 				return false;

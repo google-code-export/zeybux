@@ -37,10 +37,10 @@ class EditerCommandeResponse extends DataTemplate
 	protected $mListeAdherentCommande;
 	
 	/**
-	* @name AfficheAjoutCommandeResponse()
+	* @name EditerCommandeResponse()
 	* @desc Le constructeur
 	*/
-	public function AfficheAjoutCommandeResponse() {
+	public function EditerCommandeResponse() {
 		$this->mValid = true;
 		$this->mListeAdherentCommande = array();
 	}

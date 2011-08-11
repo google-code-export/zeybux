@@ -476,8 +476,31 @@ from (`sto_stock`
 join dcom_detail_commande on sto_id_detail_commande = dcom_id
  left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) where (`sto_stock`.`sto_type` in (0,5,6)) order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
 
+create or replace view view_compte_zeybu_liste_virement as
 
+select 
+`ope1`.`ope_id` AS `ope_id`,
+`ope1`.`ope_date` AS `ope_date`,
+`cpt_compte`.`cpt_label` AS `cpt_label`,
+`ope1`.`ope_montant` AS `ope_montant`,
+`ope1`.`ope_type_paiement` AS `ope_type_paiement` 
+from ((`ope_operation` `ope1` left join `ope_operation` `ope2` on((`ope1`.`ope_type_paiement_champ_complementaire` = `ope2`.`ope_id`))) 
+left join `cpt_compte` on((`ope2`.`ope_id_compte` = `cpt_compte`.`cpt_id`))) where ((`ope1`.`ope_id_compte` = '-1') and (`ope1`.`ope_type_paiement` in (3,4,9,10))) order by `ope1`.`ope_date` desc;
 
+create or replace view view_compte_zeybu_operation as
+select `ope1`.`ope_id` AS `ope_id`,
+`ope1`.`ope_date` AS `ope_date`,
+`cpt_compte`.`cpt_label` AS `cpt_label`,
+ope1.ope_libelle,
+`ope1`.`ope_montant` AS `ope_montant`,
+tpp_type
+from ((`ope_operation` `ope1` 
+left join `ope_operation` `ope2` on((`ope1`.`ope_type_paiement_champ_complementaire` = `ope2`.`ope_id`))) 
+left join `cpt_compte` on((`ope2`.`ope_id_compte` = `cpt_compte`.`cpt_id`))
+join tpp_type_paiement on ope1.ope_type_paiement = tpp_id
+) 
+
+where ((`ope1`.`ope_id_compte` = '-1') and (`ope1`.`ope_type_paiement` in (1,2,3,4,7,8,9,10))) order by `ope1`.`ope_date` desc;
 
 
 

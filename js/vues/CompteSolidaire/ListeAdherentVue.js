@@ -64,9 +64,7 @@
 			
 	this.affectVirement = function(pData) {
 		var that = this;
-		pData.find(".compte-ligne").click(function() {
-			//CompteAdherentVue({id_adherent: $(this).find(".id-adherent").text()});
-			
+		pData.find(".compte-ligne").click(function() {			
 			var lId = $(this).find(".id-adherent").text();
 
 			var lCompteSolidaireTemplate = new CompteSolidaireTemplate();

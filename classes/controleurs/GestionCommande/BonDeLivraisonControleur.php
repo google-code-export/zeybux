@@ -10,13 +10,10 @@
 //****************************************************************
 
 // Inclusion des classes
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurCommandeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonLivraisonViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitInitiauxViewManager.php");
 
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockLivraisonViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationBonLivraisonViewManager.php");
@@ -328,7 +325,12 @@ class BonDeLivraisonControleur
 						}
 						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
 					}
-									
+
+					$lQuantite = '';
+					$lUniteQuantite = '';
+					$lMontant = '';
+					$lSigleMontant = '';
+					
 					if( $lLigne->getStoQuantite() == '' || $lLigne->getStoQuantite() == NULL) {
 						$lQuantiteLivraison = '';
 						$lUniteQuantiteLivraison = '';
@@ -344,7 +346,10 @@ class BonDeLivraisonControleur
 						$lMontantLivraison = $lLigne->getDopeMontant();
 						$lSigleMontantLivraison = SIGLE_MONETAIRE_PDF;
 					}
-				
+
+					$lQuantiteSolidaire = '';
+					$lUniteQuantiteSolidaire = '';
+					
 					foreach($lLignesSolidaire as $lLigneSolidaire) {
 						if($lLigneSolidaire->getProId() == $lLigne->getProId())	{
 							if( $lLigneSolidaire->getStoQuantite() == '' || $lLigneSolidaire->getStoQuantite() == NULL) {
@@ -465,7 +470,6 @@ class BonDeLivraisonControleur
 			
 			// Les données
 			$lIdCommande = $pParam["id_commande"];
-			//$lLignesBonLivraison = InfoBonLivraisonViewManager::selectByIdCommande($lIdCommande);
 			$lOperationService = new OperationService();
 			$lLignesBonLivraison = InfoBonLivraisonViewManager::selectByIdCommande($lIdCommande);
 			$lLignesSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdCommande);
@@ -499,6 +503,11 @@ class BonDeLivraisonControleur
 						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
 					}
 
+					$lQuantite = '';
+					$lUniteQuantite = '';
+					$lMontant = '';
+					$lSigleMontant = '';
+					
 					foreach($lLignesBonCommande as $lLigneBonCommande) {
 						if($lLigneBonCommande->getProId() == $lLigne->getProId())	{
 							if( $lLigneBonCommande->getStoQuantite() == '' || $lLigneBonCommande->getStoQuantite() == NULL) {
@@ -534,6 +543,9 @@ class BonDeLivraisonControleur
 						$lMontantLivraison = $lLigne->getDopeMontant();
 						$lSigleMontantLivraison = SIGLE_MONETAIRE;
 					}
+										
+					$lQuantiteSolidaire = '';
+					$lUniteQuantiteSolidaire = '';
 					
 					foreach($lLignesSolidaire as $lLigneSolidaire) {
 						if($lLigneSolidaire->getProId() == $lLigne->getProId())	{							

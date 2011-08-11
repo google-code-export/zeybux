@@ -10,23 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentCommandeReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "GroupeCommandeManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "AchatCommandeValid.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "ListeAdherentCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoAchatCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );*/
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAdherentCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/MarcheValid.php");
 
@@ -58,7 +41,6 @@ class MarcheCommandeControleur
 		$lVr = MarcheValid::validGetMarcheListeReservation($pParam);
 		if($lVr->getValid()) {
 			$lResponse = new ListeAdherentCommandeResponse();
-			//$lListe = GestionCommandeListeReservationViewManager::select($pParam['id_commande']);
 			$lListe = AdherentViewManager::selectAll();
 			$lResponse->setListeAdherentCommande($lListe);
 			
@@ -90,9 +72,6 @@ class MarcheCommandeControleur
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 			$lIdReservation->setIdCommande($pParam["id_commande"]);
 			$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());
-			
-			//	$lStock = StockProduitViewManager::selectByIdCommande($pIdCommande);
-			//	$lResponse->setStock($lStock);
 			
 			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			$lResponse->setStockSolidaire($lStockSolidaire);	
