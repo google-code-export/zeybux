@@ -71,7 +71,11 @@ class MarcheCommandeControleur
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 			$lIdReservation->setIdCommande($pParam["id_commande"]);
-			$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());
+			$lReservation = $lReservationService->get($lIdReservation);
+			// Retourne la réservation uniquement si elle n'est pas déjà récupérée
+			if($lReservation->getEtat() == 0 || is_null($lReservation->getEtat())) {
+				$lResponse->setReservation($lReservation->getDetailReservation());
+			}
 			
 			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			$lResponse->setStockSolidaire($lStockSolidaire);	

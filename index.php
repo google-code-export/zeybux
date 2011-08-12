@@ -23,7 +23,7 @@ if(MAINTENANCE == 1) {
 	include_once(CHEMIN_CONFIGURATION . "Modules.php"); // Définition des constantes de module
 	include_once(CHEMIN_CONFIGURATION . "Version.php"); // La version
 	include_once(CHEMIN_CONFIGURATION . "Titre.php"); // Définition des constantes de titre
-	include_once(CHEMIN_CLASSES_UTILS . "Logging/Log.php"); // La classe de Log
+	include_once(CHEMIN_CLASSES_UTILS . "Log.php"); // La classe de Log
 	
 	// Définition du level de log
 	//define("LOG_LEVEL",PEAR_LOG_INFO);

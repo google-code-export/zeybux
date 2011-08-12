@@ -93,7 +93,7 @@ class MarcheService
 	
 	/**
 	* @name update($pMarche)
-	* @param CommandeCompleteVO
+	* @param MarcheVO
 	* @return integer
 	* @desc Insère une nouvelle ligne dans la table, à partir des informations de la CommandeVO en paramètre (l'id sera automatiquement calculé par la BDD)
 	*/

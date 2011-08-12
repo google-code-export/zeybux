@@ -1,25 +1,4 @@
-@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
+@CHARSET "UTF-8";
 #piedpage {
 	bottom:0;
 	position: absolute;
@@ -40,7 +19,7 @@
 
 #piedpage a:hover{
 	text-decoration:underline;
-}@CHARSET "UTF-8";
+}
 
 #formulaire_ajout_operation_adherent_int table {
 	width:100%;
@@ -48,20 +27,18 @@
 
 #widget_formulaire_ajout_operation_adherent {
 	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
+}
+
+
+
+#menu_ext {
+	margin-top:-15px;
+}
 
 #menu_int {
+	margin-left:345px;
 	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
+	height:20px;
 }
 
 #menu_liste {
@@ -72,7 +49,6 @@
 
 #menu_liste li {
 	float: left;
-	margin-left:1px;
 }
 
 #menu_liste span {
@@ -80,14 +56,14 @@
 	padding: 3px 5px;
 }
 
-#menu_liste li a {
+#menu_liste li a, #lien-deconnexion a {
 	text-decoration: none;	
 	display: block;
 	margin: 0px; 
 	padding: 3px;
 }
 
-.sous_menu {
+/*.sous_menu {
 	position:absolute;
 	padding: 5px 6px 3px 2px ;
 	margin: 0;
@@ -101,44 +77,94 @@
 
 .sous_menu li:hover {
 	border:none;
+}*/
+
+#lien-deconnexion {
+	position:absolute;
+	top:0px;
+	right:0px;
 }
 
+#lien-deconnexion a span, #lien-administration span {
+	margin-top:1px;
+}
 
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
+#lien-administration {
+	position:absolute;
+	top:61px;
+	right:0px;
+	padding: 3px;
+}
+
+.btn-menu,#lien-deconnexion {font-weight:bold;}
+
 
 #icone-nav-liste-operation-w{
 	float:left;
-	margin-left:5px;
+	margin-left:-15px;
 }
 
 #icone-nav-liste-operation-e {
 	float:right;
-	margin-right:5px;
+	margin-right:-15px;
 }
 
 #content-nav-liste-operation {
 	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
+	padding-bottom:1px;	
+	padding-left:20px;
+	padding-right:20px;
+	margin-top:10px;	
+	margin-bottom:10px;
 	margin-left:-150px;
 	position:relative;
 	left:50%;
 	width:300px;
 	text-align:center;
-}@CHARSET "UTF-8";
+}
+
+#page-compteur {
+	left:50%;
+	margin-left:-100px;
+	position:absolute;
+	width:200px;
+}
 
 #lien_gestion_adherent_int {
 	text-align:center;
 	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
+}
 
+#formulaire_ajout_producteur {
+	width:700px;
+	margin-left:150px;
+}
+
+#formulaire_ajout_producteur table {
+	margin-left:50px;
+	width:575px;
+}
+
+#formulaire_ajout_producteur table th {
+	width:300px;
+}
 #formulaire_identification_int {
 	padding:5px;
 	width: 360px;
+	margin-left:320px;
+	margin-top:150px;
 }
 
-#formulaire_identification_int table,td {
+
+#formulaire_identification_ifb {
+	padding:5px;
+}
+
+#formulaire_identification_int table,#formulaire_identification_ifb table {
+	padding:3px;	
+}
+
+#formulaire_identification_int td,#formulaire_identification_ifb td {
 	border-collapse:collapse;
 	padding:3px;	
 }
@@ -149,796 +175,89 @@
 	margin-bottom:15px;
 }
 
-#formulaire_identification_int input[type=text],input[type=password] {
+#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password] {
 	width:200px;
 	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
 }
 
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
+.action-ifb {
+	color:#3A8104;
+	text-decoration:underline;
+}
+
+#liste-naviguateur {
+	margin-top: 20px;
+}
+
+#liste-naviguateur a{
 	text-decoration:none;
 }
 
-#piedpage a:hover{
+#liste-naviguateur a:hover{
 	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
 }
 
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
+#liste-naviguateur img{
 	border:none;
 }
 
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
+#naviguateur-1 {
+	margin-left: 250px;
 }
 
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
+#maintenance{
 	margin-left:320px;
 	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
 	padding:5px;
 	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
 	text-align:center;
-	margin-bottom:15px;
 }
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
+/*
 #formulaire_confirmation_suppression_adherent_ext {
 	width:700px;
 	margin-left:150px;
-}@CHARSET "UTF-8";
+}*/
 
-#listeadherent {
-	margin-left:100px;
+#dialog-supp-adh p {
+	margin-bottom:0;
+	padding:5px;
+}
+/*ListeAdherent*/
+/*#liste-adh-recherche {
+	left:50%;
+	margin-left:-107px;
+	margin-top:10px;
+	position:relative;
+	width:214px;
+}*/
+/*
+#liste-adh-recherche input{
+	border-right:none;
+}*/
+/*
+.liste-adh-span-rech-right {
+	height:20px;
+	padding-top:4px;
+	position:relative;
+	float:right;
+}*/
+
+.liste-adh-th-num {
+	width:60px;
 }
 
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
+.liste-adh-th-nom {
+	width:225px;
 }
 
+.liste-adh-th-solde {
+	text-align:center;
+}
 
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
+.liste-adh-td-solde {
+	width:100px;
+	text-align:right;
+}
 
 #compte_adherent_premiere_colonne {
 	margin-right:20px;
@@ -955,13 +274,16 @@
 	width:480px;
 }
 
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
 #fin_premiere_colonne{
 	clear:left;
-}@CHARSET "UTF-8";
+}
+
+/*.compte-adh-btn-edt-compte {
+	margin-right:4px;
+	position:relative;
+	float:right;
+	margin-top:1px;
+}*/
 
 #modificationadherent {
 	margin-left:150px;
@@ -982,14 +304,11 @@
 #formulaire-modifier-adherent-table-autorisation {
 	width:450px;
 	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
 }
 
 #formulaire_modifier_adherent_int {
 	width:700px;
+	margin-left:150px;
 }
 
 #formulaire_modifier_adherent_int table {
@@ -1003,2611 +322,287 @@
 #formulaire-modifier-adherent-table-autorisation {
 	width:450px;
 	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
 }
 
+#table-info-solde-zeybu {
+	margin-left:165px;
+}
+
+#td-solde-zeybu-total {
+	width:180px;
+}
+
+#td-solde-zeybu-caisse {
+	width:230px;
+}
+
+#td-solde-zeybu-banque {
+	width:240px;
+}
+
+.recherche .filter {
+	height:20px;
+	width:182px;
+}
+
+#btn-virement-solidaire-inverse {
+	margin-top:20px;
+}
+
+.input-bon-livraison {
+	width:60px;
+}
+/*AjoutCommande*/
 #formulaire_ajout_commande_ext {
 	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
 	margin-left:100px;
 }
 
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
+.lots-section {
+	border-top:1px solid #72B42D;
+	padding-left:20px;
+	padding-right:20px;
 	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
+	margin-top:5px;
 }
 
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
+.form-ajout-lot-creation-commande {
+	border-bottom:1px solid #72B42D;
+	padding-bottom:5px;
+	margin-bottom:5px;
 }
 
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
+#liste_produit input {
+	width:100px;
 }
 
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
+.produit-lot {
+	margin-bottom:9px;
+}
+
+.btn-valider {
+	padding:3px;
+}
+
+.qte-reservation-ok, .qte-reservation-ko {
+	height:20px;
+	width:20px;
+}
+
+.qte-reservation-ok {
+	background-color:#00FF00;
+}
+
+.qte-reservation-ko {
+	background-color:#FF0000;
+}
+
+#resultat-marche-archive {
+	margin-bottom:15px;
+	margin-top:15px;
+}
+
+#resultat-marche-archive span{
+	font-size:11pt;
+}
+
+#info-marche-archive tr:hover {
+	background-color:transparent;
+}
+/*MarchéCommande*/
+.recherche {
+	width:220px;
 	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
+	position:relative;
+	left:50%;
+	margin-left:-110px;
 }
 
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
+.recherche .conteneur-icon {
+	padding-left:3px;
+	padding-top:4px;
+	border-right:none;	
+	height:20px;
+	width:18px;
 }
 
-#menu_liste li {
-	float: left;
-	margin-left:1px;
+.recherche #filter {
+	height:20px;
+	width:182px;
 }
 
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
+.marche-com-th-num-adh {
+	width:150px;
 }
 
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
+.marche-com-th-nom {
+	width:300px;
 }
 
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
+#achat-pdt-widget, #achat-pdt-solidaire-widget {
+	width:487px;
 	margin-right:5px;
 }
 
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
+#achat-rechgt-widget {
+	width:456px;
+}
+.achat-commande-table-pdt {
+	width:100%;
+}
+
+.achat-commande-table-pdt .td-qte {
+	width:80px;
+}
+
+.achat-commande-table-pdt .td-unite {
+	width:90px;
+}
+
+#achat-info-marche {
+float: left;
+margin-left: 140px;
+margin-right: 255px;
+}
+/*EditerCommande*/
+#edt-com-info {
 	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
+	margin-right:10px;
 }
 
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
+#edt-com-liste {
+	width:670px;
 }
 
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
+.edt-com-progressbar-pdt {
 	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
+	margin-bottom:10px;
+	height: 12px;
 }
 
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
+.edt-com-info-progressbar-pdt {
 	float:left;
-	margin-left:5px;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	width:100%;
 }
 
-#icone-nav-liste-operation-e {
+.edt-com-span-rech-right {
+	height:20px;
+	padding-top:4px;
+	position:relative;
 	float:right;
-	margin-right:5px;
 }
 
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
+#edt-com-nav-resa-achat {
 	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
+	width: 670px;
+	padding-top: 3px;
 }
 
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
+#edt-com-nav-resa-achat span{
 	padding: 3px 5px;
+	font-weight: bold;
 }
 
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
+/*.edt-com-btn-edt-commande {
+	margin-right:4px;
+}*/
 
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
+/*.edt-com-btn-detail-pdt{
 	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
 	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
+	margin-top:1px;
+}*/
+
+.td-edt { width:20px; }
+.montant-virement { padding-top:20px; }
 
 #info_compte_solde_adherent_ext {
 	float:left;
-	margin-right:20px;
+	margin-right:10px;
 	width:350px;
 }
 
 #liste_operation_adherent_ext {
 	float:left;
-	width:610px;
+	width:620px;
 }
 
 #fin_moncompte {
 	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
 }
 
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
+.td-montant {
+	width:80px;
+	text-align:right;
 }
 
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
+.td-date {
+	width:90px;
+	text-align:left;
 }
 
-#compte_adherent_seconde_colonne {
-	width:610px;
+.td-libelle {
+	width:150px;
+	text-align:left;
 }
 
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
+.td-type-paiement {
+	text-align:left;
 }
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
+/*ListeCommande*/
+.lst-resa-btn-commander {
+	padding-bottom:4px;
+	padding-top:4px;
 	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
+}
+/*ReservationCommande*/
+#resa-info-commande {
+float:left;
+margin-right:145px;
 }
 
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
+.passer-com-radio {
 	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
+	width:25px;
 }
 
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
+.passer-com-sigle {
+	width:60px;
 }
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
+.passer-com-btn-qte {
+	width:30px;
 }
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
+.passer-com-qte {
+	text-align: center;
 }
-
-#titre_fenetre {
-	padding:3px;
+.passer-com-npro {
+	width:400px;
+}
+/*ListeReservation*/
+#texte-liste-vide {
 	text-align:center;
-	margin-bottom:15px;
 }
 
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
+.lst-resa-th-num {
 	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
+	width:35px;
 }
 
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
+.detail-resa-npro {
+	width:250px;
 }
 
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table,td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}@CHARSET "UTF-8";
-#piedpage {
-	bottom:0;
-	position: absolute;
-	width:100%;
-	height:25px;
-	padding-top:5px;
-	text-align:center;
-	background:rgba(121,196,145,0.2);
-	font-style:italic;
-	color:#285c00; 
-}
-
-#piedpage a{
-	font-style:italic;
-	color:#285c00; 
-	text-decoration:none;
-}
-
-#piedpage a:hover{
-	text-decoration:underline;
-}@CHARSET "UTF-8";
-
-#formulaire_ajout_operation_adherent_int table {
-	width:100%;
-}
-
-#widget_formulaire_ajout_operation_adherent {
-	padding:5px;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";.recherche {
-	width:380px;
-	margin-top:10px;
-	margin-left:300px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#menu_int {
-	padding-top:2px;
-	height:27px;
-	width:100%;
-	border-bottom:1px solid green;
-	background:rgba(121,196,145,0.2); 
-}
-
-#menu_liste {
-	margin:0;
-	padding-left: 4px;
-	list-style: none;
-}
-
-#menu_liste li {
-	float: left;
-	margin-left:1px;
-}
-
-#menu_liste span {
-	display:block;
-	padding: 3px 5px;
-}
-
-#menu_liste li a {
-	text-decoration: none;	
-	display: block;
-	margin: 0px; 
-	padding: 3px;
-}
-
-.sous_menu {
-	position:absolute;
-	padding: 5px 6px 3px 2px ;
-	margin: 0;
-	list-style: none;
-	display: none;
-}
-
-.sous_menu li {
-	width:100%;
-}
-
-.sous_menu li:hover {
-	border:none;
-}
-
-
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#icone-nav-liste-operation-w{
-	float:left;
-	margin-left:5px;
-}
-
-#icone-nav-liste-operation-e {
-	float:right;
-	margin-right:5px;
-}
-
-#content-nav-liste-operation {
-	padding-top:1px;
-	padding-bottom:1px;
-	margin-top:10px;
-	margin-left:-150px;
-	position:relative;
-	left:50%;
-	width:300px;
-	text-align:center;
-}@CHARSET "UTF-8";
-
-#lien_gestion_adherent_int {
-	text-align:center;
-	padding-top:3px;
-}@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
+.detail-resa-qte{
+	width:80px;
 }
 
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
+.detail-resa-unite {
+	width:100px;
 }
 
-#formulaire_modifier_adherent_int table th {
-	width:300px;
+.detail-resa-prix {
+	width:90px;
 }
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";
-
-#formulaire_identification_ext {
-	margin-left:320px;
-	margin-top:150px;
-}@CHARSET "UTF-8";
-
-#formulaire_confirmation_suppression_adherent_ext {
-	width:700px;
-	margin-left:150px;
-}@CHARSET "UTF-8";
-
-#listeadherent {
-	margin-left:100px;
-}
-
-#widget-recherche-adherent {
-	width:800px;	
-	padding:0px 10px;
-}
-
-
-#widget-liste-adherent {
-	padding-top:0px;
-	width:800px;
-}@CHARSET "UTF-8";
-
-#compte_adherent_premiere_colonne {
-	margin-right:20px;
-	width:350px;
-}
-
-#compte_adherent_seconde_colonne {
-	width:610px;
-}
-
-#formulaire_ajout_operation_adherent_int {
-	margin-top:10px;
-	margin-left:65px;
-	width:480px;
-}
-
-#liste_operation_adherent_ext {
-	margin-top:10px;
-}
-
-#fin_premiere_colonne{
-	clear:left;
-}@CHARSET "UTF-8";
-
-#modificationadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-
-#ajoutadherent {
-	margin-left:150px;
-}
-
-#formulaire_modifier_adherent_int {
-	width:700px;
-}
-
-#formulaire_modifier_adherent_int table {
-	margin-left:50px;
-}
-
-#formulaire_modifier_adherent_int table th {
-	width:300px;
-}
-
-#formulaire-modifier-adherent-table-autorisation {
-	width:450px;
-	padding-left:150px;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#ajoutcommande {
-	margin-left:100px;
-}
-
-#formulaire_ajout_commande_ext {
-	width:800px;
-}
-
-#ajout_commande_succes {
-	width:420px;
-	margin-left:290px;
-}
-
-#ajout_commande_succes .com-widget-content{
-	text-align:center;
-}@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-@CHARSET "UTF-8";
-
-#info_compte_solde_adherent_ext {
-	float:left;
-	margin-right:20px;
-	width:350px;
-}
-
-#liste_operation_adherent_ext {
-	float:left;
-	width:610px;
-}
-
-#fin_moncompte {
-	clear:left;
-}@CHARSET "UTF-8";@CHARSET "UTF-8";@CHARSET "UTF-8";

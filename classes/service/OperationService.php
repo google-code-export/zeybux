@@ -12,9 +12,11 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
+include_once(CHEMIN_CLASSES_VO . "CompteZeybuOperationVO.php");
 
 /**
  * @name OperationService
@@ -349,6 +351,104 @@ class OperationService
 		} else {
 			return NULL;
 		}
+	}
+	
+	/**
+	* @name selectOperationZeybu()
+	* @return array(OperationVO)
+	* @desc Retourne la liste des opérations du zeybu
+	*/
+	public function selectOperationZeybu() {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+			
+		$lRequete =
+			"(
+				SELECT
+					ope1." . OperationManager::CHAMP_OPERATION_ID  . " AS " . OperationManager::CHAMP_OPERATION_ID . ",
+					ope1." . OperationManager::CHAMP_OPERATION_DATE . " AS " . OperationManager::CHAMP_OPERATION_DATE . ",
+					" . CompteManager::CHAMP_COMPTE_LABEL . " AS " . CompteManager::CHAMP_COMPTE_LABEL . ",
+					ope1." . OperationManager::CHAMP_OPERATION_LIBELLE . " AS " . OperationManager::CHAMP_OPERATION_LIBELLE . ",
+					ope1." . OperationManager::CHAMP_OPERATION_MONTANT . " AS " . OperationManager::CHAMP_OPERATION_MONTANT . ",
+					" . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . " AS " . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . "
+				FROM " . OperationManager::TABLE_OPERATION . " ope1 
+				LEFT JOIN " . OperationManager::TABLE_OPERATION . " ope2 ON ope1." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . " = ope2." . OperationManager::CHAMP_OPERATION_ID . "
+				LEFT JOIN " . CompteManager::TABLE_COMPTE . " ON ope2." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+				JOIN " . TypePaiementManager::TABLE_TYPEPAIEMENT . " ON ope1." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
+				
+				WHERE ope1." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '-1'
+					AND ope1." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2,3,4,7,8,9,10) 
+					AND ope1." . OperationManager::CHAMP_OPERATION_ID  . " NOT IN ( 
+						SELECT " . InfoOperationLivraisonManager::CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_ZEYBU . "
+						FROM " . InfoOperationLivraisonManager::TABLE_INFOOPERATIONLIVRAISON . " )
+			)
+				
+			UNION
+				
+			(
+				SELECT 
+					LIVRAISON." . InfoOperationLivraisonManager::CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_ZEYBU . " AS " . OperationManager::CHAMP_OPERATION_ID . ",
+					ope3." . OperationManager::CHAMP_OPERATION_DATE . " AS " . OperationManager::CHAMP_OPERATION_DATE . ",
+						" . CompteManager::CHAMP_COMPTE_LABEL . " AS " . CompteManager::CHAMP_COMPTE_LABEL . ",
+					`ope3`." . OperationManager::CHAMP_OPERATION_LIBELLE . " AS " . OperationManager::CHAMP_OPERATION_LIBELLE . ",
+					`ope3`." . OperationManager::CHAMP_OPERATION_MONTANT . " AS " . OperationManager::CHAMP_OPERATION_MONTANT . ",
+					" . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . " AS " . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . "				
+				FROM " . OperationManager::TABLE_OPERATION . " ope3
+				JOIN (
+					SELECT 
+						" . InfoOperationLivraisonManager::CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_ZEYBU . ",
+						ope4." . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+					FROM " . OperationManager::TABLE_OPERATION . " ope4
+					JOIN " . InfoOperationLivraisonManager::TABLE_INFOOPERATIONLIVRAISON . " ON ope4." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . " = " . InfoOperationLivraisonManager::CHAMP_INFOOPERATIONLIVRAISON_ID . "
+					WHERE ope4." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 6 ) LIVRAISON ON ope3." . OperationManager::CHAMP_OPERATION_ID . " = LIVRAISON. " . InfoOperationLivraisonManager::CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_ZEYBU . "
+				
+				LEFT JOIN " . CompteManager::TABLE_COMPTE . " on LIVRAISON." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . CompteManager::TABLE_COMPTE . "." . CompteManager::CHAMP_COMPTE_ID . "
+				JOIN  " . TypePaiementManager::TABLE_TYPEPAIEMENT . " ON ope3." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
+			)
+			ORDER BY `ope_date` desc";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeCompteZeybuOperation = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeCompteZeybuOperation,
+					$this->remplirOperationCompteZeybu(
+					$lLigne[OperationManager::CHAMP_OPERATION_ID],
+					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
+					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+					$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
+					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE]));
+			}
+		} else {
+			$lListeCompteZeybuOperation[0] = new CompteZeybuOperationVO();
+		}
+		return $lListeCompteZeybuOperation;
+	}
+	
+	/**
+	* @name remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType)
+	* @param int(11)
+	* @param datetime
+	* @param varchar(30)
+	* @param varchar(100)
+	* @param decimal(10,2)
+	* @param varchar(100)
+	* @return CompteZeybuOperationVO
+	* @desc Retourne une CompteZeybuOperationVO remplie
+	*/
+	private static function remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType) {
+		$lCompteZeybuOperation = new CompteZeybuOperationVO();
+		$lCompteZeybuOperation->setOpeId($pOpeId);
+		$lCompteZeybuOperation->setOpeDate($pOpeDate);
+		$lCompteZeybuOperation->setCptLabel($pCptLabel);
+		$lCompteZeybuOperation->setOpeLibelle($pOpeLibelle);
+		$lCompteZeybuOperation->setOpeMontant($pOpeMontant);
+		$lCompteZeybuOperation->setTppType($pTppType);
+		return $lCompteZeybuOperation;
 	}
 }
 ?>

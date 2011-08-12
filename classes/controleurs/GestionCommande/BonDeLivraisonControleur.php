@@ -16,7 +16,6 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockLivraisonViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationBonLivraisonViewManager.php");
 
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
@@ -45,6 +44,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonLivraisonValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeLivraisonValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
 
 
 
@@ -129,6 +129,10 @@ class BonDeLivraisonControleur
 			$lIdCompteProducteur = $pParam["id_compte_producteur"];
 			$lProduits = $pParam["produits"];
 
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			
 			// Récupère l'opération Bon de livraison si elle existe
 			$lOperationService = new OperationService();
 			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
@@ -137,22 +141,22 @@ class BonDeLivraisonControleur
 			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de Livraison				
 				$lOperation = new OperationVO();
 				$lOperation->setIdCompte($lIdCompteProducteur);
-				$lOperation->setLibelle('Bon de Livraison');
+				$lOperation->setLibelle('Bon de Livraison marché n°' . $lMarche->getNumero());
 				$lOperation->setTypePaiement(6);
 				$lOperation->setIdCommande($lIdMarche);				
 			} else {
 				$lOperation = $lOperations[0];
 				
-				// Supression des anciennes opérations liées à la livraison
-				$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-				$lOperationService->delete($lIds[0]);
-				$lOperationService->delete($lIds[1]);
+				$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+				
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());
 			}
 			
 			// Ajout Opération de débit sur le compte du zeybu
 			$lOperationZeybu = new OperationVO();
 			$lOperationZeybu->setIdCompte(-1);
-			$lOperationZeybu->setLibelle('Livraison Marché');
+			$lOperationZeybu->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
 			$lOperationZeybu->setTypePaiement($pParam["typePaiement"]);
 			$lOperationZeybu->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
 			$lOperationZeybu->setIdCommande($lIdMarche);
@@ -162,14 +166,21 @@ class BonDeLivraisonControleur
 			// Ajout opération de crédit sur le compte du producteur
 			$lOperationPrdt = new OperationVO();
 			$lOperationPrdt->setIdCompte($lIdCompteProducteur);
-			$lOperationPrdt->setLibelle('Livraison Marché');
+			$lOperationPrdt->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
 			$lOperationPrdt->setTypePaiement($pParam["typePaiement"]);
 			$lOperationPrdt->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
 			$lOperationPrdt->setIdCommande($lIdMarche);
 			$lOperationPrdt->setMontant($pParam["total"]);
 			$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
 			
-			$lOperation->setTypePaiementChampComplementaire($lIdOperationPrdt . ";" . $lIdOperationZeybu);
+			
+			$lInfoOperationLivraison = new InfoOperationLivraisonVO();
+			$lInfoOperationLivraison->setIdOpeZeybu($lIdOperationZeybu);
+			$lInfoOperationLivraison->setIdOpeProducteur($lIdOperationPrdt);
+			$lIdInfoOpeLivr = InfoOperationLivraisonManager::insert($lInfoOperationLivraison);
+			
+			
+			$lOperation->setTypePaiementChampComplementaire($lIdInfoOpeLivr);
 			$lOperation->setMontant($pParam["total"]);
 			$lIdOperation = $lOperationService->set($lOperation); // Ajout ou mise à jour de l'operation de bon de livraison
 			

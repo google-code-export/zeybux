@@ -390,19 +390,21 @@
 	this.getRechargementVO = function() {
 		var lVo = new RechargementCompteVO();		
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
+		lVo.id = this.idCompte;
+		
 		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){
-			lVo.id = this.idCompte;
 			
 			lMontant = parseFloat(lMontant);
 			lVo.montant = lMontant;
-			lVo.typePaiement = $(":input[name=typepaiement]").val();
-			if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
-				lVo.champComplementaireObligatoire = 1;
-				lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
-			} else {
-				lVo.champComplementaireObligatoire = 0;
-			}
-		}		
+		}
+		lVo.typePaiement = $(":input[name=typepaiement]").val();
+		if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
+			lVo.champComplementaireObligatoire = 1;
+			lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
+		} else {
+			lVo.champComplementaireObligatoire = 0;
+		}
+				
 		return lVo;
 	}
 	
