@@ -3,61 +3,61 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 11/08/2011
-// Fichier : CompteZeybuOperationViewVO.php
+// Fichier : CompteZeybuOperationVO.php
 //
-// Description : Classe CompteZeybuOperationViewVO
+// Description : Classe CompteZeybuOperationVO
 //
 //****************************************************************
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name CompteZeybuOperationViewVO
+ * @name CompteZeybuOperationVO
  * @author Julien PIERRE
  * @since 11/08/2011
- * @desc Classe représentant une CompteZeybuOperationViewVO
+ * @desc Classe représentant une CompteZeybuOperationVO
  */
-class CompteZeybuOperationViewVO  extends DataTemplate	
+class CompteZeybuOperationVO  extends DataTemplate	
 {
 	/**
 	* @var int(11)
-	* @desc OpeId de la CompteZeybuOperationViewVO
+	* @desc OpeId de la CompteZeybuOperationVO
 	*/
 	protected $mOpeId;
 
 	/**
 	* @var datetime
-	* @desc OpeDate de la CompteZeybuOperationViewVO
+	* @desc OpeDate de la CompteZeybuOperationVO
 	*/
 	protected $mOpeDate;
 
 	/**
 	* @var varchar(30)
-	* @desc CptLabel de la CompteZeybuOperationViewVO
+	* @desc CptLabel de la CompteZeybuOperationVO
 	*/
 	protected $mCptLabel;
 
 	/**
 	* @var varchar(100)
-	* @desc OpeLibelle de la CompteZeybuOperationViewVO
+	* @desc OpeLibelle de la CompteZeybuOperationVO
 	*/
 	protected $mOpeLibelle;
 
 	/**
 	* @var decimal(10,2)
-	* @desc OpeMontant de la CompteZeybuOperationViewVO
+	* @desc OpeMontant de la CompteZeybuOperationVO
 	*/
 	protected $mOpeMontant;
 
 	/**
 	* @var varchar(100)
-	* @desc TppType de la CompteZeybuOperationViewVO
+	* @desc TppType de la CompteZeybuOperationVO
 	*/
 	protected $mTppType;
 
 	/**
 	* @name getOpeId()
 	* @return int(11)
-	* @desc Renvoie le membre OpeId de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre OpeId de la CompteZeybuOperationVO
 	*/
 	public function getOpeId() {
 		return $this->mOpeId;
@@ -66,7 +66,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setOpeId($pOpeId)
 	* @param int(11)
-	* @desc Remplace le membre OpeId de la CompteZeybuOperationViewVO par $pOpeId
+	* @desc Remplace le membre OpeId de la CompteZeybuOperationVO par $pOpeId
 	*/
 	public function setOpeId($pOpeId) {
 		$this->mOpeId = $pOpeId;
@@ -75,7 +75,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name getOpeDate()
 	* @return datetime
-	* @desc Renvoie le membre OpeDate de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre OpeDate de la CompteZeybuOperationVO
 	*/
 	public function getOpeDate() {
 		return $this->mOpeDate;
@@ -84,7 +84,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setOpeDate($pOpeDate)
 	* @param datetime
-	* @desc Remplace le membre OpeDate de la CompteZeybuOperationViewVO par $pOpeDate
+	* @desc Remplace le membre OpeDate de la CompteZeybuOperationVO par $pOpeDate
 	*/
 	public function setOpeDate($pOpeDate) {
 		$this->mOpeDate = $pOpeDate;
@@ -93,7 +93,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name getCptLabel()
 	* @return varchar(30)
-	* @desc Renvoie le membre CptLabel de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre CptLabel de la CompteZeybuOperationVO
 	*/
 	public function getCptLabel() {
 		return $this->mCptLabel;
@@ -102,7 +102,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setCptLabel($pCptLabel)
 	* @param varchar(30)
-	* @desc Remplace le membre CptLabel de la CompteZeybuOperationViewVO par $pCptLabel
+	* @desc Remplace le membre CptLabel de la CompteZeybuOperationVO par $pCptLabel
 	*/
 	public function setCptLabel($pCptLabel) {
 		$this->mCptLabel = $pCptLabel;
@@ -111,7 +111,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name getOpeLibelle()
 	* @return varchar(100)
-	* @desc Renvoie le membre OpeLibelle de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre OpeLibelle de la CompteZeybuOperationVO
 	*/
 	public function getOpeLibelle() {
 		return $this->mOpeLibelle;
@@ -120,7 +120,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setOpeLibelle($pOpeLibelle)
 	* @param varchar(100)
-	* @desc Remplace le membre OpeLibelle de la CompteZeybuOperationViewVO par $pOpeLibelle
+	* @desc Remplace le membre OpeLibelle de la CompteZeybuOperationVO par $pOpeLibelle
 	*/
 	public function setOpeLibelle($pOpeLibelle) {
 		$this->mOpeLibelle = $pOpeLibelle;
@@ -129,7 +129,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name getOpeMontant()
 	* @return decimal(10,2)
-	* @desc Renvoie le membre OpeMontant de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre OpeMontant de la CompteZeybuOperationVO
 	*/
 	public function getOpeMontant() {
 		return $this->mOpeMontant;
@@ -138,7 +138,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setOpeMontant($pOpeMontant)
 	* @param decimal(10,2)
-	* @desc Remplace le membre OpeMontant de la CompteZeybuOperationViewVO par $pOpeMontant
+	* @desc Remplace le membre OpeMontant de la CompteZeybuOperationVO par $pOpeMontant
 	*/
 	public function setOpeMontant($pOpeMontant) {
 		$this->mOpeMontant = $pOpeMontant;
@@ -147,7 +147,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name getTppType()
 	* @return varchar(100)
-	* @desc Renvoie le membre TppType de la CompteZeybuOperationViewVO
+	* @desc Renvoie le membre TppType de la CompteZeybuOperationVO
 	*/
 	public function getTppType() {
 		return $this->mTppType;
@@ -156,7 +156,7 @@ class CompteZeybuOperationViewVO  extends DataTemplate
 	/**
 	* @name setTppType($pTppType)
 	* @param varchar(100)
-	* @desc Remplace le membre TppType de la CompteZeybuOperationViewVO par $pTppType
+	* @desc Remplace le membre TppType de la CompteZeybuOperationVO par $pTppType
 	*/
 	public function setTppType($pTppType) {
 		$this->mTppType = $pTppType;

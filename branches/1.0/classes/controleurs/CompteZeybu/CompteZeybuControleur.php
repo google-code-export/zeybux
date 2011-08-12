@@ -9,7 +9,6 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteZeybuOperationViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/InfoCompteZeybuResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
@@ -37,7 +36,7 @@ class CompteZeybuControleur
 		$lResponse->setSoldeTotal($lSoldeTotal);
 		$lResponse->setSoldeCaisse($lSoldeCaisse);
 		$lResponse->setSoldeBanque($lSoldeBanque);
-		$lResponse->setOperation( CompteZeybuOperationViewManager::selectAll());
+		$lResponse->setOperation( $lOperationService->selectOperationZeybu());
 		
 		return $lResponse;		
 	}

@@ -25,7 +25,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mValid = true;
 
 	/**
-	 * @var array(CommandeCompleteViewVO)
+	 * @var MarcheVO
 	 * @desc Le Marche
 	 */
 	protected $mMarche;

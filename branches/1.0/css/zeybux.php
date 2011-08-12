@@ -11,20 +11,14 @@ function parcourirDossier($pPath) {
 	   		&& $entry != '.project'
 	   		&& $entry != '.htaccess' 
 	   		&& $entry != 'themes' 
-	   		&& $entry != 'Entete.css' 
-	   		&& $entry != 'cssDev.php' 
-	   		&& $entry != 'cssDev.css' 
-	   		&& $entry != 'cssDev-min.css' 
+	   		&& $entry != 'Entete.css'
+	   		&& $entry != 'zeybux.php' 
 	   		) {
 	   		if(is_dir($d->path.'/'.$entry)) {
 	   			parcourirDossier($d->path.'/'.$entry);
 	   		} else {
 	   			$filename = $d->path.'/'.$entry;
-				$handle = fopen($filename, "r");
-	   		 	while (!feof($handle)) {
-			    	echo fgets($handle);
-			    }
-				fclose($handle);
+				echo file_get_contents($filename);
 	   		}
 	   }
 	}

@@ -693,7 +693,6 @@
 		// Récupère le nombre de lot réservé
 		var lQteReservation = 0;
 		if(this.reservationModif[pIdPdt] && (this.reservationModif[pIdPdt].dcomId == pIdLot)) {
-			
 			lQteReservation = parseFloat(this.reservationModif[pIdPdt].stoQuantite)/parseFloat(lTaille);
 		}
 		lQteReservation += pIncrement;

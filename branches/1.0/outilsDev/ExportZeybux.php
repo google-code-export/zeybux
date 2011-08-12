@@ -46,16 +46,14 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   		&& $entry != '.htaccess' 
 			   		&& $entry != 'themes' 
 			   		&& $entry != 'Entete.css' 
-			   		&& $entry != 'cssDev.php' 
-			   		&& $entry != 'cssDev.css' 
-			   		&& $entry != 'cssDev-min.css' 
+	   				&& $entry != 'zeybux.php' 
 			   		) {
 			   		if(is_dir($d->path.'/'.$entry)) {
 			   			parcourirDossierCss($d->path.'/'.$entry);
 			   		} else {
 			   			$filename = $d->path.'/'.$entry;						
 						$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",file_get_contents($filename));
-						$fp = fopen("./zeybu/css/cssDev.css", 'a');
+						$fp = fopen("./zeybu/css/zeybux.css", 'a');
 					    fwrite($fp,$lLigne);
 					    fclose($fp);
 						
@@ -66,22 +64,22 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		}
 		$Path = '/home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/css';
 		$lJs = '';
-		$fp = fopen("./zeybu/css/cssDev.css", 'w');
+		$fp = fopen("./zeybu/css/zeybux.css", 'w');
 		fwrite($fp,'@CHARSET "UTF-8";');
 		fclose($fp);	
 		parcourirDossierCss($Path);
 		
 		
-		$fp = fopen("./zeybu/css/cssDev-min.css", 'w');
+		$fp = fopen("./zeybu/css/zeybux-min.css", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/cssDev.css -o ./zeybu/css/cssDev-min.css');
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux.css -o ./zeybu/css/zeybux-min.css');
 		echo $output;
 		/******************************************* Generation zeybux-jquery.js *************************************/
 		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
 		$filename = "../js/jquery/jquery-1.4.2.min.js";
 		fwrite($fp,file_get_contents($filename));
 		//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
-		$filename = "./jquery/jquery-ui-1.8.15.custom.min.js";
+		$filename = "../js/jquery/jquery-ui-1.8.15.custom.min.js";
 		fwrite($fp,file_get_contents($filename));
 		fclose($fp);
 		
@@ -446,7 +444,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		copy('./zeybu/js/zeybux-jquery-min.js' , $lPath.'/js/zeybux-jquery-min.js'); // Copie du js
 		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min.js'); // Copie du js
 		parcourirDossierCopie('./zeybu/js/package',$lPath . '/js/package');
-		copy('./zeybu/css/cssDev-min.css' , $lPath.'/css/cssDev-min.css'); // Copie du css
+		copy('./zeybu/css/zeybux-min.css' , $lPath.'/css/zeybux-min.css'); // Copie du css
 		copy('../css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		
 		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.

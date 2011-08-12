@@ -502,5 +502,87 @@ join tpp_type_paiement on ope1.ope_type_paiement = tpp_id
 
 where ((`ope1`.`ope_id_compte` = '-1') and (`ope1`.`ope_type_paiement` in (1,2,3,4,7,8,9,10))) order by `ope1`.`ope_date` desc;
 
+CREATE TABLE `iol_info_operation_livraison` (
+`iol_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`iol_id_ope_livraison` INT NOT NULL ,
+`iol_id_ope_zeybu` INT NOT NULL ,
+`iol_id_ope_producteur` INT NOT NULL
+) ENGINE = MYISAM ;
+
+ALTER TABLE `iol_info_operation_livraison` DROP `iol_id_ope_livraison` ;
+
+create or replace view view_commande_complete_archive as select * from cpt_compte;
+DROP VIEW `view_commande_complete_archive` ;
+create or replace view view_commande_complete_en_cours as select * from cpt_compte;
+DROP VIEW `view_commande_complete_en_cours` ;
+DROP VIEW `view_compte_zeybu` ;
+DROP VIEW `view_compte_zeybu_caisse` ;
+DROP VIEW `view_compte_zeybu_operation` ;
+
+create or replace view view_liste_adherent_commande as select * from cpt_compte;
+DROP VIEW `view_liste_adherent_commande` ;
+DROP VIEW `view_liste_commande_archive` ;
+DROP VIEW `view_liste_commande_en_cours`;
+DROP VIEW `view_liste_reservation_archive` ;
+DROP VIEW `view_liste_reservation_en_cours`;
+create or replace view view_operation_produit_bon_commande as select * from cpt_compte;
+DROP VIEW `view_operation_produit_bon_commande`;
+DROP VIEW `view_stock_produit`;
+DROP VIEW `view_stock_produit_initiaux`;
+create or replace view view_stock_achat as select * from cpt_compte;
+create or replace view view_stock_achat_solidaire as select * from cpt_compte;
+create or replace view view_stock_commande as select * from cpt_compte;
+create or replace view view_stock_livraison as select * from cpt_compte;
+DROP VIEW `view_stock_achat`;
+DROP VIEW `view_stock_achat_solidaire`;
+DROP VIEW `view_stock_commande`;
+DROP VIEW `view_stock_livraison`;
+DROP VIEW `view_operation_achat`;
+create or replace view view_operation_achat_solidaire as select * from cpt_compte;
+DROP VIEW `view_operation_achat_solidaire`;
+create or replace view view_operation_bon_livraison as select * from cpt_compte;
+DROP VIEW `view_operation_bon_livraison`;
+
+DROP TABLE IF EXISTS `tpp_type_paiement`;
+CREATE TABLE IF NOT EXISTS `tpp_type_paiement` (
+  `tpp_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tpp_type` varchar(100) NOT NULL,
+  `tpp_champ_complementaire` tinyint(4) NOT NULL,
+  `tpp_label_champ_complementaire` varchar(30) NOT NULL,
+  `tpp_visible` tinyint(1) NOT NULL,
+  PRIMARY KEY (`tpp_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+INSERT INTO `tpp_type_paiement` (`tpp_id`, `tpp_type`, `tpp_champ_complementaire`, `tpp_label_champ_complementaire`, `tpp_visible`) VALUES
+(0, 'Réservation', 0, '', 0),
+(1, 'Espèces', 0, '', 1),
+(2, 'Chèque', 1, 'Numéro', 1),
+(3, 'Virement', 1, 'Id operation reception', 0),
+(4, 'Virement', 1, 'Id operation émission', 0),
+(5, 'Bon de Commande', 1, 'Id produit', 0),
+(6, 'Bon de Livraison', 1, 'Id info operation livraison', 0),
+(7, 'Achat', 1, 'Id operation soeur', 0),
+(8, 'Achat Solidaire', 1, 'Id operation soeur', 0),
+(9, 'Virement Solidaire', 1, 'Id operation reception', 0),
+(10, 'Virement Solidaire', 1, 'Id operation émission', 0),
+(11, 'Annulation Virement (émission)', 1, 'Id operation reception', 0),
+(12, 'Annulation Virement (réception)', 1, 'Id operation émission', 0),
+(14, 'Annulation Virement Solidaire (réception)', 1, 'Id operation émission', 0),
+(13, 'Annulation Virement Solidaire (émission)', 1, 'Id operation reception', 0),
+(15, 'Réservation non récupérée', 0, '', 0),
+(16, 'Annulation réservation', 0, '', 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
