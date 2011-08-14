@@ -26,8 +26,8 @@
 			lResponse.sigleMonetaire = gSigleMonetaire;
 			$(lResponse.listeAdherent).each(function() {
 				this.classSolde = '';
-				if(this.opeMontant < 0){this.classSolde = "com-nombre-negatif";}
-				this.opeMontant = this.opeMontant.nombreFormate(2,',',' ');
+				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
+				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
 			});
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));

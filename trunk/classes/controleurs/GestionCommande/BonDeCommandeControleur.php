@@ -10,29 +10,24 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockCommandeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonCommandeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationProduitBonCommandeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurCommandeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
-
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheBonDeCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheListeProduitBonDeCommandeResponse.php" );
-
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
-
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ProduitsBonDeCommandeValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ExportBonCommandeValid.php" );
-
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
+
+
+
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurMarcheViewManager.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheBonDeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheListeProduitBonDeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonCommandeViewManager.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeCommandeValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonCommandeValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 /**
  * @name BonDeCommandeControleur
@@ -48,40 +43,22 @@ class BonDeCommandeControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getInfoCommande($pParam) {
-		$lIdCommande = $pParam["id_commande"];		
-
-		if(is_int((int)$lIdCommande)) {			
-			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
-
-			if($lCommande[0]->getComId() == $lIdCommande) {			
-				$lResponse = new AfficheBonDeCommandeResponse();
-				
-				$lProducteurs = ListeProducteurCommandeViewManager::select($lIdCommande);
-				
-				$lResponse->setComNumero($lCommande[0]->getComNumero());
-				$lResponse->setProducteurs($lProducteurs);
-				
-				return $lResponse;
-			} else {
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-				return $lVr;
-			}				
-		} else {
-			$lVr = new TemplateVR();
-			$lVr->setValid(false);
-			$lVr->getLog()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-			$lVr->getLog()->addErreur($lErreur);	
-			return $lVr;
-		}	
+		$lVr = BonDeCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];		
+	
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			
+			$lResponse = new AfficheBonDeCommandeResponse();	
+			$lProducteurs = ListeProducteurMarcheViewManager::select($lIdMarche);
+			
+			$lResponse->setComNumero($lMarche->getNumero());
+			$lResponse->setProducteurs($lProducteurs);
+			
+			return $lResponse;
+		}
+		return $lVr;
 	}
 	
 	/**
@@ -90,16 +67,17 @@ class BonDeCommandeControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getListeProduitCommande($pParam) {
-		$lIdCommande = $pParam["id_commande"];
-		$lIdProducteur = $pParam["id_producteur"];
-		// TODO réaliser des test pour vérifier la validité des inputs
-		
-		$lResponse = new AfficheListeProduitBonDeCommandeResponse();
-		
-		$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdCommande,$lIdProducteur));
-		$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdCommande,$lIdProducteur));
-				
-		return $lResponse;
+		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdCommande = $pParam["id_commande"];
+			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+						
+			$lResponse = new AfficheListeProduitBonDeCommandeResponse();
+			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdCommande,$lIdCompteProducteur));
+			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdCommande,$lIdCompteProducteur));
+			return $lResponse;
+		}
+		return $lVr;
 	}
 	
 	/**
@@ -108,76 +86,98 @@ class BonDeCommandeControleur
 	* @desc Enregistre le bon de commande.
 	*/
 	public function enregistrerBonDeCommande($pParam) {
-		$lIdCommande = $pParam["id_commande"];
-		$lIdProducteur = $pParam["id_producteur"];
-		$lProduits = $pParam["produits"];
-		
 		$lVr = ProduitsBonDeCommandeValid::validAjout($pParam);
-		
 		if($lVr->getValid()) {
-			$lProducteur = ProducteurViewManager::select($lIdProducteur);			
-			$lBonsCommandeActuel = StockCommandeViewManager::selectByIdProducteur($lIdProducteur);
+			$lIdMarche = $pParam["id_commande"];
+			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+			$lProduits = $pParam["produits"];
+		
+			// Calcul du total
+			$lTotal = 0;
+			foreach($lProduits as $lProduit) {
+				$lTotal += $lProduit["prix"];
+			}
+			
+			// Récupère l'opération Bon de commande si elle existe
+			$lOperationService = new OperationService();
+			$lOperations = $lOperationService->getBonCommande($lIdMarche,$lIdCompteProducteur);
+			$lIdOperation = $lOperations[0]->getId();
 
+			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de commande
+				$lOperation = new OperationVO();
+				$lOperation->setIdCompte($lIdCompteProducteur);
+				$lOperation->setLibelle('Bon de Commande');
+				$lOperation->setTypePaiement(5);
+				$lOperation->setIdCommande($lIdMarche);
+			} else {
+				$lOperation = $lOperations[0];
+			}
+			$lOperation->setMontant($lTotal);
+			$lIdOperation = $lOperationService->set($lOperation); // Ajout ou mise à jour de l'operation
+
+			$lBonCommande = InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur);
+
+			$lDetailOperationService = new DetailOperationService();
+			$lStockService = new StockService();
 			foreach($lProduits as $lProduit) {
 				$lMaj = false;
-				foreach($lBonsCommandeActuel as $lBon) {
+				foreach($lBonCommande as $lBon) {
 					if($lProduit["id"] == $lBon->getProId()) {
 						$lMaj = true;
 						
+						$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
 						$lStock = new StockVO();
 						$lStock->setId($lBon->getStoId());
-						$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 						$lStock->setQuantite($lProduit["quantite"]);
 						$lStock->setType(3);
-						$lStock->setIdCompte(0);
-						$lStock->setIdDetailCommande($lBon->getDcomId());
-						$lStock->setIdCommande(0);
-	
-						StockManager::update($lStock);
+						$lStock->setIdCompte($lIdCompteProducteur);
+						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
 						
-						$lOpeActuel = OperationProduitBonCommandeViewManager::selectInfoBonCommandeProduit($lIdCommande,$lIdProducteur,$lBon->getProId());
-						$lOperation = new OperationVO();
-						$lOperation->setId($lOpeActuel[0]->getOpeId());
-						$lOperation->setIdCompte($lProducteur[0]->getPrdtIdCompte());
-						$lOperation->setMontant($lProduit["prix"]);
-						$lOperation->setLibelle('Bon de Commande');
-						$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-						$lOperation->setTypePaiement(5);		
-						$lOperation->setTypePaiementChampComplementaire($lBon->getProId());
-						$lOperation->setType(3);
-						$lOperation->setIdCommande($lIdCommande);
-						
-						OperationManager::update($lOperation);
+						$lDetailOperation = $lDetailOperationService->get($lBon->getDopeId());
+						$lDetailOperation->setIdOperation($lIdOperation);
+						$lDetailOperation->setIdCompte($lIdCompteProducteur);
+						$lDetailOperation->setMontant($lProduit["prix"]);
+						$lDetailOperation->setLibelle('Bon de Commande');
+						$lDetailOperation->setTypePaiement(5);
+						$lDetailOperationService->set($lDetailOperation);
 					}
 				}
 				if(!$lMaj) {
 					$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
 					
 					$lStock = new StockVO();
-					$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 					$lStock->setQuantite($lProduit["quantite"]);
 					$lStock->setType(3);
-					$lStock->setIdCompte(0);				
+					$lStock->setIdCompte($lIdCompteProducteur);
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
-					$lStock->setIdCommande(0);
-					StockManager::insert($lStock);
+					$lStock->setIdOperation($lIdOperation);
+					$lStockService->set($lStock);
 					
-					$lOperation = new OperationVO();
-					$lOperation->setIdCompte($lProducteur[0]->getPrdtIdCompte());
-					$lOperation->setMontant($lProduit["prix"]);
-					$lOperation->setLibelle('Bon de Commande');
-					$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-					$lOperation->setTypePaiement(5);		
-					$lOperation->setTypePaiementChampComplementaire($lProduit["id"]);
-					$lOperation->setType(3);
-					$lOperation->setIdCommande($lIdCommande);
-						
-					OperationManager::insert($lOperation);
+					$lDetailOperation = new DetailOperationVO();
+					$lDetailOperation->setIdOperation($lIdOperation);
+					$lDetailOperation->setIdCompte($lIdCompteProducteur);
+					$lDetailOperation->setMontant($lProduit["prix"]);
+					$lDetailOperation->setLibelle('Bon de Commande');
+					$lDetailOperation->setTypePaiement(5);
+					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
+					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
+					$lDetailOperationService->set($lDetailOperation);
 				}			
 			}
-			
-			$lVr = new TemplateVR();	
-			return $lVr;
+			foreach($lBonCommande as $lBon) {
+				$lDelete = true;
+				foreach($lProduits as $lProduit) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lDelete = false;
+					}
+				}
+				if($lDelete) {
+					$lStockService->delete($lBon->getStoId());
+					$lDetailOperationService->delete($lBon->getDopeId());
+				}
+			}
 		}
 		return $lVr;
 	}
@@ -208,8 +208,8 @@ class BonDeCommandeControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonCommande as $lLigne) {
-				if($lLigne->getProIdProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						$lNomPrdt = utf8_decode($lLigne->getPrdtPrenom()) . " " . utf8_decode($lLigne->getPrdtNom());
@@ -219,10 +219,10 @@ class BonDeCommandeControleur
 											utf8_decode($lLigne->getNproNom()),
 											$lLigne->getStoQuantite(),
 											utf8_decode($lLigne->getProUniteMesure()),
-											$lLigne->getOpeMontant(),
+											$lLigne->getDopeMontant(),
 											SIGLE_MONETAIRE_PDF);
 											
-					$lIdPrdt = $lLigne->getProIdProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteProducteur();
 				}
 			}
 					
@@ -309,8 +309,8 @@ class BonDeCommandeControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonCommande as $lLigne) {
-				if($lLigne->getProIdProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
@@ -320,12 +320,12 @@ class BonDeCommandeControleur
 											$lLigne->getNproNom(),
 											$lLigne->getStoQuantite(),
 											$lLigne->getProUniteMesure(),
-											$lLigne->getOpeMontant(),
+											$lLigne->getDopeMontant(),
 											SIGLE_MONETAIRE
 											);
 					
 					array_push($lContenuTableau,$lLignecontenu);
-					$lIdPrdt = $lLigne->getProIdProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteProducteur();
 				}
 			} 
 			$lCSV->setData($lContenuTableau);

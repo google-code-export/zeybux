@@ -10,17 +10,12 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurCommandeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonLivraisonViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitInitiauxViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockLivraisonViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationBonLivraisonViewManager.php");
 
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
@@ -29,14 +24,31 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheBonDeLivraisonResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AfficheListeProduitBonDeLivraisonResponse.php" );
 
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ProduitsBonDeLivraisonValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ExportBonLivraisonValid.php" );
 
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
+
+
+
+
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurMarcheViewManager.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheBonDeLivraisonResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheListeProduitBonDeLivraisonResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonCommandeViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonLivraisonValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeLivraisonValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
+
+
+
+
 /**
  * @name BonDeLivraisonControleur
  * @author Julien PIERRE
@@ -51,42 +63,25 @@ class BonDeLivraisonControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getInfoLivraison($pParam) {
-		$lIdCommande = $pParam["id_commande"];		
-
-		if(is_int((int)$lIdCommande)) {			
-			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
-
-			if($lCommande[0]->getComId() == $lIdCommande) {			
-				$lResponse = new AfficheBonDeLivraisonResponse();
-				
-				$lProducteurs = ListeProducteurCommandeViewManager::select($lIdCommande);
-				$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
-				
-				$lResponse->setComNumero($lCommande[0]->getComNumero());
-				$lResponse->setProducteurs($lProducteurs);
-				$lResponse->setTypePaiement($lTypePaiement);
-				
-				return $lResponse;
-			} else {
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-				return $lVr;
-			}				
-		} else {
-			$lVr = new TemplateVR();
-			$lVr->setValid(false);
-			$lVr->getLog()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-			$lVr->getLog()->addErreur($lErreur);	
-			return $lVr;
-		}	
+		$lVr = BonDeCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];		
+		
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+	
+			$lResponse = new AfficheBonDeLivraisonResponse();
+	
+			$lProducteurs = ListeProducteurMarcheViewManager::select($lIdMarche);
+			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
+			
+			$lResponse->setComNumero($lMarche->getNumero());
+			$lResponse->setProducteurs($lProducteurs);
+			$lResponse->setTypePaiement($lTypePaiement);
+			
+			return $lResponse;
+		}
+		return $lVr;
 	}
 	
 	/**
@@ -95,19 +90,31 @@ class BonDeLivraisonControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getListeProduitLivraison($pParam) {
-		$lIdCommande = $pParam["id_commande"];
-		$lIdProducteur = $pParam["id_producteur"];
-		// TODO réaliser des test pour vérifier la validité des inputs
-		$lProducteur = ProducteurViewManager::select($lIdProducteur);
-		$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
+		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];
+			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+			$lOperationService = new OperationService();
 			
-		$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
-		
-		$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdCommande,$lIdProducteur));
-		$lResponse->setProduitsCommande(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdCommande,$lIdProducteur));
-		$lResponse->setOperationProducteur(OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande));
+			$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
+			
+			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur));
+			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur));
+			$lResponse->setProduitsLivraison(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteProducteur));
+			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur));
+			
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
+			$lOperation = $lOperations[0];			
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 
-		return $lResponse;
+			if(!is_null($lOperation->getId())) {
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			}
+			$lResponse->setOperationProducteur($lOperation);
+	
+			return $lResponse;
+		}
+		return $lVr;
 	}
 	
 	/**
@@ -116,144 +123,175 @@ class BonDeLivraisonControleur
 	* @desc Enregistre le bon de commande.
 	*/
 	public function enregistrerBonDeLivraison($pParam) {
-		$lIdCommande = $pParam["id_commande"];
-		$lIdProducteur = $pParam["id_producteur"];
-		$lProduits = $pParam["produits"];
-		
-		$lVr = ProduitsBonDeLivraisonValid::validAjout($pParam);
-		
+		$lVr = ProduitsBonDeLivraisonValid::validAjout($pParam);	
 		if($lVr->getValid()) {
-			$lProducteur = ProducteurViewManager::select($lIdProducteur);
-			$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
-			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
+			$lIdMarche = $pParam["id_commande"];
+			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+			$lProduits = $pParam["produits"];
 
-			// Le paiement au producteur
-			$lOperationActuelle = OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande);
-			if($lOperationActuelle[0]->getIdCompte() == $lIdCompte) {
-				$lOperation = $lOperationActuelle[0];
-				$lOperation->setMontant($pParam["total"] * -1);
-				$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-				$lOperation->setTypePaiement($pParam["typePaiement"]);		
-				$lOperation->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
-				$lOperation->setType(1);				
-				OperationManager::update($lOperation);
-			} else {
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			
+			// Récupère l'opération Bon de livraison si elle existe
+			$lOperationService = new OperationService();
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
+			$lIdOperation = $lOperations[0]->getId();
+
+			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de Livraison				
 				$lOperation = new OperationVO();
-				$lOperation->setIdCompte($lIdCompte);
-				$lOperation->setMontant($pParam["total"] * -1);
-				$lOperation->setLibelle('Marché n°' . $lCommande[0]->getComNumero());
-				$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-				$lOperation->setTypePaiement($pParam["typePaiement"]);		
-				$lOperation->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
-				$lOperation->setType(1);
-				$lOperation->setIdCommande($lIdCommande);
+				$lOperation->setIdCompte($lIdCompteProducteur);
+				$lOperation->setLibelle('Bon de Livraison marché n°' . $lMarche->getNumero());
+				$lOperation->setTypePaiement(6);
+				$lOperation->setIdCommande($lIdMarche);				
+			} else {
+				$lOperation = $lOperations[0];
 				
-				OperationManager::insert($lOperation);
+				$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+				
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());
 			}
 			
-			$lBonsLivraisonActuel = StockLivraisonViewManager::selectByIdProducteur($lIdProducteur);
+			// Ajout Opération de débit sur le compte du zeybu
+			$lOperationZeybu = new OperationVO();
+			$lOperationZeybu->setIdCompte(-1);
+			$lOperationZeybu->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
+			$lOperationZeybu->setTypePaiement($pParam["typePaiement"]);
+			$lOperationZeybu->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
+			$lOperationZeybu->setIdCommande($lIdMarche);
+			$lOperationZeybu->setMontant($pParam["total"] * -1);
+			$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
+			
+			// Ajout opération de crédit sur le compte du producteur
+			$lOperationPrdt = new OperationVO();
+			$lOperationPrdt->setIdCompte($lIdCompteProducteur);
+			$lOperationPrdt->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
+			$lOperationPrdt->setTypePaiement($pParam["typePaiement"]);
+			$lOperationPrdt->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
+			$lOperationPrdt->setIdCommande($lIdMarche);
+			$lOperationPrdt->setMontant($pParam["total"]);
+			$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
+			
+			
+			$lInfoOperationLivraison = new InfoOperationLivraisonVO();
+			$lInfoOperationLivraison->setIdOpeZeybu($lIdOperationZeybu);
+			$lInfoOperationLivraison->setIdOpeProducteur($lIdOperationPrdt);
+			$lIdInfoOpeLivr = InfoOperationLivraisonManager::insert($lInfoOperationLivraison);
+			
+			
+			$lOperation->setTypePaiementChampComplementaire($lIdInfoOpeLivr);
+			$lOperation->setMontant($pParam["total"]);
+			$lIdOperation = $lOperationService->set($lOperation); // Ajout ou mise à jour de l'operation de bon de livraison
+			
+			
+			// Maj des infos du stock
+			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteProducteur);
 
+			$lDetailOperationService = new DetailOperationService();
+			$lStockService = new StockService();
 			foreach($lProduits as $lProduit) {
-				
-				$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
-						
-				// Maj du stock réel pour la gestion des commandes
-				$lStockInit = StockProduitInitiauxViewManager::selectByIdCommandeIdProduit($lIdCommande,$lProduit["id"]);
-				$lStockInit = $lStockInit[0];
-				$lStock = new StockVO();
-				$lStock->setId($lStockInit->getId());
-				$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
-				$lStock->setQuantite($lProduit["quantite"]);
-				$lStock->setType(1);
-				$lStock->setIdCompte(0);				
-				$lStock->setIdDetailCommande($lDcom[0]->getId());
-				$lStock->setIdCommande($lIdCommande); // TODO Obligé de le laisser sinon il faut modifier edition commande
-				StockManager::update($lStock);
-				
-				// Maj du stock solidaire
-				if(!empty($lProduit["quantiteSolidaire"])) {
-					$lStocksSolidaire = StockSolidaireViewManager::selectByIdProduit($lProduit["id"]);
-					if($lStocksSolidaire[0]->getProId() == $lProduit["id"]) {
-						$lStockSolidaire = $lStocksSolidaire[0];
-						$lStock = new StockVO();
-						$lStock->setId($lStockSolidaire->getStoId());
-						$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
-						$lStock->setQuantite($lProduit["quantiteSolidaire"]);
-						$lStock->setType(5);
-						$lStock->setIdCompte(0);				
-						$lStock->setIdDetailCommande($lDcom[0]->getId());
-						$lStock->setIdCommande(0);
-						StockManager::update($lStock);
-					} else {
-						$lStock = new StockVO();
-						$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
-						$lStock->setQuantite($lProduit["quantiteSolidaire"]);
-						$lStock->setType(5);
-						$lStock->setIdCompte(0);				
-						$lStock->setIdDetailCommande($lDcom[0]->getId());
-						$lStock->setIdCommande(0);
-						StockManager::insert($lStock);
-					}
-				}
-				
-				// Maj du bon de livraison
 				$lMaj = false;
-				foreach($lBonsLivraisonActuel as $lBon) {
+				foreach($lBonLivraison as $lBon) {
 					if($lProduit["id"] == $lBon->getProId()) {
 						$lMaj = true;
 						
+						$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
 						$lStock = new StockVO();
 						$lStock->setId($lBon->getStoId());
-						$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 						$lStock->setQuantite($lProduit["quantite"]);
 						$lStock->setType(4);
-						$lStock->setIdCompte(0);
-						$lStock->setIdDetailCommande($lBon->getDcomId());
-						$lStock->setIdCommande(0);
-	
-						StockManager::update($lStock);
+						$lStock->setIdCompte($lIdCompteProducteur);
+						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
 						
-						$lOpeActuel = OperationBonLivraisonViewManager::selectInfoBonLivraisonProduit($lIdCommande,$lIdProducteur,$lBon->getProId());
-						$lOperation = new OperationVO();
-						$lOperation->setId($lOpeActuel[0]->getOpeId());
-						$lOperation->setIdCompte($lIdCompte);
-						$lOperation->setMontant($lProduit["prix"]);
-						$lOperation->setLibelle('Bon de Livraison');
-						$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-						$lOperation->setTypePaiement(6);		
-						$lOperation->setTypePaiementChampComplementaire($lBon->getProId());
-						$lOperation->setType(4);
-						$lOperation->setIdCommande($lIdCommande);
-						
-						OperationManager::update($lOperation);
+						$lDetailOperation = $lDetailOperationService->get($lBon->getDopeId());
+						$lDetailOperation->setIdOperation($lIdOperation);
+						$lDetailOperation->setIdCompte($lIdCompteProducteur);
+						$lDetailOperation->setMontant($lProduit["prix"]);
+						$lDetailOperation->setLibelle('Bon de Livraison');
+						$lDetailOperation->setTypePaiement(6);
+						$lDetailOperationService->set($lDetailOperation);
 					}
 				}
 				if(!$lMaj) {
 					$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+					
 					$lStock = new StockVO();
-					$lStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 					$lStock->setQuantite($lProduit["quantite"]);
 					$lStock->setType(4);
-					$lStock->setIdCompte(0);				
+					$lStock->setIdCompte($lIdCompteProducteur);
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
-					$lStock->setIdCommande(0);
-					StockManager::insert($lStock);
+					$lStock->setIdOperation($lIdOperation);
+					$lStockService->set($lStock);
 					
-					$lOperation = new OperationVO();
-					$lOperation->setIdCompte($lIdCompte);
-					$lOperation->setMontant($lProduit["prix"]);
-					$lOperation->setLibelle('Bon de Livraison');
-					$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-					$lOperation->setTypePaiement(6);		
-					$lOperation->setTypePaiementChampComplementaire($lProduit["id"]);
-					$lOperation->setType(4);
-					$lOperation->setIdCommande($lIdCommande);						
-					OperationManager::insert($lOperation);
+					$lDetailOperation = new DetailOperationVO();
+					$lDetailOperation->setIdOperation($lIdOperation);
+					$lDetailOperation->setIdCompte($lIdCompteProducteur);
+					$lDetailOperation->setMontant($lProduit["prix"]);
+					$lDetailOperation->setLibelle('Bon de Livraison');
+					$lDetailOperation->setTypePaiement(6);
+					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
+					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
+					$lDetailOperationService->set($lDetailOperation);
+				}			
+			}
+			foreach($lBonLivraison as $lBon) {
+				$lDelete = true;
+				foreach($lProduits as $lProduit) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lDelete = false;
+					}
+				}
+				if($lDelete) {
+					$lStockService->delete($lBon->getStoId());
+					$lDetailOperationService->delete($lBon->getDopeId());
 				}
 			}
 			
-			$lVr = new TemplateVR();	
-			return $lVr;
+			// Maj des infos du stock Solidaire
+			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur);
+			foreach($lProduits as $lProduit) {
+				$lMaj = false;
+				foreach($lStockSolidaire as $lBon) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lMaj = true;
+						
+						$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+						$lStock = new StockVO();
+						$lStock->setId($lBon->getStoId());
+						$lStock->setQuantite($lProduit["quantiteSolidaire"]);
+						$lStock->setType(2);
+						$lStock->setIdCompte($lIdCompteProducteur);
+						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
+					}
+				}
+				if(!$lMaj) {
+					$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+					
+					$lStock = new StockVO();
+					$lStock->setQuantite($lProduit["quantiteSolidaire"]);
+					$lStock->setType(2);
+					$lStock->setIdCompte($lIdCompteProducteur);
+					$lStock->setIdDetailCommande($lDcom[0]->getId());
+					$lStock->setIdOperation($lIdOperation);
+					$lStockService->set($lStock);
+				}			
+			}
+			foreach($lStockSolidaire as $lBon) {
+				$lDelete = true;
+				foreach($lProduits as $lProduit) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lDelete = false;
+					}
+				}
+				if($lDelete) {
+					$lStockService->delete($lBon->getStoId());
+				}
+			}
 		}
 		return $lVr;
 	}
@@ -271,48 +309,68 @@ class BonDeLivraisonControleur
 			
 			// Préparation du Tableau pour l'export PDF
 			$lIdCommande = $pParam["id_commande"];
+			$lOperationService = new OperationService();
 			$lLignesBonLivraison = InfoBonLivraisonViewManager::selectByIdCommande($lIdCommande);
-			
+			$lLignesSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdCommande);
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
-				if($lLigne->getProIdProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
-							$lProducteur = ProducteurViewManager::select($lIdPrdt);
-							$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
-							$lOperation = OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande);
+							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();
 							
-							array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation[0]->getMontant() * -1),SIGLE_MONETAIRE_PDF,"","");
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+							$lOperation = $lOperations[0];
+							
+							if(!is_null($lOperation->getId())) {
+								$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
+								$lOperation = $lOperationService->get($lIds[0]);
+							} else {
+								$lOperation->setMontant("");
+							}
+							array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
 							array_push($lContenuTableau,"","","","","","","","");
 						}
 						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
 					}
-									
-					if( $lLigne->getStoQuantiteLivraison() == '' || $lLigne->getStoQuantiteLivraison() == NULL) {
+
+					$lQuantite = '';
+					$lUniteQuantite = '';
+					$lMontant = '';
+					$lSigleMontant = '';
+					
+					if( $lLigne->getStoQuantite() == '' || $lLigne->getStoQuantite() == NULL) {
 						$lQuantiteLivraison = '';
 						$lUniteQuantiteLivraison = '';
 					} else {
-						$lQuantiteLivraison = $lLigne->getStoQuantiteLivraison();
+						$lQuantiteLivraison = $lLigne->getStoQuantite();
 						$lUniteQuantiteLivraison = $lLigne->getProUniteMesure();
 					}
 				
-					if( $lLigne->getOpeMontantLivraison() == '' || $lLigne->getOpeMontantLivraison() == NULL) {
+					if( $lLigne->getDopeMontant() == '' || $lLigne->getDopeMontant() == NULL) {
 						$lMontantLivraison = '';
 						$lSigleMontantLivraison = '';
 					} else {
-						$lMontantLivraison = $lLigne->getOpeMontantLivraison();
+						$lMontantLivraison = $lLigne->getDopeMontant();
 						$lSigleMontantLivraison = SIGLE_MONETAIRE_PDF;
 					}
-				
-					if( $lLigne->getStoQuantiteSolidaire() == '' || $lLigne->getStoQuantiteSolidaire() == NULL) {
-						$lQuantiteSolidaire = '';
-						$lUniteQuantiteSolidaire = '';
-					} else {
-						$lQuantiteSolidaire = $lLigne->getStoQuantiteSolidaire();
-						$lUniteQuantiteSolidaire = $lLigne->getProUniteMesure();
+
+					$lQuantiteSolidaire = '';
+					$lUniteQuantiteSolidaire = '';
+					
+					foreach($lLignesSolidaire as $lLigneSolidaire) {
+						if($lLigneSolidaire->getProId() == $lLigne->getProId())	{
+							if( $lLigneSolidaire->getStoQuantite() == '' || $lLigneSolidaire->getStoQuantite() == NULL) {
+								$lQuantiteSolidaire = '';
+								$lUniteQuantiteSolidaire = '';
+							} else {
+								$lQuantiteSolidaire = $lLigneSolidaire->getStoQuantite();
+								$lUniteQuantiteSolidaire = $lLigne->getProUniteMesure();
+							}
+						}						
 					}
 					
 					array_push($lContenuTableau,	
@@ -326,16 +384,22 @@ class BonDeLivraisonControleur
 											utf8_decode($lUniteQuantiteSolidaire)
 											);
 											
-					$lIdPrdt = $lLigne->getProIdProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteProducteur();
 				}
 			}
 			
-			// Pour la dernière ligne
-			$lProducteur = ProducteurViewManager::select($lIdPrdt);
-			$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
-			$lOperation = OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande);
+			// Pour la dernière ligne			
+			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+			$lOperation = $lOperations[0];		
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+			if(!is_null($lOperation->getId())) {
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			} else {
+				$lOperation->setMontant("");
+			}
 			
-			array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation[0]->getMontant() * -1),SIGLE_MONETAIRE_PDF,"","");
+			array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant()),SIGLE_MONETAIRE_PDF,"","");
 								
 			// Contenu du header du tableau.	
 			$lContenuHeader = array(30, 30, 20, 15, 20, 7, 20, 10, "Producteur","Produit",utf8_decode("Qté"),"","Prix","","Solidaire","");
@@ -416,68 +480,95 @@ class BonDeLivraisonControleur
 			
 			// Les données
 			$lIdCommande = $pParam["id_commande"];
+			$lOperationService = new OperationService();
 			$lLignesBonLivraison = InfoBonLivraisonViewManager::selectByIdCommande($lIdCommande);
+			$lLignesSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdCommande);
+			$lLignesBonCommande = InfoBonCommandeViewManager::selectByIdCommande($lIdCommande);
 			
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
-				if($lLigne->getProIdProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
-							$lProducteur = ProducteurViewManager::select($lIdPrdt);
-							$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
-							$lOperation = OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande);
+							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();							
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+							$lOperation = $lOperations[0];
 							
-							$lLignecontenu = array("","","","","","","","Total : ",$lOperation[0]->getMontant() * -1,SIGLE_MONETAIRE,"","");
+							if(!is_null($lOperation->getId())) {
+								$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
+								$lOperation = $lOperationService->get($lIds[0]);
+							} else {
+								$lOperation->setMontant("");
+							}
+							
+							
+							$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
 							array_push($lContenuTableau,$lLignecontenu);
 							$lLignecontenu = array("","","","","","","","","","","","");
 							array_push($lContenuTableau,$lLignecontenu);
 						}
 						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
 					}
+
+					$lQuantite = '';
+					$lUniteQuantite = '';
+					$lMontant = '';
+					$lSigleMontant = '';
+					
+					foreach($lLignesBonCommande as $lLigneBonCommande) {
+						if($lLigneBonCommande->getProId() == $lLigne->getProId())	{
+							if( $lLigneBonCommande->getStoQuantite() == '' || $lLigneBonCommande->getStoQuantite() == NULL) {
+								$lQuantite = '';
+								$lUniteQuantite = '';
+							} else {
+								$lQuantite = $lLigneBonCommande->getStoQuantite();
+								$lUniteQuantite = $lLigne->getProUniteMesure();
+							}
+							
+							if( $lLigneBonCommande->getDopeMontant() == '' || $lLigneBonCommande->getDopeMontant() == NULL) {
+								$lMontant = '';
+								$lSigleMontant = '';
+							} else {
+								$lMontant = $lLigneBonCommande->getDopeMontant();
+								$lSigleMontant = SIGLE_MONETAIRE;
+							}
+						}
+					}
 					
 					if( $lLigne->getStoQuantite() == '' || $lLigne->getStoQuantite() == NULL) {
-						$lQuantite = '';
-						$lUniteQuantite = '';
-					} else {
-						$lQuantite = $lLigne->getStoQuantite();
-						$lUniteQuantite = $lLigne->getProUniteMesure();
-					}
-					
-					if( $lLigne->getOpeMontant() == '' || $lLigne->getOpeMontant() == NULL) {
-						$lMontant = '';
-						$lSigleMontant = '';
-					} else {
-						$lMontant = $lLigne->getOpeMontant();
-						$lSigleMontant = SIGLE_MONETAIRE;
-					}
-				
-					if( $lLigne->getStoQuantiteLivraison() == '' || $lLigne->getStoQuantiteLivraison() == NULL) {
 						$lQuantiteLivraison = '';
 						$lUniteQuantiteLivraison = '';
 					} else {
-						$lQuantiteLivraison = $lLigne->getStoQuantiteLivraison();
+						$lQuantiteLivraison = $lLigne->getStoQuantite();
 						$lUniteQuantiteLivraison = $lLigne->getProUniteMesure();
 					}
-				
-					if( $lLigne->getOpeMontantLivraison() == '' || $lLigne->getOpeMontantLivraison() == NULL) {
+					
+					if( $lLigne->getDopeMontant() == '' || $lLigne->getDopeMontant() == NULL) {
 						$lMontantLivraison = '';
 						$lSigleMontantLivraison = '';
 					} else {
-						$lMontantLivraison = $lLigne->getOpeMontantLivraison();
+						$lMontantLivraison = $lLigne->getDopeMontant();
 						$lSigleMontantLivraison = SIGLE_MONETAIRE;
 					}
-				
-					if( $lLigne->getStoQuantiteSolidaire() == '' || $lLigne->getStoQuantiteSolidaire() == NULL) {
-						$lQuantiteSolidaire = '';
-						$lUniteQuantiteSolidaire = '';
-					} else {
-						$lQuantiteSolidaire = $lLigne->getStoQuantiteSolidaire();
-						$lUniteQuantiteSolidaire = $lLigne->getProUniteMesure();
-					}
+										
+					$lQuantiteSolidaire = '';
+					$lUniteQuantiteSolidaire = '';
 					
+					foreach($lLignesSolidaire as $lLigneSolidaire) {
+						if($lLigneSolidaire->getProId() == $lLigne->getProId())	{							
+							if( $lLigneSolidaire->getStoQuantite() == '' || $lLigneSolidaire->getStoQuantite() == NULL) {
+								$lQuantiteSolidaire = '';
+								$lUniteQuantiteSolidaire = '';
+							} else {
+								$lQuantiteSolidaire = $lLigneSolidaire->getStoQuantite();
+								$lUniteQuantiteSolidaire = $lLigne->getProUniteMesure();
+							}
+						}
+					}
+
 					$lLignecontenu = array(	$lNomPrdt,
 											$lLigne->getNproNom(),
 											$lQuantite,
@@ -493,16 +584,22 @@ class BonDeLivraisonControleur
 											);
 					
 					array_push($lContenuTableau,$lLignecontenu);
-					$lIdPrdt = $lLigne->getProIdProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteProducteur();
 				}
 			}
+
+			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+			$lOperation = $lOperations[0];
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+			if(!is_null($lOperation->getId())) {
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			} else {
+				$lOperation->setMontant("");
+			}
 			
-			// Pour la dernière ligne
-			$lProducteur = ProducteurViewManager::select($lIdPrdt);
-			$lIdCompte = $lProducteur[0]->getPrdtIdCompte();
-			$lOperation = OperationManager::selectOpeLivraison($lIdCompte,$lIdCommande);
 			
-			$lLignecontenu = array("","","","","","","","Total : ",$lOperation[0]->getMontant() * -1,SIGLE_MONETAIRE,"","");
+			$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
 			array_push($lContenuTableau,$lLignecontenu);
 			
 			$lCSV->setData($lContenuTableau);

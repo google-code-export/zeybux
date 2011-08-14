@@ -87,6 +87,10 @@
 					lVo.unite = $(lId + " :input[name=unite]").val();
 					lVo.qteMaxCommande = $(lId + " :input[name=qmax]").val().numberFrToDb();
 					lVo.qteRestante = $(lId + " :input[name=stock]").val().numberFrToDb();
+
+					if(isNaN(parseFloat(lVo.qteMaxCommande)) || (parseFloat(lVo.qteMaxCommande) > parseFloat(lVo.qteRestante))){
+						lVo.qteMaxCommande = lVo.qteRestante;
+					}
 					
 					var lVoLot = new DetailCommandeVO();
 					lVoLot.taille = $(lId + " :input[name=taille]").val().numberFrToDb();

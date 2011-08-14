@@ -1,29 +1,4 @@
 @CHARSET "UTF-8";
-
-#formulaire_identification_int {
-	padding:5px;
-	width: 360px;
-}
-
-#formulaire_identification_int table {
-	padding:3px;	
-}
-
-#formulaire_identification_int td {
-	border-collapse:collapse;
-	padding:3px;	
-}
-
-#titre_fenetre {
-	padding:3px;
-	text-align:center;
-	margin-bottom:15px;
-}
-
-#formulaire_identification_int input[type=text],input[type=password] {
-	width:200px;
-	margin-left:5px;
-}
 #piedpage {
 	bottom:0;
 	position: absolute;
@@ -173,15 +148,61 @@
 #formulaire_ajout_producteur table th {
 	width:300px;
 }
-
-#formulaire_identification_ext {
+#formulaire_identification_int {
+	padding:5px;
+	width: 360px;
 	margin-left:320px;
 	margin-top:150px;
+}
+
+
+#formulaire_identification_ifb {
+	padding:5px;
+}
+
+#formulaire_identification_int table,#formulaire_identification_ifb table {
+	padding:3px;	
+}
+
+#formulaire_identification_int td,#formulaire_identification_ifb td {
+	border-collapse:collapse;
+	padding:3px;	
+}
+
+#titre_fenetre {
+	padding:3px;
+	text-align:center;
+	margin-bottom:15px;
+}
+
+#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password] {
+	width:200px;
+	margin-left:5px;
 }
 
 .action-ifb {
 	color:#3A8104;
 	text-decoration:underline;
+}
+
+#liste-naviguateur {
+	margin-top: 20px;
+}
+
+#liste-naviguateur a{
+	text-decoration:none;
+}
+
+#liste-naviguateur a:hover{
+	text-decoration:underline;
+}
+
+#liste-naviguateur img{
+	border:none;
+}
+
+#naviguateur-1 {
+	margin-left: 250px;
 }
 
 #maintenance{
@@ -409,7 +430,7 @@
 	width:300px;
 }
 
-#achat-pdt-widget {
+#achat-pdt-widget, #achat-pdt-solidaire-widget {
 	width:487px;
 	margin-right:5px;
 }
@@ -428,6 +449,12 @@
 .achat-commande-table-pdt .td-unite {
 	width:90px;
 }
+
+#achat-info-marche {
+float: left;
+margin-left: 140px;
+margin-right: 255px;
+}
 /*EditerCommande*/
 #edt-com-info {
 	width:300px;
@@ -441,6 +468,15 @@
 .edt-com-progressbar-pdt {
 	margin-top:10px;
 	margin-bottom:10px;
+	height: 12px;
+}
+
+.edt-com-info-progressbar-pdt {
+	float:left;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	width:100%;
 }
 
 .edt-com-span-rech-right {
@@ -459,6 +495,9 @@
 	float:right;
 	margin-top:1px;
 }*/
+
+.td-edt { width:20px; }
+.montant-virement { padding-top:20px; }
 
 #info_compte_solde_adherent_ext {
 	float:left;

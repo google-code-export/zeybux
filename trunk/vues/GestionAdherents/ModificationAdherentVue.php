@@ -18,24 +18,24 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 		$lParam = json_decode($_POST['pParam'],true);
 		if(isset($lParam['id_adherent']) && !empty($lParam['id_adherent'])) {
 			echo $lControleur->getAdherent($lParam)->exportToJson();
-			$lLogger->log("Affichage de la vue modification de l'adhérent " . $lParam['id_adherent'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Affichage de la vue modification de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		} else if(isset($lParam['id']) && !empty($lParam['id'])) {
 			
 			$lResponse = $lControleur->modifierAdherent($lParam);
 			echo $lResponse->exportToJson();
 			
 			if($lResponse->getValid()) {
-				$lLogger->log("Modification de l'adhérent " . $lParam['id'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Modification de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			} else {
-				$lLogger->log("Echec de la modification de l'adhérent " . $lParam['id'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Echec de la modification de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			}
 			
 		} else {
-			$lLogger->log("Demande d'accés sans paramètre à la modification des adhérents par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés sans paramètre à la modification des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else {
-		$lLogger->log("Demande d'accés sans paramètre à la modification des adhérents par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés sans paramètre à la modification des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

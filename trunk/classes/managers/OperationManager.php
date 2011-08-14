@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "OperationVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 
 /**
  * @name OperationManager
@@ -126,21 +127,6 @@ class OperationManager
 	}
 	
 	/**
-	* @name selectReservationCommande($pId)
-	* @param integer
-	* @return array(OperationVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationVO
-	*/
-	public static function selectReservationCommande($pId) {		
-		return OperationManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE),
-				array('=', '='),
-				array($pId, 0),
-				array(OperationManager::CHAMP_OPERATION_DATE),
-				array('DESC'));
-	}
-	
-	/**
 	* @name selectByIdCompte($pId)
 	* @param integer
 	* @return array(OperationVO)
@@ -153,22 +139,6 @@ class OperationManager
 			array($pId),
 			array(OperationManager::CHAMP_OPERATION_DATE),
 			array('DESC'));
-	}
-	
-	/**
-	* @name selectOpeLivraison($pIdCompte, $pIdCommande)
-	* @param integer
-	* @param integer
-	* @return array(OperationVO)
-	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId, IdCommande $pIdCommande et de type 0 ou 1. Puis les renvoie sous forme d'une collection de OperationVO
-	*/
-	public static function selectOpeLivraison($pIdCompte, $pIdCommande) {
-		return OperationManager::recherche(
-			array(OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE),
-			array('=','=','in'),
-			array($pIdCompte, $pIdCommande, array(0,1)),
-			array(OperationManager::CHAMP_OPERATION_ID),
-			array('ASC'));
 	}
 	
 	/**
@@ -294,6 +264,27 @@ class OperationManager
 		
 		return $lLigne["sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ")"];
 	}
+	
+	/**
+	* @name insertHistorique($pVo)
+	* @param OperationVO
+	* @return integer
+	* @desc Insère une nouvelle ligne dans la table, à partir des informations de la OperationVO en paramètre (l'id sera automatiquement calculé par la BDD)
+	*/
+	private static function insertHistorique($pVo) {
+		$lHistoriqueOperation = new HistoriqueOperationVO();
+		$lHistoriqueOperation->setIdOperation($pVo->getId());
+		$lHistoriqueOperation->setIdCompte($pVo->getIdCompte());
+		$lHistoriqueOperation->setMontant($pVo->getMontant());
+		$lHistoriqueOperation->setLibelle($pVo->getLibelle());
+		$lHistoriqueOperation->setDate($pVo->getDate());
+		$lHistoriqueOperation->setTypePaiement($pVo->getTypePaiement()	);
+		$lHistoriqueOperation->setTypePaiementChampComplementaire($pVo->getTypePaiementChampComplementaire());
+		$lHistoriqueOperation->setType($pVo->getType());
+		$lHistoriqueOperation->setIdCommande($pVo->getIdCommande());
+		$lHistoriqueOperation->setIdConnexion($_SESSION[ID_CONNEXION]);
+		return HistoriqueOperationManager::insert($lHistoriqueOperation);
+	}
 
 	/**
 	* @name insert($pVo)
@@ -328,7 +319,9 @@ class OperationManager
 				,'" . StringUtils::securiser( $pVo->getIdCommande() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		return Dbutils::executerRequeteInsertRetourId($lRequete);
+		$lId = Dbutils::executerRequeteInsertRetourId($lRequete);
+		$pVo->setId($lId);
+		return $lId;
 	}
 
 	/**
@@ -356,6 +349,7 @@ class OperationManager
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
+		return $pVo->getId();
 	}
 
 	/**

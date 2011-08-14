@@ -98,6 +98,66 @@ String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) 
 	return parseFloat(this).nombreFormate(decimales, signe, separateurMilliers);
 }
 
+
+function differenceDateTime(pDate1,pDate2) {
+	var lDateTime1 = pDate1.split(' ');
+	var lDate1 = lDateTime1[0].split('-');
+	var lTime1 = lDateTime1[1].split(':');
+	
+	var lDateTime2 = pDate2.split(' ');
+	var lDate2 = lDateTime2[0].split('-');
+	var lTime2 = lDateTime2[1].split(':');
+	
+	var lNegatif = false;
+	var lAnnee = lDate1[0] - lDate2[0];
+	if(lAnnee < 0) { lNegatif = true; lAnnee = lAnnee * -1; }
+	if(lAnnee < 10 && lAnnee > -10) {		
+		lAnnee = '0' + lAnnee.toString();
+	} else {
+		lAnnee = lAnnee.toString();
+	}
+	var lMois = lDate1[1] - lDate2[1];
+	if(lMois < 0) { lNegatif = true; lMois = lMois * -1; }	
+	if(lMois < 10 && lMois > -10) {		
+		lMois = '0' + lMois.toString();
+	} else {
+		lMois = lMois.toString();
+	}
+	var lJour = lDate1[2] - lDate2[2];
+	if(lJour < 0) { lNegatif = true; lJour = lJour * -1; }	
+	if(lJour < 10 && lJour > -10) {
+		lJour = '0' + lJour.toString();
+	} else {
+		lJour = lJour.toString();
+	}
+	var lHeure = lTime1[0] - lTime2[0];
+	if(lHeure < 0) { lNegatif = true; lHeure = lHeure * -1; }	
+	if(lHeure < 10 && lHeure > -10) {		
+		lHeure = '0' + lHeure.toString();
+	} else {
+		lHeure = lHeure.toString();
+	}
+	var lMinute = lTime1[1] - lTime2[1];		
+	if(lMinute < 0) { lNegatif = true; lMinute = lMinute * -1; }	
+	if(lMinute < 10 && lMinute > -10) {
+		lMinute = '0' + lMinute.toString();
+	} else {
+		lMinute = lMinute.toString();
+	}
+	var lSeconde = lTime1[2] - lTime2[2];		
+	if(lSeconde < 0) { lNegatif = true; lSeconde = lSeconde * -1; }
+	if(lSeconde < 10 && lSeconde > -10) {
+		lSeconde = '0' + lSeconde.toString();
+	} else {
+		lSeconde = lSeconde.toString();
+	}
+	
+	var lRetour = lAnnee + lMois + lJour + lHeure + lMinute + lSeconde;
+	if(lNegatif) {lRetour = '-' + lRetour;}
+	
+	return parseFloat(lRetour);
+}
+
 /*
  * +-------------------------------------+
  * Number.prototype.nombreFormate

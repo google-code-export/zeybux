@@ -133,6 +133,13 @@ body {
 	text-align:left;
 }
 
+.com-table-100 {
+	margin-bottom:5px;
+	width:100%;
+	border-collapse:collapse;	
+	text-align:left;
+}
+
 .com-table tr:hover {
 	background-color:#4eb305;
 }
@@ -140,7 +147,7 @@ body {
 .com-table-td {
 	padding: 2px 3px;
 	border:1px solid white;
-	font-size:12pt;
+	font-size:11pt;
 }
 
 .com-table-th {

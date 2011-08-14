@@ -25,7 +25,7 @@
 		this.mIdAdherent = lResponse.adherent.adhId;
 		this.mAdhNumero = lResponse.adherent.adhNumero;
 		
-		lResponse.opeMontant = lResponse.adherent.opeMontant.nombreFormate(2,',',' ');
+		lResponse.opeMontant = lResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 		lResponse.sigleMonetaire = gSigleMonetaire;
 		
 		lResponse.adherent.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
@@ -43,7 +43,7 @@
 			}
 		});
 		
-		var lNvSolde = parseFloat(lResponse.adherent.opeMontant);
+		var lNvSolde = parseFloat(lResponse.adherent.cptSolde);
 		var lRechargementPrecedent = 0;
 		$(lResponse.operationAvenir).each(function() {
 			if(this.opeDate != null) {
@@ -92,7 +92,7 @@
 		lHtml += lCommunTemplate.finContenu;
 		
 		lHtml = $(lHtml);
-		if(lResponse.adherent.opeMontant < 0) {
+		if(lResponse.adherent.cptSolde < 0) {
 			lHtml = this.soldeNegatif(lHtml);
 		}
 		

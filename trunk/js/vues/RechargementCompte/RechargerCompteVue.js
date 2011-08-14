@@ -34,8 +34,8 @@
 			lResponse.sigleMonetaire = gSigleMonetaire;
 			$(lResponse.listeAdherent).each(function() {
 				this.classSolde = '';
-				if(this.opeMontant < 0){this.classSolde = "com-nombre-negatif";}
-				this.opeMontant = this.opeMontant.nombreFormate(2,',',' ');
+				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
+				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
 			});
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
@@ -125,8 +125,8 @@
 													erreur.code = ERR_306_CODE;
 													erreur.message = ERR_306_MSG;
 													lVr.log.erreurs.push(erreur);
-													
-													that.construct();
+													var lParam = {vr:lVr};
+													that.construct(lParam);
 													
 													$(lDialog).dialog("close");										
 												} else {

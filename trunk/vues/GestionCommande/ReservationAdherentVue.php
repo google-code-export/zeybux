@@ -21,50 +21,30 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			switch($pParam["fonction"]) {
 				case "afficherReservation":
 						echo $lControleur->getReservation($pParam)->exportToJson();					
-						$lLogger->log("Affichage de la vue ReservationAdherent par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Affichage de la vue ReservationAdherent par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				case "modifierReservation":
 						echo $lControleur->modifierReservation($pParam)->exportToJson();					
-						$lLogger->log("Modification de la réservation par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs		
+						$lLogger->log("Modification de la réservation par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs		
 					break;
 					
 				case "supprimerReservation":
 						echo $lControleur->supprimerReservation($pParam)->exportToJson();
-						$lLogger->log("Suppression de la réservation par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Suppression de la réservation par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				default:
-					$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
-		
-		
-		/*if(isset($pParam["id_commande"]) && isset($pParam["id_adherent"])) {		
-			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/ReservationAdherentControleur.php");
-				
-			$lControleur = new ReservationAdherentControleur();
-			echo $lControleur->getReservation($pParam)->exportToJson();
-		
-			$lLogger->log("Affichage de la vue ReservationAdherent par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-		} else if(isset($pParam["id_compte"])) {
-			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/ReservationAdherentControleur.php");
-				
-			$lControleur = new ReservationAdherentControleur();
-			echo $lControleur->modifierReservation($pParam)->exportToJson();
-		
-			$lLogger->log("Affichage de la vue ReservationAdherent par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs		
-		} else {
-			$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
-			header('location:./index.php');
-		}*/
 	} else {
-		$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à ReservationAdherent sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

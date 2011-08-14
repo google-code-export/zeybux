@@ -47,30 +47,6 @@ class OperationAvenirViewVO extends DataTemplate
 	* @desc ComDateMarche de la OperationAvenirViewVO
 	*/
 	protected $mComDateMarche;
-	
-	/**
-	* @var varchar(100)
-	* @desc TppType de la OperationAvenirViewVO
-	*/
-	protected $mTppType;
-
-	/**
-	* @var tinyint(4)
-	* @desc TppChampComplementaire de la OperationAvenirViewVO
-	*/
-	protected $mTppChampComplementaire;
-
-	/**
-	* @var varchar(30)
-	* @desc TppLabelChampComplementaire de la OperationAvenirViewVO
-	*/
-	protected $mTppLabelChampComplementaire;
-
-	/**
-	* @var varchar(50)
-	* @desc OpeTypePaiementChampComplementaire de la OperationAvenirViewVO
-	*/
-	protected $mOpeTypePaiementChampComplementaire;
 
 	/**
 	* @name getOpeIdCompte()
@@ -160,78 +136,6 @@ class OperationAvenirViewVO extends DataTemplate
 	*/
 	public function setComDateMarche($pComDateMarche) {
 		$this->mComDateMarche = $pComDateMarche;
-	}
-
-	/**
-	* @name getTppType()
-	* @return varchar(100)
-	* @desc Renvoie le membre TppType de la OperationAvenirViewVO
-	*/
-	public function getTppType() {
-		return $this->mTppType;
-	}
-
-	/**
-	* @name setTppType($pTppType)
-	* @param varchar(100)
-	* @desc Remplace le membre TppType de la OperationAvenirViewVO par $pTppType
-	*/
-	public function setTppType($pTppType) {
-		$this->mTppType = $pTppType;
-	}
-
-	/**
-	* @name getTppChampComplementaire()
-	* @return tinyint(4)
-	* @desc Renvoie le membre TppChampComplementaire de la OperationAvenirViewVO
-	*/
-	public function getTppChampComplementaire() {
-		return $this->mTppChampComplementaire;
-	}
-
-	/**
-	* @name setTppChampComplementaire($pTppChampComplementaire)
-	* @param tinyint(4)
-	* @desc Remplace le membre TppChampComplementaire de la OperationAvenirViewVO par $pTppChampComplementaire
-	*/
-	public function setTppChampComplementaire($pTppChampComplementaire) {
-		$this->mTppChampComplementaire = $pTppChampComplementaire;
-	}
-
-	/**
-	* @name getTppLabelChampComplementaire()
-	* @return varchar(30)
-	* @desc Renvoie le membre TppLabelChampComplementaire de la OperationAvenirViewVO
-	*/
-	public function getTppLabelChampComplementaire() {
-		return $this->mTppLabelChampComplementaire;
-	}
-
-	/**
-	* @name setTppLabelChampComplementaire($pTppLabelChampComplementaire)
-	* @param varchar(30)
-	* @desc Remplace le membre TppLabelChampComplementaire de la OperationAvenirViewVO par $pTppLabelChampComplementaire
-	*/
-	public function setTppLabelChampComplementaire($pTppLabelChampComplementaire) {
-		$this->mTppLabelChampComplementaire = $pTppLabelChampComplementaire;
-	}
-
-	/**
-	* @name getOpeTypePaiementChampComplementaire()
-	* @return varchar(50)
-	* @desc Renvoie le membre OpeTypePaiementChampComplementaire de la OperationAvenirViewVO
-	*/
-	public function getOpeTypePaiementChampComplementaire() {
-		return $this->mOpeTypePaiementChampComplementaire;
-	}
-
-	/**
-	* @name setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire)
-	* @param varchar(50)
-	* @desc Remplace le membre OpeTypePaiementChampComplementaire de la OperationAvenirViewVO par $pOpeTypePaiementChampComplementaire
-	*/
-	public function setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire) {
-		$this->mOpeTypePaiementChampComplementaire = $pOpeTypePaiementChampComplementaire;
 	}
 }
 ?>

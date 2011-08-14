@@ -1,6 +1,6 @@
 ;function IdentificationTemplate() {
 	this.connexion =
-		"<div id=\"formulaire_identification_int\" title=\"Connexion à Zeybux\" >" +
+		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
 			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 				"<table>" +
 					"<tr>" +
@@ -79,6 +79,64 @@
 						"<!-- END modules -->" +
 					"</ul>" +
 				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.naviguateurIncompatible =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
+					"Naviguateur Incompatible" +
+				"</div>" +
+				"<div>" +
+					"Votre naviguateur n'est pas compatible avec zeybux.<br/>" +
+					"Vous pouvez utiliser l'un des naviguateur suivants pour profiter du site : <br/>" +
+					"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+						
+						"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+							"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+								"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+								"Mozilla Firefox" +
+							"</a>" +
+						"</div>" +
+						"<div>" +	
+							"<a href=\"http://www.google.com/chrome/\">" +
+								"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+								"Google Chrome" +
+							"</a>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.formulaireIdentification = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+					"<table>" +
+						"<tr>" +
+							"<td>Login</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td>Mot de Passe</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
+			"</div>" +
+		"</div>";
+	
+	this.chargementModule = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
+				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
 		"</div>";
 }

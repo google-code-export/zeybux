@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "ListeAdherentViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
 /**
  * @name ListeAdherentViewManager
@@ -44,7 +44,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ListeAdherentViewManager::VUE_LISTE_ADHERENT. " 
 			WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -59,7 +60,8 @@ class ListeAdherentViewManager
 				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-				$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]);
+				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL]);
 		} else {
 			return new ListeAdherentViewVO();
 		}
@@ -81,7 +83,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ListeAdherentViewManager::VUE_LISTE_ADHERENT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -97,7 +100,8 @@ class ListeAdherentViewManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+						$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 			}
 		} else {
 			$lListeAdherent[0] = new ListeAdherentViewVO();
@@ -127,7 +131,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL .
-			"," . OperationManager::CHAMP_OPERATION_MONTANT	);
+			"," . CompteManager::CHAMP_COMPTE_SOLDE .
+			"," . CompteManager::CHAMP_COMPTE_LABEL	);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ListeAdherentViewManager::VUE_LISTE_ADHERENT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -148,7 +153,8 @@ class ListeAdherentViewManager
 							$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 							$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 							$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-							$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+							$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+							$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 				}
 			} else {
 				$lListeAdherent[0] = new ListeAdherentViewVO();
@@ -162,24 +168,26 @@ class ListeAdherentViewManager
 	}
 	
 	/**
-	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pOpeMontant)
+	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde, $pCptLabel)
 	* @param int(11)
 	* @param varchar(5)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param varchar(100)
 	* @param decimal(32,2)
+	* @param varchar(30)
 	* @return ListeAdherentViewVO
 	* @desc Retourne une ListeAdherentiewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pOpeMontant) {
+	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde, $pCptLabel) {
 		$lListeAdherent = new ListeAdherentViewVO();
 		$lListeAdherent->setAdhId($pAdhId);
 		$lListeAdherent->setAdhNumero($pAdhNumero);
 		$lListeAdherent->setAdhNom($pAdhNom);
 		$lListeAdherent->setAdhPrenom($pAdhPrenom);
 		$lListeAdherent->setAdhCourrielPrincipal($pAdhCourrielPrincipal);
-		$lListeAdherent->setOpeMontant($pOpeMontant);
+		$lListeAdherent->setCptSolde($pCptSolde);
+		$lListeAdherent->setCptLabel($pCptLabel);
 		return $lListeAdherent;
 	}
 }

@@ -44,11 +44,7 @@ class OperationAvenirViewManager
 			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE . 
 			"," . OperationManager::CHAMP_OPERATION_DATE . 
-			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . "
 			FROM " . OperationAvenirViewManager::VUE_OPERATIONAVENIR . " 
 			WHERE " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -64,11 +60,7 @@ class OperationAvenirViewManager
 					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 					$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 			}
 		} else {
 			$lListeOperationAvenir[0] = new OperationAvenirViewVO();
@@ -91,11 +83,7 @@ class OperationAvenirViewManager
 			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE . 
 			"," . OperationManager::CHAMP_OPERATION_DATE . 
-			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . "
 			FROM " . OperationAvenirViewManager::VUE_OPERATIONAVENIR;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -110,11 +98,7 @@ class OperationAvenirViewManager
 					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 					$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 			}
 		} else {
 			$lListeOperationAvenir[0] = new OperationAvenirViewVO();
@@ -143,11 +127,7 @@ class OperationAvenirViewManager
 			"," . OperationManager::CHAMP_OPERATION_MONTANT .
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 			"," . OperationManager::CHAMP_OPERATION_DATE .
-			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE .
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE .
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE .
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE		);
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT 		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(OperationAvenirViewManager::VUE_OPERATIONAVENIR, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -168,11 +148,7 @@ class OperationAvenirViewManager
 						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
-						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
-						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
-						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 				}
 			} else {
 				$lListeOperationAvenir[0] = new OperationAvenirViewVO();
@@ -186,30 +162,22 @@ class OperationAvenirViewManager
 	}
 
 	/**
-	* @name remplir($pOpeIdCompte, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pComDateMarche, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire)
+	* @name remplir($pOpeIdCompte, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pComDateMarche)
 	* @param int(11)
 	* @param decimal(10,2)
 	* @param varchar(100)
 	* @param datetime
 	* @param datetime
-	* @param varchar(100)
-	* @param tinyint(4)
-	* @param varchar(30)
-	* @param varchar(50)
 	* @return OperationAvenirViewVO
 	* @desc Retourne une OperationAvenirViewVO remplie
 	*/
-	private static function remplir($pOpeIdCompte, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pComDateMarche, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire) {
+	private static function remplir($pOpeIdCompte, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pComDateMarche) {
 		$lOperationAvenir = new OperationAvenirViewVO();
 		$lOperationAvenir->setOpeIdCompte($pOpeIdCompte);
 		$lOperationAvenir->setOpeMontant($pOpeMontant);
 		$lOperationAvenir->setOpeLibelle($pOpeLibelle);
 		$lOperationAvenir->setOpeDate($pOpeDate);		
 		$lOperationAvenir->setComDateMarche($pComDateMarche);
-		$lOperationAvenir->setTppType($pTppType);
-		$lOperationAvenir->setTppChampComplementaire($pTppChampComplementaire);
-		$lOperationAvenir->setTppLabelChampComplementaire($pTppLabelChampComplementaire);
-		$lOperationAvenir->setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire);
 		return $lOperationAvenir;
 	}
 }

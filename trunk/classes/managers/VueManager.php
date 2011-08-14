@@ -28,6 +28,7 @@ class VueManager
 	const CHAMP_VUE_NOM = "vue_nom";
 	const CHAMP_VUE_LABEL = "vue_label";
 	const CHAMP_VUE_ORDRE = "vue_ordre";
+	const CHAMP_VUE_VISIBLE = "vue_visible";
 
 	/**
 	* @name select($pId)
@@ -39,24 +40,37 @@ class VueManager
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-		
-		$lRequete = "SELECT " . VueManager::CHAMP_VUE_ID_MODULE . "," . VueManager::CHAMP_VUE_NOM . "," . VueManager::CHAMP_VUE_LABEL . "," . VueManager::CHAMP_VUE_ORDRE . " 
-					FROM " . VueManager::TABLE_VUE . " 
-					WHERE " . VueManager::CHAMP_VUE_ID . " = '" . StringUtils::securiser($pId) . "'";
-		
+
+		$lRequete =
+			"SELECT "
+			    . VueManager::CHAMP_VUE_ID . 
+			"," . VueManager::CHAMP_VUE_ID_MODULE . 
+			"," . VueManager::CHAMP_VUE_NOM . 
+			"," . VueManager::CHAMP_VUE_LABEL . 
+			"," . VueManager::CHAMP_VUE_ORDRE . 
+			"," . VueManager::CHAMP_VUE_VISIBLE . "
+			FROM " . VueManager::TABLE_VUE . " 
+			WHERE " . VueManager::CHAMP_VUE_ID . " = '" . StringUtils::securiser($pId) . "'";
+
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
-		
+
 		if( mysql_num_rows($lSql) > 0 ) {
 			$lLigne = mysql_fetch_assoc($lSql);
-			return VueManager::remplirVue($pId, $lLigne[VueManager::CHAMP_VUE_ID_MODULE], $lLigne[VueManager::CHAMP_VUE_NOM], $lLigne[VueManager::CHAMP_VUE_LABEL], $lLigne[VueManager::CHAMP_VUE_ORDRE]);
+			return VueManager::remplirVue(
+				$pId,
+				$lLigne[VueManager::CHAMP_VUE_ID_MODULE],
+				$lLigne[VueManager::CHAMP_VUE_NOM],
+				$lLigne[VueManager::CHAMP_VUE_LABEL],
+				$lLigne[VueManager::CHAMP_VUE_ORDRE],
+				$lLigne[VueManager::CHAMP_VUE_VISIBLE]);
 		} else {
 			return new VueVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(VueVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de VueVO
 	*/
@@ -64,27 +78,37 @@ class VueManager
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-		
-		$lRequete = "SELECT " . VueManager::CHAMP_VUE_ID . "," . VueManager::CHAMP_VUE_ID_MODULE . "," . VueManager::CHAMP_VUE_NOM . "," . VueManager::CHAMP_VUE_LABEL . "," . VueManager::CHAMP_VUE_ORDRE . " 
-					FROM " . VueManager::TABLE_VUE . " 
-					ORDER BY `vue_vues`.`vue_ordre` ASC";
-		
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lRequete =
+			"SELECT "
+			    . VueManager::CHAMP_VUE_ID . 
+			"," . VueManager::CHAMP_VUE_ID_MODULE . 
+			"," . VueManager::CHAMP_VUE_NOM . 
+			"," . VueManager::CHAMP_VUE_LABEL . 
+			"," . VueManager::CHAMP_VUE_ORDRE . 
+			"," . VueManager::CHAMP_VUE_VISIBLE . "
+			FROM " . VueManager::TABLE_VUE;
 
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
-		
+
 		$lListeVue = array();
 		if( mysql_num_rows($lSql) > 0 ) {
 			while ($lLigne = mysql_fetch_assoc($lSql)) {
-				array_push($lListeVue,VueManager::remplirVue($lLigne[VueManager::CHAMP_VUE_ID], $lLigne[VueManager::CHAMP_VUE_ID_MODULE], $lLigne[VueManager::CHAMP_VUE_NOM], $lLigne[VueManager::CHAMP_VUE_LABEL], $lLigne[VueManager::CHAMP_VUE_ORDRE]));
+				array_push($lListeVue,
+					VueManager::remplirVue(
+					$lLigne[VueManager::CHAMP_VUE_ID],
+					$lLigne[VueManager::CHAMP_VUE_ID_MODULE],
+					$lLigne[VueManager::CHAMP_VUE_NOM],
+					$lLigne[VueManager::CHAMP_VUE_LABEL],
+					$lLigne[VueManager::CHAMP_VUE_ORDRE],
+					$lLigne[VueManager::CHAMP_VUE_VISIBLE]));
 			}
 		} else {
 			$lListeVue[0] = new VueVO();
 		}
-
 		return $lListeVue;
 	}
-	
+
 	/**
 	* @name selectByIdModule($pId)
 	* @param integer
@@ -121,26 +145,31 @@ class VueManager
 			"," . VueManager::CHAMP_VUE_ID_MODULE .
 			"," . VueManager::CHAMP_VUE_NOM .
 			"," . VueManager::CHAMP_VUE_LABEL .
-			"," . VueManager::CHAMP_VUE_ORDRE);
+			"," . VueManager::CHAMP_VUE_ORDRE .
+			"," . VueManager::CHAMP_VUE_VISIBLE		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(VueManager::TABLE_VUE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeVue = array();
-		
+
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-			
+
 			if( mysql_num_rows($lSql) > 0 ) {
-				while ($lLigne = mysql_fetch_assoc($lSql)) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
 					array_push($lListeVue,
 						VueManager::remplirVue(
-						$lLigne[VueManager::CHAMP_VUE_ID], 
-						$lLigne[VueManager::CHAMP_VUE_ID_MODULE], 
-						$lLigne[VueManager::CHAMP_VUE_NOM], 
-						$lLigne[VueManager::CHAMP_VUE_LABEL], 
-						$lLigne[VueManager::CHAMP_VUE_ORDRE]));
+						$lLigne[VueManager::CHAMP_VUE_ID],
+						$lLigne[VueManager::CHAMP_VUE_ID_MODULE],
+						$lLigne[VueManager::CHAMP_VUE_NOM],
+						$lLigne[VueManager::CHAMP_VUE_LABEL],
+						$lLigne[VueManager::CHAMP_VUE_ORDRE],
+						$lLigne[VueManager::CHAMP_VUE_VISIBLE]));
 				}
 			} else {
 				$lListeVue[0] = new VueVO();
@@ -151,23 +180,26 @@ class VueManager
 		$lListeVue[0] = new VueVO();
 		return $lListeVue;
 	}
-	
-	/**
-	* @name remplirVue($pId, $pIdModule, $pNom, $pLabel, $pOrdre)
-	* @param interger
-	* @param string
-	* @return VueVO
-	* @desc Retourne un VueVO rempli
-	*/
-	private static function remplirVue($pId, $pIdModule, $pNom, $pLabel, $pOrdre) {
-		$lVue = new VueVO();
 
+	/**
+	* @name remplirVue($pId, $pIdModule, $pNom, $pLabel, $pOrdre, $pVisible)
+	* @param int(11)
+	* @param int(11)
+	* @param varchar(50)
+	* @param varchar(80)
+	* @param int(11)
+	* @param tinyint(1)
+	* @return VueVO
+	* @desc Retourne une VueVO remplie
+	*/
+	private static function remplirVue($pId, $pIdModule, $pNom, $pLabel, $pOrdre, $pVisible) {
+		$lVue = new VueVO();
 		$lVue->setId($pId);
 		$lVue->setIdModule($pIdModule);
 		$lVue->setNom($pNom);
 		$lVue->setLabel($pLabel);
 		$lVue->setOrdre($pOrdre);
-		
+		$lVue->setVisible($pVisible);
 		return $lVue;
 	}
 
@@ -180,20 +212,24 @@ class VueManager
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-		
-		$lRequete = 	"INSERT INTO " . VueManager::TABLE_VUE . " 
-					(" . VueManager::CHAMP_VUE_ID . "
-					," . VueManager::CHAMP_VUE_ID_MODULE . "
-					," . VueManager::CHAMP_VUE_NOM . "
-					," . VueManager::CHAMP_VUE_LABEL . "
-					," . VueManager::CHAMP_VUE_ORDRE . ") 
-				VALUES (NULL
-					,'" . StringUtils::securiser( $pVo->getIdModule() ) ."'
-					,'" . StringUtils::securiser( $pVo->getNom() ) ."'
-					,'" . StringUtils::securiser( $pVo->getLabel() ) ."'
-					,'" . StringUtils::securiser( $pVo->getOrdre() ) ."')";
+
+		$lRequete =
+			"INSERT INTO " . VueManager::TABLE_VUE . "
+				(" . VueManager::CHAMP_VUE_ID . "
+				," . VueManager::CHAMP_VUE_ID_MODULE . "
+				," . VueManager::CHAMP_VUE_NOM . "
+				," . VueManager::CHAMP_VUE_LABEL . "
+				," . VueManager::CHAMP_VUE_ORDRE . "
+				," . VueManager::CHAMP_VUE_VISIBLE . ")
+			VALUES (NULL
+				,'" . StringUtils::securiser( $pVo->getIdModule() ) . "'
+				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
+				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
+				,'" . StringUtils::securiser( $pVo->getOrdre() ) . "'
+				,'" . StringUtils::securiser( $pVo->getVisible() ) . "')";
+
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequeteInsertRetourId($lRequete);
 	}
 
 	/**
@@ -205,13 +241,17 @@ class VueManager
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-		
-		$lRequete = 	"UPDATE " . VueManager::TABLE_VUE . " 
-				SET " . VueManager::CHAMP_VUE_ID_MODULE . " = '" . StringUtils::securiser( $pVo->getIdModule() ) . "' 
-					," . VueManager::CHAMP_VUE_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "' 
-					," . VueManager::CHAMP_VUE_LABEL . " = '" . StringUtils::securiser( $pVo->getLabel() ) . "' 
-					," . VueManager::CHAMP_VUE_ORDRE . " = '" . StringUtils::securiser( $pVo->getOrdre() ) . "'
-				WHERE " . VueManager::CHAMP_VUE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
+
+		$lRequete = 
+			"UPDATE " . VueManager::TABLE_VUE . "
+			 SET
+				 " . VueManager::CHAMP_VUE_ID_MODULE . " = '" . StringUtils::securiser( $pVo->getIdModule() ) . "'
+				," . VueManager::CHAMP_VUE_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
+				," . VueManager::CHAMP_VUE_LABEL . " = '" . StringUtils::securiser( $pVo->getLabel() ) . "'
+				," . VueManager::CHAMP_VUE_ORDRE . " = '" . StringUtils::securiser( $pVo->getOrdre() ) . "'
+				," . VueManager::CHAMP_VUE_VISIBLE . " = '" . StringUtils::securiser( $pVo->getVisible() ) . "'
+			 WHERE " . VueManager::CHAMP_VUE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
+
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
 	}
@@ -223,7 +263,7 @@ class VueManager
 	*/
 	public static function delete($pId) {
 		// Initialisation du Logger
-		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);		
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		
 		$lRequete = 	"DELETE FROM " . VueManager::TABLE_VUE . " 

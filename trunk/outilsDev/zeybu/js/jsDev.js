@@ -1,4 +1,4 @@
-;function TemplateData() {
+function TemplateData() {
 	this.infobulle = "<!-- BEGIN membres -->" + //ui-helper-hidden 
 			"<div class=\"ui-helper-hidden com-infobulle com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"ifb-{membres.nom}\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Erreurs : </div>" + //{membres.nom}
@@ -238,127 +238,7 @@
 		return lTimeGrande >= lTimePetite;	
 	}
 	return false;
-}//Erreurs techniques
-const ERR_101_CODE = 101;
-const ERR_101_MSG = 'La valeur entrée est trop longue.';
-const ERR_102_CODE = 102;
-const ERR_102_MSG = 'Le format du courriel n\'est pas valide.';
-const ERR_103_CODE = 103;
-const ERR_103_MSG = 'Le format de la date n\'est pas valide.';
-const ERR_104_CODE = 104;
-const ERR_104_MSG = 'L\identifiant de l\'objet n\'est pas valide.';
-const ERR_105_CODE = 105;
-const ERR_105_MSG = 'La date saisie n\'existe pas.';
-const ERR_106_CODE = 106;
-const ERR_106_MSG = 'Le format de l\'heure n\'est pas valide.';
-const ERR_107_CODE = 107;
-const ERR_107_MSG = 'L\'heure saisie n\'existe pas.';
-const ERR_108_CODE = 108;
-const ERR_108_MSG = 'Ce champ doit être de type entier.';
-const ERR_109_CODE = 109;
-const ERR_109_MSG = 'Ce champ doit être de type float.';
-const ERR_110_CODE = 110;
-const ERR_110_MSG = 'Le champ "Lots" doit être de type tableau.';
-const ERR_111_CODE = 111;
-const ERR_111_MSG = 'Le champ "Produits" doit être de type tableau.';
-const ERR_112_CODE = 112;
-const ERR_112_MSG = 'Des éléments du marché sont encore en édition.';
-const ERR_113_CODE = 113;
-const ERR_113_MSG = 'Problème technique lors de l\'enregistrement.';
-const ERR_114_CODE = 114;
-const ERR_114_MSG = 'Plusieures lignes dans la base au lieu d\'une attendue.';
-const ERR_115_CODE = 115;
-const ERR_115_MSG = 'Le champ doit être de type tableau.';
-const ERR_116_CODE = 116;
-const ERR_116_MSG = 'Session expirée. Veuillez vous <span class="action-ifb com-cursor-pointer" id="action-ifb-116">reconnecter</span>.';
-
-//Erreurs fonctionelles
-const ERR_201_CODE = 201;
-const ERR_201_MSG = 'Ce champ est obligatoire.';
-const ERR_202_CODE = 202;
-const ERR_202_MSG = 'La date de fin des réservations doit être avant celle du marché.';
-const ERR_203_CODE = 203;
-const ERR_203_MSG = 'L\'heure de fin des réservations doit être avant celle du marché.';
-const ERR_204_CODE = 204;
-const ERR_204_MSG = 'L\'heure de fin du marché doit être après celle du début.';
-const ERR_205_CODE = 205;
-const ERR_205_MSG = 'La quantité max par adhérent doit être plus petite que le stock.';
-const ERR_206_CODE = 206;
-const ERR_206_MSG = 'La taille du lot doit être plus petite que quantité max par adhérent.';
-const ERR_207_CODE = 207;
-const ERR_207_MSG = 'Le marché doit comporter au moins un produit.';
-const ERR_208_CODE = 208;
-const ERR_208_MSG = 'La date de fin du marché doit être après celle du début.';
-const ERR_209_CODE = 209;
-const ERR_209_MSG = 'La date ne doit pas être passée.';
-const ERR_210_CODE = 210;
-const ERR_210_MSG = 'Un produit demandé n\'existe pas dans le système.';
-const ERR_211_CODE = 211;
-const ERR_211_MSG = 'Ce produit est déjà présent dans le marché.';
-const ERR_212_CODE = 212;
-const ERR_212_MSG = 'Aucune réservation pour ce marché.';
-const ERR_213_CODE = 213;
-const ERR_213_MSG = 'Il faut entrer un prix pour ce produit.';
-const ERR_214_CODE = 214;
-const ERR_214_MSG = 'Il faut entrer une quantité pour ce produit.';
-const ERR_215_CODE = 215;
-const ERR_215_MSG = 'Ce champ doit être positif.';
-const ERR_216_CODE = 216;
-const ERR_216_MSG = 'Aucune donnée pour l\'id donné.';
-const ERR_217_CODE = 217;
-const ERR_217_MSG = 'Quantité commandée supérieure à la quantité maximale autorisée.';
-const ERR_218_CODE = 218;
-const ERR_218_MSG = 'Quantité commandée supérieure à la quantité restant en stock.';
-const ERR_219_CODE = 219;
-const ERR_219_MSG = 'Pas de nouveau marché.';
-const ERR_220_CODE = 220;
-const ERR_220_MSG = 'Vous avez déjà une réservation pour ce marché.';
-const ERR_221_CODE = 221;
-const ERR_221_MSG = 'Les réservations sont cloturées pour ce marché.';
-const ERR_222_CODE = 222;
-const ERR_222_MSG = 'Erreur d\'identification.';
-const ERR_223_CODE = 223;
-const ERR_223_MSG = 'Les mots de passe doivent être identiques.';
-const ERR_224_CODE = 224;
-const ERR_224_MSG = 'Ce champ doit être au format courriel.';
-const ERR_225_CODE = 225;
-const ERR_225_MSG = 'La date d\'anniversaire ne peut pas être après celle d\'adhésion.';
-const ERR_226_CODE = 226;
-const ERR_226_MSG = 'L\'adhérent doit pouvoir accéder à un module au minimum.';
-const ERR_227_CODE = 227;
-const ERR_227_MSG = 'Aucun numéro de compte ne correspond à celui saisit.';
-const ERR_228_CODE = 228;
-const ERR_228_MSG = 'Erreur dans la base sur le numéro de compte.';
-const ERR_229_CODE = 229;
-const ERR_229_MSG = 'Un des modules n\'existe pas.';
-const ERR_230_CODE = 230;
-const ERR_230_MSG = 'La date ne peut pas être future.';
-const ERR_231_CODE = 231;
-const ERR_231_MSG = 'Impossible de supprimer cet adhérent.';
-const ERR_232_CODE = 232;
-const ERR_232_MSG = 'Sélectionner un producteur.';
-const ERR_233_CODE = 233;
-const ERR_233_MSG = 'Sélectionner un produit.';
-const ERR_234_CODE = 234;
-const ERR_234_MSG = 'Un producteur demandé n\'existe pas dans le système.';
-const ERR_235_CODE = 235;
-const ERR_235_MSG = 'Le mot de passe actuel n\'est pas valide.';
-const ERR_236_CODE = 236;
-const ERR_236_MSG = 'Choisir une option.';
-
-//Message d'Information
-const ERR_301_CODE = 301;
-const ERR_301_MSG = 'Enregistrement Terminé.';
-const ERR_302_CODE = 302;
-const ERR_302_MSG = 'Mot de passe mis à jour.';
-const ERR_303_CODE = 303;
-const ERR_303_MSG = 'Réservation supprimée.';
-const ERR_304_CODE = 304;
-const ERR_304_MSG = 'Quantité maximale de réservation atteinte pour ce produit.';
-const ERR_305_CODE = 305;
-const ERR_305_MSG = 'Connexion réussie.';
-const ERR_306_CODE = 306;
-const ERR_306_MSG = 'Compte mis à jour.';/*
+}/*
  * Plugin jquery permettant de tester la longueur d'un champ input
  * Change son statut si il n'est pas valide
  */
@@ -2487,6 +2367,234 @@ String.prototype.extractDbMinute = function() {
 		return lTestId;
 	}
 
+};function CaisseTemplate() {
+	this.listeCommandePage = 
+		"<div id=\"contenu\">" +
+			"<div id=\"liste_commande_int\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
+						"<table class=\"com-table\">" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
+								"<th class=\"com-table-th\">Marché</th>	" +
+								"<th class=\"com-table-th\"></th>" +
+							"</tr>" +
+							"<!-- BEGIN commande -->" +
+							"<tr>" +
+								"<td class=\"com-table-td com-text-align-right\">{commande.numero}</td>" +
+								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+								"<td class=\"com-table-td\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td lst-resa-btn-commander\">" +
+									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
+								"</td>" +
+							"</tr>" +
+							"<!-- END commande -->" +
+						"</table>" +
+					"</div>" +	
+				"</div>" +				
+			"</div>" +
+		"</div>";
+
+	this.listeCommandeVide =
+	"<div id=\"contenu\">" +
+		"<div class=\"com-barre-menu-2\">" +
+			"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-marche-archive\">" +
+				"<span class=\"com-float-left\">Les Marchés cloturés</span>" +
+				"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-e\"></span>" +
+			"</button>" +
+		"</div>" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
+			"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
+		"</div>" +
+	"</div>";
+	
+	this.listeMarcheVide =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente</div>" +
+				"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
+			"</div>" +
+		"</div>";
+	
+	this.listeAdherentCommandePage = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+					"<div class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form\"> " +
+							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+								"</span>" +
+							"</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						"</form>" +
+					"</div>" +
+					"<table class=\"com-table\">" +
+						"<thead>" +
+						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
+							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
+							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+							"<th class=\"com-table-th com-underline-hover marche-com-th-nom\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+						"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+						"<!-- BEGIN listeAdherentCommande -->" +
+						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
+							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
+						"</tr>" +
+						"<!-- END listeAdherentCommande -->" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.achatCommandePage = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<div id=\"resa-info-commande\">" +
+						"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+						"N° de Compte : {adhCompte}" +
+					"</div>" +
+					"<div>" +
+						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+						"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+					"</div>" +
+					//"<span>N° d'Adhérent : {adhNumero} N° de Compte : {adhCompte} Nom : {adhNom} Prénom : {adhPrenom}</span><br/>" +
+					//"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span> <span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"com-float-left\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+					"<div class=\"com-widget-content\">" +
+					"<table class=\"achat-commande-table-pdt\">" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Produit</th>" +
+								"<th>Quantité</th>" +
+								"<th></th>" +
+								"<th>Prix</th>" +
+								"<th></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+						"<!-- BEGIN produits -->" +
+							"<tr class=\"ligne-produit\">" +
+								"<td><span class=\"produit-id ui-helper-hidden\">{produits.proId}</span>{produits.nproNom}</td>" +
+								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"{produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+								"<td class=\"td-unite\">{produits.proUniteMesure}</td>" +
+								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"{produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+								"<td><span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"<!-- END produits -->" +
+						"</tbody>" +
+						"<tfoot>" +
+							"<tr>" +
+								"<td colspan=\"2\"></td>" +
+								"<td class=\"com-text-align-right\" >Total :</td>" +
+								"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
+								"<td><span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"</tfoot>" +
+					"</table>" +
+					"</div>" +
+				"</div>" +
+			
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
+					"<div class=\"com-widget-content\">" +
+					"<table class=\"achat-commande-table-pdt\">" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Produit</th>" +
+								"<th>Quantité</th>" +
+								"<th></th>" +
+								"<th>Prix</th>" +
+								"<th></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+						"<!-- BEGIN produitsSolidaire -->" +
+							"<tr class=\"ligne-produit-solidaire\">" +
+								"<td><span class=\"produit-id ui-helper-hidden\">{produitsSolidaire.proId}</span>{produitsSolidaire.nproNom}</td>" +
+								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+								"<td class=\"td-unite\">{produitsSolidaire.proUniteMesure}</td>" +
+								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+								"<td><span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"<!-- END produitsSolidaire -->" +
+						"</tbody>" +
+						"<tfoot>" +
+							"<tr>" +
+								"<td colspan=\"2\"></td>" +
+								"<td class=\"com-text-align-right\" >Total :</td>" +
+								"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
+								"<td><span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"</tfoot>" +
+					"</table>" +
+					"</div>" +
+				"</div>" +
+			
+			
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<table>" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Montant</th>" +
+								"<th>Type de Paiement</th>" +
+								"<th id=\"label-champ-complementaire\"></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr>" +
+								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
+								"<td class=\"com-center\">" +
+									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
+										"<option value=\"0\">== Choisir ==</option>" +
+										"<!-- BEGIN typePaiement -->" +
+										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
+										"<!-- END typePaiement -->" +
+									"</select>" +
+								"</td>" +
+								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
+							"</tr>" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
+				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +
+				"<button type=\"button\" id=\"btn-valider\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
+			"</div>" +
+		"</div>";
+	
+	this.achatCommandeSucces = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat" +				
+				"</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
+						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des réservations</button>" +
+					"</p>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
 };function GestionProducteurTemplate() {
 	this.formulaireAjoutProducteur =
 		"<div id=\"contenu\">" +
@@ -4316,6 +4424,25 @@ String.prototype.extractDbMinute = function() {
 ;function CommunTemplate() {
 	this.debutContenu = "<div id=\"contenu\">";
 	this.finContenu = "</div>";
+};function GestionCaisseTemplate() {
+	this.etatCaisseDebut = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">État de la caisse</div>" +
+					"<div class=\"com-center\">La caisse est " ;
+	
+	this.etatCaisseMilieu = 			
+					" : <button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-caisse\">" ;
+					
+	this.etatCaisseFin = "</button></div>" +
+				"</div>" +	
+			"</div>" +	
+		"</div>";
+	
+	this.caisseOuverte = "ouverte";
+	this.caisseFermee = "fermée";
+	this.boutonOuverture = "Ouvrir";
+	this.boutonFermeture = "Fermer";
 };function GestionAdherentsTemplate() {
 	this.formulaireAjoutAdherent =
 		"<div id=\"contenu\">" +
@@ -4405,10 +4532,14 @@ String.prototype.extractDbMinute = function() {
 							"<table id=\"formulaire-modifier-adherent-table-autorisation\" class=\"com-table-form\">" +
 								"<tr>" +
 									"<th class=\"com-table-form-th ui-widget-content ui-corner-all\">Modules autorisés</th>" +
+							"<!-- BEGIN modules_default -->" +								
+									"<input type=\"hidden\" name=\"modules_default[]\" value=\"{modules_default.id}\"/>" +
+							"<!-- END modules_default -->" +
 								"</tr>" +
+								
 							"<!-- BEGIN modules -->" +
 								"<tr class=\"ui-widget-content\" >" +
-									"<td class=\"com-table-form-td\" ><input type=\"checkbox\" name=\"modules[]\" value=\"{modules.id}\" {modules.checked} />{modules.label}</td>" +
+									"<td class=\"com-table-form-td\" ><input type=\"checkbox\" name=\"modules[]\" value=\"{modules.id}\" {modules.checked}/>{modules.label}</td>" +
 								"</tr>" +
 							"<!-- END modules -->" +
 								"<tr>" +
@@ -4821,6 +4952,56 @@ String.prototype.extractDbMinute = function() {
 						"<!-- END modules -->" +
 					"</ul>" +
 				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.naviguateurIncompatible =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
+					"Naviguateur Incompatible" +
+				"</div>" +
+				"<div>" +
+					"Votre naviguateur n'est pas compatible avec zeybux.<br/>" +
+					"Vous pouvez utiliser l'un des naviguateur suivants pour profiter du site : <br/>" +
+					"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+						
+						"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+							"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+								"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+								"Mozilla Firefox" +
+							"</a>" +
+						"</div>" +
+						"<div>" +	
+							"<a href=\"http://www.google.com/chrome/\">" +
+								"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+								"Google Chrome" +
+							"</a>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.formulaireIdentification = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+					"<table>" +
+						"<tr>" +
+							"<td>Login</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td>Mot de Passe</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
 			"</div>" +
 		"</div>";
 };function MonCompteTemplate() {
@@ -5344,29 +5525,12 @@ String.prototype.extractDbMinute = function() {
 			"</div>" +
 		"</div>";
 }/********** Début Variables Globales ************/
-const gTempsTransition = 150;
-const gTempsTransitionUnique = gTempsTransition * 2;
-const gTempsTransitionMsgInfo = gTempsTransition * 10;
-// TODO mettre le sigle en lien avec le fichier de configuration
-const gSigleMonetaire = "€";
-
-const gTextEdition = "Editer";
-const gTextValider = "Valider";
-
-var TemplateData = new TemplateData();
-var Infobulle = new Infobulles();
-var gCommunVue = new CommunVue(); // TODO Renommer en CommunVue et utiliser cette classe dans toutes les vues
-
+var TemplateData;
+var Infobulle = {};
+var gCommunVue = {};
 /********** Fin Variables Globales ************/
-
-$(document).ready(function() {
-	
-	// Affichage des infobulles pour les erreurs	
-	$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});
-	
-	$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition)} );
-	$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
-
+$(document).ready(function() {	
+	AccueilVue(); // Lancement de l'accueil
 });;function RechargerCompteVue(pParam) {
 	this.mCommunVue = new CommunVue();
 	this.mTypePaiement = [];
@@ -6074,6 +6238,679 @@ $(document).ready(function() {
 	}
 	
 	this.construct(pParam);
+};function CaisseListeCommandeVue(pParam) {
+	this.mCommunVue = new CommunVue();
+	
+	this.construct = function(pParam) {
+		var that = this;
+		$.post(	"./index.php?m=Caisse&v=CaisseListeCommande", 
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+		);
+	}	
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lCaisseTemplate = new CaisseTemplate();
+		if(lResponse.listeCommande.length > 0 && lResponse.listeCommande[0].comId != null) {
+		
+			var lListeCommande = new Object;
+			lListeCommande.commande = new Array();
+			
+				$(lResponse.listeCommande).each(function() {
+					var lCommande = new Object();
+					lCommande.id = this.comId;
+					lCommande.numero = this.comNumero;
+					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
+					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
+					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
+					
+					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
+					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
+					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
+					
+					lCommande.heureMarcheFin = this.comDateMarcheFin.extractDbHeure();
+					lCommande.minuteMarcheFin = this.comDateMarcheFin.extractDbMinute();
+	
+					lListeCommande.commande.push(lCommande);
+				});
+			
+			var lTemplate = lCaisseTemplate.listeCommandePage;
+			$('#contenu').replaceWith(that.affect($(lTemplate.template(lListeCommande))));
+		} else {
+			$('#contenu').replaceWith(that.affect($(lCaisseTemplate.listeCommandeVide)));
+		}
+	}
+	
+	this.affect = function(pData) {
+		pData = this.affectLienMarche(pData);
+		pData = this.mCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectLienMarche = function(pData) {
+		pData.find('.btn-marche').click(function() {
+			var lparam = {"id_commande":$(this).attr('id')};
+			CaisseMarcheCommandeVue(lparam);
+		});
+		return pData;
+	}	
+	this.construct(pParam);
+};function CaisseMarcheCommandeVue(pParam) {
+	this.idCommande = null;
+	
+	this.construct = function(pParam) {
+		var that = this; // TODO gestion avec param pour le server aussi
+		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","id_commande=" + pParam.id_commande,
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+		);
+		this.idCommande = pParam.id_commande;
+	}		
+	
+	this.afficher = function(pResponse) {
+		Infobulle.init(); // Supprime les erreurs
+		if(pResponse.valid) {
+			if(pResponse.listeAdherentCommande) {
+				var that = this;
+				var lCaisseTemplate = new CaisseTemplate();
+				
+				if(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null) {
+					var lTemplate = lCaisseTemplate.listeAdherentCommandePage;
+					pResponse.comNumero = pResponse.listeAdherentCommande[0].comNumero;
+					$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
+				} else {
+					$('#contenu').replaceWith(lCaisseTemplate.listeMarcheVide);
+				}
+			} else {
+				var lVr = new TemplateVR();
+				lVr.valid = false;
+				lVr.log.valid = false;				
+				var erreur = new VRerreur();
+				erreur.code = ERR_211_CODE;
+				erreur.message = ERR_211_MSG;
+				lVr.log.push(erreur);
+				Infobulle.generer(lVr,'');
+			}
+		} else {
+			Infobulle.generer(pResponse,'');
+		}
+	}
+	
+	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
+		pData = this.affectLienAchat(pData);
+		return pData;
+	}
+	
+	this.affectTri = function(pData) {
+		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		return pData;
+	}
+	
+	this.affectRecherche = function(pData) {
+		pData.find("#filter").keyup(function() {
+		    $.uiTableFilter( $('.com-table'), this.value );
+		  });
+		pData.find("#filter-form").submit(function () {return false;});
+		return pData;
+	}
+	
+	this.affectLienAchat = function(pData) {
+		var that = this;
+		pData.find(".achat-commande-ligne").click(function() {
+			var lParam = {	id_commande:that.idCommande,
+							id_adherent:$(this).find(".id-adherent").text()};
+			CaisseAchatCommandeVue(lParam);
+		});
+		return pData;
+	}
+	
+	this.construct(pParam);
+};function CaisseAchatCommandeVue(pParam) {
+	this.idCommande = null;
+	this.idAdherent = null;
+	this.idCompte = null;
+//	this.listeLot = new Array();
+	this.mTypePaiement = [];
+	this.solde = null;
+	this.mCommunVue = new CommunVue();
+	this.etapeValider = 0;
+	this.total = 0;
+	this.totalSolidaire = 0;
+	
+	this.pdtCommande = new Array();
+	
+	this.construct = function(pParam) {
+		var that = this;		 // TODO gestion avec param pour le server aussi
+		this.idCommande = pParam.id_commande;
+		this.idAdherent = pParam.id_adherent;
+		
+		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","id_commande=" + pParam.id_commande + "&id_adherent=" + pParam.id_adherent,
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {						
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						that.idCompte = lResponse.adherent.adhIdCompte;
+												
+						$(lResponse.commande).each(function() {
+							var lLot = new Object();
+							
+							lLot.dcomId = this.dcomId;
+							lLot.dcomIdProduit = this.dcomIdProduit;
+							lLot.dcomTaille = this.dcomTaille;
+							lLot.dcomPrix = this.dcomPrix;
+							
+							if(that.pdtCommande[this.proId]) {
+								that.pdtCommande[this.proId].lot[lLot.dcomId] = lLot;
+								that.pdtCommande[this.proId].prixUnitaire = null;
+							} else {			
+								var lproduit = new Object();
+								lproduit.proId = this.proId;
+								lproduit.proUniteMesure = this.proUniteMesure;
+								lproduit.proMaxProduitCommande = this.proMaxProduitCommande;
+								
+								$(lResponse.stock).each(function() { 
+									if(this.proId == lproduit.proId) {
+										if(parseFloat(this.stoQuantite) < parseFloat(lproduit.proMaxProduitCommande)) {
+											 lproduit.proMaxProduitCommande = this.stoQuantite;
+										}
+									}
+								});
+
+								lproduit.nproNom = this.nproNom;
+								lproduit.nproDescription = this.nproDescription;
+								lproduit.nproIdCategorie = this.nproIdCategorie;
+								lproduit.prixUnitaire = lLot.dcomPrix/lLot.dcomTaille;								
+								
+								lproduit.lot = new Array();
+								lproduit.lot[lLot.dcomId] = lLot;								
+								that.pdtCommande[lproduit.proId] = lproduit;
+							}
+						});			
+						
+						$(lResponse.typePaiement).each(function() {
+							that.mTypePaiement[this.tppId] = this;
+						});
+						
+						
+						that.solde = parseFloat(lResponse.adherent.opeMontant);
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
+					}					
+				},"json"
+		);
+	}		
+	
+	this.afficher = function(pResponse) {
+		Infobulle.init(); // Supprime les erreurs
+		if(pResponse.valid) {
+			var that = this;
+			var lCaisseTemplate = new CaisseTemplate();
+			var lTemplate = lCaisseTemplate.achatCommandePage;
+			
+			var lData = new Object();
+			lData.comNumero = pResponse.commande[0].comNumero;
+			
+			lData.adhNumero = pResponse.adherent.adhNumero;
+			lData.adhCompte = pResponse.adherent.cptLabel;
+			lData.adhNom = pResponse.adherent.adhNom;
+			lData.adhPrenom = pResponse.adherent.adhPrenom;
+			lData.sigleMonetaire = gSigleMonetaire;
+			lData.total = 0;
+			
+			lData.produits = new Array();
+			lData.produitsSolidaire = new Array();
+			
+			$(this.pdtCommande).each(function() {
+				if(this.proId) {
+					var lProduitCommande = this;
+					var lProduit = new Object();
+					lProduit.proId = this.proId;
+					lProduit.nproNom = this.nproNom;
+					lProduit.proUniteMesure = this.proUniteMesure;
+					lProduit.stoQuantite = 0;
+					lProduit.proPrix = 0;
+					var lPrix = 0;
+					$(pResponse.reservation).each(function() {
+						if(this.proId == lProduit.proId) {
+							lProduit.stoQuantite = this.stoQuantite * -1;
+							lPrix = (lProduitCommande.lot[this.dcomId].dcomPrix/lProduitCommande.lot[this.dcomId].dcomTaille)*lProduit.stoQuantite;
+							lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+						}
+					});
+					lData.total += lPrix;
+					lData.produits.push(lProduit);
+
+					$(pResponse.stockSolidaire).each(function() {
+						if(lProduit.proId == this.proId){
+							lData.produitsSolidaire.push(lProduit);
+						}
+					});
+				}
+			});
+			
+			/*lListeIdProduit = new Array();
+			for(lLigne in pResponse.commande) {
+				lPush = true;
+				for(lId in lListeIdProduit) {
+					if(lListeIdProduit[lId] == pResponse.commande[lLigne].proId) {
+						lPush = false;
+					}
+				}
+				if(lPush) {
+					lListeIdProduit.push(pResponse.commande[lLigne].proId);
+					var lProduit = new Object();
+					lProduit.proId = pResponse.commande[lLigne].proId;
+					lProduit.nproNom = pResponse.commande[lLigne].nproNom;
+					lProduit.proUniteMesure = pResponse.commande[lLigne].proUniteMesure;
+					lProduit.stoQuantite = 0;
+					lProduit.proPrix = 0;
+					var lPrix = 0;
+					for(lReservation in pResponse.reservation) {
+						if(pResponse.reservation[lReservation].proId == lProduit.proId) {
+							lProduit.stoQuantite = pResponse.reservation[lReservation].stoQuantite * -1;
+							lPrix = this.calculPrixProduit(lProduit.proId,lProduit.stoQuantite);
+							lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+						}						
+					}
+					lData.total += lPrix;
+					lData.produits.push(lProduit);
+				
+				
+					$(pResponse.stockSolidaire).each(function() {
+						if(pResponse.commande[lLigne].proId == this.proId){
+							var lProduitSolidaire = {};
+							lProduitSolidaire.proId = this.proId;
+							lProduitSolidaire.nproNom = pResponse.commande[lLigne].nproNom;
+							lProduitSolidaire.proUniteMesure = pResponse.commande[lLigne].proUniteMesure;
+							lData.produitsSolidaire.push(lProduitSolidaire);
+						}
+					});
+				}
+			}*/
+			
+			lData.adhSolde = parseFloat(pResponse.adherent.opeMontant);
+			//lData.adhNouveauSolde =  lData.adhSolde-lData.total;
+			/*alert('Solde :'+ lData.adhSolde);
+			alert('total :'+ lData.total);
+			alert('NvSolde :'+ lData.adhNouveauSolde);
+			alert('NvSolde2 :'+ lData.adhSolde-lData.total);*/
+			
+			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
+			//lData.adhNouveauSolde = lData.adhNouveauSolde.nombreFormate(2,',',' ');
+			lData.total = lData.total.nombreFormate(2,',',' ');
+			that.total = lData.total;
+			
+			lData.typePaiement = that.mTypePaiement;
+			
+			$('#contenu').replaceWith( that.affect($(lTemplate.template(lData))) );
+			that.changerTypePaiement($(":input[name=typepaiement]"));
+			that.majNouveauSolde();
+		} else {
+			Infobulle.generer(pResponse,'');
+		}
+	}
+	
+	this.affect = function(pData) {
+		pData = this.affectSelectTypePaiement(pData);
+		pData = this.affectNouveauSolde(pData);
+		pData = this.mCommunVue.comNumeric(pData);
+		pData = this.affectNouveauPrixProduit(pData);
+		pData = this.affectChampComplementaire(pData);
+		pData = this.affectValider(pData);
+		pData = this.affectAnnuler(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectSupprimerPdt(pData);
+		pData = this.mCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectSelectTypePaiement = function(pData) {
+		var that = this;
+		pData.find(":input[name=typepaiement]").change(function () {
+			that.changerTypePaiement($(this));
+			that.controlerAchat();
+		});
+		return pData;
+	}
+	
+	this.affectNouveauSolde = function(pData) {
+		var that = this;
+		pData.find(":input[name=montant-rechargement], .produit-prix").keyup(function() {
+			that.majNouveauSolde();	
+			that.controlerAchat();
+		});
+		pData.find(".produit-solidaire-prix").keyup(function() {
+			that.majNouveauSoldeSolidaire();	
+			that.controlerAchat();
+		});
+		return pData;
+	}
+		
+	this.affectNouveauPrixProduit = function(pData) {
+		var that = this;
+		pData.find(".produit-quantite").keyup(function() {
+				that.majPrixProduit($(this));
+				that.controlerAchat();
+		});
+		pData.find(".produit-solidaire-quantite").keyup(function() {
+			that.controlerAchat();
+		});
+		return pData;
+	}
+	
+	this.affectChampComplementaire = function(pData) {
+		var that = this;
+		pData.find(":input[name=champ-complementaire]").keyup(function() {that.controlerAchat();});		
+		return pData;
+	}
+	
+	this.affectValider = function(pData) {
+		var that = this;
+		pData.find("#btn-valider").click(function() {that.creerRecapitulatif();});		
+		return pData;
+	}
+	
+	this.affectAnnuler = function(pData) {
+		var that = this;
+		pData.find("#btn-annuler").click(function() {that.retourListe();});		
+		return pData;
+	}
+	
+	this.affectModifier = function(pData) {
+		var that = this;
+		pData.find("#btn-modifier").click(function() {that.boutonModifier();});		
+		return pData;
+	}
+	
+	this.affectSupprimerPdt = function(pData) {
+		if(pData.find(".ligne-produit").size() == 0) {
+			pData.find("#achat-pdt-widget").remove();
+		}
+		if(pData.find(".ligne-produit-solidaire").size() == 0) {
+			pData.find("#achat-pdt-solidaire-widget").remove();
+		}
+		return pData;
+	}
+	
+	this.majPrixProduit = function(Obj) {
+		var lQuantite = parseFloat(Obj.val().numberFrToDb());
+		if(isNaN(lQuantite)) {lQuantite = 0;}
+		var ligne = Obj.parent().parent();
+		var lIdProduit = ligne.find(".produit-id").text();
+		var lNvPrix = 0;
+		
+		if(this.pdtCommande[lIdProduit].prixUnitaire != null) {
+			lNvPrix = this.pdtCommande[lIdProduit].prixUnitaire * lQuantite;
+		}			
+		if(isNaN(lNvPrix)) {lNvPrix = 0;}
+
+		if(lNvPrix != 0) {
+			ligne.find(".produit-prix").val(lNvPrix.nombreFormate(2,',',' '));
+		} else {
+			ligne.find(".produit-prix").val('');
+		}
+		
+		this.majNouveauSolde();		
+	}
+	
+	this.controlerAchat = function() {
+		Infobulle.init(); // Supprime les erreurs
+		var lValid = new AchatCommandeValid();
+		var lVr = lValid.validAjout(this.getAchatCommandeVO());
+		Infobulle.generer(lVr,'');
+		return lVr;
+	}
+	
+	/*this.calculPrixProduit = function(pIdProduit,pQuantite) {
+		if(this.pdtCommande[pIdProduit]) {
+			var lLots = this.listeLot[pIdProduit];
+			var lPrix = 0;			
+			for(lLot in lLots) {
+				if(pQuantite % lLots[lLot].quantite == 0) {
+					lPrix = (pQuantite / lLots[lLot].quantite) * lLots[lLot].prix;
+				}
+			}			
+			return lPrix;
+		}
+		return 0;
+	}*/
+	
+	this.majTotal = function() {
+		var lTotal = this.calculerTotal();
+		$("#total-achat").text(lTotal.nombreFormate(2,',',' '));
+		this.total = lTotal;
+	}
+	
+	this.majTotalSolidaire = function() {
+		var lTotalSolidaire = this.calculerTotalSolidaire();
+		$("#total-achat-solidaire").text(lTotalSolidaire.nombreFormate(2,',',' '));
+		this.totalSolidaire = lTotalSolidaire;
+	}
+	
+	this.calculerTotal = function() {
+		var lTotal = 0;
+		$(".produit-prix").each(function() {
+			var lMontant = parseFloat($(this).val().numberFrToDb());
+			if(isNaN(lMontant)) {lMontant = 0;}
+			lTotal += lMontant;
+		});
+		return lTotal;		
+	}
+	
+	this.calculerTotalSolidaire = function() {
+		var lTotal = 0;
+		$(".produit-solidaire-prix").each(function() {
+			var lMontant = parseFloat($(this).val().numberFrToDb());
+			if(isNaN(lMontant)) {lMontant = 0;}
+			lTotal += lMontant;
+		});
+		return lTotal;		
+	}
+	
+	this.majNouveauSolde = function() {
+		this.majTotal();		
+		var lTotal = this.calculNouveauSolde();
+		if(lTotal <= 0) {
+			$("#nouveau-solde").addClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
+		} else {
+			$("#nouveau-solde").removeClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
+		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
+	}
+	
+	this.majNouveauSoldeSolidaire = function() {
+		this.majTotalSolidaire();		
+		var lTotal = this.calculNouveauSolde();
+		if(lTotal <= 0) {
+			$("#nouveau-solde").addClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
+		} else {
+			$("#nouveau-solde").removeClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
+		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
+	}
+	
+	this.calculNouveauSolde = function() {
+		var lAchats = this.total;// parseFloat($("#total-achat").val().numberFrToDb());
+		if(isNaN(lAchats)) {lAchats = 0;}
+		var lAchatsSolidaire = this.totalSolidaire; //parseFloat($("#total-achat-solidaire").val().numberFrToDb());
+		if(isNaN(lAchatsSolidaire)) {lAchatsSolidaire = 0;}
+		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
+		if(isNaN(lRechargement)) {lRechargement = 0;}		
+		return this.solde - lAchats - lAchatsSolidaire + lRechargement;
+	}
+		
+	this.changerTypePaiement = function(pObj) {
+		var lId = pObj.val();
+		var lLabel = this.getLabelChamComplementaire(lId);
+		if(lLabel != null) {
+			$("#label-champ-complementaire").text(lLabel).show();
+			$("#td-champ-complementaire").show();
+		} else {
+			$("#label-champ-complementaire").text('').hide();
+			$(":input[name=champ-complementaire]").val('');
+			$("#td-champ-complementaire").hide();
+		}
+	}
+		
+	this.getLabelChamComplementaire = function(pId) {
+		var lTpp = this.mTypePaiement;
+		if(lTpp[pId]) {
+			if(lTpp[pId].tppChampComplementaire == 1) {
+				return lTpp[pId].tppLabelChampComplementaire;
+			}
+		}	
+		return null;
+	}
+	
+	this.getAchatCommandeVO = function() {
+		var lVo = new AchatCommandeVO();
+		lVo.id = this.idCommande;
+		lVo.idCompte = this.idCompte;
+		lVo.produits = this.getProduitsVO();
+		lVo.produitsSolidaire = this.getProduitsSolidaireVO();
+		lVo.rechargement = this.getRechargementVO();		
+		lVo.NbProduits = $('.ligne-produit').size();
+		lVo.NbProduitsSolidaire = $('.ligne-produit-solidaire').size();		
+		return lVo;
+	}	
+	
+	this.getProduitsVO = function() {
+		var lVo = new Array();		
+		$(".ligne-produit").each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).find(".produit-id").text();			
+			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){
+				lQuantite = parseFloat(lQuantite);
+			}
+			lVoProduit.quantite = lQuantite;
+			
+			var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+			if(!isNaN(lprix) && !lprix.isEmpty()){
+				lprix = parseFloat(lprix);
+			}
+			lVoProduit.prix = lprix;
+						
+			lVo.push(lVoProduit);			
+		});		
+		return lVo;
+	}
+	
+	this.getProduitsSolidaireVO = function() {
+		var lVo = new Array();		
+		$(".ligne-produit-solidaire").each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).find(".produit-id").text();			
+			var lQuantite = $(this).find(".produit-solidaire-quantite").val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){
+				lQuantite = parseFloat(lQuantite);
+			}
+			lVoProduit.quantite = lQuantite;
+			
+			var lprix = $(this).find(".produit-solidaire-prix").val().numberFrToDb();
+			if(!isNaN(lprix) && !lprix.isEmpty()){
+				lprix = parseFloat(lprix);
+			}
+			lVoProduit.prix = lprix;
+			
+			lVo.push(lVoProduit);			
+		});		
+		return lVo;
+	}
+	
+	this.getRechargementVO = function() {
+		var lVo = new RechargementCompteVO();
+		lVo.id = this.idCompte;
+		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
+		if(!isNaN(lMontant) && !lMontant.isEmpty()){
+			lMontant = parseFloat(lMontant);
+		}
+		lVo.montant = lMontant;
+		lVo.typePaiement = $(":input[name=typepaiement]").val();
+		if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
+			lVo.champComplementaireObligatoire = 1;
+			lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
+		} else {
+			lVo.champComplementaireObligatoire = 0;
+		}
+		return lVo;
+	}
+	
+	this.creerRecapitulatif = function() {
+		var lVr = this.controlerAchat();
+		if(lVr.valid) {
+			if(this.etapeValider == 0) {
+				$(".produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).inputToText();});
+				$(".produit-prix,.produit-solidaire-prix,#rechargementmontant").each(function() {$(this).inputToText("montant");});
+				$("#btn-modifier").show();
+				$("#btn-annuler").hide();
+				this.etapeValider = 1;
+			} else if(this.etapeValider == 1) {
+				this.enregistrerAchat();
+			}
+		}
+	}
+	
+	this.enregistrerAchat = function() {
+		var that = this;
+		var lVo = this.getAchatCommandeVO();
+		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","achat=" + $.toJSON(lVo),
+				function(lVoRetour) {
+					if(lVoRetour.valid) {
+						var lCaisseTemplate = new CaisseTemplate();
+						var lTemplate = lCaisseTemplate.achatCommandeSucces;
+						$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
+					} else {
+						that.boutonModifier();
+						Infobulle.generer(lVoRetour,"");
+					}
+					that.etapeValider = 0;
+				},"json"
+			);
+	}
+	
+	this.boutonModifier = function() {
+		if(this.etapeValider == 1) {
+			$(".produit-prix,.produit-solidaire-prix,#rechargementmontant,.produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).textToInput();});
+			$("#btn-modifier").hide();
+			$("#btn-annuler").show();
+			this.etapeValider = 0;
+		}
+	}
+	
+	this.retourListe = function() {
+		CaisseMarcheCommandeVue({id_commande:this.idCommande});
+	}
+	
+	this.construct(pParam);
 };function MenuVue(pParam) {
 	this.mMenuTemplate = new IdentificationTemplate();
 
@@ -6209,6 +7046,11 @@ $(document).ready(function() {
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-CaisseListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
+			
 			return pData;
 		}
 		return null;
@@ -6290,6 +7132,11 @@ $(document).ready(function() {
 				RechargerCompteVue();
 				return false;
 			});
+			
+			pData.find('#menu-GestionCaisse-GestionCaisse').click(function() {
+				GestionCaisseVue();
+				return false;
+			});
 				
 			return pData;
 		}
@@ -6304,15 +7151,28 @@ $(document).ready(function() {
 		if(pParam && pParam.vr) {
 			Infobulle.generer(pParam.vr,'');
 		}	
-		this.affect();
+		//this.affect();
+		this.afficher();
 	}
 	
-	this.affect = function() {		
+	this.afficher = function() {
 		var that = this;
-		$('#identification-form').submit(function() {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+	}
+	
+	this.affect = function(pData) {		
+		pData = this.affectIdentifier(pData);
+		return pData;
+	}
+	
+	this.affectIdentifier = function(pData) {
+		var that = this;
+		pData.find('#identification-form').submit(function() {
 			that.identifier($(this));
 			return false;
 		});
+		return pData;
 	}
 	
 	this.identifier = function(pObj) {
@@ -6328,11 +7188,23 @@ $(document).ready(function() {
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
 						if(lResponse.valid) {
-							// TODO Lancement de l'identification
-							MenuVue();
-							
-							MonCompteVue();
-							
+							// TODO charger les modules
+							switch(lResponse.type) {
+								case '1':
+									MenuVue();
+									MonCompteVue();
+								break;
+								
+								case '2':
+									MenuVue();
+									AdministrationVue();
+								break;
+								
+								case '3':
+									MenuVue();
+									CaisseListeCommandeVue();
+								break;
+							}
 							
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -6345,11 +7217,48 @@ $(document).ready(function() {
 	}
 	
 	this.construct(pParam);
-}
+};function AccueilVue(pParam) {
+	this.construct = function(pParam) {
+		if(pParam && pParam.vr) {
+			Infobulle.generer(pParam.vr,'');
+		}
+		this.afficher();
+	}	
 	
-$(document).ready(function() {	
-	IdentificationVue();
-});;function AjoutAdherentVue(pParam) {
+	this.afficher = function() {
+		if($.browser.msie) {
+			var lIdentificationTemplate = new IdentificationTemplate();
+			$('#contenu').replaceWith(lIdentificationTemplate.naviguateurIncompatible);
+		} else {
+			var that = this;
+			$.getScript("./js/zeybux-configuration-min.js",function() {
+				that.init();
+				IdentificationVue();
+			});
+		}		
+	}
+	
+	this.init = function() {
+		this.initObj();
+		this.initAction();
+	}
+	
+	this.initObj = function() {
+		// Initialisation des objets globaux
+		TemplateData = new TemplateData();
+		Infobulle = new Infobulles();
+		gCommunVue = new CommunVue(); // TODO Renommer en CommunVue et utiliser cette classe dans toutes les vues
+	}
+	
+	this.initAction = function() {
+		// Affichage des infobulles pour les erreurs	
+		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
+		$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition)} );
+		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );		
+	}
+	
+	this.construct(pParam);
+};function AjoutAdherentVue(pParam) {
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
@@ -6371,16 +7280,20 @@ $(document).ready(function() {
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		
+		var lData = {modules:[],modules_default:[]}
 		$(lResponse.modules).each(function() {
 			if(this.defaut == 1) {
-				this.checked = "checked=\"checked\"";
+				lData.modules_default.push(this);
+			} else {
+				lData.modules.push(this);
 			}
 		});		
 		
+		lData.dateAdhesion = getDateAujourdhuiDb().dateDbToFr();
+		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
 	}
 	
 	this.affect = function(pData) {
@@ -6435,7 +7348,8 @@ $(document).ready(function() {
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
 		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
-
+		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
+		
 		var lValid = new AdherentValid();
 		var lVr = lValid.validAjout(lVo);
 		
@@ -6758,13 +7672,24 @@ $(document).ready(function() {
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+		var lData = lResponse;
+		var lModules_default= [], lModules = [];
+		$(lResponse.modules).each(function() {
+			if(this.defaut == 1) {
+				lModules_default.push(this);
+			} else {
+				lModules.push(this);
+			}
+		});
+		lData.modules_default = lModules_default;
+		lData.modules = lModules;
 		
-		lResponse.dateAdhesion = lResponse.dateAdhesion.extractDbDate().dateDbToFr();
-		lResponse.dateNaissance = lResponse.dateNaissance.extractDbDate().dateDbToFr();
+		lData.dateAdhesion = lResponse.dateAdhesion.extractDbDate().dateDbToFr();
+		lData.dateNaissance = lResponse.dateNaissance.extractDbDate().dateDbToFr();
 		
 		$(lResponse.autorisations).each(function() {
 			var lIdModule = this.idModule;
-			$(lResponse.modules).each(function() {
+			$(lData.modules).each(function() {
 				if(this.id == lIdModule) {
 					this.checked = "checked=\"checked\"";
 				}
@@ -6773,8 +7698,8 @@ $(document).ready(function() {
 		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
-		var lHtml = lTemplate.template(lResponse);
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		//var lHtml = lTemplate.template(lResponse);
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
 	}
 	
 	this.affect = function(pData) {
@@ -6830,6 +7755,7 @@ $(document).ready(function() {
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
 		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
+		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
 
 		var lValid = new AdherentValid();
 		var lVr = lValid.validUpdate(lVo);
@@ -6947,6 +7873,178 @@ $(document).ready(function() {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
 	}
+	
+	this.construct(pParam);
+};function GestionCaisseVue(pParam) {	
+	this.etatCaisse = 0;
+	
+	this.construct = function(pParam) {
+		var that = this;
+		var lParam = {'fonction':'etatCaisse'};
+		$.post(	"./index.php?m=GestionCaisse&v=GestionCaisse", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {	
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+		);
+	}	
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		this.etatCaisse = lResponse.etat;	
+		
+		var lGestionCaisseTemplate = new GestionCaisseTemplate();
+		
+		var lHtml = lGestionCaisseTemplate.etatCaisseDebut;		
+		if(lResponse.etat == 1) {
+			lHtml += lGestionCaisseTemplate.caisseOuverte;
+		} else {
+			lHtml += lGestionCaisseTemplate.caisseFermee;			
+		}
+		
+		lHtml += lGestionCaisseTemplate.etatCaisseMilieu;
+		
+		if(lResponse.etat == 1) {
+			lHtml += lGestionCaisseTemplate.boutonFermeture;
+		} else {
+			lHtml += lGestionCaisseTemplate.boutonOuverture;			
+		}
+		
+		lHtml += lGestionCaisseTemplate.etatCaisseFin;
+		
+		lHtml = $(lHtml);
+		
+		$('#contenu').replaceWith(that.affect(lHtml));	
+	}
+	
+	this.affect = function(pData) {
+		/*pData = this.nouveauSoldeNegatif(pData);
+		pData = this.affectHover(pData);*/
+		pData = affectChangerEtatCaisse(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectChangerEtatCaisse = function(pData) {
+		if(this.etatCaisse == 1) {
+			pData = this.affectFermerCaisse(pData);
+		} else {
+			pData = this.affectOuvrirCaisse(pData);
+		}
+		return pData;
+	}
+	
+	this.affectFermerCaisse = function(pData) {
+		var that = this;
+		pData.find("#btn-caisse").click(function() {
+			var lParam = {'fonction':'fermerCaisse'};
+			$.post(	"./index.php?m=GestionCaisse&v=GestionCaisse", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse.valid) {
+							that.construct();
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					},"json"
+			);
+		});
+		return pData;
+	}
+	
+	this.affectOuvrirCaisse = function(pData) {
+		var that = this;
+		pData.find("#btn-caisse").click(function() {
+			var lParam = {'fonction':'ouvrirCaisse'};
+			$.post(	"./index.php?m=GestionCaisse&v=GestionCaisse", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse.valid) {
+							that.construct();
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					},"json"
+			);
+		});
+		return pData;
+	}
+	
+	/*this.paginnation = function(pData) {
+		pData.find("#table-operation")
+			.tablesorter({headers: { 
+				0: {sorter: false},
+	            1: {sorter: false},
+	            2: {sorter: false},
+	            3: {sorter: false},
+	            4: {sorter: false} 
+	        } })
+			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
+		return pData;
+	}
+	
+	this.nouveauSoldeNegatif = function(pData) {
+		pData.find('.nouveau-solde-val').each(function() {
+			if(parseFloat($(this).text().numberFrToDb()) < 0 ) {
+				$(this).closest('.nouveau-solde').addClass("com-nombre-negatif");
+			}
+		});
+		return pData;
+	}
+	
+	this.soldeNegatif = function(pData) {
+		pData.find('#solde').addClass("com-nombre-negatif");
+		return pData;
+	}
+	
+	this.affectHover = function(pData) {
+		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+		return pData;
+	}
+	
+	this.masquerPagination = function(pData) {
+		pData.find('#content-nav-liste-operation').hide();
+		return pData;
+	}
+	
+	this.affectEditionInfo = function(pData) {		
+		var that = this;
+		pData.find('#btn-edt-info').click(function() {
+			var lMonCompteTemplate = new MonCompteTemplate();
+			var lTemplate = lMonCompteTemplate.dialogEditionCompte;
+			
+			var lDialog = $(lTemplate).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Valider': function() {
+						that.changerMotPasse(this);
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); }
+			});
+			lDialog.find(':input').keyup(function(event) {
+				if (event.keyCode == '13') {
+					that.changerMotPasse(lDialog);
+				}
+			});
+		});
+		
+		return pData;
+	}*/
 	
 	this.construct(pParam);
 };function GestionListeCommandeVue(pParam) {

@@ -20,15 +20,15 @@ class StockProduitReservationViewVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
-	* @desc ComId de la StockProduitReservationViewVO
+	* @desc ProIdCommande de la StockProduitReservationViewVO
 	*/
-	protected $mComId;
+	protected $mProIdCommande;
 
 	/**
 	* @var int(11)
-	* @desc ProIdProducteur de la StockProduitReservationViewVO
+	* @desc ProIdCompteProducteur de la StockProduitReservationViewVO
 	*/
-	protected $mProIdProducteur;
+	protected $mProIdCompteProducteur;
 
 	/**
 	* @var int(11)
@@ -55,39 +55,39 @@ class StockProduitReservationViewVO  extends DataTemplate
 	protected $mStoQuantite;
 
 	/**
-	* @name getComId()
+	* @name getProIdCommande()
 	* @return int(11)
-	* @desc Renvoie le membre ComId de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProIdCommande de la StockProduitReservationViewVO
 	*/
-	public function getComId() {
-		return $this->mComId;
+	public function getProIdCommande() {
+		return $this->mProIdCommande;
 	}
 
 	/**
-	* @name setComId($pComId)
+	* @name setProIdCommande($pProIdCommande)
 	* @param int(11)
-	* @desc Remplace le membre ComId de la StockProduitReservationViewVO par $pComId
+	* @desc Remplace le membre ProIdCommande de la StockProduitReservationViewVO par $pProIdCommande
 	*/
-	public function setComId($pComId) {
-		$this->mComId = $pComId;
+	public function setProIdCommande($pProIdCommande) {
+		$this->mProIdCommande = $pProIdCommande;
 	}
 
 	/**
-	* @name getProIdProducteur()
+	* @name getProIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdProducteur de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProIdCompteProducteur de la StockProduitReservationViewVO
 	*/
-	public function getProIdProducteur() {
-		return $this->mProIdProducteur;
+	public function getProIdCompteProducteur() {
+		return $this->mProIdCompteProducteur;
 	}
 
 	/**
-	* @name setProIdProducteur($pProIdProducteur)
+	* @name setProIdCompteProducteur($pProIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre ProIdProducteur de la StockProduitReservationViewVO par $pProIdProducteur
+	* @desc Remplace le membre ProIdCompteProducteur de la StockProduitReservationViewVO par $pProIdCompteProducteur
 	*/
-	public function setProIdProducteur($pProIdProducteur) {
-		$this->mProIdProducteur = $pProIdProducteur;
+	public function setProIdCompteProducteur($pProIdCompteProducteur) {
+		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
 	}
 
 	/**

@@ -24,16 +24,16 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 			echo $lResponse->exportToJson();
 			
 			if($lResponse->getValid()) {
-				$lLogger->log("Suppression de l'adhérent " . $lParam['id_adherent'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			} else {
-				$lLogger->log("Echec de la suppression de l'adhérent " . $lParam['id_adherent'] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Echec de la suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			}
 		} else {
-			$lLogger->log("Demande d'accés sans id d'adherent à la suppression des adhérents par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés sans id d'adherent à la suppression des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}		
 	} else {
-		$lLogger->log("Demande d'accés sans paramètre d'adherent à la suppression des adhérents par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés sans paramètre d'adherent à la suppression des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

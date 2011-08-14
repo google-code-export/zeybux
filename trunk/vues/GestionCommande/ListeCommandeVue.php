@@ -20,7 +20,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			$lControleur = new GestionListeCommandeControleur();	
 			echo $lControleur->getListeCommandeArchive()->exportToJson();
 			
-			$lLogger->log("Affichage de la vue ListeCommandeArchive par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Affichage de la vue ListeCommandeArchive par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		} else {
 			$lLogger->log("Demande d'accés sans Paramètre à ListeCommandeArchive",PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
@@ -29,7 +29,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 		$lControleur = new GestionListeCommandeControleur();	
 		echo $lControleur->getListeCommandeEnCours()->exportToJson();
 		
-		$lLogger->log("Affichage de la vue ListeCommande par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Affichage de la vue ListeCommande par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 	}
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à ListeCommande",PEAR_LOG_INFO);	// Maj des logs

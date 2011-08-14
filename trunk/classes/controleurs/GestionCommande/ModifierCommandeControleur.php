@@ -10,21 +10,16 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CommandeCompleteEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitInitiauxViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "CommandeCompleteValid.php" );
-include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
-include_once(CHEMIN_CLASSES_MANAGERS . "CommandeCompleteManager.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "NomProduitValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "NomProduitToVO.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . "AjoutNomProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ModifierCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ModifierMarcheValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
+include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
 
 
 /**
@@ -41,42 +36,22 @@ class ModifierCommandeControleur
 	* @desc Retourne les infos de la commande la liste des produits
 	*/
 	public function getInfoCommande($pParam) {
-		$lIdCommande = $pParam["id_commande"];		
-
-		if(is_int((int)$lIdCommande)) {			
-			$lCommande = CommandeCompleteEnCoursViewManager::select($lIdCommande);
+		$lVr = BonDeCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];		
+	
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
 			
-			if($lCommande[0]->getComId() == $lIdCommande) {			
-				$lResponse = new ModifierCommandeResponse();
-				
-				$lStockInitiaux = StockProduitInitiauxViewManager::selectByIdCommande($lIdCommande);
-				
-				$lResponse->setCommande($lCommande);
-				$lResponse->setStockInitiaux($lStockInitiaux);
-				$lResponse->setProduits(NomProduitManager::selectAll());
-				$lResponse->setProducteurs(ProducteurViewManager::selectAll());
-				
-				return $lResponse;
-			} else {
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);	
-				return $lVr;
-			}				
-		} else {
-			$lVr = new TemplateVR();
-			$lVr->setValid(false);
-			$lVr->getLog()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-			$lVr->getLog()->addErreur($lErreur);	
-			return $lVr;
+			$lResponse = new ModifierCommandeResponse();
+			
+			$lResponse->setMarche($lMarche);
+			$lResponse->setProduits(NomProduitManager::selectAll());
+			$lResponse->setProducteurs(ProducteurViewManager::selectAll());
+	
+			return $lResponse;
 		}
+		return $lVr;
 	}
 	
 	/**
@@ -86,23 +61,13 @@ class ModifierCommandeControleur
 	*/
 	public function ModifierCommande($pParam) {		
 			
-		$lCommande = $pParam["commande"];
-		$lVr = CommandeCompleteValid::validUpdate($lCommande);
+		$lMarche = $pParam["commande"];
+		$lVr = ModifierMarcheValid::validUpdate($lMarche);
 		
 		if($lVr->getValid()) {			
-			$lCommandeVO = CommandeCompleteToVO::convertFromArray($lCommande);	
-			$lIdCommande = CommandeCompleteManager::update($lCommandeVO);
-			
-			if($lIdCommande != $lCommandeVO->getId()) {	
-				$lVr = new TemplateVR();
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_113_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_113_MSG);
-				$lVr->getLog()->addErreur($lErreur);
-				return $lVr;
-			}
+			$lCommandeVO = CommandeCompleteToVO::convertFromArray($lMarche);	
+			$lMarcheService = new MarcheService();
+			$lId = $lMarcheService->update($lCommandeVO);
 		}		
 		return $lVr;
 	}
@@ -112,14 +77,14 @@ class ModifierCommandeControleur
 	* @return NomProduitResponse
 	* @desc Ajoute le produit et retourne son nom et ID
 	*/
-	public function AjouterProduit($lParam) {	
-		
+	public function AjouterProduit($lParam) {
 		$lNomProduit = $lParam['nomProduit'];	
 		$lNomProduit['idCategorie']	= 1; // TODO Pour le moment pas de gestion des catégories
 		
 		$lVr = NomProduitValid::validAjout($lNomProduit);
 		
 		if($lVr->getValid()) {
+		
 			$lNomProduitVO = NomProduitToVO::convertFromArray($lNomProduit);
 			$lId = NomProduitManager::insert($lNomProduitVO);
 			

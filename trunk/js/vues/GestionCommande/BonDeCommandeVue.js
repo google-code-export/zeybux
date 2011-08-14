@@ -5,11 +5,12 @@
 	this.mEtatEdition = false;
 	this.mListeProduit = [];
 	this.mSuiteEdition = 0;
-	this.mIdProducteur = 0;
+	this.mIdCompteProducteur = 0;
 	
 	this.construct = function(pParam) {
 		var that = this;
-		pParam.export_type = 0;
+		//pParam.export_type = 0;
+		pParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -31,7 +32,7 @@
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		var lTemplate = lGestionCommandeTemplate.bonDeCommande;
 		
-		this.mIdCommande = pResponse.producteurs[0].comId;
+		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
 		this.mComNumero = pResponse.comNumero;
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
@@ -68,23 +69,23 @@
 	
 	this.changementProducteur = function() {
 		var that = this;
-		var lIdProducteur = $('#select-prdt').val();
-		if(lIdProducteur > 0) {
+		var lIdCompteProducteur = $('#select-prdt').val();
+		if(lIdCompteProducteur > 0) {
 			var lParam = {	"id_commande":that.mIdCommande,
-						 	"id_producteur":lIdProducteur,
-						 	export_type:0}
+						 	"id_compte_producteur":lIdCompteProducteur,
+						 	fonction:"afficherProducteur"}
 			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
 						if(lResponse.valid) {
-							that.mIdProducteur = lIdProducteur;
+							that.mIdCompteProducteur = lIdCompteProducteur;
 							that.mEtatEdition = false;
 							
 							$(lResponse.produits).each(function() {
 								that.mListeProduit[this.proId] = this.stoQuantite;
 								
 								this.stoQuantiteCommande = '';
-								this.opeMontant = '';
+								this.dopeMontant = '';
 								
 								var lProId = this.proId;
 								var these = this;
@@ -92,7 +93,7 @@
 								$(lResponse.produitsCommande).each(function() {
 									if(this.proId == lProId) {
 										these.stoQuantiteCommande = this.stoQuantite;
-										these.opeMontant = this.opeMontant.nombreFormate(2,',',' ');
+										these.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
 									}
 								});
 								
@@ -174,7 +175,7 @@
 		var lParam = new ProduitsBonDeCommandeVO();
 		
 		lParam.id_commande = this.mIdCommande;
-		lParam.id_producteur = this.mIdProducteur;
+		lParam.id_compte_producteur = this.mIdCompteProducteur;
 		lParam.export_type = 0;
 
 		$('.pro-id').each(function() {
@@ -191,6 +192,7 @@
 		var lVr = lValid.validAjout(lParam);
 		
 		if(lVr.valid) {
+			lParam.fonction = "enregistrer";
 			return $.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
@@ -214,14 +216,14 @@
 							}
 						} else {
 							Infobulle.generer(lResponse,'');
-							$('#select-prdt').selectOptions(that.mIdProducteur);
+							$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 						}
 					},"json"
 			);
 			
 		} else {
 			Infobulle.generer(lVr,'');
-			$('#select-prdt').selectOptions(that.mIdProducteur);
+			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 		}
 	}
 	
@@ -255,10 +257,9 @@
 					var lFormat = $(this).find(':input[name=format]:checked').val();
 					
 					var lParam = new ExportBonReservationVO();
-					lParam.pParam = 1;
-					lParam.export_type = 1;
 					lParam.id_commande = that.mIdCommande;
 					lParam.format = lFormat;
+					lParam.fonction = "export";
 					
 					// Test des erreurs
 					var lValid = new ExportBonReservationValid();
@@ -298,7 +299,7 @@
 				},
 				'Annuler': function() {
 					if(that.mSuiteEdition == 1) {
-						$('#select-prdt').selectOptions(that.mIdProducteur);
+						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 					}
 					$(this).dialog('close');
 				},

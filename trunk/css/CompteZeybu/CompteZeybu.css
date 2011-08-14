@@ -2,6 +2,7 @@
 
 #table-info-solde-zeybu {
 	margin-left:165px;
+	margin-bottom:10px;
 }
 
 #td-solde-zeybu-total {
@@ -14,4 +15,13 @@
 
 #td-solde-zeybu-banque {
 	width:240px;
+}
+
+.recherche .filter {
+	height:20px;
+	width:182px;
+}
+
+#btn-virement-solidaire-inverse {
+	margin-top:20px;
 }

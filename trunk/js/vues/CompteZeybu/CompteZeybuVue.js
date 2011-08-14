@@ -52,20 +52,25 @@
 				}
 			}
 		});
-				
-		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lTemplate = lCompteZeybuTemplate.InfoCompte;
-		
-		var lHtml = $(lTemplate.template(lResponse));
 
-		// Ne pas afficher la pagination si il y a moins de 30 éléments
-		if(lResponse.operation.length < 31) {
-			lHtml = this.masquerPagination(lHtml);
+		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		if(lResponse.operation.length > 0 && lResponse.operation[0].opeId != null) {
+			var lTemplate = lCompteZeybuTemplate.InfoCompte;
+			
+			var lHtml = $(lTemplate.template(lResponse));
+
+			// Ne pas afficher la pagination si il y a moins de 30 éléments
+			if(lResponse.operation.length < 31) {
+				lHtml = this.masquerPagination(lHtml);
+			} else {
+				lHtml = this.paginnation(lHtml);
+			}
+			
+			$('#contenu').replaceWith(that.affect(lHtml));
 		} else {
-			lHtml = this.paginnation(lHtml);
+			var lTemplate = lCompteZeybuTemplate.listeOperationVide;
+			$('#contenu').replaceWith(lTemplate.template(lResponse));
 		}
-		
-		$('#contenu').replaceWith(that.affect(lHtml));
 	}
 	
 	this.affect = function(pData) {

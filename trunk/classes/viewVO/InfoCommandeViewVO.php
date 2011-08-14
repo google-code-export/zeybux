@@ -26,9 +26,9 @@ class InfoCommandeViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdProducteur de la InfoCommandeViewVO
+	* @desc ProIdCompteProducteur de la InfoCommandeViewVO
 	*/
-	protected $mProIdProducteur;
+	protected $mProIdCompteProducteur;
 
 	/**
 	* @var int(11)
@@ -121,21 +121,21 @@ class InfoCommandeViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getProIdProducteur()
+	* @name getProIdCompteProducteur()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdProducteur de la InfoCommandeViewVO
+	* @desc Renvoie le membre ProIdCompteProducteur de la InfoCommandeViewVO
 	*/
-	public function getProIdProducteur() {
-		return $this->mProIdProducteur;
+	public function getProIdCompteProducteur() {
+		return $this->mProIdCompteProducteur;
 	}
 
 	/**
-	* @name setProIdProducteur($pProIdProducteur)
+	* @name setProIdCompteProducteur($pProIdCompteProducteur)
 	* @param int(11)
-	* @desc Remplace le membre ProIdProducteur de la InfoCommandeViewVO par $pProIdProducteur
+	* @desc Remplace le membre ProIdCompteProducteur de la InfoCommandeViewVO par $pProIdCompteProducteur
 	*/
-	public function setProIdProducteur($pProIdProducteur) {
-		$this->mProIdProducteur = $pProIdProducteur;
+	public function setProIdCompteProducteur($pProIdCompteProducteur) {
+		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
 	}
 
 	/**

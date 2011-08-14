@@ -12,7 +12,7 @@
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoCompteResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_MON_COMPTE . "/InfoCompteResponse.php" );
 
 /**
  * @name MonCompteControleur

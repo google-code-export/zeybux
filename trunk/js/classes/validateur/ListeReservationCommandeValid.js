@@ -4,13 +4,13 @@
 		//Tests Techniques
 
 		//Tests Fonctionnels
-		if(isArray(pData.commandes)) {			
-			if(pData.commandes.length > 0) {
-				$(pData.commandes).each(function() {
+		if(isArray(pData.detailReservation)) {
+			if(pData.detailReservation.length > 0) {
+				$(pData.detailReservation).each(function() {
 					var lValid = new ReservationCommandeValid();
 					var lVrReservation = lValid.validAjout(this);
 					if(!lVrReservation.valid){lVR.valid = false;}
-					lVR.commandes.push(lVrReservation);
+					lVR.detailReservation.push(lVrReservation);
 				});		
 			} else {
 				// Erreur il faut au moins un produit
@@ -39,13 +39,13 @@
 			//Tests Techniques
 
 			//Tests Fonctionnels
-			if(isArray(pData.commandes)) {			
-				if(pData.commandes.length > 0) {
-					$(pData.commandes).each(function() {
+			if(isArray(pData.detailReservation)) {			
+				if(pData.detailReservation.length > 0) {
+					$(pData.detailReservation).each(function() {
 						var lValid = new ReservationCommandeValid();
 						var lVrReservation = lValid.validAjout(this);
 						if(!lVrReservation.valid){lVR.valid = false;}
-						lVR.commandes.push(lVrReservation);
+						lVR.detailReservation.push(lVrReservation);
 					});				
 				} else {
 					// Erreur il faut au moins un produit
