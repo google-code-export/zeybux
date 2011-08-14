@@ -133,6 +133,21 @@
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-CaisseListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteSolidaire-CompteSolidaire').click(function() {
+				CompteSolidaireVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteSolidaire-ListeAdherent').click(function() {
+				CompteSolidaireListeAdherentVue();
+				return false;
+			});
+			
 			return pData;
 		}
 		return null;

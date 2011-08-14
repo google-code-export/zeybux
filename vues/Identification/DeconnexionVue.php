@@ -9,11 +9,13 @@
 //
 //****************************************************************
 // Test si l'adherent est connecté
-if( isset($_SESSION['id']) ) {
-	$lLogger->log("Déconnexion de l'utilisateur ayant pour ID : " . $_SESSION['id'],PEAR_LOG_INFO); // Maj des logs
-
-	session_unset();
-	session_destroy();
+if( isset($_SESSION[DROIT_ID]) ) {
+	$lLogger->log("Déconnexion de l'utilisateur ayant pour ID : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO); // Maj des logs		
+	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/DeconnexionControleur.php");
+	$lControleur = new DeconnexionControleur();
+	$lControleur->deconnecter();
+} else {
+	$lLogger->log("Demande d'accés sans autorisation à Deconnexion",PEAR_LOG_INFO);	// Maj des logs
+	header('location:./index.php');
 }
-header('location:./index.php');
 ?>

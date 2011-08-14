@@ -12,8 +12,8 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoCommandeViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "InfoCommandeValid.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/InfoCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/InfoCommandeValid.php" );
 
 /**
  * @name InfoCommandeArchiveControleur

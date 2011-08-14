@@ -20,10 +20,10 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_PRODUCTEUR]) || 
 		$lResponse = $lCompteControleur->Afficher($lParam);		
 		echo $lResponse->exportToJson();
 			
-		$lLogger->log("Affichage du compte du producteur : " . $lParam["id_producteur"] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Affichage du compte du producteur : par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 
 	} else {
-		$lLogger->log("Demande d'affichage d'un compte producteur sans transmettre de paramètre par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'affichage d'un compte producteur sans transmettre de paramètre par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

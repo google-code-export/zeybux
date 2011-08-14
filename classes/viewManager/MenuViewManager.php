@@ -39,8 +39,7 @@ class MenuViewManager
 
 		$lRequete =
 			"SELECT "
-			    . AdherentManager::CHAMP_ADHERENT_ID .  
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU .
+			    . AdherentManager::CHAMP_ADHERENT_ID .
 			"," . ModuleManager::CHAMP_MOD_ID . 
 			"," . ModuleManager::CHAMP_MOD_NOM . 
 			"," . ModuleManager::CHAMP_MOD_LABEL . 
@@ -57,7 +56,6 @@ class MenuViewManager
 				array_push($lListeMenu,
 					MenuViewManager::remplir(
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 					$lLigne[ModuleManager::CHAMP_MOD_ID],
 					$lLigne[ModuleManager::CHAMP_MOD_NOM],
 					$lLigne[ModuleManager::CHAMP_MOD_LABEL],
@@ -80,8 +78,7 @@ class MenuViewManager
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		$lRequete =
 			"SELECT "
-			    . AdherentManager::CHAMP_ADHERENT_ID .  
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU .
+			    . AdherentManager::CHAMP_ADHERENT_ID .
 			"," . ModuleManager::CHAMP_MOD_ID . 
 			"," . ModuleManager::CHAMP_MOD_NOM . 
 			"," . ModuleManager::CHAMP_MOD_LABEL . 
@@ -97,7 +94,6 @@ class MenuViewManager
 				array_push($lListeMenu,
 					MenuViewManager::remplir(
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 					$lLigne[ModuleManager::CHAMP_MOD_ID],
 					$lLigne[ModuleManager::CHAMP_MOD_NOM],
 					$lLigne[ModuleManager::CHAMP_MOD_LABEL],
@@ -126,8 +122,7 @@ class MenuViewManager
 
 		// Préparation de la requète
 		$lChamps = array( 
-			    AdherentManager::CHAMP_ADHERENT_ID . 
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU .
+			    AdherentManager::CHAMP_ADHERENT_ID .
 			"," . ModuleManager::CHAMP_MOD_ID .
 			"," . ModuleManager::CHAMP_MOD_NOM .
 			"," . ModuleManager::CHAMP_MOD_LABEL .
@@ -149,7 +144,6 @@ class MenuViewManager
 					array_push($lListeMenu,
 						MenuViewManager::remplir(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU],
 						$lLigne[ModuleManager::CHAMP_MOD_ID],
 						$lLigne[ModuleManager::CHAMP_MOD_NOM],
 						$lLigne[ModuleManager::CHAMP_MOD_LABEL],
@@ -175,10 +169,9 @@ class MenuViewManager
 	* @return MenuViewVO
 	* @desc Retourne une MenuViewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhSuperZeybu, $pModId, $pModNom, $pModLabel, $pModAdmin) {
+	private static function remplir($pAdhId, $pModId, $pModNom, $pModLabel, $pModAdmin) {
 		$lMenu = new MenuViewVO();
 		$lMenu->setAdhId($pAdhId);
-		$lMenu->setAdhSuperZeybu($pAdhSuperZeybu);
 		$lMenu->setModId($pModId);
 		$lMenu->setModNom($pModNom);
 		$lMenu->setModLabel($pModLabel);

@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 02/09/2010
+// Date de creation : 18/07/2011
 // Fichier : StockManager.php
 //
 // Description : Classe de gestion des Stock
@@ -14,9 +14,9 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "StockVO.php");
 
 /**
- * @name Stock
+ * @name StockManager
  * @author Julien PIERRE
- * @since 02/09/2010
+ * @since 18/07/2011
  * 
  * @desc Classe permettant l'accès aux données des Stock
  */
@@ -28,7 +28,8 @@ class StockManager
 	const CHAMP_STOCK_QUANTITE = "sto_quantite";
 	const CHAMP_STOCK_TYPE = "sto_type";
 	const CHAMP_STOCK_ID_COMPTE = "sto_id_compte";
-	const CHAMP_STOCK_ID_PRODUIT = "sto_id_produit";
+	const CHAMP_STOCK_ID_DETAIL_COMMANDE = "sto_id_detail_commande";
+	const CHAMP_STOCK_ID_OPERATION = "sto_id_operation";
 
 	/**
 	* @name select($pId)
@@ -48,7 +49,8 @@ class StockManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . StockManager::CHAMP_STOCK_TYPE . 
 			"," . StockManager::CHAMP_STOCK_ID_COMPTE . 
-			"," . StockManager::CHAMP_STOCK_ID_PRODUIT . "
+			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
+			"," . StockManager::CHAMP_STOCK_ID_OPERATION . "
 			FROM " . StockManager::TABLE_STOCK . " 
 			WHERE " . StockManager::CHAMP_STOCK_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -63,14 +65,15 @@ class StockManager
 				$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 				$lLigne[StockManager::CHAMP_STOCK_TYPE],
 				$lLigne[StockManager::CHAMP_STOCK_ID_COMPTE],
-				$lLigne[StockManager::CHAMP_STOCK_ID_PRODUIT]);
+				$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+				$lLigne[StockManager::CHAMP_STOCK_ID_OPERATION]);
 		} else {
 			return new StockVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(StockVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de StockVO
 	*/
@@ -85,7 +88,8 @@ class StockManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . StockManager::CHAMP_STOCK_TYPE . 
 			"," . StockManager::CHAMP_STOCK_ID_COMPTE . 
-			"," . StockManager::CHAMP_STOCK_ID_PRODUIT . "
+			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
+			"," . StockManager::CHAMP_STOCK_ID_OPERATION . "
 			FROM " . StockManager::TABLE_STOCK;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -101,7 +105,8 @@ class StockManager
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[StockManager::CHAMP_STOCK_TYPE],
 					$lLigne[StockManager::CHAMP_STOCK_ID_COMPTE],
-					$lLigne[StockManager::CHAMP_STOCK_ID_PRODUIT]));
+					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+					$lLigne[StockManager::CHAMP_STOCK_ID_OPERATION]));
 			}
 		} else {
 			$lListeStock[0] = new StockVO();
@@ -131,70 +136,65 @@ class StockManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
 			"," . StockManager::CHAMP_STOCK_TYPE .
 			"," . StockManager::CHAMP_STOCK_ID_COMPTE .
-			"," . StockManager::CHAMP_STOCK_ID_PRODUIT		);
-
-		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
-
-		$lTypeFiltre = array($pTypeCritere);
-		// Protection du critère de tri
-		if($pCritereTri != 'ASC' && $pCritereTri != 'DESC') {
-			$pCritereTri = 'ASC';
-		}
-
-		// Protection du type de tri
-		if($pTypeTri == '') {
-			$pTypeTri = StockManager::CHAMP_STOCK_ID;
-		}
-
-		$lTris = array( array('champ' => StringUtils::securiser($pTypeTri), 'sens'=> StringUtils::securiser($pCritereTri)) );
+			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE .
+			"," . StockManager::CHAMP_STOCK_ID_OPERATION		);
 
 		// Préparation de la requète de recherche
-		$lRequete = DbUtils::prepareRequeteRecherche(StockManager::TABLE_STOCK, $lChamps, $lFiltres, $lTypeFiltre, $lTris);
-
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
+		$lRequete = DbUtils::prepareRequeteRecherche(StockManager::TABLE_STOCK, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeStock = array();
 
-		if( mysql_num_rows($lSql) > 0 ) {
+		if($lRequete !== false) {
 
-			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			$lSql = Dbutils::executerRequete($lRequete);
 
-				array_push($lListeStock,
-					StockManager::remplirStock(
-					$lLigne[StockManager::CHAMP_STOCK_ID],
-					$lLigne[StockManager::CHAMP_STOCK_DATE],
-					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[StockManager::CHAMP_STOCK_TYPE],
-					$lLigne[StockManager::CHAMP_STOCK_ID_COMPTE],
-					$lLigne[StockManager::CHAMP_STOCK_ID_PRODUIT]));
+			if( mysql_num_rows($lSql) > 0 ) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
+					array_push($lListeStock,
+						StockManager::remplirStock(
+						$lLigne[StockManager::CHAMP_STOCK_ID],
+						$lLigne[StockManager::CHAMP_STOCK_DATE],
+						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+						$lLigne[StockManager::CHAMP_STOCK_TYPE],
+						$lLigne[StockManager::CHAMP_STOCK_ID_COMPTE],
+						$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+						$lLigne[StockManager::CHAMP_STOCK_ID_OPERATION]));
+				}
+			} else {
+				$lListeStock[0] = new StockVO();
 			}
-		} else {
-			$lListeStock[0] = new StockVO();
+
+			return $lListeStock;
 		}
 
+		$lListeStock[0] = new StockVO();
 		return $lListeStock;
 	}
 
 	/**
-	* @name remplirStock($pId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdProduit)
+	* @name remplirStock($pId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdOperation)
 	* @param int(11)
 	* @param datetime
 	* @param decimal(10,2)
 	* @param tinyint(1)
 	* @param int(11)
 	* @param int(11)
+	* @param int(11)
 	* @return StockVO
 	* @desc Retourne une StockVO remplie
 	*/
-	private static function remplirStock($pId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdProduit) {
+	private static function remplirStock($pId, $pDate, $pQuantite, $pType, $pIdCompte, $pIdDetailCommande, $pIdOperation) {
 		$lStock = new StockVO();
 		$lStock->setId($pId);
 		$lStock->setDate($pDate);
 		$lStock->setQuantite($pQuantite);
 		$lStock->setType($pType);
 		$lStock->setIdCompte($pIdCompte);
-		$lStock->setIdProduit($pIdProduit);
+		$lStock->setIdDetailCommande($pIdDetailCommande);
+		$lStock->setIdOperation($pIdOperation);
 		return $lStock;
 	}
 
@@ -216,13 +216,15 @@ class StockManager
 				," . StockManager::CHAMP_STOCK_QUANTITE . "
 				," . StockManager::CHAMP_STOCK_TYPE . "
 				," . StockManager::CHAMP_STOCK_ID_COMPTE . "
-				," . StockManager::CHAMP_STOCK_ID_PRODUIT . ")
+				," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . "
+				," . StockManager::CHAMP_STOCK_ID_OPERATION . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getDate() ) . "'
 				,'" . StringUtils::securiser( $pVo->getQuantite() ) . "'
 				,'" . StringUtils::securiser( $pVo->getType() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdProduit() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -241,12 +243,12 @@ class StockManager
 		$lRequete = 
 			"UPDATE " . StockManager::TABLE_STOCK . "
 			 SET
-				 " . StockManager::CHAMP_STOCK_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'
-				," . StockManager::CHAMP_STOCK_DATE . " = '" . StringUtils::securiser( $pVo->getDate() ) . "'
+				 " . StockManager::CHAMP_STOCK_DATE . " = '" . StringUtils::securiser( $pVo->getDate() ) . "'
 				," . StockManager::CHAMP_STOCK_QUANTITE . " = '" . StringUtils::securiser( $pVo->getQuantite() ) . "'
 				," . StockManager::CHAMP_STOCK_TYPE . " = '" . StringUtils::securiser( $pVo->getType() ) . "'
 				," . StockManager::CHAMP_STOCK_ID_COMPTE . " = '" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
-				," . StockManager::CHAMP_STOCK_ID_PRODUIT . " = '" . StringUtils::securiser( $pVo->getIdProduit() ) . "'
+				," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = '" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				," . StockManager::CHAMP_STOCK_ID_OPERATION . " = '" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 			 WHERE " . StockManager::CHAMP_STOCK_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

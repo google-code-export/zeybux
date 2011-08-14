@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoCompteAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/InfoCompteAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 

@@ -20,7 +20,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 		if(isset($lParam['form'])) {
 			
 			if($lParam['form'] == 1) {
-				$lLogger->log("Demande d'ajout d'un nouveau produit par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Demande d'ajout d'un nouveau produit par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 				
 				$lControleur = new ModifierCommandeControleur();					
 				$lResponse = $lControleur->AjouterProduit($lParam);
@@ -31,9 +31,9 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 				} else {				
 					$lLogger->log("Echec de la création d'un nouveau produit.",PEAR_LOG_INFO);	// Maj des logs
 				}
-				$lLogger->log("Ajout d'un nouveau produit : " . $lResponse->getNom() . " par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs			
+				$lLogger->log("Ajout d'un nouveau produit : " . $lResponse->getNom() . " par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs			
 			} else if($lParam['form'] == 2 && isset($lParam['commande'])) {	
-				$lLogger->log("Demande d'ajout d'une nouvelle commande par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Demande d'ajout d'une nouvelle commande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			
 				$lControleur = new ModifierCommandeControleur();				
 				$lVr = $lControleur->ModifierCommande($lParam);
@@ -46,19 +46,19 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 					$lLogger->log("Echec de la modification de la commande " . $lParam['commande']['id'] . ".",PEAR_LOG_INFO);	// Maj des logs
 				}
 			} else {
-				$lLogger->log("Demande d'accés au form de ModifierCommande avec un mauvais form par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+				$lLogger->log("Demande d'accés au form de ModifierCommande avec un mauvais form par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 				header('location:./index.php');
 			}			
 		} else if(isset($lParam['id_commande'])) {			
 			$lControleur = new ModifierCommandeControleur();
 			echo $lControleur->getInfoCommande($lParam)->exportToJson();
-			$lLogger->log("Affichage de la vue ModifierCommande pour la commande " . $lParam['id_commande'] . " par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Affichage de la vue ModifierCommande pour la commande " . $lParam['id_commande'] . " par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		} else {
-			$lLogger->log("Demande d'accés sans paramètre à ModifierCommande par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés sans paramètre à ModifierCommande par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php?cx=1');
 		}
 	} else {
-		$lLogger->log("Demande d'accés sans paramètre à ModifierCommande par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés sans paramètre à ModifierCommande par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php?cx=1');
 	}
 } else {

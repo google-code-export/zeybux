@@ -9,10 +9,9 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteZeybuViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteZeybuCaisseViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoCompteZeybuResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/InfoCompteZeybuResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 
 /**
  * @name CompteZeybuControleur
@@ -26,19 +25,18 @@ class CompteZeybuControleur
 	* @name getInfoCompte()
 	* @desc Donne les infos sur le compte du zeybu
 	*/
-	public function getInfoCompte() {		
-		$lSoldeTotal = CompteZeybuViewManager::selectAll();
-		$lSoldeCaisse = CompteZeybuCaisseViewManager::selectAll();
-		
-		$lSoldeTotal = $lSoldeTotal[0]->getOpeMontant();
-		$lSoldeCaisse = $lSoldeCaisse[0]->getOpeMontant();
-		$lSoldeBanque = $lSoldeTotal - $lSoldeCaisse;
+	public function getInfoCompte() {	
+		$lCompteService = new CompteService();
+		$lOperationService = new OperationService();
+		$lSoldeTotal = $lCompteService->get(-1)->getSolde();
+		$lSoldeCaisse = $lOperationService->getSoldeCaisse();
+		$lSoldeBanque = $lOperationService->getSoldeBanque();
 		
 		$lResponse = new InfoCompteZeybuResponse();
 		$lResponse->setSoldeTotal($lSoldeTotal);
 		$lResponse->setSoldeCaisse($lSoldeCaisse);
 		$lResponse->setSoldeBanque($lSoldeBanque);
-		$lResponse->setOperation( OperationPasseeViewManager::selectAll());
+		$lResponse->setOperation( $lOperationService->selectOperationZeybu());
 		
 		return $lResponse;		
 	}

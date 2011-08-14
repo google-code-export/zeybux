@@ -168,6 +168,21 @@ class ProducteurManager
 		}
 		return $lListeProducteur;
 	}
+	
+	/**
+	* @name selectByIdCompte($pId)
+	* @param integer
+	* @return array(ProducteurVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de ProducteurVO
+	*/
+	public static function selectByIdCompte($pId) {		
+		return ProducteurManager::recherche(
+			array(ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
+	}
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

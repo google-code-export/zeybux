@@ -21,15 +21,15 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			switch($pParam["fonction"]) {
 				case "afficherCommande":
 					echo $lControleur->getInfoCommandeArchive($pParam)->exportToJson();					
-					$lLogger->log("Affichage de la vue InfoCommandeArchive par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Affichage de la vue InfoCommandeArchive par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à InfoCommandeArchive sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à InfoCommandeArchive sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else {
-		$lLogger->log("Demande d'accés à InfoCommandeArchive sans identifiant commande par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'accés à InfoCommandeArchive sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

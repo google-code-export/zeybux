@@ -2,57 +2,64 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 25/06/2011
 // Fichier : VuesVO.php
 //
 // Description : Classe VuesVO
 //
 //****************************************************************
+include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
  * @name VuesVO
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 25/06/2011
  * @desc Classe représentant une VuesVO
  */
-class VuesVO
+class VuesVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
 	* @desc Id de la VuesVO
 	*/
-	private $mId;
+	protected $mId;
 
 	/**
 	* @var int(11)
 	* @desc IdModule de la VuesVO
 	*/
-	private $mIdModule;
+	protected $mIdModule;
 
 	/**
 	* @var varchar(50)
 	* @desc Nom de la VuesVO
 	*/
-	private $mNom;
+	protected $mNom;
 
 	/**
 	* @var varchar(80)
 	* @desc Label de la VuesVO
 	*/
-	private $mLabel;
+	protected $mLabel;
 
 	/**
 	* @var int(11)
 	* @desc Ordre de la VuesVO
 	*/
-	private $mOrdre;
+	protected $mOrdre;
+
+	/**
+	* @var tinyint(1)
+	* @desc Visible de la VuesVO
+	*/
+	protected $mVisible;
 
 	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la VuesVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -70,7 +77,7 @@ class VuesVO
 	* @return int(11)
 	* @desc Renvoie le membre IdModule de la VuesVO
 	*/
-	public function getIdModule(){
+	public function getIdModule() {
 		return $this->mIdModule;
 	}
 
@@ -88,7 +95,7 @@ class VuesVO
 	* @return varchar(50)
 	* @desc Renvoie le membre Nom de la VuesVO
 	*/
-	public function getNom(){
+	public function getNom() {
 		return $this->mNom;
 	}
 
@@ -106,7 +113,7 @@ class VuesVO
 	* @return varchar(80)
 	* @desc Renvoie le membre Label de la VuesVO
 	*/
-	public function getLabel(){
+	public function getLabel() {
 		return $this->mLabel;
 	}
 
@@ -124,7 +131,7 @@ class VuesVO
 	* @return int(11)
 	* @desc Renvoie le membre Ordre de la VuesVO
 	*/
-	public function getOrdre(){
+	public function getOrdre() {
 		return $this->mOrdre;
 	}
 
@@ -135,6 +142,24 @@ class VuesVO
 	*/
 	public function setOrdre($pOrdre) {
 		$this->mOrdre = $pOrdre;
+	}
+
+	/**
+	* @name getVisible()
+	* @return tinyint(1)
+	* @desc Renvoie le membre Visible de la VuesVO
+	*/
+	public function getVisible() {
+		return $this->mVisible;
+	}
+
+	/**
+	* @name setVisible($pVisible)
+	* @param tinyint(1)
+	* @desc Remplace le membre Visible de la VuesVO par $pVisible
+	*/
+	public function setVisible($pVisible) {
+		$this->mVisible = $pVisible;
 	}
 
 }

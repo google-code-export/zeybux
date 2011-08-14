@@ -20,10 +20,10 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 		$lResponse = $lCompteControleur->Afficher($lParam);		
 		echo $lResponse->exportToJson();
 			
-		$lLogger->log("Affichage du compte de l'adhérent : " . $lParam["id_adherent"] . " par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Affichage du compte de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 
 	} else {
-		$lLogger->log("Demande d'affichage d'un compte adhérent sans transmettre de paramètre par : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Demande d'affichage d'un compte adhérent sans transmettre de paramètre par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
 	}
 } else {

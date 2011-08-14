@@ -36,7 +36,6 @@ class AdherentManager
 {
 	const TABLE_ADHERENT = "adh_adherent";
 	const CHAMP_ADHERENT_ID = "adh_id";
-	const CHAMP_ADHERENT_MOT_PASSE = "adh_mot_passe";
 	const CHAMP_ADHERENT_NUMERO = "adh_numero";
 	const CHAMP_ADHERENT_ID_COMPTE = "adh_id_compte";
 	const CHAMP_ADHERENT_NOM = "adh_nom";
@@ -53,7 +52,6 @@ class AdherentManager
 	const CHAMP_ADHERENT_DATE_MAJ = "adh_date_maj";
 	const CHAMP_ADHERENT_COMMENTAIRE = "adh_commentaire";
 	const CHAMP_ADHERENT_ETAT = "adh_etat";
-	const CHAMP_ADHERENT_SUPER_ZEYBU = "adh_super_zeybu";
 
 	/**
 	* @name select($pId)
@@ -69,7 +67,6 @@ class AdherentManager
 		$lRequete =
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
@@ -85,8 +82,7 @@ class AdherentManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . 
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . 
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE .  
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT .
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . "
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT . "
 			FROM " . AdherentManager::TABLE_ADHERENT . " 
 			WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -97,7 +93,6 @@ class AdherentManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			$lAdherent = AdherentManager::remplirAdherent(
 				$pId,
-				$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -113,8 +108,7 @@ class AdherentManager
 				$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]);
 	
 			return $lAdherent;
 		} else {
@@ -134,7 +128,6 @@ class AdherentManager
 		$lRequete =
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
@@ -150,8 +143,7 @@ class AdherentManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . 
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . 
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE .   
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT .
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . "
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT . "
 			FROM " . AdherentManager::TABLE_ADHERENT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -165,7 +157,6 @@ class AdherentManager
 	
 				$lAdherent = AdherentManager::remplirAdherent(
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -181,13 +172,27 @@ class AdherentManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);	
+					$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]);	
 			}
 		} else {
 			$lListeAdherent[0] = new AdherentVO();
 		}
 		return $lListeAdherent;
+	}
+	
+	/**
+	* @name selectByIdCompte($pId)
+	* @param integer
+	* @return array(AdherentVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de AdherentVO
+	*/
+	public static function selectByIdCompte($pId) {		
+		return AdherentManager::rechercheAdherent(
+			array(AdherentManager::CHAMP_ADHERENT_ID_COMPTE),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
 	}
 	
 	/**
@@ -208,7 +213,6 @@ class AdherentManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    AdherentManager::CHAMP_ADHERENT_ID .
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE .
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
@@ -224,8 +228,7 @@ class AdherentManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION .
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ .
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE .  
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT .
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU		);
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(AdherentManager::TABLE_ADHERENT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -237,13 +240,11 @@ class AdherentManager
 			$lSql = Dbutils::executerRequete($lRequete);
 	
 			if( mysql_num_rows($lSql) > 0 ) {
-				$lListeModuleAll = ModuleManager::selectAll();
 		
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
 		
-					$lAdherent = AdherentManager::remplirAdherent(
+					array_push($lListeAdherent,AdherentManager::remplirAdherent(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -259,14 +260,12 @@ class AdherentManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]);
+						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]));
 		
 				}
 			} else {
 				$lListeAdherent[0] = new AdherentVO();
 			}
-			
 			return $lListeAdherent;
 		}
 		
@@ -275,9 +274,8 @@ class AdherentManager
 	}
 
 	/**
-	* @name remplirAdherent($pId, $pPass, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pEtat, $pSuperZeybu)
+	* @name remplirAdherent($pId, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pEtat)
 	* @param int(11)
-	* @param varchar(100)
 	* @param varchar(5)
 	* @param int(11)
 	* @param varchar(50)
@@ -294,14 +292,12 @@ class AdherentManager
 	* @param datetime
 	* @param text
 	* @param tinyint(1)
-	* @param tinyint(1)
 	* @return AdherentVO
 	* @desc Retourne une AdherentVO remplie
 	*/
-	private static function remplirAdherent($pId, $pPass, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pEtat, $pSuperZeybu) {
+	private static function remplirAdherent($pId, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateAdhesion, $pDateMaj, $pCommentaire, $pEtat) {
 		$lAdherent = new AdherentVO();
 		$lAdherent->setId($pId);
-		$lAdherent->setPass($pPass);
 		$lAdherent->setNumero($pNumero);
 		$lAdherent->setIdCompte($pIdCompte);
 		$lAdherent->setNom($pNom);
@@ -318,7 +314,6 @@ class AdherentManager
 		$lAdherent->setDateMaj($pDateMaj);
 		$lAdherent->setCommentaire($pCommentaire);
 		$lAdherent->setEtat($pEtat);
-		$lAdherent->setSuperZeybu($pSuperZeybu);
 				
 		return $lAdherent;
 	}
@@ -360,7 +355,6 @@ class AdherentManager
 		$lRequete =
 			"INSERT INTO " . AdherentManager::TABLE_ADHERENT . "
 				(" . AdherentManager::CHAMP_ADHERENT_ID . "
-				," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . "
 				," . AdherentManager::CHAMP_ADHERENT_NUMERO . "
 				," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
 				," . AdherentManager::CHAMP_ADHERENT_NOM . "
@@ -376,10 +370,8 @@ class AdherentManager
 				," . AdherentManager::CHAMP_ADHERENT_DATE_ADHESION . "
 				," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . "
 				," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . "				
-				," . AdherentManager::CHAMP_ADHERENT_ETAT . "				
-				," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . ")
+				," . AdherentManager::CHAMP_ADHERENT_ETAT . ")
 				VALUES (NULL
-					,'" . StringUtils::securiser( $pVo->getPass() ) . "'
 					,''
 					,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 					,'" . StringUtils::securiser( $pVo->getNom() ) . "'
@@ -395,8 +387,7 @@ class AdherentManager
 					,'" . StringUtils::securiser( $pVo->getDateAdhesion() ) . "'
 					,'" . StringUtils::securiser( $pVo->getDateMaj() ) . "'
 					,'" . StringUtils::securiser( $pVo->getCommentaire() ) . "'
-					,'" . StringUtils::securiser( $pVo->getEtat() ) . "'
-					,'" . StringUtils::securiser( $pVo->getSuperZeybu() ) . "')";
+					,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lId = Dbutils::executerRequeteInsertRetourId($lRequete); // Execution de la requete et récupération de l'Id généré par la BDD
@@ -442,8 +433,7 @@ class AdherentManager
 		$lRequete = 
 			"UPDATE " . AdherentManager::TABLE_ADHERENT . " 
 			SET
-				" . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . " = '" . StringUtils::securiser( $pVo->getPass() ) . "'
-				," . AdherentManager::CHAMP_ADHERENT_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
+				" . AdherentManager::CHAMP_ADHERENT_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
 				," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = '" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				," . AdherentManager::CHAMP_ADHERENT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . AdherentManager::CHAMP_ADHERENT_PRENOM . " = '" . StringUtils::securiser( $pVo->getPrenom() ) . "'
@@ -459,7 +449,6 @@ class AdherentManager
 				," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . " = '" . StringUtils::securiser( $pVo->getDateMaj() ) . "'
 				," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . " = '" . StringUtils::securiser( $pVo->getCommentaire() ) . "'
 				," . AdherentManager::CHAMP_ADHERENT_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'
-				," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . " = '" . StringUtils::securiser( $pVo->getSuperZeybu() ) . "'
 			 WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

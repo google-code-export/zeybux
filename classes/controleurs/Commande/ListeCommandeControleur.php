@@ -10,8 +10,8 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeCommandeEnCoursViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ListeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/ListeCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 
 /**
  * @name ListeCommandeControleur
@@ -28,7 +28,8 @@ class ListeCommandeControleur
 	*/
 	public function getListeCommandeEnCours() {
 		$lListeCommande = new ListeCommandeResponse();
-		$lListeCommande->setListeCommande( ListeCommandeEnCoursViewManager::selectNonReservee($_SESSION['id_compte']) );
+		$lMarcheService = new MarcheService();
+		$lListeCommande->setListeCommande( $lMarcheService->getNonReserveeParCompte($_SESSION[ID_COMPTE]) );
 		return $lListeCommande;
 	}
 }

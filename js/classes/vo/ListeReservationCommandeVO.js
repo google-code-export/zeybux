@@ -1,4 +1,3 @@
 ;function ListeReservationCommandeVO() {
-	this.id = '';
-	this.commandes = new Array();
+	this.detailReservation = new Array();
 }

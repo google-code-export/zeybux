@@ -20,16 +20,20 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		
+		var lData = {modules:[],modules_default:[]}
 		$(lResponse.modules).each(function() {
 			if(this.defaut == 1) {
-				this.checked = "checked=\"checked\"";
+				lData.modules_default.push(this);
+			} else {
+				lData.modules.push(this);
 			}
 		});		
 		
+		lData.dateAdhesion = getDateAujourdhuiDb().dateDbToFr();
+		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
 	}
 	
 	this.affect = function(pData) {
@@ -84,7 +88,8 @@
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
 		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
-
+		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
+		
 		var lValid = new AdherentValid();
 		var lVr = lValid.validAjout(lVo);
 		

@@ -10,7 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "ModifierProducteurResponse.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/ModifierProducteurResponse.php");
 
 /**
  * @name SuppressionProducteurControleur

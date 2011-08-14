@@ -17,7 +17,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 
 	if(isset($_POST['form'])) {
 		if($_POST['form'] == 2 && isset($_POST['commande'])) {
-			$lLogger->log("Demande d'ajout d'une nouvelle commande par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'ajout d'une nouvelle commande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			// Récupération des données au format json et conversion en tableau associatif
 			$lDataCommande = json_decode($_POST['commande'],true);			
 			$lControleur = new AjoutCommandeControleur();			
@@ -31,14 +31,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 				$lLogger->log("Echec de la création d'une nouvelle commande.",PEAR_LOG_INFO);	// Maj des logs
 			}
 		} else {
-			$lLogger->log("Demande d'accés au form de AjoutCommande avec un mauvais form par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés au form de AjoutCommande avec un mauvais form par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
 	} else if(isset($_POST['pParam'])) { 
 		$lParam = json_decode($_POST['pParam'],true);		
 		
 		if($lParam['form'] == 1) {
-			$lLogger->log("Demande d'ajout d'un nouveau produit par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'ajout d'un nouveau produit par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			
 			$lControleur = new AjoutCommandeControleur();					
 			$lResponse = $lControleur->AjouterProduit($lParam);
@@ -49,15 +49,15 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			} else {				
 				$lLogger->log("Echec de la création d'un nouveau produit.",PEAR_LOG_INFO);	// Maj des logs
 			}
-			$lLogger->log("Ajout d'un nouveau produit : " . $lResponse->getNom() . " par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs			
+			$lLogger->log("Ajout d'un nouveau produit : " . $lResponse->getNom() . " par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs			
 		} else {
-			$lLogger->log("Demande d'accés au form de AjoutCommande avec un mauvais form par l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés au form de AjoutCommande avec un mauvais form par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}	
 	} else {
 		$lControleur = new AjoutCommandeControleur();
 		echo $lControleur->getInfoAjoutCommande()->exportToJson();
-		$lLogger->log("Affichage de la vue AjoutCommande par le compte de l'Adhérent : " . $_SESSION['id'],PEAR_LOG_INFO);	// Maj des logs
+		$lLogger->log("Affichage de la vue AjoutCommande par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 	}
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à AjoutCommande",PEAR_LOG_INFO);	// Maj des logs

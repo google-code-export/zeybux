@@ -1,4 +1,4 @@
-;function TemplateData() {
+function TemplateData() {
 	this.infobulle = "<!-- BEGIN membres -->" + //ui-helper-hidden 
 			"<div class=\"ui-helper-hidden com-infobulle com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"ifb-{membres.nom}\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Erreurs : </div>" + //{membres.nom}

@@ -27,12 +27,12 @@ class IdentificationViewManager
 	const VUE_IDENTIFICATION = "view_identification";
 	
 	/**
-	* @name select($pNumero)
+	* @name select($pId)
 	* @param string
 	* @return IdentificationViewVO
 	* @desc Récupère la ligne correspondant à l'id en paramètre, créé une IdentificationView contenant les informations et la renvoie
 	*/
-	public static function select($pNumero) {
+	public static function select($pId) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -40,13 +40,10 @@ class IdentificationViewManager
 		$lRequete =
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
-			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
-			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . 
-			"," . ModuleManager::CHAMP_MOD_NOM . 
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . "
+			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
+			"," . ModuleManager::CHAMP_MOD_NOM . "
 			FROM " . IdentificationViewManager::VUE_IDENTIFICATION. " 
-			WHERE " . AdherentManager::CHAMP_ADHERENT_NUMERO . " = '" . StringUtils::securiser($pNumero) . "'";
+			WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
@@ -58,10 +55,7 @@ class IdentificationViewManager
 					IdentificationViewManager::remplir(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
-						$lLigne[ModuleManager::CHAMP_MOD_NOM],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]));
+						$lLigne[ModuleManager::CHAMP_MOD_NOM]));
 			}
 		} else {
 			$lListeIdentification[0] = new IdentificationViewVO();
@@ -82,10 +76,7 @@ class IdentificationViewManager
 			"SELECT "
 			    . AdherentManager::CHAMP_ADHERENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . 
-			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
-			"," . AdherentManager::CHAMP_ADHERENT_MOT_PASSE . 
-			"," . ModuleManager::CHAMP_MOD_NOM . 
-			"," . AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU . "
+			"," . ModuleManager::CHAMP_MOD_NOM . "
 			FROM " . IdentificationViewManager::VUE_IDENTIFICATION;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -98,10 +89,7 @@ class IdentificationViewManager
 					IdentificationViewManager::remplir(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_MOT_PASSE],
-						$lLigne[ModuleManager::CHAMP_MOD_NOM],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_SUPER_ZEYBU]));
+						$lLigne[ModuleManager::CHAMP_MOD_NOM]));
 			}
 		} else {
 			$lListeIdentification[0] = new IdentificationViewVO();
@@ -110,24 +98,18 @@ class IdentificationViewManager
 	}
 	
 	/**
-	* @name remplir($pAdhId, $pAdhIdCompte, $pAdhNumero, $pAdhMotPasse, $pModNom, $pAdhSuperZeybu)
+	* @name remplir($pAdhId, $pAdhMotPasse, $pModNom)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(5)
-	* @param varchar(100)
-	* @param varchar(5)
-	* @param tinyint(1)
 	* @return IdentificationViewVO
 	* @desc Retourne une IdentificationViewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhIdCompte, $pAdhNumero, $pAdhMotPasse, $pModNom, $pAdhSuperZeybu) {
+	private static function remplir($pAdhId, $pAdhIdCompte, $pModNom) {
 		$lIdentification = new IdentificationViewVO();
 		$lIdentification->setAdhId($pAdhId);
 		$lIdentification->setAdhIdCompte($pAdhIdCompte);
-		$lIdentification->setAdhNumero($pAdhNumero);
-		$lIdentification->setAdhMotPasse($pAdhMotPasse);
 		$lIdentification->setModNom($pModNom);
-		$lIdentification->setAdhSuperZeybu($pAdhSuperZeybu);
 		return $lIdentification;
 	}
 }

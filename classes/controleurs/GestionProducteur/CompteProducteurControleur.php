@@ -11,7 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . "InfoCompteProducteurResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/InfoCompteProducteurResponse.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 

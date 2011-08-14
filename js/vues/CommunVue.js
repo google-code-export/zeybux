@@ -48,6 +48,7 @@
 	this.comHoverBtn = function(pData) {
 		pData.find(	".com-button:not(.ui-state-disabled)," +
 					".com-btn-header:not(.ui-state-disabled)," +
+					".com-btn-hover:not(.ui-state-disabled)," +
 					".com-btn-header-multiples:not(.ui-state-disabled)")
 		.hover(
 			function(){ 

@@ -9,6 +9,7 @@
 	this.unite = '';
 	this.qteMaxCommande = '';
 	this.qteRestante = '';
+	this.stockInitial = '';
 	this.idProducteur = '';
 	this.lots = new Array();
 }

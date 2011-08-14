@@ -12,6 +12,15 @@
 .edt-com-progressbar-pdt {
 	margin-top:10px;
 	margin-bottom:10px;
+	height: 12px;
+}
+
+.edt-com-info-progressbar-pdt {
+	float:left;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	width:100%;
 }
 
 .edt-com-span-rech-right {
@@ -19,6 +28,17 @@
 	padding-top:4px;
 	position:relative;
 	float:right;
+}
+
+#edt-com-nav-resa-achat {
+	text-align:center;
+	width: 670px;
+	padding-top: 3px;
+}
+
+#edt-com-nav-resa-achat span{
+	padding: 3px 5px;
+	font-weight: bold;
 }
 
 /*.edt-com-btn-edt-commande {

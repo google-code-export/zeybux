@@ -29,6 +29,7 @@ class ModuleManager
 	const CHAMP_MOD_DEFAUT = "mod_defaut";
 	const CHAMP_MOD_ORDRE = "mod_ordre";
 	const CHAMP_MOD_ADMIN = "mod_admin";
+	const CHAMP_MOD_VISIBLE = "mod_visible";
 
 	/**
 	* @name select($pId)
@@ -45,7 +46,8 @@ class ModuleManager
 						"," . ModuleManager::CHAMP_MOD_LABEL . 
 						"," . ModuleManager::CHAMP_MOD_DEFAUT . 
 						"," . ModuleManager::CHAMP_MOD_ORDRE .
-						"," . ModuleManager::CHAMP_MOD_ADMIN . " 
+						"," . ModuleManager::CHAMP_MOD_ADMIN .
+						"," . ModuleManager::CHAMP_MOD_VISIBLE . " 
 					FROM " . ModuleManager::TABLE_MODULE . " 
 					WHERE " . ModuleManager::CHAMP_MOD_ID . " = '". StringUtils::securiser($pId) . "'";
 		
@@ -59,7 +61,8 @@ class ModuleManager
 				$lLigne[ModuleManager::CHAMP_MOD_LABEL], 
 				$lLigne[ModuleManager::CHAMP_MOD_DEFAUT], 
 				$lLigne[ModuleManager::CHAMP_MOD_ORDRE],
-				$lLigne[ModuleManager::CHAMP_MOD_ADMIN]);
+				$lLigne[ModuleManager::CHAMP_MOD_ADMIN],
+				$lLigne[ModuleManager::CHAMP_MOD_VISIBLE]);
 		} else {
 			return new ModuleVO();
 		}
@@ -80,7 +83,8 @@ class ModuleManager
 						"," . ModuleManager::CHAMP_MOD_LABEL . 
 						"," . ModuleManager::CHAMP_MOD_DEFAUT . 
 						"," . ModuleManager::CHAMP_MOD_ORDRE .
-						"," . ModuleManager::CHAMP_MOD_ADMIN . " 
+						"," . ModuleManager::CHAMP_MOD_ADMIN .
+						"," . ModuleManager::CHAMP_MOD_VISIBLE . " 
 					FROM " . ModuleManager::TABLE_MODULE . " 
 					ORDER BY `mod_module`.`mod_ordre` ASC";
 		
@@ -96,7 +100,8 @@ class ModuleManager
 				$lLigne[ModuleManager::CHAMP_MOD_LABEL], 
 				$lLigne[ModuleManager::CHAMP_MOD_DEFAUT], 
 				$lLigne[ModuleManager::CHAMP_MOD_ORDRE],
-				$lLigne[ModuleManager::CHAMP_MOD_ADMIN]));
+				$lLigne[ModuleManager::CHAMP_MOD_ADMIN],
+				$lLigne[ModuleManager::CHAMP_MOD_VISIBLE]));
 			}
 		} else {
 			$lListeModule[0] =  new ModuleVO();
@@ -104,6 +109,21 @@ class ModuleManager
 
 		return $lListeModule;
 	}
+	
+	/**
+	* @name selectAllVisible()
+	* @return array(ModuleVO)
+	* @desc Récupères toutes les lignes de la table qui ont le statut visible à 1 et les renvoie sous forme d'une collection de ModuleVO
+	*/
+	public static function selectAllVisible() {		
+		return ModuleManager::recherche(
+			array(ModuleManager::CHAMP_MOD_VISIBLE),
+			array('='),
+			array(1),
+			array(ModuleManager::CHAMP_MOD_ORDRE),
+			array('ASC'));
+	}
+	
 	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
@@ -122,12 +142,13 @@ class ModuleManager
 
 		// Préparation de la requète
 		$lChamps = array( 
-			    ModuleManager::CHAMP_MODULE_ID .
-			"," . ModuleManager::CHAMP_MODULE_NOM .
-			"," . ModuleManager::CHAMP_MODULE_LABEL .
-			"," . ModuleManager::CHAMP_MODULE_DEFAUT .
-			"," . ModuleManager::CHAMP_MODULE_ORDRE .
-			"," . ModuleManager::CHAMP_MODULE_ADMIN		);
+			    ModuleManager::CHAMP_MOD_ID .
+			"," . ModuleManager::CHAMP_MOD_NOM .
+			"," . ModuleManager::CHAMP_MOD_LABEL .
+			"," . ModuleManager::CHAMP_MOD_DEFAUT .
+			"," . ModuleManager::CHAMP_MOD_ORDRE .
+			"," . ModuleManager::CHAMP_MOD_ADMIN	 .
+			"," . ModuleManager::CHAMP_MOD_VISIBLE		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ModuleManager::TABLE_MODULE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -144,12 +165,13 @@ class ModuleManager
 	
 					array_push($lListeModule,
 						ModuleManager::remplirModule(
-						$lLigne[ModuleManager::CHAMP_MODULE_ID],
-						$lLigne[ModuleManager::CHAMP_MODULE_NOM],
-						$lLigne[ModuleManager::CHAMP_MODULE_LABEL],
-						$lLigne[ModuleManager::CHAMP_MODULE_DEFAUT],
-						$lLigne[ModuleManager::CHAMP_MODULE_ORDRE],
-						$lLigne[ModuleManager::CHAMP_MODULE_ADMIN]));
+						$lLigne[ModuleManager::CHAMP_MOD_ID],
+						$lLigne[ModuleManager::CHAMP_MOD_NOM],
+						$lLigne[ModuleManager::CHAMP_MOD_LABEL],
+						$lLigne[ModuleManager::CHAMP_MOD_DEFAUT],
+						$lLigne[ModuleManager::CHAMP_MOD_ORDRE],
+						$lLigne[ModuleManager::CHAMP_MOD_ADMIN],
+						$lLigne[ModuleManager::CHAMP_MOD_VISIBLE]));
 				}
 			} else {
 				$lListeModule[0] = new ModuleVO();
@@ -163,17 +185,18 @@ class ModuleManager
 	}
 		
 	/**
-	* @name remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre)
+	* @name remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin, $pVisible)
 	* @param interger
 	* @param string
 	* @param string
 	* @param bool
 	* @param integer
 	* @param integer
+	* @param bool
 	* @return ModuleVO
 	* @desc Retourne un ModuleVO rempli
 	*/
-	private static function remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin) {
+	private static function remplirModule($pId, $pNom, $pLabel, $pDefaut, $pOrdre, $pAdmin, $pVisible) {
 		$lModule = new ModuleVO();
 
 		$lModule->setId($pId);
@@ -182,6 +205,7 @@ class ModuleManager
 		$lModule->setDefaut($pDefaut);
 		$lModule->setOrdre($pOrdre);
 		$lModule->setAdmin($pAdmin);
+		$lModule->setVisible($pVisible);
 		
 		return $lModule;
 	}
@@ -202,13 +226,15 @@ class ModuleManager
 					," . ModuleManager::CHAMP_MOD_LABEL . "
 					," . ModuleManager::CHAMP_MOD_DEFAUT . "
 					," . ModuleManager::CHAMP_MOD_ORDRE  . "
-					," . ModuleManager::CHAMP_MOD_ADMIN . ") 
+					," . ModuleManager::CHAMP_MOD_ADMIN . "
+					," . ModuleManager::CHAMP_MOD_VISIBLE . ") 
 				VALUES (NULL
 					,'" . StringUtils::securiser( $pVo->getNom() ) ."'
 					,'" . StringUtils::securiser( $pVo->getLabel() ) ."'
 					,'" . StringUtils::securiser( $pVo->getDefaut() ) ."'
 					,'" . StringUtils::securiser( $pVo->getOrdre() ) ."'
-					,'" . StringUtils::securiser( $pVo->getAdmin() ) ."')";
+					,'" . StringUtils::securiser( $pVo->getAdmin() ) ."'
+					,'" . StringUtils::securiser( $pVo->getVisible() ) ."')";
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
 	}
@@ -229,6 +255,7 @@ class ModuleManager
 					," . ModuleManager::CHAMP_MOD_DEFAUT . " = '" . StringUtils::securiser( $pVo->getDefaut() ) . "'
 					," . ModuleManager::CHAMP_MOD_ORDRE . " = '" . StringUtils::securiser( $pVo->getOrdre() ) . "'
 					," . ModuleManager::CHAMP_MOD_ADMIN . " = '" . StringUtils::securiser( $pVo->getAdmin() ) . "'
+					," . ModuleManager::CHAMP_MOD_VISIBLE . " = '" . StringUtils::securiser( $pVo->getVisible() ) . "'
 				WHERE " . ModuleManager::CHAMP_MOD_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
