@@ -106,6 +106,14 @@
 			"</div>" +
 		"</div>";
 	
+	this.listeVirementVide = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Solde : {solde} {sigleMonetaire}</div>" +
+				"<p id=\"texte-liste-vide\">Aucun Virement effectué.</p>" +	
+			"</div>" +
+		"</div>";
+	
 	this.dialogAjoutVirement = 
 		"<div id=\"dialog-ajout-virement\" title=\"Virement Solidaire\">" +
 			"<form>" +
@@ -210,20 +218,22 @@
 				}
 			}
 		});
-				
-		
-		var lTemplate = lCompteSolidaireTemplate.compte;
-		
-		var lHtml = $(lTemplate.template(lResponse));
 
-		// Ne pas afficher la pagination si il y a moins de 30 éléments
-		if(lResponse.operation.length < 21) {
-			lHtml = this.masquerPagination(lHtml);
+		if(lResponse.operation.length > 0 && lResponse.operation[0].opeId != null) {
+			var lTemplate = lCompteSolidaireTemplate.compte;
+			var lHtml = $(lTemplate.template(lResponse));
+	
+			// Ne pas afficher la pagination si il y a moins de 30 éléments
+			if(lResponse.operation.length < 21) {
+				lHtml = this.masquerPagination(lHtml);
+			} else {
+				lHtml = this.paginnation(lHtml);
+			}
+			$('#contenu').replaceWith(that.affect(lHtml));
 		} else {
-			lHtml = this.paginnation(lHtml);
+			var lTemplate = lCompteSolidaireTemplate.listeVirementVide;
+			$('#contenu').replaceWith(lTemplate.template(lResponse));
 		}
-		
-		$('#contenu').replaceWith(that.affect(lHtml));
 	}
 	
 	this.affect = function(pData) {

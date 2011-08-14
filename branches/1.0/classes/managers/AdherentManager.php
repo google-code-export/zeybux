@@ -181,6 +181,21 @@ class AdherentManager
 	}
 	
 	/**
+	* @name selectByIdCompte($pId)
+	* @param integer
+	* @return array(AdherentVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de AdherentVO
+	*/
+	public static function selectByIdCompte($pId) {		
+		return AdherentManager::rechercheAdherent(
+			array(AdherentManager::CHAMP_ADHERENT_ID_COMPTE),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
+	}
+	
+	/**
 	* @name rechercheAdherent( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche
@@ -225,11 +240,10 @@ class AdherentManager
 			$lSql = Dbutils::executerRequete($lRequete);
 	
 			if( mysql_num_rows($lSql) > 0 ) {
-				$lListeModuleAll = ModuleManager::selectAll();
 		
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
 		
-					$lAdherent = AdherentManager::remplirAdherent(
+					array_push($lListeAdherent,AdherentManager::remplirAdherent(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
@@ -246,13 +260,12 @@ class AdherentManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_ADHESION],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]);
+						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]));
 		
 				}
 			} else {
 				$lListeAdherent[0] = new AdherentVO();
 			}
-			
 			return $lListeAdherent;
 		}
 		

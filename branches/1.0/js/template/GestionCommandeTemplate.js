@@ -985,7 +985,7 @@
 				"</div>" +
 				"<div class=\"com-widget-content\">" +
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
-						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des réservations</button>" +
+						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des adhérents</button>" +
 					"</p>" +
 				"</div>" +
 			"</div>" +
@@ -1015,7 +1015,7 @@
 		"</div>";
 	
 	this.dialogExportListeReservation = 
-			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations du Marché n°{comNumero}\">" +
+			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations en cours du Marché n°{comNumero}\">" +
 				"<form>" +
 					"<table>" +
 						"<tr>" +
@@ -1096,7 +1096,7 @@
 				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
 					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"Liste des Réservations" +
+							"Liste des Réservations en cours" +
 							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
 								"<span class=\"ui-icon ui-icon-print\">" +
 								"</span>" +
@@ -1143,7 +1143,7 @@
 		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Liste des Réservations" +
+					"Liste des Réservations en cours" +
 					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
 						"<span class=\"ui-icon ui-icon-print\">" +
 						"</span>" +
@@ -1222,12 +1222,22 @@
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
-						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantReservation}</td>" +
-						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantAchat}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.reservation}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.achat}</td>" +
 					"</tr>" +
 					"<!-- END listeAchatEtReservation -->" +
 					"</tbody>" +
 				"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.listeAchatEtReservationVide = 
+		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Liste des Achats et Réservations" +
+				"</div>" +
+				"<p id=\"texte-liste-vide\">Aucun adhérent sur ce marché.</p>" +
 			"</div>" +
 		"</div>";
 	
@@ -1586,7 +1596,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente</div>" +
-				"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
+				"<p id=\"texte-liste-vide\">Aucune adhérent.</p>" +	
 			"</div>" +
 		"</div>";
 	

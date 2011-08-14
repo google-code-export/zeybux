@@ -985,7 +985,7 @@
 				"</div>" +
 				"<div class=\"com-widget-content\">" +
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
-						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des réservations</button>" +
+						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des adhérents</button>" +
 					"</p>" +
 				"</div>" +
 			"</div>" +
@@ -1015,7 +1015,7 @@
 		"</div>";
 	
 	this.dialogExportListeReservation = 
-			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations du Marché n°{comNumero}\">" +
+			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations en cours du Marché n°{comNumero}\">" +
 				"<form>" +
 					"<table>" +
 						"<tr>" +
@@ -1096,7 +1096,7 @@
 				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
 					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"Liste des Réservations" +
+							"Liste des Réservations en cours" +
 							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
 								"<span class=\"ui-icon ui-icon-print\">" +
 								"</span>" +
@@ -1143,7 +1143,7 @@
 		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Liste des Réservations" +
+					"Liste des Réservations en cours" +
 					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
 						"<span class=\"ui-icon ui-icon-print\">" +
 						"</span>" +
@@ -1222,12 +1222,22 @@
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
 						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
-						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantReservation}</td>" +
-						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.opeMontantAchat}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.reservation}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.achat}</td>" +
 					"</tr>" +
 					"<!-- END listeAchatEtReservation -->" +
 					"</tbody>" +
 				"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.listeAchatEtReservationVide = 
+		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Liste des Achats et Réservations" +
+				"</div>" +
+				"<p id=\"texte-liste-vide\">Aucun adhérent sur ce marché.</p>" +
 			"</div>" +
 		"</div>";
 	
@@ -1586,7 +1596,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente</div>" +
-				"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
+				"<p id=\"texte-liste-vide\">Aucune adhérent.</p>" +	
 			"</div>" +
 		"</div>";
 	
@@ -4321,9 +4331,11 @@
 		lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
 		lData.reservation = [];
 
+		var lPdtAchat = false; // Pour n'afficher le formulaire achat uniquement si il y a des produits
 		$.each(this.pdtCommande,function() {
-			var lIdProduit = this.id;
+			lPdtAchat = true;
 			
+			var lIdProduit = this.id;
 			var lPdt = {};
 			lPdt.id = this.id;
 			lPdt.nproNom = this.nom;
@@ -4392,7 +4404,7 @@
 			}
 		});
 
-		if(lNbAchat == 0) {
+		if(lNbAchat == 0 && lPdtAchat ) {
 			var lDataPdtAchat = [];
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
@@ -4463,7 +4475,7 @@
 			}
 		});
 		
-		if(lNbAchatSolidaire == 0) {
+		if(lNbAchatSolidaire == 0 && pResponse.stockSolidaire.length > 0 && pResponse.stockSolidaire[0].proId != null) {
 			var lDataPdtAchat = [];
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
@@ -6492,13 +6504,17 @@
 						$("#btn-liste-achat-resa").addClass("ui-state-active");
 						
 						$(lResponse.listeAchatEtReservation).each(function() {
-							if(this.opeMontantReservation) {this.opeMontantReservation = 'X';} else { this.opeMontantReservation = '';}
-							if(this.opeMontantAchat) {this.opeMontantAchat = 'X';} else { this.opeMontantAchat = '';}
+							if(this.reservation == null) { this.reservation = '';}
+							if(this.achat == null) { this.achat = '';}
 						});
-						
+
 						var lGestionCommandeTemplate = new GestionCommandeTemplate();
-						var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-						$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+						if(lResponse.listeAchatEtReservation.length > 0 && lResponse.listeAchatEtReservation[0].adhId != null) {
+							var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
+							$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+						} else {
+							$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
+						}
 						
 						
 					} else {

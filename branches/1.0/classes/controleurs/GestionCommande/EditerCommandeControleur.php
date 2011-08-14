@@ -317,17 +317,17 @@ class EditerCommandeControleur
 				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
 				$lIdAchat->setIdCommande($pParam["id_commande"]);
 				$lAchats = $lAchatService->getAll($lIdAchat);	
-				
 				$lProduits = array();
 
 				$lNbResa = 0;
-				$lDetailsReservationt = $lReservation->getDetailReservation();
-				if(!empty($lDetailsReservationt)) {
-					foreach($lDetailsReservationt as $lDetail) {
+				$lDetailsReservation = $lReservation->getDetailReservation();
+				if(!empty($lDetailsReservation)) {
+					foreach($lDetailsReservation as $lDetail) {
 						if(!isset($lProduits[$lDetail->getIdProduit()][0])) {
-							$lProduits[$lDetail->getIdProduit()][0] = array();
+							$lProduits[$lDetail->getIdProduit()][0] = array($lDetail);
+						} else {
+							array_push($lProduits[$lDetail->getIdProduit()][0],$lDetail);
 						}
-						array_push($lProduits[$lDetail->getIdProduit()][0],$lDetail);
 						$lNbResa++;
 					}
 				}
@@ -339,9 +339,10 @@ class EditerCommandeControleur
 					if(!empty($lDetailsAchat)) {
 						foreach($lDetailsAchat as $lDetail) {
 							if(!isset($lProduits[$lDetail->getIdProduit()][7])) {
-								$lProduits[$lDetail->getIdProduit()][7] = array();
+								$lProduits[$lDetail->getIdProduit()][7] = array($lDetail);
+							} else {
+								array_push($lProduits[$lDetail->getIdProduit()][7],$lDetail);
 							}
-							array_push($lProduits[$lDetail->getIdProduit()][7],$lDetail);
 							$lNbAchat++;
 						}
 					}
@@ -349,57 +350,67 @@ class EditerCommandeControleur
 					if(!empty($lDetailsAchat)) {
 						foreach($lDetailsAchat as $lDetail) {
 							if(!isset($lProduits[$lDetail->getIdProduit()][8])) {
-								$lProduits[$lDetail->getIdProduit()][8] = array();
+								$lProduits[$lDetail->getIdProduit()][8] = array($lDetail);
+							} else {
+								array_push($lProduits[$lDetail->getIdProduit()][8],$lDetail);
 							}
-							array_push($lProduits[$lDetail->getIdProduit()][8],$lDetail);
 							$lNbAchatSolidaire++;
 						}
 					}
 				}
-				
 				if($lNbAchat < $lNbResa) {$lNbAchat = $lNbResa;}
 				if($lNbAchat < $lNbAchatSolidaire) {$lNbAchat = $lNbAchatSolidaire;}
 				
-				if($lNbAchat == 0) {
-					$lLigne = array();
-					array_push($lLigne,$lAdherent->getAdhNumero(),$lAdherent->getCptLabel(),$lAdherent->getAdhNom(),$lAdherent->getAdhPrenom());
-					array_push($contenuTableau,$lLigne);					
-				}
+				if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé on vérifi qu'il faut si il a des ahcats/Résa pour l'ajouter
 				
-				$lI = 0;
-				while($lI < $lNbAchat) {
-					$lLigne = array();
-					if($lI == 0) {
+					if($lNbAchat == 0) {
+						$lLigne = array();
 						array_push($lLigne,$lAdherent->getAdhNumero(),$lAdherent->getCptLabel(),$lAdherent->getAdhNom(),$lAdherent->getAdhPrenom());
-					} else {
-						array_push($lLigne,"","","","");
+						array_push($contenuTableau,$lLigne);					
 					}
-					foreach($lMarche->getProduits() as $lProduit) {
-						if(isset($lProduits[$lProduit->getId()][0][$lI])) {
-							$lDetail = $lProduits[$lProduit->getId()][0][$lI];
-							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+					
+					$lI = 0;
+					while($lI < $lNbAchat) {
+						$lAjoutLigne = false;
+						$lLigne = array();
+						if($lI == 0) {
+							$lAjoutLigne = true;
+							array_push($lLigne,$lAdherent->getAdhNumero(),$lAdherent->getCptLabel(),$lAdherent->getAdhNom(),$lAdherent->getAdhPrenom());
 						} else {
 							array_push($lLigne,"","","","");
 						}
-						if(isset($lProduits[$lProduit->getId()][7][$lI])) {
-							$lDetail = $lProduits[$lProduit->getId()][7][$lI];
-							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
-						} else {
-							array_push($lLigne,"","","","");
+						foreach($lMarche->getProduits() as $lProduit) {
+							if(isset($lProduits[$lProduit->getId()][0][$lI])) {
+								$lAjoutLigne = true;
+								$lDetail = $lProduits[$lProduit->getId()][0][$lI];
+								array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+							} else {
+								array_push($lLigne,"","","","");
+							}
+							if(isset($lProduits[$lProduit->getId()][7][$lI])) {
+								$lAjoutLigne = true;
+								$lDetail = $lProduits[$lProduit->getId()][7][$lI];
+								array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+							} else {
+								array_push($lLigne,"","","","");
+							}
+							if(isset($lProduits[$lProduit->getId()][8][$lI])) {
+								$lAjoutLigne = true;
+								$lDetail = $lProduits[$lProduit->getId()][8][$lI];
+								array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
+							} else {
+								array_push($lLigne,"","","","");
+							}
 						}
-						if(isset($lProduits[$lProduit->getId()][8][$lI])) {
-							$lDetail = $lProduits[$lProduit->getId()][8][$lI];
-							array_push($lLigne,$lDetail->getQuantite() * -1,$lProduit->getUnite(),$lDetail->getMontant() * -1,SIGLE_MONETAIRE);
-						} else {
-							array_push($lLigne,"","","","");
+						if($lAjoutLigne) {
+							array_push($contenuTableau,$lLigne);
 						}
+						$lI++;
 					}
-					array_push($contenuTableau,$lLigne);
-					$lI++;
 				}
 			}
 			
-			
+			//print_r($contenuTableau);
 			$lCSV->setData($contenuTableau);
 			
 			// Export en CSV
@@ -460,8 +471,46 @@ class EditerCommandeControleur
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 		$lResponse = new ListeAchatEtReservationResponse();
+			$lAchatService = new AchatService();			
+			
+			$lAdherents = AdherentViewManager::selectAll();
+			$lReservationService = new ReservationService();
 			$lAchatService = new AchatService();
-			$lResponse->setListeAchatEtReservation($lAchatService->selectMarcheAll($pParam["id_commande"]));
+			foreach($lAdherents as $lAdherent) {				
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdReservation->setIdCommande($pParam["id_commande"]);
+				$lReservation = $lReservationService->get($lIdReservation);
+
+				$lIdAchat = new IdAchatVO();
+				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdAchat->setIdCommande($pParam["id_commande"]);
+				$lAchats = $lAchatService->getAll($lIdAchat);	
+				
+				
+				$lListeAchat = new ListeAchatReservationVO();
+				$lListeAchat->setAdhId($lAdherent->getAdhId());
+				$lListeAchat->setAdhNumero($lAdherent->getAdhNumero());
+				$lListeAchat->setAdhIdCompte($lAdherent->getAdhIdCompte());
+				$lListeAchat->setCptLabel($lAdherent->getCptLabel());
+				$lListeAchat->setAdhNom($lAdherent->getAdhNom());
+				$lListeAchat->setAdhPrenom($lAdherent->getAdhPrenom());
+				
+				$lNbAchat = 0;
+				// Reservation en cours ou Achetée
+				if(!is_null($lReservation->getEtat()) && ($lReservation->getEtat() == 0 || $lReservation->getEtat() == 7)) {
+					$lListeAchat->setReservation('X');
+					$lNbAchat++;
+				}
+				// Si il y a un achat
+				if(!empty($lAchats)) {
+					$lListeAchat->setAchat('X');
+					$lNbAchat++;
+				}
+				if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé on vérifie qu'il faut si il a des ahcats/Résa pour l'ajouter
+					$lResponse->addListeAchatEtReservation($lListeAchat);
+				}
+			}
 			return $lResponse;
 		}
 		return $lVr;

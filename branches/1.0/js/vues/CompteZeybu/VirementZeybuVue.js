@@ -33,13 +33,17 @@
 	this.afficher = function(lResponse) {
 		var that = this;
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		var lTemplate = lCompteZeybuTemplate.listeAdherent;	
+		var lHtml = $(lTemplate.template(lResponse));
 		
-		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lCompteZeybuTemplate.listeAdherent;		
-			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
-		} else {
-			$('#contenu').replaceWith(lCompteZeybuTemplate.listeAdherentVide);
+		if(lResponse.listeAdherent.length <= 0 || lResponse.listeAdherent[0].adhId == null) {
+			lHtml.find("#virement-adherent").replaceWith(lCompteZeybuTemplate.listeAdherentVide);
 		}
+		if(lResponse.listeProducteur.length <= 0 || lResponse.listeProducteur[0].prdtId == null) {
+			lHtml.find("#virement-producteur").replaceWith(lCompteZeybuTemplate.listeProducteurVide);
+		}
+		
+		$('#contenu').replaceWith(that.affect(lHtml));
 		
 	}
 	

@@ -96,9 +96,11 @@
 		lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
 		lData.reservation = [];
 
+		var lPdtAchat = false; // Pour n'afficher le formulaire achat uniquement si il y a des produits
 		$.each(this.pdtCommande,function() {
-			var lIdProduit = this.id;
+			lPdtAchat = true;
 			
+			var lIdProduit = this.id;
 			var lPdt = {};
 			lPdt.id = this.id;
 			lPdt.nproNom = this.nom;
@@ -167,7 +169,7 @@
 			}
 		});
 
-		if(lNbAchat == 0) {
+		if(lNbAchat == 0 && lPdtAchat ) {
 			var lDataPdtAchat = [];
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
@@ -238,7 +240,7 @@
 			}
 		});
 		
-		if(lNbAchatSolidaire == 0) {
+		if(lNbAchatSolidaire == 0 && pResponse.stockSolidaire.length > 0 && pResponse.stockSolidaire[0].proId != null) {
 			var lDataPdtAchat = [];
 			$.each(that.pdtCommande,function() {
 				if(this.id) {

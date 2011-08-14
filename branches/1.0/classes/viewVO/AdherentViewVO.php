@@ -125,6 +125,12 @@ class AdherentViewVO extends DataTemplate
 	* @desc CptSolde de la AdherentViewVO
 	*/
 	protected $mCptSolde;
+	
+	/**
+	* @var tinyint(1)
+	* @desc AdhEtat de la AdherentViewVO
+	*/
+	protected $mAdhEtat;
 
 	/**
 	* @name getAdhId()
@@ -448,6 +454,24 @@ class AdherentViewVO extends DataTemplate
 	*/
 	public function setCptSolde($pCptSolde) {
 		$this->mCptSolde = $pCptSolde;
+	}
+	
+	/**
+	* @name getAdhEtat()
+	* @return tinyint(1)
+	* @desc Renvoie le membre AdhEtat de la AdherentViewVO
+	*/
+	public function getAdhEtat() {
+		return $this->mAdhEtat;
+	}
+
+	/**
+	* @name setAdhEtat($pAdhEtat)
+	* @param tinyint(1)
+	* @desc Remplace le membre AdhEtat de la AdherentViewVO par $pAdhEtat
+	*/
+	public function setAdhEtat($pAdhEtat) {
+		$this->mAdhEtat = $pAdhEtat;
 	}
 }
 ?>

@@ -39,7 +39,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente</div>" +
-				"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
+				"<p id=\"texte-liste-vide\">Aucun adhérent.</p>" +	
 			"</div>" +
 		"</div>";
 	
@@ -218,7 +218,7 @@
 				"</div>" +
 				"<div class=\"com-widget-content\">" +
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
-						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des réservations</button>" +
+						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des adhérents</button>" +
 					"</p>" +
 				"</div>" +
 			"</div>" +

@@ -10,13 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "AfficheAchatAdherentValid.php");
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AchatAdherentResponse.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeReservationValid.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");*/
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/AfficheAchatAdherentValid.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AchatAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");

@@ -711,7 +711,7 @@ class AchatService
 	* @return 
 	* @desc Retourne une Reservation
 	*/
-	public function selectMarcheAll($pIdMarche) {	
+	/*public function selectMarcheAll($pIdMarche) {	
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -777,7 +777,7 @@ class AchatService
 		}
 		return $lListeAchatEtReservation;
 	}	
-	
+	*/
 	/**
 	* @name remplirAchatEtReservation($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pOpeMontantReservation, $pOpeMontantAchat)
 	* @param int(11)
@@ -791,7 +791,7 @@ class AchatService
 	* @return ListeAchatReservationVO
 	* @desc Retourne une ListeAchatReservationVO remplie
 	*/
-	private function remplirAchatEtReservation($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pOpeMontantReservation, $pOpeMontantAchat) {
+	/*private function remplirAchatEtReservation($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pOpeMontantReservation, $pOpeMontantAchat) {
 		$lListeAchatReservation = new ListeAchatReservationVO();
 		$lListeAchatReservation->setAdhId($pAdhId);
 		$lListeAchatReservation->setAdhNumero($pAdhNumero);
@@ -802,6 +802,6 @@ class AchatService
 		$lListeAchatReservation->setOpeMontantReservation($pOpeMontantReservation);
 		$lListeAchatReservation->setOpeMontantAchat($pOpeMontantAchat);
 		return $lListeAchatReservation;
-	}
+	}*/
 }
 ?>
