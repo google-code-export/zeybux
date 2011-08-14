@@ -56,15 +56,15 @@ class ListeAchatReservationVO  extends DataTemplate
 
 	/**
 	* @var decimal(10,2)
-	* @desc OpeMontantReservation de la ListeAchatReservationVO
+	* @desc Reservation de la ListeAchatReservationVO
 	*/
-	protected $mOpeMontantReservation;
+	protected $mReservation;
 
 	/**
 	* @var decimal(10,2)
-	* @desc OpeMontantAchat de la ListeAchatReservationVO
+	* @desc Achat de la ListeAchatReservationVO
 	*/
-	protected $mOpeMontantAchat;
+	protected $mAchat;
 
 	/**
 	* @name getAdhId()
@@ -175,39 +175,39 @@ class ListeAchatReservationVO  extends DataTemplate
 	}
 
 	/**
-	* @name getOpeMontantReservation()
+	* @name getReservation()
 	* @return decimal(10,2)
-	* @desc Renvoie le membre OpeMontantReservation de la ListeAchatReservationVO
+	* @desc Renvoie le membre Reservation de la ListeAchatReservationVO
 	*/
-	public function getOpeMontantReservation() {
-		return $this->mOpeMontantReservation;
+	public function getReservation() {
+		return $this->mReservation;
 	}
 
 	/**
-	* @name setOpeMontantReservation($pOpeMontantReservation)
+	* @name setReservation($pReservation)
 	* @param decimal(10,2)
-	* @desc Remplace le membre OpeMontantReservation de la ListeAchatReservationVO par $pOpeMontantReservation
+	* @desc Remplace le membre Reservation de la ListeAchatReservationVO par $pReservation
 	*/
-	public function setOpeMontantReservation($pOpeMontantReservation) {
-		$this->mOpeMontantReservation = $pOpeMontantReservation;
+	public function setReservation($pReservation) {
+		$this->mReservation = $pReservation;
 	}
 
 	/**
-	* @name getOpeMontantAchat()
+	* @name getAchat()
 	* @return decimal(10,2)
-	* @desc Renvoie le membre OpeMontantAchat de la ListeAchatReservationVO
+	* @desc Renvoie le membre Achat de la ListeAchatReservationVO
 	*/
-	public function getOpeMontantAchat() {
-		return $this->mOpeMontantAchat;
+	public function getAchat() {
+		return $this->mAchat;
 	}
 
 	/**
-	* @name setOpeMontantAchat($pOpeMontantAchat)
+	* @name setAchat($pAchat)
 	* @param decimal(10,2)
-	* @desc Remplace le membre OpeMontantAchat de la ListeAchatReservationVO par $pOpeMontantAchat
+	* @desc Remplace le membre Achat de la ListeAchatReservationVO par $pAchat
 	*/
-	public function setOpeMontantAchat($pOpeMontantAchat) {
-		$this->mOpeMontantAchat = $pOpeMontantAchat;
+	public function setAchat($pAchat) {
+		$this->mAchat = $pAchat;
 	}
 }
 ?>

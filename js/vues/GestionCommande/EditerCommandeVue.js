@@ -380,13 +380,17 @@
 						$("#btn-liste-achat-resa").addClass("ui-state-active");
 						
 						$(lResponse.listeAchatEtReservation).each(function() {
-							if(this.opeMontantReservation) {this.opeMontantReservation = 'X';} else { this.opeMontantReservation = '';}
-							if(this.opeMontantAchat) {this.opeMontantAchat = 'X';} else { this.opeMontantAchat = '';}
+							if(this.reservation == null) { this.reservation = '';}
+							if(this.achat == null) { this.achat = '';}
 						});
-						
+
 						var lGestionCommandeTemplate = new GestionCommandeTemplate();
-						var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-						$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+						if(lResponse.listeAchatEtReservation.length > 0 && lResponse.listeAchatEtReservation[0].adhId != null) {
+							var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
+							$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+						} else {
+							$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
+						}
 						
 						
 					} else {

@@ -113,7 +113,7 @@ class GestionCommandeListeReservationViewManager
 		}
 		return $lGestionCommandeListeReservation;
 	}
-
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table

@@ -12,6 +12,8 @@
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "ProducteurVR.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
 /**
  * @name ProducteurVR
@@ -151,6 +153,29 @@ class ProducteurValid
 		}
 
 		//Tests Fonctionnels
+		// Le compte existe
+		if(!empty($pData['compte'])) {		
+			$lCompte = CompteManager::selectByLabel($pData['compte']);					
+			if(count($lCompte) == 1) {
+				$lProducteur = ProducteurManager::selectByIdCompte($lCompte[0]->getId());	
+				if(is_null($lCompte[0]->getId()) || is_null($lProducteur[0]->getIdCompte())) {					
+					$lVr->setValid(false);
+					$lVr->getCompte()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_227_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
+					$lVr->getCompte()->addErreur($lErreur);	
+				}
+			} else {				
+				$lVr->setValid(false);
+				$lVr->getCompte()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_228_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_228_MSG);
+				$lVr->getCompte()->addErreur($lErreur);	
+			}
+		}
+		
 		if(empty($pData['nom'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -330,6 +355,29 @@ class ProducteurValid
 			}
 
 			//Tests Fonctionnels
+			// Le compte existe
+			if(!empty($pData['compte'])) {		
+				$lCompte = CompteManager::selectByLabel($pData['compte']);					
+				if(count($lCompte) == 1) {
+					$lProducteur = ProducteurManager::selectByIdCompte($lCompte[0]->getId());	
+					if(is_null($lCompte[0]->getId()) || is_null($lProducteur[0]->getIdCompte())) {					
+						$lVr->setValid(false);
+						$lVr->getCompte()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_227_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
+						$lVr->getCompte()->addErreur($lErreur);	
+					}
+				} else {				
+					$lVr->setValid(false);
+					$lVr->getCompte()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_228_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_228_MSG);
+					$lVr->getCompte()->addErreur($lErreur);	
+				}
+			}
+			
 			if(empty($pData['nom'])) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);

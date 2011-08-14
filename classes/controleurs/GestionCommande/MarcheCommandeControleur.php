@@ -20,6 +20,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/InfoAchatCommand
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
@@ -41,7 +42,7 @@ class MarcheCommandeControleur
 		$lVr = MarcheValid::validGetMarcheListeReservation($pParam);
 		if($lVr->getValid()) {
 			$lResponse = new ListeAdherentCommandeResponse();
-			$lListe = AdherentViewManager::selectAll();
+			$lListe = ListeAdherentViewManager::selectAll();
 			$lResponse->setListeAdherentCommande($lListe);
 			
 			$lMarcheService = new MarcheService();

@@ -50,6 +50,23 @@
 			"</div>" +
 		"</div>";
 	
+	this.listeOperationVide = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Compte du Zeybu</div>" +
+				"<table id=\"table-info-solde-zeybu\">" +
+					"<thead>" +
+						"<tr class=\"ui-widget ui-widget-header\">" +
+							"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Total : {soldeTotal} {sigleMonetaire}</th>" +
+							"<th id=\"td-solde-zeybu-caisse\" class=\"com-table-th\">Montant en Caisse : {soldeCaisse} {sigleMonetaire}</th>" +
+							"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Montant en Banque : {soldeBanque} {sigleMonetaire}</th>" +
+						"</tr>" +
+					"</thead>" +
+				"</table>" +
+				"<p id=\"texte-liste-vide\">Aucune Opération effectuée.</p>" +	
+			"</div>" +
+		"</div>";
+	
 	this.listeAdherent = 
 		"<div id=\"contenu\" class=\"ui-helper-reset\">" +
 			"<div id=\"virements\">" +
@@ -78,24 +95,24 @@
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"></th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"></th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeAdherent -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-adherent\" >" +
-								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.cptLabel}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
-								"<td class=\"com-table-td com-underline-hover com-center\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td\">{listeAdherent.cptLabel}</td>" +
+								"<td class=\"com-table-td\">{listeAdherent.adhNom}</td>" +
+								"<td class=\"com-table-td\">{listeAdherent.adhPrenom}</td>" +
+								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement ui-state-default ui-corner-all com-button com-center\">Zeybu vers {listeAdherent.cptLabel}</button>" +
 								"</td>" +
-								"<td class=\"com-table-td com-underline-hover com-center\">" +
+								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement-inverse ui-state-default ui-corner-all com-button com-center\">{listeAdherent.cptLabel} vers Zeybu</button>" +
 								"</td>" +
 							"</tr>" +
@@ -119,24 +136,24 @@
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"></th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"></th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeProducteur -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-producteur\" >" +
-								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>{listeProducteur.prdtNumero}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeProducteur.cptLabel}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeProducteur.prdtNom}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeProducteur.prdtPrenom}</td>" +
-								"<td class=\"com-table-td com-underline-hover com-center\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>{listeProducteur.prdtNumero}</td>" +
+								"<td class=\"com-table-td\">{listeProducteur.cptLabel}</td>" +
+								"<td class=\"com-table-td\">{listeProducteur.prdtNom}</td>" +
+								"<td class=\"com-table-td\">{listeProducteur.prdtPrenom}</td>" +
+								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement ui-state-default ui-corner-all com-button com-center\">Zeybu vers {listeProducteur.cptLabel}</button>" +
 								"</td>" +
-								"<td class=\"com-table-td com-underline-hover com-center\">" +
+								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement-inverse ui-state-default ui-corner-all com-button com-center\">{listeProducteur.cptLabel} vers Zeybu</button>" +
 								"</td>" +
 							"</tr>" +
@@ -148,11 +165,13 @@
 		"</div>";
 	
 	this.listeAdherentVide =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Adhérents</div>" +
-				"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	
-			"</div>" +
+		"<div id=\"virement-adherent\">" +
+			"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	
+		"</div>";
+	
+	this.listeProducteurVide =
+		"<div id=\"virement-producteur\">" +
+			"<p id=\"texte-liste-vide\">Aucun producteur dans la base.</p>" +	
 		"</div>";
 
 	this.dialogVirementSolidaire = 
@@ -228,6 +247,14 @@
 						"</tbody>" +
 					"</table>" +
 				"</div>" +				
+			"</div>" +
+		"</div>";
+	
+	this.listeVirementVide = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Liste des virements</div>" +
+				"<p id=\"texte-liste-vide\">Aucun Virement effectué.</p>" +	
 			"</div>" +
 		"</div>";
 	

@@ -190,11 +190,11 @@
 					"<table>" +
 						"<tr>" +
 							"<td>Login</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td>Mot de Passe</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +

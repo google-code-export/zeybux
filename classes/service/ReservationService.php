@@ -10,10 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_MANAGERS . "ReservationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueReservationManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
-include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );*/
 include_once(CHEMIN_CLASSES_VO . "ReservationVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
@@ -281,23 +277,25 @@ class ReservationService
 			
 			switch($lOperations[0]->getTypePaiement()) {
 				case 7: // Un achat
-					foreach($lOperations as $lOperation) {						
-						$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
-						if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
-							foreach($lDetailsReservation as $lDetail) {
-								$lDetailReservation = new DetailReservationVO();
-								$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
-								$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
-								$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
-								$lDetailReservation->setMontant($lDetail->getDopeMontant());
-								$lDetailReservation->setQuantite($lDetail->getStoQuantite());
-								$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
-								
-								$lReservation->addDetailReservation($lDetailReservation);
-							}
-							$lReservation->setTotal($lOperation->getMontant());
-						}			
-					}			
+					foreach($lOperations as $lOperation) {
+						if($lOperation->getTypePaiement() == 7) {
+							$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+							if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
+								foreach($lDetailsReservation as $lDetail) {
+									$lDetailReservation = new DetailReservationVO();
+									$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+									$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+									$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+									$lDetailReservation->setMontant($lDetail->getDopeMontant());
+									$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+									$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+									
+									$lReservation->addDetailReservation($lDetailReservation);
+								}
+								$lReservation->setTotal($lOperation->getMontant());
+							}			
+						}		
+					}	
 					break;
 					
 				case 0: // Reservation en cours

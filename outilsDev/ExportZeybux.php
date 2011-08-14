@@ -130,7 +130,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$filename = "../js/vues/CommunVue.js";
 		fwrite($fp,file_get_contents($filename));
 		$filename = "../js/template/IdentificationTemplate.js";
-		fwrite($fp,file_get_contents($filename));		
+		$lLigne = file_get_contents($filename);
+		$lLigne = preg_replace('/value=\\\"(Z|zeybu)\\\"/',"",$lLigne);
+		fwrite($fp,$lLigne);
+		//fwrite($fp,file_get_contents($filename));		
 		fclose($fp);
 
 		function parcourirDossierCore($pPath) {
@@ -184,32 +187,12 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   			if($entry == "AccueilVue.js") {			   				
 				   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
 				   			}
-				   			if($entry == "IdentificationTemplate.js") {
-				   				$lLigne = preg_replace('/value=\\"(Z|zeybu)\\"/',"",$lLigne);	
-				   			}
 				   			if($entry == 'IdentificationVue.js') {
 					   			$lLigne = preg_replace('/".php"/','"-min.js"',$lLigne);		
 				   			}
 						    $fp = fopen("./zeybu/js/zeybux-core.js", 'a');
 						    fwrite($fp,$lLigne);
 						    fclose($fp);
-				   			
-				   			
-				   			
-				   			/*$filename = $d->path.'/'.$entry;
-					   		$lLigne = file_get_contents($filename);
-				   			if($entry == "AccueilVue.js") {			
-				   				$lLigne = preg_replace("#.php#","-min.js",$lLigne);
-				   			}
-				   			if($entry == "IdentificationTemplate.js") {
-				   				$lLigne = preg_replace('#value=\\\"(Z|zeybu)\\\"#',"",$lLigne);	
-				   			}
-					   		if($entry = 'IdentificationVue.js') {
-					   			$lLigne = preg_replace('#.php#',".js",$lLigne);		
-				   			}
-						   	$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
-						    fwrite($fp,file_get_contents($filename));
-						    fclose($fp);*/
 				   		}
 				   }
 				}

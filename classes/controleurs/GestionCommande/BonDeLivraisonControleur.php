@@ -104,11 +104,11 @@ class BonDeLivraisonControleur
 			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur));
 			
 			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
-			$lOperation = $lOperations[0];
-			
+			$lOperation = $lOperations[0];			
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+
 			if(!is_null($lOperation->getId())) {
-				$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-				$lOperation = $lOperationService->get($lIds[0]);
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 			}
 			$lResponse->setOperationProducteur($lOperation);
 	
@@ -391,11 +391,10 @@ class BonDeLivraisonControleur
 			// Pour la dernière ligne			
 			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
 			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
-			$lOperation = $lOperations[0];
-			
+			$lOperation = $lOperations[0];		
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 			if(!is_null($lOperation->getId())) {
-				$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-				$lOperation = $lOperationService->get($lIds[0]);
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 			} else {
 				$lOperation->setMontant("");
 			}
@@ -592,10 +591,9 @@ class BonDeLivraisonControleur
 			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
 			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
 			$lOperation = $lOperations[0];
-			
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 			if(!is_null($lOperation->getId())) {
-				$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-				$lOperation = $lOperationService->get($lIds[0]);
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 			} else {
 				$lOperation->setMontant("");
 			}

@@ -44,7 +44,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . 
-			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ListeAdherentViewManager::VUE_LISTE_ADHERENT. " 
 			WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -59,7 +60,8 @@ class ListeAdherentViewManager
 				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]);
+				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL]);
 		} else {
 			return new ListeAdherentViewVO();
 		}
@@ -81,7 +83,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL . 
-			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ListeAdherentViewManager::VUE_LISTE_ADHERENT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -97,7 +100,8 @@ class ListeAdherentViewManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
+						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+						$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 			}
 		} else {
 			$lListeAdherent[0] = new ListeAdherentViewVO();
@@ -127,7 +131,8 @@ class ListeAdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
 			"," . AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL .
-			"," . CompteManager::CHAMP_COMPTE_SOLDE	);
+			"," . CompteManager::CHAMP_COMPTE_SOLDE .
+			"," . CompteManager::CHAMP_COMPTE_LABEL	);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ListeAdherentViewManager::VUE_LISTE_ADHERENT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -148,7 +153,8 @@ class ListeAdherentViewManager
 							$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 							$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 							$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-							$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
+							$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+							$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 				}
 			} else {
 				$lListeAdherent[0] = new ListeAdherentViewVO();
@@ -162,17 +168,18 @@ class ListeAdherentViewManager
 	}
 	
 	/**
-	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde)
+	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde, $pCptLabel)
 	* @param int(11)
 	* @param varchar(5)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param varchar(100)
 	* @param decimal(32,2)
+	* @param varchar(30)
 	* @return ListeAdherentViewVO
 	* @desc Retourne une ListeAdherentiewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde) {
+	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pCptSolde, $pCptLabel) {
 		$lListeAdherent = new ListeAdherentViewVO();
 		$lListeAdherent->setAdhId($pAdhId);
 		$lListeAdherent->setAdhNumero($pAdhNumero);
@@ -180,6 +187,7 @@ class ListeAdherentViewManager
 		$lListeAdherent->setAdhPrenom($pAdhPrenom);
 		$lListeAdherent->setAdhCourrielPrincipal($pAdhCourrielPrincipal);
 		$lListeAdherent->setCptSolde($pCptSolde);
+		$lListeAdherent->setCptLabel($pCptLabel);
 		return $lListeAdherent;
 	}
 }

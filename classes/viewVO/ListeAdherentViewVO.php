@@ -53,6 +53,13 @@ class ListeAdherentViewVO extends DataTemplate
 	* @desc CptSolde de la ListeAdherentViewVO
 	*/
 	protected $mCptSolde;
+	
+	
+	/**
+	* @var varchar(30)
+	* @desc CptLabel de la AdherentViewVO
+	*/
+	protected $mCptLabel;
 
 	/**
 	* @name getAdhId()
@@ -163,56 +170,21 @@ class ListeAdherentViewVO extends DataTemplate
 	}
 	
 	/**
-	* @name export()
-	* @return json
-	* @desc Retourne la valeur des membres en les renommant au format tableau
+	* @name getCptLabel()
+	* @return varchar(30)
+	* @desc Renvoie le membre CptLabel de la AdherentViewVO
 	*/
-	/*public function export() {
-		$lMembres = get_object_vars($this);
-		$lMembresJs = array();
-		foreach($lMembres as $lCle => $lValeur) {
-			$lCle = substr($lCle,1);
-			$lCle[0] = strtolower($lCle[0]);
-			if(is_object($lValeur)) {
-				$lMembresJs[$lCle] = $lValeur->export();
-			} else if(is_array($lValeur)) {
-				$lMembresJs[$lCle] = $this->exportArray($lValeur);
-			} else {
-				$lMembresJs[$lCle] = $lValeur;
-			}
-		}
-		return $lMembresJs;
+	public function getCptLabel() {
+		return $this->mCptLabel;
 	}
-	
+
 	/**
-	* @name exportToJson()
-	* @return json
-	* @desc Retourne la valeur des membres en les renommant au format javascript
+	* @name setCptLabel($pCptLabel)
+	* @param varchar(30)
+	* @desc Remplace le membre CptLabel de la AdherentViewVO par $pCptLabel
 	*/
-	/*public function exportToJson() {
-		return json_encode($this->export());
+	public function setCptLabel($pCptLabel) {
+		$this->mCptLabel = $pCptLabel;
 	}
-	
-	/**
-	* @name exportArray($pArray)
-	* @return array()
-	* @desc Retourne la valeur des membres en les renommant au format tableau
-	*/
-	/*public function exportArray($pArray) {
-		if(is_array($pArray)) {
-			$lMembresJs = array();
-			foreach($pArray as $lCle => $lValeur) {
-				if(is_object($lValeur)) {
-					$lMembresJs[$lCle] = $lValeur->export();
-				} else if(is_array($lValeur)) {
-					$lMembresJs[$lCle] = $this->exportArray($lValeur);
-				} else {
-					$lMembresJs[$lCle] = $lValeur;
-				}
-			}
-			return $lMembresJs;
-		}
-		return NULL;
-	}*/
 }
 ?>

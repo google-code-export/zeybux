@@ -573,14 +573,74 @@ INSERT INTO `tpp_type_paiement` (`tpp_id`, `tpp_type`, `tpp_champ_complementaire
 (16, 'Annulation réservation', 0, '', 0);
 
 
+create or replace view view_stock_produit_reservation as 
+
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,(`pro_produit`.`pro_stock_initial` - `pro_produit`.`pro_stock_reservation`) AS `sto_quantite`
+ from (`pro_produit` 
+join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`)))
+
+where pro_etat = 0
+;
 
 
+create or replace view view_liste_adherent as
+
+select `adh_adherent`.`adh_id` AS `adh_id`,`adh_adherent`.`adh_numero` AS `adh_numero`,`adh_adherent`.`adh_nom` AS `adh_nom`,`adh_adherent`.`adh_prenom` AS `adh_prenom`,`adh_adherent`.`adh_courriel_principal` AS `adh_courriel_principal`,`cpt_compte`.`cpt_solde` AS `cpt_solde`,cpt_label from (`adh_adherent` left join `cpt_compte` on((`adh_adherent`.`adh_id_compte` = `cpt_compte`.`cpt_id`))) where (`adh_adherent`.`adh_etat` = 1);
+
+create or replace view view_reservation as 
+
+select `com_commande`.`com_id` AS `com_id`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id`,`sto_stock`.`sto_quantite` AS `sto_quantite`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`sto_stock`.`sto_type` AS `sto_type`,`sto_stock`.`sto_id_compte` AS `sto_id_compte`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`adh_adherent`.`adh_id` AS `adh_id`,`adh_adherent`.`adh_nom` AS `adh_nom`,`adh_adherent`.`adh_prenom` AS `adh_prenom`,`cpt_compte`.`cpt_label` AS `cpt_label` 
+
+from `com_commande`
+join `pro_produit` on `com_commande`.`com_id` = `pro_produit`.`pro_id_commande`
+join `dcom_detail_commande` on `dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`
+join `sto_stock` on `dcom_detail_commande`.`dcom_id` = `sto_stock`.`sto_id_detail_commande`
+join `adh_adherent` on `adh_adherent`.`adh_id_compte` = `sto_stock`.`sto_id_compte`
+join ope_operation on `com_commande`.`com_id` = `ope_operation`.`ope_id_commande`
+join `cpt_compte` on `cpt_compte`.`cpt_id` = `sto_stock`.`sto_id_compte` AND ope_operation.`ope_id_compte` = `cpt_compte`.`cpt_id`
+
+where `sto_stock`.`sto_type` = 0
+and `sto_stock`.`sto_id_compte` <> 0
+and com_commande.`com_archive` in (0,1)
+and `ope_operation`.`ope_type_paiement` = 0;
+
+create or replace view view_achat_detail as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit` 
 
 
+from ((`sto_stock` join `dcom_detail_commande` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) 
+
+where (`sto_stock`.`sto_type` = 1) 
+and dope_type_paiement = 7
+order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view view_achat_detail_solidaire as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit` 
 
 
+from ((`sto_stock` join `dcom_detail_commande` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) 
+
+where (`sto_stock`.`sto_type` = 2) 
+and dope_type_paiement = 8
+order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view view_reservation_detail as
+
+select `sto_stock`.`sto_id_operation` AS `sto_id_operation`,`sto_stock`.`sto_id` AS `sto_id`,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit` 
 
 
+from ((`sto_stock` join `dcom_detail_commande` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`))))
+
+ where (`sto_stock`.`sto_type` in (0,5,6))
+and dope_type_paiement in (0,15,16)
+
+
+ order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view view_adherent as
+select `adh_adherent`.`adh_id` AS `adh_id`,`adh_adherent`.`adh_numero` AS `adh_numero`,`adh_adherent`.`adh_id_compte` AS `adh_id_compte`,`cpt_compte`.`cpt_label` AS `cpt_label`,`adh_adherent`.`adh_nom` AS `adh_nom`,`adh_adherent`.`adh_prenom` AS `adh_prenom`,`adh_adherent`.`adh_courriel_principal` AS `adh_courriel_principal`,`adh_adherent`.`adh_courriel_secondaire` AS `adh_courriel_secondaire`,`adh_adherent`.`adh_telephone_principal` AS `adh_telephone_principal`,`adh_adherent`.`adh_telephone_secondaire` AS `adh_telephone_secondaire`,`adh_adherent`.`adh_adresse` AS `adh_adresse`,`adh_adherent`.`adh_code_postal` AS `adh_code_postal`,`adh_adherent`.`adh_ville` AS `adh_ville`,`adh_adherent`.`adh_date_naissance` AS `adh_date_naissance`,`adh_adherent`.`adh_date_adhesion` AS `adh_date_adhesion`,`adh_adherent`.`adh_date_maj` AS `adh_date_maj`,`adh_adherent`.`adh_commentaire` AS `adh_commentaire`,`cpt_compte`.`cpt_solde` AS `cpt_solde`,adh_etat from (`adh_adherent` left join `cpt_compte` on((`cpt_compte`.`cpt_id` = `adh_adherent`.`adh_id_compte`)));
 
 
 

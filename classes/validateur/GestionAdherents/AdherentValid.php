@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "AdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 
 /**
  * @name AdherentVR
@@ -219,9 +220,10 @@ class AdherentValid
 		
 		// Le compte existe
 		if(!empty($pData['compte'])) {		
-			$lCompte = CompteManager::selectByLabel($pData['compte']);	
+			$lCompte = CompteManager::selectByLabel($pData['compte']);					
 			if(count($lCompte) == 1) {
-				if($lCompte == null) {					
+				$lAdherent = AdherentManager::selectByIdCompte($lCompte[0]->getId());	
+				if(is_null($lCompte[0]->getId()) || is_null($lAdherent[0]->getIdCompte())) {					
 					$lVr->setValid(false);
 					$lVr->getCompte()->setValid(false);
 					$lErreur = new VRerreur();
@@ -540,9 +542,10 @@ class AdherentValid
 			
 			// Le compte existe
 			if(!empty($pData['compte'])) {		
-				$lCompte = CompteManager::selectByLabel($pData['compte']);	
+				$lCompte = CompteManager::selectByLabel($pData['compte']);
 				if(count($lCompte) == 1) {
-					if($lCompte == null) {					
+					$lAdherent = AdherentManager::selectByIdCompte($lCompte[0]->getId());
+					if(is_null($lCompte[0]->getId()) || is_null($lAdherent[0]->getIdCompte())) {					
 						$lVr->setValid(false);
 						$lVr->getCompte()->setValid(false);
 						$lErreur = new VRerreur();
