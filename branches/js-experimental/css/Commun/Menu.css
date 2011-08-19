@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+#menu_ext {
+	margin-top:-15px;
+}
+
+#menu_int {
+	margin-left:345px;
+	padding-top:2px;
+	height:20px;
+}
+
+#menu_liste {
+	margin:0;
+	padding-left: 4px;
+	list-style: none;
+}
+
+#menu_liste li {
+	float: left;
+}
+
+#menu_liste span {
+	display:block;
+	padding: 3px 5px;
+}
+
+#menu_liste li a, #lien-deconnexion a {
+	text-decoration: none;	
+	display: block;
+	margin: 0px; 
+	padding: 3px;
+}
+
+/*.sous_menu {
+	position:absolute;
+	padding: 5px 6px 3px 2px ;
+	margin: 0;
+	list-style: none;
+	display: none;
+}
+
+.sous_menu li {
+	width:100%;
+}
+
+.sous_menu li:hover {
+	border:none;
+}*/
+
+#lien-deconnexion {
+	position:absolute;
+	top:0px;
+	right:0px;
+}
+
+#lien-deconnexion a span, #lien-administration span {
+	margin-top:1px;
+}
+
+#lien-administration {
+	position:absolute;
+	top:61px;
+	right:0px;
+	padding: 3px;
+}
+
+.btn-menu,#lien-deconnexion {font-weight:bold;}
