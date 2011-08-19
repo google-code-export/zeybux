@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>{TITRE}</title>	
+	<script type="text/javascript" src="./js/zeybux-jquery.php"></script>
+	<script type="text/javascript" src="./js/zeybux-core.php"></script>
+	
+	<link rel="icon" type="image/png" href="./images/zeybu-ico.png" />
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'/>
+	<link href="./css/themes/le-frog/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" media="all" /> 	
+	<link href="./css/Commun/Entete.css" rel="stylesheet" type="text/css" media="all" />	
+	<link href="./css/zeybux.php" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+	<div id="site" class="ui-corner-all">	
+		<div id="loading" class="ui-helper-hidden">
+			<div class="ui-overlay">
+				<div class="ui-widget-overlay"></div>
+				<div class="ui-widget-shadow ui-corner-all"></div>
+			</div>
+			<img src="./images/loading.gif" alt="chargement" id="loading-img" class="ui-widget ui-widget-content ui-corner-all" />
+		</div>
+	
+		<div id="widget_message_information" class="ui-widget ui-helper-hidden" >
+			<div id="message_information" class="ui-state-highlight ui-corner-all"> 
+				<div>x</div>
+				<p>				
+				<span id="icone" class="ui-icon ui-icon-alert"></span> 
+				<span id="contenu_message_information">{MSG_INFORMATION}</span></p>
+			</div>
+		</div>		
+		<h1><img src="./images/zeybu.png"/> Les Amis du  ZEYBUX  <img src="./images/zeybu.png"/></h1>
+		<div id="menu_ext"><div id="menu_int"></div></div>
+		
+		<noscript>
+			<div id="formulaire_identification_int" class="ui-widget ui-widget-content ui-corner-all">
+				<div id="titre_fenetre" class="ui-widget ui-widget-header ui-corner-all">Connexion à Zeybux</div>				
+				<p>
+					Attention le javascript est désactivé.<br/>
+					Le Zeybux ne pourra pas fonctionner.
+				</p>
+			</div>
+		</noscript>
+		<div id="contenu">
+		</div>		
+		<div id="piedpage">
+			Zeybux Outil de gestion du zeybu - Contact : <a href="mailto:zeybux@gmail.com">zeybux@gmail.com</a>
+		</div>
+	</div>
+</body>
+</html>
