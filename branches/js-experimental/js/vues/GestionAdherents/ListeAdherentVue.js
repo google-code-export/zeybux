@@ -1,5 +1,6 @@
 ;function ListeAdherentVue(pParam) {
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=ListeAdherent", 
 				function(lResponse) {

@@ -2,6 +2,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteZeybuVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", 
 				function(lResponse) {

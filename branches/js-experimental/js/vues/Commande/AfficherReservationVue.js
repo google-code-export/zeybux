@@ -8,6 +8,7 @@
 	this.construct = function(pParam) {
 		var that = this;
 		pParam.fonction = "afficher";
+		$.history( {'vue':function() {AfficherReservationVue(pParam);}} );
 		$.post(	"./index.php?m=Commande&v=AfficherReservation","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

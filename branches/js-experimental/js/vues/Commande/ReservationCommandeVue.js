@@ -7,6 +7,7 @@
 	this.soldeNv = 0;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ReservationCommandeVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "detailMarche";
 		$.post(	"./index.php?m=Commande&v=ReservationCommande","pParam=" + $.toJSON(pParam),

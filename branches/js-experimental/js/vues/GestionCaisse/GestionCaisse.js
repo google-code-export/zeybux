@@ -2,6 +2,7 @@
 	this.etatCaisse = 0;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {GestionCaisseVue(pParam);}} );
 		var that = this;
 		var lParam = {'fonction':'etatCaisse'};
 		$.post(	"./index.php?m=GestionCaisse&v=GestionCaisse", "pParam=" + $.toJSON(lParam),

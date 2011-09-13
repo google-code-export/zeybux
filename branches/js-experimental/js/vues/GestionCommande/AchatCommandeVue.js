@@ -13,6 +13,7 @@
 	this.pdtCommande = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatCommandeVue(pParam);}} );
 		var that = this;
 		this.idCommande = pParam.id_commande;
 		this.idAdherent = pParam.id_adherent;

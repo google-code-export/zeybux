@@ -4,6 +4,7 @@
 	this.listeProducteur = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {VirementZeybuVue(pParam);}} );
 		var that = this;	
 		var lParam = {fonction:"afficher"};
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),

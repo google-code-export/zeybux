@@ -7,6 +7,7 @@
 	this.reservationModif = new Array();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ReservationAdherentVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "afficherReservation";
 		$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(pParam),

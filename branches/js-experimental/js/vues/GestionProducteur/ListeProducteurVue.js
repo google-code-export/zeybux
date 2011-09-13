@@ -1,5 +1,6 @@
 ;function ListeProducteurVue(pParam) {
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=ListeProducteur", 
 				function(lResponse) {

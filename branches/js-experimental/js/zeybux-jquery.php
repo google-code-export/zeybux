@@ -16,7 +16,9 @@ function parcourirDossierJquery($pPath) {
 		   		&& $entry != '.htaccess'	
 		   		&& $entry != 'jquery-1.4.2.min.js'	
 		   		&& $entry != 'jquery-ui-1.8.custom.min.js'	
-		   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'		   		
+		   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'
+		   		&& $entry != 'jquery.numeric-old.js'
+		   		&& $entry != 'jquery.numeric.pack.js'
 		   		) {
 		   		if(is_dir($d->path.'/'.$entry)) {
 		   			parcourirDossierJquery($d->path.'/'.$entry);

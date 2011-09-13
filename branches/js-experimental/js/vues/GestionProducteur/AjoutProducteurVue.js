@@ -2,6 +2,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {	
+		$.history( {'vue':function() {AjoutProducteurVue(pParam);}} );
 		if(pParam && pParam.vr) {
 			Infobulle.generer(pParam.vr,'');
 		}
