@@ -3,6 +3,7 @@
 	this.mIdAdherent = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModificationAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=ModificationAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {

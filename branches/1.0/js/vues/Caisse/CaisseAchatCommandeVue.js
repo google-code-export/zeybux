@@ -18,6 +18,7 @@
 		this.idAdherent = pParam.id_adherent;
 
 		pParam.fonction = "infoAchat";
+		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
