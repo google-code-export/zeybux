@@ -1002,7 +1002,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIE
 --
 DROP TABLE IF EXISTS `view_gestion_commande_reservation_producteur`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_gestion_commande_reservation_producteur` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id` from ((`pro_produit` join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where (`sto_stock`.`sto_type` = 0);
+CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_gestion_commande_reservation_producteur` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id` from ((`pro_produit` join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on(((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`) and (`sto_stock`.`sto_id_compte` = `pro_produit`.`pro_id_compte_producteur`)))) where (`sto_stock`.`sto_type` = 0);
 
 -- --------------------------------------------------------
 
