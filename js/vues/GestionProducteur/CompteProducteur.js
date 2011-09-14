@@ -3,6 +3,7 @@
 	this.mPrdtNumero = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=CompteProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {

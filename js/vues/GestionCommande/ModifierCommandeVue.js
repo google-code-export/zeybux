@@ -7,6 +7,7 @@
 	this.commande = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModifierCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=ModifierCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
