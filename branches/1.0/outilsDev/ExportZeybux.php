@@ -390,6 +390,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		mkdir($lPath . '/js/package');
 		mkdir($lPath . '/logs');
 		mkdir($lPath . '/vues');
+		mkdir($lPath . '/tmp');
 		/************** Fin Création des dossier **************/
 
 		
