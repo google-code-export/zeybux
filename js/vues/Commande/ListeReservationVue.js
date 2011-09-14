@@ -1,5 +1,6 @@
 ;function ListeReservationVue(pParam) {
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeReservationVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=Commande&v=ListeReservation", 
 				function(lResponse) {

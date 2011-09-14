@@ -3,6 +3,7 @@
 	this.modifVirement = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeVirementZeybuVue(pParam);}} );
 		var that = this;
 		var lParam = {fonction:"listeVirement"};
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),

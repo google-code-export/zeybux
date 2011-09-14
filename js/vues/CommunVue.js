@@ -7,9 +7,9 @@
 	
 	this.comNumeric = function(pData) {
 		if($(pData).length != 0)
-			pData.find('.com-numeric').numeric(',');
+			pData.find('.com-numeric').numeric();
 		else
-			$("body").find('.com-numeric').numeric(',');
+			$("body").find('.com-numeric').numeric();
 		return pData;
 	}
 	

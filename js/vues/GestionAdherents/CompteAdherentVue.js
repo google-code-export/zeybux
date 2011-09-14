@@ -3,6 +3,7 @@
 	this.mAdhNumero = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=CompteAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {

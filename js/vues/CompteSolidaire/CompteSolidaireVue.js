@@ -6,6 +6,7 @@
 	this.construct = function(pParam) {
 		var that = this;
 		var lParam = {fonction:"compte"};
+		$.history( {'vue':function() {CompteSolidaireVue(pParam);}} );
 		$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

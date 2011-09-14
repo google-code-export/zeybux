@@ -4,6 +4,7 @@
 	this.construct = function(pParam) {
 		var that = this;
 		pParam.fonction = "listeReservation";
+		$.history( {'vue':function() {CaisseMarcheCommandeVue(pParam);}} );
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
