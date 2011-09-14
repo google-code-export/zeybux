@@ -1,6 +1,7 @@
 ;function AdministrationVue(pParam) {
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AdministrationVue();}} );
 		var that = this;	
 		$.post(	"./index.php?m=Identification&v=Administration", 
 				function(lResponse) {
@@ -93,7 +94,6 @@
 		}
 		return null;
 	}
-	
 	
 	this.construct(pParam);
 }	

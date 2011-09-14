@@ -11,6 +11,7 @@
 	this.pParam = {};
 
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatAdherentVue(pParam);}} );
 		var that = this;
 		this.pParam = pParam;
 		pParam.fonction = "afficher";

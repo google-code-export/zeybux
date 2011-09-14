@@ -3,6 +3,7 @@
 	this.mIdProducteur = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModificationProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {

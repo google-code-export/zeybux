@@ -6,6 +6,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AjoutCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=AjoutCommande",
 				function(lResponse) {

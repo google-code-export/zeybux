@@ -2,6 +2,7 @@
 	this.idCommande = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {MarcheCommandeVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "listeReservation";
 		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(pParam),

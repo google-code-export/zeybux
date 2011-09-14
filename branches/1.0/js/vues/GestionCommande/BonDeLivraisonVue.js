@@ -9,6 +9,7 @@
 	this.mTypePaiement = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
 		var that = this;
 		//pParam.export_type = 0;
 		pParam.fonction = "afficher";

@@ -37,6 +37,21 @@
 		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
 		/*$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );	*/	
+		
+		
+		
+		$.history.callback = function ( pReinstate, pCursor ) {
+			var lDefault = {
+				vue: function() { return false; }
+			};
+			lDefault = $.extend(lDefault,pReinstate);
+			// check to see if were back to the beginning without any stored data
+			if (typeof(pReinstate) == 'undefined') { return false; }
+			else { $(".ui-dialog").remove(); lDefault.vue(); }
+		};
+		
+		
+		
 	}
 	
 	this.construct(pParam);

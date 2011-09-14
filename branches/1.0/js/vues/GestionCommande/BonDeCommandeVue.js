@@ -8,6 +8,7 @@
 	this.mIdCompteProducteur = 0;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
 		var that = this;
 		//pParam.export_type = 0;
 		pParam.fonction = "afficher";
