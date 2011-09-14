@@ -46,7 +46,7 @@ const ERR_204_MSG = 'L\'heure de fin du marché doit être après celle du débu
 const ERR_205_CODE = 205;
 const ERR_205_MSG = 'La quantité max par adhérent doit être plus petite que le stock.';
 const ERR_206_CODE = 206;
-const ERR_206_MSG = 'La taille du lot doit être plus petite que quantité max par adhérent.';
+const ERR_206_MSG = 'La taille du lot doit être plus petite que la quantité max par adhérent.';
 const ERR_207_CODE = 207;
 const ERR_207_MSG = 'Le marché doit comporter au moins un produit.';
 const ERR_208_CODE = 208;
@@ -115,6 +115,8 @@ const ERR_239_CODE = 239;
 const ERR_239_MSG = 'Le marché n\'est plus ouvert.';
 const ERR_240_CODE = 240;
 const ERR_240_MSG = 'Le Type de virement n\'est pas valide.';
+const ERR_241_CODE = 241;
+const ERR_241_MSG = 'La quantité max par adhérent doit être plus grande que taille du lot le plus petit.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
