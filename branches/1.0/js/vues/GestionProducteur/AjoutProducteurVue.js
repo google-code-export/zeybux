@@ -38,6 +38,7 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comDatepicker('dateNaissance',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	

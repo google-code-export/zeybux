@@ -800,7 +800,8 @@
 				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
 				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
 				
-				$(pData).find('.resa-pdt-' + lIdPdt).show();
+				//$(pData).find('.resa-pdt-' + lIdPdt).show();
+				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
 			}
 		});
 		return pData;

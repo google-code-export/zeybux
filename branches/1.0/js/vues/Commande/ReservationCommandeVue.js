@@ -187,20 +187,20 @@
 	}
 	
 	this.affect = function(pData) {
-		pData = this.affectDroitEdition(pData);
+		/*pData = this.affectDroitEdition(pData);*/
 		pData = this.affectModifierReservation(pData);
 		pData = this.affectValiderReservation(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 	
-	this.affectDroitEdition = function(pData) {
+	/*this.affectDroitEdition = function(pData) {
 		// Si la date de fin des réservations est passée on bloque la possibilitée de modifier
 		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
 			pData.find('.boutons-edition').hide();
 		}
 		return pData;
-	}
+	}*/
 	
 	this.affectModifier = function(pData) {
 		pData = this.affectBtnQte(pData);
@@ -424,20 +424,18 @@
 	
 	this.preparerAffichageModifier = function(pData) {
 		var that = this;
-		
 		$(pData).find('.pdt').each(function() {
 			var lIdPdt = $(this).find('.pdt-id').text();
 			if(that.reservation[lIdPdt] != null) {
 				var lResa = that.reservation[lIdPdt];
 				var lIdLot = lResa.dcomId;
-				var lQte = lResa.stoQuantite;			
+				var lQte = lResa.stoQuantite;
 				$(pData).find('#qte-pdt-' + lIdPdt).text(lQte.nombreFormate(2,',',' '));
-				
 				var lPrix = ((that.pdtCommande[lIdPdt].lots[lIdLot].prix * lResa.stoQuantite)/that.pdtCommande[lIdPdt].lots[lIdLot].taille).nombreFormate(2,',',' ');
 				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
-				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
-				
-				$(pData).find('.resa-pdt-' + lIdPdt).show();
+				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);				
+				//$(pData).find('.resa-pdt-' + lIdPdt).show();
+				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
 			}
 		});
 		return pData;
