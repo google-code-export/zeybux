@@ -59,6 +59,8 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	
