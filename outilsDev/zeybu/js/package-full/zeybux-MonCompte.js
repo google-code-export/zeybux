@@ -127,6 +127,7 @@
 		"</div>";	
 };function MonCompteVue(pParam) {	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {MonCompteVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=MonCompte&v=MonCompte", 
 				function(lResponse) {

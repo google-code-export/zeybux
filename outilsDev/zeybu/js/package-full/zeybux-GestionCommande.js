@@ -1853,6 +1853,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {GestionListeCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=ListeCommande", 
 				function(lResponse) {
@@ -1943,6 +1944,7 @@
 	this.commande = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModifierCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=ModifierCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -2563,6 +2565,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AjoutCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=AjoutCommande",
 				function(lResponse) {
@@ -3074,6 +3077,7 @@
 	this.pdtCommande = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatCommandeVue(pParam);}} );
 		var that = this;
 		this.idCommande = pParam.id_commande;
 		this.idAdherent = pParam.id_adherent;
@@ -3521,6 +3525,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeCommandeArchiveVue(pParam);}} );
 		var that = this;
 		var lParam = {archive:1};
 		$.post(	"./index.php?m=GestionCommande&v=ListeCommande", "pParam=" + $.toJSON(lParam),
@@ -3624,6 +3629,7 @@
 	this.idCommande = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {MarcheCommandeVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "listeReservation";
 		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(pParam),
@@ -3713,6 +3719,7 @@
 	this.mTypePaiement = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
 		var that = this;
 		//pParam.export_type = 0;
 		pParam.fonction = "afficher";
@@ -4159,6 +4166,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {InfoCommandeArchiveVue(pParam);}} );
 		var that = this;
 		pParam.fonction = 'afficherCommande';
 		$.post(	"./index.php?m=GestionCommande&v=InfoCommandeArchive", "pParam=" + $.toJSON(pParam),
@@ -4246,6 +4254,7 @@
 	this.pParam = {};
 
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatAdherentVue(pParam);}} );
 		var that = this;
 		this.pParam = pParam;
 		pParam.fonction = "afficher";
@@ -4838,6 +4847,7 @@
 	this.mIdCompteProducteur = 0;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
 		var that = this;
 		//pParam.export_type = 0;
 		pParam.fonction = "afficher";
@@ -5158,6 +5168,7 @@
 	this.reservationModif = new Array();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ReservationAdherentVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "afficherReservation";
 		$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(pParam),
@@ -5950,7 +5961,8 @@
 				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
 				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
 				
-				$(pData).find('.resa-pdt-' + lIdPdt).show();
+				//$(pData).find('.resa-pdt-' + lIdPdt).show();
+				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
 			}
 		});
 		return pData;
@@ -6128,6 +6140,7 @@
 	this.mCommande = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {EditerCommandeVue(pParam);}} );
 		var that = this;
 		pParam.fonction = 'afficher';
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(pParam),

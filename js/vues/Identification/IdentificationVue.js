@@ -42,16 +42,18 @@
 			$.post(	"./index.php?m=Identification&v=Identification", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {
-							that.mType = lResponse.type;
-							that.mModules = lResponse.modules;
-							gIdConnexion = lResponse.idConnexion;
-							var lIdentificationTemplate = new IdentificationTemplate();
-							$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
-							that.chargerModule(0);
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
+					  	if(lResponse) {
+							if(lResponse.valid) {
+								that.mType = lResponse.type;
+								that.mModules = lResponse.modules;
+								gIdConnexion = lResponse.idConnexion;
+								var lIdentificationTemplate = new IdentificationTemplate();
+								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
+								that.chargerModule(0);
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+					  	}
 					},"json"
 			);
 		} else {
@@ -83,8 +85,10 @@
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
-		$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
-		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
+		if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
+			$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
+			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
+		}
 		this.lancement();
 	}
 	

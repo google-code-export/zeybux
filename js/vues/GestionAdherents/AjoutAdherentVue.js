@@ -7,13 +7,15 @@
 		$.post(	"./index.php?m=GestionAdherents&v=AjoutAdherent", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -102,12 +104,14 @@
 			$.post(	"./index.php?m=GestionAdherents&v=AjoutAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-						var lTemplate = lGestionAdherentsTemplate.ajoutAdherentSucces;
-						$('#contenu').replaceWith(lTemplate.template(lResponse));						
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+							var lTemplate = lGestionAdherentsTemplate.ajoutAdherentSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

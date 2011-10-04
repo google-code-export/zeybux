@@ -10,16 +10,18 @@
 		$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							$(lResponse.typePaiement).each(function() {
+								that.mTypePaiement[this.tppId] = this;
+							});
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						$(lResponse.typePaiement).each(function() {
-							that.mTypePaiement[this.tppId] = this;
-						});
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -79,74 +81,76 @@
 			$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						that.solde = parseFloat(lResponse.solde);
-						
-						lResponse.sigleMonetaire = gSigleMonetaire;
-						lResponse.solde = lResponse.solde.nombreFormate(2,',',' ');
-						lResponse.typePaiement = that.mTypePaiement;
-						
-						var lCompte = lResponse.idCompte;
-						
-						var lRechargementCompteTemplate = new RechargementCompteTemplate();
-						var lTemplate = lRechargementCompteTemplate.dialogRecharger;						
-						var lHtml = $(lTemplate.template(lResponse));
-						
-						lHtml = that.affectDialog(lHtml);
-						
-						lHtml.dialog({
-							autoOpen: true,
-							modal: true,
-							draggable: false,
-							resizable: false,
-							width:800,
-							buttons: {
-								'Valider': function() {
+					if(lResponse) {
+						if(lResponse.valid) {
+							that.solde = parseFloat(lResponse.solde);
 							
-									var lVo = that.getRechargementVO();									
-									lVo.id = lCompte;
-									
-									var lValid = new RechargementCompteValid();
-									var lVr = lValid.validAjout(lVo);
-									
-									Infobulle.init(); // Supprime les erreurs
-									if(lVr.valid) {
-										lVo.fonction = "rechargerCompte";
-										var lDialog = this;
-										$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lVo),
-											function(lResponse) {
-												Infobulle.init(); // Supprime les erreurs
-												if(lResponse.valid) {
-													
-													// Message d'information
-													var lVr = new TemplateVR();
-													lVr.valid = false;
-													lVr.log.valid = false;
-													var erreur = new VRerreur();
-													erreur.code = ERR_306_CODE;
-													erreur.message = ERR_306_MSG;
-													lVr.log.erreurs.push(erreur);
-													var lParam = {vr:lVr};
-													that.construct(lParam);
-													
-													$(lDialog).dialog("close");										
-												} else {
-													Infobulle.generer(lResponse,'');
-												}
-											},"json"
-										);
-									}else {
-										Infobulle.generer(lVr,'');
-									}
-								},
-								'Annuler': function() { $(this).dialog("close"); }
-								},
-							close: function(ev, ui) { $(this).remove(); }
-						});
-						that.changerTypePaiement($(":input[name=typepaiement]"));
-						that.majNouveauSolde();
-					} else {
-						Infobulle.generer(lResponse,'');
+							lResponse.sigleMonetaire = gSigleMonetaire;
+							lResponse.solde = lResponse.solde.nombreFormate(2,',',' ');
+							lResponse.typePaiement = that.mTypePaiement;
+							
+							var lCompte = lResponse.idCompte;
+							
+							var lRechargementCompteTemplate = new RechargementCompteTemplate();
+							var lTemplate = lRechargementCompteTemplate.dialogRecharger;						
+							var lHtml = $(lTemplate.template(lResponse));
+							
+							lHtml = that.affectDialog(lHtml);
+							
+							lHtml.dialog({
+								autoOpen: true,
+								modal: true,
+								draggable: false,
+								resizable: false,
+								width:800,
+								buttons: {
+									'Valider': function() {
+								
+										var lVo = that.getRechargementVO();									
+										lVo.id = lCompte;
+										
+										var lValid = new RechargementCompteValid();
+										var lVr = lValid.validAjout(lVo);
+										
+										Infobulle.init(); // Supprime les erreurs
+										if(lVr.valid) {
+											lVo.fonction = "rechargerCompte";
+											var lDialog = this;
+											$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lVo),
+												function(lResponse) {
+													Infobulle.init(); // Supprime les erreurs
+													if(lResponse.valid) {
+														
+														// Message d'information
+														var lVr = new TemplateVR();
+														lVr.valid = false;
+														lVr.log.valid = false;
+														var erreur = new VRerreur();
+														erreur.code = ERR_306_CODE;
+														erreur.message = ERR_306_MSG;
+														lVr.log.erreurs.push(erreur);
+														var lParam = {vr:lVr};
+														that.construct(lParam);
+														
+														$(lDialog).dialog("close");										
+													} else {
+														Infobulle.generer(lResponse,'');
+													}
+												},"json"
+											);
+										}else {
+											Infobulle.generer(lVr,'');
+										}
+									},
+									'Annuler': function() { $(this).dialog("close"); }
+									},
+								close: function(ev, ui) { $(this).remove(); }
+							});
+							that.changerTypePaiement($(":input[name=typepaiement]"));
+							that.majNouveauSolde();
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);		

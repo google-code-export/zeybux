@@ -10,13 +10,15 @@
 		$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -162,21 +164,23 @@
 			$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_308_CODE;
-						erreur.message = ERR_308_MSG;
-						lVr.log.erreurs.push(erreur);
-						//Infobulle.generer(lVr,'');
-						var lParam = {vr:lVr};
-						that.construct(lParam);
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_308_CODE;
+							erreur.message = ERR_308_MSG;
+							lVr.log.erreurs.push(erreur);
+							//Infobulle.generer(lVr,'');
+							var lParam = {vr:lVr};
+							that.construct(lParam);
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);
@@ -242,21 +246,23 @@
 			$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_309_CODE;
-						erreur.message = ERR_309_MSG;
-						lVr.log.erreurs.push(erreur);
-						//Infobulle.generer(lVr,'');
-						var lParam = {vr:lVr};
-						that.construct(lParam);
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_309_CODE;
+							erreur.message = ERR_309_MSG;
+							lVr.log.erreurs.push(erreur);
+							//Infobulle.generer(lVr,'');
+							var lParam = {vr:lVr};
+							that.construct(lParam);
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

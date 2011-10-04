@@ -8,14 +8,16 @@
 		$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mIdProducteur = pParam.id_producteur;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.mIdProducteur = pParam.id_producteur;
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -92,12 +94,14 @@
 			$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						var lGestionProducteurTemplate = new GestionProducteurTemplate();
-						var lTemplate = lGestionProducteurTemplate.modifierProducteurSucces;
-						$('#contenu').replaceWith(lTemplate.template(lResponse));						
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionProducteurTemplate = new GestionProducteurTemplate();
+							var lTemplate = lGestionProducteurTemplate.modifierProducteurSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

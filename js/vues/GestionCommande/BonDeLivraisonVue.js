@@ -16,14 +16,16 @@
 		$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mEtatEdition = false;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.mEtatEdition = false;
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -83,110 +85,112 @@
 			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {
-							that.mIdCompteProducteur = lIdCompteProducteur;
-							that.mEtatEdition = false;
-							var lTotal = 0;
-							$(lResponse.produits).each(function() {
-								that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
-								
-								this.stoQuantiteCommande = '';
-								this.opeMontant = '';
-								var lQuantite = 0;
-								
-								var lProId = this.proId;
-								var these = this;
-
-								these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-								these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-								these.stoQuantiteLivraison = '';
-								these.opeMontantLivraison = '';
-								these.stoQuantiteSolidaire = '';
-								
-								$(lResponse.produitsCommande).each(function() {
-									if(this.proId == lProId) {
-										var lMontant = 0;										
-										if(this.stoQuantite != null) {
-											these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
-										}
-										if(this.dopeMontant != null) {
-											these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-											lMontant = parseFloat(this.dopeMontant);
-										}
-										lTotal += lMontant;
-									}
-								});
-								
-								$(lResponse.produitsLivraison).each(function() {
-									if(this.proId == lProId) {
-										if(this.stoQuantite != null) {
-											these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
-											lQuantite += parseFloat(this.stoQuantite);
-										}
-										if(this.dopeMontant != null) {
-											these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
-										}
-									}
-								});
-								
-								$(lResponse.produitsSolidaire).each(function() {
-									if(this.proId == lProId) {										
-										if(this.stoQuantite != null) {
-											these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
-											lQuantite += parseFloat(this.stoQuantite);
-										}
-									}
-								});
-								
-								if(lQuantite - parseFloat(this.stoQuantite) < 0) {
-									this.classEtat = 'qte-reservation-ko';
-								} else {
-									this.classEtat = 'qte-reservation-ok';
-								}
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mIdCompteProducteur = lIdCompteProducteur;
+								that.mEtatEdition = false;
+								var lTotal = 0;
+								$(lResponse.produits).each(function() {
+									that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
 									
-								this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-							});	
-							
-							lResponse.total = '';
-							if(lResponse.operationProducteur) {
-								if(lResponse.operationProducteur.montant != null) {
-									lResponse.total = (lResponse.operationProducteur.montant).nombreFormate(2,',',' ');
-								}
-								if(lResponse.operationProducteur.typePaiementChampComplementaire != null) {
-									lResponse.champComplementaire = lResponse.operationProducteur.typePaiementChampComplementaire;
-								}
-							}
-							
-							lResponse.sigleMonetaire = gSigleMonetaire;
-							lResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
-							lResponse.typePaiement = that.mTypePaiement;
-							
-							var lGestionCommandeTemplate = new GestionCommandeTemplate();
-							var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
-							
-							var lHtml = that.affectListeProduit($(lTemplate.template(lResponse)));
-							
-							if(lResponse.operationProducteur && lResponse.operationProducteur.typePaiement != null) {
-								var lId = lResponse.operationProducteur.typePaiement;
+									this.stoQuantiteCommande = '';
+									this.opeMontant = '';
+									var lQuantite = 0;
+									
+									var lProId = this.proId;
+									var these = this;
+	
+									these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
+									these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
+									these.stoQuantiteLivraison = '';
+									these.opeMontantLivraison = '';
+									these.stoQuantiteSolidaire = '';
+									
+									$(lResponse.produitsCommande).each(function() {
+										if(this.proId == lProId) {
+											var lMontant = 0;										
+											if(this.stoQuantite != null) {
+												these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+											}
+											if(this.dopeMontant != null) {
+												these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+												lMontant = parseFloat(this.dopeMontant);
+											}
+											lTotal += lMontant;
+										}
+									});
+									
+									$(lResponse.produitsLivraison).each(function() {
+										if(this.proId == lProId) {
+											if(this.stoQuantite != null) {
+												these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
+												lQuantite += parseFloat(this.stoQuantite);
+											}
+											if(this.dopeMontant != null) {
+												these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
+											}
+										}
+									});
+									
+									$(lResponse.produitsSolidaire).each(function() {
+										if(this.proId == lProId) {										
+											if(this.stoQuantite != null) {
+												these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
+												lQuantite += parseFloat(this.stoQuantite);
+											}
+										}
+									});
+									
+									if(lQuantite - parseFloat(this.stoQuantite) < 0) {
+										this.classEtat = 'qte-reservation-ko';
+									} else {
+										this.classEtat = 'qte-reservation-ok';
+									}
+										
+									this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+								});	
 								
-								lHtml.find(':input[name=typepaiement]').selectOptions(lId);
+								lResponse.total = '';
+								if(lResponse.operationProducteur) {
+									if(lResponse.operationProducteur.montant != null) {
+										lResponse.total = (lResponse.operationProducteur.montant).nombreFormate(2,',',' ');
+									}
+									if(lResponse.operationProducteur.typePaiementChampComplementaire != null) {
+										lResponse.champComplementaire = lResponse.operationProducteur.typePaiementChampComplementaire;
+									}
+								}
 								
-								var lLabel = that.getLabelChamComplementaire(lId);
-								if(lLabel != null) {
-									lHtml.find("#label-champ-complementaire").text(lLabel);
-									lHtml.find("#tr-champ-complementaire").show();
+								lResponse.sigleMonetaire = gSigleMonetaire;
+								lResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+								lResponse.typePaiement = that.mTypePaiement;
+								
+								var lGestionCommandeTemplate = new GestionCommandeTemplate();
+								var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
+								
+								var lHtml = that.affectListeProduit($(lTemplate.template(lResponse)));
+								
+								if(lResponse.operationProducteur && lResponse.operationProducteur.typePaiement != null) {
+									var lId = lResponse.operationProducteur.typePaiement;
+									
+									lHtml.find(':input[name=typepaiement]').selectOptions(lId);
+									
+									var lLabel = that.getLabelChamComplementaire(lId);
+									if(lLabel != null) {
+										lHtml.find("#label-champ-complementaire").text(lLabel);
+										lHtml.find("#tr-champ-complementaire").show();
+									} else {
+										lHtml.find("#label-champ-complementaire").text('');
+										lHtml.find("#tr-champ-complementaire").hide();
+									}
 								} else {
 									lHtml.find("#label-champ-complementaire").text('');
 									lHtml.find("#tr-champ-complementaire").hide();
 								}
+								
+								$('#liste-pdt').replaceWith(lHtml);
 							} else {
-								lHtml.find("#label-champ-complementaire").text('');
-								lHtml.find("#tr-champ-complementaire").hide();
+								Infobulle.generer(lResponse,'');
 							}
-							
-							$('#liste-pdt').replaceWith(lHtml);
-						} else {
-							Infobulle.generer(lResponse,'');
 						}
 					},"json"
 			);
@@ -321,26 +325,28 @@
 			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {
-							that.mEtatEdition = false;
-							if(that.mSuiteEdition == 1) {
-								that.changementProducteur();
-							} else if (that.mSuiteEdition == 2) {
-								that.dialogExportBonDeLivraison();
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mEtatEdition = false;
+								if(that.mSuiteEdition == 1) {
+									that.changementProducteur();
+								} else if (that.mSuiteEdition == 2) {
+									that.dialogExportBonDeLivraison();
+								} else {
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_301_CODE;
+									erreur.message = ERR_301_MSG;
+									lVr.log.erreurs.push(erreur);							
+									
+									Infobulle.generer(lVr,'');
+								}
 							} else {
-								var lVr = new TemplateVR();
-								lVr.valid = false;
-								lVr.log.valid = false;
-								var erreur = new VRerreur();
-								erreur.code = ERR_301_CODE;
-								erreur.message = ERR_301_MSG;
-								lVr.log.erreurs.push(erreur);							
-								
-								Infobulle.generer(lVr,'');
+								Infobulle.generer(lResponse,'');
+								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 							}
-						} else {
-							Infobulle.generer(lResponse,'');
-							$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 						}
 					},"json"
 			);

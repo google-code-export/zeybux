@@ -10,19 +10,21 @@
 	$.post(	"./index.php?m=CompteSolidaire&v=ListeAdherent", "pParam=" + $.toJSON(lParam),
 			function(lResponse) {
 				Infobulle.init(); // Supprime les erreurs
-				if(lResponse.valid) {
-					if(pParam && pParam.vr) {
-						Infobulle.generer(pParam.vr,'');
+				if(lResponse) {
+					if(lResponse.valid) {
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						$(lResponse.listeAdherent).each(function() {
+							that.listeAdherent[this.adhId] = this;
+						});
+						
+						that.solde = lResponse.solde;
+						
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
 					}
-					$(lResponse.listeAdherent).each(function() {
-						that.listeAdherent[this.adhId] = this;
-					});
-					
-					that.solde = lResponse.solde;
-					
-					that.afficher(lResponse);
-				} else {
-					Infobulle.generer(lResponse,'');
 				}
 			},"json"
 	);
@@ -118,20 +120,22 @@
 			$.post(	"./index.php?m=CompteSolidaire&v=ListeAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_307_CODE;
-						erreur.message = ERR_307_MSG;
-						lVr.log.erreurs.push(erreur);
-						Infobulle.generer(lVr,'');
-						
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_307_CODE;
+							erreur.message = ERR_307_MSG;
+							lVr.log.erreurs.push(erreur);
+							Infobulle.generer(lVr,'');
+							
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

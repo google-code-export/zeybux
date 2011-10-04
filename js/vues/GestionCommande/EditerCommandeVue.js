@@ -10,13 +10,15 @@
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						that.afficher(lResponse);
-						if(pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							that.afficher(lResponse);
+							if(pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -194,28 +196,30 @@
 						$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 								function(lResponse) {
 									Infobulle.init(); // Supprime les erreurs
-									if(lResponse.valid) {
-										/*var lGestionCommandeTemplate = new GestionCommandeTemplate();
-										var lTemplate = lGestionCommandeTemplate.cloturerCommandeSucces;
-										$('#contenu').replaceWith(lTemplate.template(lResponse));*/
-										
-										// Message de confirmation
-										var lVr = new TemplateVR();
-										lVr.valid = false;
-										lVr.log.valid = false;
-										var erreur = new VRerreur();
-										erreur.code = ERR_313_CODE;
-										erreur.message = ERR_313_MSG;
-										lVr.log.erreurs.push(erreur);										
-
-										var lparam = {"id_commande":that.mIdCommande,
-												vr:lVr};
-										InfoCommandeArchiveVue(lparam);
-										
-										
-										$(lDialog).dialog('close');
-									} else {
-										Infobulle.generer(lResponse,'');
+									if(lResponse) {
+										if(lResponse.valid) {
+											/*var lGestionCommandeTemplate = new GestionCommandeTemplate();
+											var lTemplate = lGestionCommandeTemplate.cloturerCommandeSucces;
+											$('#contenu').replaceWith(lTemplate.template(lResponse));*/
+											
+											// Message de confirmation
+											var lVr = new TemplateVR();
+											lVr.valid = false;
+											lVr.log.valid = false;
+											var erreur = new VRerreur();
+											erreur.code = ERR_313_CODE;
+											erreur.message = ERR_313_MSG;
+											lVr.log.erreurs.push(erreur);										
+	
+											var lparam = {"id_commande":that.mIdCommande,
+													vr:lVr};
+											InfoCommandeArchiveVue(lparam);
+											
+											
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
 									}
 								},"json"
 						);
@@ -238,22 +242,24 @@
 			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {							
-							that.mCommande.archive = 1;
-							that.modifierArchive();
-							
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_311_CODE;
-							erreur.message = ERR_311_MSG;
-							lVr.log.erreurs.push(erreur);							
-
-							// Message de confirmation
-							Infobulle.generer(lVr,'');
-						} else {
-							Infobulle.generer(lResponse,'');
+						if(lResponse) {
+							if(lResponse.valid) {							
+								that.mCommande.archive = 1;
+								that.modifierArchive();
+								
+								var lVr = new TemplateVR();
+								lVr.valid = false;
+								lVr.log.valid = false;
+								var erreur = new VRerreur();
+								erreur.code = ERR_311_CODE;
+								erreur.message = ERR_311_MSG;
+								lVr.log.erreurs.push(erreur);							
+	
+								// Message de confirmation
+								Infobulle.generer(lVr,'');
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
 						}
 					},"json"
 			);
@@ -269,22 +275,24 @@
 			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {							
-							that.mCommande.archive = 0;
-							that.modifierArchive();
-
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_312_CODE;
-							erreur.message = ERR_312_MSG;
-							lVr.log.erreurs.push(erreur);							
-
-							// Message de confirmation
-							Infobulle.generer(lVr,'');
-						} else {
-							Infobulle.generer(lResponse,'');
+						if(lResponse) {
+							if(lResponse.valid) {							
+								that.mCommande.archive = 0;
+								that.modifierArchive();
+	
+								var lVr = new TemplateVR();
+								lVr.valid = false;
+								lVr.log.valid = false;
+								var erreur = new VRerreur();
+								erreur.code = ERR_312_CODE;
+								erreur.message = ERR_312_MSG;
+								lVr.log.erreurs.push(erreur);							
+	
+								// Message de confirmation
+								Infobulle.generer(lVr,'');
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
 						}
 					},"json"
 			);
@@ -374,28 +382,30 @@
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						
-						// Met le bouton en actif
-						$("#btn-liste-resa").removeClass("ui-state-active");
-						$("#btn-liste-achat-resa").addClass("ui-state-active");
-						
-						$(lResponse.listeAchatEtReservation).each(function() {
-							if(this.reservation == null) { this.reservation = '';}
-							if(this.achat == null) { this.achat = '';}
-						});
-
-						var lGestionCommandeTemplate = new GestionCommandeTemplate();
-						if(lResponse.listeAchatEtReservation.length > 0 && lResponse.listeAchatEtReservation[0].adhId != null) {
-							var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-							$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+					if(lResponse) {
+						if(lResponse.valid) {
+							
+							// Met le bouton en actif
+							$("#btn-liste-resa").removeClass("ui-state-active");
+							$("#btn-liste-achat-resa").addClass("ui-state-active");
+							
+							$(lResponse.listeAchatEtReservation).each(function() {
+								if(this.reservation == null) { this.reservation = '';}
+								if(this.achat == null) { this.achat = '';}
+							});
+	
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							if(lResponse.listeAchatEtReservation.length > 0 && lResponse.listeAchatEtReservation[0].adhId != null) {
+								var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
+								$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
+							} else {
+								$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
+							}
+							
+							
 						} else {
-							$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
+							Infobulle.generer(lResponse,'');
 						}
-						
-						
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -474,29 +484,31 @@
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						
-						// Met le bouton en actif
-						$("#btn-liste-achat-resa").removeClass("ui-state-active");
-						$("#btn-liste-resa").addClass("ui-state-active");
-						
-
-						var lGestionCommandeTemplate = new GestionCommandeTemplate();
-						var lTemplate = lGestionCommandeTemplate.listeReservation;
-						
-						var lHtml = that.affectReservationAction($(lTemplate.template(lResponse)));
-						
-						// Si il n'y a pas de résa on affiche pas le tableau
-						if(!(lResponse.listeAdherentCommande.length > 0 && lResponse.listeAdherentCommande[0].adhId != null)) {			
-							lHtml.find('#edt-com-recherche').hide();
-							lHtml.find('#edt-com-liste-resa').replaceWith(lGestionCommandeTemplate.listeReservationVide);
+					if(lResponse) {
+						if(lResponse.valid) {
+							
+							// Met le bouton en actif
+							$("#btn-liste-achat-resa").removeClass("ui-state-active");
+							$("#btn-liste-resa").addClass("ui-state-active");
+							
+	
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							var lTemplate = lGestionCommandeTemplate.listeReservation;
+							
+							var lHtml = that.affectReservationAction($(lTemplate.template(lResponse)));
+							
+							// Si il n'y a pas de résa on affiche pas le tableau
+							if(!(lResponse.listeAdherentCommande.length > 0 && lResponse.listeAdherentCommande[0].adhId != null)) {			
+								lHtml.find('#edt-com-recherche').hide();
+								lHtml.find('#edt-com-liste-resa').replaceWith(lGestionCommandeTemplate.listeReservationVide);
+							}
+							
+							$('#edt-com-liste').replaceWith(lHtml);
+							
+							
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						
-						$('#edt-com-liste').replaceWith(lHtml);
-						
-						
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);

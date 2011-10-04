@@ -8,13 +8,15 @@
 		$.post(	"./index.php?m=GestionProducteur&v=CompteProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -117,13 +119,15 @@
 						$.post(	"./index.php?m=GestionProducteur&v=SuppressionProducteur", "pParam=" + $.toJSON(lParam),
 								function(lResponse) {
 									Infobulle.init(); // Supprime les erreurs
-									if(lResponse.valid) {
-										var lGestionProducteurTemplate = new GestionProducteurTemplate();
-										var lTemplate = lGestionProducteurTemplate.supprimerProducteurSucces;
-										$('#contenu').replaceWith(lTemplate.template(lResponse));
-										$(lDialog).dialog('close');
-									} else {
-										Infobulle.generer(lResponse,'');
+									if(lResponse) {
+										if(lResponse.valid) {
+											var lGestionProducteurTemplate = new GestionProducteurTemplate();
+											var lTemplate = lGestionProducteurTemplate.supprimerProducteurSucces;
+											$('#contenu').replaceWith(lTemplate.template(lResponse));
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
 									}
 								},"json"
 						);

@@ -1138,19 +1138,7 @@ b.dequeue()})})}})(jQuery);
         tablesorterPager: $.tablesorterPager.construct
 	});
 	
-})(jQuery);				/*
- *
- * Copyright (c) 2006/2007 Sam Collett (http://www.texotela.co.uk)
- * Licensed under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Version 1.0
- * Demo: http://www.texotela.co.uk/code/jquery/numeric/
- *
- * $LastChangedDate: 2007-05-29 11:31:36 +0100 (Tue, 29 May 2007) $
- * $Rev: 2005 $
- */
-eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('r.E.W=7(c,d){c=c||".";d=q d=="7"?d:7(){};6.K(7(e){g a=e.i?e.i:e.h?e.h:0;2(a==k&&6.N.J()=="G"){5 3}f 2(a==k){5 j}g b=j;2((e.4&&a==y)||(e.4&&a==v))5 3;2((e.4&&a==t)||(e.4&&a==u))5 3;2((e.4&&a==V)||(e.4&&a==S))5 3;2((e.4&&a==R)||(e.4&&a==Q))5 3;2((e.4&&a==P)||(e.4&&a==O)||(e.L&&a==p))5 3;2(a<I||a>H){2(a==p&&6.l.F==0)5 3;2(a==c.n(0)&&6.l.o(c)!=-1){b=j}2(a!=8&&a!=9&&a!=k&&a!=D&&a!=C&&a!=M&&a!=B&&a!=A){b=j}f{2(q e.i!="z"){2(e.h==e.m&&e.m!=0){b=3}f 2(e.h!=0&&e.i==0&&e.m==0){b=3}}}2(a==c.n(0)&&6.l.o(c)==-1){b=3}}f{b=3}5 b}).x(7(){g a=r(6).w();2(a!=""){g b=T U("^\\\\d+$|\\\\d*"+c+"\\\\d+");2(!b.s(a)){d.X(6)}}});5 6}',60,60,'||if|true|ctrlKey|return|this|function||||||||else|var|keyCode|charCode|false|13|value|which|charCodeAt|indexOf|45|typeof|jQuery|exec|120|88|65|val|blur|97|undefined|46|39|36|35|fn|length|input|57|48|toLowerCase|keypress|shiftKey|37|nodeName|86|118|90|122|67|new|RegExp|99|numeric|apply'.split('|'),0,{}))﻿/* French initialisation for the jQuery UI date picker plugin. */
+})(jQuery);				﻿/* French initialisation for the jQuery UI date picker plugin. */
 /* Written by Keith Wood (kbwood{at}iinet.com.au) and Stéphane Nahmani (sholby@sholby.net). */
 jQuery(function($){
 	$.datepicker.regional['fr'] = {
@@ -2188,42 +2176,85 @@ throw new SyntaxError("Error parsing JSON, source is not valid.");};$.quoteStrin
 {return'"'+string.replace(_escapeable,function(a)
 {var c=_meta[a];if(typeof c==='string')return c;c=a.charCodeAt();return'\\u00'+Math.floor(c/16).toString(16)+(c%16).toString(16);})+'"';}
 return'"'+string+'"';};var _escapeable=/["\\\x00-\x1f\x7f-\x9f]/g;var _meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'};})(jQuery);/*
- *
- * Copyright (c) 2006/2007 Sam Collett (http://www.texotela.co.uk)
- * Licensed under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Version 1.0
- * Demo: http://www.texotela.co.uk/code/jquery/numeric/
- *
- * $LastChangedDate: 2007-05-29 11:31:36 +0100 (Tue, 29 May 2007) $
- * $Rev: 2005 $
- */
- 
-/*
- * Allows only valid characters to be entered into input boxes.
- * Note: does not validate that the final text is a valid number
- * (that could be done by another script, or server-side)
- *
- * @name     numeric
- * @param    decimal      Decimal separator (e.g. '.' or ',' - default is '.')
- * @param    nbdecimal    Nombre de décimal autorisées (default is 2)
- * @param    callback     A function that runs if the number is not valid (fires onblur)
- * @author   Sam Collett (http://www.texotela.co.uk)
- * @example  $(".numeric").numeric();
- * @example  $(".numeric").numeric(",");
- * @example  $(".numeric").numeric(null, callback);
- *
- */
-jQuery.fn.numeric = function(decimal,nbdecimal, callback)
+*	Author: Julien PIERRE
+*	Date: 18.08.2011
+*	Version: 1.0.0
+*/
+jQuery.fn.numeric = function(options, callback)
 {
-	decimal = decimal || ".";
-	nbdecimal = nbdecimal || 2;
-	callback = typeof callback == "function" ? callback : function(){};
+	var defaults = {
+		allowNegatives: false,
+		decimal: ",",
+		nbInteger: 10,
+		nbDecimal: 2
+	};
+	
+	defaults = $.extend(defaults, options);
+	callback = typeof callback == "function" ? callback : function(){};	
+
+	function getSelectionStart(o) {
+		if (o.createTextRange) {
+			var r = document.selection.createRange().duplicate()
+			r.moveEnd('character', o.value.length)
+			if (r.text == '') return o.value.length
+			return o.value.lastIndexOf(r.text)
+		} else return o.selectionStart
+	}
+
+	function getSelectionEnd(o) {
+		if (o.createTextRange) {
+			var r = document.selection.createRange().duplicate()
+			r.moveStart('character', -o.value.length)
+			return r.text.length
+		} else return o.selectionEnd
+	}
+
+	function getNewValue(o,k,e,i) {
+		var s = e.charCode == i ? String.fromCharCode(k) : '';
+		var t = $(o).val(), start = getSelectionStart(o), end = getSelectionEnd(o);
+		if(end == start) {
+			if(k == 8 && e.charCode == 0) {start--;}
+			if(k == 46 && e.charCode == 0) {end++;}
+		}
+		return t.substring(0, start) + s + t.substring(end, t.length);
+	}
+
+	function format(t,d,NbD,NbI) {
+		t = t.replace('-','');
+		if(
+			(t.indexOf(d)!= -1 && (t.length - t.indexOf(d) - 1) > NbD)
+		||	(	(	(t.indexOf(d) > NbI)
+				||	(t.indexOf(d)== -1 && t.length > NbI)
+				)
+				&&	NbI > 0
+			)
+		||	(	NbI <= 0
+			&&	(	(t.charAt(0) != 0
+					&& t.charAt(0) != ''
+					&& t.length > 0
+					)
+				||	t.indexOf(d) > 1
+				||	(t.indexOf(d)== -1 
+					&& t.length > 1
+					)
+				)
+			)
+		)
+		{
+			return false;
+		}
+		return true;
+	}
+
 	this.keypress(
 		function(e)
 		{
 			var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+
+			// Permet de gérer le . et la , en même temps comme séparateur décimal
+			var lKeyInit = key;
+			if(defaults.decimal.charCodeAt(0) == 44 && key == 46 && e.charCode == 46) { key = 44;}
+
 			// Autorisations des touches F1/F3/F5/F6/F7/F11
 			if(e.charCode == 0 && (key == 112 || key == 114 || key == 116 || key == 117 || key == 118 || key == 122) )
 			{
@@ -2251,16 +2282,28 @@ jQuery.fn.numeric = function(decimal,nbdecimal, callback)
 			if((e.ctrlKey && key == 118 /* firefox */) || (e.ctrlKey && key == 86) /* opera */
 			|| (e.shiftKey && key == 45)) return true;
 			
+			// Calcul de la nouvelle valeur du champ
+			var t = getNewValue(this,key,e,lKeyInit);
+
 			// if a number was not pressed
 			if(key < 48 || key > 57)
 			{
-				/* '-' only allowed at start */
-				if(key == 45 && this.value.length == 0) return true;
-				/* only one decimal separator allowed */
-				if(key == decimal.charCodeAt(0) && this.value.indexOf(decimal) != -1)
+				// Nombre négatif
+				if(defaults.allowNegatives == false && key == 45)
 				{
-					allow = false;
-				}				
+					return false;
+				}
+				else if
+				(
+						defaults.allowNegatives == true 
+					&& 	getSelectionStart(this) == 0
+					&& 	t.replace(/[^-]/g, '').length <= 1
+					&& 	key == 45
+				)
+				{
+					return true;
+				}
+
 				// check for other keys that have special purposes
 				if(
 					key != 8 /* backspace */ &&
@@ -2270,7 +2313,7 @@ jQuery.fn.numeric = function(decimal,nbdecimal, callback)
 					key != 36 /* home */ &&
 					key != 37 /* left */ &&
 					key != 39 /* right */ &&
-					key != 46 /* del */
+					key != 46 /* del */ 
 				)
 				{
 					allow = false;
@@ -2294,19 +2337,25 @@ jQuery.fn.numeric = function(decimal,nbdecimal, callback)
 					}
 				}
 				// if key pressed is the decimal and it is not already in the field
-				if(key == decimal.charCodeAt(0) && this.value.indexOf(decimal) == -1)
+				var exp=new RegExp("[^"+defaults.decimal+"]","g");
+				if(key == defaults.decimal.charCodeAt(0) && t.replace(exp, '').length == 1 && this.value.length > 0 && defaults.nbDecimal > 0)
 				{
 					allow = true;
 				}
-			}
-			else
-			{
-				allow = true;
-				// Le nombre de decimal
-				if((this.value.length - this.value.indexOf(decimal)) > nbdecimal && this.value.indexOf(decimal) != -1) {
-					allow = false;
+				if((key == 46 || key == 8) && e.charCode == 0) { // Si suppression il faut vérifier le nouveau format
+					allow = format(t,defaults.decimal,defaults.nbDecimal,defaults.nbInteger);				
 				}
-			}			
+			}
+			else // SI c'est un nombre
+			{
+				allow = format(t,defaults.decimal,defaults.nbDecimal,defaults.nbInteger);
+			}
+
+			// Si le caractère initial est "." alors on modifie l'écriture
+			if(allow && lKeyInit == 46 && e.charCode == 46) {
+				$(this).val(getNewValue(this,defaults.decimal.charCodeAt(0),e,lKeyInit));
+				return false;
+			}		
 			return allow;
 		}
 	)
@@ -2316,7 +2365,7 @@ jQuery.fn.numeric = function(decimal,nbdecimal, callback)
 			var val = jQuery(this).val();
 			if(val != "")
 			{
-				var re = new RegExp("^\\d+$|\\d*" + decimal + "\\d+");
+				var re = new RegExp("^\\d+$|\\d*" + defaults.decimal + "\\d+");
 				if(!re.exec(val))
 				{
 					callback.apply(this);
@@ -2325,4 +2374,59 @@ jQuery.fn.numeric = function(decimal,nbdecimal, callback)
 		}
 	);
 	return this;
-}
+}/*
+**  jhistory 0.6 - jQuery plugin allowing simple non-intrusive browser history
+**  author: Jim Palmer; released under MIT license
+**    collage of ideas from Taku Sano, Mikage Sawatari, david bloom and Klaus Hartl
+**  CONFIG -- place in your document.ready function two possible config settings:
+**    $.history._cache = 'cache.html'; // REQUIRED - location to your cache response handler (static flat files prefered)
+**    $.history.stack = {<old object>}; // OPTIONAL - prefill this with previously saved history stack (i.e. saved with session)
+*/
+;(function($) {
+	// core history plugin functionality - handles singleton instantiation and history observer interval
+	$.history = function ( store ) {
+		// init the stack if not supplied
+		if (!$.history.stack) $.history.stack = {};
+		// avoid new history entries when in the middle of a callback handler
+		if ($.history._locked) return false;
+		// set the current unix timestamp for our history
+		$.history.cursor = (new Date()).getTime().toString();
+		// insert copy into the stack with current cursor
+		$.history.stack[ $.history.cursor ] = $.extend( true, {}, store );
+		// force the new hash we're about to write into the IE6/7 history stack
+		if ( $.browser.msie )
+			$('.__historyFrame')[0].contentWindow.document.open().close();
+		// write the fragment id to the hash history - webkit required full href reset - ie/ff work with simple hash manipulation
+		if ( $.browser.safari )
+			$('.__historyFrame').contents()[0].location.href = $('.__historyFrame').contents()[0].location.href.split('?')[0] +
+				'?' + $.history.cursor + '#' + $.history.cursor;
+		else
+			$('.__historyFrame').contents()[0].location.hash = '#' + $.history.cursor;
+	}
+	// initialize jhistory - the iframe controller and setinterval'd listener (pseudo observer)
+	$.history.init = function () {
+		// create the hidden iframe if not on the root window.document.body on-demand
+		$("body").append('<iframe class="__historyFrame" src="' + $.history._cache +
+			'" style="border:0px; width:0px; height:0px; visibility:hidden;" />');
+		// setup interval function to check for changes in "history" via iframe hash and call appropriate callback function to handle it
+		$.history.intervalId = $.history.intervalId || window.setInterval(function () {
+				// fetch current cursor from the iframe document.URL or document.location depending on browser support
+				var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
+				// display debugging information if block id exists
+				$('#__historyDebug').html('"' + $.history.cursor + '" vs "' + cursor + '" - ' + (new Date()).toString());
+				// if cursors are different (forw/back hit) then reinstate data only when iframe is done loading
+				if ( parseFloat($.history.cursor) >= 0 && parseFloat($.history.cursor) != ( parseFloat(cursor) || 0 ) ) {
+					// set the history cursor to the current cursor
+					$.history.cursor = parseFloat(cursor) || 0;
+					// reinstate the current cursor data through the callback
+					if ( typeof($.history.callback) == 'function' ) {
+						// prevent the callback from re-inserting same history element
+						$.history._locked = true;
+						$.history.callback( $.history.stack[ cursor ], cursor );
+						$.history._locked = false;
+					}
+				}
+			}, 150);
+	}
+	$($.history.init);
+})(jQuery);

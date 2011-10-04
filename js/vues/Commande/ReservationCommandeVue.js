@@ -1,4 +1,4 @@
-;function ReservationCommandeVue(pParam) {
+;function ReservationMarcheVue(pParam) {
 	this.mCommunVue = new CommunVue();
 	this.infoCommande = new Object();
 	this.pdtCommande = [];
@@ -7,39 +7,41 @@
 	this.soldeNv = 0;
 	
 	this.construct = function(pParam) {
-		$.history( {'vue':function() {ReservationCommandeVue(pParam);}} );
+		$.history( {'vue':function() {ReservationMarcheVue(pParam);}} );
 		var that = this;
 		pParam.fonction = "detailMarche";
 		$.post(	"./index.php?m=Commande&v=ReservationCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.solde = lResponse.adherent.cptSolde;	
+							that.soldeNv = lResponse.adherent.cptSolde;
+							
+							that.infoCommande.comId = lResponse.marche.id;
+							that.infoCommande.comNumero = lResponse.marche.numero;
+							that.infoCommande.comNom = lResponse.marche.nom;
+							that.infoCommande.comDescription = lResponse.marche.description;
+							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
+							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
+							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
+							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
+							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
+							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
+							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
+							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
+							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
+							that.infoCommande.comArchive = lResponse.marche.archive;
+							
+							that.pdtCommande = lResponse.marche.produits;
+													
+							that.afficher();
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.solde = lResponse.adherent.cptSolde;	
-						that.soldeNv = lResponse.adherent.cptSolde;
-						
-						that.infoCommande.comId = lResponse.marche.id;
-						that.infoCommande.comNumero = lResponse.marche.numero;
-						that.infoCommande.comNom = lResponse.marche.nom;
-						that.infoCommande.comDescription = lResponse.marche.description;
-						that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
-						that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
-						that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
-						that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
-						that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
-						that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
-						that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
-						that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
-						that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
-						that.infoCommande.comArchive = lResponse.marche.archive;
-						
-						that.pdtCommande = lResponse.marche.produits;
-												
-						that.afficher();
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -321,7 +323,7 @@
 		// Test si la quantité est dans les limites
 		if(lNvQteReservation > 0 && lNvQteReservation <= lMax) {
 			var lNvPrix = 0;
-			lNvPrix = lQteReservation * lPrix;
+			lNvPrix = (lQteReservation * lPrix).toFixed(2);
 			
 			// Mise à jour de la quantite reservée
 			this.reservation[pIdPdt].stoQuantite = lNvQteReservation;			
@@ -463,10 +465,12 @@
 			$.post(	"./index.php?m=Commande&v=ReservationCommande", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {					
-						that.afficherRetour();
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {					
+							that.afficherRetour();
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

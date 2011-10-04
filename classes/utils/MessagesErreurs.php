@@ -168,6 +168,8 @@ class MessagesErreurs
 	const ERR_314_MSG = 'Achat Modifié.';
 	const ERR_315_CODE = 315;
 	const ERR_315_MSG = 'Achat Supprimé.';
+	const ERR_316_CODE = 316;
+	const ERR_316_MSG = 'Informations mises à jour.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

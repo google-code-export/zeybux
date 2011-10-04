@@ -227,6 +227,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CaisseListeCommandeVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=Caisse&v=CaisseListeCommande", 
 				function(lResponse) {
@@ -296,6 +297,7 @@
 	this.construct = function(pParam) {
 		var that = this;
 		pParam.fonction = "listeReservation";
+		$.history( {'vue':function() {CaisseMarcheCommandeVue(pParam);}} );
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -392,6 +394,7 @@
 		this.idAdherent = pParam.id_adherent;
 
 		pParam.fonction = "infoAchat";
+		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

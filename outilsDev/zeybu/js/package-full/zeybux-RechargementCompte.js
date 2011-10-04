@@ -95,6 +95,7 @@
 	this.solde = 0;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {RechargerCompteVue(pParam);}} );
 		var that = this;
 		var lParam = {fonction:"listeAdherent"};
 		$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),

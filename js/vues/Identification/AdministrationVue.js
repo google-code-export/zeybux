@@ -6,17 +6,19 @@
 		$.post(	"./index.php?m=Identification&v=Administration", 
 				function(lResponse) {
 				  	Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+				  	if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+							// Maj du Menu
+							var lCommunVue = new CommunVue();
+							lCommunVue.majMenu('administration');
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-						// Maj du Menu
-						var lCommunVue = new CommunVue();
-						lCommunVue.majMenu('administration');
-					} else {
-						Infobulle.generer(lResponse,'');
-					}
+				  	}
 				},"json"
 		);
 	}
