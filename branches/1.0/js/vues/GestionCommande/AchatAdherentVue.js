@@ -18,53 +18,55 @@
 		$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
-						}
-						that.mAdherent = lResponse.adherent;						
-
-						that.infoCommande.comId = lResponse.marche.id;
-						that.infoCommande.comNumero = lResponse.marche.numero;
-						that.infoCommande.comNom = lResponse.marche.nom;
-						that.infoCommande.comDescription = lResponse.marche.description;
-						that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
-						that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
-						that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
-						that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
-						that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
-						that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
-						that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
-						that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
-						that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
-						that.infoCommande.comArchive = lResponse.marche.archive;
-						that.pdtCommande = lResponse.marche.produits;
-						
-						that.infoReservation = lResponse.reservation;
-						that.stockSolidaire = lResponse.stockSolidaire;
-						$.each(that.pdtCommande,function() {
-							if(this.id) {
-								var lIdProduit = this.id;
-								$.each(this.lots, function() {
-									if(this.id) {
-										var lIdLot = this.id;
-										$(lResponse.reservation.detailReservation).each(function() {
-											if(this.idDetailCommande == lIdLot) {
-												this.stoQuantite = this.quantite * -1;
-												this.dcomId = this.idDetailCommande;
-												this.proId = lIdProduit;
-												this.montant = this.montant * -1;
-												that.reservation[lIdProduit] = this;
-											}											
-										});
-									}
-								});
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
 							}
-						});
-				
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
+							that.mAdherent = lResponse.adherent;						
+	
+							that.infoCommande.comId = lResponse.marche.id;
+							that.infoCommande.comNumero = lResponse.marche.numero;
+							that.infoCommande.comNom = lResponse.marche.nom;
+							that.infoCommande.comDescription = lResponse.marche.description;
+							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
+							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
+							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
+							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
+							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
+							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
+							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
+							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
+							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
+							that.infoCommande.comArchive = lResponse.marche.archive;
+							that.pdtCommande = lResponse.marche.produits;
+							
+							that.infoReservation = lResponse.reservation;
+							that.stockSolidaire = lResponse.stockSolidaire;
+							$.each(that.pdtCommande,function() {
+								if(this.id) {
+									var lIdProduit = this.id;
+									$.each(this.lots, function() {
+										if(this.id) {
+											var lIdLot = this.id;
+											$(lResponse.reservation.detailReservation).each(function() {
+												if(this.idDetailCommande == lIdLot) {
+													this.stoQuantite = this.quantite * -1;
+													this.dcomId = this.idDetailCommande;
+													this.proId = lIdProduit;
+													this.montant = this.montant * -1;
+													that.reservation[lIdProduit] = this;
+												}											
+											});
+										}
+									});
+								}
+							});
+					
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 		);
@@ -512,34 +514,36 @@
 			$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse && lResponse.valid) {
-						var lMsg = new TemplateVR();
-						lMsg.valid = false;
-						lMsg.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_314_CODE;
-						erreur.message = ERR_314_MSG;
-						lMsg.log.erreurs.push(erreur);
-						
-						if(lAchat.idAchat < 0) {
-							that.pParam.vr = lMsg;
-							that.construct(that.pParam);
+					if(lResponse) {
+						if(lResponse && lResponse.valid) {
+							var lMsg = new TemplateVR();
+							lMsg.valid = false;
+							lMsg.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_314_CODE;
+							erreur.message = ERR_314_MSG;
+							lMsg.log.erreurs.push(erreur);
+							
+							if(lAchat.idAchat < 0) {
+								that.pParam.vr = lMsg;
+								that.construct(that.pParam);
+							} else {
+								$(lProduit).each(function() {
+									if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
+									$("#achat-" + pIdAchat + "-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
+									if(isNaN(this.prix) || this.prix.isEmpty()) {this.prix = 0;}
+									$("#achat-" + pIdAchat + "-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
+								});
+								if(isNaN(lAchat.total) || lAchat.total.isEmpty()) {lAchat.total = 0;}
+								$("#achat-" + pIdAchat + "-total-label").text((lAchat.total * -1).nombreFormate(2,',',' '));
+								
+								$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();						
+								
+								Infobulle.generer(lMsg,'');
+							}
 						} else {
-							$(lProduit).each(function() {
-								if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
-								$("#achat-" + pIdAchat + "-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
-								if(isNaN(this.prix) || this.prix.isEmpty()) {this.prix = 0;}
-								$("#achat-" + pIdAchat + "-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
-							});
-							if(isNaN(lAchat.total) || lAchat.total.isEmpty()) {lAchat.total = 0;}
-							$("#achat-" + pIdAchat + "-total-label").text((lAchat.total * -1).nombreFormate(2,',',' '));
-							
-							$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();						
-							
-							Infobulle.generer(lMsg,'');
+							Infobulle.generer(lResponse,'');
 						}
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 			},"json");
 		} else {
@@ -565,21 +569,23 @@
 					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
 						function(lResponse) {
 							Infobulle.init(); // Supprime les erreurs
-							if(lResponse && lResponse.valid) {								
-								var lMsg = new TemplateVR();
-								lMsg.valid = false;
-								lMsg.log.valid = false;
-								var erreur = new VRerreur();
-								erreur.code = ERR_315_CODE;
-								erreur.message = ERR_315_MSG;
-								lMsg.log.erreurs.push(erreur);
-								
-								that.pParam.vr = lMsg;
-								
-								that.construct(that.pParam);
-								$(lDialog).dialog('close');
-							} else {
-								Infobulle.generer(lResponse,'');
+							if(lResponse) {
+								if(lResponse && lResponse.valid) {								
+									var lMsg = new TemplateVR();
+									lMsg.valid = false;
+									lMsg.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_315_CODE;
+									erreur.message = ERR_315_MSG;
+									lMsg.log.erreurs.push(erreur);
+									
+									that.pParam.vr = lMsg;
+									
+									that.construct(that.pParam);
+									$(lDialog).dialog('close');
+								} else {
+									Infobulle.generer(lResponse,'');
+								}
 							}
 					},"json");
 			

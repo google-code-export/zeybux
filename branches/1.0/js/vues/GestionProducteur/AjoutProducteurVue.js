@@ -77,12 +77,14 @@
 			$.post(	"./index.php?m=GestionProducteur&v=AjoutProducteur", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						var lGestionProducteurTemplate = new GestionProducteurTemplate();
-						var lTemplate = lGestionProducteurTemplate.ajoutProducteurSucces;
-						$('#contenu').replaceWith(lTemplate.template(lResponse));						
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionProducteurTemplate = new GestionProducteurTemplate();
+							var lTemplate = lGestionProducteurTemplate.ajoutProducteurSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

@@ -1101,7 +1101,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIE
 --
 DROP TABLE IF EXISTS `view_marche_liste_reservation`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_marche_liste_reservation` AS select `ope_operation`.`ope_id_compte` AS `ope_id_compte`,`com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from (`com_commande` left join `ope_operation` on((`ope_operation`.`ope_id_commande` = `com_commande`.`com_id`))) where ((`com_commande`.`com_date_fin_reservation` >= now()) and (`com_commande`.`com_archive` = 0) and (`ope_operation`.`ope_type_paiement` = 0));
+CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_marche_liste_reservation` AS select `ope_operation`.`ope_id_compte` AS `ope_id_compte`,`com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from (`com_commande` left join `ope_operation` on((`ope_operation`.`ope_id_commande` = `com_commande`.`com_id`))) where ((`com_commande`.`com_archive` = 0) and (`ope_operation`.`ope_type_paiement` = 0));
 
 -- --------------------------------------------------------
 

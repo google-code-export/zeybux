@@ -22,22 +22,24 @@
 		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {						
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
-						}
-						that.idCompte = lResponse.adherent.adhIdCompte;
-						that.pdtCommande = lResponse.marche.produits;			
-						
-						$(lResponse.typePaiement).each(function() {
-							that.mTypePaiement[this.tppId] = this;
-						});
-
-						that.solde = parseFloat(lResponse.adherent.cptSolde);
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
-					}					
+					if(lResponse) {
+						if(lResponse.valid) {						
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.idCompte = lResponse.adherent.adhIdCompte;
+							that.pdtCommande = lResponse.marche.produits;			
+							
+							$(lResponse.typePaiement).each(function() {
+								that.mTypePaiement[this.tppId] = this;
+							});
+	
+							that.solde = parseFloat(lResponse.adherent.cptSolde);
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}	
+					}
 				},"json"
 		);
 	}		
@@ -430,15 +432,17 @@
 		lVo.fonction = "acheter";
 		$.post(	"./index.php?m=GestionCommande&v=MarcheCommande","pParam=" + $.toJSON(lVo),
 				function(lVoRetour) {
-					if(lVoRetour.valid) {
-						var lGestionCommandeTemplate = new GestionCommandeTemplate();
-						var lTemplate = lGestionCommandeTemplate.achatCommandeSucces;
-						$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
-					} else {
-						that.boutonModifier();
-						Infobulle.generer(lVoRetour,"");
+					if(lVoRetour) {
+						if(lVoRetour.valid) {
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							var lTemplate = lGestionCommandeTemplate.achatCommandeSucces;
+							$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
+						} else {
+							that.boutonModifier();
+							Infobulle.generer(lVoRetour,"");
+						}
+						that.etapeValider = 0;
 					}
-					that.etapeValider = 0;
 				},"json"
 			);
 	}

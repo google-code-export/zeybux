@@ -339,6 +339,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AjoutAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=AjoutAdherent", 
 				function(lResponse) {
@@ -395,6 +396,8 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	
@@ -456,6 +459,7 @@
 	this.mAdhNumero = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=CompteAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -657,6 +661,7 @@
 	this.construct(pParam);
 };function ListeAdherentVue(pParam) {
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=ListeAdherent", 
 				function(lResponse) {
@@ -730,6 +735,7 @@
 	this.mIdAdherent = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModificationAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=ModificationAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -801,6 +807,8 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	

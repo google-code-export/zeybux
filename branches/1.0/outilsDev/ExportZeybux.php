@@ -93,8 +93,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != '.project'
 				   		&& $entry != '.htaccess'	
 				   		&& $entry != 'jquery-1.4.2.min.js'	
-				   		&& $entry != 'jquery-ui-1.8.custom.min.js'		
-		   				&& $entry != 'jquery-ui-1.8.15.custom.min.js'   		
+				   		&& $entry != 'jquery-ui-1.8.custom.min.js'	
+				   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'
+				   		&& $entry != 'jquery.numeric-old.js'
+				   		&& $entry != 'jquery.numeric.pack.js'  		
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 				   			parcourirDossierJquery($d->path.'/'.$entry);
@@ -124,17 +126,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		/******************************************* Fin Generation zeybux-jquery.js *************************************/
 	
 		/******************************************* Generation zeybux-core.js *************************************/		
-		$fp = fopen("./zeybu/js/zeybux-core.js", 'w');
-		$filename = "../js/template/CommunTemplate.js";
-		fwrite($fp,file_get_contents($filename));
-		$filename = "../js/vues/CommunVue.js";
-		fwrite($fp,file_get_contents($filename));
-		$filename = "../js/template/IdentificationTemplate.js";
-		$lLigne = file_get_contents($filename);
-		$lLigne = preg_replace('/value=\\\"(Z|zeybu)\\\"/',"",$lLigne);
-		fwrite($fp,$lLigne);
-		//fwrite($fp,file_get_contents($filename));		
-		fclose($fp);
+		
+		
 
 		function parcourirDossierCore($pPath) {
 			$d = dir($pPath);
@@ -166,9 +159,23 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 			$d->close();
 		}
+		$fp = fopen("./zeybu/js/zeybux-core.js", 'w');
+		fclose($fp);
 		$Path = '../js';
 		parcourirDossierCore($Path);
-				
+		
+		$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
+		$filename = "../js/template/CommunTemplate.js";
+		fwrite($fp,file_get_contents($filename));
+		$filename = "../js/vues/CommunVue.js";
+		fwrite($fp,file_get_contents($filename));
+		$filename = "../js/template/IdentificationTemplate.js";
+		$lLigne = file_get_contents($filename);
+		$lLigne = preg_replace('/value=\\\"(Z|zeybu)\\\"/',"",$lLigne);
+		fwrite($fp,$lLigne);
+		//fwrite($fp,file_get_contents($filename));		
+		fclose($fp);
+		
 		function parcourirDossierIdentification($pPath) {
 			if(is_dir($pPath)) {
 				$d = dir($pPath);

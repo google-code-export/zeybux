@@ -306,6 +306,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteZeybuVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", 
 				function(lResponse) {
@@ -406,6 +407,7 @@
 	this.modifVirement = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeVirementZeybuVue(pParam);}} );
 		var that = this;
 		var lParam = {fonction:"listeVirement"};
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),
@@ -665,6 +667,7 @@
 	this.listeProducteur = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {VirementZeybuVue(pParam);}} );
 		var that = this;	
 		var lParam = {fonction:"afficher"};
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),

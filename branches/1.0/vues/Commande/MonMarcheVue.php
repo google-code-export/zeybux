@@ -2,8 +2,8 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 31/03/2010
-// Fichier : ListeCommandeVue.php
+// Date de creation : 03/10/2011
+// Fichier : MonMarcheVue.php
 //
 // Description : À REMPLIR
 //
@@ -13,12 +13,12 @@
 if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SESSION[DROIT_SUPER_ZEYBU]) ) ) {
 
 	// Inclusion des classes
-	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/ListeCommandeControleur.php");
+	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/MonMarcheControleur.php");
 
-	$lControleur = new ListeCommandeControleur();
-	echo $lControleur->getListeCommandeEnCours()->exportToJson();	
+	$lControleur = new MonMarcheControleur();
+	echo $lControleur->getListe()->exportToJson();	
 	
-	$lLogger->log("Affichage de la vue ListeCommande par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+	$lLogger->log("Affichage de la vue MonMarche par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à ListeCommande",PEAR_LOG_INFO);	// Maj des logs

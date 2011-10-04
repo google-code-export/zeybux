@@ -228,7 +228,7 @@
 			"</div>" +
 		"</div>";
 	
-	this.listeCommandePage = 
+	/*this.listeCommandePage = 
 		"<div id=\"contenu\">" +
 			"<div id=\"liste_commande_int\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -254,7 +254,7 @@
 					"</div>" +			
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.confirmationReservationCommande =
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -303,15 +303,15 @@
 			"</div>" +
 		"</div>";
 	
-	this.listeCommandeVide =
+	/*this.listeCommandeVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
 				"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
 			"</div>" +
-		"</div>";
+		"</div>";*/
 
-	this.listeReservation =
+	/*this.listeReservation =
 	"<div id=\"contenu\">" +
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -336,8 +336,8 @@
 			"<button class=\"ui-state-default ui-corner-all com-button com-center\">Anciennes commandes</button>" +		
 		"</div>" +
 	"</div>";	
-	
-	this.listeReservationVide =
+	*/
+	/*this.listeReservationVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
@@ -345,6 +345,100 @@
 			"</div>" +
 			"<div class=\"ui-helper-hidden com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
 				"<button class=\"ui-state-default ui-corner-all com-button com-center\">Anciennes commandes</button>" +		
+			"</div>" +
+		"</div>";*/
+	
+	
+	
+	this.MonMarcheDebut =
+		"<div id=\"contenu\">";
+	
+	this.listeReservation =
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
+			"<table class=\"com-table\">" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
+					"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
+					"<th class=\"com-table-th\">Marché</th>	" +
+				"</tr>" +
+				"<!-- BEGIN reservation -->" +
+				"<tr class=\"com-cursor-pointer visualiser-reservation\" id={reservation.idCommande} >" +
+					"<td class=\"com-table-td com-underline-hover com-text-align-right\">{reservation.numero}</td>" +
+					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</td>" +
+					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</td>" +
+				"</tr>" +
+				"<!-- END reservation -->" +
+			"</table>" +
+		"</div>";
+	
+	this.listeReservationVide =
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
+			"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
+		"</div>";
+	
+	this.listeMarche = 
+		"<div id=\"liste_commande_int\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
+					"<table class=\"com-table\">" +
+						"<tr class=\"ui-widget ui-widget-header\">" +
+							"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
+							"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
+							"<th class=\"com-table-th\">Marché</th>	" +
+							"<th class=\"com-table-th\"></th>" +
+						"</tr>" +
+						"<!-- BEGIN marche -->" +
+						"<tr >" +
+							"<td class=\"com-table-td com-text-align-right\">{marche.numero}</td>" +
+							"<td class=\"com-table-td\">Le {marche.dateFinReservation} à {marche.heureFinReservation}H{marche.minuteFinReservation}</td>" +
+							"<td class=\"com-table-td\">Le {marche.dateMarcheDebut} de {marche.heureMarcheDebut}H{marche.minuteMarcheDebut} à {marche.heureMarcheFin}H{marche.minuteMarcheFin}</td>" +
+							"<td class=\"com-table-td lst-resa-btn-commander\">" +
+								"<button class=\"btn-commander ui-state-default ui-corner-all com-button com-center\" id=\"{marche.id}\">Commander</button>" +
+							"</td>" +
+						"</tr>" +
+						"<!-- END marche -->" +
+					"</table>" +
+				"</div>" +			
+			"</div>" +
+		"</div>";
+	
+	this.listeMarcheVide =
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
+			"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
+		"</div>";
+	
+	this.MonMarcheFin =
+		"</div>";
+	
+	this.listeAchats = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Mes Achats" +
+				"</div>" +
+				"<table class=\"com-table\">" +
+					"<tr class=\"ui-widget ui-widget-header\">" +
+						"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
+						"<th class=\"com-table-th\">Marché</th>	" +
+					"</tr>" +
+					"<!-- BEGIN achat -->" +
+					"<tr class=\"com-cursor-pointer visualiser-reservation\" id={achat.idCommande} >" +
+						"<td class=\"com-table-td com-underline-hover com-text-align-right\">{achat.numero}</td>" +
+						"<td class=\"com-table-td com-underline-hover\">Le {achat.dateMarcheDebut}</td>" +
+					"</tr>" +
+					"<!-- END achat -->" +
+				"</table>" +	
+			"</div>" +
+		"</div>";
+	
+	this.listeAchatVide =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Achats</div>" +
+				"<p id=\"texte-liste-vide\">Aucun achat effectué.</p>" +		
 			"</div>" +
 		"</div>";
 }

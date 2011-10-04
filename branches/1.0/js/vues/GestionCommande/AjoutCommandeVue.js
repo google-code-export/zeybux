@@ -11,19 +11,21 @@
 		$.post(	"./index.php?m=GestionCommande&v=AjoutCommande",
 				function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {	
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}						
-							// Pas d'affichage si il n' a pas de producteur en base
-							if(lResponse.producteurs[0].prdtId == null) {
-								lResponse.producteurs = [];
-							}							
-							that.mListeProducteurs = lResponse.producteurs;
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
-						}					
+						if(lResponse) {
+							if(lResponse.valid) {	
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}						
+								// Pas d'affichage si il n' a pas de producteur en base
+								if(lResponse.producteurs[0].prdtId == null) {
+									lResponse.producteurs = [];
+								}							
+								that.mListeProducteurs = lResponse.producteurs;
+								that.afficher(lResponse);
+							} else {
+								Infobulle.generer(lResponse,'');
+							}				
+						}
 					},"json"
 				);		
 	}
@@ -225,15 +227,17 @@
 						$.post(	"./index.php?m=GestionCommande&v=AjoutCommande",
 								"commande=" + $.toJSON(lVo) + "&form=2",
 								function (lVoRetour) {		
-									if(lVoRetour.valid) {
-										var lGestionCommandeTemplate = new GestionCommandeTemplate();
-										var lTemplate = lGestionCommandeTemplate.ajoutCommandeSucces;
-										$('#contenu').replaceWith(lTemplate.template(lVoRetour));
-									} else {
-										that.modifierCommandeFunction();
-										Infobulle.generer(lVoRetour,"commande-");
+									if(lVoRetour) {
+										if(lVoRetour.valid) {
+											var lGestionCommandeTemplate = new GestionCommandeTemplate();
+											var lTemplate = lGestionCommandeTemplate.ajoutCommandeSucces;
+											$('#contenu').replaceWith(lTemplate.template(lVoRetour));
+										} else {
+											that.modifierCommandeFunction();
+											Infobulle.generer(lVoRetour,"commande-");
+										}
+										that.etapeCreationCommande = 0;
 									}
-									that.etapeCreationCommande = 0;
 								},"json"
 						);
 					}
@@ -478,16 +482,18 @@
 			var lParam = {form:1,nomProduit:lVo};
 			// Ajout
 			$.post(	"./index.php?m=GestionCommande&v=AjoutCommande", "pParam=" + $.toJSON(lParam),
-				function (lResponse) {							
-					if(lResponse.valid) {
-						Infobulle.init(); // Supprime les erreurs
-						// Ajout dans la liste du select avec son ID
-						var lNomPdt = [];
-						lNomPdt[lResponse.id] = lResponse.nom;
-						$('#formulaire-ajout-produit-creation-commande select[name=produit]').addOption(lNomPdt).sortOptions();
-						$("#dialog-form-creer-nv-pdt").dialog('close');
-					} else {
-						Infobulle.generer(lResponse,'nom-pdt-');
+				function (lResponse) {		
+					if(lResponse) {
+						if(lResponse.valid) {
+							Infobulle.init(); // Supprime les erreurs
+							// Ajout dans la liste du select avec son ID
+							var lNomPdt = [];
+							lNomPdt[lResponse.id] = lResponse.nom;
+							$('#formulaire-ajout-produit-creation-commande select[name=produit]').addOption(lNomPdt).sortOptions();
+							$("#dialog-form-creer-nv-pdt").dialog('close');
+						} else {
+							Infobulle.generer(lResponse,'nom-pdt-');
+						}
 					}
 				},"json"
 			);

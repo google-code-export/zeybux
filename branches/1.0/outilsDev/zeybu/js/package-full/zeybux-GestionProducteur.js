@@ -251,6 +251,7 @@
 		"</div>";
 };function ListeProducteurVue(pParam) {
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ListeProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=ListeProducteur", 
 				function(lResponse) {
@@ -317,6 +318,7 @@
 	this.mPrdtNumero = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=CompteProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -457,6 +459,7 @@
 	this.mIdProducteur = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModificationProducteurVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -506,6 +509,7 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comDatepicker('dateNaissance',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	
@@ -563,6 +567,7 @@
 	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {	
+		$.history( {'vue':function() {AjoutProducteurVue(pParam);}} );
 		if(pParam && pParam.vr) {
 			Infobulle.generer(pParam.vr,'');
 		}
@@ -598,6 +603,7 @@
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comDatepicker('dateNaissance',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
 	}
 	

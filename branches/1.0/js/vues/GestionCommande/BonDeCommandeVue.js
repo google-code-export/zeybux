@@ -15,14 +15,16 @@
 		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mEtatEdition = false;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.mEtatEdition = false;
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -78,45 +80,47 @@
 			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {
-							that.mIdCompteProducteur = lIdCompteProducteur;
-							that.mEtatEdition = false;
-							
-							$(lResponse.produits).each(function() {
-								that.mListeProduit[this.proId] = this.stoQuantite;
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mIdCompteProducteur = lIdCompteProducteur;
+								that.mEtatEdition = false;
 								
-								this.stoQuantiteCommande = '';
-								this.dopeMontant = '';
-								
-								var lProId = this.proId;
-								var these = this;
-								
-								$(lResponse.produitsCommande).each(function() {
-									if(this.proId == lProId) {
-										these.stoQuantiteCommande = this.stoQuantite;
-										these.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+								$(lResponse.produits).each(function() {
+									that.mListeProduit[this.proId] = this.stoQuantite;
+									
+									this.stoQuantiteCommande = '';
+									this.dopeMontant = '';
+									
+									var lProId = this.proId;
+									var these = this;
+									
+									$(lResponse.produitsCommande).each(function() {
+										if(this.proId == lProId) {
+											these.stoQuantiteCommande = this.stoQuantite;
+											these.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+										}
+									});
+									
+									if(this.stoQuantiteCommande - this.stoQuantite < 0) {
+										this.classEtat = 'qte-reservation-ko';
+									} else {
+										this.classEtat = 'qte-reservation-ok';
 									}
-								});
+									if(this.stoQuantiteCommande != '') {
+										this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+									}
+									this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+								});	
 								
-								if(this.stoQuantiteCommande - this.stoQuantite < 0) {
-									this.classEtat = 'qte-reservation-ko';
-								} else {
-									this.classEtat = 'qte-reservation-ok';
-								}
-								if(this.stoQuantiteCommande != '') {
-									this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
-								}
-								this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-							});	
-							
-							lResponse.sigleMonetaire = gSigleMonetaire;
-							
-							var lGestionCommandeTemplate = new GestionCommandeTemplate();
-							var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
-							
-							$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(lResponse))));
-						} else {
-							Infobulle.generer(lResponse,'');
+								lResponse.sigleMonetaire = gSigleMonetaire;
+								
+								var lGestionCommandeTemplate = new GestionCommandeTemplate();
+								var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
+								
+								$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(lResponse))));
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
 						}
 					},"json"
 			);
@@ -197,27 +201,29 @@
 			return $.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {
-							that.mEtatEdition = false;
-							
-							if(that.mSuiteEdition == 1) {
-								that.changementProducteur();
-							} else if (that.mSuiteEdition == 2) {
-								that.dialogExportBonDeCommande();
-							} else {
-								var lVr = new TemplateVR();
-								lVr.valid = false;
-								lVr.log.valid = false;
-								var erreur = new VRerreur();
-								erreur.code = ERR_301_CODE;
-								erreur.message = ERR_301_MSG;
-								lVr.log.erreurs.push(erreur);							
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mEtatEdition = false;
 								
-								Infobulle.generer(lVr,'');
+								if(that.mSuiteEdition == 1) {
+									that.changementProducteur();
+								} else if (that.mSuiteEdition == 2) {
+									that.dialogExportBonDeCommande();
+								} else {
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_301_CODE;
+									erreur.message = ERR_301_MSG;
+									lVr.log.erreurs.push(erreur);							
+									
+									Infobulle.generer(lVr,'');
+								}
+							} else {
+								Infobulle.generer(lResponse,'');
+								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 							}
-						} else {
-							Infobulle.generer(lResponse,'');
-							$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 						}
 					},"json"
 			);

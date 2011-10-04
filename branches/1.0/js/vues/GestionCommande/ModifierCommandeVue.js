@@ -12,18 +12,20 @@
 		$.post(	"./index.php?m=GestionCommande&v=ModifierCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lResponse.valid) {	
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}						
-							// Pas d'affichage si il n' a pas de producteur en base
-							if(lResponse.producteurs[0].prdtId == null) {
-								lResponse.producteurs = [];
+						if(lResponse) {
+							if(lResponse.valid) {	
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}						
+								// Pas d'affichage si il n' a pas de producteur en base
+								if(lResponse.producteurs[0].prdtId == null) {
+									lResponse.producteurs = [];
+								}
+								that.mListeProducteurs = lResponse.producteurs;
+								that.afficher(lResponse);
+							} else {
+								Infobulle.generer(lResponse,'');
 							}
-							that.mListeProducteurs = lResponse.producteurs;
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
 						}
 					},"json"
 				);		
@@ -312,25 +314,27 @@
 						var lParam = {form:2,commande:lVo};
 						$.post(	"./index.php?m=GestionCommande&v=ModifierCommande", "pParam=" + $.toJSON(lParam),
 								function (lVoRetour) {	
-									if(lVoRetour.valid) {										
-										// Message d'information
-										var lVr = new TemplateVR();
-										lVr.valid = false;
-										lVr.log.valid = false;
-										var erreur = new VRerreur();
-										erreur.code = ERR_310_CODE;
-										erreur.message = ERR_310_MSG;
-										lVr.log.erreurs.push(erreur);
-										
-										EditerCommandeVue({
-											"id_commande":that.mIdCommande,
-											vr:lVr
-										});
-									} else {
-										that.modifierCommandeFunction();
-										Infobulle.generer(lVoRetour,"commande-");
+									if(lVoRetour) {
+										if(lVoRetour.valid) {										
+											// Message d'information
+											var lVr = new TemplateVR();
+											lVr.valid = false;
+											lVr.log.valid = false;
+											var erreur = new VRerreur();
+											erreur.code = ERR_310_CODE;
+											erreur.message = ERR_310_MSG;
+											lVr.log.erreurs.push(erreur);
+											
+											EditerCommandeVue({
+												"id_commande":that.mIdCommande,
+												vr:lVr
+											});
+										} else {
+											that.modifierCommandeFunction();
+											Infobulle.generer(lVoRetour,"commande-");
+										}
+										that.etapeCreationCommande = 0; 
 									}
-									that.etapeCreationCommande = 0; 
 								},"json"
 						);
 					}
@@ -587,16 +591,18 @@
 			var lParam = {form:1,nomProduit:lVo};
 			// Ajout
 			$.post(	"./index.php?m=GestionCommande&v=AjoutCommande", "pParam=" + $.toJSON(lParam),
-				function (lResponse) {							
-					if(lResponse.valid) {
-						Infobulle.init(); // Supprime les erreurs
-						// Ajout dans la liste du select avec son ID
-						var lNomPdt = [];
-						lNomPdt[lResponse.id] = lResponse.nom;
-						$('#formulaire-ajout-produit-creation-commande select[name=produit]').addOption(lNomPdt).sortOptions();
-						$("#dialog-form-creer-nv-pdt").dialog('close');
-					} else {
-						Infobulle.generer(lResponse,'nom-pdt-');
+				function (lResponse) {		
+					if(lResponse) {
+						if(lResponse.valid) {
+							Infobulle.init(); // Supprime les erreurs
+							// Ajout dans la liste du select avec son ID
+							var lNomPdt = [];
+							lNomPdt[lResponse.id] = lResponse.nom;
+							$('#formulaire-ajout-produit-creation-commande select[name=produit]').addOption(lNomPdt).sortOptions();
+							$("#dialog-form-creer-nv-pdt").dialog('close');
+						} else {
+							Infobulle.generer(lResponse,'nom-pdt-');
+						}
 					}
 				},"json"
 			);

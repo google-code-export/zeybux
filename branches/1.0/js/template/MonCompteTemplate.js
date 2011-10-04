@@ -5,36 +5,100 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Informations" +
-					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-edt-info\" title=\"Changer le mot de passe\">" +
-						"<span class=\"ui-icon ui-icon-pencil\">" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all edt-info-compte\" id=\"btn-edt-compte\" title=\"Modifier les informations\">" +
+						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all edt-info-compte\" id=\"btn-edt-pass\" title=\"Changer le mot de passe\">" +
+						"<span class=\"ui-icon ui-icon-key\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-compte\" id=\"btn-edt-annuler\" title=\"Annuler\">" +
+						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-compte\" id=\"btn-edt-valider\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
 					"</span>" +
 				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div>Numéro d'adhérent : {adhNumero}</div>" +
-					"<div>Numéro de Compte : {cptLabel}</div>" +
-					"<div>Nom : {adhNom}</div>" +
-					"<div>Prénom : {adhPrenom}</div>" +
-					"<div>Date de naissance : {adhDateNaissance}</div>" +
+				"<div class=\"com-widget-content edt-info-compte\">" +
+					"<div>{adhNumero} : <span id=\"adh-prenom\">{adhPrenom}</span> <span id=\"adh-nom\">{adhNom}</span></div>" +
+					"<div>Compte : {cptLabel}</div>" +
+					"<div>Date de naissance : <span id=\"adh-date-naissance\">{adhDateNaissance}</span></div>" +
 					"<div>Date d'adhésion : {adhDateAdhesion}</div>" +
-					"<div>Commentaire : {adhCommentaire}</div>" +
+					"<div>Commentaire : <span id=\"adh-commentaire\">{adhCommentaire}</span></div>" +
+				"</div>" +
+				"<div class=\"ui-helper-hidden edt-info-compte\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Nom *</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"nom\" value=\"\" maxlength=\"50\" id=\"nom\"/>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Prénom *</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"prenom\" value=\"\" maxlength=\"50\" id=\"prenom\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Date de Naissance<br/>(jj/mm/aaaa)</th>" +
+							"<td class=\"com-table-form-td\"><input type=\"hidden\" name=\"date_adhesion\" value=\"{adhDateAdhesion}\" /><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"date_naissance\" value=\"\" maxlength=\"10\" id=\"dateNaissance\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Commentaire</th>" +
+							"<td class=\"com-table-form-td\"><textarea class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" name=\"commentaire\" id=\"commentaire\"></textarea></td>" +
+						"</tr>" +
+					"</table>" +
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Coordonnées</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div>Courriel Principal : {adhCourrielPrincipal}</div>" +
-					"<div>Courriel Secondaire : {adhCourrielSecondaire}</div>" +
-					"<div>Téléphone Principal : {adhTelephonePrincipal}</div>" +
-					"<div>Téléphone Secondaire : {adhTelephoneSecondaire}</div>" +
-					"<div>Adresse : {adhAdresse}</div>" +				
-					"<div>Ville : {adhVille}</div>" +
-					"<div>Code Postal : {adhCodePostal}</div>" +
+				"<div class=\"com-widget-content edt-info-compte\">" +
+					"<div>Courriel 1 : <span id=\"adh-courriel-principal\">{adhCourrielPrincipal}</span></div>" +
+					"<div>Courriel 2 : <span id=\"adh-courriel-secondaire\">{adhCourrielSecondaire}</span></div>" +
+					"<div>Téléphone 1 : <span id=\"adh-telephone-principal\">{adhTelephonePrincipal}</span></div>" +
+					"<div>Téléphone 2 : <span id=\"adh-telephone-secondaire\">{adhTelephoneSecondaire}</span></div>" +
+					"<div>Adresse : " +
+						"<div><span id=\"adh-adresse\">{adhAdresse}</span> <br/>" +
+						"<span id=\"adh-code-postal\">{adhCodePostal}</span> <span id=\"adh-ville\">{adhVille}</span></div>" +
+					"</div>" +
 				"</div>" +
+				
+				"<div class=\"ui-helper-hidden com-widget-content edt-info-compte\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Courriel 1</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"courriel_principal\" value=\"\" maxlength=\"100\" id=\"courrielPrincipal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Courriel 2</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" ype=\"text\" name=\"courriel_secondaire\" value=\"\" maxlength=\"100\" id=\"courrielSecondaire\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Téléphone 1</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"telephone_principal\" value=\"\" maxlength=\"20\" id=\"telephonePrincipal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Téléphone 2</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"telephone_secondaire\" value=\"\" maxlength=\"20\" id=\"telephoneSecondaire\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Adresse</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"adresse\" value=\"\" maxlength=\"300\" id=\"adresse\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Code Postal</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"code_postal\" value=\"\" maxlength=\"10\" id=\"codePostal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Ville</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"ville\" value=\"\" maxlength=\"100\" id=\"ville\"/></td>" +
+						"</tr>" +
+					"</table>" +
+				"</div>" +
+				
 			"</div>" +
 		"</div>" +
 	"</div>";
 	
-	this.dialogEditionCompte =
+	this.dialogEditionPass =
 		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\">" +
 			"<form>" +
 				"<table>" +

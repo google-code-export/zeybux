@@ -135,9 +135,9 @@ class CommandeManager
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
-			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
-			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . "
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . "
 			FROM " . CommandeManager::TABLE_COMMANDE . "
 			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " NOT IN (
    					SELECT " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
@@ -160,9 +160,9 @@ class CommandeManager
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 					'',
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 					''));
 			}
 		} else {

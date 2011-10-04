@@ -7,14 +7,16 @@
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
 				  	Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+				  	if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficherNouveau(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficherNouveau(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
-					}
+				  	}
 				},"json"
 		);
 	}	
@@ -123,13 +125,13 @@
 				return false;
 			});			
 			
-			pData.find('#menu-Commande-MesCommandes').click(function() {
-				ListeReservationVue();
+			pData.find('#menu-Commande-MesAchats').click(function() {
+				MesAchatsVue();
 				return false;
 			});
 			
-			pData.find('#menu-Commande-ListeCommande').click(function() {
-				ListeCommandeVue();
+			pData.find('#menu-Commande-MonMarche').click(function() {
+				MonMarcheVue();
 				return false;
 			});
 			
