@@ -117,6 +117,8 @@ const ERR_240_CODE = 240;
 const ERR_240_MSG = 'Le Type de virement n\'est pas valide.';
 const ERR_241_CODE = 241;
 const ERR_241_MSG = 'La quantité max par adhérent doit être plus grande que taille du lot le plus petit.';
+const ERR_242_CODE = 242;
+const ERR_242_MSG = 'Le SIREN n\'est pas valide.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -151,3 +153,15 @@ const ERR_315_CODE = 315;
 const ERR_315_MSG = 'Achat Supprimé.';
 const ERR_316_CODE = 316;
 const ERR_316_MSG = 'Informations mises à jour.';
+const ERR_317_CODE = 317;
+const ERR_317_MSG = 'Catégorie ajoutée.';
+const ERR_318_CODE = 318;
+const ERR_318_MSG = 'Catégorie modifiée.';
+const ERR_319_CODE = 319;
+const ERR_319_MSG = 'Catégorie supprimée.';
+const ERR_320_CODE = 320;
+const ERR_320_MSG = 'Ferme ajoutée.';
+const ERR_321_CODE = 321;
+const ERR_321_MSG = 'Ferme modifiée.';
+const ERR_322_CODE = 322;
+const ERR_322_MSG = 'Ferme supprimée.';

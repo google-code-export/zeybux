@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
 
 /**
  * @name DetailMarcheViewManager
@@ -64,7 +65,8 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . "
 			FROM " . DetailMarcheViewManager::VUE_DETAILMARCHE . " 
 			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -99,7 +101,8 @@ class DetailMarcheViewManager
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
 				}
 			} else {
 				$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -145,7 +148,8 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . "
 			FROM " . DetailMarcheViewManager::VUE_DETAILMARCHE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -179,7 +183,8 @@ class DetailMarcheViewManager
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
 			}
 		} else {
 			$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -242,7 +247,8 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX		);
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX	.
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM);
 /*
 		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
 
@@ -303,7 +309,8 @@ class DetailMarcheViewManager
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
-						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
 				}
 			} else {
 				$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -315,7 +322,7 @@ class DetailMarcheViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix)
+	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(100)
@@ -340,10 +347,11 @@ class DetailMarcheViewManager
 	* @param int(11)
 	* @param decimal(10,2)
 	* @param decimal(10,2)
+	* @param varchar(50)
 	* @return DetailMarcheViewVO
 	* @desc Retourne une DetailMarcheViewVO remplie
 	*/
-	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix) {
+	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom) {
 		$lDetailMarche = new DetailMarcheViewVO();
 		$lDetailMarche->setComId($pComId);
 		$lDetailMarche->setComNumero($pComNumero);
@@ -369,6 +377,7 @@ class DetailMarcheViewManager
 		$lDetailMarche->setDcomIdProduit($pDcomIdProduit);
 		$lDetailMarche->setDcomTaille($pDcomTaille);
 		$lDetailMarche->setDcomPrix($pDcomPrix);
+		$lDetailMarche->setCproNom($pCproNom);
 		return $lDetailMarche;
 	}
 }

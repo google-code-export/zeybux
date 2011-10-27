@@ -249,4 +249,247 @@
 				"</div>";
 			"</div>" +
 		"</div>";
+			
+	this.listeFerme = 
+		"<div id=\"contenu\">" +	
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-nv-fer\" title=\"Ajouter une ferme\">" +
+						"<span class=\"ui-icon ui-icon-plusthick\">" +
+						"</span>" +
+					"</span>" +	
+				"</div>" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
+					"<table class=\"com-table\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+					"<!-- BEGIN listeFerme -->" +
+							"<tr class=\"com-cursor-pointer compte-ligne\" >" +
+								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>{listeFerme.ferNumero}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeFerme.cptLabel}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeFerme.ferNom}</td>" +
+							"</tr>" +
+					"<!-- END listeFerme -->" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+			
+	this.listeFermeVide =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-nv-fer\" title=\"Ajouter une ferme\">" +
+						"<span class=\"ui-icon ui-icon-plusthick\">" +
+						"</span>" +
+					"</span>" +	
+				"</div>" +
+				"<p id=\"texte-liste-vide\">Aucune ferme dans la base.</p>" +	
+			"</div>" +
+		"</div>";
+	
+	this.dialogAjoutFerme =
+		"<div id=\"dialog-form-fer\" title=\"Ajouter une ferme\">" +
+			"<form>" +
+				"<table>" +
+					"<tr>" +
+						"<td>Nom *</td>" +
+						"<td>" +
+							"<textarea class=\"com-input-text ui-widget-content ui-corner-all\" name=\"nom\" id=\"fer-nom\"></textarea>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>SIREN</td>" +
+						"<td>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"siren\" maxlength=\"9\" id=\"fer-siren\"/>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Adresse</td>" +
+						"<td>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"adresse\" maxlength=\"300\" id=\"fer-adresse\"/>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Code Postal</td>" +
+						"<td>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"code_postal\" maxlength=\"10\" id=\"fer-codePostal\"/>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Ville</td>" +
+						"<td>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"ville\" maxlength=\"100\" id=\"fer-ville\"/>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Date d'adhésion (jj/mm/aaaa) *</td>" +
+						"<td>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"date_adhesion\" value=\"{dateAdhesion}\" maxlength=\"10\" id=\"fer-dateAdhesion\"/>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Description</td>" +
+						"<td><textarea class=\"com-input-text ui-widget-content ui-corner-all\" name=\"description\" id=\"fer-description\"></textarea></td>" +
+					"</tr>" +
+				"</table>" +	
+			"</form>" +
+		"</div>";
+	
+	this.informationFerme = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-liste-ferme\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Liste des Fermes" +
+				"</button>" +
+			"</div>" +
+			"<div id=\"menu-nav-ferme\">" +
+				"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tl ui-state-active\">Informations</span>" +
+				"<span class=\"com-cursor-pointer ui-widget-header com-btn-hover\" id=\"btn-liste-producteur\" >Producteurs</span>" +
+				"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tr com-btn-hover\" id=\"btn-catalogue\" >Catalogue</span>" +
+			"</div>" +
+			"<!-- BEGIN ferme -->" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all \">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">{ferme.ferNumero} : <span id=\"nom\">{ferme.ferNom}</span>" +
+					"<span class=\"com-btn-header-multiples ui-widget-content ui-corner-all com-cursor-pointer edt-info-ferme\" id=\"btn-supp\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-trash\">" +
+						"</span>" +
+					"</span>" +
+					"<span class=\"com-btn-header-multiples ui-widget-content ui-corner-all com-cursor-pointer edt-info-ferme\" id=\"btn-edt\" title=\"Modifier\">" +
+						"<span class=\"ui-icon ui-icon-pencil\">" +
+						"</span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-ferme\" id=\"btn-edt-annuler\" title=\"Annuler\">" +
+						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-ferme\" id=\"btn-edt-valider\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
+					"</span>" +
+				"</div>" +
+				
+				"<div class=\"edt-info-ferme\">" +
+					"<div>Compte : {ferme.cptLabel}</div>" +
+					"<div>SIREN : <span id=\"siren\">{ferme.ferSiren}</span></div>" +
+					"<div>Adhésion : <span id=\"dateAdhesion\">{ferme.ferDateAdhesion}</span></div>" +
+					"<div>Adresse : <span id=\"adresse\">{ferme.ferAdresse}</span></div>" +				
+					"<div><span id=\"codePostal\">{ferme.ferCodePostal}</span> <span id=\"ville\">{ferme.ferVille}</span></div>" +
+					"<div>Description : <span id=\"description\">{ferme.ferDescription}</span></div>" +
+				"</div>" +
+				
+				
+				
+				"<div class=\"edt-info-ferme ui-helper-hidden\">" +
+					"<form>" +
+						"<table>" +
+							"<tr>" +
+								"<td>Nom *</td>" +
+								"<td>" +
+									"<textarea class=\"com-input-text ui-widget-content ui-corner-all\" name=\"nom\" id=\"fer-nom\"></textarea>" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>SIREN</td>" +
+								"<td>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"siren\" maxlength=\"9\" id=\"fer-siren\" />" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>Adresse</td>" +
+								"<td>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"adresse\" maxlength=\"300\" id=\"fer-adresse\"/>" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>Code Postal</td>" +
+								"<td>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"code_postal\" maxlength=\"10\" id=\"fer-codePostal\"/>" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>Ville</td>" +
+								"<td>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"ville\" maxlength=\"100\" id=\"fer-ville\"/>" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>Date d'adhésion (jj/mm/aaaa) *</td>" +
+								"<td>" +
+									"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"date_adhesion\" maxlength=\"10\" id=\"fer-dateAdhesion\"/>" +
+								"</td>" +
+							"</tr>" +
+							"<tr>" +
+								"<td>Description</td>" +
+								"<td><textarea class=\"com-input-text ui-widget-content ui-corner-all\" name=\"description\" id=\"fer-description\"></textarea></td>" +
+							"</tr>" +
+						"</table>" +	
+					"</form>" +
+				"</div>" +
+			
+			"</div>" +
+			"<!-- END ferme -->" +
+			//"<div id=\"liste_operation_adherent_ext\">" +
+				"<div>" +
+					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Liste des Opérations</span></div>	" +	
+						"<div>" +				
+							"<div id=\"content-nav-liste-operation\" class=\"ui-helper-clearfix ui-state-default ui-corner-all\">" +	
+								"<form>" +	
+								"	<span id=\"icone-nav-liste-operation-w\" class=\"prev ui-helper-hidden ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-w\"></span></span>" +
+								"	<span id=\"page-compteur\">Page : <span type=\"text\" class=\"pagedisplay\"></span></span>" +
+								"	<span id=\"icone-nav-liste-operation-e\" class=\"next ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-e\"></span></span>" +
+								"	<input type=\"hidden\" class=\"pagesize\" value=\"10\">" +
+								"</form>" +	
+							"</div>" +	
+				
+							"<table id=\"table-operation\" class=\"com-table\">" +
+								"<thead>" +
+								"<tr class=\"ui-widget ui-widget-header\" >" +
+									"<th class=\"com-table-th\">Date</th>" +
+									"<th class=\"com-table-th\">Libellé</th>" +
+									"<th class=\"com-table-th\">Type de paiement</th>" +
+									"<th class=\"com-table-th\">Débit</th>" +
+									"<th class=\"com-table-th\">Crédit</th>" +
+								"</tr>" +
+								"</thead>" +
+								"<tbody>" +
+							"<!-- BEGIN operationPassee -->" +
+								"<tr>" +
+									"<td class=\"com-table-td td-date \">{operationPassee.opeDate}</td>" +
+									"<td class=\"com-table-td td-libelle\">{operationPassee.opeLibelle}</td>" +
+									"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType}</td>" +
+									"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
+									"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +
+								"</tr>" +
+							"<!-- END operationPassee -->" +
+								"</tbody>" +
+							"</table>" +
+						"</div>" +
+					"</div>";
+				//"</div>" +
+			"</div>" +
+		"</div>";
+			
+	this.dialogSuppressionFerme = 
+		"<div id=\"dialog-supp-ferme\" title=\"Supprimer la ferme {ferNumero}\">" +
+			"<p class=\"ui-state-error ui-corner-all\"><span class=\"ui-icon ui-icon-alert com-float-left\"></span>ATTENTION : Voulez-vous réellement supprimer la ferme : {ferNumero}</p>" +
+		"</div>";
 }

@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-/*ListeReservation*/
+/*MesAchats*/
 #texte-liste-vide {
 	text-align:center;
 }
@@ -22,5 +22,23 @@
 }
 
 .detail-resa-prix {
+	width:90px;
+}
+.lst-resa-btn-commander {
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:center;
+}
+
+.detail-achat-npro {
+	width:500px;
+}
+.detail-achat-qte{
+	width:100px;
+}
+.detail-achat-unite {
+	width:100px;
+}
+.detail-achat-prix {
 	width:90px;
 }

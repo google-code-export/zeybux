@@ -425,7 +425,7 @@
 						"<th class=\"com-table-th\">Marché</th>	" +
 					"</tr>" +
 					"<!-- BEGIN achat -->" +
-					"<tr class=\"com-cursor-pointer visualiser-reservation\" id={achat.idCommande} >" +
+					"<tr class=\"com-cursor-pointer ligne-achat\" id={achat.idCommande} >" +
 						"<td class=\"com-table-td com-underline-hover com-text-align-right\">{achat.numero}</td>" +
 						"<td class=\"com-table-td com-underline-hover\">Le {achat.dateMarcheDebut}</td>" +
 					"</tr>" +
@@ -440,5 +440,68 @@
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Achats</div>" +
 				"<p id=\"texte-liste-vide\">Aucun achat effectué.</p>" +		
 			"</div>" +
+		"</div>";
+	
+	this.detailAchat = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Marché n°{comNumero}" +
+				"</div>" +
+			"</div>" +
+
+			"<!-- BEGIN achats -->" +
+			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
+				"</div>" +
+				"<table>" +
+				"<!-- BEGIN achats.categories -->" +
+					"<tr>" +
+						"<td class=\"ui-widget-header ui-corner-all com-center\">{achats.categories.nom}</td>" +
+					"</tr>" +
+					"<!-- BEGIN achats.categories.achat -->" +
+					"<tr>" +
+						"<td class=\"detail-achat-npro\">{achats.categories.achat.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-achat-qte\">{achats.categories.achat.stoQuantite}</td>" +						
+						"<td class=\"detail-achat-unite\">{achats.categories.achat.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{achats.categories.achat.prix} {sigleMonetaire}</td>" +
+					"</tr>" +
+					"<!-- END achats.categories.achat -->" +
+				"<!-- END achats.categories -->" +
+					"<tr>" +
+						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{achats.total} {sigleMonetaire}</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+			"<!-- END achats -->" +
+			
+			"<!-- BEGIN achatsSolidaire -->" +
+			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
+				"</div>" +
+				"<table>" +
+				"<!-- BEGIN achatsSolidaire.categories -->" +
+					"<tr>" +
+						"<td class=\"ui-widget-header ui-corner-all com-center\">{achatsSolidaire.categories.nom}</td>" +
+					"</tr>" +
+					"<!-- BEGIN achatsSolidaire.categories.achat -->" +
+					"<tr>" +
+						"<td class=\"detail-achat-npro\">{achatsSolidaire.categories.achat.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-achat-qte\">{achatsSolidaire.categories.achat.stoQuantite}</td>" +						
+						"<td class=\"detail-achat-unite\">{achatsSolidaire.categories.achat.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{achatsSolidaire.categories.achat.prix} {sigleMonetaire}</td>" +
+					"</tr>" +
+					"<!-- END achatsSolidaire.categories.achat -->" +
+				"<!-- END achatsSolidaire.categories -->" +
+					"<tr>" +
+						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{achatsSolidaire.totalSolidaire} {sigleMonetaire}</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+			"<!-- END achatsSolidaire -->" +
 		"</div>";
 }

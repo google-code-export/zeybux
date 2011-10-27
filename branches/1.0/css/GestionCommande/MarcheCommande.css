@@ -29,9 +29,11 @@
 	width:300px;
 }
 
-#achat-pdt-widget, #achat-pdt-solidaire-widget {
+/*#achat-pdt-widget, #achat-pdt-solidaire-widget {*/
+#vente-info-adherent {
 	width:487px;
 	margin-right:5px;
+	height:95px;
 }
 
 #achat-rechgt-widget {
@@ -53,4 +55,30 @@
 float: left;
 margin-left: 140px;
 margin-right: 255px;
+}
+
+#vente-achat-info-marche {
+float: left;
+margin-left: 5px;
+margin-right: 60px;
+}
+
+.table-vente-quantite {
+	width:157px;
+}
+
+.table-vente-prix {
+	width:83px;
+}
+
+.table-vente-produit {
+	width:400px;
+}
+
+.table-vente-lot {
+	width:150px;
+}
+
+.table-vente-prix-unitaire {
+	width:150px;
 }

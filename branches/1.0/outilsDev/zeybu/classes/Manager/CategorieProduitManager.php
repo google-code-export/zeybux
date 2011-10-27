@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 09/10/2011
 // Fichier : CategorieProduitManager.php
 //
 // Description : Classe de gestion des CategorieProduit
@@ -14,9 +14,9 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CategorieProduitVO.php");
 
 /**
- * @name CategorieProduit
+ * @name CategorieProduitManager
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 09/10/2011
  * 
  * @desc Classe permettant l'accès aux données des CategorieProduit
  */
@@ -26,6 +26,7 @@ class CategorieProduitManager
 	const CHAMP_CATEGORIEPRODUIT_ID = "cpro_id";
 	const CHAMP_CATEGORIEPRODUIT_NOM = "cpro_nom";
 	const CHAMP_CATEGORIEPRODUIT_DESCRIPTION = "cpro_description";
+	const CHAMP_CATEGORIEPRODUIT_ETAT = "cpro_etat";
 
 	/**
 	* @name select($pId)
@@ -42,7 +43,8 @@ class CategorieProduitManager
 			"SELECT "
 			    . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT . "
 			FROM " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . " 
 			WHERE " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -54,14 +56,15 @@ class CategorieProduitManager
 			return CategorieProduitManager::remplirCategorieProduit(
 				$pId,
 				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION]);
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT]);
 		} else {
 			return new CategorieProduitVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(CategorieProduitVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de CategorieProduitVO
 	*/
@@ -73,7 +76,8 @@ class CategorieProduitManager
 			"SELECT "
 			    . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT . "
 			FROM " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -86,10 +90,11 @@ class CategorieProduitManager
 					CategorieProduitManager::remplirCategorieProduit(
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION]));
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION],
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT]));
 			}
 		} else {
-			$lListeCategorieProduit = new CategorieProduitVO();
+			$lListeCategorieProduit[0] = new CategorieProduitVO();
 		}
 		return $lListeCategorieProduit;
 	}
@@ -113,61 +118,56 @@ class CategorieProduitManager
 		$lChamps = array( 
 			    CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID .
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION		);
-
-		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
-
-		$lTypeFiltre = array($pTypeCritere);
-		// Protection du critère de tri
-		if($pCritereTri != 'ASC' && $pCritereTri != 'DESC') {
-			$pCritereTri = 'ASC';
-		}
-
-		// Protection du type de tri
-		if($pTypeTri == '') {
-			$pTypeTri = CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID;
-		}
-
-		$lTris = array( array('champ' => StringUtils::securiser($pTypeTri), 'sens'=> StringUtils::securiser($pCritereTri)) );
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION .
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT		);
 
 		// Préparation de la requète de recherche
-		$lRequete = DbUtils::prepareRequeteRecherche(CategorieProduitManager::TABLE_CATEGORIEPRODUIT, $lChamps, $lFiltres, $lTypeFiltre, $lTris);
-
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
+		$lRequete = DbUtils::prepareRequeteRecherche(CategorieProduitManager::TABLE_CATEGORIEPRODUIT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeCategorieProduit = array();
 
-		if( mysql_num_rows($lSql) > 0 ) {
+		if($lRequete !== false) {
 
-			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			$lSql = Dbutils::executerRequete($lRequete);
 
-				array_push($lListeCategorieProduit,
-					CategorieProduitManager::remplirCategorieProduit(
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION]));
+			if( mysql_num_rows($lSql) > 0 ) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
+					array_push($lListeCategorieProduit,
+						CategorieProduitManager::remplirCategorieProduit(
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION],
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT]));
+				}
+			} else {
+				$lListeCategorieProduit[0] = new CategorieProduitVO();
 			}
-		} else {
-			$lListeCategorieProduit[0] = new CategorieProduitVO();
+
+			return $lListeCategorieProduit;
 		}
 
+		$lListeCategorieProduit[0] = new CategorieProduitVO();
 		return $lListeCategorieProduit;
 	}
 
 	/**
-	* @name remplirCategorieProduit($pId, $pNom, $pDescription)
+	* @name remplirCategorieProduit($pId, $pNom, $pDescription, $pEtat)
 	* @param int(11)
 	* @param varchar(50)
 	* @param text
+	* @param tinyint(4)
 	* @return CategorieProduitVO
 	* @desc Retourne une CategorieProduitVO remplie
 	*/
-	private static function remplirCategorieProduit($pId, $pNom, $pDescription) {
+	private static function remplirCategorieProduit($pId, $pNom, $pDescription, $pEtat) {
 		$lCategorieProduit = new CategorieProduitVO();
 		$lCategorieProduit->setId($pId);
 		$lCategorieProduit->setNom($pNom);
 		$lCategorieProduit->setDescription($pDescription);
+		$lCategorieProduit->setEtat($pEtat);
 		return $lCategorieProduit;
 	}
 
@@ -186,10 +186,12 @@ class CategorieProduitManager
 			"INSERT INTO " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . "
 				(" . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . "
 				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . "
-				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . ")
+				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . "
+				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
-				,'" . StringUtils::securiser( $pVo->getDescription() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getDescription() ) . "'
+				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -208,9 +210,9 @@ class CategorieProduitManager
 		$lRequete = 
 			"UPDATE " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . "
 			 SET
-				 " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'
-				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
+				 " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . " = '" . StringUtils::securiser( $pVo->getDescription() ) . "'
+				," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'
 			 WHERE " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

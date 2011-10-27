@@ -67,6 +67,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-GestionProducteur-ListeFerme').click(function() {
+				ListeFermeVue();
+				return false;
+			});
+			
 			pData.find('#menu-CompteZeybu-CompteZeybu').click(function() {
 				CompteZeybuVue();
 				return false;
@@ -89,6 +94,11 @@
 			
 			pData.find('#menu-GestionCaisse-GestionCaisse').click(function() {
 				GestionCaisseVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionProduit-GestionCategorie').click(function() {
+				GestionCategorieVue();
 				return false;
 			});
 				

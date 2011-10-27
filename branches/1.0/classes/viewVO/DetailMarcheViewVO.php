@@ -161,6 +161,12 @@ class DetailMarcheViewVO extends DataTemplate
 	* @desc DcomPrix de la DetailMarcheViewVO
 	*/
 	protected $mDcomPrix;
+	
+	/**
+	* @var varchar(50)
+	* @desc CproNom de la DetailMarcheViewVO
+	*/
+	protected $mCproNom;
 
 	/**
 	* @name getComId()
@@ -592,6 +598,24 @@ class DetailMarcheViewVO extends DataTemplate
 	*/
 	public function setDcomPrix($pDcomPrix) {
 		$this->mDcomPrix = $pDcomPrix;
+	}
+
+	/**
+	* @name getCproNom()
+	* @return varchar(50)
+	* @desc Renvoie le membre CproNom de la DetailMarcheViewVO
+	*/
+	public function getCproNom() {
+		return $this->mCproNom;
+	}
+
+	/**
+	* @name setCproNom($pCproNom)varchar(50)
+	* @param varchar(50)
+	* @desc Remplace le membre CproNom de la DetailMarcheViewVO par $pCproNom
+	*/
+	public function setCproNom($pCproNom) {
+		$this->mCproNom = $pCproNom;
 	}
 }
 ?>

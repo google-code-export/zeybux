@@ -54,6 +54,12 @@ class ProduitMarcheVO extends DataTemplate
 	* @desc ID de la Categorie du Produit
 	*/
 	protected $mIdCategorie;
+	
+	/**
+	* @var varchar(50) 
+	* @desc Nom de la catégorie du Produit
+	*/
+	protected $mCproNom;
 		
 	/**
 	* @var string
@@ -199,6 +205,24 @@ class ProduitMarcheVO extends DataTemplate
 	*/
 	public function setIdCategorie($pIdCategorie) {
 		$this->mIdCategorie = $pIdCategorie;
+	}
+	
+	/**
+	* @name getCproNom()
+	* @return varchar(50)
+	* @desc Renvoie le CproNom du Produit
+	*/
+	public function getCproNom() {
+		return $this->mCproNom;
+	}
+
+	/**
+	* @name setCproNom($pCproNom)
+	* @param varchar(50)
+	* @desc Remplace le CproNom par $pCproNom
+	*/
+	public function setCproNom($pCproNom) {
+		$this->mCproNom = $pCproNom;
 	}
 	
 	/**

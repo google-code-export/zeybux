@@ -178,17 +178,17 @@
 		var that = this;
 		pData.find('#btn-edt-compte').click(function() {
 			
-			$(':input[name=nom]').val(that.mInformationAdherent.nom);
-			$(':input[name=prenom]').val(that.mInformationAdherent.prenom);
-			$(':input[name=courriel_principal]').val(that.mInformationAdherent.courrielPrincipal);
-			$(':input[name=courriel_secondaire]').val(that.mInformationAdherent.courrielSecondaire);
-			$(':input[name=telephone_principal]').val(that.mInformationAdherent.telephonePrincipal);
-			$(':input[name=telephone_secondaire]').val(that.mInformationAdherent.telephoneSecondaire);
-			$(':input[name=adresse]').val(that.mInformationAdherent.adresse);
-			$(':input[name=code_postal]').val(that.mInformationAdherent.codePostal);
-			$(':input[name=ville]').val(that.mInformationAdherent.ville);
-			$(':input[name=date_naissance]').val(that.mInformationAdherent.dateNaissance);
-			$(':input[name=commentaire]').val(that.mInformationAdherent.commentaire);
+			$(':input[name=nom]').val(htmlDecode(that.mInformationAdherent.nom));
+			$(':input[name=prenom]').val(htmlDecode(that.mInformationAdherent.prenom));
+			$(':input[name=courriel_principal]').val(htmlDecode(that.mInformationAdherent.courrielPrincipal));
+			$(':input[name=courriel_secondaire]').val(htmlDecode(that.mInformationAdherent.courrielSecondaire));
+			$(':input[name=telephone_principal]').val(htmlDecode(that.mInformationAdherent.telephonePrincipal));
+			$(':input[name=telephone_secondaire]').val(htmlDecode(that.mInformationAdherent.telephoneSecondaire));
+			$(':input[name=adresse]').val(htmlDecode(that.mInformationAdherent.adresse));
+			$(':input[name=code_postal]').val(htmlDecode(that.mInformationAdherent.codePostal));
+			$(':input[name=ville]').val(htmlDecode(that.mInformationAdherent.ville));
+			$(':input[name=date_naissance]').val(htmlDecode(that.mInformationAdherent.dateNaissance));
+			$(':input[name=commentaire]').html(that.mInformationAdherent.commentaire);
 			
 			$('.edt-info-compte').toggle();
 		});
