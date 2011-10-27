@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 06/05/2010
+// Date de creation : 09/10/2011
 // Fichier : CategorieProduitVO.php
 //
 // Description : Classe CategorieProduitVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name CategorieProduitVO
  * @author Julien PIERRE
- * @since 06/05/2010
+ * @since 09/10/2011
  * @desc Classe représentant une CategorieProduitVO
  */
-class CategorieProduitVO extends DataTemplate
+class CategorieProduitVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -37,11 +37,17 @@ class CategorieProduitVO extends DataTemplate
 	protected $mDescription;
 
 	/**
+	* @var tinyint(4)
+	* @desc Etat de la CategorieProduitVO
+	*/
+	protected $mEtat;
+
+	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la CategorieProduitVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -59,7 +65,7 @@ class CategorieProduitVO extends DataTemplate
 	* @return varchar(50)
 	* @desc Renvoie le membre Nom de la CategorieProduitVO
 	*/
-	public function getNom(){
+	public function getNom() {
 		return $this->mNom;
 	}
 
@@ -77,7 +83,7 @@ class CategorieProduitVO extends DataTemplate
 	* @return text
 	* @desc Renvoie le membre Description de la CategorieProduitVO
 	*/
-	public function getDescription(){
+	public function getDescription() {
 		return $this->mDescription;
 	}
 
@@ -88,6 +94,24 @@ class CategorieProduitVO extends DataTemplate
 	*/
 	public function setDescription($pDescription) {
 		$this->mDescription = $pDescription;
+	}
+
+	/**
+	* @name getEtat()
+	* @return tinyint(4)
+	* @desc Renvoie le membre Etat de la CategorieProduitVO
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param tinyint(4)
+	* @desc Remplace le membre Etat de la CategorieProduitVO par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
 	}
 
 }

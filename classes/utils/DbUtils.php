@@ -11,6 +11,8 @@
 
 include_once(CHEMIN_CONFIGURATION . "DB.php"); // Intégration des informations de configuration pour la connexion à la base de données
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php"); // Intégration des constantes d'erreurs
+include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 
 /**
  * @name DbUtils
@@ -32,13 +34,56 @@ class DbUtils
 		$mMysqlPass = MYSQL_PASS; // mot de passe
 		$mMysqlDbnom = MYSQL_DBNOM; // nom de la base de donnee
 		
-		$lDb = mysql_connect($mMysqlHost,$mMysqlLogin,$mMysqlPass)
-			or die(MessagesErreurs::ERR_BDD_CONNEXION . " : <br>".mysql_error());
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		
-		mysql_select_db($mMysqlDbnom,$lDb)
-			or die(MessagesErreurs::ERR_BDD_SELECTION . " : <br>".mysql_error());
-
-		mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD
+		$lDb = @mysql_connect($mMysqlHost,$mMysqlLogin,$mMysqlPass);
+		
+		if(!$lDb) {		
+			$lLogger->log(MessagesErreurs::ERR_600_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+			
+			$lVr = new TemplateVR();
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_600_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_600_MSG);
+			$lVr->getLog()->addErreur($lErreur);
+			
+			die($lVr->exportToJson());
+		} else {
+			if (!@mysql_select_db($mMysqlDbnom,$lDb)) {
+				$lLogger->log(MessagesErreurs::ERR_601_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+				
+				$lVr = new TemplateVR();
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_601_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_601_MSG);
+				$lVr->getLog()->addErreur($lErreur);
+				
+				die($lVr->exportToJson());
+			} else {	
+				$lRs = @mysql_query("SET NAMES UTF8"); // Permet d'initier une connexion en UTF-8 avec la BDD
+				if (!$lRs) {
+			    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+				
+					$lVr = new TemplateVR();
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_603_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_603_MSG);
+					$lVr->getLog()->addErreur($lErreur);
+					
+					die($lVr->exportToJson());
+			    } else {
+					return $lDb;
+    			}
+			}	
+		}
 	}
 	
 	/**
@@ -46,9 +91,21 @@ class DbUtils
 	* @return nothing
 	* @desc Ferme la connexion à la BDD
 	*/	
-	public static function fermerConnexion() {
-		mysql_close()
-			or die(MessagesErreurs::ERR_BDD_FERMETURE . " : <br>".mysql_error());
+	public static function fermerConnexion($pDb) {
+		if(!@mysql_close($pDb)) {
+			$lLogger->log(MessagesErreurs::ERR_602_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+		
+			$lVr = new TemplateVR();
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_602_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_602_MSG);
+			$lVr->getLog()->addErreur($lErreur);
+			
+			die($lVr->exportToJson());
+		}
+			//or die(MessagesErreurs::ERR_BDD_FERMETURE . " : <br>".mysql_error());
 	}
 		
 	/**
@@ -58,11 +115,25 @@ class DbUtils
 	* @desc Exécute la requête passée en paramètre
 	*/	
 	public static function executerRequete($pRequete) {
-		DbUtils::creerConnexion();
-		$lResultat = mysql_query($pRequete) 
-			or die(MessagesErreurs::ERR_BDD_EXECUTION . " : <br>$pRequete<br>".mysql_error());
-		DbUtils::fermerConnexion();
-		return $lResultat;
+		$lDb = DbUtils::creerConnexion();
+		$lResultat = @mysql_query($pRequete);
+		//or die(MessagesErreurs::ERR_BDD_EXECUTION . " : <br>$pRequete<br>".mysql_error());
+		if (!$lResultat) {
+	    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+		
+			$lVr = new TemplateVR();
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_603_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_603_MSG);
+			$lVr->getLog()->addErreur($lErreur);
+			
+			die($lVr->exportToJson());
+	    } else {
+			DbUtils::fermerConnexion($lDb);
+			return $lResultat;
+		}
 	}
 
 	/**
@@ -72,12 +143,26 @@ class DbUtils
 	* @desc Exécute la requête d'insertion passée en paramètre et retourne l'identifiant généré par la BDD
 	*/	
 	public static function executerRequeteInsertRetourId($pRequete) {
-		DbUtils::creerConnexion();
-		mysql_query($pRequete) 
-			or die(MessagesErreurs::ERR_BDD_EXECUTION . " : <br>$pRequete<br>".mysql_error());
-		$lId = mysql_insert_id(); 
-		DbUtils::fermerConnexion();
-		return $lId;
+		$lDb = DbUtils::creerConnexion();
+		$lResultat = @mysql_query($pRequete);
+		if (!$lResultat) {
+	    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+		
+			$lVr = new TemplateVR();
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_603_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_603_MSG);
+			$lVr->getLog()->addErreur($lErreur);
+			
+			die($lVr->exportToJson());
+	    } else { 
+			//or die(MessagesErreurs::ERR_BDD_EXECUTION . " : <br>$pRequete<br>".mysql_error());
+			$lId = mysql_insert_id(); 
+			DbUtils::fermerConnexion($lDb);
+			return $lId;
+	    }
 	}
 	
 	/**

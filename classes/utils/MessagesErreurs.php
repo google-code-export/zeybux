@@ -136,6 +136,8 @@ class MessagesErreurs
 	const ERR_239_MSG = 'Le marché n\'est plus ouvert.';
 	const ERR_240_CODE = 240;
 	const ERR_240_MSG = 'Le Type de virement n\'est pas valide.';
+	const ERR_242_CODE = 242;
+	const ERR_242_MSG = 'Le SIREN n\'est pas valide.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;
@@ -170,12 +172,28 @@ class MessagesErreurs
 	const ERR_315_MSG = 'Achat Supprimé.';
 	const ERR_316_CODE = 316;
 	const ERR_316_MSG = 'Informations mises à jour.';
+	const ERR_317_CODE = 317;
+	const ERR_317_MSG = 'Catégorie ajoutée.';
+	const ERR_318_CODE = 318;
+	const ERR_318_MSG = 'Catégorie modifiée.';
+	const ERR_319_CODE = 319;
+	const ERR_319_MSG = 'Catégorie supprimée.';
+	const ERR_320_CODE = 320;
+	const ERR_320_MSG = 'Ferme ajoutée.';
+	const ERR_321_CODE = 321;
+	const ERR_321_MSG = 'Ferme modifiée.';
+	const ERR_322_CODE = 322;
+	const ERR_322_MSG = 'Ferme supprimée.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */
-	const ERR_BDD_CONNEXION = "Echec de la connexion à la base.";
-	const ERR_BDD_SELECTION = "Echec de la sélection de la base.";
-	const ERR_BDD_FERMETURE = "Echec de la fermeture de la connexion.";
-	const ERR_BDD_EXECUTION = "Echec de l'exécution de la requête.";
+	const ERR_600_CODE = 600;
+	const ERR_600_MSG = "Echec de la connexion à la base.";
+	const ERR_601_CODE = 601;
+	const ERR_601_MSG = "Echec de la sélection de la base.";
+	const ERR_602_CODE = 602;
+	const ERR_602_MSG = "Echec de la fermeture de la connexion.";
+	const ERR_603_CODE = 603;
+	const ERR_603_MSG = "Echec de l'exécution de la requête.";
 }
 ?>

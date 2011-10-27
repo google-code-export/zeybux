@@ -101,6 +101,45 @@ class NomProduitManager
 	}
 
 	/**
+	* @name selectByIdCategorie($pId)
+	* @param integer
+	* @return NomProduitVO
+	* @desc Récupère la ligne correspondant à l'idCategorie en paramètre, créé une collection de NomProduitVO contenant les informations et la renvoie
+	*/
+	public static function selectByIdCategorie($pIdCategorie) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+			FROM " . NomProduitManager::TABLE_NOMPRODUIT . " 
+			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = '" . StringUtils::securiser($pIdCategorie) . "'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeNomProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeNomProduit,
+					NomProduitManager::remplirNomProduit(
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE]));
+			}
+		} else {
+			$lListeNomProduit[0] = new NomProduitVO();
+		}
+		return $lListeNomProduit;
+	}
+	
+	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche

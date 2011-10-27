@@ -307,11 +307,11 @@ class MarcheService
 					$lProduit->setNom($lDetail->getNproNom());
 					$lProduit->setDescription($lDetail->getNproDescription());
 					$lProduit->setIdCategorie($lDetail->getNproIdCategorie());
+					$lProduit->setCproNom($lDetail->getCproNom());
 					$lProduit->setUnite($lDetail->getProUniteMesure());
 					$lProduit->setQteMaxCommande($lDetail->getProMaxProduitCommande());
 					$lProduit->setStockReservation($lDetail->getProStockReservation());
 					$lProduit->setStockInitial($lDetail->getProStockInitial());
-					
 					$lProduits[$lDetail->getProId()] = $lProduit;
 				}
 				

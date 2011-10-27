@@ -25,7 +25,6 @@
 	}	
 	
 	this.afficher = function(lResponse) {
-		Infobulle.init(); // Supprime les erreurs
 		var that = this;
 		
 		var lCommandeTemplate = new CommandeTemplate();

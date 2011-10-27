@@ -158,6 +158,15 @@ function differenceDateTime(pDate1,pDate2) {
 	return parseFloat(lRetour);
 }
 
+function htmlEncode(value){
+  return $('<div/>').text(value).html();
+}
+
+function htmlDecode(value){
+  return $('<div/>').html(value).text();
+}
+
+	
 /*
  * +-------------------------------------+
  * Number.prototype.nombreFormate
