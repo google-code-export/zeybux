@@ -1,5 +1,4 @@
 ;function AchatAdherentVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.mAdherent = null;
 	this.infoCommande = new Object();
 	this.pdtCommande = new Array();
@@ -330,8 +329,8 @@
 		pData = this.affectValiderModifierReservation(pData);
 		pData = this.affectModifierAchat(pData);
 		pData = this.affectSupprimerAchat(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);		
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);		
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	}
 	

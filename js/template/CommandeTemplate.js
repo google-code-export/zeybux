@@ -19,15 +19,20 @@
 					"Ma Commande" +
 				"</div>" +
 				"<table>" +
-					"<!-- BEGIN reservation -->" +
+					"<!-- BEGIN categories -->" +
+					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+					"<td colspan=\"4\"></td>" +
+					
+					"<!-- BEGIN categories.produits -->" +
 					"<tr >" +
-						"<td class=\"detail-resa-npro\">{reservation.nproNom}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\">{reservation.stoQuantite}</td>" +
-						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\">{reservation.prix}</td>" +
+						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
+						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
-					"<!-- END reservation -->" +
+					"<!-- END categories.produits -->" +
+					"<!-- END categories -->" +
 					"<tr>" +
 						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
@@ -47,9 +52,13 @@
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero}" +
 				"</div>" +
+				"<div id=\"resa-info-commande\">" +
+					"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
+					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+				"</div>" +
 				"<div>" +
-				"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-				"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -57,15 +66,20 @@
 					"Ma réservation" +
 				"</div>" +
 				"<table>" +
-					"<!-- BEGIN reservation -->" +
+					"<!-- BEGIN categories -->" +
+					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+					"<td colspan=\"4\"></td>" +
+					
+					"<!-- BEGIN categories.produits -->" +
 					"<tr >" +
-						"<td class=\"detail-resa-npro\">{reservation.nproNom}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\">{reservation.stoQuantite}</td>" +
-						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\">{reservation.prix}</td>" +
+						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
+						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
-					"<!-- END reservation -->" +
+					"<!-- END categories.produits -->" +
+					"<!-- END categories -->" +
 					"<tr>" +
 						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
@@ -105,25 +119,31 @@
 				"</div>" +
 				"<div>" +
 					"<table>" +
-						"<!-- BEGIN produit -->" +
+					"<!-- BEGIN categories -->" +
+						"<tr>" +
+							"<td colspan=\"3\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +						
+						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"pdt\">" +
-							"<td><input type=\"checkbox\" {produit.checked}/></td>" +
-							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
-							"<td><span class=\"nom-pro\">{produit.nproNom}<span></td>" +
+							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
+							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
+							"<td><span class=\"nom-pro\">{categories.produits.nproNom}<span></td>" +
 							"<td>" +
-								"<select id=\"lot-{produit.proId}\">" +
-									"<!-- BEGIN produit.lot -->" +
-									"<option value=\"{produit.lot.dcomId}\">par {produit.lot.dcomTaille} {produit.proUniteMesure}</option>" +
-									"<!-- END produit.lot -->" +
+								"<select id=\"lot-{categories.produits.proId}\">" +
+									"<!-- BEGIN categories.produits.lot -->" +
+									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
+									"<!-- END categories.produits.lot -->" +
 								"</select>" +
 							"</td>" +
-							"<td>à <span id=\"prix-unitaire-{produit.proId}\">{produit.prixUnitaire}</span> {sigleMonetaire}/{produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-moins\">-</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}\"></span> {produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-plus\">+</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId} com-text-align-right\"><span id=\"prix-pdt-{produit.proId}\"></span> {sigleMonetaire}</td>" +
+							"<td>à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-moins\">-</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><span id=\"qte-pdt-{categories.produits.proId}\"></span> {categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-plus\">+</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId} com-text-align-right\"><span id=\"prix-pdt-{categories.produits.proId}\"></span> {sigleMonetaire}</td>" +
 						"</tr>" +
-						"<!-- END produit -->" +
+						"<!-- END categories.produits -->" +
+						"<!-- END categories -->" +
 						"<tr>" +
 							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
@@ -149,9 +169,13 @@
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero}" +
 				"</div>" +
-				"<div>" +
+				"<div id=\"resa-info-commande\">" +
 					"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>" +
+				"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -160,25 +184,31 @@
 				"</div>" +
 				"<div>" +
 					"<table>" +
-						"<!-- BEGIN produit -->" +
+						"<!-- BEGIN categories -->" +
+						"<tr>" +
+							"<td colspan=\"3\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +						
+						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"pdt\">" +
-							"<td><input type=\"checkbox\" {produit.checked}/></td>" +
-							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
-							"<td>{produit.nproNom}</td>" +
+							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
+							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
+							"<td>{categories.produits.nproNom}</td>" +
 							"<td>" +
-								"<select id=\"lot-{produit.proId}\">" +
-									"<!-- BEGIN produit.lot -->" +
-									"<option value=\"{produit.lot.dcomId}\">par {produit.lot.dcomTaille} {produit.proUniteMesure}</option>" +
-									"<!-- END produit.lot -->" +
+								"<select id=\"lot-{categories.produits.proId}\">" +
+									"<!-- BEGIN categories.produits.lot -->" +
+									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
+									"<!-- END categories.produits.lot -->" +
 								"</select>" +
 							"</td>" +
-							"<td>à <span id=\"prix-unitaire-{produit.proId}\">{produit.prixUnitaire}</span> {sigleMonetaire}/{produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-moins\">-</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}\"></span> {produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-plus\">+</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId} com-text-align-right\"><span id=\"prix-pdt-{produit.proId}\"></span> {sigleMonetaire}</td>" +
+							"<td>à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-moins\">-</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><span id=\"qte-pdt-{categories.produits.proId}\"></span> {categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-plus\">+</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId} com-text-align-right\"><span id=\"prix-pdt-{categories.produits.proId}\"></span> {sigleMonetaire}</td>" +
 						"</tr>" +
-						"<!-- END produit -->" +
+						"<!-- END categories.produits -->" +
+						"<!-- END categories -->" +
 						"<tr>" +
 							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +

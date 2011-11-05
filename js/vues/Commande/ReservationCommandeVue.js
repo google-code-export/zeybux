@@ -69,7 +69,9 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.reservation = new Array();
+		//lData.reservation = new Array();
+		lData.categories = [];
+		
 		var lTotal = 0;
 		$.each(this.pdtCommande, function() {
 			if(that.reservation[this.id]) {
@@ -89,7 +91,12 @@
 				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 				
-				lData.reservation.push(lPdt);
+				//lData.reservation.push(lPdt);
+
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				lData.categories[this.idCategorie].produits.push(lPdt);
 			}			
 		});
 		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
@@ -114,7 +121,9 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.produit = new Array();
+		
+		//lData.produit = new Array();
+		lData.categories = [];
 				
 		var lTotal = 0;		
 		$.each(this.pdtCommande, function() {
@@ -181,7 +190,12 @@
 				if(lPdt.lot.length == 0) {		
 					lPdt.checked = 'rel="indisponible"';
 				}
-				lData.produit.push(lPdt);
+				
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				lData.categories[this.idCategorie].produits.push(lPdt);
+				//lData.produit.push(lPdt);
 			}
 		});
 		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
@@ -189,21 +203,12 @@
 	}
 	
 	this.affect = function(pData) {
-		/*pData = this.affectDroitEdition(pData);*/
 		pData = this.affectModifierReservation(pData);
 		pData = this.affectValiderReservation(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
 	}
-	
-	/*this.affectDroitEdition = function(pData) {
-		// Si la date de fin des réservations est passée on bloque la possibilitée de modifier
-		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
-			pData.find('.boutons-edition').hide();
-		}
-		return pData;
-	}*/
-	
+		
 	this.affectModifier = function(pData) {
 		pData = this.affectBtnQte(pData);
 		pData = this.preparerAffichageModifier(pData);

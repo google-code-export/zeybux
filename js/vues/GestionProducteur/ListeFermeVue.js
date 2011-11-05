@@ -63,7 +63,7 @@
 	this.affectDetailFerme = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {
-			InformationFermeVue({id_ferme: $(this).find(".id-ferme").text()});
+			InformationFermeVue({id: $(this).find(".id-ferme").text()});
 		});
 		return pData;
 	}
@@ -97,7 +97,8 @@
 			}).find('#fer-dateAdhesion').datepicker({
 				changeMonth: true,
 				changeYear: true,
-				maxDate: "c+1"});			
+				maxDate: "c+1",
+				yearRange: "2009:c"});			
 			});		
 		return pData;
 	}
@@ -140,7 +141,7 @@
 							//Infobulle.generer(lVr,'');
 							//var lParam = {vr:lVr};					
 							//that.construct({vr:lVr});
-							InformationFermeVue({vr:lVr,id_ferme:lResponse.id});
+							InformationFermeVue({vr:lVr,id:lResponse.id});
 						} else {
 							Infobulle.generer(lResponse,'fer-');
 						}

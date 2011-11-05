@@ -14,8 +14,8 @@
 							that.afficher(lResponse);
 							
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('MonCompte','MonCompte');
+							//var lCommunVue = new CommunVue();
+							gCommunVue.majMenu('MonCompte','MonCompte');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}

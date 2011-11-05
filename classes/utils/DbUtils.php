@@ -66,7 +66,8 @@ class DbUtils
 				
 				die($lVr->exportToJson());
 			} else {	
-				$lRs = @mysql_query("SET NAMES UTF8"); // Permet d'initier une connexion en UTF-8 avec la BDD
+				//$lRs = @mysql_query("SET NAMES UTF8"); // Permet d'initier une connexion en UTF-8 avec la BDD
+				$lRs = @mysql_set_charset("utf8",$lDb); // Permet d'initier une connexion en UTF-8 avec la BDD
 				if (!$lRs) {
 			    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
 				
@@ -92,7 +93,10 @@ class DbUtils
 	* @desc Ferme la connexion à la BDD
 	*/	
 	public static function fermerConnexion($pDb) {
-		if(!@mysql_close($pDb)) {
+		if(!@mysql_close($pDb)) {			
+			// Initialisation du Logger
+			$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+			$lLogger->setMask(Log::MAX(LOG_LEVEL));
 			$lLogger->log(MessagesErreurs::ERR_602_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
 		
 			$lVr = new TemplateVR();
@@ -118,7 +122,10 @@ class DbUtils
 		$lDb = DbUtils::creerConnexion();
 		$lResultat = @mysql_query($pRequete);
 		//or die(MessagesErreurs::ERR_BDD_EXECUTION . " : <br>$pRequete<br>".mysql_error());
-		if (!$lResultat) {
+		if (!$lResultat) {			
+			// Initialisation du Logger
+			$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+			$lLogger->setMask(Log::MAX(LOG_LEVEL));
 	    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
 		
 			$lVr = new TemplateVR();
@@ -145,7 +152,10 @@ class DbUtils
 	public static function executerRequeteInsertRetourId($pRequete) {
 		$lDb = DbUtils::creerConnexion();
 		$lResultat = @mysql_query($pRequete);
-		if (!$lResultat) {
+		if (!$lResultat) {			
+			// Initialisation du Logger
+			$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+			$lLogger->setMask(Log::MAX(LOG_LEVEL));
 	    	$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
 		
 			$lVr = new TemplateVR();

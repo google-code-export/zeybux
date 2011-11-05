@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 06/05/2010
+// Date de creation : 31/10/2011
 // Fichier : NomProduitVO.php
 //
 // Description : Classe NomProduitVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name NomProduitVO
  * @author Julien PIERRE
- * @since 06/05/2010
+ * @since 31/10/2011
  * @desc Classe représentant une NomProduitVO
  */
-class NomProduitVO extends DataTemplate
+class NomProduitVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -43,11 +43,23 @@ class NomProduitVO extends DataTemplate
 	protected $mIdCategorie;
 
 	/**
+	* @var int(11)
+	* @desc IdFerme de la NomProduitVO
+	*/
+	protected $mIdFerme;
+
+	/**
+	* @var int(11)
+	* @desc Etat de la NomProduitVO
+	*/
+	protected $mEtat;
+
+	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la NomProduitVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -65,7 +77,7 @@ class NomProduitVO extends DataTemplate
 	* @return varchar(50)
 	* @desc Renvoie le membre Nom de la NomProduitVO
 	*/
-	public function getNom(){
+	public function getNom() {
 		return $this->mNom;
 	}
 
@@ -83,7 +95,7 @@ class NomProduitVO extends DataTemplate
 	* @return text
 	* @desc Renvoie le membre Description de la NomProduitVO
 	*/
-	public function getDescription(){
+	public function getDescription() {
 		return $this->mDescription;
 	}
 
@@ -101,7 +113,7 @@ class NomProduitVO extends DataTemplate
 	* @return int(11)
 	* @desc Renvoie le membre IdCategorie de la NomProduitVO
 	*/
-	public function getIdCategorie(){
+	public function getIdCategorie() {
 		return $this->mIdCategorie;
 	}
 
@@ -112,6 +124,42 @@ class NomProduitVO extends DataTemplate
 	*/
 	public function setIdCategorie($pIdCategorie) {
 		$this->mIdCategorie = $pIdCategorie;
+	}
+
+	/**
+	* @name getIdFerme()
+	* @return int(11)
+	* @desc Renvoie le membre IdFerme de la NomProduitVO
+	*/
+	public function getIdFerme() {
+		return $this->mIdFerme;
+	}
+
+	/**
+	* @name setIdFerme($pIdFerme)
+	* @param int(11)
+	* @desc Remplace le membre IdFerme de la NomProduitVO par $pIdFerme
+	*/
+	public function setIdFerme($pIdFerme) {
+		$this->mIdFerme = $pIdFerme;
+	}
+
+	/**
+	* @name getEtat()
+	* @return int(11)
+	* @desc Renvoie le membre Etat de la NomProduitVO
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param int(11)
+	* @desc Remplace le membre Etat de la NomProduitVO par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
 	}
 
 }

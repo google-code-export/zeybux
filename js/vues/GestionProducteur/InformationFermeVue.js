@@ -61,13 +61,29 @@
 			lHtml = this.paginnation(lHtml);
 		}
 
-		$('#contenu').replaceWith(that.affect(lHtml));	
+		// Si on arrive de information/producteur/catalogue on ne réaffiche pas tout
+		if($('#contenu-ferme').length > 0) {
+			$('#contenu-ferme').replaceWith(that.affectFerme(lHtml.find('#contenu-ferme')));
+			this.affectMenuFerme();
+		} else {
+			$('#contenu').replaceWith(that.affect(lHtml));
+		}
 	}
 	
 	this.affect = function(pData) {
 		pData = this.affectHover(pData);
 		pData = this.affectDialogSuppFerme(pData);
 		pData = this.affectLienRetour(pData);
+		pData = this.affectEditionFerme(pData);
+		pData = this.affectDate(pData);
+		pData = this.affectMenu(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectFerme = function(pData) {
+		pData = this.affectHover(pData);
+		pData = this.affectDialogSuppFerme(pData);
 		pData = this.affectEditionFerme(pData);
 		pData = this.affectDate(pData);
 		pData = gCommunVue.comHoverBtn(pData);
@@ -109,6 +125,22 @@
 			maxDate: "c+1"
 			});
 		return pData;
+	}
+	
+	this.affectMenu = function(pData) {
+		var that = this;
+		pData.find('#btn-information').click(function() { InformationFermeVue({id:that.mFerme.ferId}); });
+		pData.find('#btn-liste-producteur').click(function() { ListeProducteurVue({id:that.mFerme.ferId}); });
+		pData.find('#btn-catalogue').click(function() { CatalogueFermeVue({id:that.mFerme.ferId}); });
+
+		pData.find('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
+		pData.find('#btn-information').addClass("ui-state-active");		
+		return pData;		
+	}
+	
+	this.affectMenuFerme = function() {
+		$('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
+		$('#btn-information').addClass("ui-state-active");
 	}
 		
 	this.affectEditionFerme = function(pData) {		

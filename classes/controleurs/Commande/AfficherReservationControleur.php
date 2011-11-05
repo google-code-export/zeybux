@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/CommandeReservationValid.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 
 /**
  * @name AfficherReservationControleur
@@ -42,7 +43,9 @@ class AfficherReservationControleur
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($_SESSION[ID_COMPTE]);
 			$lIdReservation->setIdCommande($pParam["id_commande"]);
-			$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());
+			$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());			
+			
+			$lResponse->setAdherent(AdherentViewManager::select($_SESSION[DROIT_ID]));
 			
 			return $lResponse;
 		}				

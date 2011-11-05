@@ -299,20 +299,58 @@ class ReservationService
 					break;
 					
 				case 0: // Reservation en cours
+					$lOperation = $lOperations[0];
+					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+					foreach($lDetailsReservation as $lDetail) {
+						if($lDetail->getDopeTypePaiement() == 0) {
+							$lDetailReservation = new DetailReservationVO();
+							$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+							$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+							$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+							$lDetailReservation->setMontant($lDetail->getDopeMontant());
+							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							
+							$lReservation->addDetailReservation($lDetailReservation);
+						}
+					}
+					$lReservation->setTotal($lOperation->getMontant());
+					break;
+					
 				case 15: // Reservation non récupérée
+					$lOperation = $lOperations[0];
+					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+					foreach($lDetailsReservation as $lDetail) {
+						if($lDetail->getDopeTypePaiement() == 15) {
+							$lDetailReservation = new DetailReservationVO();
+							$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+							$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+							$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+							$lDetailReservation->setMontant($lDetail->getDopeMontant());
+							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							
+							$lReservation->addDetailReservation($lDetailReservation);
+						}
+					}
+					$lReservation->setTotal($lOperation->getMontant());
+					break;
+					
 				case 16: // Reservation annulée
 					$lOperation = $lOperations[0];
 					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
 					foreach($lDetailsReservation as $lDetail) {
-						$lDetailReservation = new DetailReservationVO();
-						$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
-						$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
-						$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
-						$lDetailReservation->setMontant($lDetail->getDopeMontant());
-						$lDetailReservation->setQuantite($lDetail->getStoQuantite());
-						$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
-						
-						$lReservation->addDetailReservation($lDetailReservation);
+						if($lDetail->getDopeTypePaiement() == 16) {					
+							$lDetailReservation = new DetailReservationVO();
+							$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
+							$lDetailReservation->getId()->setIdDetailOperation($lDetail->getDopeId());
+							$lDetailReservation->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+							$lDetailReservation->setMontant($lDetail->getDopeMontant());
+							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
+							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							
+							$lReservation->addDetailReservation($lDetailReservation);
+						}
 					}
 					$lReservation->setTotal($lOperation->getMontant());
 					break;

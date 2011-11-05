@@ -46,7 +46,8 @@ class ReservationDetailViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT ."
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT ."
 			FROM " . ReservationDetailViewManager::VUE_RESERVATIONDETAIL . " 
 			WHERE " . StockManager::CHAMP_STOCK_ID_OPERATION . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -64,7 +65,8 @@ class ReservationDetailViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT]));
 			}
 		} else {
 			$lListeReservationDetail[0] = new ReservationDetailViewVO();
@@ -89,7 +91,8 @@ class ReservationDetailViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT ."
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT ."
 			FROM " . ReservationDetailViewManager::VUE_RESERVATIONDETAIL;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -106,7 +109,8 @@ class ReservationDetailViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT]));
 			}
 		} else {
 			$lListeReservationDetail[0] = new ReservationDetailViewVO();
@@ -137,7 +141,8 @@ class ReservationDetailViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT );
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT  );
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ReservationDetailViewManager::VUE_RESERVATIONDETAIL, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -161,7 +166,8 @@ class ReservationDetailViewManager
 						$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT]));
 				}
 			} else {
 				$lListeReservationDetail[0] = new ReservationDetailViewVO();
@@ -175,18 +181,19 @@ class ReservationDetailViewManager
 	}
 
 	/**
-	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit)
+	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDopeTypePaiement)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param decimal(10,2)
 	* @param decimal(10,2)
+	* @param int(11)
 	* @param int(11)
 	* @return ReservationDetailViewVO
 	* @desc Retourne une ReservationDetailViewVO remplie
 	*/
-	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit) {
+	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDopeTypePaiement) {
 		$lReservationDetail = new ReservationDetailViewVO();
 		$lReservationDetail->setStoIdOperation($pStoIdOperation);
 		$lReservationDetail->setStoId($pStoId);
@@ -195,6 +202,7 @@ class ReservationDetailViewManager
 		$lReservationDetail->setDopeMontant($pDopeMontant);
 		$lReservationDetail->setStoQuantite($pStoQuantite);
 		$lReservationDetail->setDcomIdProduit($pDcomIdProduit);
+		$lReservationDetail->setDopeTypePaiement($pDopeTypePaiement);
 		return $lReservationDetail;
 	}
 }

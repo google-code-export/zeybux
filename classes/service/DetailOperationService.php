@@ -76,6 +76,10 @@ class DetailOperationService
 	* @desc Met à jour une opération
 	*/
 	public function delete($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		
 		$lDetailOperationValid = new DetailOperationValid();
 
 		if($lDetailOperationValid->delete($pId)){		
@@ -108,14 +112,12 @@ class DetailOperationService
 					break;
 					
 				default:
-					$pDetailOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
-					$pDetailOperation->setIdConnexion($_SESSION[ID_CONNEXION]);					
-					$lDetailOperation->setlibelle("Supression");
-					$this->insertHistorique($lDetailOperation); // Ajout historique
-					return DetailOperationManager::delete($pId); // delete de l'opération	
+					$lLogger->log("Erreur de supression detail operation dans DetailOperationService->delete(). Type de paiement non valide. Paramètre : " . $pId . ", type de paiement : " . $lDetailOperation->getTypePaiement(),PEAR_LOG_DEBUG); // Maj des logs
+					return false;
 					break;
 			}
 		}
+		$lLogger->log("Erreur de supression detail operation dans DetailOperationService->delete(). Paramètre non valide. Paramètre : " . $pId,PEAR_LOG_DEBUG); // Maj des logs
 		return false;
 	}
 

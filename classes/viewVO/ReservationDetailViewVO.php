@@ -58,7 +58,13 @@ class ReservationDetailViewVO  extends DataTemplate
 	* @var int(11)
 	* @desc DcomIdProduit de la ReservationDetailViewVO
 	*/
-	protected $mDcomIdProduit;
+	protected $mDcomIdProduit;	
+	
+	/**
+	* @var int(11)
+	* @desc DopeTypePaiement de la ReservationDetailViewVO
+	*/
+	protected $mDopeTypePaiement;
 
 	/**
 	* @name getStoIdOperation()
@@ -184,6 +190,24 @@ class ReservationDetailViewVO  extends DataTemplate
 	*/
 	public function setDcomIdProduit($pDcomIdProduit) {
 		$this->mDcomIdProduit = $pDcomIdProduit;
+	}
+	
+	/**
+	* @name getDopeTypePaiement()
+	* @return int(11)
+	* @desc Renvoie le membre DopeTypePaiement de la ReservationDetailViewVO
+	*/
+	public function getDopeTypePaiement() {
+		return $this->mDopeTypePaiement;
+	}
+
+	/**
+	* @name setDopeTypePaiement($pDopeTypePaiement)
+	* @param int(11)
+	* @desc Remplace le membre DopeTypePaiement de la ReservationDetailViewVO par $pDopeTypePaiement
+	*/
+	public function setDopeTypePaiement($pDopeTypePaiement) {
+		$this->mDopeTypePaiement = $pDopeTypePaiement;
 	}
 
 }

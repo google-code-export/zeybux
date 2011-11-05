@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 31/10/2011
 // Fichier : ProducteurVO.php
 //
 // Description : Classe ProducteurVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProducteurVO
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 31/10/2011
  * @desc Classe représentant une ProducteurVO
  */
 class ProducteurVO  extends DataTemplate
@@ -25,22 +25,16 @@ class ProducteurVO  extends DataTemplate
 	protected $mId;
 
 	/**
-	* @var varchar(100)
-	* @desc MotPasse de la ProducteurVO
+	* @var int(11)
+	* @desc IdFerme de la ProducteurVO
 	*/
-	protected $mMotPasse;
+	protected $mIdFerme;
 
 	/**
 	* @var varchar(20)
 	* @desc Numero de la ProducteurVO
 	*/
 	protected $mNumero;
-
-	/**
-	* @var int(11)
-	* @desc IdCompte de la ProducteurVO
-	*/
-	protected $mIdCompte;
 
 	/**
 	* @var varchar(50)
@@ -145,21 +139,21 @@ class ProducteurVO  extends DataTemplate
 	}
 
 	/**
-	* @name getMotPasse()
-	* @return varchar(100)
-	* @desc Renvoie le membre MotPasse de la ProducteurVO
+	* @name getIdFerme()
+	* @return int(11)
+	* @desc Renvoie le membre IdFerme de la ProducteurVO
 	*/
-	public function getMotPasse() {
-		return $this->mMotPasse;
+	public function getIdFerme() {
+		return $this->mIdFerme;
 	}
 
 	/**
-	* @name setMotPasse($pMotPasse)
-	* @param varchar(100)
-	* @desc Remplace le membre MotPasse de la ProducteurVO par $pMotPasse
+	* @name setIdFerme($pIdFerme)
+	* @param int(11)
+	* @desc Remplace le membre IdFerme de la ProducteurVO par $pIdFerme
 	*/
-	public function setMotPasse($pMotPasse) {
-		$this->mMotPasse = $pMotPasse;
+	public function setIdFerme($pIdFerme) {
+		$this->mIdFerme = $pIdFerme;
 	}
 
 	/**
@@ -178,24 +172,6 @@ class ProducteurVO  extends DataTemplate
 	*/
 	public function setNumero($pNumero) {
 		$this->mNumero = $pNumero;
-	}
-
-	/**
-	* @name getIdCompte()
-	* @return int(11)
-	* @desc Renvoie le membre IdCompte de la ProducteurVO
-	*/
-	public function getIdCompte() {
-		return $this->mIdCompte;
-	}
-
-	/**
-	* @name setIdCompte($pIdCompte)
-	* @param int(11)
-	* @desc Remplace le membre IdCompte de la ProducteurVO par $pIdCompte
-	*/
-	public function setIdCompte($pIdCompte) {
-		$this->mIdCompte = $pIdCompte;
 	}
 
 	/**

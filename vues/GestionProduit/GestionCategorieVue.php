@@ -24,6 +24,11 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_PRODUIT]) || iss
 						$lLogger->log("Affichage de la vue GestionCategorie par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
+				case "detailCategorie":
+						echo $lControleur->getDetailCategorie($lParam)->exportToJson();
+						$lLogger->log("Affichage de la vue DetailCategorie par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;	
+					
 				case "ajouter":
 					echo $lControleur->ajouterCategorie($lParam)->exportToJson();
 					$lLogger->log("Ajoout d'une categorie par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
