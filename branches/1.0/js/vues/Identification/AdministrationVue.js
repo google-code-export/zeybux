@@ -55,16 +55,6 @@
 			pData.find('#menu-GestionCommande-ListeCommande').click(function() {
 				GestionListeCommandeVue();
 				return false;
-			});	
-			
-			pData.find('#menu-GestionProducteur-AjoutProducteur').click(function() {
-				AjoutProducteurVue();
-				return false;
-			});
-			
-			pData.find('#menu-GestionProducteur-ListeProducteur').click(function() {
-				ListeProducteurVue();
-				return false;
 			});
 			
 			pData.find('#menu-GestionProducteur-ListeFerme').click(function() {
@@ -99,6 +89,11 @@
 			
 			pData.find('#menu-GestionProduit-GestionCategorie').click(function() {
 				GestionCategorieVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionProduit-GestionCaracteristique').click(function() {
+				GestionCaracteristiqueVue();
 				return false;
 			});
 				

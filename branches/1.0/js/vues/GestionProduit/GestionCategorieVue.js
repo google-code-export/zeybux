@@ -1,6 +1,5 @@
 ;function GestionCategorieVue(pParam) {
 	this.mParam = {};
-	this.mCommunVue = new CommunVue();
 	this.mCategories = [];
 	
 	this.construct = function(pParam) {
@@ -45,16 +44,15 @@
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
-	//	pData = this.affectLienCompte(pData);
+		pData = this.affectLienCompte(pData);
 		pData = this.affectDialogCreerCategorie(pData);
 		pData = this.affectDialogModifierCategorie(pData);
 		pData = this.affectDialogSupprimerCategorie(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 		
 	this.affectTri = function(pData) {
-		//pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
 	}
@@ -66,6 +64,40 @@
 		
 		pData.find("#filter-form").submit(function () {return false;});
 		
+		return pData;
+	}
+	
+	this.affectLienCompte = function(pData) {
+		var that = this;
+		pData.find('.compte-ligne')
+		.click(function() {		
+			var lId = $(this).closest('tr').attr('id');
+			var lParam = {id:lId,fonction:"detailCategorie"};
+			$.post(	"./index.php?m=GestionProduit&v=GestionCategorie", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								var lGestionProduitTemplate = new GestionProduitTemplate();
+								var lTemplate = lGestionProduitTemplate.dialogInfoCategorie;
+								
+								
+								$(lTemplate.template(lResponse.categorie)).dialog({			
+									autoOpen: true,
+									modal: true,
+									draggable: true,
+									resizable: false,
+									width:600,
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+								});								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+			
+		});
 		return pData;
 	}
 	
@@ -147,32 +179,45 @@
 	this.affectDialogModifierCategorie = function(pData) {
 		var that = this;
 		pData.find('.btn-edt-modifier')
-		.click(function() {			
+		.click(function() {		
 			var lGestionProduitTemplate = new GestionProduitTemplate();
 			var lTemplate = lGestionProduitTemplate.dialogAjoutCategorie;
 			//alert(that.mCategories[$(this).closest('tr').attr('id')]);
-			var lData = that.mCategories[$(this).closest('tr').attr('id')];
+			//var lData = that.mCategories[$(this).closest('tr').attr('id')];
 			
-			$(lTemplate.template(lData)).dialog({			
-				autoOpen: true,
-				modal: true,
-				draggable: false,
-				resizable: false,
-				width:400,
-				buttons: {
-					'Modifier la categorie': function() {
-						var lForm = $(this).children('form').first();
-						that.ModifierCategorie(lForm);
-					},
-					'Annuler': function() {
-						$(this).dialog('close');
-					}
-				},
-				close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
-			}).submit(function () {
-				that.ModifierCategorie($(this));
-				return false;
-			});			
+			var lId = $(this).closest('tr').attr('id');
+			var lParam = {id:lId,fonction:"detailCategorie"};
+			$.post(	"./index.php?m=GestionProduit&v=GestionCategorie", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {								
+								$(lTemplate.template(lResponse.categorie)).dialog({			
+									autoOpen: true,
+									modal: true,
+									draggable: false,
+									resizable: false,
+									width:400,
+									buttons: {
+										'Modifier la categorie': function() {
+											var lForm = $(this).children('form').first();
+											that.ModifierCategorie(lForm);
+										},
+										'Annuler': function() {
+											$(this).dialog('close');
+										}
+									},
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+								}).submit(function () {
+									that.ModifierCategorie($(this));
+									return false;
+								});		
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
 		});		
 		return pData;
 	}

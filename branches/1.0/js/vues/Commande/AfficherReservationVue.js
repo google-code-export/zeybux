@@ -4,6 +4,8 @@
 	this.pdtCommande = new Array();
 	this.reservation = new Array();
 	this.reservationModif = new Array();
+	this.solde = 0;
+	this.soldeNv = 0;
 	
 	this.construct = function(pParam) {
 		var that = this;
@@ -17,6 +19,9 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+							that.solde = lResponse.adherent.cptSolde;	
+							that.soldeNv = lResponse.adherent.cptSolde;
+							
 							that.infoCommande.comId = lResponse.marche.id;
 							that.infoCommande.comNumero = lResponse.marche.numero;
 							that.infoCommande.comNom = lResponse.marche.nom;
@@ -73,6 +78,7 @@
 		
 		var lData = new Object();
 		lData.sigleMonetaire = gSigleMonetaire;
+		lData.solde = this.solde.nombreFormate(2,',',' ');
 		lData.comNumero = this.infoCommande.comNumero;
 		lData.dateFinReservation = this.infoCommande.dateFinReservation;
 		lData.heureFinReservation = this.infoCommande.heureFinReservation;
@@ -82,7 +88,9 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.reservation = new Array();
+		//lData.reservation = new Array();
+		lData.categories = [];
+		
 		var lTotal = 0;
 		$.each(this.pdtCommande, function() {
 			if(that.reservation[this.id]) {
@@ -102,11 +110,24 @@
 				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 				
-				lData.reservation.push(lPdt);
+				//lData.reservation.push(lPdt);
+
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				lData.categories[this.idCategorie].produits.push(lPdt);
 			}			
 		});
 		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
+		
+		
+		// Maj du nouveau solde
+		this.soldeNv = this.solde - lTotal;
+		lData.soldeNv = this.soldeNv.nombreFormate(2,',',' ');
+		
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
+		//this.majNouveauSolde();
 	}
 	
 	this.afficherModifier = function() {
@@ -115,6 +136,8 @@
 		var lTemplate = lCommandeTemplate.modifierReservation;
 		var lData = {};
 		lData.sigleMonetaire = gSigleMonetaire;
+		lData.solde = this.solde.nombreFormate(2,',',' ');
+		lData.soldeNv = this.soldeNv.nombreFormate(2,',',' ');
 		lData.comNumero = this.infoCommande.comNumero;
 		lData.dateFinReservation = this.infoCommande.dateFinReservation;
 		lData.heureFinReservation = this.infoCommande.heureFinReservation;
@@ -124,7 +147,8 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.produit = new Array();
+		//lData.produit = new Array();
+		lData.categories = [];
 				
 		var lTotal = 0;		
 		$.each(this.pdtCommande, function() {
@@ -197,7 +221,11 @@
 				if(lPdt.lot.length == 0) {		
 					lPdt.checked = 'rel="indisponible"';
 				}
-				lData.produit.push(lPdt);
+				//lData.produit.push(lPdt);
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				lData.categories[this.idCategorie].produits.push(lPdt);
 			}
 		});
 		
@@ -214,12 +242,14 @@
 		});
 		
 		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
+		this.majNouveauSolde();
 	}
 	
 	this.affect = function(pData) {
 		pData = this.affectDroitEdition(pData);
 		pData = this.affectModifierReservation(pData);
 		pData = this.affectSupprimerReservation(pData);
+		pData = this.affectNvSolde(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
 	}
@@ -243,6 +273,13 @@
 		pData = this.mCommunVue.comHoverBtn(pData);
 		pData = this.affectInitLot(pData);
 		pData = this.masquerIndisponible(pData);
+		return pData;
+	}
+	
+	this.affectNvSolde = function(pData) {
+		if(this.soldeNv <= 0) {
+			pData.find("#nouveau-solde, #nouveau-solde-sigle").addClass("com-nombre-negatif");	
+		}
 		return pData;
 	}
 	
@@ -423,7 +460,22 @@
 	}
 	
 	this.majTotal = function() {		
-		$('#total').text(this.calculTotal().nombreFormate(2,',',' '));
+		//$('#total').text(this.calculTotal().nombreFormate(2,',',' '));
+		var lTotal = this.calculTotal();		
+		$('#total').text(lTotal.nombreFormate(2,',',' '));
+		
+		// Maj du nouveau solde
+		this.soldeNv = this.solde - lTotal;
+		this.majNouveauSolde();
+		$("#nouveau-solde").text(this.soldeNv.nombreFormate(2,',',' '));
+	}
+
+	this.majNouveauSolde = function() {
+		if(this.soldeNv <= 0) {
+			$("#nouveau-solde, #nouveau-solde-sigle").addClass("com-nombre-negatif");	
+		} else {
+			$("#nouveau-solde, #nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
 	}
 	
 	this.calculTotal = function() {

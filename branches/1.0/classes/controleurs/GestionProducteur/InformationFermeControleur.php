@@ -34,10 +34,10 @@ class InformationFermeControleur
 	* @desc Recherche la liste des Fermes
 	*/
 	public function getInformationFerme($pParam) {
-		$lVr = FermeValid::validAfficherInformation($pParam);
+		$lVr = FermeValid::validDelete($pParam);
 		if($lVr->getValid()) {
 			$lResponse = new InformationFermeResponse();
-			$lFerme = FermeViewManager::select($pParam["id_ferme"]);
+			$lFerme = FermeViewManager::select($pParam["id"]);
 			$lResponse->setFerme($lFerme);
 			$lResponse->setOperationPassee( OperationPasseeViewManager::select( $lFerme[0]->getFerIdCompte() ));
 			$lResponse->setTypePaiement( TypePaiementManager::selectAll() );

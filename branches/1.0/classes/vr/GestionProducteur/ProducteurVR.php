@@ -38,6 +38,12 @@ class ProducteurVR extends DataTemplate
 	 * @desc L'Id de l'objet
 	 */
 	protected $mId;
+	
+	/**
+	 * @var VRelement
+	 * @desc L'Id de la ferme
+	 */
+	protected $mIdFerme;
 
 	/**
 	 * @var VRelement
@@ -56,12 +62,6 @@ class ProducteurVR extends DataTemplate
 	 * @desc DateNaissance de la ProducteurVR
 	 */
 	protected $mDateNaissance;
-
-	/**
-	 * @var VRelement
-	 * @desc Compte de la ProducteurVR
-	 */
-	protected $mCompte;
 
 	/**
 	 * @var VRelement
@@ -120,10 +120,10 @@ class ProducteurVR extends DataTemplate
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
+		$this->mIdFerme = new VRelement();
 		$this->mNom = new VRelement();
 		$this->mPrenom = new VRelement();
 		$this->mDateNaissance = new VRelement();
-		$this->mCompte = new VRelement();
 		$this->mCommentaire = new VRelement();
 		$this->mCourrielPrincipal = new VRelement();
 		$this->mCourrielSecondaire = new VRelement();
@@ -187,6 +187,24 @@ class ProducteurVR extends DataTemplate
 	public function setId($pId) {
 		$this->mId = $pId;
 	}
+	
+	/**
+	* @name getIdFerme()
+	* @return VRelement
+	* @desc Renvoie le VRelement IdFerme
+	*/
+	public function getIdFerme() {
+		return $this->mIdFerme;
+	}
+
+	/**
+	* @name setIdFerme($pIdFerme)
+	* @param VRelement
+	* @desc Remplace le VRelement IdFerme par $pIdFerme
+	*/
+	public function setIdFerme($pIdFerme) {
+		$this->mIdFerme = $pIdFerme;
+	}
 
 	/**
 	* @name getNom()
@@ -240,24 +258,6 @@ class ProducteurVR extends DataTemplate
 	*/
 	public function setDateNaissance($pDateNaissance) {
 		$this->mDateNaissance = $pDateNaissance;
-	}
-
-	/**
-	* @name getCompte()
-	* @return VRelement
-	* @desc Renvoie le VRelement mCompte
-	*/
-	public function getCompte() {
-		return $this->mCompte;
-	}
-
-	/**
-	* @name setCompte($pCompte)
-	* @param VRelement
-	* @desc Remplace le mCompte par $pCompte
-	*/
-	public function setCompte($pCompte) {
-		$this->mCompte = $pCompte;
 	}
 
 	/**

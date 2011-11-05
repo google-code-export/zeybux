@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 31/10/2011
 // Fichier : ProducteurManager.php
 //
 // Description : Classe de gestion des Producteur
@@ -16,7 +16,7 @@ include_once(CHEMIN_CLASSES_VO . "ProducteurVO.php");
 /**
  * @name ProducteurManager
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 31/10/2011
  * 
  * @desc Classe permettant l'accès aux données des Producteur
  */
@@ -24,9 +24,8 @@ class ProducteurManager
 {
 	const TABLE_PRODUCTEUR = "prdt_producteur";
 	const CHAMP_PRODUCTEUR_ID = "prdt_id";
-	const CHAMP_PRODUCTEUR_MOT_PASSE = "prdt_mot_passe";
+	const CHAMP_PRODUCTEUR_ID_FERME = "prdt_id_ferme";
 	const CHAMP_PRODUCTEUR_NUMERO = "prdt_numero";
-	const CHAMP_PRODUCTEUR_ID_COMPTE = "prdt_id_compte";
 	const CHAMP_PRODUCTEUR_NOM = "prdt_nom";
 	const CHAMP_PRODUCTEUR_PRENOM = "prdt_prenom";
 	const CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL = "prdt_courriel_principal";
@@ -56,9 +55,8 @@ class ProducteurManager
 		$lRequete =
 			"SELECT "
 			    . ProducteurManager::CHAMP_PRODUCTEUR_ID . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE . 
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . 
@@ -83,9 +81,8 @@ class ProducteurManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return ProducteurManager::remplirProducteur(
 				$pId,
-				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE],
+				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
 				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 				$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -117,9 +114,8 @@ class ProducteurManager
 		$lRequete =
 			"SELECT "
 			    . ProducteurManager::CHAMP_PRODUCTEUR_ID . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE . 
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . 
@@ -145,9 +141,8 @@ class ProducteurManager
 				array_push($lListeProducteur,
 					ProducteurManager::remplirProducteur(
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE],
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -202,9 +197,8 @@ class ProducteurManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProducteurManager::CHAMP_PRODUCTEUR_ID .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE .
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL .
@@ -226,19 +220,19 @@ class ProducteurManager
 		$lListeProducteur = array();
 
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeProducteur,
 						ProducteurManager::remplirProducteur(
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE],
+						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -257,20 +251,19 @@ class ProducteurManager
 			} else {
 				$lListeProducteur[0] = new ProducteurVO();
 			}
-	
+
 			return $lListeProducteur;
 		}
-		
+
 		$lListeProducteur[0] = new ProducteurVO();
 		return $lListeProducteur;
 	}
 
 	/**
-	* @name remplirProducteur($pId, $pMotPasse, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateCreation, $pDateMaj, $pCommentaire, $pEtat)
+	* @name remplirProducteur($pId, $pIdFerme, $pNumero, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateCreation, $pDateMaj, $pCommentaire, $pEtat)
 	* @param int(11)
-	* @param varchar(100)
+	* @param int(11)
 	* @param varchar(20)
-	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param varchar(100)
@@ -288,12 +281,11 @@ class ProducteurManager
 	* @return ProducteurVO
 	* @desc Retourne une ProducteurVO remplie
 	*/
-	private static function remplirProducteur($pId, $pMotPasse, $pNumero, $pIdCompte, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateCreation, $pDateMaj, $pCommentaire, $pEtat) {
+	private static function remplirProducteur($pId, $pIdFerme, $pNumero, $pNom, $pPrenom, $pCourrielPrincipal, $pCourrielSecondaire, $pTelephonePrincipal, $pTelephoneSecondaire, $pAdresse, $pCodePostal, $pVille, $pDateNaissance, $pDateCreation, $pDateMaj, $pCommentaire, $pEtat) {
 		$lProducteur = new ProducteurVO();
 		$lProducteur->setId($pId);
-		$lProducteur->setMotPasse($pMotPasse);
+		$lProducteur->setIdFerme($pIdFerme);
 		$lProducteur->setNumero($pNumero);
-		$lProducteur->setIdCompte($pIdCompte);
 		$lProducteur->setNom($pNom);
 		$lProducteur->setPrenom($pPrenom);
 		$lProducteur->setCourrielPrincipal($pCourrielPrincipal);
@@ -344,13 +336,12 @@ class ProducteurManager
 		if($pVo->getDateMaj() == '') {
 			$pVo->getDateMaj(StringUtils::FORMAT_DATE_NULLE);
 		}
-
+		
 		$lRequete =
 			"INSERT INTO " . ProducteurManager::TABLE_PRODUCTEUR . "
 				(" . ProducteurManager::CHAMP_PRODUCTEUR_ID . "
-				," . ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE . "
+				," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . "
 				," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . "
-				," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . "
 				," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . "
 				," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . "
 				," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . "
@@ -366,9 +357,8 @@ class ProducteurManager
 				," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE . "
 				," . ProducteurManager::CHAMP_PRODUCTEUR_ETAT . ")
 			VALUES (NULL
-				,'" . StringUtils::securiser( $pVo->getMotPasse() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdFerme() ) . "'
 				,'" . StringUtils::securiser( $pVo->getNumero() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
 				,'" . StringUtils::securiser( $pVo->getPrenom() ) . "'
 				,'" . StringUtils::securiser( $pVo->getCourrielPrincipal() ) . "'
@@ -429,9 +419,8 @@ class ProducteurManager
 		$lRequete = 
 			"UPDATE " . ProducteurManager::TABLE_PRODUCTEUR . "
 			 SET
-				 " . ProducteurManager::CHAMP_PRODUCTEUR_MOT_PASSE . " = '" . StringUtils::securiser( $pVo->getMotPasse() ) . "'
+				 " . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . " = '" . StringUtils::securiser( $pVo->getIdFerme() ) . "'
 				," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
-				," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . " = '" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . " = '" . StringUtils::securiser( $pVo->getPrenom() ) . "'
 				," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . " = '" . StringUtils::securiser( $pVo->getCourrielPrincipal() ) . "'
@@ -449,7 +438,7 @@ class ProducteurManager
 			 WHERE " . ProducteurManager::CHAMP_PRODUCTEUR_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequeteInsertRetourId($lRequete);
 	}
 
 	/**

@@ -37,6 +37,12 @@ class AfficherReservationResponse extends DataTemplate
 	protected $mReservation;
 	
 	/**
+	 * @var AdherentViewVO
+	 * @desc L'adhérent
+	 */
+	protected $mAdherent;
+	
+	/**
 	* @name InfoAchatMarcheResponse()
 	* @desc Le constructeur de InfoAchatMarcheResponse
 	*/	
@@ -106,6 +112,24 @@ class AfficherReservationResponse extends DataTemplate
 	*/
 	public function setReservation($pReservation) {
 		$this->mReservation = $pReservation;
+	}
+		
+	/**
+	* @name getAdherent()
+	* @return AdherentViewVO
+	* @desc Renvoie l'Adherent
+	*/
+	public function getAdherent() {
+		return $this->mAdherent;
+	}
+
+	/**
+	* @name setAdherent($pAdherent)
+	* @param AdherentViewVO
+	* @desc Remplace l'Adherent par $pAdherent
+	*/
+	public function setAdherent($pAdherent) {
+		$this->mAdherent = $pAdherent;
 	}
 }
 ?>

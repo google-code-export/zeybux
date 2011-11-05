@@ -920,8 +920,10 @@
 					"</thead>" +
 					"<tbody>" +
 					"<!-- BEGIN categories -->" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-						"<td colspan=\"6\"></td>" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
 						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"ligne-produit\">" +
 							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
@@ -970,8 +972,10 @@
 					"</thead>" +
 					"<tbody>" +
 					"<!-- BEGIN categoriesSolidaire -->" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
-						"<td colspan=\"6\"></td>" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
 						"<!-- BEGIN categoriesSolidaire.produits -->" +
 						"<tr class=\"ligne-produit-solidaire\">" +
 							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +

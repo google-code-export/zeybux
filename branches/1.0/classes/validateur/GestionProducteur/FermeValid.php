@@ -219,119 +219,12 @@ class FermeValid
 	* @desc Test la validite de l'élément
 	*/
 	public static function validUpdate($pData) {
-		$lVr = new FermeVR();
-		//Tests Techniques
-		if(!isset($pData['id'])) {
-			$lVr->setValid(false);
-			$lVr->getId()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-			$lVr->getId()->addErreur($lErreur);	
-		}		
+		$lVr = FermeValid::validDelete($pData);		
 		if($lVr->getvalid()) {
-			if(!TestFonction::checkLength($pData['id'],0,11)) {
-					$lVr->setValid(false);
-					$lVr->getId()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-					$lVr->getId()->addErreur($lErreur);	
-			}
-			if(!is_int((int)$pData['id'])) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getId()->addErreur($lErreur);	
-			}
-		
-			//Tests Fonctionnels
-			if(empty($pData['id'])) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);	
-			}
-			
-			// La ferme doit exister
-			$lFerme = FermeManager::select($pData['id']);
-			if($lFerme->getId() != $pData['id']) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);
-			}
-			
-			if($lVr->getvalid()) {
-				return FermeValid::validAjout($pData);	
-			}
+			return FermeValid::validAjout($pData);
 		}
 		return $lVr;
-	}
-	
-	/**
-	* @name validAfficherInformation($pData)
-	* @return FermeVR
-	* @desc Test la validite de l'élément
-	*/
-	public static function validAfficherInformation($pData) {
-		$lVr = new FermeVR();
-		//Tests Techniques
-		if(!isset($pData['id_ferme'])) {
-			$lVr->setValid(false);
-			$lVr->getId()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-			$lVr->getId()->addErreur($lErreur);	
-		}
-		if($lVr->getValid()) {
-			if(!TestFonction::checkLength($pData['id_ferme'],0,11)) {
-					$lVr->setValid(false);
-					$lVr->getId()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-					$lVr->getId()->addErreur($lErreur);	
-			}
-			if(!is_int((int)$pData['id_ferme'])) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getId()->addErreur($lErreur);	
-			}
-			
-			//Tests Fonctionnels
-			if(empty($pData['id_ferme'])) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);	
-			}
-			
-			// La ferme doit exister
-			$lFerme = FermeManager::select($pData['id_ferme']);
-			if($lFerme->getId() != $pData['id_ferme']) {
-				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);
-			}
-		}
-		return $lVr;
-	}
+	}	
 	
 	/**
 	* @name validDelete($pData)

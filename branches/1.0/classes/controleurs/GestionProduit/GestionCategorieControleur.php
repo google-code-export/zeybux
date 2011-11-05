@@ -12,7 +12,9 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUIT ."/ListeCategorieResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUIT ."/AutorisationSupprimerCategorieResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CategorieProduitActiveViewManager.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUIT ."/DetailCategorieResponse.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeCategorieProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CategorieProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUIT . "/CategorieProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "CategorieProduitToVO.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php" );
@@ -34,50 +36,66 @@ class GestionCategorieControleur
 	*/
 	public function getCategorie() {
 		$lResponse = new ListeCategorieResponse();
-		$lResponse->setListeCategorie( CategorieProduitActiveViewManager::selectAll() );
+		$lResponse->setListeCategorie( ListeCategorieProduitViewManager::selectAll() );
 		return $lResponse;
 	}
 	
 	/**
-	* @name ajouterCategorie($lParam)
+	* @name getDetailCategorie($pParam)
+	* @return DetailCategorieResponse
+	* @desc Retourne le détail d'une catégorie
+	*/
+	public function getDetailCategorie($pParam) {
+		$lVr = CategorieProduitValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lCategorie = CategorieProduitViewManager::select($pParam["id"]);
+			$lResponse = new DetailCategorieResponse();
+			$lResponse->setCategorie( $lCategorie[0] );
+			return $lResponse;
+		}		
+		return $lVr;
+	}
+	
+	/**
+	* @name ajouterCategorie($pParam)
 	* @return CategorieProduitVR
 	* @desc Ajoute une categorie et retourne son nom et ID
 	*/
-	public function ajouterCategorie($lParam) {	
-		$lVr = CategorieProduitValid::validAjout($lParam);
+	public function ajouterCategorie($pParam) {	
+		$lVr = CategorieProduitValid::validAjout($pParam);
 		
 		if($lVr->getValid()) {
-			$lCategorieProduitVO = CategorieProduitToVO::convertFromArray( $lParam['categorieProduit']);
+			$lCategorieProduitVO = CategorieProduitToVO::convertFromArray( $pParam['categorieProduit']);
 			CategorieProduitManager::insert($lCategorieProduitVO);
 		}		
 		return $lVr;
 	}
 	
 	/**
-	* @name modifierCategorie($lParam)
+	* @name modifierCategorie($pParam)
 	* @return CategorieProduitVR
 	* @desc Modifie une categorie et retourne son nom et ID
 	*/
-	public function modifierCategorie($lParam) {	
-		$lVr = CategorieProduitValid::validUpdate($lParam);		
+	public function modifierCategorie($pParam) {	
+		$lVr = CategorieProduitValid::validUpdate($pParam);		
 		if($lVr->getValid()) {
-			$lCategorieProduitVO = CategorieProduitToVO::convertFromArray( $lParam['categorieProduit']);
+			$lCategorieProduitVO = CategorieProduitToVO::convertFromArray( $pParam['categorieProduit']);
 			CategorieProduitManager::update($lCategorieProduitVO);
 		}		
 		return $lVr;
 	}
 	
 	/**
-	* @name supprimerCategorie($lParam)
+	* @name supprimerCategorie($pParam)
 	* @return CategorieProduitVR
 	* @desc Supprime une categorie
 	*/
-	public function supprimerCategorie($lParam) {	
-		$lVr = CategorieProduitValid::validDelete($lParam);		
+	public function supprimerCategorie($pParam) {	
+		$lVr = CategorieProduitValid::validDelete($pParam);		
 		if($lVr->getValid()) {
-			$lAutorisation = GestionCategorieControleur::autorisationSupprimerCategorie($lParam);			
+			$lAutorisation = GestionCategorieControleur::autorisationSupprimerCategorie($pParam);			
 			if($lAutorisation->getValid() && $lAutorisation->getAutorisation()) {		
-				$lCategorie = CategorieProduitManager::select($lParam['id']);
+				$lCategorie = CategorieProduitManager::select($pParam['id']);
 				$lCategorie->setEtat(1);
 				CategorieProduitManager::update($lCategorie);
 			}
@@ -87,15 +105,15 @@ class GestionCategorieControleur
 	}
 	
 	/**
-	* @name autorisationSupprimerCategorie($lParam)
+	* @name autorisationSupprimerCategorie($pParam)
 	* @return CategorieProduitVR
 	* @desc Retourne l'autorisation de supprimer une categorie ainsi que le nombre de produit associé à la catégorie
 	*/
-	public function autorisationSupprimerCategorie($lParam) {	
-		$lVr = CategorieProduitValid::validDelete($lParam);		
+	public function autorisationSupprimerCategorie($pParam) {	
+		$lVr = CategorieProduitValid::validDelete($pParam);		
 		if($lVr->getValid()) {
 			$lReponse = new AutorisationSupprimerCategorieResponse();
-			$lProduits = GestionCategorieControleur::listeProduitCategorie($lParam['id']);		
+			$lProduits = GestionCategorieControleur::listeProduitCategorie($pParam['id']);		
 			$lId = $lProduits[0]->getId();
 			if(count($lProduits) == 1 && empty($lId) ) { // Le manager retourne un tableau avec un objet vide -> Pas de produit
 				$lReponse->setNbProduit(0);
@@ -119,15 +137,15 @@ class GestionCategorieControleur
 	}
 	
 	/**
-	* @name exportProduitCategorie($lParam)
+	* @name exportProduitCategorie($pParam)
 	* @return CSV
 	* @desc Retourne la liste des produits liés à la catégorie
 	*/	
-	public function exportProduitCategorie($lParam) {
-		$lVr = CategorieProduitValid::validDelete($lParam);		
+	public function exportProduitCategorie($pParam) {
+		$lVr = CategorieProduitValid::validDelete($pParam);		
 		if($lVr->getValid()) {
-			$lCategorie = CategorieProduitManager::select($lParam['id']);
-			$lProduits = GestionCategorieControleur::listeProduitCategorie($lParam['id']);
+			$lCategorie = CategorieProduitManager::select($pParam['id']);
+			$lProduits = GestionCategorieControleur::listeProduitCategorie($pParam['id']);
 			
 			$lCSV = new CSV();
 			$lCSV->setNom($lCategorie->getNom() . '_:_Liste_des_produits.csv'); // Le Nom

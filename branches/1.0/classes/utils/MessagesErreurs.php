@@ -184,6 +184,24 @@ class MessagesErreurs
 	const ERR_321_MSG = 'Ferme modifiée.';
 	const ERR_322_CODE = 322;
 	const ERR_322_MSG = 'Ferme supprimée.';
+	const ERR_323_CODE = 323;
+	const ERR_323_MSG = 'Producteur ajouté.';
+	const ERR_324_CODE = 324;
+	const ERR_324_MSG = 'Producteur modifié.';
+	const ERR_325_CODE = 325;
+	const ERR_325_MSG = 'Producteur supprimé.';	
+	const ERR_326_CODE = 326;
+	const ERR_326_MSG = 'Caractéristique ajoutée.';
+	const ERR_327_CODE = 327;
+	const ERR_327_MSG = 'Caractéristique modifiée.';
+	const ERR_328_CODE = 328;
+	const ERR_328_MSG = 'Caractéristique supprimée.';
+	const ERR_329_CODE = 329;
+	const ERR_329_MSG = 'Produit ajouté.';
+	const ERR_330_CODE = 330;
+	const ERR_330_MSG = 'Produit modifié.';
+	const ERR_331_CODE = 331;
+	const ERR_331_MSG = 'Produit supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

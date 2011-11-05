@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 31/10/2011
 // Fichier : ProducteurViewVO.php
 //
 // Description : Classe ProducteurViewVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProducteurViewVO
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 31/10/2011
  * @desc Classe représentant une ProducteurViewVO
  */
 class ProducteurViewVO  extends DataTemplate	
@@ -25,22 +25,16 @@ class ProducteurViewVO  extends DataTemplate
 	protected $mPrdtId;
 
 	/**
+	* @var int(11)
+	* @desc PrdtIdFerme de la ProducteurViewVO
+	*/
+	protected $mPrdtIdFerme;
+
+	/**
 	* @var varchar(20)
 	* @desc PrdtNumero de la ProducteurViewVO
 	*/
 	protected $mPrdtNumero;
-
-	/**
-	* @var int(11)
-	* @desc PrdtIdCompte de la ProducteurViewVO
-	*/
-	protected $mPrdtIdCompte;
-
-	/**
-	* @var varchar(30)
-	* @desc CptLabel de la ProducteurViewVO
-	*/
-	protected $mCptLabel;
 
 	/**
 	* @var varchar(50)
@@ -103,28 +97,10 @@ class ProducteurViewVO  extends DataTemplate
 	protected $mPrdtDateNaissance;
 
 	/**
-	* @var date
-	* @desc PrdtDateCreation de la ProducteurViewVO
-	*/
-	protected $mPrdtDateCreation;
-
-	/**
-	* @var datetime
-	* @desc PrdtDateMaj de la ProducteurViewVO
-	*/
-	protected $mPrdtDateMaj;
-
-	/**
 	* @var text
 	* @desc PrdtCommentaire de la ProducteurViewVO
 	*/
 	protected $mPrdtCommentaire;
-
-	/**
-	* @var decimal(32,2)
-	* @desc OpeMontant de la ProducteurViewVO
-	*/
-	protected $mOpeMontant;
 
 	/**
 	* @name getPrdtId()
@@ -145,6 +121,24 @@ class ProducteurViewVO  extends DataTemplate
 	}
 
 	/**
+	* @name getPrdtIdFerme()
+	* @return int(11)
+	* @desc Renvoie le membre PrdtIdFerme de la ProducteurViewVO
+	*/
+	public function getPrdtIdFerme() {
+		return $this->mPrdtIdFerme;
+	}
+
+	/**
+	* @name setPrdtIdFerme($pPrdtIdFerme)
+	* @param int(11)
+	* @desc Remplace le membre PrdtIdFerme de la ProducteurViewVO par $pPrdtIdFerme
+	*/
+	public function setPrdtIdFerme($pPrdtIdFerme) {
+		$this->mPrdtIdFerme = $pPrdtIdFerme;
+	}
+
+	/**
 	* @name getPrdtNumero()
 	* @return varchar(20)
 	* @desc Renvoie le membre PrdtNumero de la ProducteurViewVO
@@ -160,42 +154,6 @@ class ProducteurViewVO  extends DataTemplate
 	*/
 	public function setPrdtNumero($pPrdtNumero) {
 		$this->mPrdtNumero = $pPrdtNumero;
-	}
-
-	/**
-	* @name getPrdtIdCompte()
-	* @return int(11)
-	* @desc Renvoie le membre PrdtIdCompte de la ProducteurViewVO
-	*/
-	public function getPrdtIdCompte() {
-		return $this->mPrdtIdCompte;
-	}
-
-	/**
-	* @name setPrdtIdCompte($pPrdtIdCompte)
-	* @param int(11)
-	* @desc Remplace le membre PrdtIdCompte de la ProducteurViewVO par $pPrdtIdCompte
-	*/
-	public function setPrdtIdCompte($pPrdtIdCompte) {
-		$this->mPrdtIdCompte = $pPrdtIdCompte;
-	}
-
-	/**
-	* @name getCptLabel()
-	* @return varchar(30)
-	* @desc Renvoie le membre CptLabel de la ProducteurViewVO
-	*/
-	public function getCptLabel() {
-		return $this->mCptLabel;
-	}
-
-	/**
-	* @name setCptLabel($pCptLabel)
-	* @param varchar(30)
-	* @desc Remplace le membre CptLabel de la ProducteurViewVO par $pCptLabel
-	*/
-	public function setCptLabel($pCptLabel) {
-		$this->mCptLabel = $pCptLabel;
 	}
 
 	/**
@@ -379,42 +337,6 @@ class ProducteurViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getPrdtDateCreation()
-	* @return date
-	* @desc Renvoie le membre PrdtDateCreation de la ProducteurViewVO
-	*/
-	public function getPrdtDateCreation() {
-		return $this->mPrdtDateCreation;
-	}
-
-	/**
-	* @name setPrdtDateCreation($pPrdtDateCreation)
-	* @param date
-	* @desc Remplace le membre PrdtDateCreation de la ProducteurViewVO par $pPrdtDateCreation
-	*/
-	public function setPrdtDateCreation($pPrdtDateCreation) {
-		$this->mPrdtDateCreation = $pPrdtDateCreation;
-	}
-
-	/**
-	* @name getPrdtDateMaj()
-	* @return datetime
-	* @desc Renvoie le membre PrdtDateMaj de la ProducteurViewVO
-	*/
-	public function getPrdtDateMaj() {
-		return $this->mPrdtDateMaj;
-	}
-
-	/**
-	* @name setPrdtDateMaj($pPrdtDateMaj)
-	* @param datetime
-	* @desc Remplace le membre PrdtDateMaj de la ProducteurViewVO par $pPrdtDateMaj
-	*/
-	public function setPrdtDateMaj($pPrdtDateMaj) {
-		$this->mPrdtDateMaj = $pPrdtDateMaj;
-	}
-
-	/**
 	* @name getPrdtCommentaire()
 	* @return text
 	* @desc Renvoie le membre PrdtCommentaire de la ProducteurViewVO
@@ -430,24 +352,6 @@ class ProducteurViewVO  extends DataTemplate
 	*/
 	public function setPrdtCommentaire($pPrdtCommentaire) {
 		$this->mPrdtCommentaire = $pPrdtCommentaire;
-	}
-
-	/**
-	* @name getOpeMontant()
-	* @return decimal(32,2)
-	* @desc Renvoie le membre OpeMontant de la ProducteurViewVO
-	*/
-	public function getOpeMontant() {
-		return $this->mOpeMontant;
-	}
-
-	/**
-	* @name setOpeMontant($pOpeMontant)
-	* @param decimal(32,2)
-	* @desc Remplace le membre OpeMontant de la ProducteurViewVO par $pOpeMontant
-	*/
-	public function setOpeMontant($pOpeMontant) {
-		$this->mOpeMontant = $pOpeMontant;
 	}
 
 }
