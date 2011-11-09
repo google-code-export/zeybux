@@ -327,8 +327,9 @@ String.prototype.template = function(values,bname) {
  
     // suppression des tags vides 
     return string.replace(/{\w+}/g, ''); 
-} 
+}; 
 
-
-
+sortABC = function(a, b){			
+	return a[0] > b[0] ? 1 : -1;
+};
 

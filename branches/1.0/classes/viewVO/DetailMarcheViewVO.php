@@ -98,9 +98,9 @@ class DetailMarcheViewVO extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdCompteProducteur de la DetailMarcheViewVO
+	* @desc ProIdCompteFerme de la DetailMarcheViewVO
 	*/
-	protected $mProIdCompteProducteur;
+	protected $mProIdCompteFerme;
 	
 	/**
 	* @var decimal(10,2)
@@ -167,6 +167,18 @@ class DetailMarcheViewVO extends DataTemplate
 	* @desc CproNom de la DetailMarcheViewVO
 	*/
 	protected $mCproNom;
+	
+	/**
+	* @var int(11)
+	* @desc FerId de la DetailMarcheViewVO
+	*/
+	protected $mFerId;
+	
+	/**
+	* @var varchar(20)
+	* @desc FerNom de la DetailMarcheViewVO
+	*/
+	protected $mFerNom;
 
 	/**
 	* @name getComId()
@@ -403,21 +415,21 @@ class DetailMarcheViewVO extends DataTemplate
 	}
 
 	/**
-	* @name getProIdCompteProducteur()
+	* @name getProIdCompteFerme()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdCompteProducteur de la DetailMarcheViewVO
+	* @desc Renvoie le membre ProIdCompteFerme de la DetailMarcheViewVO
 	*/
-	public function getProIdCompteProducteur() {
-		return $this->mProIdCompteProducteur;
+	public function getProIdCompteFerme() {
+		return $this->mProIdCompteFerme;
 	}
 
 	/**
-	* @name setProIdCompteProducteur($pProIdCompteProducteur)
+	* @name setProIdCompteFerme($pProIdCompteFerme)
 	* @param int(11)
-	* @desc Remplace le membre ProIdCompteProducteur de la DetailMarcheViewVO par $pProIdCompteProducteur
+	* @desc Remplace le membre ProIdCompteFerme de la DetailMarcheViewVO par $pProIdCompteFerme
 	*/
-	public function setProIdCompteProducteur($pProIdCompteProducteur) {
-		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
+	public function setProIdCompteFerme($pProIdCompteFerme) {
+		$this->mProIdCompteFerme = $pProIdCompteFerme;
 	}
 	
 	/**
@@ -616,6 +628,42 @@ class DetailMarcheViewVO extends DataTemplate
 	*/
 	public function setCproNom($pCproNom) {
 		$this->mCproNom = $pCproNom;
+	}
+	
+	/**
+	* @name getFerId()
+	* @return int(11)
+	* @desc Renvoie le membre FerId de la DetailMarcheViewVO
+	*/
+	public function getFerId() {
+		return $this->mFerId;
+	}
+
+	/**
+	* @name setFerId($pFerId)varchar(50)
+	* @param int(11)
+	* @desc Remplace le membre FerId de la DetailMarcheViewVO par $pFerId
+	*/
+	public function setFerId($pFerId) {
+		$this->mFerId = $pFerId;
+	}
+	
+	/**
+	* @name getFerNom()
+	* @return varchar(20)
+	* @desc Renvoie le membre FerNom de la DetailMarcheViewVO
+	*/
+	public function getFerNom() {
+		return $this->mFerNom;
+	}
+
+	/**
+	* @name setFerNom($pFerNom)varchar(50)
+	* @param varchar(20)
+	* @desc Remplace le membre FerNom de la DetailMarcheViewVO par $pFerNom
+	*/
+	public function setFerNom($pFerNom) {
+		$this->mFerNom = $pFerNom;
 	}
 }
 ?>

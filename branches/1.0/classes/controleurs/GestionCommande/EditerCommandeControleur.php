@@ -13,15 +13,31 @@
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/EditerCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAchatEtReservationResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/DetailProduitResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ModifierMarcheValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitMarcheValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
+include_once(CHEMIN_CLASSES_TOVO . "ProduitCommandeToVO.php");
+
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ListeProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ModelesLotResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
+
 
 /**
  * @name EditerCommandeControleur
@@ -519,7 +535,7 @@ class EditerCommandeControleur
 	/**
 	* @name getListeReservation($pParam)
 	* @param Id du marché
-	* @desc Cloture le marché
+	* @desc Retourne la liste des réservations
 	*/
 	public function getListeReservation($pParam) {		
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
@@ -529,6 +545,139 @@ class EditerCommandeControleur
 			$lResponse->setListeAdherentCommande($lListeAdherent);
 			return $lResponse;
 		}
+		return $lVr;
+	}
+	
+	/**
+	* @name modifierInformationMarche($pParam)
+	* @param MarcheVO
+	* @desc Modifie les informations du marché
+	*/
+	public function modifierInformationMarche($pParam) {		
+		$lVr = ModifierMarcheValid::validUpdateInformation($pParam);
+		if($lVr->getValid()) {
+			$lMarche = new MarcheVO();			
+			$lMarche->setId($pParam['id']);
+			$lMarche->setNom($pParam['nom']);
+			$lMarche->setDescription($pParam['description']);
+			$lMarche->setDateMarcheDebut($pParam['dateMarcheDebut'] . " " . $pParam['timeMarcheDebut']);
+			$lMarche->setDateMarcheFin($pParam['dateMarcheFin'] . " " . $pParam['timeMarcheFin']);
+			$lMarche->setDateFinReservation($pParam['dateFinReservation'] . " " . $pParam['timeFinReservation']);
+			
+			$lMarcheService = new MarcheService();
+			$lMarcheService->updateInformation($lMarche);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name supprimerProduitMarche($pParam)
+	* @param IdProduit
+	* @desc Supprime un produit du marché
+	*/
+	public function supprimerProduitMarche($pParam) {		
+		$lVr = ProduitMarcheValid::validDelete($pParam);
+		if($lVr->getValid()) {			
+			$lMarcheService = new MarcheService();
+			$lMarcheService->supprimerProduit($pParam["id"]);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name detailProduitMarche($pParam)
+	* @param IdProduit
+	* @desc Retourne le détail d'un produit
+	*/
+	public function detailProduitMarche($pParam) {		
+		$lVr = ProduitMarcheValid::validDelete($pParam);
+		if($lVr->getValid()) {			
+			$lMarcheService = new MarcheService();
+			$lProduit = $lMarcheService->selectProduit($pParam["id"]);
+
+			$lId = $lProduit->getIdNom();			
+			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
+			
+			$lResponse = new DetailProduitResponse();
+			$lResponse->setProduit( $lProduit );
+			$lResponse->setModelesLot( $lModelesLot );
+			return $lResponse;
+		}
+		return $lVr;
+	}
+
+	/**
+	* @name modifierProduitMarche($pParam)
+	* @param ProduitVO
+	* @desc Met à jour un produit du marché
+	*/
+	public function modifierProduitMarche($pParam) {		
+		$lVr = ProduitMarcheValid::validUpdate($pParam);
+		if($lVr->getValid()) {			
+			$lMarcheService = new MarcheService();
+			$lProduit = ProduitCommandeToVO::convertFromArray($pParam);			
+			$lMarcheService->updateProduit($lProduit);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name ajouterProduitMarche($pParam)
+	* @param ProduitVO
+	* @desc Met à jour un produit du marché
+	*/
+	public function ajouterProduitMarche($pParam) {		
+		$lVr = CommandeCompleteValid::validAjoutProduit($pParam);
+		if($lVr->getValid()) {			
+			$lMarcheService = new MarcheService();
+			$lProduit = ProduitCommandeToVO::convertFromArray($pParam);			
+			$lMarcheService->ajoutProduit($lProduit);
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name getListeFerme()
+	* @return ListeFermeResponse
+	* @desc Recherche la liste des Fermes
+	*/
+	public function getListeFerme() {		
+		// Lancement de la recherche
+		$lResponse = new ListeFermeResponse();
+		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		return $lResponse;
+	}
+	
+	/**
+	* @name getListeProduit($pParam)
+	* @return ListeProduitResponse
+	* @desc Retourne la liste des produits
+	*/
+	public function getListeProduit($pParam) {
+		$lVr = FermeValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lResponse = new ListeProduitResponse();
+			$lResponse->setListeProduit( ListeNomProduitViewManager::select( $pParam['id'] ) );
+			return $lResponse;
+		}		
+		return $lVr;
+	}
+	
+	/**
+	* @name getModeleLot($pParam)
+	* @return DetailProduitResponse
+	* @desc Retourne les Modèles de lot d'un produit
+	*/
+	public function getModeleLot($pParam) {
+		$lVr = NomProduitCatalogueValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lId = $pParam['idNomProduit'];			
+			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
+			
+			$lResponse = new ModelesLotResponse();
+			$lResponse->setModelesLot( $lModelesLot );
+			return $lResponse;
+		}		
 		return $lVr;
 	}
 	

@@ -14,8 +14,9 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_VO . "MarcheVO.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeReservationProducteurViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteNomProduitViewManager.php");
 
-include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
+//include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
@@ -55,18 +56,31 @@ class MarcheService
 		// Le détail du marché
 		if($lIdMarche != null) {
 			$lStockService = new StockService();
-			foreach($pMarche->getProduits() as $lNouveauProduit) {				
-				$lProducteur = ProducteurManager::select($lNouveauProduit->getIdProducteur());
-
+			foreach($pMarche->getProduits() as $lNouveauProduit) {
+				//$lProducteur = ProducteurManager::select($lNouveauProduit->getIdProducteur());
+				$lComptes = CompteNomProduitViewManager::select($lNouveauProduit->getIdNom());
+				$lComptes = $lComptes[0];
+				$lIdCompteFerme = $lComptes->getFerIdCompte();				
+				
 				// Insertion du produit
 				$lProduit = new ProduitVO();
 				$lProduit->setIdCommande($lIdMarche);
 				$lProduit->setIdNomProduit($lNouveauProduit->getIdNom());
 				$lProduit->setUniteMesure($lNouveauProduit->getUnite());
-				$lProduit->setMaxProduitCommande($lNouveauProduit->getQteMaxCommande());
-				$lProduit->setIdCompteProducteur($lProducteur->getIdCompte());
-				$lProduit->setStockReservation($lNouveauProduit->getQteRestante());
-				$lProduit->setStockInitial($lNouveauProduit->getQteRestante());
+				if($lNouveauProduit->getQteMaxCommande() == "") {
+					$lProduit->setMaxProduitCommande(-1);
+				} else {
+					$lProduit->setMaxProduitCommande($lNouveauProduit->getQteMaxCommande());
+				}
+				$lProduit->setIdCompteFerme($lIdCompteFerme);
+				
+				if($lNouveauProduit->getQteRestante() == "") {
+					$lProduit->setStockReservation(0);
+					$lProduit->setStockInitial(-1);					
+				} else {
+					$lProduit->setStockReservation($lNouveauProduit->getQteRestante());
+					$lProduit->setStockInitial($lNouveauProduit->getQteRestante());
+				}
 				$lIdProduit = ProduitManager::insert($lProduit);
 
 				//Insertion des lots
@@ -82,7 +96,7 @@ class MarcheService
 				$lStock = new StockVO();
 				$lStock->setQuantite($lNouveauProduit->getQteRestante());
 				$lStock->setType(0);
-				$lStock->setIdCompte($lProducteur->getIdCompte());
+				$lStock->setIdCompte($lIdCompteFerme);
 				$lStock->setIdDetailCommande($lDcomId);
 				//$lStock->setIdOperation(0);
 				$lStockService->set($lStock);
@@ -91,6 +105,58 @@ class MarcheService
 		return $lIdMarche;
 	}
 	
+	/**
+	* @name update($pProduit)
+	* @param ProduitMarcheVO
+	* @desc Ajoute une produit au marche
+	*/
+	public function ajoutProduit($pProduit) {
+	
+		$lComptes = CompteNomProduitViewManager::select($pProduit->getIdNom());
+		$lComptes = $lComptes[0];
+		$lIdCompteFerme = $lComptes->getFerIdCompte();				
+		
+		// Insertion du produit
+		$lProduit = new ProduitVO();
+		$lProduit->setIdCommande($pProduit->getId());
+		$lProduit->setIdNomProduit($pProduit->getIdNom());
+		$lProduit->setUniteMesure($pProduit->getUnite());
+		if($pProduit->getQteMaxCommande() == "") {
+			$lProduit->setMaxProduitCommande(-1);
+		} else {
+			$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
+		}
+		$lProduit->setIdCompteFerme($lIdCompteFerme);
+		
+		if($pProduit->getQteRestante() == "") {
+			$lProduit->setStockReservation(0);
+			$lProduit->setStockInitial(-1);					
+		} else {
+			$lProduit->setStockReservation($pProduit->getQteRestante());
+			$lProduit->setStockInitial($pProduit->getQteRestante());
+		}
+		$lIdProduit = ProduitManager::insert($lProduit);
+
+		//Insertion des lots
+		foreach($pProduit->getLots() as $lNouveauLot) {
+			$lDetailCommande = new DetailCommandeVO();
+			$lDetailCommande->setIdProduit($lIdProduit);
+			$lDetailCommande->setTaille($lNouveauLot->getTaille());
+			$lDetailCommande->setPrix($lNouveauLot->getPrix());
+			$lDcomId = DetailCommandeManager::insert($lDetailCommande);
+		}
+		$lStockService = new StockService();
+		
+		//Insertion du stock -> Met à jour le stock reservation dans le produit
+		$lStock = new StockVO();
+		$lStock->setQuantite($pProduit->getQteRestante());
+		$lStock->setType(0);
+		$lStock->setIdCompte($lIdCompteFerme);
+		$lStock->setIdDetailCommande($lDcomId);
+		//$lStock->setIdOperation(0);
+		$lStockService->set($lStock);
+	}
+
 	/**
 	* @name update($pMarche)
 	* @param MarcheVO
@@ -247,6 +313,113 @@ class MarcheService
 	}	
 	
 	/**
+	* @name updateInformation($pMarche)
+	* @param MarcheVO
+	* @return integer
+	* @desc Met à jour l'entête du marché
+	*/
+	public function updateInformation($pMarche) {	
+		$lIdMarche = $pMarche->getId();
+		
+		$lMarche = $this->getInfoMarche($lIdMarche);
+		$lMarche->setNom($pMarche->getNom());
+		$lMarche->setDescription($pMarche->getDescription());
+		$lMarche->setDateMarcheDebut($pMarche->getDateMarcheDebut());
+		$lMarche->setDateMarcheFin($pMarche->getDateMarcheFin());
+		$lMarche->setDateFinReservation($pMarche->getDateFinReservation());
+		
+		CommandeManager::update($lMarche); // Maj des infos de la commande
+		return $lIdMarche;
+	}	
+	
+	/**
+	* @name updateProduit($pProduit)
+	* @param ProduitVO
+	* @desc Met à jour le produit du marché
+	*/
+	public function updateProduit($pProduit) {	
+		$lProduitActuel = $this->selectProduit($pProduit->getId());
+		
+		//Les lots
+		foreach($lProduitActuel->getLots() as $lLotActuel) {
+			$lMajLot = true;
+			foreach($pProduit->getLots() as $lLotNv) {								
+				// Maj Lot
+				if($lLotActuel->getId() == $lLotNv->getId()) {
+					$lDcomId = $lLotActuel->getId();
+					
+					$lMajLot = false;
+					$lDetailCommande = new DetailCommandeVO();
+					$lDetailCommande->setId($lLotActuel->getId());
+					$lDetailCommande->setIdProduit($lProduitActuel->getId());
+					$lDetailCommande->setTaille($lLotNv->getTaille());
+					$lDetailCommande->setPrix($lLotNv->getPrix());
+					DetailCommandeManager::update($lDetailCommande);
+				}																
+			}
+			// Supprimer Lot
+			if($lMajLot) {
+				$lDeleteLot = DetailCommandeManager::select($lLotActuel->getId());
+				$lDeleteLot->setEtat(1);
+				DetailCommandeManager::update($lDeleteLot);
+			}
+		}
+		
+		// Nouveau Lot
+		foreach($pProduit->getLots() as $lLotNv) {
+			$lAjout = true;
+			foreach($lProduitActuel->getLots() as $lLotActuel) {
+				if($lLotActuel->getId() == $lLotNv->getId()) {
+					$lAjout = false;
+				}
+			}
+			if($lAjout) {
+				$lDetailCommande = new DetailCommandeVO();
+				$lDetailCommande->setIdProduit($lProduitActuel->getId());
+				$lDetailCommande->setTaille($lLotNv->getTaille());
+				$lDetailCommande->setPrix($lLotNv->getPrix());
+				$lDcomId = DetailCommandeManager::insert($lDetailCommande);
+			}
+		}
+	
+		$lStockService = new StockService();
+		$lResaActuel = GestionCommandeReservationProducteurViewManager::getStockReservationProducteur($lProduitActuel->getIdCompteFerme(),$lProduitActuel->getId());
+		$lStockActuel = $lStockService->get($lResaActuel[0]->getStoId());
+	
+		// Maj du stock
+		$lStockActuel->setQuantite($pProduit->getQteRestante());
+		$lStockActuel->setIdDetailCommande($lDcomId);
+		$lStockService->set($lStockActuel);
+		
+		$lProduit = ProduitManager::select($lProduitActuel->getId());
+		//$lProduit->setIdCommande($lIdMarche);
+		//$lProduitActuel->setIdNomProduit($pProduit->getIdNom());
+		$lProduit->setUniteMesure($pProduit->getUnite());
+		$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
+		//$lProduitActuel->setStockInitial($pProduit->getQteRestante());
+		//$lProduit->setIdCompteFerme($pProduit->getIdCompteFerme()); // C'est bien le compte il faut changer le nom du champ
+		ProduitManager::update($lProduit);
+	}
+	
+	/**
+	* @name supprimerProduit($pId)
+	* @param integer
+	* @desc Supprime un produit du marché
+	*/
+	public function supprimerProduit($pId) {	
+		$lProduit = ProduitManager::select($pId);
+		// Suppression des lots
+		$lLots = DetailCommandeManager::selectByIdProduit($pId);
+		foreach($lLots as $lLot) {
+			$lLot->setEtat(1);
+			DetailCommandeManager::update($lLot);
+		}
+		
+		$lProduit->setEtat(1);
+		ProduitManager::update($lProduit);
+	}	
+		
+	/**
 	* @name getNonReserveeParCompte($pIdCompte)
 	* @param integer
 	* @return array(CommandeVO)
@@ -302,7 +475,7 @@ class MarcheService
 				if(!isset($lProduits[$lDetail->getProId()])) {				
 					$lProduit = new ProduitMarcheVO();
 					$lProduit->setId($lDetail->getProId());
-					$lProduit->setIdCompteProducteur($lDetail->getProIdCompteProducteur());
+					$lProduit->setIdCompteFerme($lDetail->getProIdCompteFerme());
 					$lProduit->setIdNom($lDetail->getNproId());
 					$lProduit->setNom($lDetail->getNproNom());
 					$lProduit->setDescription($lDetail->getNproDescription());
@@ -312,6 +485,8 @@ class MarcheService
 					$lProduit->setQteMaxCommande($lDetail->getProMaxProduitCommande());
 					$lProduit->setStockReservation($lDetail->getProStockReservation());
 					$lProduit->setStockInitial($lDetail->getProStockInitial());
+					$lProduit->setFerId($lDetail->getFerId());
+					$lProduit->setFerNom($lDetail->getFerNom());
 					$lProduits[$lDetail->getProId()] = $lProduit;
 				}
 				
@@ -329,6 +504,43 @@ class MarcheService
 		}
 				
 		return $lMarche;
+	}
+	
+
+	/**
+	* @name selectProduit($pId)
+	* @param integer
+	* @return ProduitMarcheVO
+	* @desc Retourne un Produit
+	*/
+	public function selectProduit($pId) {		
+		$lDetailMarche = DetailMarcheViewManager::selectByIdProduit($pId);				
+		
+		$lProduit = new ProduitMarcheVO();
+		// Le Produit
+		$lProduit->setId($lDetailMarche[0]->getProId());
+		$lProduit->setIdCompteFerme($lDetailMarche[0]->getProIdCompteFerme());
+		$lProduit->setIdNom($lDetailMarche[0]->getNproId());
+		$lProduit->setNom($lDetailMarche[0]->getNproNom());
+		$lProduit->setDescription($lDetailMarche[0]->getNproDescription());
+		$lProduit->setIdCategorie($lDetailMarche[0]->getNproIdCategorie());
+		$lProduit->setCproNom($lDetailMarche[0]->getCproNom());
+		$lProduit->setUnite($lDetailMarche[0]->getProUniteMesure());
+		$lProduit->setQteMaxCommande($lDetailMarche[0]->getProMaxProduitCommande());
+		$lProduit->setStockReservation($lDetailMarche[0]->getProStockReservation());
+		$lProduit->setStockInitial($lDetailMarche[0]->getProStockInitial());
+		$lProduit->setFerId($lDetailMarche[0]->getFerId());
+		$lProduit->setFerNom($lDetailMarche[0]->getFerNom());
+			
+		foreach($lDetailMarche as $lDetail) {	
+			// Le Lot
+			$lLot = new DetailMarcheVO();
+			$lLot->setId($lDetail->getDcomId());
+			$lLot->setTaille($lDetail->getDcomTaille());
+			$lLot->setPrix($lDetail->getDcomPrix());
+			$lProduit->addLots($lLot);
+		}		
+		return $lProduit;
 	}
 		
 	/**

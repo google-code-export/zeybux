@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/07/2011
+// Date de creation : 08/11/2011
 // Fichier : ProduitVO.php
 //
 // Description : Classe ProduitVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProduitVO
  * @author Julien PIERRE
- * @since 26/07/2011
+ * @since 08/11/2011
  * @desc Classe représentant une ProduitVO
  */
 class ProduitVO  extends DataTemplate
@@ -50,9 +50,9 @@ class ProduitVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc IdCompteProducteur de la ProduitVO
+	* @desc IdCompteFerme de la ProduitVO
 	*/
-	protected $mIdCompteProducteur;
+	protected $mIdCompteFerme;
 
 	/**
 	* @var decimal(10,2)
@@ -163,21 +163,21 @@ class ProduitVO  extends DataTemplate
 	}
 
 	/**
-	* @name getIdCompteProducteur()
+	* @name getIdCompteFerme()
 	* @return int(11)
-	* @desc Renvoie le membre IdCompteProducteur de la ProduitVO
+	* @desc Renvoie le membre IdCompteFerme de la ProduitVO
 	*/
-	public function getIdCompteProducteur() {
-		return $this->mIdCompteProducteur;
+	public function getIdCompteFerme() {
+		return $this->mIdCompteFerme;
 	}
 
 	/**
-	* @name setIdCompteProducteur($pIdCompteProducteur)
+	* @name setIdCompteFerme($pIdCompteFerme)
 	* @param int(11)
-	* @desc Remplace le membre IdCompteProducteur de la ProduitVO par $pIdCompteProducteur
+	* @desc Remplace le membre IdCompteFerme de la ProduitVO par $pIdCompteFerme
 	*/
-	public function setIdCompteProducteur($pIdCompteProducteur) {
-		$this->mIdCompteProducteur = $pIdCompteProducteur;
+	public function setIdCompteFerme($pIdCompteFerme) {
+		$this->mIdCompteFerme = $pIdCompteFerme;
 	}
 
 	/**

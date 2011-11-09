@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/07/2011
+// Date de creation : 08/11/2011
 // Fichier : ProduitManager.php
 //
 // Description : Classe de gestion des Produit
@@ -16,7 +16,7 @@ include_once(CHEMIN_CLASSES_VO . "ProduitVO.php");
 /**
  * @name ProduitManager
  * @author Julien PIERRE
- * @since 26/07/2011
+ * @since 08/11/2011
  * 
  * @desc Classe permettant l'accès aux données des Produit
  */
@@ -28,7 +28,7 @@ class ProduitManager
 	const CHAMP_PRODUIT_ID_NOM_PRODUIT = "pro_id_nom_produit";
 	const CHAMP_PRODUIT_UNITE_MESURE = "pro_unite_mesure";
 	const CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE = "pro_max_produit_commande";
-	const CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR = "pro_id_compte_producteur";
+	const CHAMP_PRODUIT_ID_COMPTE_FERME = "pro_id_compte_ferme";
 	const CHAMP_PRODUIT_STOCK_RESERVATION = "pro_stock_reservation";
 	const CHAMP_PRODUIT_STOCK_INITIAL = "pro_stock_initial";
 	const CHAMP_PRODUIT_ETAT = "pro_etat";
@@ -51,7 +51,7 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
 			"," . ProduitManager::CHAMP_PRODUIT_ETAT . "
@@ -69,7 +69,7 @@ class ProduitManager
 				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 				$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT]);
@@ -94,7 +94,7 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
 			"," . ProduitManager::CHAMP_PRODUIT_ETAT . "
@@ -113,7 +113,7 @@ class ProduitManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT]));
@@ -146,7 +146,7 @@ class ProduitManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION .
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL .
 			"," . ProduitManager::CHAMP_PRODUIT_ETAT		);
@@ -172,7 +172,7 @@ class ProduitManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT]));
@@ -189,7 +189,7 @@ class ProduitManager
 	}
 
 	/**
-	* @name remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdCompteProducteur, $pStockReservation, $pStockInitial, $pEtat)
+	* @name remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdCompteFerme, $pStockReservation, $pStockInitial, $pEtat)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -202,14 +202,14 @@ class ProduitManager
 	* @return ProduitVO
 	* @desc Retourne une ProduitVO remplie
 	*/
-	private static function remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdCompteProducteur, $pStockReservation, $pStockInitial, $pEtat) {
+	private static function remplirProduit($pId, $pIdCommande, $pIdNomProduit, $pUniteMesure, $pMaxProduitCommande, $pIdCompteFerme, $pStockReservation, $pStockInitial, $pEtat) {
 		$lProduit = new ProduitVO();
 		$lProduit->setId($pId);
 		$lProduit->setIdCommande($pIdCommande);
 		$lProduit->setIdNomProduit($pIdNomProduit);
 		$lProduit->setUniteMesure($pUniteMesure);
 		$lProduit->setMaxProduitCommande($pMaxProduitCommande);
-		$lProduit->setIdCompteProducteur($pIdCompteProducteur);
+		$lProduit->setIdCompteFerme($pIdCompteFerme);
 		$lProduit->setStockReservation($pStockReservation);
 		$lProduit->setStockInitial($pStockInitial);
 		$lProduit->setEtat($pEtat);
@@ -234,7 +234,7 @@ class ProduitManager
 				," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . "
 				," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . "
 				," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . "
-				," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . "
+				," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . "
 				," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . "
 				," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . "
 				," . ProduitManager::CHAMP_PRODUIT_ETAT . ")
@@ -243,7 +243,7 @@ class ProduitManager
 				,'" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
 				,'" . StringUtils::securiser( $pVo->getUniteMesure() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMaxProduitCommande() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdCompteProducteur() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdCompteFerme() ) . "'
 				,'" . StringUtils::securiser( $pVo->getStockReservation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getStockInitial() ) . "'
 				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
@@ -269,7 +269,7 @@ class ProduitManager
 				," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " = '" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . " = '" . StringUtils::securiser( $pVo->getUniteMesure() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . " = '" . StringUtils::securiser( $pVo->getMaxProduitCommande() ) . "'
-				," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . " = '" . StringUtils::securiser( $pVo->getIdCompteProducteur() ) . "'
+				," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . " = '" . StringUtils::securiser( $pVo->getIdCompteFerme() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . " = '" . StringUtils::securiser( $pVo->getStockReservation() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " = '" . StringUtils::securiser( $pVo->getStockInitial() ) . "'
 				," . ProduitManager::CHAMP_PRODUIT_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'

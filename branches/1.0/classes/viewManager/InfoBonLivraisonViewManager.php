@@ -17,7 +17,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
 /**
  * @name InfoBonLivraisonViewManager
@@ -47,14 +47,13 @@ class InfoBonLivraisonViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
+			"," . FermeManager::CHAMP_FERME_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
 			"," . StockManager::CHAMP_STOCK_ID . "
 			FROM " . InfoBonLivraisonViewManager::VUE_INFOBONLIVRAISON . " 
@@ -69,14 +68,13 @@ class InfoBonLivraisonViewManager
 				array_push($lListeInfoBonLivraison,
 					InfoBonLivraisonViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+					$lLigne[FermeManager::CHAMP_FERME_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID]));
 			}
@@ -98,14 +96,13 @@ class InfoBonLivraisonViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
+			"," . FermeManager::CHAMP_FERME_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
 			"," . StockManager::CHAMP_STOCK_ID . "
 			FROM " . InfoBonLivraisonViewManager::VUE_INFOBONLIVRAISON;
@@ -119,14 +116,13 @@ class InfoBonLivraisonViewManager
 				array_push($lListeInfoBonLivraison,
 					InfoBonLivraisonViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+					$lLigne[FermeManager::CHAMP_FERME_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID]));
 			}
@@ -160,7 +156,7 @@ class InfoBonLivraisonViewManager
 	*/
 	public static function selectInfoBonLivraison($pIdCommande, $pIdCompteProducteur) {
 		return InfoBonLivraisonViewManager::recherche(
-			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR),
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME),
 			array('=','='),
 			array($pIdCommande, $pIdCompteProducteur),
 			array(''),
@@ -185,14 +181,13 @@ class InfoBonLivraisonViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
+			"," . FermeManager::CHAMP_FERME_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
 			"," . StockManager::CHAMP_STOCK_ID);
 
@@ -213,14 +208,13 @@ class InfoBonLivraisonViewManager
 					array_push($lListeInfoBonLivraison,
 						InfoBonLivraisonViewManager::remplir(
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
+						$lLigne[FermeManager::CHAMP_FERME_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 						$lLigne[StockManager::CHAMP_STOCK_ID]));
 				}
@@ -236,7 +230,7 @@ class InfoBonLivraisonViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom, $pDopeId, $pStoId)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -251,17 +245,16 @@ class InfoBonLivraisonViewManager
 	* @return InfoLivraisonViewVO
 	* @desc Retourne une InfoBonLivraisonViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pPrdtNom, $pPrdtPrenom, $pDopeId, $pStoId) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId) {
 		$lInfoBonLivraison = new InfoBonLivraisonViewVO();
 		$lInfoBonLivraison->setProIdCommande($pProIdCommande);
-		$lInfoBonLivraison->setProIdCompteProducteur($pProIdCompteProducteur);
+		$lInfoBonLivraison->setProIdCompteFerme($pProIdCompteFerme);
 		$lInfoBonLivraison->setProId($pProId);
 		$lInfoBonLivraison->setProUniteMesure($pProUniteMesure);
 		$lInfoBonLivraison->setNproNom($pNproNom);
 		$lInfoBonLivraison->setDopeMontant($pDopeMontant);
 		$lInfoBonLivraison->setStoQuantite($pStoQuantite);
-		$lInfoBonLivraison->setPrdtNom($pPrdtNom);
-		$lInfoBonLivraison->setPrdtPrenom($pPrdtPrenom);
+		$lInfoBonLivraison->setFerNom($pFerNom);
 		$lInfoBonLivraison->setDopeId($pDopeId);
 		$lInfoBonLivraison->setStoId($pStoId);
 		return $lInfoBonLivraison;

@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/CommandeReservationVR.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/CommandeDetailReservationValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php" );
 
 /**
  * @name CommandeReservationVR
@@ -199,23 +200,34 @@ class CommandeReservationValid
 				$lVr->getLog()->addErreur($lErreur);	
 			}
 
-			$lIdReservation = new IdReservationVO();
-			$lIdReservation->setIdCompte($pData['idCompte']);
-			$lIdReservation->setIdCommande($pData['id_commande']);
-			
-			$lReservationService = new ReservationService();
-			$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
-			$lOperation = $lOperations[0];
-			$lIdOperation = $lOperation->getId();			
-
-			// Si il y a bien une réservation existante
-			if(is_null($lIdOperation) || $lOperation->getTypePaiement() != 0) {
+			$lCommande = CommandeManager::select($pData['id_commande']);
+			// Marché : réservation non terminée
+			if(!TestFonction::dateTimeEstPLusGrandeEgale($lCommande->getDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_238_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
+				$lErreur->setCode(MessagesErreurs::ERR_221_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_221_MSG);
 				$lVr->getLog()->addErreur($lErreur);
+			} else {
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($pData['idCompte']);
+				$lIdReservation->setIdCommande($pData['id_commande']);
+				
+				$lReservationService = new ReservationService();
+				$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
+				$lOperation = $lOperations[0];
+				$lIdOperation = $lOperation->getId();			
+	
+				// Si il y a bien une réservation existante
+				if(is_null($lIdOperation) || $lOperation->getTypePaiement() != 0) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_238_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
+					$lVr->getLog()->addErreur($lErreur);
+				}
 			}
 		}
 		return $lVr;

@@ -6,7 +6,9 @@ SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
 FROM com_commande JOIN `ope_operation` on ope_id_commande = com_id  WHERE `ope_type_paiement` in (7,8);
 
 create or replace view view_detail_marche as
-select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_stock_reservation` AS `pro_stock_reservation`,`pro_produit`.`pro_stock_initial` AS `pro_stock_initial`,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`npro_nom_produit`.`npro_description` AS `npro_description`,`npro_nom_produit`.`npro_id_categorie` AS `npro_id_categorie`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,`dcom_detail_commande`.`dcom_taille` AS `dcom_taille`,`dcom_detail_commande`.`dcom_prix` AS `dcom_prix`,`cpro_categorie_produit`.`cpro_nom` AS `cpro_nom` from ((((`com_commande` join `pro_produit` on((`pro_produit`.`pro_id_commande` = `com_commande`.`com_id`))) join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `cpro_categorie_produit` on((`cpro_categorie_produit`.`cpro_id` = `npro_nom_produit`.`npro_id_categorie`))) where ((`pro_produit`.`pro_etat` = 0) and (`dcom_detail_commande`.`dcom_etat` = 0)) 
+select `com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_description` AS `com_description`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_archive` AS `com_archive`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_nom_produit` AS `pro_id_nom_produit`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`pro_produit`.`pro_max_produit_commande` AS `pro_max_produit_commande`,`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_stock_reservation` AS `pro_stock_reservation`,`pro_produit`.`pro_stock_initial` AS `pro_stock_initial`,`npro_nom_produit`.`npro_id` AS `npro_id`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`npro_nom_produit`.`npro_description` AS `npro_description`,`npro_nom_produit`.`npro_id_categorie` AS `npro_id_categorie`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,`dcom_detail_commande`.`dcom_taille` AS `dcom_taille`,`dcom_detail_commande`.`dcom_prix` AS `dcom_prix`,`cpro_categorie_produit`.`cpro_nom` AS `cpro_nom`,fer_id,fer_nom from (((((`com_commande` join `pro_produit` on((`pro_produit`.`pro_id_commande` = `com_commande`.`com_id`))) join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `cpro_categorie_produit` on((`cpro_categorie_produit`.`cpro_id` = `npro_nom_produit`.`npro_id_categorie`))) join fer_ferme
+on((npro_id_ferme = fer_id)))
+ where ((`pro_produit`.`pro_etat` = 0) and (`dcom_detail_commande`.`dcom_etat` = 0)) 
 order by 
 cpro_nom,
 `npro_nom_produit`.`npro_nom`,
@@ -286,4 +288,70 @@ create or replace view `view_nom_produit_producteur` AS select `nprdt_nom_produi
 from (`prdt_producteur` join `nprdt_nom_produit_producteur` on((`prdt_producteur`.`prdt_id` = `nprdt_nom_produit_producteur`.`nprdt_id_producteur`))) where ((`prdt_producteur`.`prdt_etat` = 0) and (`nprdt_nom_produit_producteur`.`nprdt_etat` = 0));
 
 create or replace view `view_caracteristique_produit` AS select `carpro_caracteristique_produit`.`carpro_id_nom_produit` AS `carpro_id_nom_produit`,`car_caracteristique`.`car_id` AS `car_id`,`car_caracteristique`.`car_nom` AS `car_nom`,`car_caracteristique`.`car_description` AS `car_description`, carpro_id
- from (`car_caracteristique` join `carpro_caracteristique_produit` on((`car_caracteristique`.`car_id` = `carpro_caracteristique_produit`.`carpro_id_caracteristique`))) where ((`car_caracteristique`.`car_etat` = 0) and (`carpro_caracteristique_produit`.`carpro_etat` = 0)) order by `car_caracteristique`.`car_nom`; 
+ from (`car_caracteristique` join `carpro_caracteristique_produit` on((`car_caracteristique`.`car_id` = `carpro_caracteristique_produit`.`carpro_id_caracteristique`))) where ((`car_caracteristique`.`car_etat` = 0) and (`carpro_caracteristique_produit`.`carpro_etat` = 0)) order by `car_caracteristique`.`car_nom`;
+ 
+ ALTER TABLE `pro_produit` CHANGE `pro_id_compte_ferme` `pro_id_compte_ferme` INT( 11 ) NOT NULL ;
+ 
+ create view view_compte_nom_produit as
+SELECT 
+npro_id,
+fer_id,
+fer_id_compte
+ FROM `npro_nom_produit` 
+join fer_ferme on npro_id_ferme = fer_id;
+
+
+create or replace view view_reservation_detail as
+select 
+`sto_stock`.`sto_id_operation` AS `sto_id_operation`,
+`sto_stock`.`sto_id` AS `sto_id`,
+`dope_detail_operation`.`dope_id` AS `dope_id`,
+`sto_stock`.`sto_id_detail_commande` AS `sto_id_detail_commande`,
+`dope_detail_operation`.`dope_montant` AS `dope_montant`,
+`sto_stock`.`sto_quantite` AS `sto_quantite`,
+`dcom_detail_commande`.`dcom_id_produit` AS `dcom_id_produit`,
+`dope_detail_operation`.`dope_type_paiement` AS `dope_type_paiement` ,
+sto_type
+
+
+from ((`sto_stock` join `dcom_detail_commande` 
+on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) 
+left join `dope_detail_operation` on(((`sto_stock`.`sto_id_operation` = `dope_detail_operation`.`dope_id_operation`) and (`sto_stock`.`sto_id_detail_commande` = `dope_detail_operation`.`dope_id_detail_commande`)))) 
+
+where ((`sto_stock`.`sto_type` in (0,5,6)) and (`dope_detail_operation`.`dope_type_paiement` in (0,15,16))) 
+
+order by `sto_stock`.`sto_date` desc,`sto_stock`.`sto_type`;
+
+create or replace view `view_stock_solidaire` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id`,`dcom_detail_commande`.`dcom_id` AS `dcom_id`,`sto_stock`.`sto_quantite` AS `sto_quantite` 
+
+from ((`sto_stock` join `dcom_detail_commande` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `pro_produit` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) where (`sto_stock`.`sto_type` = 2);
+ 
+ 
+ 
+ create or replace view `view_stock_produit_reservation` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,(`pro_produit`.`pro_stock_initial` - `pro_produit`.`pro_stock_reservation`) AS `sto_quantite` from (`pro_produit` join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) where (`pro_produit`.`pro_etat` = 0);
+ 
+ create or replace VIEW `view_gestion_commande_reservation_producteur` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id` from ((`pro_produit` join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where (`sto_stock`.`sto_type` = 0);
+ 
+create or replace VIEW `view_liste_producteur_marche` AS 
+
+
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+pro_id_compte_ferme,
+fer_nom
+
+from (`pro_produit` 
+join fer_ferme on((fer_id_compte = pro_id_compte_ferme))) 
+
+where (`pro_produit`.`pro_etat` = 0) group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id_compte_ferme` order by fer_nom;
+
+create or replace VIEW `view_info_bon_commande` AS 
+select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,
+fer_nom,
+`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id` AS `sto_id` 
+from (((((`pro_produit` join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) 
+join fer_ferme on((fer_id_compte = `pro_produit`.`pro_id_compte_ferme`))) 
+join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `dope_detail_operation` on((`dope_detail_operation`.`dope_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where ((`dope_detail_operation`.`dope_type_paiement` = 5) and (`sto_stock`.`sto_type` = 3)) group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id`,`pro_produit`.`pro_id_compte_ferme`;
+
+create or replace VIEW `view_info_bon_livraison` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,
+`pro_produit`.`pro_id_compte_ferme` AS `pro_id_compte_ferme`,`pro_produit`.`pro_id` AS `pro_id`,`pro_produit`.`pro_unite_mesure` AS `pro_unite_mesure`,`npro_nom_produit`.`npro_nom` AS `npro_nom`,`dope_detail_operation`.`dope_montant` AS `dope_montant`,`sto_stock`.`sto_quantite` AS `sto_quantite`,fer_nom,`dope_detail_operation`.`dope_id` AS `dope_id`,`sto_stock`.`sto_id` AS `sto_id` from (((((`pro_produit` join `npro_nom_produit` on((`npro_nom_produit`.`npro_id` = `pro_produit`.`pro_id_nom_produit`))) join fer_ferme on((fer_id_compte = `pro_produit`.`pro_id_compte_ferme`))) join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) join `dope_detail_operation` on((`dope_detail_operation`.`dope_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where ((`dope_detail_operation`.`dope_type_paiement` = 6) and (`sto_stock`.`sto_type` = 4)) group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id`,`pro_produit`.`pro_id_compte_ferme`;

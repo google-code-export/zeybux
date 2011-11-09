@@ -1,245 +1,578 @@
 ;function GestionCommandeTemplate() {
-	this.formulaireModifierCommande = 
+	/*this.formulaireModifierCommande = 
 		'<div id="contenu">' +
-		"<div class=\"com-barre-menu-2\">" +
-			"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-editer-com\">" +
-				"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour au Marché" +
-			"</button>" +
-		"</div>" +
-		'<div id="formulaire_ajout_commande_ext">' +			
-			'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">' +
-				'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Modifier le Marché n°{comNumero}</div>' +
-				'<div class="com-widget-content">' +		
-					'<form id="formulaire-information-creation-commande">' +
-						'<table class="com-table-form">' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Nom du Marché</th>' +
-								'<td class="com-table-form-td"><input value=\"{comNom}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="nom_commande" id="commande-nom" maxlength="100" /></td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Fin des Réservations *</th>' +
-								'<td class="com-table-form-td">' +
-									'<input value=\"{dateTimeFinReservation}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_fin_commande" id="commande-dateFinReservation" />' +
-								'</td>' +
-								'<td class="com-table-form-td">' +
-									'&nbsp;&nbsp;à <select name="heure_fin_commande" id="commande-timeFinReservation" >' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_fin_commande">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
-								'</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Jour du marché *</th>' +
-								'<td class="com-table-form-td">' +
-									'<input value=\"{dateMarcheDebut}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_debut_marche" id="commande-dateMarcheDebut"/>' +
-								'</td>' +
-								'<td class="com-table-form-td">' +
-									'de <select name="heure_debut_marche" id="commande-timeMarcheDebut">' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_debut_marche">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-editer-com\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour au Marché" +
+				"</button>" +
+			"</div>" +
+			'<div id="formulaire_ajout_commande_ext">' +			
+				'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">' +
+					'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Modifier le Marché n°{comNumero}</div>' +
+					'<div class="com-widget-content">' +		
+						'<form id="formulaire-information-creation-commande">' +
+							'<table class="com-table-form">' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Nom du Marché</th>' +
+									'<td class="com-table-form-td"><input value=\"{comNom}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="nom_commande" id="commande-nom" maxlength="100" /></td>' +
+								'</tr>' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Fin des Réservations *</th>' +
+									'<td class="com-table-form-td">' +
+										'<input value=\"{dateTimeFinReservation}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_fin_commande" id="commande-dateFinReservation" />' +
 									'</td>' +
 									'<td class="com-table-form-td">' +
-									'à  <select name="heure_fin_marche" id="commande-timeMarcheFin">' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_fin_marche">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
-								'</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Description :</th>' +
-								'<td class="com-table-form-td"><textarea class="com-input-text ui-widget-content ui-corner-all" name="description_commande" id="commande-description" >{comDescription}</textarea></td>' +
-							'</tr>' +
-						'</table>' +
-					'</form>' +
+										'&nbsp;&nbsp;à <select name="heure_fin_commande" id="commande-timeFinReservation" >' +
+											'<option value="00">00</option>' +
+										    '<option value="01">01</option>' +
+										    '<option value="02">02</option>' +
+										    '<option value="03">03</option>' +
+										    '<option value="04">04</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="06">06</option>' +
+										    '<option value="07">07</option>' +
+										    '<option value="08">08</option>' +
+										    '<option value="09">09</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="11">11</option>' +
+										    '<option value="12">12</option>' +
+										    '<option value="13">13</option>' +
+										    '<option value="14">14</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="16">16</option>' +
+										    '<option value="17">17</option>' +
+										    '<option value="18">18</option>' +
+										    '<option value="19">19</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="21">21</option>' +
+										    '<option value="22">22</option>' +
+										    '<option value="23">23</option>' +
+										  '</select>' +
+					   					'H <select name="minute_fin_commande">' +
+											'<option value="00">00</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="25">25</option>' +
+										    '<option value="30">30</option>' +
+										    '<option value="35">35</option>' +
+										    '<option value="40">40</option>' +
+										    '<option value="45">45</option>' +
+										    '<option value="50">50</option>' +
+										    '<option value="55">55</option>' +
+										  '</select>' +
+									'</td>' +
+								'</tr>' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Jour du marché *</th>' +
+									'<td class="com-table-form-td">' +
+										'<input value=\"{dateMarcheDebut}\" class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_debut_marche" id="commande-dateMarcheDebut"/>' +
+									'</td>' +
+									'<td class="com-table-form-td">' +
+										'de <select name="heure_debut_marche" id="commande-timeMarcheDebut">' +
+											'<option value="00">00</option>' +
+										    '<option value="01">01</option>' +
+										    '<option value="02">02</option>' +
+										    '<option value="03">03</option>' +
+										    '<option value="04">04</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="06">06</option>' +
+										    '<option value="07">07</option>' +
+										    '<option value="08">08</option>' +
+										    '<option value="09">09</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="11">11</option>' +
+										    '<option value="12">12</option>' +
+										    '<option value="13">13</option>' +
+										    '<option value="14">14</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="16">16</option>' +
+										    '<option value="17">17</option>' +
+										    '<option value="18">18</option>' +
+										    '<option value="19">19</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="21">21</option>' +
+										    '<option value="22">22</option>' +
+										    '<option value="23">23</option>' +
+										  '</select>' +
+					   					'H <select name="minute_debut_marche">' +
+											'<option value="00">00</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="25">25</option>' +
+										    '<option value="30">30</option>' +
+										    '<option value="35">35</option>' +
+										    '<option value="40">40</option>' +
+										    '<option value="45">45</option>' +
+										    '<option value="50">50</option>' +
+										    '<option value="55">55</option>' +
+										  '</select>' +
+										'</td>' +
+										'<td class="com-table-form-td">' +
+										'à  <select name="heure_fin_marche" id="commande-timeMarcheFin">' +
+											'<option value="00">00</option>' +
+										    '<option value="01">01</option>' +
+										    '<option value="02">02</option>' +
+										    '<option value="03">03</option>' +
+										    '<option value="04">04</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="06">06</option>' +
+										    '<option value="07">07</option>' +
+										    '<option value="08">08</option>' +
+										    '<option value="09">09</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="11">11</option>' +
+										    '<option value="12">12</option>' +
+										    '<option value="13">13</option>' +
+										    '<option value="14">14</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="16">16</option>' +
+										    '<option value="17">17</option>' +
+										    '<option value="18">18</option>' +
+										    '<option value="19">19</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="21">21</option>' +
+										    '<option value="22">22</option>' +
+										    '<option value="23">23</option>' +
+										  '</select>' +
+					   					'H <select name="minute_fin_marche">' +
+											'<option value="00">00</option>' +
+										    '<option value="05">05</option>' +
+										    '<option value="10">10</option>' +
+										    '<option value="15">15</option>' +
+										    '<option value="20">20</option>' +
+										    '<option value="25">25</option>' +
+										    '<option value="30">30</option>' +
+										    '<option value="35">35</option>' +
+										    '<option value="40">40</option>' +
+										    '<option value="45">45</option>' +
+										    '<option value="50">50</option>' +
+										    '<option value="55">55</option>' +
+										  '</select>' +
+									'</td>' +
+								'</tr>' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Description :</th>' +
+									'<td class="com-table-form-td"><textarea class="com-input-text ui-widget-content ui-corner-all" name="description_commande" id="commande-description" >{comDescription}</textarea></td>' +
+								'</tr>' +
+							'</table>' +
+						'</form>' +
+					'</div>' +
 				'</div>' +
-			'</div>' +
-			'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all" id="window-ajout-produit-creation-commande">' +
-				'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Ajouter un produit</div>' +
-				'<div class="com-widget-content">' +
-					'<form id="formulaire-ajout-produit-creation-commande">' +
-						'<table class="com-table-form">' +
-							'<tr>' +
-								/*'<th class="com-table-form-th ui-widget-content ui-corner-all" id="ajout-produit-idNom">Produit</th>' +
-								'<td class="com-table-form-td" id="ajout-produit-nom">' +*/
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Produit</th>' +
-								'<td class="com-table-form-td" id="ajout-produit-nom">' +
-									'<select name="produit" id="ajout-produit-idNom">' +
-										'<option value="0" >== Choisir un produit ==</option>' +
-										'<!-- BEGIN produits -->' +
-										'<option value={produits.id} >{produits.nom}</option>' +
-										'<!-- END produits -->' +
-									'</select>' +
-								'</td>' +
-								'<td class="com-center"><button type="button" id="btn-creer-nv-pdt" class="ui-state-default ui-corner-all com-button com-center">Créer un nouveau produit</button></td>' +
-							'</tr>' +
-							
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Producteur</th>' +
-								'<td class="com-table-form-td" colspan="2">' +
-									'<select name="producteur" id="ajout-produit-idProducteur">' +
-										'<option value="0" >== Choisir un producteur ==</option>' +
-										'<!-- BEGIN producteurs -->' +
-										'<option value="{producteurs.prdtIdCompte}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
-										'<!-- END producteurs -->' +
-									'</select>' +
-								'</td>' +
-							'</tr>' +
-							
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +
-							'</tr>' +
-							'<tr>' +							
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Stock</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Unité</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Quantité max par adhérent</th>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" type="text" name="stock" maxlength="11" id="ajout-produit-qteRestante"/></td>' +
-								'<td class="com-table-form-td"><input class="com-input-text ui-widget-content ui-corner-all" name="unite" type="text" maxlength="20" id="ajout-produit-unite"/></td>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="qmax" type="text" maxlength="11" id="ajout-produit-qteMaxCommande" /></td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +					
-							'</tr>' +
-							'<tr>' +
-								'<td></td>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Taille</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Prix</th>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Lot</th>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="taille" type="text" maxlength="12" id="ajout-produit-lots0taille"/></td>' +						
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="prix" type="text" maxlength="12" id="ajout-produit-lots0prix"/> {SIGLE_MONETAIRE}</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +						
-							'</tr>' +
-							'<tr>' +
-								'<td colspan="3" class="com-center"><input class="ui-state-default ui-corner-all com-button com-center" type="submit" value="Ajouter au Marché"/></td>' +
-							'</tr>' +
-						'</table>' +
-					'</form>' +
-				'</div>' +
-			'</div>' +
-			'<div id="liste_produit">' +
-			'</div>' +
-			'<div class="com-widget-window ui-widget ui-widget-header ui-corner-all com-center">' +
-				'<button type="button" id="btn-modifier-creation-commande" class="com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center">Modifier</button>' +
-				'<button type="button" id="btn-creer-commande" class="ui-state-default ui-corner-all com-button com-center">Valider</button>' +
-			'</div>' +
-		'</div>' +	
-		'</div>';
+				/*'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all" id="window-ajout-produit-creation-commande">' +
+					'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Ajouter un produit</div>' +
+					'<div class="com-widget-content">' +
+						'<form id="formulaire-ajout-produit-creation-commande">' +
+							'<table class="com-table-form">' +
+								'<tr>' +
+									/*'<th class="com-table-form-th ui-widget-content ui-corner-all" id="ajout-produit-idNom">Produit</th>' +
+									'<td class="com-table-form-td" id="ajout-produit-nom">' +*/
+								/*	'<th class="com-table-form-th ui-widget-content ui-corner-all">Produit</th>' +
+									'<td class="com-table-form-td" id="ajout-produit-nom">' +
+										'<select name="produit" id="ajout-produit-idNom">' +
+											'<option value="0" >== Choisir un produit ==</option>' +
+											'<!-- BEGIN produits -->' +
+											'<option value={produits.id} >{produits.nom}</option>' +
+											'<!-- END produits -->' +
+										'</select>' +
+									'</td>' +
+									'<td class="com-center"><button type="button" id="btn-creer-nv-pdt" class="ui-state-default ui-corner-all com-button com-center">Créer un nouveau produit</button></td>' +
+								'</tr>' +
+								
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Producteur</th>' +
+									'<td class="com-table-form-td" colspan="2">' +
+										'<select name="producteur" id="ajout-produit-idProducteur">' +
+											'<option value="0" >== Choisir un producteur ==</option>' +
+											'<!-- BEGIN producteurs -->' +
+											'<option value="{producteurs.prdtIdCompte}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
+											'<!-- END producteurs -->' +
+										'</select>' +
+									'</td>' +
+								'</tr>' +
+								
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +
+								'</tr>' +
+								'<tr>' +							
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Stock</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Unité</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Quantité max par adhérent</th>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" type="text" name="stock" maxlength="11" id="ajout-produit-qteRestante"/></td>' +
+									'<td class="com-table-form-td"><input class="com-input-text ui-widget-content ui-corner-all" name="unite" type="text" maxlength="20" id="ajout-produit-unite"/></td>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="qmax" type="text" maxlength="11" id="ajout-produit-qteMaxCommande" /></td>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +					
+								'</tr>' +
+								'<tr>' +
+									'<td></td>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Taille</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Prix</th>' +
+								'</tr>' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Lot</th>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="taille" type="text" maxlength="12" id="ajout-produit-lots0taille"/></td>' +						
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="prix" type="text" maxlength="12" id="ajout-produit-lots0prix"/> {SIGLE_MONETAIRE}</td>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +						
+								'</tr>' +
+								'<tr>' +
+									'<td colspan="3" class="com-center"><input class="ui-state-default ui-corner-all com-button com-center" type="submit" value="Ajouter au Marché"/></td>' +
+								'</tr>' +
+							'</table>' +
+						'</form>' +
+					'</div>' +
+				'</div>' +*/
+				/*"<div id=\"liste_produit\">" +
+				"</div>" +
+				"<div class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+					"<button type=\"button\" id=\"btn-ajout-produit\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+				"</div>" +
+				"<div class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+					"<button type=\"button\" id=\"btn-modifier-creation-commande\" class=\"com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+					"<button type=\"button\" id=\"btn-creer-commande\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
+				"</div>" +
+			"</div>" +	
+		"</div>";*/
 	
-	this.dialogAjoutProduit =
+	this.dialogAjoutProduitAjoutMarche =
+		"<div id=\"dialog-ajout-pro\" title=\"Produit\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Produit</div>" +
+
+				"<div id=\"pro-idFerme\" class=\"com-float-left\">" +
+					"<select name=\"ferme\">" +
+						"<option value=\"0\" >== Choisir une ferme ==</option>" +
+						"<!-- BEGIN listeFerme -->" +
+						"<option value=\"{listeFerme.ferId}\" >{listeFerme.ferNom}</option>" +
+						"<!-- END listeFerme -->" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idCategorie\" class=\"com-float-left\">" +
+					"<select name=\"categorie\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir une catégorie ==</option>" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idProduit\" class=\"com-float-left\">" +
+					"<select name=\"produit\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir un produit ==</option>" +
+					"</select>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"prix-stock-produit\">" +
+			"</div>" +
+		"</div>";
+	
+	this.ajoutProduitSelectCategorie =
+		"<div id=\"pro-idCategorie\" class=\"com-float-left\">" +
+			"<select name=\"categorie\">" +
+				"<option value=\"0\" >== Choisir une catégorie ==</option>" +
+				"<!-- BEGIN listeCategorie -->" +
+				"<option value=\"{listeCategorie.cproId}\" >{listeCategorie.cproNom}</option>" +
+				"<!-- END listeCategorie -->" +
+			"</select>" +
+		"</div>";
+	
+	this.ajoutProduitSelectProduit =
+		"<div id=\"pro-idProduit\" class=\"com-float-left\">" +
+			"<select name=\"produit\">" +
+				"<option value=\"0\" >== Choisir un produit ==</option>" +
+				"<!-- BEGIN listeProduit -->" +
+				"<option value=\"{listeProduit.nproId}\" >{listeProduit.nproNom}</option>" +
+				"<!-- END listeProduit -->" +
+			"</select>" +
+		"</div>";
+	
+	this.prixEtStockAjoutProduit =
+		"<div id=\"prix-stock-produit\">" +
+			"<div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
+				"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
+					"<tr>" +
+						"<td class=\"catalogue-entete-lot\">Quantité</td>" +
+						"<td class=\"catalogue-entete-lot\">Unité</td>" +
+						"<td>Prix</td>" +
+						"<td></td>" +
+						"<td></td>" +
+					"</tr>" +
+					"<tr class=\"btn-lot\">" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
+						"</td>" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
+						"</td>" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"</td>" +
+					"</tr>" +
+				"</table>" +
+				"<table class=\"com-table\" id=\"lot-liste\">" +
+
+					"<!-- BEGIN modelesLot -->" +
+					"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
+						"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
+						"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+							"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" class=\"modele-lot\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med\">" +
+							"à " +
+							"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
+							" {modelesLot.sigleMonetaire}" +
+						"</td>" +
+						"<td class=\"com-table-td-med td-edt\">" +
+							"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
+								"<span class=\"ui-icon ui-icon-trash\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END modelesLot -->" +
+				
+				"</table>" +
+			"</div>" +
+			
+	
+			"<div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
+				"<table class=\"com-table-form\">" +
+					"<tr>" +
+						"<th class=\"com-table-form-th\">" +
+							"Stock : " +
+						"</th>" +
+						"<td class=\"com-table-form-td\">" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<th class=\"com-table-form-th\">" +
+							"Quantité max par adhérent : " +
+						"</th>" +
+						"<td class=\"com-table-form-td\">" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+						"</td>" +
+					"</tr>" +
+				"</table>" +
+			"</div>" +
+		"</div>" ;
+	
+	this.modeleLot =
+		"<tr class=\"ligne-lot\" id=\"ligne-lot-{id}\">" +
+			"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{id}</span></td>" +
+			"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+				"<input type=\"checkbox\" value=\"{id}\" name=\"pro-lot\" id=\"pro-lot-{id}-id\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+				"<span class=\"champ-lot-{id} lot-quantite\" id=\"lot-{id}-quantite\">{quantite}</span>"+
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{id}-quantite\" maxlength=\"13\" id=\"pro-lot-{id}-quantite\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+				"<span class=\"champ-lot-{id} lot-unite\" id=\"lot-{id}-unite\">{unite}</span>" +
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{id}-unite\" maxlength=\"20\" id=\"pro-lot-{id}-unite\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med\">" +
+				"à " +
+				"<span class=\"champ-lot-{id} lot-prix\" id=\"lot-{id}-prix\">{prix}</span>" +
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{id}-prix\" maxlength=\"13\" id=\"pro-lot-{id}-prix\"/>" +
+				" {sigleMonetaire}" +
+			"</td>" +
+			"<td class=\"com-table-td-med td-edt\">" +
+				"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+					"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+				"</span>" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{id}\" title=\"Valider\">" +
+					"<span class=\"ui-icon ui-icon-check\"></span>" +
+				"</span>" +
+			"</td>" +
+			"<td class=\"com-table-td-fin td-edt\">" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{id}\" title=\"Annuler\">" +
+					"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+				"</span>" +
+				"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
+					"<span class=\"ui-icon ui-icon-trash\"></span>" +
+				"</span>" +
+			"</td>" +
+		"</tr>" ;
+	
+	this.btnValiderAjoutMarche = 
+		"<div id=\"btn-gestion-marche\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+			"<button type=\"button\" id=\"btn-modifier-creation-commande\" class=\"com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+			"<button type=\"button\" id=\"btn-creer-marche\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
+		"</div>";
+	
+	this.ajoutMarcheListeProduit = 
+		"<div id=\"liste-ferme\">" +
+			"<!-- BEGIN fermes -->" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"ferme-{fermes.ferId}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">{fermes.ferNom}</div>" +
+				"<!-- BEGIN fermes.categories -->" +
+				"<table class=\"com-table\">" +
+					"<tr class=\"ui-widget-header\" >" +
+						"<td class=\"com-table-td-debut\">{fermes.categories.cproNom}</td>" +
+						"<td class=\"com-table-td-med\"></td>" +
+						"<td class=\"com-table-td-fin\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN fermes.categories.produits -->" +
+					"<tr>" +
+						"<td class=\"com-table-td-debut\">{fermes.categories.produits.nproNom}</td>" +
+						"<td class=\"com-table-td-med td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-produit\" title=\"Modifier\" id-produit=\"{fermes.categories.produits.nproId}\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +
+						"</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\" id-produit=\"{fermes.categories.produits.nproId}\">" +				
+								"<span class=\"ui-icon ui-icon-trash\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END fermes.categories.produits -->" +
+				"</table>" +
+				"<!-- END fermes.categories -->" +
+			"</div>"+
+			"<!-- END fermes -->" +
+		"</div>";
+	
+	this.dialogModifProduitAjoutMarche =
+		"<div id=\"dialog-modif-pro\" title=\"Produit\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Produit</div>" +
+
+				"<div id=\"pro-idFerme\" class=\"com-float-left\" id-ferme=\"{ferId}\">" +
+					"{ferNom}" +
+				"</div>" +
+				"<div id=\"pro-idCategorie\" class=\"com-float-left\" id-categorie=\"{cproId}\">" +
+					"{cproNom}" +
+				"</div>" +
+				"<div id=\"pro-idProduit\" class=\"com-float-left\" id-produit=\"{nproId}\">" +
+					"{nproNom}" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"prix-stock-produit\">" +
+				"<div>" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
+					"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
+						"<tr>" +
+							"<td class=\"catalogue-entete-lot\">Quantité</td>" +
+							"<td class=\"catalogue-entete-lot\">Unité</td>" +
+							"<td>Prix</td>" +
+							"<td></td>" +
+							"<td></td>" +
+						"</tr>" +
+						"<tr class=\"btn-lot\">" +
+							"<td>" +
+								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
+							"</td>" +
+							"<td>" +
+								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
+							"</td>" +
+							"<td>" +
+								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
+							"</td>" +
+							"<td colspan=\"2\">" +
+								"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+							"</td>" +
+						"</tr>" +
+					"</table>" +
+					"<table class=\"com-table\" id=\"lot-liste\">" +
+	
+						"<!-- BEGIN modelesLot -->" +
+						"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
+							"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
+							"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+								"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" {modelesLot.checked} class=\"{modelesLot.modele}\"/>" +
+							"</td>" +
+							"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+								"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
+								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
+							"</td>" +
+							"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+								"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
+								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
+							"</td>" +
+							"<td class=\"com-table-td-med\">" +
+								"à " +
+								"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
+								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
+								" {modelesLot.sigleMonetaire}" +
+							"</td>" +
+							"<td class=\"com-table-td-med td-edt\">" +
+								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+								"</span>" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
+									"<span class=\"ui-icon ui-icon-check\"></span>" +
+								"</span>" +
+							"</td>" +
+							"<td class=\"com-table-td-fin td-edt\">" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
+									"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+								"</span>" +
+								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
+									"<span class=\"ui-icon ui-icon-trash\"></span>" +
+								"</span>" +
+							"</td>" +
+						"</tr>" +
+						"<!-- END modelesLot -->" +
+					
+					"</table>" +
+				"</div>" +
+				
+		
+				"<div>" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">" +
+								"Stock : " +
+							"</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">" +
+								"Quantité max par adhérent : " +
+							"</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+							"</td>" +
+						"</tr>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	/*this.dialogAjoutProduit =
 		"<div id=\"dialog-form-creer-nv-pdt\" title=\"Créer un nouveau produit\">" +
 			"<form>" +
 				"<table>" +
@@ -253,9 +586,9 @@
 					"</tr>" +
 				"</table>" +	
 			"</form>" +
-		"</div>";
+		"</div>";*/
 	
-	this.ajoutProduitModifierCommande = 
+	/*this.ajoutProduitModifierCommande = 
 		"<div class=\"produit-div com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 				"<span class=\"produit-nom-id ui-helper-hidden\">{idNom}</span><span class=\"produit-nom\">{nom}</span>" +				
@@ -318,7 +651,7 @@
 					"</div>" +
 				"</div>" +
 			"</div>" +
-		"</div>";	
+		"</div>";	*/
 	
 	/*this.modifCommandeSucces = 
 		"<div id=\"contenu\">" +
@@ -332,237 +665,261 @@
 			"</div>" +
 		"</div>";*/
 	
-	this.formulaireAjoutCommande = 
-		'<div id="contenu">' +
-		'<div id="formulaire_ajout_commande_ext">' +		
-			'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">' +
-				'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Nouveau Marché</div>' +
-				'<div class="com-widget-content">' +		
-					'<form id="formulaire-information-creation-commande">' +
-						'<table class="com-table-form">' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Nom du Marché</th>' +
-								'<td class="com-table-form-td"><input class="com-input-text ui-widget-content ui-corner-all" type="text" name="nom_commande" id="commande-nom" maxlength="100" /></td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Fin des Réservations *</th>' +
-								'<td class="com-table-form-td">' +
-									'<input class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_fin_commande" id="commande-dateFinReservation" />' +
-								'</td>' +
-								'<td class="com-table-form-td">' +
-									'&nbsp;&nbsp;à <select name="heure_fin_commande" id="commande-timeFinReservation" >' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_fin_commande">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
-								'</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Jour du marché *</th>' +
-								'<td class="com-table-form-td">' +
-									'<input class="com-input-text ui-widget-content ui-corner-all" type="text" name="date_debut_marche" id="commande-dateMarcheDebut"/>' +
-								'</td>' +
-								'<td class="com-table-form-td">' +
-									'de <select name="heure_debut_marche" id="commande-timeMarcheDebut">' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_debut_marche">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
+	this.formulaireAjoutMarche = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_ajout_commande_ext\">" +		
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Nouveau Marché</div>" +
+					"<div class=\"com-widget-content\">" +		
+						"<form id=\"formulaire-information-creation-commande\">" +
+							"<table class=\"com-table-form\">" +
+								"<tr>" +
+									"<th class=\"com-table-form-th\">Nom du Marché : </th>" +
+									"<td class=\"com-table-form-td\">" +
+										"<span id=\"nom-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"nom\" id=\"marche-nom\" maxlength=\"100\" />" +
+									"</td>" +
+								"</tr>" +
+								"<tr>" +
+									"<th class=\"com-table-form-th\">Fin des Réservations * : </th>" +
+									"<td class=\"com-table-form-td\">" +
+										"<span id=\"date-fin-reservation-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-fin-reservation\" id=\"marche-dateFinReservation\" />" +
+									"</td>" +
+									"<td class=\"com-table-form-td\">" +
+										"à " +
+										"<span id=\"time-fin-reservation-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<select name=\"heure-fin-reservation\" id=\"marche-timeFinReservation\" class=\"informations-marche\" >" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"01\">01</option>" +
+										    "<option value=\"02\">02</option>" +
+										    "<option value=\"03\">03</option>" +
+										    "<option value=\"04\">04</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"06\">06</option>" +
+										    "<option value=\"07\">07</option>" +
+										    "<option value=\"08\">08</option>" +
+										    "<option value=\"09\">09</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"11\">11</option>" +
+										    "<option value=\"12\">12</option>" +
+										    "<option value=\"13\">13</option>" +
+										    "<option value=\"14\">14</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"16\">16</option>" +
+										    "<option value=\"17\">17</option>" +
+										    "<option value=\"18\">18</option>" +
+										    "<option value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"21\">21</option>" +
+										    "<option value=\"22\">22</option>" +
+										    "<option value=\"23\">23</option>" +
+										  "</select>" +
+					   					"<span class=\"informations-marche\">H</span> <select name=\"minute-fin-reservation\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"25\">25</option>" +
+										    "<option value=\"30\">30</option>" +
+										    "<option value=\"35\">35</option>" +
+										    "<option value=\"40\">40</option>" +
+										    "<option value=\"45\">45</option>" +
+										    "<option value=\"50\">50</option>" +
+										    "<option value=\"55\">55</option>" +
+										  "</select>" +
+									"</td>" +
+								"</tr>" +
+								"<tr>" +
+									"<th class=\"com-table-form-th\">Jour du marché * : </th>" +
+									"<td class=\"com-table-form-td\">" +
+										"<span id=\"date-debut-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-debut\" id=\"marche-dateMarcheDebut\"/>" +
+									"</td>" +
+									"<td class=\"com-table-form-td\">" +
+										"de " +
+										"<span id=\"time-debut-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<select name=\"heure-debut\" id=\"marche-timeMarcheDebut\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"01\">01</option>" +
+										    "<option value=\"02\">02</option>" +
+										    "<option value=\"03\">03</option>" +
+										    "<option value=\"04\">04</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"06\">06</option>" +
+										    "<option value=\"07\">07</option>" +
+										    "<option value=\"08\">08</option>" +
+										    "<option value=\"09\">09</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"11\">11</option>" +
+										    "<option value=\"12\">12</option>" +
+										    "<option value=\"13\">13</option>" +
+										    "<option value=\"14\">14</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"16\">16</option>" +
+										    "<option value=\"17\">17</option>" +
+										    "<option value=\"18\">18</option>" +
+										    "<option value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"21\">21</option>" +
+										    "<option value=\"22\">22</option>" +
+										    "<option value=\"23\">23</option>" +
+										  "</select>" +
+					   					"<span class=\"informations-marche\">H</span> <select name=\"minute-debut\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"25\">25</option>" +
+										    "<option value=\"30\">30</option>" +
+										    "<option value=\"35\">35</option>" +
+										    "<option value=\"40\">40</option>" +
+										    "<option value=\"45\">45</option>" +
+										    "<option value=\"50\">50</option>" +
+										    "<option value=\"55\">55</option>" +
+										  "</select>" +
+										"</td>" +
+										"<td class=\"com-table-form-td\">" +
+											"à " +
+											"<span id=\"time-fin-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+											"<select name=\"heure-fin\" id=\"marche-timeMarcheFin\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"01\">01</option>" +
+										    "<option value=\"02\">02</option>" +
+										    "<option value=\"03\">03</option>" +
+										    "<option value=\"04\">04</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"06\">06</option>" +
+										    "<option value=\"07\">07</option>" +
+										    "<option value=\"08\">08</option>" +
+										    "<option value=\"09\">09</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"11\">11</option>" +
+										    "<option value=\"12\">12</option>" +
+										    "<option value=\"13\">13</option>" +
+										    "<option value=\"14\">14</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"16\">16</option>" +
+										    "<option value=\"17\">17</option>" +
+										    "<option value=\"18\">18</option>" +
+										    "<option value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"21\">21</option>" +
+										    "<option value=\"22\">22</option>" +
+										    "<option value=\"23\">23</option>" +
+										  "</select>" +
+					   					"<span class=\"informations-marche\">H</span> <select name=\"minute-fin\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"25\">25</option>" +
+										    "<option value=\"30\">30</option>" +
+										    "<option value=\"35\">35</option>" +
+										    "<option value=\"40\">40</option>" +
+										    "<option value=\"45\">45</option>" +
+										    "<option value=\"50\">50</option>" +
+										    "<option value=\"55\">55</option>" +
+										  "</select>" +
+									"</td>" +
+								"</tr>" +
+								"<tr>" +
+									"<th class=\"com-table-form-th\">Description : </th>" +
+									"<td class=\"com-table-form-td\">" +
+										"<span id=\"description-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<textarea class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" name=\"description\" id=\"marche-description\" ></textarea>" +
+									"</td>" +
+								"</tr>" +
+							"</table>" +
+						"</form>" +
+					"</div>" +
+				"</div>" +
+				/*'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all" id="window-ajout-produit-creation-commande">' +
+					'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Ajouter un produit</div>' +
+					'<div class="com-widget-content">' +
+						'<form id="formulaire-ajout-produit-creation-commande">' +
+							'<table class="com-table-form">' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Produit</th>' +
+									'<td class="com-table-form-td" id="ajout-produit-nom">' +
+										'<select name="produit" id="ajout-produit-idNom">' +
+											'<option value="0" >== Choisir un produit ==</option>' +
+											'<!-- BEGIN produits -->' +
+											'<option value="{produits.id}" >{produits.nom}</option>' +
+											'<!-- END produits -->' +
+										'</select>' +
 									'</td>' +
-									'<td class="com-table-form-td">' +
-									'à  <select name="heure_fin_marche" id="commande-timeMarcheFin">' +
-										'<option value="00">00</option>' +
-									    '<option value="01">01</option>' +
-									    '<option value="02">02</option>' +
-									    '<option value="03">03</option>' +
-									    '<option value="04">04</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="06">06</option>' +
-									    '<option value="07">07</option>' +
-									    '<option value="08">08</option>' +
-									    '<option value="09">09</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="11">11</option>' +
-									    '<option value="12">12</option>' +
-									    '<option value="13">13</option>' +
-									    '<option value="14">14</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="16">16</option>' +
-									    '<option value="17">17</option>' +
-									    '<option value="18">18</option>' +
-									    '<option value="19">19</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="21">21</option>' +
-									    '<option value="22">22</option>' +
-									    '<option value="23">23</option>' +
-									  '</select>' +
-				   					'H <select name="minute_fin_marche">' +
-										'<option value="00">00</option>' +
-									    '<option value="05">05</option>' +
-									    '<option value="10">10</option>' +
-									    '<option value="15">15</option>' +
-									    '<option value="20">20</option>' +
-									    '<option value="25">25</option>' +
-									    '<option value="30">30</option>' +
-									    '<option value="35">35</option>' +
-									    '<option value="40">40</option>' +
-									    '<option value="45">45</option>' +
-									    '<option value="50">50</option>' +
-									    '<option value="55">55</option>' +
-									  '</select>' +
-								'</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Description :</th>' +
-								'<td class="com-table-form-td"><textarea class="com-input-text ui-widget-content ui-corner-all" name="description_commande" id="commande-description" ></textarea></td>' +
-							'</tr>' +
-						'</table>' +
-					'</form>' +
-				'</div>' +
-			'</div>' +
-			'<div class="com-widget-window ui-widget ui-widget-content ui-corner-all" id="window-ajout-produit-creation-commande">' +
-				'<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Ajouter un produit</div>' +
-				'<div class="com-widget-content">' +
-					'<form id="formulaire-ajout-produit-creation-commande">' +
-						'<table class="com-table-form">' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Produit</th>' +
-								'<td class="com-table-form-td" id="ajout-produit-nom">' +
-									'<select name="produit" id="ajout-produit-idNom">' +
-										'<option value="0" >== Choisir un produit ==</option>' +
-										'<!-- BEGIN produits -->' +
-										'<option value="{produits.id}" >{produits.nom}</option>' +
-										'<!-- END produits -->' +
-									'</select>' +
-								'</td>' +
-								'<td class="com-center"><button type="button" id="btn-creer-nv-pdt" class="ui-state-default ui-corner-all com-button com-center">Créer un nouveau produit</button></td>' +
-							'</tr>' +	
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Producteur</th>' +
-								'<td class="com-table-form-td" colspan="2">' +
-									'<select name="producteur" id="ajout-produit-idProducteur">' +
-										'<option value="0" >== Choisir un producteur ==</option>' +
-										'<!-- BEGIN producteurs -->' +
-										'<option value="{producteurs.prdtId}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
-										'<!-- END producteurs -->' +
-									'</select>' +
-								'</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +
-							'</tr>' +
-							'<tr>' +							
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Stock</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Unité</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Quantité max par adhérent</th>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" type="text" name="stock" maxlength="11" id="ajout-produit-qteRestante"/></td>' +
-								'<td class="com-table-form-td"><input class="com-input-text ui-widget-content ui-corner-all" name="unite" type="text" maxlength="20" id="ajout-produit-unite"/></td>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="qmax" type="text" maxlength="11" id="ajout-produit-qteMaxCommande" /></td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +					
-							'</tr>' +
-							'<tr>' +
-								'<td></td>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Taille</th>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Prix</th>' +
-							'</tr>' +
-							'<tr>' +
-								'<th class="com-table-form-th ui-widget-content ui-corner-all">Lot</th>' +
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="taille" type="text" maxlength="12" id="ajout-produit-lots0taille"/></td>' +						
-								'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="prix" type="text" maxlength="12" id="ajout-produit-lots0prix"/> {SIGLE_MONETAIRE}</td>' +
-							'</tr>' +
-							'<tr>' +
-								'<td class="com-table-form-td"><br/></td>' +						
-							'</tr>' +
-							'<tr>' +
-								'<td colspan="3" class="com-center"><input type="submit" value="Ajouter au Marché" class="ui-state-default ui-corner-all com-button com-center"/></td>' +
-							'</tr>' +
-						'</table>' +
-					'</form>' +
-				'</div>' +
-			'</div>' +
-			'<div id="liste_produit"></div>' +
-			'<div class="com-widget-window ui-widget ui-widget-header ui-corner-all com-center">' +
-				'<button type="button" id="btn-modifier-creation-commande" class="com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center">Modifier le Marché</button>' +
-				'<button type="button" id="btn-creer-commande" class="ui-state-default ui-corner-all com-button com-center">Créer le Marché</button>' +
-			'</div>' +
-		'</div>' +	
-		'</div>';
+									'<td class="com-center"><button type="button" id="btn-creer-nv-pdt" class="ui-state-default ui-corner-all com-button com-center">Créer un nouveau produit</button></td>' +
+								'</tr>' +	
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Producteur</th>' +
+									'<td class="com-table-form-td" colspan="2">' +
+										'<select name="producteur" id="ajout-produit-idProducteur">' +
+											'<option value="0" >== Choisir un producteur ==</option>' +
+											'<!-- BEGIN producteurs -->' +
+											'<option value="{producteurs.prdtId}" >{producteurs.prdtPrenom} {producteurs.prdtNom}</option>' +
+											'<!-- END producteurs -->' +
+										'</select>' +
+									'</td>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +
+								'</tr>' +
+								'<tr>' +							
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Stock</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Unité</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Quantité max par adhérent</th>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" type="text" name="stock" maxlength="11" id="ajout-produit-qteRestante"/></td>' +
+									'<td class="com-table-form-td"><input class="com-input-text ui-widget-content ui-corner-all" name="unite" type="text" maxlength="20" id="ajout-produit-unite"/></td>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="qmax" type="text" maxlength="11" id="ajout-produit-qteMaxCommande" /></td>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +					
+								'</tr>' +
+								'<tr>' +
+									'<td></td>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Taille</th>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Prix</th>' +
+								'</tr>' +
+								'<tr>' +
+									'<th class="com-table-form-th ui-widget-content ui-corner-all">Lot</th>' +
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="taille" type="text" maxlength="12" id="ajout-produit-lots0taille"/></td>' +						
+									'<td class="com-table-form-td"><input class="com-numeric com-input-text ui-widget-content ui-corner-all" name="prix" type="text" maxlength="12" id="ajout-produit-lots0prix"/> {SIGLE_MONETAIRE}</td>' +
+								'</tr>' +
+								'<tr>' +
+									'<td class="com-table-form-td"><br/></td>' +						
+								'</tr>' +
+								'<tr>' +
+									'<td colspan="3" class="com-center"><input type="submit" value="Ajouter au Marché" class="ui-state-default ui-corner-all com-button com-center"/></td>' +
+								'</tr>' +
+							'</table>' +
+						'</form>' +
+					'</div>' +
+				'</div>' +*/
+				"<div id=\"btn-ajout-produit-div\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+					"<button type=\"button\" id=\"btn-ajout-produit\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+				"</div>" +
+				"<div id=\"liste-ferme\">" +
+				"</div>" +
+				/*"<div class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+					"<button type=\"button\" id=\"btn-modifier-creation-commande\" class=\"com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+					"<button type=\"button\" id=\"btn-creer-commande\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
+				"</div>" +*/
+				/*
+				'<div id="liste_produit"></div>' +
+				'<div class="com-widget-window ui-widget ui-widget-header ui-corner-all com-center">' +
+					'<button type="button" id="btn-modifier-creation-commande" class="com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center">Modifier le Marché</button>' +
+					'<button type="button" id="btn-creer-commande" class="ui-state-default ui-corner-all com-button com-center">Créer le Marché</button>' +
+				'</div>' +*/
+			"</div>" +	
+		"</div>";
 	
-	this.ajoutProduitAjoutCommande = 
+	/*this.ajoutProduitAjoutCommande = 
 		"<div class=\"produit-div com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 				"<span class=\"produit-nom\">{nom}</span>" +
@@ -626,9 +983,9 @@
 					"</div>" +
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
-	this.ajoutLotModifPdt = 
+	/*this.ajoutLotModifPdt = 
 		"<!-- BEGIN lots -->" +
 		"<div class=\"produit-lot\">" +
 				"<span class=\"lot-id ui-helper-hidden\">{lots.id}</span>" +
@@ -656,9 +1013,9 @@
 					"</span>" +
 				"</span>" +
 		"</div>" +
-		"<!-- END lots -->";
+		"<!-- END lots -->";*/
 	
-	this.ajoutLotAjoutPdt = 
+	/*this.ajoutLotAjoutPdt = 
 		"<!-- BEGIN lots -->" +
 		"<div class=\"produit-lot\">" +
 				"<span class=\"lot-id ui-helper-hidden\">0</span>" +
@@ -687,9 +1044,9 @@
 					"</span>" +
 				"</span>" +
 		"</div>" +
-		"<!-- END lots -->";
+		"<!-- END lots -->";*/
 	
-	this.ajoutLot = 
+	/*this.ajoutLot = 
 		"<div class=\"produit-lot\">" +
 			"<span class=\"lot-id ui-helper-hidden\">{id}</span>" +
 			"Taille : " +
@@ -715,9 +1072,9 @@
 					"</span>Valider" +
 				"</span>" +
 			"</span>" +
-		"</div>";
+		"</div>";*/
 
-	this.ajoutCommandeSucces = 
+	/*this.ajoutCommandeSucces = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -727,7 +1084,7 @@
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Le marché n°{numero} a été ajouté avec succès.</p>" +
 				"</div>" +
 			"</div>" +
-		"</div>";		
+		"</div>";		*/
 	
 	this.listeCommandePage = 
 		"<div id=\"contenu\">" +
@@ -1094,7 +1451,7 @@
 		"</div>";
 	
 	this.dialogExportListeReservation = 
-			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations en cours du Marché n°{comNumero}\">" +
+			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations en cours.\">" +
 				"<form>" +
 					"<table>" +
 						"<tr>" +
@@ -1102,18 +1459,25 @@
 							"<td><input type=\"radio\" name=\"format\" value=\"0\" checked=\"checked\" />Pdf</td>" +
 							"<td><input type=\"radio\" name=\"format\" value=\"1\" />CSV</td>" +
 						"</tr>" +
-						"<tr>" +
+					"</table>" +
+					"<div>Sélectionner les produits : </div>" +
+					"<table class=\"com-table-100\">" +
+						"<!-- BEGIN fermes -->" +
+						"<tr class=\"ui-widget-header\" >" +
+							"<td colspan=\"2\" class=\"com-table-td\">{fermes.ferNom}</td>" +
 						"</tr>" +
+						"<!-- BEGIN fermes.categories -->" +
 						"<tr>" +
-							"<td colspan=\"3\">Sélectionner les produits : </td>" +
+							"<td colspan=\"2\" class=\"com-table-td\">{fermes.categories.cproNom}</td>" +
 						"</tr>" +
-					"<!-- BEGIN pdtCommande -->" +
+						"<!-- BEGIN fermes.categories.produits -->" +
 						"<tr>" +
-							"<td></td>" +
-							"<td><input type=\"checkbox\" value=\"{pdtCommande.proId}\" name=\"id_produits\"/></td>" +
-							"<td>{pdtCommande.nproNom}</td>" +						
+							"<td class=\"com-table-td-debut td-edt\"><input type=\"checkbox\" value=\"{fermes.categories.produits.id}\" name=\"id_produits\"/></td>" +
+							"<td class=\"com-table-td-fin\">{fermes.categories.produits.nproNom}</td>" +		
 						"</tr>" +
-					"<!-- END pdtCommande -->" +
+						"<!-- END fermes.categories.produits -->" +
+						"<!-- END fermes.categories -->" +
+						"<!-- END fermes -->" +
 					"</table>" +
 				"</form>" +
 			"</div>";
@@ -1150,11 +1514,16 @@
 						"</span>" +
 					"</div>" +
 					"<div>" +
-					"Fin des réservations : <br/>Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-					"Marché : <br/>Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+					"Fin des réservations : Le <span id=\"edt-marche-dateFinReservation\">{dateFinReservation}</span> à <span id=\"edt-marche-heureFinReservation\">{heureFinReservation}</span>H<span id=\"edt-marche-minuteFinReservation\">{minuteFinReservation}</span> <br/>" +
+					"Marché : Le <span id=\"edt-marche-dateMarcheDebut\">{dateMarcheDebut}</span> de <span id=\"edt-marche-heureMarcheDebut\">{heureMarcheDebut}</span>H<span id=\"edt-marche-minuteMarcheDebut\">{minuteMarcheDebut}</span> à <span id=\"edt-marche-heureMarcheFin\">{heureMarcheFin}</span>H<span id=\"edt-marche-minuteMarcheFin\">{minuteMarcheFin}</span>" +
 					"</div>" +
 				"</div>" +
-				"<!-- BEGIN pdtCommande -->" +
+				"<div id=\"btn-ajout-produit-div\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+					"<button type=\"button\" id=\"btn-ajout-produit\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+				"</div>" +
+				"<div id=\"liste-ferme\">" +
+				"</div>" +
+			/*	"<!-- BEGIN pdtCommande -->" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
 						"{pdtCommande.nproNom}" +
@@ -1165,7 +1534,7 @@
 						"</div>" +
 					"</div>" +
 				"</div>" +
-				"<!-- END pdtCommande -->" +
+				"<!-- END pdtCommande -->" +*/
 			"</div>" +
 			"<div>" +
 				"<div class=\"com-float-left\" id=\"edt-com-nav-resa-achat\">" +
@@ -1195,8 +1564,8 @@
 							"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
 								"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
 									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
 								"</tr>" +
@@ -1242,8 +1611,8 @@
 				"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
 					"<thead>" +
 					"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
 						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
 					"</tr>" +
@@ -1286,8 +1655,8 @@
 				"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
 					"<thead>" +
 					"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
 						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
 						"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Réservation</th>" +
@@ -1524,15 +1893,21 @@
 					"La réservation" +
 				"</div>" +
 				"<table>" +
-					"<!-- BEGIN reservation -->" +
+				
+					"<!-- BEGIN categories -->" +
+					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+					"<td colspan=\"4\"></td>" +
+					
+					"<!-- BEGIN categories.produits -->" +
 					"<tr >" +
-						"<td class=\"detail-resa-npro\">{reservation.nproNom}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\">{reservation.stoQuantite}</td>" +
-						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\">{reservation.prix}</td>" +
+						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
+						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
+						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
-					"<!-- END reservation -->" +
+					"<!-- END categories.produits -->" +
+					"<!-- END categories -->" +
 					"<tr>" +
 						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
@@ -1576,25 +1951,31 @@
 				"</div>" +
 				"<div>" +
 					"<table>" +
-						"<!-- BEGIN produit -->" +
+						"<!-- BEGIN categories -->" +
+						"<tr>" +
+							"<td colspan=\"3\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +						
+						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"pdt\">" +
-							"<td><input type=\"checkbox\" {produit.checked}/></td>" +
-							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
-							"<td>{produit.nproNom}</td>" +
+							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
+							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
+							"<td>{categories.produits.nproNom}</td>" +
 							"<td>" +
-								"<select id=\"lot-{produit.proId}\">" +
-									"<!-- BEGIN produit.lot -->" +
-									"<option value=\"{produit.lot.dcomId}\">par {produit.lot.dcomTaille} {produit.proUniteMesure}</option>" +
-									"<!-- END produit.lot -->" +
+								"<select id=\"lot-{categories.produits.proId}\">" +
+									"<!-- BEGIN categories.produits.lot -->" +
+									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
+									"<!-- END categories.produits.lot -->" +
 								"</select>" +
 							"</td>" +
-							"<td>à <span id=\"prix-unitaire-{produit.proId}\">{produit.prixUnitaire}</span> {sigleMonetaire}/{produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-moins\">-</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}\"></span> {produit.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId}\"><button class=\"btn-plus\">+</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{produit.proId} com-text-align-right\"><span id=\"prix-pdt-{produit.proId}\"></span> {sigleMonetaire}</td>" +
+							"<td>à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-moins\">-</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><span id=\"qte-pdt-{categories.produits.proId}\"></span> {categories.produits.proUniteMesure}</td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-plus\">+</button></td>" +
+							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId} com-text-align-right\"><span id=\"prix-pdt-{categories.produits.proId}\"></span> {sigleMonetaire}</td>" +
 						"</tr>" +
-						"<!-- END produit -->" +
+						"<!-- END categories.produits -->" +
+						"<!-- END categories -->" +
 						"<tr>" +
 							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
@@ -1721,7 +2102,7 @@
 							"<select id=\"select-prdt\">" +
 								"<option value=\"0\" >== Choisir un producteur ==</option>" +
 								"<!-- BEGIN producteurs -->" +
-								"<option value=\"{producteurs.prdtIdCompte}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
+								"<option value=\"{producteurs.proIdCompteFerme}\">{producteurs.ferNom}</option>" +
 								"<!-- END producteurs -->" +
 							"</select>" +
 						"</span>" +
@@ -1797,7 +2178,7 @@
 							"<select id=\"select-prdt\">" +
 								"<option value=\"0\" >== Choisir un producteur ==</option>" +
 								"<!-- BEGIN producteurs -->" +
-								"<option value=\"{producteurs.prdtIdCompte}\">{producteurs.prdtPrenom} {producteurs.prdtNom}</option>" +
+								"<option value=\"{producteurs.proIdCompteFerme}\">{producteurs.ferNom}</option>" +
 								"<!-- END producteurs -->" +
 							"</select>" +
 						"</span>" +
@@ -1927,4 +2308,207 @@
 
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
+	
+	this.editerMarcheListeProduit = 
+		"<div id=\"liste-ferme\">" +
+			"<!-- BEGIN fermes -->" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"ferme-{fermes.ferId}\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">{fermes.ferNom}</div>" +
+				"<!-- BEGIN fermes.categories -->" +
+				"<table class=\"com-table\">" +
+					"<tr class=\"ui-widget-header\" >" +
+						"<td class=\"com-table-td-debut\">{fermes.categories.cproNom}</td>" +
+						"<td class=\"com-table-td-med\"></td>" +
+						"<td class=\"com-table-td-med\"></td>" +
+						"<td class=\"com-table-td-fin\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN fermes.categories.produits -->" +
+					"<tr>" +
+						"<td class=\"com-table-td-debut\">{fermes.categories.produits.nproNom}</td>" +
+						"<td class=\"com-table-td-med edt-marche-pro-unite\">{fermes.categories.produits.qteReservation} {fermes.categories.produits.nproUnite}</td>" +
+						"<td class=\"com-table-td-med td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-produit\" title=\"Modifier\" id-produit=\"{fermes.categories.produits.id}\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +
+						"</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\" id-produit=\"{fermes.categories.produits.id}\" qte-reservation=\"{fermes.categories.produits.qteReservation}\">" +				
+								"<span class=\"ui-icon ui-icon-trash\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END fermes.categories.produits -->" +
+				"</table>" +
+				"<!-- END fermes.categories -->" +
+			"</div>"+
+			"<!-- END fermes -->" +
+		"</div>";
+	
+	this.dialogModifierInfoMarche = 
+		"<div id=\"dialog-modif-pro\" title=\"Produit\">" +
+			"<div class=\"com-widget-content\">" +		
+				"<form id=\"formulaire-information-creation-commande\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Nom du Marché : </th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"nom\" id=\"marche-nom\" maxlength=\"100\" value=\"{nom}\"/>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Fin des Réservations * : </th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-fin-reservation\" id=\"marche-dateFinReservation\" value=\"{dateFinReservation}\"/>" +
+							"</td>" +
+							"<td class=\"com-table-form-td\">" +
+								"à " +
+								"<select name=\"heure-fin-reservation\" id=\"marche-timeFinReservation\" class=\"informations-marche\" >" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"01\">01</option>" +
+								    "<option value=\"02\">02</option>" +
+								    "<option value=\"03\">03</option>" +
+								    "<option value=\"04\">04</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"06\">06</option>" +
+								    "<option value=\"07\">07</option>" +
+								    "<option value=\"08\">08</option>" +
+								    "<option value=\"09\">09</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"11\">11</option>" +
+								    "<option value=\"12\">12</option>" +
+								    "<option value=\"13\">13</option>" +
+								    "<option value=\"14\">14</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"16\">16</option>" +
+								    "<option value=\"17\">17</option>" +
+								    "<option value=\"18\">18</option>" +
+								    "<option value=\"19\">19</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"21\">21</option>" +
+								    "<option value=\"22\">22</option>" +
+								    "<option value=\"23\">23</option>" +
+								"</select>" +
+			   					"<select name=\"minute-fin-reservation\" class=\"informations-marche\">" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"25\">25</option>" +
+								    "<option value=\"30\">30</option>" +
+								    "<option value=\"35\">35</option>" +
+								    "<option value=\"40\">40</option>" +
+								    "<option value=\"45\">45</option>" +
+								    "<option value=\"50\">50</option>" +
+								    "<option value=\"55\">55</option>" +
+								"</select>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Jour du marché * : </th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-debut\" id=\"marche-dateMarcheDebut\" value=\"{dateMarcheDebut}\"/>" +
+							"</td>" +
+							"<td class=\"com-table-form-td\">" +
+								"de " +
+								"<select name=\"heure-debut\" id=\"marche-timeMarcheDebut\" class=\"informations-marche\">" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"01\">01</option>" +
+								    "<option value=\"02\">02</option>" +
+								    "<option value=\"03\">03</option>" +
+								    "<option value=\"04\">04</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"06\">06</option>" +
+								    "<option value=\"07\">07</option>" +
+								    "<option value=\"08\">08</option>" +
+								    "<option value=\"09\">09</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"11\">11</option>" +
+								    "<option value=\"12\">12</option>" +
+								    "<option value=\"13\">13</option>" +
+								    "<option value=\"14\">14</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"16\">16</option>" +
+								    "<option value=\"17\">17</option>" +
+								    "<option value=\"18\">18</option>" +
+								    "<option value=\"19\">19</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"21\">21</option>" +
+								    "<option value=\"22\">22</option>" +
+								    "<option value=\"23\">23</option>" +
+								"</select>" +
+			   					"<select name=\"minute-debut\" class=\"informations-marche\">" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"25\">25</option>" +
+								    "<option value=\"30\">30</option>" +
+								    "<option value=\"35\">35</option>" +
+								    "<option value=\"40\">40</option>" +
+								    "<option value=\"45\">45</option>" +
+								    "<option value=\"50\">50</option>" +
+								    "<option value=\"55\">55</option>" +
+								  "</select>" +
+								"</td>" +
+								"<td class=\"com-table-form-td\">" +
+									"à " +
+									"<select name=\"heure-fin\" id=\"marche-timeMarcheFin\" class=\"informations-marche\">" +
+										"<option value=\"00\">00</option>" +
+									    "<option value=\"01\">01</option>" +
+									    "<option value=\"02\">02</option>" +
+									    "<option value=\"03\">03</option>" +
+									    "<option value=\"04\">04</option>" +
+									    "<option value=\"05\">05</option>" +
+									    "<option value=\"06\">06</option>" +
+									    "<option value=\"07\">07</option>" +
+									    "<option value=\"08\">08</option>" +
+									    "<option value=\"09\">09</option>" +
+									    "<option value=\"10\">10</option>" +
+									    "<option value=\"11\">11</option>" +
+									    "<option value=\"12\">12</option>" +
+									    "<option value=\"13\">13</option>" +
+									    "<option value=\"14\">14</option>" +
+									    "<option value=\"15\">15</option>" +
+									    "<option value=\"16\">16</option>" +
+									    "<option value=\"17\">17</option>" +
+									    "<option value=\"18\">18</option>" +
+									    "<option value=\"19\">19</option>" +
+									    "<option value=\"20\">20</option>" +
+									    "<option value=\"21\">21</option>" +
+									    "<option value=\"22\">22</option>" +
+									    "<option value=\"23\">23</option>" +
+								    "</select>" +
+			   						"<select name=\"minute-fin\" class=\"informations-marche\">" +
+										"<option value=\"00\">00</option>" +
+									    "<option value=\"05\">05</option>" +
+									    "<option value=\"10\">10</option>" +
+									    "<option value=\"15\">15</option>" +
+									    "<option value=\"20\">20</option>" +
+									    "<option value=\"25\">25</option>" +
+									    "<option value=\"30\">30</option>" +
+									    "<option value=\"35\">35</option>" +
+									    "<option value=\"40\">40</option>" +
+									    "<option value=\"45\">45</option>" +
+									    "<option value=\"50\">50</option>" +
+									    "<option value=\"55\">55</option>" +
+								  "</select>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Description : </th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<textarea class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" name=\"description\" id=\"marche-description\" >{comDescription}</textarea>" +
+							"</td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
+			"</div>" +
+		"</div>";
+	
+	this.dialogSupprimerProduit =
+		"<div id=\"dialog-supprimer-produit\" title=\"Supprimer le produit du marché\">" +
+			"<p>Des réservations sont présentes sur ce produit.<br/>Voulez-vous toujours le supprimer ?</p>" +
+		"</div>";	
 }

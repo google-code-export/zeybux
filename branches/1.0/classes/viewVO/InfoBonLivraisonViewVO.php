@@ -26,9 +26,9 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdCompteProducteur de la InfoBonLivraisonViewVO
+	* @desc ProIdCompteFerme de la InfoBonLivraisonViewVO
 	*/
-	protected $mProIdCompteProducteur;
+	protected $mProIdCompteFerme;
 
 	/**
 	* @var int(11)
@@ -62,16 +62,10 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	
 	/**
 	* @var varchar(50)
-	* @desc PrdtNom de la InfoBonLivraisonViewVO
+	* @desc FerNom de la InfoBonLivraisonViewVO
 	*/
-	protected $mPrdtNom;
-	
-	/**
-	* @var varchar(50)
-	* @desc PrdtPrenom de la InfoBonLivraisonViewVO
-	*/
-	protected $mPrdtPrenom;
-	
+	protected $mFerNom;
+		
 	/**
 	* @var int(11)
 	* @desc DopeId de la InfoBonLivraisonViewVO
@@ -103,21 +97,21 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getProIdCompteProducteur()
+	* @name getProIdCompteFerme()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre ProIdCompteFerme de la InfoBonLivraisonViewVO
 	*/
-	public function getProIdCompteProducteur() {
-		return $this->mProIdCompteProducteur;
+	public function getProIdCompteFerme() {
+		return $this->mProIdCompteFerme;
 	}
 
 	/**
-	* @name setProIdCompteProducteur($pProIdCompteProducteur)
+	* @name setProIdCompteFerme($pProIdCompteFerme)
 	* @param int(11)
-	* @desc Remplace le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO par $pProIdCompteProducteur
+	* @desc Remplace le membre ProIdCompteFerme de la InfoBonLivraisonViewVO par $pProIdCompteFerme
 	*/
-	public function setProIdCompteProducteur($pProIdCompteProducteur) {
-		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
+	public function setProIdCompteFerme($pProIdCompteFerme) {
+		$this->mProIdCompteFerme = $pProIdCompteFerme;
 	}
 
 	/**
@@ -211,39 +205,21 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	}
 	
 	/**
-	* @name getPrdtNom()
+	* @name getFerNom()
 	* @return varchar(50)
-	* @desc Renvoie le membre PrdtNom de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre FerNom de la InfoBonLivraisonViewVO
 	*/
-	public function getPrdtNom() {
-		return $this->mPrdtNom;
+	public function getFerNom() {
+		return $this->mFerNom;
 	}
 
 	/**
-	* @name setPrdtNom($pPrdtNom)
+	* @name setFerNom($pFerNom)
 	* @param varchar(50)
-	* @desc Remplace le membre PrdtNom de la InfoBonLivraisonViewVO par $pPrdtNom
+	* @desc Remplace le membre FerNom de la InfoBonLivraisonViewVO par $pFerNom
 	*/
-	public function setPrdtNom($pPrdtNom) {
-		$this->mPrdtNom = $pPrdtNom;
-	}
-	
-	/**
-	* @name getPrdtPrenom()
-	* @return varchar(50)
-	* @desc Renvoie le membre PrdtPrenom de la InfoBonLivraisonViewVO
-	*/
-	public function getPrdtPrenom() {
-		return $this->mPrdtPrenom;
-	}
-
-	/**
-	* @name setPrdtPrenom($pPrdtPrenom)
-	* @param varchar(50)
-	* @desc Remplace le membre PrdtPrenom de la InfoBonLivraisonViewVO par $pPrdtPrenom
-	*/
-	public function setPrdtPrenom($pPrdtPrenom) {
-		$this->mPrdtPrenom = $pPrdtPrenom;
+	public function setFerNom($pFerNom) {
+		$this->mFerNom = $pFerNom;
 	}
 	
 	/**

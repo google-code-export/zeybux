@@ -17,19 +17,19 @@
 		this.mParam = $.extend(this.mParam, pParam);
 		this.mParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionProducteur&v=CatalogueFerme", "pParam=" + $.toJSON(this.mParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
+			function(lResponse) {
+				Infobulle.init(); // Supprime les erreurs
+				if(lResponse) {
+					if(lResponse.valid) {
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
 						}
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
 					}
-				},"json"
+				}
+			},"json"
 		);
 	}	
 	
@@ -180,6 +180,8 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+							that.mListeCategorie = lResponse.listeCategorie;
+							
 							that.mCategories = [];
 							var lCategorieExiste = false;
 							$.each(lResponse.listeCategorie,function() {
@@ -571,7 +573,7 @@
 			var lhtml = $(lTemplate.template(this.mInfoFormulaireProduit));
 			
 			if(this.mInfoFormulaireProduit.listeProducteur.length > 0 && this.mInfoFormulaireProduit.listeProducteur[0].prdtId == null) {
-				lhtml.find("#pro-producteur").replaceWith(lGestionProducteurTemplate.listeProducteurVide);
+				lhtml.find("#pro-producteur").replaceWith(lGestionProducteurTemplate.produitListeProducteurVide);
 			}
 			if(this.mInfoFormulaireProduit.listeCaracteristique.length > 0 && this.mInfoFormulaireProduit.listeCaracteristique[0].carId == null) {
 				lhtml.find("#pro-caracteristique").replaceWith(lGestionProducteurTemplate.listeCaracteristiqueVide);
@@ -918,7 +920,7 @@
 					if(lResponse) {
 						if(lResponse.valid) {
 
-							that.mInfoFormulaireProduit = {
+							var lInfoFormulaireProduit = {
 									listeProducteur:lResponse.listeProducteur,
 									listeCaracteristique:lResponse.listeCaracteristique,
 									sigleMonetaire:gSigleMonetaire,
@@ -930,13 +932,13 @@
 							var lGestionProducteurTemplate = new GestionProducteurTemplate();
 							var lTemplate = lGestionProducteurTemplate.dialogAjoutProduit;
 							
-							that.mInfoFormulaireProduit.listeCategorie = that.mListeCategorie;
-							var lhtml = $(lTemplate.template(that.mInfoFormulaireProduit));
+							lInfoFormulaireProduit.listeCategorie = that.mListeCategorie;
+							var lhtml = $(lTemplate.template(lInfoFormulaireProduit));
 							
-							if(that.mInfoFormulaireProduit.listeProducteur.length > 0 && that.mInfoFormulaireProduit.listeProducteur[0].prdtId == null) {
-								lhtml.find("#pro-producteur").replaceWith(lGestionProducteurTemplate.listeProducteurVide);
+							if(lInfoFormulaireProduit.listeProducteur.length > 0 && lInfoFormulaireProduit.listeProducteur[0].prdtId == null) {
+								lhtml.find("#pro-producteur").replaceWith(lGestionProducteurTemplate.produitListeProducteurVide);
 							}
-							if(that.mInfoFormulaireProduit.listeCaracteristique.length > 0 && that.mInfoFormulaireProduit.listeCaracteristique[0].carId == null) {
+							if(lInfoFormulaireProduit.listeCaracteristique.length > 0 && lInfoFormulaireProduit.listeCaracteristique[0].carId == null) {
 								lhtml.find("#pro-caracteristique").replaceWith(lGestionProducteurTemplate.listeCaracteristiqueVide);
 							}
 							

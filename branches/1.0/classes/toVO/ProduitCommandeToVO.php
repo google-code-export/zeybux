@@ -30,7 +30,6 @@ class ProduitCommandeToVO
 
 		$lValid = isset($lJson->id)
 			&& isset($lJson->idNom)
-			&& isset($lJson->idProducteur)
 			&& isset($lJson->nom)
 			&& isset($lJson->description)
 			&& isset($lJson->idCategorie)
@@ -47,7 +46,6 @@ class ProduitCommandeToVO
 				$lVo = new ProduitCommandeVO();
 				$lVo->setId($lJson->id);
 				$lVo->setIdNom($lJson->idNom);
-				$lVo->setIdProducteur($lJson->idProducteur);
 				$lVo->setNom($lJson->nom);
 				$lVo->setDescription($lJson->description);
 				$lVo->setIdCategorie($lJson->idCategorie);
@@ -73,7 +71,6 @@ class ProduitCommandeToVO
 	public static function convertFromArray($pArray) {
 		$lValid = isset($pArray['id'])
 			&& isset($pArray['idNom'])
-			&& isset($pArray['idProducteur'])
 			&& isset($pArray['nom'])
 			&& isset($pArray['description'])
 			&& isset($pArray['idCategorie'])
@@ -89,7 +86,6 @@ class ProduitCommandeToVO
 			$lVo = new ProduitCommandeVO();
 			$lVo->setId($pArray['id']);
 			$lVo->setIdNom($pArray['idNom']);
-			$lVo->setIdProducteur($pArray['idProducteur']);
 			$lVo->setNom($pArray['nom']);
 			$lVo->setDescription($pArray['description']);
 			$lVo->setIdCategorie($pArray['idCategorie']);

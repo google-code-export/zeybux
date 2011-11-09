@@ -768,7 +768,7 @@
 			"</form>" +
 		"</div>";
 	
-	this.listeProducteurVide =
+	this.produitListeProducteurVide =
 		"<div class=\"com-widget-content\" id=\"pro-producteur\">" +
 			"<p class=\"com-center\">Aucun producteur.</p>" +	
 		"</div>";
@@ -797,6 +797,7 @@
 				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{id}-unite\" maxlength=\"20\" id=\"pro-lot-{id}-unite\"/>" +
 			"</td>" +
 			"<td class=\"com-table-td-med\">" +
+				"à " +
 				"<span class=\"champ-lot-{id} lot-prix\" id=\"lot-{id}-prix\">{prix}</span>" +
 				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{id}-prix\" maxlength=\"13\" id=\"pro-lot-{id}-prix\"/>" +
 				" {sigleMonetaire}" +

@@ -26,9 +26,9 @@ class GestionCommandeReservationProducteurViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
-	* @desc ProIdCompteProducteur de la GestionCommandeReservationProducteurViewVO
+	* @desc ProIdCompteFerme de la GestionCommandeReservationProducteurViewVO
 	*/
-	protected $mProIdCompteProducteur;
+	protected $mProIdCompteFerme;
 
 	/**
 	* @var int(11)
@@ -61,21 +61,21 @@ class GestionCommandeReservationProducteurViewVO  extends DataTemplate
 	}
 
 	/**
-	* @name getProIdCompteProducteur()
+	* @name getProIdCompteFerme()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdCompteProducteur de la GestionCommandeReservationProducteurViewVO
+	* @desc Renvoie le membre ProIdCompteFerme de la GestionCommandeReservationProducteurViewVO
 	*/
-	public function getProIdCompteProducteur() {
-		return $this->mProIdCompteProducteur;
+	public function getProIdCompteFerme() {
+		return $this->mProIdCompteFerme;
 	}
 
 	/**
-	* @name setProIdCompteProducteur($pProIdCompteProducteur)
+	* @name setProIdCompteFerme($pProIdCompteFerme)
 	* @param int(11)
-	* @desc Remplace le membre ProIdCompteProducteur de la GestionCommandeReservationProducteurViewVO par $pProIdCompteProducteur
+	* @desc Remplace le membre ProIdCompteFerme de la GestionCommandeReservationProducteurViewVO par $pProIdCompteFerme
 	*/
-	public function setProIdCompteProducteur($pProIdCompteProducteur) {
-		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
+	public function setProIdCompteFerme($pProIdCompteFerme) {
+		$this->mProIdCompteFerme = $pProIdCompteFerme;
 	}
 
 	/**

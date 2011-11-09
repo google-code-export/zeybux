@@ -114,13 +114,15 @@ class ReservationService
 
 		$lStockService = new StockService();
 		$lDetailOperationService = new DetailOperationService();
-
+//var_dump($lReservationsActuelle);
+//var_dump($lOperations);
 		foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
 			$lTestUpdate = false;
 			foreach($pReservation->getDetailReservation() as $lReservationNouvelle) {
 				if($lReservationActuelle->getIdDetailCommande() == $lReservationNouvelle->getIdDetailCommande()) {
 					$lTotal += $lReservationNouvelle->getMontant();
-					
+		//			echo "update";
+		//			var_dump($lReservationNouvelle);
 					// Maj du stock
 					$lStock = new StockVO();
 					$lStock->setId($lReservationActuelle->getId()->getIdStock());
@@ -146,6 +148,8 @@ class ReservationService
 				}
 			}
 			if(!$lTestUpdate) {
+	//			echo "delete";
+	//			var_dump($lReservationActuelle);
 				// Suppression du stock et du detail operation
 				$lStockService->delete($lReservationActuelle->getId()->getIdStock());
 				$lDetailOperationService->delete($lReservationActuelle->getId()->getIdDetailOperation());
@@ -160,6 +164,8 @@ class ReservationService
 				}
 			}
 			if($lTestInsert) {
+	//			echo "insert";
+	//			var_dump($lReservationNouvelle);
 				$lTotal += $lReservationNouvelle->getMontant();
 					
 				// Ajout du stock
@@ -279,7 +285,7 @@ class ReservationService
 				case 7: // Un achat
 					foreach($lOperations as $lOperation) {
 						if($lOperation->getTypePaiement() == 7) {
-							$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+							$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),0,0);
 							if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
 								foreach($lDetailsReservation as $lDetail) {
 									$lDetailReservation = new DetailReservationVO();
@@ -300,7 +306,7 @@ class ReservationService
 					
 				case 0: // Reservation en cours
 					$lOperation = $lOperations[0];
-					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+					$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),0,0);
 					foreach($lDetailsReservation as $lDetail) {
 						if($lDetail->getDopeTypePaiement() == 0) {
 							$lDetailReservation = new DetailReservationVO();
@@ -319,7 +325,7 @@ class ReservationService
 					
 				case 15: // Reservation non récupérée
 					$lOperation = $lOperations[0];
-					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+					$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),15,5);
 					foreach($lDetailsReservation as $lDetail) {
 						if($lDetail->getDopeTypePaiement() == 15) {
 							$lDetailReservation = new DetailReservationVO();
@@ -338,7 +344,7 @@ class ReservationService
 					
 				case 16: // Reservation annulée
 					$lOperation = $lOperations[0];
-					$lDetailsReservation = ReservationDetailViewManager::select($lOperation->getId());
+					$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),16,6);
 					foreach($lDetailsReservation as $lDetail) {
 						if($lDetail->getDopeTypePaiement() == 16) {					
 							$lDetailReservation = new DetailReservationVO();

@@ -30,3 +30,17 @@
 .btn-valider {
 	padding:3px;
 }
+
+#pro-idFerme, #pro-idCategorie, #pro-idProduit {
+	width:285px;
+	display:inline-block
+}
+
+#prix-stock-produit {
+	clear:left;
+	margin-top:55px;
+}
+
+.pro-form-input-lot {
+	width:90px;
+}

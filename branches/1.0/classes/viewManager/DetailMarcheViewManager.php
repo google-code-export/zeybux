@@ -17,6 +17,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
 /**
  * @name DetailMarcheViewManager
@@ -55,7 +56,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
@@ -66,7 +67,9 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . 
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID . 
+			"," . FermeManager::CHAMP_FERME_NOM . "
 			FROM " . DetailMarcheViewManager::VUE_DETAILMARCHE . " 
 			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -91,7 +94,7 @@ class DetailMarcheViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
@@ -102,7 +105,9 @@ class DetailMarcheViewManager
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
-						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+						$lLigne[FermeManager::CHAMP_FERME_ID],
+						$lLigne[FermeManager::CHAMP_FERME_NOM]));
 				}
 			} else {
 				$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -138,7 +143,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .  
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .  
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
@@ -149,7 +154,9 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID . 
+			"," . FermeManager::CHAMP_FERME_NOM . "
 			FROM " . DetailMarcheViewManager::VUE_DETAILMARCHE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -173,7 +180,7 @@ class DetailMarcheViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
@@ -184,7 +191,9 @@ class DetailMarcheViewManager
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+					$lLigne[FermeManager::CHAMP_FERME_ID],
+					$lLigne[FermeManager::CHAMP_FERME_NOM]));
 			}
 		} else {
 			$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -192,6 +201,90 @@ class DetailMarcheViewManager
 		return $lListeDetailMarche;
 	}
 
+	/**
+	* @name selectByIdProduit($pId)
+	* @param integer
+	* @return array(DetailMarcheViewVO)
+	* @desc Sélectionne les lignes en fonction de IdProduit
+	*/
+	public static function selectByIdProduit($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
+			"," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
+			"," . CommandeManager::CHAMP_COMMANDE_ARCHIVE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
+			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID . 
+			"," . FermeManager::CHAMP_FERME_NOM . "
+			FROM " . DetailMarcheViewManager::VUE_DETAILMARCHE . " 
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID . " = '" . StringUtils::securiser($pId) . "'";
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeDetailMarche = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeDetailMarche,
+					DetailMarcheViewManager::remplir(
+					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DESCRIPTION],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_ARCHIVE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+					$lLigne[FermeManager::CHAMP_FERME_ID],
+					$lLigne[FermeManager::CHAMP_FERME_NOM]));
+			}
+		} else {
+			$lListeDetailMarche[0] = new DetailMarcheViewVO();
+		}
+		return $lListeDetailMarche;
+	}
+			    
 	/**
 	* @name selectByLot($pId)
 	* @param integer
@@ -237,7 +330,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID .
@@ -248,7 +341,9 @@ class DetailMarcheViewManager
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX	.
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM);
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID . 
+			"," . FermeManager::CHAMP_FERME_NOM );
 /*
 		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
 
@@ -299,7 +394,7 @@ class DetailMarcheViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
@@ -310,7 +405,9 @@ class DetailMarcheViewManager
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
-						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM]));
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+						$lLigne[FermeManager::CHAMP_FERME_ID],
+						$lLigne[FermeManager::CHAMP_FERME_NOM]));
 				}
 			} else {
 				$lListeDetailMarche[0] = new DetailMarcheViewVO();
@@ -322,7 +419,7 @@ class DetailMarcheViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom)
+	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(100)
@@ -348,10 +445,12 @@ class DetailMarcheViewManager
 	* @param decimal(10,2)
 	* @param decimal(10,2)
 	* @param varchar(50)
+	* @param int(11)
+	* @param varchar(20)
 	* @return DetailMarcheViewVO
 	* @desc Retourne une DetailMarcheViewVO remplie
 	*/
-	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteProducteur, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom) {
+	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom) {
 		$lDetailMarche = new DetailMarcheViewVO();
 		$lDetailMarche->setComId($pComId);
 		$lDetailMarche->setComNumero($pComNumero);
@@ -366,7 +465,7 @@ class DetailMarcheViewManager
 		$lDetailMarche->setProIdNomProduit($pProIdNomProduit);
 		$lDetailMarche->setProUniteMesure($pProUniteMesure);
 		$lDetailMarche->setProMaxProduitCommande($pProMaxProduitCommande);
-		$lDetailMarche->setProIdCompteProducteur($pProIdCompteProducteur);
+		$lDetailMarche->setProIdCompteFerme($pProIdCompteFerme);
 		$lDetailMarche->setProStockReservation($pProStockReservation);
 		$lDetailMarche->setProStockInitial($pProStockInitial);
 		$lDetailMarche->setNproId($pNproId);
@@ -378,6 +477,8 @@ class DetailMarcheViewManager
 		$lDetailMarche->setDcomTaille($pDcomTaille);
 		$lDetailMarche->setDcomPrix($pDcomPrix);
 		$lDetailMarche->setCproNom($pCproNom);
+		$lDetailMarche->setFerId($pFerId);
+		$lDetailMarche->setFerNom($pFerNom);
 		return $lDetailMarche;
 	}
 }

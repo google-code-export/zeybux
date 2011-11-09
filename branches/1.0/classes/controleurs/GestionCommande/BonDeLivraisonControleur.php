@@ -93,17 +93,17 @@ class BonDeLivraisonControleur
 		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
 		if($lVr->getValid()) {
 			$lIdMarche = $pParam["id_commande"];
-			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+			$lIdCompteFerme = $pParam["id_compte_ferme"];
 			$lOperationService = new OperationService();
 			
 			$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
 			
-			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur));
-			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur));
-			$lResponse->setProduitsLivraison(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteProducteur));
-			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur));
+			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsLivraison(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme));
 			
-			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteFerme);
 			$lOperation = $lOperations[0];			
 			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 
@@ -126,7 +126,7 @@ class BonDeLivraisonControleur
 		$lVr = ProduitsBonDeLivraisonValid::validAjout($pParam);	
 		if($lVr->getValid()) {
 			$lIdMarche = $pParam["id_commande"];
-			$lIdCompteProducteur = $pParam["id_compte_producteur"];
+			$lIdCompteFerme = $pParam["id_compte_ferme"];
 			$lProduits = $pParam["produits"];
 
 			
@@ -135,12 +135,12 @@ class BonDeLivraisonControleur
 			
 			// Récupère l'opération Bon de livraison si elle existe
 			$lOperationService = new OperationService();
-			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteFerme);
 			$lIdOperation = $lOperations[0]->getId();
 
 			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de Livraison				
 				$lOperation = new OperationVO();
-				$lOperation->setIdCompte($lIdCompteProducteur);
+				$lOperation->setIdCompte($lIdCompteFerme);
 				$lOperation->setLibelle('Bon de Livraison marché n°' . $lMarche->getNumero());
 				$lOperation->setTypePaiement(6);
 				$lOperation->setIdCommande($lIdMarche);				
@@ -165,7 +165,7 @@ class BonDeLivraisonControleur
 			
 			// Ajout opération de crédit sur le compte du producteur
 			$lOperationPrdt = new OperationVO();
-			$lOperationPrdt->setIdCompte($lIdCompteProducteur);
+			$lOperationPrdt->setIdCompte($lIdCompteFerme);
 			$lOperationPrdt->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
 			$lOperationPrdt->setTypePaiement($pParam["typePaiement"]);
 			$lOperationPrdt->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
@@ -186,7 +186,7 @@ class BonDeLivraisonControleur
 			
 			
 			// Maj des infos du stock
-			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteProducteur);
+			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme);
 
 			$lDetailOperationService = new DetailOperationService();
 			$lStockService = new StockService();
@@ -201,14 +201,14 @@ class BonDeLivraisonControleur
 						$lStock->setId($lBon->getStoId());
 						$lStock->setQuantite($lProduit["quantite"]);
 						$lStock->setType(4);
-						$lStock->setIdCompte($lIdCompteProducteur);
+						$lStock->setIdCompte($lIdCompteFerme);
 						$lStock->setIdDetailCommande($lDcom[0]->getId());
 						$lStock->setIdOperation($lIdOperation);
 						$lStockService->set($lStock);
 						
 						$lDetailOperation = $lDetailOperationService->get($lBon->getDopeId());
 						$lDetailOperation->setIdOperation($lIdOperation);
-						$lDetailOperation->setIdCompte($lIdCompteProducteur);
+						$lDetailOperation->setIdCompte($lIdCompteFerme);
 						$lDetailOperation->setMontant($lProduit["prix"]);
 						$lDetailOperation->setLibelle('Bon de Livraison');
 						$lDetailOperation->setTypePaiement(6);
@@ -221,14 +221,14 @@ class BonDeLivraisonControleur
 					$lStock = new StockVO();
 					$lStock->setQuantite($lProduit["quantite"]);
 					$lStock->setType(4);
-					$lStock->setIdCompte($lIdCompteProducteur);
+					$lStock->setIdCompte($lIdCompteFerme);
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
 					
 					$lDetailOperation = new DetailOperationVO();
 					$lDetailOperation->setIdOperation($lIdOperation);
-					$lDetailOperation->setIdCompte($lIdCompteProducteur);
+					$lDetailOperation->setIdCompte($lIdCompteFerme);
 					$lDetailOperation->setMontant($lProduit["prix"]);
 					$lDetailOperation->setLibelle('Bon de Livraison');
 					$lDetailOperation->setTypePaiement(6);
@@ -251,7 +251,7 @@ class BonDeLivraisonControleur
 			}
 			
 			// Maj des infos du stock Solidaire
-			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur);
+			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme);
 			foreach($lProduits as $lProduit) {
 				$lMaj = false;
 				foreach($lStockSolidaire as $lBon) {
@@ -263,7 +263,7 @@ class BonDeLivraisonControleur
 						$lStock->setId($lBon->getStoId());
 						$lStock->setQuantite($lProduit["quantiteSolidaire"]);
 						$lStock->setType(2);
-						$lStock->setIdCompte($lIdCompteProducteur);
+						$lStock->setIdCompte($lIdCompteFerme);
 						$lStock->setIdDetailCommande($lDcom[0]->getId());
 						$lStock->setIdOperation($lIdOperation);
 						$lStockService->set($lStock);
@@ -275,7 +275,7 @@ class BonDeLivraisonControleur
 					$lStock = new StockVO();
 					$lStock->setQuantite($lProduit["quantiteSolidaire"]);
 					$lStock->setType(2);
-					$lStock->setIdCompte($lIdCompteProducteur);
+					$lStock->setIdCompte($lIdCompteFerme);
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
@@ -315,14 +315,14 @@ class BonDeLivraisonControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
-				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
-							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();
+							$lIdCompteFerme = $lLigne->getProIdCompteFerme();
 							
-							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
 							$lOperation = $lOperations[0];
 							
 							if(!is_null($lOperation->getId())) {
@@ -334,7 +334,7 @@ class BonDeLivraisonControleur
 							array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
 							array_push($lContenuTableau,"","","","","","","","");
 						}
-						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
+						$lNomPrdt = $lLigne->getFerNom();
 					}
 
 					$lQuantite = '';
@@ -384,13 +384,13 @@ class BonDeLivraisonControleur
 											utf8_decode($lUniteQuantiteSolidaire)
 											);
 											
-					$lIdPrdt = $lLigne->getProIdCompteProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteFerme();
 				}
 			}
 			
 			// Pour la dernière ligne			
-			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
-			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+			$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
 			$lOperation = $lOperations[0];		
 			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 			if(!is_null($lOperation->getId())) {
@@ -488,13 +488,13 @@ class BonDeLivraisonControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
-				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
+				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
-							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();							
-							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+							$lIdCompteFerme = $lLigne->getProIdCompteFerme();							
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
 							$lOperation = $lOperations[0];
 							
 							if(!is_null($lOperation->getId())) {
@@ -510,7 +510,7 @@ class BonDeLivraisonControleur
 							$lLignecontenu = array("","","","","","","","","","","","");
 							array_push($lContenuTableau,$lLignecontenu);
 						}
-						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
+						$lNomPrdt = $lLigne->getFerNom();
 					}
 
 					$lQuantite = '';
@@ -584,12 +584,12 @@ class BonDeLivraisonControleur
 											);
 					
 					array_push($lContenuTableau,$lLignecontenu);
-					$lIdPrdt = $lLigne->getProIdCompteProducteur();
+					$lIdPrdt = $lLigne->getProIdCompteFerme();
 				}
 			}
 
-			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
-			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
+			$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
 			$lOperation = $lOperations[0];
 			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 			if(!is_null($lOperation->getId())) {
