@@ -65,6 +65,12 @@ class ReservationDetailViewVO  extends DataTemplate
 	* @desc DopeTypePaiement de la ReservationDetailViewVO
 	*/
 	protected $mDopeTypePaiement;
+	
+	/**
+	* @var int(11)
+	* @desc StoType de la ReservationDetailViewVO
+	*/
+	protected $mStoType;
 
 	/**
 	* @name getStoIdOperation()
@@ -210,5 +216,22 @@ class ReservationDetailViewVO  extends DataTemplate
 		$this->mDopeTypePaiement = $pDopeTypePaiement;
 	}
 
+	/**
+	* @name getStoType()
+	* @return int(11)
+	* @desc Renvoie le membre StoType de la ReservationDetailViewVO
+	*/
+	public function getStoType() {
+		return $this->mStoType;
+	}
+
+	/**
+	* @name setStoType($pStoType)
+	* @param int(11)
+	* @desc Remplace le membre StoType de la ReservationDetailViewVO par $pStoType
+	*/
+	public function setStoType($pStoType) {
+		$this->mStoType = $pStoType;
+	}
 }
 ?>

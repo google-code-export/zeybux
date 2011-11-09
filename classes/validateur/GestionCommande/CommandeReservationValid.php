@@ -287,43 +287,34 @@ class CommandeReservationValid
 				$lIdLot = $pData["detailReservation"][0]["stoIdDetailCommande"];
 				$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
 
-				// Marché : réservation non terminée
-				if(!TestFonction::dateTimeEstPLusGrandeEgale($lDetailMarche[0]->getComDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($pData['id_compte']);
+				$lIdReservation->setIdCommande($lDetailMarche[0]->getComId());
+				
+				$lReservationService = new ReservationService();
+				$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
+				$lOperation = $lOperations[0];
+				$lIdOperation = $lOperation->getId();			
+
+				// Si il y a bien une réservation existante
+				if(is_null($lIdOperation) || $lOperation->getTypePaiement() != 0) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_221_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_221_MSG);
+					$lErreur->setCode(MessagesErreurs::ERR_238_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
 					$lVr->getLog()->addErreur($lErreur);
-				} else {
-					$lIdReservation = new IdReservationVO();
-					$lIdReservation->setIdCompte($pData['id_compte']);
-					$lIdReservation->setIdCommande($lDetailMarche[0]->getComId());
-					
-					$lReservationService = new ReservationService();
-					$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
-					$lOperation = $lOperations[0];
-					$lIdOperation = $lOperation->getId();			
-	
-					// Si il y a bien une réservation existante
-					if(is_null($lIdOperation) || $lOperation->getTypePaiement() != 0) {
-						$lVr->setValid(false);
-						$lVr->getLog()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_238_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
-						$lVr->getLog()->addErreur($lErreur);
-					}
-
-					if($lVr->getValid()) {
-						foreach($pData['detailReservation'] as $lReservation) {
-							$lReservation["idOperation"] = $lIdOperation;
-							$lVrReservation = CommandeDetailReservationValid::validUpdate($lReservation);
-							if(!$lVrReservation->getValid()){$lVr->setValid(false);}
-							$lVr->addCommandes($lVrReservation);
-						}	
-					}
 				}
+
+				if($lVr->getValid()) {
+					foreach($pData['detailReservation'] as $lReservation) {
+						$lReservation["idOperation"] = $lIdOperation;
+						$lVrReservation = CommandeDetailReservationValid::validUpdate($lReservation);
+						if(!$lVrReservation->getValid()){$lVr->setValid(false);}
+						$lVr->addCommandes($lVrReservation);
+					}	
+				}
+				
 			} else {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);

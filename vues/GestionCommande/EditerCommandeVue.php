@@ -49,6 +49,46 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						echo $lControleur->getListeReservation($lParam)->exportToJson();
 						$lLogger->log("Affichage de la liste des réservation : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
+					
+				case "modifierInformationMarche":
+						echo $lControleur->modifierInformationMarche($lParam)->exportToJson();
+						$lLogger->log("Modification es informations du marché par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "supprimerProduitMarche":
+						echo $lControleur->supprimerProduitMarche($lParam)->exportToJson();
+						$lLogger->log("Suppression de produit du marché par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "detailProduitMarche":
+						echo $lControleur->detailProduitMarche($lParam)->exportToJson();
+						$lLogger->log("Détail du produit du marché par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "modifierProduitMarche":
+						echo $lControleur->modifierProduitMarche($lParam)->exportToJson();
+						$lLogger->log("Modification du produit du marché par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "ajouterProduitMarche":
+						echo $lControleur->ajouterProduitMarche($lParam)->exportToJson();
+						$lLogger->log("Ajout du produit du marché par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;	
+					
+				case "listeFerme":
+						echo $lControleur->getListeFerme()->exportToJson();
+						$lLogger->log("Affichage de la liste des fermes dans la vue EditerCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "listeProduit":
+						echo $lControleur->getListeProduit($lParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des produits dans la vue EditerCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
+				case "listeModeleLot":
+						echo $lControleur->getModeleLot($lParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des modeles de lot dans la vue EditerCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
 
 				default:
 					$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs

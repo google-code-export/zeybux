@@ -192,11 +192,11 @@ class FermeValid
 				}
 				if($lSomme % 10 != 0 || !TestFonction::checkLength($pData['siren'],9,9)) {
 					$lVr->setValid(false);
-					$lVr->getNom()->setValid(false);
+					$lVr->getSiren()->setValid(false);
 					$lErreur = new VRerreur();
 					$lErreur->setCode(MessagesErreurs::ERR_242_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_242_MSG);
-					$lVr->getNom()->addErreur($lErreur);
+					$lVr->getSiren()->addErreur($lErreur);
 				}
 			}
 		

@@ -41,7 +41,7 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -58,7 +58,7 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -82,7 +82,7 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -98,7 +98,7 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -133,7 +133,7 @@ class StockSolidaireViewManager
 	*/
 	public static function selectSolidaire($pIdMarche,$pIdCompteProducteur) {
 		return StockSolidaireViewManager::recherche(
-			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR),
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME),
 			array('=','='),
 			array($pIdMarche,$pIdCompteProducteur),
 			array(''),
@@ -173,7 +173,7 @@ class StockSolidaireViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
-			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . StockManager::CHAMP_STOCK_ID .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
@@ -196,7 +196,7 @@ class StockSolidaireViewManager
 					array_push($lListeStockSolidaire,
 						StockSolidaireViewManager::remplir(
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
-						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[StockManager::CHAMP_STOCK_ID],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -214,7 +214,7 @@ class StockSolidaireViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pStoId, $pDcomId, $pStoQuantite)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -224,10 +224,10 @@ class StockSolidaireViewManager
 	* @return StockSolidaireViewVO
 	* @desc Retourne une StockSolidaireViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
 		$lStockSolidaire = new StockSolidaireViewVO();
 		$lStockSolidaire->setProIdCommande($pProIdCommande);
-		$lStockSolidaire->setProIdCompteProducteur($pProIdCompteProducteur);
+		$lStockSolidaire->setProIdCompteFerme($pProIdCompteFerme);
 		$lStockSolidaire->setProId($pProId);
 		$lStockSolidaire->setStoId($pStoId);
 		$lStockSolidaire->setDcomId($pDcomId);

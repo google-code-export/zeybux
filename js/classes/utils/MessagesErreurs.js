@@ -119,6 +119,8 @@ const ERR_241_CODE = 241;
 const ERR_241_MSG = 'La quantité max par adhérent doit être plus grande que taille du lot le plus petit.';
 const ERR_242_CODE = 242;
 const ERR_242_MSG = 'Le SIREN n\'est pas valide.';
+const ERR_243_CODE = 243;
+const ERR_243_MSG = 'Il faut sélectionner un prix de vente au minimum.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -183,3 +185,11 @@ const ERR_330_CODE = 330;
 const ERR_330_MSG = 'Produit modifié.';
 const ERR_331_CODE = 331;
 const ERR_331_MSG = 'Produit supprimé.';
+const ERR_332_CODE = 332;
+const ERR_332_MSG = 'Aucun produit pour cette ferme.';
+const ERR_333_CODE = 333;
+const ERR_333_MSG = 'Les unités de vente ne sont pas identiques.';
+const ERR_334_CODE = 334;
+const ERR_334_MSG = 'Marché ajouté.';
+const ERR_335_CODE = 335;
+const ERR_335_MSG = 'Marché modifié.';

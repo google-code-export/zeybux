@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/ProduitsBonDeCommandeVR.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitBonDeCommandeValid.php" );
-include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
 /**
@@ -40,7 +40,7 @@ class ProduitsBonDeCommandeValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId_commande()->addErreur($lErreur);	
 		}
-		if(!isset($pData['id_compte_producteur'])) {
+		if(!isset($pData['id_compte_ferme'])) {
 			$lVr->setValid(false);
 			$lVr->getId_producteur()->setValid(false);
 			$lErreur = new VRerreur();
@@ -75,7 +75,7 @@ class ProduitsBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getId_commande()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['id_compte_producteur'],0,11)) {
+			if(!TestFonction::checkLength($pData['id_compte_ferme'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId_producteur()->setValid(false);
 				$lErreur = new VRerreur();
@@ -83,7 +83,7 @@ class ProduitsBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getId_producteur()->addErreur($lErreur);	
 			}
-			if(!is_int((int)$pData['id_compte_producteur'])) {
+			if(!is_int((int)$pData['id_compte_ferme'])) {
 				$lVr->setValid(false);
 				$lVr->getId_producteur()->setValid(false);
 				$lErreur = new VRerreur();
@@ -109,7 +109,7 @@ class ProduitsBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getId_commande()->addErreur($lErreur);	
 			}
-			if(empty($pData['id_compte_producteur'])) {
+			if(empty($pData['id_compte_ferme'])) {
 				$lVr->setValid(false);
 				$lVr->getId_producteur()->setValid(false);
 				$lErreur = new VRerreur();
@@ -136,8 +136,8 @@ class ProduitsBonDeCommandeValid
 				$lVr->getId_commande()->addErreur($lErreur);	
 			}
 			
-			$lProducteur = ProducteurManager::selectByIdCompte($pData['id_compte_producteur']);
-			if($lProducteur[0]->getIdCompte() != $pData['id_compte_producteur']) {
+			$lFerme = FermeManager::selectByIdCompte($pData['id_compte_ferme']);
+			if($lFerme[0]->getIdCompte() != $pData['id_compte_ferme']) {
 				$lVr->setValid(false);
 				$lVr->getId_producteur()->setValid(false);
 				$lErreur = new VRerreur();

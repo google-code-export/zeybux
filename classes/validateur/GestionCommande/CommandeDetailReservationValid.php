@@ -129,7 +129,7 @@ class CommandeDetailReservationValid
 					$lVr->getLog()->addErreur($lErreur);
 				} else {
 					$lQte = $pData['stoQuantite'] * -1;
-					if($lQte > $lPdt->getMaxProduitCommande()) {
+					if($lPdt->getMaxProduitCommande() != -1 && $lQte > $lPdt->getMaxProduitCommande()) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();
@@ -137,7 +137,7 @@ class CommandeDetailReservationValid
 						$lErreur->setMessage(MessagesErreurs::ERR_217_MSG);
 						$lVr->getStoIdProduit()->addErreur($lErreur);
 					}
-					if($lQte > $lPdt->getStockReservation()) {
+					if($lPdt->getStockInitial() != -1 && $lQte > $lPdt->getStockReservation()) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();
@@ -322,7 +322,7 @@ class CommandeDetailReservationValid
 					$lVr->getLog()->addErreur($lErreur);
 				} else {
 					$lQte = $pData['stoQuantite'] * -1;
-					if($lQte > $lPdt->getMaxProduitCommande()) {
+					if($lPdt->getMaxProduitCommande() != -1 && $lQte > $lPdt->getMaxProduitCommande()) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();
@@ -335,7 +335,7 @@ class CommandeDetailReservationValid
 					$lStocks = $StockService->getDetailReservation($pData['idOperation']);
 					$lStock = $lStocks[0];					
 					$lQuantiteReservation = $lStock->getQuantite();					
-					if($lQte > ($lPdt->getStockReservation() - $lQuantiteReservation)) {
+					if($lPdt->getStockInitial() != -1 && $lQte > ($lPdt->getStockReservation() - $lQuantiteReservation)) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();

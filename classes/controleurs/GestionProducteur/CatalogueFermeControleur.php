@@ -25,9 +25,9 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR ."/InfoFormulaireP
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR ."/InfoFormulaireModifierProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/CategorieProduitValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/NomProduitCatalogueValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
 include_once(CHEMIN_CLASSES_TOVO . "CategorieProduitToVO.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeCaracteristiqueViewManager.php");

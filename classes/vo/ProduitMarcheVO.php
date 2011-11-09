@@ -27,9 +27,9 @@ class ProduitMarcheVO extends DataTemplate
 	
 	/**
 	 * @var integer 
-	 * @desc ID du Producteur
+	 * @desc ID du compte de la ferme
 	 */
-	protected $mIdCompteProducteur;
+	protected $mIdCompteFerme;
 	
 	/**
 	* @var integer 
@@ -91,6 +91,18 @@ class ProduitMarcheVO extends DataTemplate
 	*/
 	protected $mLots;
 	
+		/**
+	* @var int(11)
+	* @desc FerId du produit
+	*/
+	protected $mFerId;
+	
+	/**
+	* @var varchar(20)
+	* @desc FerNom du produit
+	*/
+	protected $mFerNom;
+	
 	/**
 	* @name ProduitMarcheVO()
 	* @desc Le constructeur
@@ -118,21 +130,21 @@ class ProduitMarcheVO extends DataTemplate
 	}
 	
 	/**
-	* @name getIdCompteProducteur()
+	* @name getIdCompteFerme()
 	* @return integer
-	* @desc Renvoie l'IdCompteProducteur du Produit
+	* @desc Renvoie l'IdCompteFerme du Produit
 	*/
-	public function getIdCompteProducteur() {
-		return $this->mIdCompteProducteur;
+	public function getIdCompteFerme() {
+		return $this->mIdCompteFerme;
 	}
 
 	/**
-	* @name setIdCompteProducteur($pIdCompteProducteur)
+	* @name setIdCompteFerme($pIdCompteFerme)
 	* @param integer
-	* @desc Remplace l'IdCompteProducteur par $pIdCompteProducteur
+	* @desc Remplace l'IdCompteFerme par $pIdCompteFerme
 	*/
-	public function setIdCompteProducteur($pIdCompteProducteur) {
-		$this->mIdCompteProducteur = $pIdCompteProducteur;
+	public function setIdCompteFerme($pIdCompteFerme) {
+		$this->mIdCompteFerme = $pIdCompteFerme;
 	}
 	
 	/**
@@ -322,6 +334,42 @@ class ProduitMarcheVO extends DataTemplate
 	*/
 	public function addLots($pLots) {
 		array_push($this->mLots,$pLots);
+	}
+	
+	/**
+	* @name getFerId()
+	* @return int(11)
+	* @desc Renvoie le membre FerId du produit
+	*/
+	public function getFerId() {
+		return $this->mFerId;
+	}
+
+	/**
+	* @name setFerId($pFerId)varchar(50)
+	* @param int(11)
+	* @desc Remplace le membre FerId du produit par $pFerId
+	*/
+	public function setFerId($pFerId) {
+		$this->mFerId = $pFerId;
+	}
+	
+	/**
+	* @name getFerNom()
+	* @return varchar(20)
+	* @desc Renvoie le membre FerNom du produit
+	*/
+	public function getFerNom() {
+		return $this->mFerNom;
+	}
+
+	/**
+	* @name setFerNom($pFerNom)varchar(50)
+	* @param varchar(20)
+	* @desc Remplace le membre FerNom du produit par $pFerNom
+	*/
+	public function setFerNom($pFerNom) {
+		$this->mFerNom = $pFerNom;
 	}
 }
 ?>

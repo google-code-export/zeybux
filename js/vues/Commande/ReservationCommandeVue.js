@@ -136,22 +136,30 @@
 				
 				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
 				lPdt.stock = parseFloat(this.stockReservation);
-
-				if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
-					lPdt.max = lPdt.proMaxProduitCommande;
-				} else {
-					lPdt.max = lPdt.stock;
-				}
-
 				lPdt.lot = new Array();
 				
+				var lNoStock = false;
+				if(parseFloat(this.qteMaxCommande) == -1 && parseFloat(this.stockInitial) == -1) { // Si ni stock ni qmax
+					lNoStock = true;
+				} else if(parseFloat(this.stockInitial) == -1) { // Si qmax mais pas stock
+					lPdt.max = lPdt.proMaxProduitCommande;
+				} else if(parseFloat(this.qteMaxCommande) == -1) { // Si stock mais pas qmax
+					lPdt.max = lPdt.stock;
+				} else { // Si stock et qmax
+					if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
+						lPdt.max = lPdt.proMaxProduitCommande;
+					} else {
+						lPdt.max = lPdt.stock;
+					}					
+				}
+
 				var i = 0;
 				var lLotReservation = -1;
 				var lLotInit = -1;
 				
 				$.each(this.lots, function() {
 					if(this.id) {
-						if(parseFloat(this.taille) <= lPdt.max) {
+						if(lNoStock || (!lNoStock && parseFloat(this.taille) <= lPdt.max) ) {
 							var lLot = {};
 							lLot.dcomId = this.id;
 							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
@@ -310,8 +318,19 @@
 		// La quantité max soit qte max soit stock
 		var lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
 		var lStock = this.pdtCommande[pIdPdt].stockReservation;
-		if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
+		//if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
 		
+		var lNoStock = false;
+		if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1 && parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si ni stock ni qmax
+			lNoStock = true;
+		} else if(parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si qmax mais pas stock
+			lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
+		} else if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1) { // Si stock mais pas qmax
+			lMax = lStock;
+		} else { // Si stock et qmax
+			if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }				
+		}
+
 		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
 		
@@ -326,7 +345,7 @@
 		lNvQteReservation = lQteReservation * lTaille;
 		
 		// Test si la quantité est dans les limites
-		if(lNvQteReservation > 0 && lNvQteReservation <= lMax) {
+		if(lNoStock || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax) ) {
 			var lNvPrix = 0;
 			lNvPrix = (lQteReservation * lPrix).toFixed(2);
 			

@@ -133,7 +133,60 @@ class FermeManager
 		}
 		return $lListeFerme;
 	}
+	
+	/**
+	* @name selectByIdCompte($pId)
+	* @param integer
+	* @return FermeVO
+	* @desc Récupère les lignes pour IdCompte
+	*/
+	public static function selectByIdCompte($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
+		$lRequete =
+			"SELECT "
+			    . FermeManager::CHAMP_FERME_ID . 
+			"," . FermeManager::CHAMP_FERME_NUMERO . 
+			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID_COMPTE . 
+			"," . FermeManager::CHAMP_FERME_SIREN . 
+			"," . FermeManager::CHAMP_FERME_ADRESSE . 
+			"," . FermeManager::CHAMP_FERME_CODE_POSTAL . 
+			"," . FermeManager::CHAMP_FERME_VILLE . 
+			"," . FermeManager::CHAMP_FERME_DATE_ADHESION . 
+			"," . FermeManager::CHAMP_FERME_DESCRIPTION . 
+			"," . FermeManager::CHAMP_FERME_ETAT . "
+			FROM " . FermeManager::TABLE_FERME . " 
+			WHERE " . FermeManager::CHAMP_FERME_ID_COMPTE . " = '" . StringUtils::securiser($pId) . "'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeFerme = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeFerme,
+					FermeManager::remplirFerme(
+					$lLigne[FermeManager::CHAMP_FERME_ID],
+					$lLigne[FermeManager::CHAMP_FERME_NUMERO],
+					$lLigne[FermeManager::CHAMP_FERME_NOM],
+					$lLigne[FermeManager::CHAMP_FERME_ID_COMPTE],
+					$lLigne[FermeManager::CHAMP_FERME_SIREN],
+					$lLigne[FermeManager::CHAMP_FERME_ADRESSE],
+					$lLigne[FermeManager::CHAMP_FERME_CODE_POSTAL],
+					$lLigne[FermeManager::CHAMP_FERME_VILLE],
+					$lLigne[FermeManager::CHAMP_FERME_DATE_ADHESION],
+					$lLigne[FermeManager::CHAMP_FERME_DESCRIPTION],
+					$lLigne[FermeManager::CHAMP_FERME_ETAT]));
+			}
+		} else {
+			$lListeFerme[0] = new FermeVO();
+		}
+		return $lListeFerme;
+	}
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table

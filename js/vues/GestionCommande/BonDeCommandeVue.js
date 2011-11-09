@@ -75,7 +75,7 @@
 		var lIdCompteProducteur = $('#select-prdt').val();
 		if(lIdCompteProducteur > 0) {
 			var lParam = {	"id_commande":that.mIdCommande,
-						 	"id_compte_producteur":lIdCompteProducteur,
+						 	"id_compte_ferme":lIdCompteProducteur,
 						 	fonction:"afficherProducteur"}
 			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
@@ -180,7 +180,7 @@
 		var lParam = new ProduitsBonDeCommandeVO();
 		
 		lParam.id_commande = this.mIdCommande;
-		lParam.id_compte_producteur = this.mIdCompteProducteur;
+		lParam.id_compte_ferme = this.mIdCompteProducteur;
 		lParam.export_type = 0;
 
 		$('.pro-id').each(function() {

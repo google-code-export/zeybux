@@ -62,7 +62,6 @@ class ReservationAdherentControleur
 	* @desc Met à jour une réservation
 	*/
 	public function modifierReservation($pParam) {
-		// TODO faire les tests correctements
 		$lVr = CommandeReservationValid::validUpdate($pParam);
 		if($lVr->getValid()) {
 			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
