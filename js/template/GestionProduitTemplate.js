@@ -93,7 +93,7 @@
 	this.dialogRefusSupprimerCategorie =
 		"<div id=\"dialog-cat\" title=\"Catégorie\">" +
 			"<p>" +
-				"Il existe {nbProduit} produits liés à cette catégorie. Vous devez les supprimer ou les chager de catégorie pour pouvoir supprimer la catégorie : {cproNom}" +		
+				"Il existe {nbProduit} produits liés à cette catégorie. Vous devez les supprimer ou les changer de catégorie pour pouvoir supprimer la catégorie : {cproNom}" +		
 			"</p>" +
 		"</div>";
 	
