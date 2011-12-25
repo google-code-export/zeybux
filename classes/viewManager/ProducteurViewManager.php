@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "ProducteurViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
 
+define("VUE_PRODUCTEUR", MYSQL_DB_PREFIXE . "view_producteur");
 /**
  * @name ProducteurViewManager
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
  */
 class ProducteurViewManager
 {
-	const VUE_PRODUCTEUR = "view_producteur";
+	const VUE_PRODUCTEUR = VUE_PRODUCTEUR;
 
 	/**
 	* @name select($pId)

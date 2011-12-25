@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "InfoOperationLivraisonVO.php");
 
+define("TABLE_INFOOPERATIONLIVRAISON", MYSQL_DB_PREFIXE . "iol_info_operation_livraison");
 /**
  * @name InfoOperationLivraisonManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "InfoOperationLivraisonVO.php");
  */
 class InfoOperationLivraisonManager
 {
-	const TABLE_INFOOPERATIONLIVRAISON = "iol_info_operation_livraison";
+	const TABLE_INFOOPERATIONLIVRAISON = TABLE_INFOOPERATIONLIVRAISON;
 	const CHAMP_INFOOPERATIONLIVRAISON_ID = "iol_id";
 	const CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_ZEYBU = "iol_id_ope_zeybu";
 	const CHAMP_INFOOPERATIONLIVRAISON_ID_OPE_PRODUCTEUR = "iol_id_ope_producteur";

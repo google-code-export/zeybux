@@ -261,7 +261,7 @@ if(isset($_POST['nom']) && isset($_POST['nomBDD'])) {
 				fwrite($fp,"{\n");
 	
 				// Les constantes
-				fwrite($fp,"\tconst VUE_" . strtoupper($lNom) . " = \"" . $lNomBDD . "\";\n");	        	
+				fwrite($fp,"\tconst VUE_" . strtoupper($lNom) . " = MYSQL_DB_PREFIXE . \"" . $lNomBDD . "\";\n");	        	
 	        	
 	        	//Le select
 	        	

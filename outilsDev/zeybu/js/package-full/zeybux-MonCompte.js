@@ -5,36 +5,100 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Informations" +
-					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-edt-info\" title=\"Changer le mot de passe\">" +
-						"<span class=\"ui-icon ui-icon-pencil\">" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all edt-info-compte\" id=\"btn-edt-compte\" title=\"Modifier les informations\">" +
+						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all edt-info-compte\" id=\"btn-edt-pass\" title=\"Changer le mot de passe\">" +
+						"<span class=\"ui-icon ui-icon-key\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-compte\" id=\"btn-edt-annuler\" title=\"Annuler\">" +
+						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+					"</span>" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden edt-info-compte\" id=\"btn-edt-valider\" title=\"Valider\">" +
+						"<span class=\"ui-icon ui-icon-check\"></span>" +
 					"</span>" +
 				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div>Numéro d'adhérent : {adhNumero}</div>" +
-					"<div>Numéro de Compte : {cptLabel}</div>" +
-					"<div>Nom : {adhNom}</div>" +
-					"<div>Prénom : {adhPrenom}</div>" +
-					"<div>Date de naissance : {adhDateNaissance}</div>" +
+				"<div class=\"com-widget-content edt-info-compte\">" +
+					"<div>{adhNumero} : <span id=\"adh-prenom\">{adhPrenom}</span> <span id=\"adh-nom\">{adhNom}</span></div>" +
+					"<div>Compte : {cptLabel}</div>" +
+					"<div>Date de naissance : <span id=\"adh-date-naissance\">{adhDateNaissance}</span></div>" +
 					"<div>Date d'adhésion : {adhDateAdhesion}</div>" +
-					"<div>Commentaire : {adhCommentaire}</div>" +
+					"<div>Commentaire : <span id=\"adh-commentaire\">{adhCommentaire}</span></div>" +
+				"</div>" +
+				"<div class=\"ui-helper-hidden edt-info-compte\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Nom *</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"nom\" value=\"\" maxlength=\"50\" id=\"nom\"/>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Prénom *</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"prenom\" value=\"\" maxlength=\"50\" id=\"prenom\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Date de Naissance<br/>(jj/mm/aaaa)</th>" +
+							"<td class=\"com-table-form-td\"><input type=\"hidden\" name=\"date_adhesion\" value=\"{adhDateAdhesion}\" /><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"date_naissance\" value=\"\" maxlength=\"10\" id=\"dateNaissance\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Commentaire</th>" +
+							"<td class=\"com-table-form-td\"><textarea class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" name=\"commentaire\" id=\"commentaire\"></textarea></td>" +
+						"</tr>" +
+					"</table>" +
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Coordonnées</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div>Courriel Principal : {adhCourrielPrincipal}</div>" +
-					"<div>Courriel Secondaire : {adhCourrielSecondaire}</div>" +
-					"<div>Téléphone Principal : {adhTelephonePrincipal}</div>" +
-					"<div>Téléphone Secondaire : {adhTelephoneSecondaire}</div>" +
-					"<div>Adresse : {adhAdresse}</div>" +				
-					"<div>Ville : {adhVille}</div>" +
-					"<div>Code Postal : {adhCodePostal}</div>" +
+				"<div class=\"com-widget-content edt-info-compte\">" +
+					"<div>Courriel 1 : <span id=\"adh-courriel-principal\">{adhCourrielPrincipal}</span></div>" +
+					"<div>Courriel 2 : <span id=\"adh-courriel-secondaire\">{adhCourrielSecondaire}</span></div>" +
+					"<div>Téléphone 1 : <span id=\"adh-telephone-principal\">{adhTelephonePrincipal}</span></div>" +
+					"<div>Téléphone 2 : <span id=\"adh-telephone-secondaire\">{adhTelephoneSecondaire}</span></div>" +
+					"<div>Adresse : " +
+						"<div><span id=\"adh-adresse\">{adhAdresse}</span> <br/>" +
+						"<span id=\"adh-code-postal\">{adhCodePostal}</span> <span id=\"adh-ville\">{adhVille}</span></div>" +
+					"</div>" +
 				"</div>" +
+				
+				"<div class=\"ui-helper-hidden com-widget-content edt-info-compte\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Courriel 1</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"courriel_principal\" value=\"\" maxlength=\"100\" id=\"courrielPrincipal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Courriel 2</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" ype=\"text\" name=\"courriel_secondaire\" value=\"\" maxlength=\"100\" id=\"courrielSecondaire\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Téléphone 1</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"telephone_principal\" value=\"\" maxlength=\"20\" id=\"telephonePrincipal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Téléphone 2</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"telephone_secondaire\" value=\"\" maxlength=\"20\" id=\"telephoneSecondaire\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Adresse</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"adresse\" value=\"\" maxlength=\"300\" id=\"adresse\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Code Postal</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"code_postal\" value=\"\" maxlength=\"10\" id=\"codePostal\"/></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Ville</th>" +
+							"<td class=\"com-table-form-td\"><input class=\"com-input-text input-edt-compte ui-widget-content ui-corner-all\" type=\"text\" name=\"ville\" value=\"\" maxlength=\"100\" id=\"ville\"/></td>" +
+						"</tr>" +
+					"</table>" +
+				"</div>" +
+				
 			"</div>" +
 		"</div>" +
 	"</div>";
 	
-	this.dialogEditionCompte =
+	this.dialogEditionPass =
 		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\">" +
 			"<form>" +
 				"<table>" +
@@ -125,24 +189,27 @@
 				"</table>" +
 			"</div>" +
 		"</div>";	
-};function MonCompteVue(pParam) {	
+};function MonCompteVue(pParam) {
+	this.mInformationAdherent = {};
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MonCompteVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=MonCompte&v=MonCompte", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+							
+							// Maj du Menu
+							//var lCommunVue = new CommunVue();
+							gCommunVue.majMenu('MonCompte','MonCompte');
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-						
-						// Maj du Menu
-						var lCommunVue = new CommunVue();
-						lCommunVue.majMenu('MonCompte','MonCompte');
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -159,10 +226,24 @@
 		lResponse.cptSolde = lResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 		
 		lResponse.sigleMonetaire = gSigleMonetaire;
+
 		
 		lResponse.adherent.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
 		lResponse.adherent.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		
+		this.mInformationAdherent.nom = lResponse.adherent.adhNom;
+		this.mInformationAdherent.prenom = lResponse.adherent.adhPrenom;
+		this.mInformationAdherent.courrielPrincipal = lResponse.adherent.adhCourrielPrincipal;
+		this.mInformationAdherent.courrielSecondaire = lResponse.adherent.adhCourrielSecondaire;
+		this.mInformationAdherent.telephonePrincipal = lResponse.adherent.adhTelephonePrincipal;
+		this.mInformationAdherent.telephoneSecondaire = lResponse.adherent.adhTelephoneSecondaire;
+		this.mInformationAdherent.adresse = lResponse.adherent.adhAdresse;
+		this.mInformationAdherent.codePostal = lResponse.adherent.adhCodePostal;
+		this.mInformationAdherent.ville = lResponse.adherent.adhVille;
+		this.mInformationAdherent.dateNaissance = lResponse.adherent.adhDateNaissance;
+		this.mInformationAdherent.dateAdhesion = lResponse.adherent.adhDateAdhesion;
+		this.mInformationAdherent.commentaire = lResponse.adherent.adhCommentaire;
+
 		$(lResponse.operationPassee).each(function() {
 			if(this.opeDate != null) {
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
@@ -230,7 +311,9 @@
 	this.affect = function(pData) {
 		pData = this.nouveauSoldeNegatif(pData);
 		pData = this.affectHover(pData);
-		pData = this.affectEditionInfo(pData);
+		pData = this.affectEditionPass(pData);
+		pData = this.affectEditionCompte(pData);
+		pData = this.affectDate(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
@@ -272,11 +355,51 @@
 		return pData;
 	}
 	
-	this.affectEditionInfo = function(pData) {		
+	this.affectDate = function(pData) {
 		var that = this;
-		pData.find('#btn-edt-info').click(function() {
+		pData.find('#dateNaissance').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			maxDate:that.mInformationAdherent.dateAdhesion,
+			yearRange:'1900:c'});
+		return pData;
+	}
+	
+	this.affectEditionCompte = function(pData) {		
+		var that = this;
+		pData.find('#btn-edt-compte').click(function() {
+			
+			$(':input[name=nom]').val(htmlDecode(that.mInformationAdherent.nom));
+			$(':input[name=prenom]').val(htmlDecode(that.mInformationAdherent.prenom));
+			$(':input[name=courriel_principal]').val(htmlDecode(that.mInformationAdherent.courrielPrincipal));
+			$(':input[name=courriel_secondaire]').val(htmlDecode(that.mInformationAdherent.courrielSecondaire));
+			$(':input[name=telephone_principal]').val(htmlDecode(that.mInformationAdherent.telephonePrincipal));
+			$(':input[name=telephone_secondaire]').val(htmlDecode(that.mInformationAdherent.telephoneSecondaire));
+			$(':input[name=adresse]').val(htmlDecode(that.mInformationAdherent.adresse));
+			$(':input[name=code_postal]').val(htmlDecode(that.mInformationAdherent.codePostal));
+			$(':input[name=ville]').val(htmlDecode(that.mInformationAdherent.ville));
+			$(':input[name=date_naissance]').val(htmlDecode(that.mInformationAdherent.dateNaissance));
+			$(':input[name=commentaire]').html(that.mInformationAdherent.commentaire);
+			
+			$('.edt-info-compte').toggle();
+		});
+		
+		pData.find('#btn-edt-annuler').click(function() {
+			$('.edt-info-compte').toggle();
+		});
+				
+		pData.find('#btn-edt-valider').click(function() {
+			that.modifInformation();
+		});
+		
+		return pData;
+	}
+	
+	this.affectEditionPass = function(pData) {		
+		var that = this;
+		pData.find('#btn-edt-pass').click(function() {
 			var lMonCompteTemplate = new MonCompteTemplate();
-			var lTemplate = lMonCompteTemplate.dialogEditionCompte;
+			var lTemplate = lMonCompteTemplate.dialogEditionPass;
 			
 			var lDialog = $(lTemplate).dialog({
 				autoOpen: true,
@@ -304,6 +427,83 @@
 		return pData;
 	}
 	
+	this.modifInformation = function() {
+		var that = this;
+		
+		var lVo = new AdherentVO();
+		lVo.nom = $(':input[name=nom]').val();
+		lVo.prenom = $(':input[name=prenom]').val();
+		lVo.courrielPrincipal = $(':input[name=courriel_principal]').val();
+		lVo.courrielSecondaire = $(':input[name=courriel_secondaire]').val();
+		lVo.telephonePrincipal = $(':input[name=telephone_principal]').val();
+		lVo.telephoneSecondaire = $(':input[name=telephone_secondaire]').val();
+		lVo.adresse = $(':input[name=adresse]').val();
+		lVo.codePostal = $(':input[name=code_postal]').val();
+		lVo.ville = $(':input[name=ville]').val();
+		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
+		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
+		lVo.commentaire = $(':input[name=commentaire]').val();
+
+		var lValid = new AdherentValid();
+		var lVr = lValid.validUpdateInformation(lVo);
+		
+		if(lVr.valid) {
+
+			lVo.fonction = "information";
+			Infobulle.init(); // Supprime les erreurs
+			// Ajout de l'adherent
+			$.post(	"./index.php?m=MonCompte&v=ModifierMonCompte", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							
+							that.mInformationAdherent.nom = lVo.nom;
+							that.mInformationAdherent.prenom = lVo.prenom;
+							that.mInformationAdherent.courrielPrincipal = lVo.courrielPrincipal;
+							that.mInformationAdherent.courrielSecondaire = lVo.courrielSecondaire;
+							that.mInformationAdherent.telephonePrincipal = lVo.telephonePrincipal;
+							that.mInformationAdherent.telephoneSecondaire = lVo.telephoneSecondaire;
+							that.mInformationAdherent.adresse = lVo.adresse;
+							that.mInformationAdherent.codePostal = lVo.codePostal;
+							that.mInformationAdherent.ville = lVo.ville;
+							that.mInformationAdherent.dateNaissance = lVo.dateNaissance.extractDbDate().dateDbToFr();
+							that.mInformationAdherent.commentaire = lVo.commentaire;
+
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_316_CODE;
+							erreur.message = ERR_316_MSG;
+							lVr.log.erreurs.push(erreur);							
+							
+							Infobulle.generer(lVr,'');
+	
+							$('#adh-nom').text(that.mInformationAdherent.nom);
+							$('#adh-prenom').text(that.mInformationAdherent.prenom);
+							$('#adh-courriel-principal').text(that.mInformationAdherent.courrielPrincipal);
+							$('#adh-courriel-secondaire').text(that.mInformationAdherent.courrielSecondaire);
+							$('#adh-telephone-principal').text(that.mInformationAdherent.telephonePrincipal);
+							$('#adh-telephone-secondaire').text(that.mInformationAdherent.telephoneSecondaire);
+							$('#adh-adresse').text(that.mInformationAdherent.adresse);
+							$('#adh-code-postal').text(that.mInformationAdherent.codePostal);
+							$('#adh-ville').text(that.mInformationAdherent.ville);
+							$('#adh-date-naissance').text(that.mInformationAdherent.dateNaissance);
+							$('#adh-commentaire').text(that.mInformationAdherent.commentaire);
+							
+							$('.edt-info-compte').toggle();
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	}
+	
 	this.changerMotPasse = function(pDialog) {
 		var lVo = new InfoAdherentVO();
 		var lForm = $('#dialog-edt-info-cpt form');
@@ -316,22 +516,25 @@
 		var lVr = lValid.validAjout(lVo);
 		
 		if(lVr.valid) {
+			lVo.fonction = "pass";
 			$.post(	"./index.php?m=MonCompte&v=ModifierMonCompte", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {										
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_302_CODE;
-						erreur.message = ERR_302_MSG;
-						lVr.log.erreurs.push(erreur);							
-						
-						Infobulle.generer(lVr,'');
-						$(pDialog).dialog('close');
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {										
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_302_CODE;
+							erreur.message = ERR_302_MSG;
+							lVr.log.erreurs.push(erreur);							
+							
+							Infobulle.generer(lVr,'');
+							$(pDialog).dialog('close');
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);			

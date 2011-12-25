@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "MenuViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 
+define("VUE_MENU", MYSQL_DB_PREFIXE . "view_menu");
 /**
  * @name MenuViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
  */
 class MenuViewManager
 {
-	const VUE_MENU = "view_menu";
+	const VUE_MENU = VUE_MENU;
 
 	/**
 	* @name select($pId)

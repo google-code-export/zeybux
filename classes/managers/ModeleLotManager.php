@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "ModeleLotVO.php");
 
+define("TABLE_MODELELOT", MYSQL_DB_PREFIXE . "mlot_modele_lot");
 /**
  * @name ModeleLotManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "ModeleLotVO.php");
  */
 class ModeleLotManager
 {
-	const TABLE_MODELELOT = "mlot_modele_lot";
+	const TABLE_MODELELOT = TABLE_MODELELOT;
 	const CHAMP_MODELELOT_ID = "mlot_id";
 	const CHAMP_MODELELOT_ID_NOM_PRODUIT = "mlot_id_nom_produit";
 	const CHAMP_MODELELOT_QUANTITE = "mlot_quantite";

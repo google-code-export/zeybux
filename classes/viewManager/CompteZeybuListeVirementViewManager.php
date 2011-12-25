@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "CompteZeybuListeVirementViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_COMPTEZEYBULISTEVIREMENT", MYSQL_DB_PREFIXE . "view_compte_zeybu_liste_virement");
 /**
  * @name CompteZeybuListeVirementViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class CompteZeybuListeVirementViewManager
 {
-	const VUE_COMPTEZEYBULISTEVIREMENT = "view_compte_zeybu_liste_virement";
+	const VUE_COMPTEZEYBULISTEVIREMENT = VUE_COMPTEZEYBULISTEVIREMENT;
 
 	/**
 	* @name select($pId)

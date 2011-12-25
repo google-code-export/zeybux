@@ -89,9 +89,39 @@
 			$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
 		}
+		
+		var that = this;
+		// Gestion du F5
+		// Bloque le fonctionnement du F5
+		$(document).bind('keypress keydown keyup', function(e) {
+		    if(e.charCode === 0 && (e.keyCode === 116 || (e.which === 82 && e.ctrlKey))) {
+		       return false;
+		    }
+		});
+		// Recharge la page
+		$(document).keyup(function(e) {
+		    if(e.charCode === 0 && (e.which === 116 || (e.which === 82 && e.ctrlKey))) {
+	    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
+				// set the history cursor to the current cursor
+				$.history.cursor = parseFloat(cursor) || 0;
+				// reinstate the current cursor data through the callback
+				if ( typeof($.history.callback) == 'function' ) {
+					// prevent the callback from re-inserting same history element
+					$.history._locked = true;
+					$.history.callback( $.history.stack[ cursor ], cursor );
+					$.history._locked = false;
+				}
+			}
+		});
+
+		// Confirmation de sortie du zeybux
+		$(window).bind('beforeunload', function() {
+		    return "";
+		});
+
 		this.lancement();
 	}
-	
+		
 	this.lancement = function() {
 		switch(this.mType) {
 			case '1':

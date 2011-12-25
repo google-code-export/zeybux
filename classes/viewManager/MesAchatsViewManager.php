@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "MesAchatsViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
+define("VUE_MESACHATS", MYSQL_DB_PREFIXE . "view_mes_achats");
 /**
  * @name MesAchatsViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
  */
 class MesAchatsViewManager
 {
-	const VUE_MESACHATS = "view_mes_achats";
+	const VUE_MESACHATS = VUE_MESACHATS;
 
 	/**
 	* @name select($pId)

@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "HistoriqueStockVO.php");
 
+define("TABLE_HISTORIQUESTOCK", MYSQL_DB_PREFIXE . "hsto_historique_stock");
 /**
  * @name HistoriqueStockManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "HistoriqueStockVO.php");
  */
 class HistoriqueStockManager
 {
-	const TABLE_HISTORIQUESTOCK = "hsto_historique_stock";
+	const TABLE_HISTORIQUESTOCK = TABLE_HISTORIQUESTOCK;
 	const CHAMP_HISTORIQUESTOCK_ID = "hsto_id";
 	const CHAMP_HISTORIQUESTOCK_STO_ID = "hsto_sto_id";
 	const CHAMP_HISTORIQUESTOCK_DATE = "hsto_date";

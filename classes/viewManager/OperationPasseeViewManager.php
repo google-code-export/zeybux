@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_OPERATIONPASSEE", MYSQL_DB_PREFIXE . "view_operation_passee");
 /**
  * @name OperationPasseeViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class OperationPasseeViewManager
 {
-	const VUE_OPERATIONPASSEE = "view_operation_passee";
+	const VUE_OPERATIONPASSEE = VUE_OPERATIONPASSEE;
 
 	/**
 	* @name select($pId)

@@ -10,7 +10,7 @@
 //****************************************************************
 // Inclusion des classesgetListeAdherent
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListeVirementResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteZeybuListeVirementViewManager.php");
@@ -34,7 +34,7 @@ class VirementsControleur
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentResponse();
 		$lResponse->setListeAdherent(AdherentViewManager::selectAll());
-		$lResponse->setListeProducteur(ProducteurViewManager::selectAll());
+		$lResponse->setListeProducteur(ListeFermeViewManager::selectAll());
 		return $lResponse;		
 	}
 	

@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
+define("VUE_ACHATDETAILSOLIDAIRE", MYSQL_DB_PREFIXE . "view_achat_detail_solidaire");
 /**
  * @name AchatDetailSolidaireViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
  */
 class AchatDetailSolidaireViewManager
 {
-	const VUE_ACHATDETAILSOLIDAIRE = "view_achat_detail_solidaire";
+	const VUE_ACHATDETAILSOLIDAIRE = VUE_ACHATDETAILSOLIDAIRE;
 
 	/**
 	* @name select($pId)

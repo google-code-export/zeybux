@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
+define("VUE_STOCKLIVRAISON", MYSQL_DB_PREFIXE . "view_stock_livraison");
 /**
  * @name StockLivraisonViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
  */
 class StockLivraisonViewManager
 {
-	const VUE_STOCKLIVRAISON = "view_stock_livraison";
+	const VUE_STOCKLIVRAISON = MYSQL_DB_PREFIXE . "VUE_STOCKLIVRAISON";
 
 	/**
 	* @name select($pId)

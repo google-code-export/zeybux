@@ -25,6 +25,11 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						$lLogger->log("Affichage de la vue ReservationCommande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
+				case "detailProduit":
+						echo $lControleur->getDetailProduit($lParam)->exportToJson();
+						$lLogger->log("Affichage du détail produit dans ReservationCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
 				case "reservationMarche":
 						echo $lControleur->enregistrerReservation($lParam)->exportToJson();	
 						$lLogger->log("Réalisation d'une réservation de commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs

@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CaracteristiqueProduitVO.php");
 
+define("TABLE_CARACTERISTIQUEPRODUIT", MYSQL_DB_PREFIXE . "carpro_caracteristique_produit");
 /**
  * @name CaracteristiqueProduitManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "CaracteristiqueProduitVO.php");
  */
 class CaracteristiqueProduitManager
 {
-	const TABLE_CARACTERISTIQUEPRODUIT = "carpro_caracteristique_produit";
+	const TABLE_CARACTERISTIQUEPRODUIT = TABLE_CARACTERISTIQUEPRODUIT;
 	const CHAMP_CARACTERISTIQUEPRODUIT_ID = "carpro_id";
 	const CHAMP_CARACTERISTIQUEPRODUIT_ID_NOM_PRODUIT = "carpro_id_nom_produit";
 	const CHAMP_CARACTERISTIQUEPRODUIT_ID_CARACTERISTIQUE = "carpro_id_caracteristique";

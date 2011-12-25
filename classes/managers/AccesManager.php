@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "AccesVO.php");
 
+define("TABLE_ACCES", MYSQL_DB_PREFIXE . "acc_acces");
 /**
  * @name AccesManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "AccesVO.php");
  */
 class AccesManager
 {
-	const TABLE_ACCES = "acc_acces";
+	const TABLE_ACCES = TABLE_ACCES;
 	const CHAMP_ACCES_ID = "acc_id";
 	const CHAMP_ACCES_ID_LOGIN = "acc_id_login";
 	const CHAMP_ACCES_TYPE_LOGIN = "acc_type_login";

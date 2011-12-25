@@ -21,11 +21,17 @@
 				"<table>" +
 					"<!-- BEGIN categories -->" +
 					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-					"<td colspan=\"4\"></td>" +
+					"<td colspan=\"5\"></td>" +
 					
 					"<!-- BEGIN categories.produits -->" +
 					"<tr >" +
 						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
+						"<td class=\"td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
+								"<span class=\"ui-icon ui-icon-info\">" +
+								"</span>" +
+							"</span>" +
+						"</td>" +
 						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
 						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
@@ -34,7 +40,7 @@
 					"<!-- END categories.produits -->" +
 					"<!-- END categories -->" +
 					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
@@ -68,11 +74,17 @@
 				"<table>" +
 					"<!-- BEGIN categories -->" +
 					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-					"<td colspan=\"4\"></td>" +
+					"<td colspan=\"5\"></td>" +
 					
 					"<!-- BEGIN categories.produits -->" +
 					"<tr >" +
 						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
+						"<td class=\"td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
+								"<span class=\"ui-icon ui-icon-info\">" +
+								"</span>" +
+							"</span>" +
+						"</td>" +
 						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
 						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
@@ -81,7 +93,7 @@
 					"<!-- END categories.produits -->" +
 					"<!-- END categories -->" +
 					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
+						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
@@ -121,7 +133,7 @@
 					"<table>" +
 					"<!-- BEGIN categories -->" +
 						"<tr>" +
-							"<td colspan=\"3\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"4\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
 							"<td colspan=\"6\"></td>" +
 						"</tr>" +						
 						"<!-- BEGIN categories.produits -->" +
@@ -129,6 +141,12 @@
 							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
 							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
 							"<td><span class=\"nom-pro\">{categories.produits.nproNom}<span></td>" +
+							"<td class=\"td-edt\">" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
+									"<span class=\"ui-icon ui-icon-info\">" +
+									"</span>" +
+								"</span>" +
+							"</td>" +
 							"<td>" +
 								"<select id=\"lot-{categories.produits.proId}\">" +
 									"<!-- BEGIN categories.produits.lot -->" +
@@ -145,7 +163,7 @@
 						"<!-- END categories.produits -->" +
 						"<!-- END categories -->" +
 						"<tr>" +
-							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
+							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
 							"<td>{sigleMonetaire}</td>" +
 						"</tr>" +
@@ -157,7 +175,7 @@
 			"</div>" +
 		"</div>";
 	this.produitIndisponible = 
-		"<tr>Le produit {nom} n'est plus disponible.</tr>";
+		"<tr><td colspan=\"11\">Le produit {nom} n'est plus disponible.</td></tr>";
 	
 	
 	this.lotUnique = 
@@ -186,7 +204,7 @@
 					"<table>" +
 						"<!-- BEGIN categories -->" +
 						"<tr>" +
-							"<td colspan=\"3\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"4\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
 							"<td colspan=\"6\"></td>" +
 						"</tr>" +						
 						"<!-- BEGIN categories.produits -->" +
@@ -194,6 +212,12 @@
 							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
 							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
 							"<td>{categories.produits.nproNom}</td>" +
+							"<td class=\"td-edt\">" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
+									"<span class=\"ui-icon ui-icon-info\">" +
+									"</span>" +
+								"</span>" +
+							"</td>" +
 							"<td>" +
 								"<select id=\"lot-{categories.produits.proId}\">" +
 									"<!-- BEGIN categories.produits.lot -->" +
@@ -210,7 +234,7 @@
 						"<!-- END categories.produits -->" +
 						"<!-- END categories -->" +
 						"<tr>" +
-							"<td colspan=\"8\" class=\"com-text-align-right\">Total : </td>" +
+							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
 							"<td>{sigleMonetaire}</td>" +
 						"</tr>" +
@@ -533,5 +557,54 @@
 				"</table>" +
 			"</div>" +
 			"<!-- END achatsSolidaire -->" +
+		"</div>";
+	
+	this.dialogInfoProduit = 
+		"<div id=\"dialog-info-pro\" title=\"Produit\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Informations</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Nom : </th>" +
+							"<td class=\"com-table-form-td\">{nom}</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Catégorie : </th>" +
+							"<td class=\"com-table-form-td\">{cproNom}</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Description : </th>" +
+							"<td class=\"com-table-form-td\">{description}</td>" +
+						"</tr>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+			
+			"<div id=\"pro-prdt\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Producteurs</div>" +
+				"<table class=\"com-table-form\">" +
+					"<!-- BEGIN producteurs -->" +
+					"<tr>" +
+						"<td class=\"com-table-form-td\">" +
+							"{producteurs.prdtPrenom} {producteurs.prdtNom}" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END producteurs -->" +
+				"</table>" +
+			"</div>" +
+			
+			"<div id=\"pro-car\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Caractéristiques</div>" +
+				"<table class=\"com-table-form\">" +
+					"<!-- BEGIN caracteristiques -->" +
+					"<tr>" +
+						"<td class=\"com-table-form-td\">" +
+							"{caracteristiques.carNom}" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END caracteristiques -->" +
+				"</table>" +
+			"</div>" +
 		"</div>";
 }

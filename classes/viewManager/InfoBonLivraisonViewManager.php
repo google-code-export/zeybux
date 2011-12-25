@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
+define("VUE_INFOBONLIVRAISON", MYSQL_DB_PREFIXE . "view_info_bon_livraison");
 /**
  * @name InfoBonLivraisonViewManager
  * @author Julien PIERRE
@@ -28,7 +29,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
  */
 class InfoBonLivraisonViewManager
 {
-	const VUE_INFOBONLIVRAISON = "view_info_bon_livraison";
+	const VUE_INFOBONLIVRAISON = VUE_INFOBONLIVRAISON;
 	const CHAMP_INFO_LIVRAISON_OPERATION_MONTANT = "ope_montant_livraison";
 	const CHAMP_INFO_LIVRAISON_STOCK_QUANTITE = "sto_quantite_livraison";
 	const CHAMP_INFO_LIVRAISON_STOCK_QUANTITE_SOLIDAIRE = "sto_quantite_solidaire";

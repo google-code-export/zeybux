@@ -18,6 +18,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
+define("VUE_INFOBONCOMMANDE", MYSQL_DB_PREFIXE . "view_info_bon_commande");
 /**
  * @name InfoBonCommandeViewManager
  * @author Julien PIERRE
@@ -27,7 +28,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
  */
 class InfoBonCommandeViewManager
 {
-	const VUE_INFOBONCOMMANDE = "view_info_bon_commande";
+	const VUE_INFOBONCOMMANDE = VUE_INFOBONCOMMANDE;
 
 	/**
 	* @name select($pId)

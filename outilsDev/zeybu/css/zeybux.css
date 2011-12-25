@@ -36,12 +36,13 @@
 }
 
 #menu_int {
-	margin-left:345px;
 	padding-top:2px;
 	height:20px;
+	text-align:center;
 }
 
 #menu_liste {
+	display: inline-block;
 	margin:0;
 	padding-left: 4px;
 	list-style: none;
@@ -147,6 +148,44 @@
 
 #formulaire_ajout_producteur table th {
 	width:300px;
+}
+#categorie-produit {
+	width:300px;
+}
+
+#catalogue-produit {
+	margin-left:5px;
+	width:640px;
+}
+
+.catalogue-input-lot {
+	width:90px;
+}
+
+.catalogue-ligne-lot-quantite {
+	width:110px;
+	text-align:right;
+}
+
+.catalogue-ligne-lot-unite {
+	width:180px;
+}
+
+.catalogue-entete-lot {
+	width:145px;
+}
+#menu-nav-ferme {
+	padding-top:3px;
+	margin-bottom:3px;
+	text-align:center;
+}
+#menu-nav-ferme span{
+	padding: 3px 5px;
+	font-weight: bold;
+}
+#information-detail-producteur {
+	margin-bottom:15px;
+	margin-top:10px;
 }
 #formulaire_identification_int {
 	padding:5px;
@@ -385,6 +424,20 @@
 	padding:3px;
 }
 
+#pro-idFerme, #pro-idCategorie, #pro-idProduit {
+	width:285px;
+	display:inline-block
+}
+
+#prix-stock-produit {
+	clear:left;
+	margin-top:55px;
+}
+
+.pro-form-input-lot {
+	width:90px;
+}
+
 .qte-reservation-ok, .qte-reservation-ko {
 	height:20px;
 	width:20px;
@@ -440,9 +493,11 @@
 	width:300px;
 }
 
-#achat-pdt-widget, #achat-pdt-solidaire-widget {
+/*#achat-pdt-widget, #achat-pdt-solidaire-widget {*/
+#vente-info-adherent {
 	width:487px;
 	margin-right:5px;
+	height:95px;
 }
 
 #achat-rechgt-widget {
@@ -465,14 +520,41 @@ float: left;
 margin-left: 140px;
 margin-right: 255px;
 }
+
+#vente-achat-info-marche {
+float: left;
+margin-left: 5px;
+margin-right: 60px;
+}
+
+.table-vente-quantite {
+	width:157px;
+}
+
+.table-vente-prix {
+	width:83px;
+}
+
+.table-vente-produit {
+	width:400px;
+}
+
+.table-vente-lot {
+	width:150px;
+}
+
+.table-vente-prix-unitaire {
+	width:150px;
+}
 /*EditerCommande*/
 #edt-com-info {
-	width:300px;
-	margin-right:10px;
+	font-size:11pt;
+	width:345px;
+	margin-right:5px;
 }
 
 #edt-com-liste {
-	width:670px;
+	width:630px;
 }
 
 .edt-com-progressbar-pdt {
@@ -498,13 +580,18 @@ margin-right: 255px;
 
 #edt-com-nav-resa-achat {
 	text-align:center;
-	width: 670px;
+	width: 630px;
 	padding-top: 3px;
 }
 
 #edt-com-nav-resa-achat span{
 	padding: 3px 5px;
 	font-weight: bold;
+}
+
+.edt-marche-pro-unite {
+	width:65px;
+	text-align:right;
 }
 
 /*.edt-com-btn-edt-commande {
@@ -553,11 +640,9 @@ margin-right: 255px;
 .td-type-paiement {
 	text-align:left;
 }
-/*ListeCommande*/
-.lst-resa-btn-commander {
-	padding-bottom:4px;
-	padding-top:4px;
-	text-align:center;
+
+.input-edt-compte {
+	width:190px;
 }
 /*ReservationCommande*/
 #resa-info-commande {
@@ -582,7 +667,7 @@ margin-right:145px;
 .passer-com-npro {
 	width:400px;
 }
-/*ListeReservation*/
+/*MesAchats*/
 #texte-liste-vide {
 	text-align:center;
 }
@@ -605,5 +690,23 @@ margin-right:145px;
 }
 
 .detail-resa-prix {
+	width:90px;
+}
+.lst-resa-btn-commander {
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:center;
+}
+
+.detail-achat-npro {
+	width:500px;
+}
+.detail-achat-qte{
+	width:100px;
+}
+.detail-achat-unite {
+	width:100px;
+}
+.detail-achat-prix {
 	width:90px;
 }

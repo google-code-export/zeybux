@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "HistoriqueOperationVO.php");
 
+define("TABLE_HISTORIQUEOPERATION", MYSQL_DB_PREFIXE . "hope_historique_operation");
 /**
  * @name HistoriqueOperationManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "HistoriqueOperationVO.php");
  */
 class HistoriqueOperationManager
 {
-	const TABLE_HISTORIQUEOPERATION = "hope_historique_operation";
+	const TABLE_HISTORIQUEOPERATION = TABLE_HISTORIQUEOPERATION;
 	const CHAMP_HISTORIQUEOPERATION_ID = "hope_id";
 	const CHAMP_HISTORIQUEOPERATION_ID_OPERATION = "hope_id_operation";
 	const CHAMP_HISTORIQUEOPERATION_ID_COMPTE = "hope_id_compte";

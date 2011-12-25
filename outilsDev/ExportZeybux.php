@@ -25,6 +25,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 	<span>Environnement de destination
 		<select name="env">
 			<option value="free">Free</option>
+			<option value="install">Installation</option>
 			<option value="local">Local</option>
 			<option value="localr7">Local R7</option>
 		</select>		
@@ -442,7 +443,100 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
 		copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
 
-		copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
+		if($lEnv != 'install') {
+			copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
+		} else {
+			unlink($lPath.'/configuration/DB.php');
+			
+			// le install.sql
+			$serveur = "127.0.0.1";
+			$login = "zeybu";
+			$password = "zeybu";
+			$base = "zeybu";
+			$connexion = mysql_connect($serveur, $login, $password);
+		    mysql_select_db($base, $connexion);
+		    
+		    $entete = "-- ----------------------\n";
+		    $entete .= "-- Zeybux base ".$base." au ".date("d-M-Y")."\n";
+		    $entete .= "-- ----------------------\n\n\n";
+		    $creations = "";
+		    $insertions = "\n\n";
+		    $lListeTable = array();
+		    $listeTables = mysql_query("show tables", $connexion);
+		    while($table = mysql_fetch_array($listeTables))
+		    {
+		    	array_push($lListeTable,$table[0]);
+		        // La structure
+	            $creations .= "-- -----------------------------\n";
+	            $creations .= "-- creation de la table ".$table[0]."\n";
+	            $creations .= "-- -----------------------------\n";
+	            $listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
+	            while($creationTable = mysql_fetch_array($listeCreationsTables))
+	            {
+	              $creationTable[1] = str_replace('CREATE TABLE `', "CREATE TABLE `{PREFIXE}", $creationTable[1]);
+	              
+	              if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
+	              		$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `{PREFIXE}", $creationTable[1]);
+		            	$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `{PREFIXE}", $creationTable[1]);
+	              }
+	              $creationTable[1] = preg_replace ("/AUTO_INCREMENT=[0-9]* DEFAULT/","AUTO_INCREMENT=0 DEFAULT", $creationTable[1]);
+	              
+	              $creations .= $creationTable[1].";\n\n";
+	              //$creations .= $creationTable[1].";\n\n";
+	            }
+		        
+		        // si l'utilisateur a demandé les données ou la totale
+		        switch($table[0])
+		        {
+		        	case "cpt_compte":
+			            $donnees = mysql_query("SELECT * FROM ".$table[0]);
+			            $insertions .= "-- -----------------------------\n";
+			            $insertions .= "-- insertions dans la table ".$table[0]."\n";
+			            $insertions .= "-- -----------------------------\n";
+			            $insertions .= "INSERT INTO {PREFIXE}cpt_compte (`cpt_id`, `cpt_label`, `cpt_solde`) VALUES
+										(-1, 'ZEYBU', '0'),
+										(-2, 'EAU', '0');\n\n";
+			            break;
+			            
+			        case "mod_module":    
+			        case "tpp_type_paiement":    
+			        case "vue_vues":
+			            $donnees = mysql_query("SELECT * FROM ".$table[0]);
+			            $insertions .= "-- -----------------------------\n";
+			            $insertions .= "-- insertions dans la table ".$table[0]."\n";
+			            $insertions .= "-- -----------------------------\n";
+			            while($nuplet = mysql_fetch_array($donnees))
+			            {
+			                $insertions .= "INSERT INTO {PREFIXE}".$table[0]." VALUES(";
+			                for($i=0; $i < mysql_num_fields($donnees); $i++)
+			                {
+			                  if($i != 0)
+			                     $insertions .=  ", ";
+			                  if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+			                     $insertions .=  "'";
+			                  $insertions .= addslashes($nuplet[$i]);
+			                  if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+			                    $insertions .=  "'";
+			                }
+			                $insertions .=  ");\n";
+			            }
+			            $insertions .= "\n";
+			         break;
+		        }
+		    }
+		 
+		    mysql_close($connexion);
+		 
+		    foreach($lListeTable as $lTable) {
+		    	$creations = preg_replace ("/`".$lTable."`/","`{PREFIXE}".$lTable."`", $creations);
+		    }
+		    
+		    $fichierDump = fopen($lPath.'/install.sql', "wb");
+		    fwrite($fichierDump, utf8_encode($entete));
+		    fwrite($fichierDump, utf8_encode($creations));
+		    fwrite($fichierDump,utf8_encode($insertions));
+		    fclose($fichierDump);
+		}
 		
 		// Configuration du fichier d'environnement
 		switch($lEnv) {
@@ -491,6 +585,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$output = shell_exec('cd ' . $lPath . ' && tar -czvf zeybux-' . $lEnv . '-' . $lVersion . '.tar.gz' . $lListeArchive . ' && chmod -R 777 .');
 		//echo $output;
 		
+		if($lEnv == 'install') {
+			copy('../Maintenance/install.php' , $lPath.'/install.php'); // Le script d'installation
+		}
+		
 		/************** Fin Copie des fichiers **************/
 		
 		echo "<h1>Export Terminé !!</h1>";
@@ -504,6 +602,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		<span>Environnement de destination
 			<select name="env">
 				<option value="free">Free</option>
+				<option value="install">Installation</option>
 				<option value="local">Local</option>
 				<option value="localr7">Local R7</option>
 			</select>		

@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "FermeVO.php");
 
+define("TABLE_FERME", MYSQL_DB_PREFIXE . "fer_ferme");
 /**
  * @name FermeManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "FermeVO.php");
  */
 class FermeManager
 {
-	const TABLE_FERME = "fer_ferme";
+	const TABLE_FERME = TABLE_FERME;
 	const CHAMP_FERME_ID = "fer_id";
 	const CHAMP_FERME_NUMERO = "fer_numero";
 	const CHAMP_FERME_NOM = "fer_nom";

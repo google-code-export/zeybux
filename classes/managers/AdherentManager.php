@@ -25,6 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 
 
+define("TABLE_ADHERENT", MYSQL_DB_PREFIXE . "adh_adherent");
 /**
  * @name AdherentManager
  * @author Julien PIERRE
@@ -34,7 +35,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
  */
 class AdherentManager
 {
-	const TABLE_ADHERENT = "adh_adherent";
+	const TABLE_ADHERENT = TABLE_ADHERENT;
 	const CHAMP_ADHERENT_ID = "adh_id";
 	const CHAMP_ADHERENT_NUMERO = "adh_numero";
 	const CHAMP_ADHERENT_ID_COMPTE = "adh_id_compte";

@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "GestionListeCommandeEnCoursViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
+define("VUE_LISTECOMMANDEENCOURS", MYSQL_DB_PREFIXE . "view_gestion_liste_commande_en_cours");
 /**
  * @name GestionListeCommandeEnCoursViewManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
  */
 class GestionListeCommandeEnCoursViewManager
 {
-	const VUE_LISTECOMMANDEENCOURS = "view_gestion_liste_commande_en_cours";
+	const VUE_LISTECOMMANDEENCOURS = VUE_LISTECOMMANDEENCOURS;
 
 	/**
 	* @name select($pId)

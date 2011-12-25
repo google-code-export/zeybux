@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "CompteSolidaireListeAdherentViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_COMPTESOLIDAIRELISTEADHERENT", MYSQL_DB_PREFIXE . "view_compte_solidaire_liste_adherent");
 /**
  * @name CompteSolidaireListeAdherentViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class CompteSolidaireListeAdherentViewManager
 {
-	const VUE_COMPTESOLIDAIRELISTEADHERENT = "view_compte_solidaire_liste_adherent";
+	const VUE_COMPTESOLIDAIRELISTEADHERENT = VUE_COMPTESOLIDAIRELISTEADHERENT;
 
 	/**
 	* @name select($pId)

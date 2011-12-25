@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/CommandeCompleteVR.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitMarcheValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 
 /**
  * @name CommandeCompleteVR
@@ -396,7 +397,20 @@ class CommandeCompleteValid
 	public static function validAjoutProduit($pData) {
 		$lVr = CommandeCompleteValid::validDelete($pData);
 		if($lVr->getValid()) {
-			return ProduitMarcheValid::validAjout($pData);
+			$lVr = ProduitMarcheValid::validAjout($pData);
+			if($lVr->getValid()) {
+				// Test si produit déjà dans le marché
+				$lProduit = ProduitManager::selectbyIdNomProduitIdMarche($pData['idNom'],$pData['id']);
+				$lId = $lProduit[0]->getId();
+				if(!empty($lId)) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_211_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_211_MSG);
+					$lVr->getLog()->addErreur($lErreur);
+				}
+			}
 		}
 		return $lVr;
 	}

@@ -373,7 +373,7 @@
 		var that = this;
 		pData.find('.achat, .achatSolidaire').each(function() {
 			var lIdAchat = $(this).find(".achat-id").text();
-			pData.find("#btn-modif-achat-" + lIdAchat).click(function() {
+			pData.find("#btn-annuler-achat-" + lIdAchat + ", #btn-modif-achat-" + lIdAchat).click(function() {
 				that.modifierAchat(lIdAchat);
 			});
 			pData.find("#btn-check-achat-" + lIdAchat).click(function() {
@@ -462,7 +462,7 @@
 			Infobulle.generer(lVr,'reservation-');
 		}
 	}
-	
+
 	this.modifierAchat = function(pIdAchat) {
 		$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();	
 	}

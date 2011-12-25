@@ -1,5 +1,5 @@
-;function InfoCommandeArchiveVue(pParam) {
-	this.mCommunVue = new CommunVue();
+;function InfoCommandeArchiveVue(pParam) {	
+	this.mIdMarche = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {InfoCommandeArchiveVue(pParam);}} );
@@ -32,7 +32,7 @@
 		var lTotalSolidaire = 0;
 		
 		$(lResponse.infoCommande).each(function() {
-			
+			that.mIdMarche = this.comId;
 			if(this.stoQuantite == null) { this.stoQuantite = 0}
 			if(this.opeMontant == null) { this.opeMontant = 0 }
 			if(this.stoQuantiteLivraison == null) { this.stoQuantiteLivraison = 0 }
@@ -68,15 +68,18 @@
 	this.affect = function(pData) {
 	//	pData = this.affectLienListeCommandeArchive(pData);
 	//	pData = this.mCommunVue.comHoverBtn(pData);
+		pData = this.affectDupliquerMarche(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 	
-	/*this.affectLienListeCommandeArchive = function(pData) {
-		pData.find('#lien-marche-encours').click(function() {
-			GestionListeCommandeVue();
+	this.affectDupliquerMarche = function(pData) {
+		var that = this;
+		pData.find('#btn-dupliquer-com').click(function() {
+			DupliquerMarcheVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
-	}*/
+	}
 	
 	this.construct(pParam);
 }

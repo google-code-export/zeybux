@@ -1,5 +1,4 @@
 ;function AfficherReservationVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.infoCommande = new Object();
 	this.pdtCommande = new Array();
 	this.reservation = new Array();
@@ -93,8 +92,10 @@
 		
 		var lTotal = 0;
 		$.each(this.pdtCommande, function() {
+			var lIdProduit = this.id;
 			if(that.reservation[this.id]) {
 				var lPdt = new Object;
+				lPdt.proId = lIdProduit;
 				lPdt.nproNom = this.nom;
 				lPdt.stoQuantite = parseFloat(that.reservation[this.id].stoQuantite);
 				lPdt.proUniteMesure = this.unite;
@@ -265,7 +266,52 @@
 		pData = this.affectModifierReservation(pData);
 		pData = this.affectSupprimerReservation(pData);
 		pData = this.affectNvSolde(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = this.affectInfoProduit(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectInfoProduit = function(pData) {
+		var that = this;
+		pData.find('.btn-info-produit')
+		.click(function() {		
+			var lId = $(this).attr('id-produit');
+			var lParam = {id:lId,fonction:"detailProduit"};
+			$.post(	"./index.php?m=Commande&v=AfficherReservation", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								var lCommandeTemplate = new CommandeTemplate();
+								var lTemplate = lCommandeTemplate.dialogInfoProduit;
+								
+								lResponse.produit.sigleMonetaire = gSigleMonetaire;
+								
+								var lHtml = $(lTemplate.template(lResponse.produit));
+								
+								if(lResponse.produit.producteurs.length > 0 && lResponse.produit.producteurs[0].nPrdtIdNomProduit == null) {
+									lHtml.find('#pro-prdt').remove();
+								}
+								if(lResponse.produit.caracteristiques.length > 0 && lResponse.produit.caracteristiques[0].carProIdNomProduit == null) {
+									lHtml.find('#pro-car').remove();
+								}
+								
+								$(lHtml).dialog({			
+									autoOpen: true,
+									modal: true,
+									draggable: true,
+									resizable: false,
+									width:600,
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+								});								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+			
+		});
 		return pData;
 	}
 	
@@ -285,8 +331,9 @@
 		pData = this.affectValiderReservation(pData);
 		pData = this.affectAnnulerReservation(pData);
 		pData = this.supprimerSelect(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectInitLot(pData);
+		pData = this.affectInfoProduit(pData);
 		pData = this.masquerIndisponible(pData);
 		return pData;
 	}

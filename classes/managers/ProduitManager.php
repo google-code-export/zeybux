@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "ProduitVO.php");
 
+define("TABLE_PRODUIT", MYSQL_DB_PREFIXE . "pro_produit");
 /**
  * @name ProduitManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "ProduitVO.php");
  */
 class ProduitManager
 {
-	const TABLE_PRODUIT = "pro_produit";
+	const TABLE_PRODUIT = TABLE_PRODUIT;
 	const CHAMP_PRODUIT_ID = "pro_id";
 	const CHAMP_PRODUIT_ID_COMMANDE = "pro_id_commande";
 	const CHAMP_PRODUIT_ID_NOM_PRODUIT = "pro_id_nom_produit";
@@ -124,6 +125,57 @@ class ProduitManager
 		return $lListeProduit;
 	}
 
+	/**
+	* @name selectbyIdNomProduitIdMarche($pIdNomProduit,$pIdMarche)
+	* @param integer
+	* @param integer
+	* @return array(ProduitVO)
+	* @desc Récupère les lignes de IdNomProduit et IdCommande
+	*/
+	public static function selectbyIdNomProduitIdMarche($pIdNomProduit,$pIdMarche) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
+			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_ETAT . "
+			FROM " . ProduitManager::TABLE_PRODUIT . " 
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " = '" . StringUtils::securiser($pIdNomProduit) . "'
+			AND " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pIdMarche) . "'
+			AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = '0';";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		$lListeProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeProduit,
+					ProduitManager::remplirProduit(
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT]));
+			}
+		} else {
+			$lListeProduit[0] = new ProduitVO();
+		}
+		return $lListeProduit;
+	}
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
