@@ -78,6 +78,7 @@
 		pData = this.affectDate(pData);
 		pData = this.affectMenu(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	}
 	
