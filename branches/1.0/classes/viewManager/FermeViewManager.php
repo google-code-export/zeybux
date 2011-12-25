@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "FermeViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_FERME", MYSQL_DB_PREFIXE . "view_ferme");
 /**
  * @name FermeViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class FermeViewManager
 {
-	const VUE_FERME = "view_ferme";
+	const VUE_FERME = VUE_FERME;
 
 	/**
 	* @name select($pId)

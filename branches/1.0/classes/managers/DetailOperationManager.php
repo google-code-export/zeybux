@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailOperationVO.php");
 
+define("TABLE_DETAILOPERATION", MYSQL_DB_PREFIXE . "dope_detail_operation");
 /**
  * @name DetailOperationManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "DetailOperationVO.php");
  */
 class DetailOperationManager
 {
-	const TABLE_DETAILOPERATION = "dope_detail_operation";
+	const TABLE_DETAILOPERATION = TABLE_DETAILOPERATION;
 	const CHAMP_DETAILOPERATION_ID = "dope_id";
 	const CHAMP_DETAILOPERATION_ID_OPERATION = "dope_id_operation";
 	const CHAMP_DETAILOPERATION_ID_COMPTE = "dope_id_compte";

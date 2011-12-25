@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CategorieProduitVO.php");
 
+define("TABLE_CATEGORIEPRODUIT", MYSQL_DB_PREFIXE . "cpro_categorie_produit");
 /**
  * @name CategorieProduitManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "CategorieProduitVO.php");
  */
 class CategorieProduitManager
 {
-	const TABLE_CATEGORIEPRODUIT = "cpro_categorie_produit";
+	const TABLE_CATEGORIEPRODUIT = TABLE_CATEGORIEPRODUIT;
 	const CHAMP_CATEGORIEPRODUIT_ID = "cpro_id";
 	const CHAMP_CATEGORIEPRODUIT_NOM = "cpro_nom";
 	const CHAMP_CATEGORIEPRODUIT_DESCRIPTION = "cpro_description";

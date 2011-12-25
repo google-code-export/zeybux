@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "TypePaiementVisibleViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 
+define("VUE_TYPEPAIEMENTVISIBLE", MYSQL_DB_PREFIXE . "view_type_paiement_visible");
 /**
  * @name TypePaiementVisibleViewManager
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
  */
 class TypePaiementVisibleViewManager
 {
-	const VUE_TYPEPAIEMENTVISIBLE = "view_type_paiement_visible";
+	const VUE_TYPEPAIEMENTVISIBLE = VUE_TYPEPAIEMENTVISIBLE;
 
 	/**
 	* @name select($pId)

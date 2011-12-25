@@ -198,7 +198,7 @@ class ProduitMarcheValid
 				$lVr->getQteRestante()->addErreur($lErreur);	
 			}
 						
-			if($pData['qteMaxCommande'] > $pData['qteRestante']) {
+			if($pData['qteMaxCommande'] != "" && $pData['qteRestante'] != "" && $pData['qteMaxCommande'] > $pData['qteRestante']) {
 				$lVr->setValid(false);
 				$lVr->getQteRestante()->setValid(false);
 				$lVr->getQteMaxCommande()->setValid(false);
@@ -218,7 +218,7 @@ class ProduitMarcheValid
 					if(!$lVrLot->getValid()){
 						$lVr->setValid(false);
 					}
-					if(!empty($pData['qteMaxCommande'])) {
+					/*if(!empty($pData['qteMaxCommande'])) {
 						if(floatval($pData['lots'][$i]['taille']) > floatval($pData['qteMaxCommande'])) {
 							$lVr->setValid(false);
 							$lVrLot->setValid(false);
@@ -228,7 +228,7 @@ class ProduitMarcheValid
 							$lErreur->setMessage(MessagesErreurs::ERR_206_MSG);
 							$lVrLot->getTaille()->addErreur($lErreur);
 						}
-					}
+					}*/
 					$lVr->addLots($lVrLot);			
 					$i++;
 				}			
@@ -420,7 +420,7 @@ class ProduitMarcheValid
 					$lVr->getQteRestante()->addErreur($lErreur);	
 				}
 							
-				if($pData['qteMaxCommande'] > $pData['qteRestante']) {
+				if($pData['qteMaxCommande'] != "" && $pData['qteRestante'] != "" && $pData['qteMaxCommande'] > $pData['qteRestante']) {
 					$lVr->setValid(false);
 					$lVr->getQteRestante()->setValid(false);
 					$lVr->getQteMaxCommande()->setValid(false);
@@ -440,7 +440,7 @@ class ProduitMarcheValid
 						if(!$lVrLot->getValid()){
 							$lVr->setValid(false);
 						}
-						if(!empty($pData['qteMaxCommande'])) {
+						/*if(!empty($pData['qteMaxCommande'])) {
 							if(floatval($pData['lots'][$i]['taille']) > floatval($pData['qteMaxCommande'])) {
 								$lVr->setValid(false);
 								$lVrLot->setValid(false);
@@ -450,7 +450,7 @@ class ProduitMarcheValid
 								$lErreur->setMessage(MessagesErreurs::ERR_206_MSG);
 								$lVrLot->getTaille()->addErreur($lErreur);
 							}
-						}
+						}*/
 						$lVr->addLots($lVrLot);			
 						$i++;
 					}			

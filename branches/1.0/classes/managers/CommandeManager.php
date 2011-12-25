@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CommandeVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 
+define("TABLE_COMMANDE", MYSQL_DB_PREFIXE . "com_commande");
 /**
  * @name Commande
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
  */
 class CommandeManager
 {
-	const TABLE_COMMANDE = "com_commande";
+	const TABLE_COMMANDE = TABLE_COMMANDE;
 	const CHAMP_COMMANDE_ID = "com_id";
 	const CHAMP_COMMANDE_NUMERO = "com_numero";
 	const CHAMP_COMMANDE_NOM = "com_nom";

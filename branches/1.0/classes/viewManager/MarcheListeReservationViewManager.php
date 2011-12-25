@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "MarcheListeReservationViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
+define("VUE_MARCHELISTERESERVATION", MYSQL_DB_PREFIXE . "view_marche_liste_reservation");
 /**
  * @name MarcheListeReservationViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
  */
 class MarcheListeReservationViewManager
 {
-	const VUE_MARCHELISTERESERVATION = "view_marche_liste_reservation";
+	const VUE_MARCHELISTERESERVATION = VUE_MARCHELISTERESERVATION;
 
 	/**
 	* @name select($pId)

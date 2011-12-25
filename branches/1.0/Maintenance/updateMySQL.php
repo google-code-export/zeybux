@@ -5,11 +5,11 @@ $lRequete = file_get_contents(FILE_UPDATE_BDD);
 $lRequetes = explode(";\n", $lRequete);	
 $lNbErreur = 0;
 mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD
-$f = fopen(LOG_EXTRACT . date('Y-m-d_H:i:s') . "_updateSql.log", "w")
+$f = fopen(LOG_EXTRACT . date('Y-m-d_H:i:s') . "_updateSql.log", "w");
 foreach( $lRequetes as $lReq ) {
 	if(!mysql_query($lReq, $connexion)) {
 		$lNbErreur++;
-		fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n")
+		fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n");
 	}
 }
 fclose($f);

@@ -82,98 +82,16 @@
 	
 	this.achatCommandePage = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div id=\"achat-info-marche\">" +
-						"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
-						"N° de Compte : {adhCompte}" +
-					"</div>" +
-					"<div>" +
-						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
-						"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-					"</div>" +
+				"<div id=\"vente-achat-info-marche\">" +
+				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+				"N° de Compte : {adhCompte}" +
 				"</div>" +
-			"</div>" +
-			
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
-			"</div>" +
-			
-			"<div class=\"com-float-left\">" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
-					"<div class=\"com-widget-content\">" +
-					"<table class=\"achat-commande-table-pdt\">" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Produit</th>" +
-								"<th>Quantité</th>" +
-								"<th></th>" +
-								"<th>Prix</th>" +
-								"<th></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN produits -->" +
-							"<tr class=\"ligne-produit\">" +
-								"<td><span class=\"produit-id ui-helper-hidden\">{produits.proId}</span>{produits.nproNom}</td>" +
-								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"{produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-								"<td class=\"td-unite\">{produits.proUniteMesure}</td>" +
-								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"{produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"<!-- END produits -->" +
-						"</tbody>" +
-						"<tfoot>" +
-							"<tr>" +
-								"<td colspan=\"2\"></td>" +
-								"<td class=\"com-text-align-right\" >Total :</td>" +
-								"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"</tfoot>" +
-					"</table>" +
-					"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
-			
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
-					"<div class=\"com-widget-content\">" +
-					"<table class=\"achat-commande-table-pdt\">" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Produit</th>" +
-								"<th>Quantité</th>" +
-								"<th></th>" +
-								"<th>Prix</th>" +
-								"<th></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN produitsSolidaire -->" +
-							"<tr class=\"ligne-produit-solidaire\">" +
-								"<td><span class=\"produit-id ui-helper-hidden\">{produitsSolidaire.proId}</span>{produitsSolidaire.nproNom}</td>" +
-								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-								"<td class=\"td-unite\">{produitsSolidaire.proUniteMesure}</td>" +
-								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"<!-- END produitsSolidaire -->" +
-						"</tbody>" +
-						"<tfoot>" +
-							"<tr>" +
-								"<td colspan=\"2\"></td>" +
-								"<td class=\"com-text-align-right\" >Total :</td>" +
-								"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"</tfoot>" +
-					"</table>" +
-					"</div>" +
-				"</div>" +
-			
-			
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
@@ -202,6 +120,114 @@
 						"</tbody>" +
 					"</table>" +
 				"</div>" +
+			"</div>" +			
+			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
+			"</div>" +
+			
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+				"<div class=\"com-widget-content\">" +
+				"<table class=\"achat-commande-table-pdt\">" +
+					"<thead>" +
+						"<tr>" +
+							"<th colspan=\"3\"></th>" +
+							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN categories -->" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
+						"<!-- BEGIN categories.produits -->" +
+						"<tr class=\"ligne-produit\">" +
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
+							
+							"<td class=\"table-vente-lot\">" +
+								"<select id=\"lot-{categories.produits.proId}\">" +
+									"<!-- BEGIN categories.produits.lot -->" +
+									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
+									"<!-- END categories.produits.lot -->" +
+								"</select>" +
+							"</td>" +
+							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
+							
+							
+							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+							"<td class=\"\">{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"com-text-align-right \" ><input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+						"<!-- END categories.produits -->" +
+					"<!-- END categories -->" +
+					"</tbody>" +
+					"<tfoot>" +
+						"<tr>" +
+							"<td colspan=\"4\"></td>" +
+							"<td class=\"com-text-align-right\" >Total :</td>" +
+							"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+					"</tfoot>" +
+				"</table>" +
+				"</div>" +
+			"</div>" +
+		
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
+				"<div class=\"com-widget-content\">" +
+				"<table class=\"achat-commande-table-pdt\">" +
+					"<thead>" +
+						"<tr>" +
+							"<th colspan=\"3\"></th>" +
+							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN categoriesSolidaire -->" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
+						"<!-- BEGIN categoriesSolidaire.produits -->" +
+						"<tr class=\"ligne-produit-solidaire\">" +
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +
+							
+							
+							
+							"<td class=\"table-vente-lot\">" +
+								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\">" +
+									"<!-- BEGIN categoriesSolidaire.produits.lot -->" +
+									"<option value=\"{categoriesSolidaire.produits.lot.dcomId}\">par {categoriesSolidaire.produits.lot.dcomTaille} {categoriesSolidaire.produits.proUniteMesure}</option>" +
+									"<!-- END categoriesSolidaire.produits.lot -->" +
+								"</select>" +
+							"</td>" +
+							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-solidaire-{categoriesSolidaire.produits.proId}\">{categoriesSolidaire.produits.prixUnitaire}</span> {sigleMonetaire}/{categoriesSolidaire.produits.proUniteMesure}</td>" +
+							
+
+							
+							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+							"<td>{categoriesSolidaire.produits.proUniteMesure}</td>" +
+							"<td class=\"com-text-align-right\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+						"<!-- END categoriesSolidaire.produits -->" +
+					"<!-- END categoriesSolidaire -->" +
+					"</tbody>" +
+					"<tfoot>" +
+						"<tr>" +
+							"<td colspan=\"4\"></td>" +
+							"<td class=\"com-text-align-right\" >Total :</td>" +
+							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+					"</tfoot>" +
+				"</table>" +
+				"</div>" +
 			"</div>" +
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
 				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
@@ -223,6 +249,12 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
+	
+	this.lotUnique = 
+		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
+	
+	this.lotUniqueSolidaire = 
+		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 };function CaisseListeCommandeVue(pParam) {
 	this.mCommunVue = new CommunVue();
 	
@@ -232,13 +264,15 @@
 		$.post(	"./index.php?m=Caisse&v=CaisseListeCommande", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -301,13 +335,15 @@
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -378,7 +414,7 @@
 	this.idCommande = null;
 	this.idAdherent = null;
 	this.idCompte = null;
-//	this.listeLot = new Array();
+	this.mListeLot = [];
 	this.mTypePaiement = [];
 	this.solde = null;
 	this.mCommunVue = new CommunVue();
@@ -389,31 +425,33 @@
 	this.pdtCommande = [];
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
 		var that = this;		 // TODO gestion avec param pour le server aussi
 		this.idCommande = pParam.id_commande;
 		this.idAdherent = pParam.id_adherent;
 
 		pParam.fonction = "infoAchat";
-		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {						
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {						
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.idCompte = lResponse.adherent.adhIdCompte;
+							that.pdtCommande = lResponse.marche.produits;			
+							
+							$(lResponse.typePaiement).each(function() {
+								that.mTypePaiement[this.tppId] = this;
+							});
+	
+							that.solde = parseFloat(lResponse.adherent.cptSolde);
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.idCompte = lResponse.adherent.adhIdCompte;
-						that.pdtCommande = lResponse.marche.produits;			
-						
-						$(lResponse.typePaiement).each(function() {
-							that.mTypePaiement[this.tppId] = this;
-						});
-
-						that.solde = parseFloat(lResponse.adherent.cptSolde);
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
-					}					
+					}
 				},"json"
 		);
 	}		
@@ -435,8 +473,10 @@
 			lData.sigleMonetaire = gSigleMonetaire;
 			lData.total = 0;
 			
-			lData.produits = new Array();
-			lData.produitsSolidaire = new Array();
+		//	lData.produits = [];
+			lData.categories = [];
+		//	lData.produitsSolidaire = new Array();
+			lData.categoriesSolidaire = [];
 			
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
@@ -447,26 +487,60 @@
 					lProduit.proUniteMesure = this.unite;
 					lProduit.stoQuantite = 0;
 					lProduit.proPrix = 0;
+					lProduit.lot = [];
+	
 					var lPrix = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
-							var lIdLot = this.id;
+							var lLot = {};
+							lLot.dcomId = this.id;
+							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
+							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
+							lPrix = parseFloat(this.prix);
+							lStoQuantite = parseFloat(this.taille);
+							
+							//var lIdLot = this.id;
 							$(pResponse.reservation).each(function() {
-								if(this.idDetailCommande == lIdLot) {
+								if(this.idDetailCommande == lLot.dcomId) {
 									lProduit.stoQuantite = this.quantite * -1;
-									//lPrix = (parseFloat(lProduitCommande.lots[this.idDetailCommande].prix) / parseFloat(lProduitCommande.lots[this.idDetailCommande].taille)) * parseFloat(lProduit.stoQuantite);
+									//lStoQuantite = lProduit.stoQuantite;
 									lPrix = this.montant * -1;
 									lProduit.proPrix = lPrix.nombreFormate(2,',',' ');
+									
+									//lLot.stoQuantiteReservation = lProduit.stoQuantite;
+									lLot.prixReservation = lPrix;
+									
+									// Permet de cocher le lot correspondant à la résa
+									//lLotReservation = this.id;
+									//lLot.checked = 'checked="checked"';
+									that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId})
 								}											
 							});
+							
+							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+							
+							//lProduit.stoQuantiteReservation = lProduit.stoQuantite.nombreFormate(2,',',' ');
+							//lProduit.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+										
+							lProduit.lot.push(lLot);
 						}
 					});
 					lData.total += lPrix;
-					lData.produits.push(lProduit);
+					
+					if(!lData.categories[this.idCategorie]) {
+						lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+					}
+					lData.categories[this.idCategorie].produits.push(lProduit);
+					//lData.produits.push(lProduit);
 
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proId == this.proId){
-							lData.produitsSolidaire.push(lProduit);
+							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
+								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
+							}
+							lData.categoriesSolidaire[lProduitCommande.idCategorie].produits.push(lProduit);
+							
+							//lData.produitsSolidaire.push(lProduit);
 						}
 					});
 				}
@@ -478,7 +552,7 @@
 			that.total = lData.total; 
 			
 			lData.typePaiement = that.mTypePaiement;
-			
+
 			$('#contenu').replaceWith( that.affect($(lTemplate.template(lData))) );
 			that.changerTypePaiement($(":input[name=typepaiement]"));
 			that.majNouveauSolde();
@@ -497,10 +571,108 @@
 		pData = this.affectAnnuler(pData);
 		pData = this.affectModifier(pData);
 		pData = this.affectSupprimerPdt(pData);
+		pData = this.supprimerSelect(pData);
+		pData = this.affectChangementLot(pData);
+		pData = this.selectLot(pData);
+		pData = this.affectInitLot(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
 	}
 	
+	this.selectLot = function(pData) {
+		$(this.mListeLot).each(function() {
+			pData.find('#lot-' + this.idPdt).selectOptions( this.idLot);
+		});
+		return pData;
+	}
+	
+	this.supprimerSelect = function(pData) {
+		pData.find('.ligne-produit select').each(function() {
+			if($(this).find('option').size() == 1) {				
+				var lCaisseTemplate = new CaisseTemplate();
+				var lTemplate = lCaisseTemplate.lotUnique;
+				var lData = {};
+				lData.IdPdt = $(this).parent().parent().find(".produit-id").text();
+				lData.valeur = $(this).val();
+				lData.text = $(this).text();
+				
+				$(this).replaceWith(lTemplate.template(lData));
+			}
+		});
+		
+		pData.find('.ligne-produit-solidaire select').each(function() {
+			if($(this).find('option').size() == 1) {				
+				var lCaisseTemplate = new CaisseTemplate();
+				var lTemplate = lCaisseTemplate.lotUniqueSolidaire;
+				var lData = {};
+				lData.IdPdt = $(this).parent().parent().find(".produit-id").text();
+				lData.valeur = $(this).val();
+				lData.text = $(this).text();
+				
+				$(this).replaceWith(lTemplate.template(lData));
+			}
+		});
+		return pData;
+	}
+	
+	this.affectInitLot = function(pData) {
+		var that = this;
+		pData.find('.ligne-produit select').each(function() {
+			var lIdPdt = $(this).parent().parent().find(".produit-id").text();
+			var lIdLot = $(this).val();
+
+			if(that.pdtCommande[lIdPdt].lots[lIdLot]) {
+				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
+				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
+				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				
+				$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
+			}
+		});
+		pData.find('.ligne-produit-solidaire select').each(function() {
+			var lIdPdt = $(this).parent().parent().find(".produit-id").text();
+			var lIdLot = $(this).val();
+
+			if(that.pdtCommande[lIdPdt].lots[lIdLot]) {
+				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
+				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
+				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				
+				$(pData).find('#prix-unitaire-solidaire-' + lIdPdt).text(lprixUnitaire);
+			}
+		});
+		return pData;
+	}
+	
+	this.affectChangementLot = function(pData) {
+		var that = this;
+		pData.find('.ligne-produit select').change(function() {
+			that.changerLot($(this).parent().parent().find(".produit-id").text(),$(this).val());
+		});
+		pData.find('.ligne-produit-solidaire select').change(function() {
+			that.changerLotSolidaire($(this).parent().parent().find(".produit-id").text(),$(this).val());
+		});
+		return pData;
+	}
+	
+	this.changerLot = function(pIdPdt,pIdLot) {
+		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
+		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
+		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		
+		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
+		$('#produits' + pIdPdt +'quantite,#produits' + pIdPdt + 'prix').val(0);		
+	}
+	
+	this.changerLotSolidaire = function(pIdPdt,pIdLot) {
+		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
+		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
+		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		
+		$('#prix-unitaire-solidaire-' + pIdPdt).text(lprixUnitaire);
+		$('#produitsSolidaire' + pIdPdt +'quantite,#produitsSolidaire' + pIdPdt + 'prix').val(0);		
+	}
+		
 	this.affectSelectTypePaiement = function(pData) {
 		var that = this;
 		pData.find(":input[name=typepaiement]").change(function () {
@@ -530,6 +702,7 @@
 				that.controlerAchat();
 		});
 		pData.find(".produit-solidaire-quantite").keyup(function() {
+			that.majPrixProduitSolidaire($(this));
 			that.controlerAchat();
 		});
 		return pData;
@@ -574,21 +747,80 @@
 		if(isNaN(lQuantite)) {lQuantite = 0;}
 		var ligne = Obj.parent().parent();
 		var lIdProduit = ligne.find(".produit-id").text();
-		var lNvPrix = 0;
+		var lIdLot = ligne.find('#lot-'+lIdProduit).val();
+
+		var lPrix = this.pdtCommande[lIdProduit].lots[lIdLot].prix;
+		var lQte = this.pdtCommande[lIdProduit].lots[lIdLot].taille;
+		var lprixUnitaire = lPrix / lQte; 
 		
-		if(this.pdtCommande[lIdProduit].prixUnitaire != null) {
-			lNvPrix = this.pdtCommande[lIdProduit].prixUnitaire * lQuantite;
-		}			
+		var lNvPrix = (lprixUnitaire * lQuantite).toFixed(2);
 		if(isNaN(lNvPrix)) {lNvPrix = 0;}
 
 		if(lNvPrix != 0) {
 			ligne.find(".produit-prix").val(lNvPrix.nombreFormate(2,',',' '));
-		} /*else {
-			ligne.find(".produit-prix").val('');
-		}*/
+		} else {
+			ligne.find(".produit-prix").val(0);
+		}
 		
 		this.majNouveauSolde();		
 	}
+	
+	this.majPrixProduitSolidaire = function(Obj) {
+		var lQuantite = parseFloat(Obj.val().numberFrToDb());
+		if(isNaN(lQuantite)) {lQuantite = 0;}
+		var ligne = Obj.parent().parent();
+		
+		var lIdProduit = ligne.find(".produit-id").text();
+		var lIdLot = ligne.find('#lot-solidaire-'+lIdProduit).val();
+
+		var lPrix = this.pdtCommande[lIdProduit].lots[lIdLot].prix;
+		var lQte = this.pdtCommande[lIdProduit].lots[lIdLot].taille;
+		var lprixUnitaire = lPrix / lQte; 
+		
+		var lNvPrix = (lprixUnitaire * lQuantite).toFixed(2);
+		if(isNaN(lNvPrix)) {lNvPrix = 0;}
+
+		if(lNvPrix != 0) {
+			ligne.find(".produit-solidaire-prix").val(lNvPrix.nombreFormate(2,',',' '));
+		} else {
+			ligne.find(".produit-solidaire-prix").val(0);
+		}
+		
+		this.majNouveauSoldeSolidaire();		
+	}
+	
+	/*this.nouvelleQuantite = function(pIdPdt,pIdLot,pQte) {
+		// La quantité max soit qte max soit stock
+		//var lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
+		//var lStock = this.pdtCommande[pIdPdt].stockReservation;
+		//if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
+		
+		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
+		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
+		
+		// Récupère le nombre de lot réservé
+		/*var lQteReservation = 0;
+		if(this.reservation[pIdPdt] && (this.reservation[pIdPdt].dcomId == pIdLot)) {
+			lQteReservation = this.reservation[pIdPdt].stoQuantite/lTaille;
+		}		
+		lQteReservation += pIncrement;*/
+		
+		/*var lNvQteReservation = 0;		
+		lNvQteReservation = lQteReservation * lTaille;
+		
+		// Test si la quantité est dans les limites
+		//if(lNvQteReservation > 0 && lNvQteReservation <= lMax) {
+			var lNvPrix = 0;
+			lNvPrix = (lQteReservation * lPrix).toFixed(2);
+			
+			// Mise à jour de la quantite reservée
+			this.reservation[pIdPdt].stoQuantite = lNvQteReservation;			
+			
+			//$('#qte-pdt-' + pIdPdt).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
+			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
+
+			this.majTotal();
+	}*/
 	
 	this.controlerAchat = function() {
 		Infobulle.init(); // Supprime les erreurs
@@ -768,7 +1000,8 @@
 		var lVo = new RechargementCompteVO();		
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
 		lVo.id = this.idCompte;
-		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){			
+
+		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){
 			lMontant = parseFloat(lMontant);
 			lVo.montant = lMontant;
 		}
@@ -778,7 +1011,7 @@
 			lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
 		} else {
 			lVo.champComplementaireObligatoire = 0;
-		}		
+		}
 		return lVo;
 	}
 	
@@ -803,15 +1036,17 @@
 		lVo.fonction = "acheter";
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(lVo),
 				function(lVoRetour) {
-					if(lVoRetour.valid) {
-						var lCaisseTemplate = new CaisseTemplate();
-						var lTemplate = lCaisseTemplate.achatCommandeSucces;
-						$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
-					} else {
-						that.boutonModifier();
-						Infobulle.generer(lVoRetour,"");
+					if(lVoRetour) {
+						if(lVoRetour.valid) {
+							var lCaisseTemplate = new CaisseTemplate();
+							var lTemplate = lCaisseTemplate.achatCommandeSucces;
+							$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
+						} else {
+							that.boutonModifier();
+							Infobulle.generer(lVoRetour,"");
+						}
+						that.etapeValider = 0;
 					}
-					that.etapeValider = 0;
 				},"json"
 			);
 	}

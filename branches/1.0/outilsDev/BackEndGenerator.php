@@ -248,7 +248,7 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				fwrite($fp,"{\n");
 	
 				// Les constantes
-				fwrite($fp,"\tconst TABLE_" . strtoupper($lNomTable[1]) . " = \"" . $lNomTable[0] . "\";\n");
+				fwrite($fp,"\tconst TABLE_" . strtoupper($lNomTable[1]) . " = MYSQL_DB_PREFIXE . \"" . $lNomTable[0] . "\";\n");
 	
 	        	foreach($lListeNomAttribut[0] as $lNomAttribut){
 	        		sscanf($lNomAttribut,"%[a-z]_%s",$lEntete,$lNomAttribut2);

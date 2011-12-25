@@ -82,98 +82,16 @@
 	
 	this.achatCommandePage = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<div id=\"achat-info-marche\">" +
-						"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
-						"N° de Compte : {adhCompte}" +
-					"</div>" +
-					"<div>" +
-						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
-						"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-					"</div>" +
+				"<div id=\"vente-achat-info-marche\">" +
+				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+				"N° de Compte : {adhCompte}" +
 				"</div>" +
-			"</div>" +
-			
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
-			"</div>" +
-			
-			"<div class=\"com-float-left\">" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
-					"<div class=\"com-widget-content\">" +
-					"<table class=\"achat-commande-table-pdt\">" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Produit</th>" +
-								"<th>Quantité</th>" +
-								"<th></th>" +
-								"<th>Prix</th>" +
-								"<th></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN produits -->" +
-							"<tr class=\"ligne-produit\">" +
-								"<td><span class=\"produit-id ui-helper-hidden\">{produits.proId}</span>{produits.nproNom}</td>" +
-								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"{produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-								"<td class=\"td-unite\">{produits.proUniteMesure}</td>" +
-								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"{produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"<!-- END produits -->" +
-						"</tbody>" +
-						"<tfoot>" +
-							"<tr>" +
-								"<td colspan=\"2\"></td>" +
-								"<td class=\"com-text-align-right\" >Total :</td>" +
-								"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"</tfoot>" +
-					"</table>" +
-					"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
-			
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
-					"<div class=\"com-widget-content\">" +
-					"<table class=\"achat-commande-table-pdt\">" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Produit</th>" +
-								"<th>Quantité</th>" +
-								"<th></th>" +
-								"<th>Prix</th>" +
-								"<th></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN produitsSolidaire -->" +
-							"<tr class=\"ligne-produit-solidaire\">" +
-								"<td><span class=\"produit-id ui-helper-hidden\">{produitsSolidaire.proId}</span>{produitsSolidaire.nproNom}</td>" +
-								"<td class=\"com-text-align-right td-qte\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-								"<td class=\"td-unite\">{produitsSolidaire.proUniteMesure}</td>" +
-								"<td class=\"com-text-align-right td-qte\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{produitsSolidaire.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"<!-- END produitsSolidaire -->" +
-						"</tbody>" +
-						"<tfoot>" +
-							"<tr>" +
-								"<td colspan=\"2\"></td>" +
-								"<td class=\"com-text-align-right\" >Total :</td>" +
-								"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
-								"<td><span>{sigleMonetaire}</span></td>" +
-							"</tr>" +
-						"</tfoot>" +
-					"</table>" +
-					"</div>" +
-				"</div>" +
-			
-			
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
@@ -202,6 +120,114 @@
 						"</tbody>" +
 					"</table>" +
 				"</div>" +
+			"</div>" +			
+			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
+			"</div>" +
+			
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+				"<div class=\"com-widget-content\">" +
+				"<table class=\"achat-commande-table-pdt\">" +
+					"<thead>" +
+						"<tr>" +
+							"<th colspan=\"3\"></th>" +
+							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN categories -->" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
+						"<!-- BEGIN categories.produits -->" +
+						"<tr class=\"ligne-produit\">" +
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
+							
+							"<td class=\"table-vente-lot\">" +
+								"<select id=\"lot-{categories.produits.proId}\">" +
+									"<!-- BEGIN categories.produits.lot -->" +
+									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
+									"<!-- END categories.produits.lot -->" +
+								"</select>" +
+							"</td>" +
+							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
+							
+							
+							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+							"<td class=\"\">{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"com-text-align-right \" ><input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+						"<!-- END categories.produits -->" +
+					"<!-- END categories -->" +
+					"</tbody>" +
+					"<tfoot>" +
+						"<tr>" +
+							"<td colspan=\"4\"></td>" +
+							"<td class=\"com-text-align-right\" >Total :</td>" +
+							"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+					"</tfoot>" +
+				"</table>" +
+				"</div>" +
+			"</div>" +
+		
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
+				"<div class=\"com-widget-content\">" +
+				"<table class=\"achat-commande-table-pdt\">" +
+					"<thead>" +
+						"<tr>" +
+							"<th colspan=\"3\"></th>" +
+							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+					"<!-- BEGIN categoriesSolidaire -->" +
+						"<tr>" +
+							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
+							"<td colspan=\"6\"></td>" +
+						"</tr>" +
+						"<!-- BEGIN categoriesSolidaire.produits -->" +
+						"<tr class=\"ligne-produit-solidaire\">" +
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +
+							
+							
+							
+							"<td class=\"table-vente-lot\">" +
+								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\">" +
+									"<!-- BEGIN categoriesSolidaire.produits.lot -->" +
+									"<option value=\"{categoriesSolidaire.produits.lot.dcomId}\">par {categoriesSolidaire.produits.lot.dcomTaille} {categoriesSolidaire.produits.proUniteMesure}</option>" +
+									"<!-- END categoriesSolidaire.produits.lot -->" +
+								"</select>" +
+							"</td>" +
+							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-solidaire-{categoriesSolidaire.produits.proId}\">{categoriesSolidaire.produits.prixUnitaire}</span> {sigleMonetaire}/{categoriesSolidaire.produits.proUniteMesure}</td>" +
+							
+
+							
+							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+							"<td>{categoriesSolidaire.produits.proUniteMesure}</td>" +
+							"<td class=\"com-text-align-right\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+						"<!-- END categoriesSolidaire.produits -->" +
+					"<!-- END categoriesSolidaire -->" +
+					"</tbody>" +
+					"<tfoot>" +
+						"<tr>" +
+							"<td colspan=\"4\"></td>" +
+							"<td class=\"com-text-align-right\" >Total :</td>" +
+							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
+							"<td><span>{sigleMonetaire}</span></td>" +
+						"</tr>" +
+					"</tfoot>" +
+				"</table>" +
+				"</div>" +
 			"</div>" +
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
 				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
@@ -223,4 +249,10 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
+	
+	this.lotUnique = 
+		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
+	
+	this.lotUniqueSolidaire = 
+		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 }

@@ -43,6 +43,12 @@ class ListeFermeViewVO  extends DataTemplate
 	protected $mFerNom;
 
 	/**
+	* @var int(11)
+	* @desc FerIdCompte de la ListeFermeViewVO
+	*/
+	protected $mFerIdCompte;
+	
+	/**
 	* @name getFerId()
 	* @return int(11)
 	* @desc Renvoie le membre FerId de la ListeFermeViewVO
@@ -114,5 +120,22 @@ class ListeFermeViewVO  extends DataTemplate
 		$this->mFerNom = $pFerNom;
 	}
 
+	/**
+	* @name getFerIdCompte()
+	* @return int(11)
+	* @desc Renvoie le membre FerIdCompte de la ListeFermeViewVO
+	*/
+	public function getFerIdCompte() {
+		return $this->mFerIdCompte;
+	}
+
+	/**
+	* @name setFerIdCompte($pFerIdCompte)
+	* @param int(11)
+	* @desc Remplace le membre FerIdCompte de la ListeFermeViewVO par $pFerIdCompte
+	*/
+	public function setFerIdCompte($pFerIdCompte) {
+		$this->mFerIdCompte = $pFerIdCompte;
+	}
 }
 ?>

@@ -38,7 +38,7 @@
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
-						}	
+						}
 					}
 				},"json"
 		);
@@ -75,12 +75,7 @@
 					lProduit.proUniteMesure = this.unite;
 					lProduit.stoQuantite = 0;
 					lProduit.proPrix = 0;
-
 					lProduit.lot = [];
-					
-					//var i = 0;
-					//var lLotReservation = -1;
-					//var lLotInit = -1;
 	
 					var lPrix = 0;
 					$.each(this.lots, function() {
@@ -339,7 +334,6 @@
 		var lQuantite = parseFloat(Obj.val().numberFrToDb());
 		if(isNaN(lQuantite)) {lQuantite = 0;}
 		var ligne = Obj.parent().parent();
-		
 		var lIdProduit = ligne.find(".produit-id").text();
 		var lIdLot = ligne.find('#lot-'+lIdProduit).val();
 
@@ -594,9 +588,8 @@
 		var lVo = new RechargementCompteVO();		
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
 		lVo.id = this.idCompte;
-		
+
 		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){
-			
 			lMontant = parseFloat(lMontant);
 			lVo.montant = lMontant;
 		}
@@ -607,7 +600,6 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
-				
 		return lVo;
 	}
 	

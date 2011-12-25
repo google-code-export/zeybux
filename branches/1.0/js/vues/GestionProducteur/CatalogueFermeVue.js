@@ -9,6 +9,7 @@
 	this.mListeProduit = [];
 	this.mInfoFormulaireProduit = null;
 	this.mIdLot = 0;
+	this.mIdFerme = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CatalogueFermeVue(pParam);}} );
@@ -24,6 +25,16 @@
 						if(pParam && pParam.vr) {
 							Infobulle.generer(pParam.vr,'');
 						}
+						that.mCategories = [];
+						that.mProduits = [];
+						that.mFiltreIdCategorie = 0;
+						that.nbProduit = 0;
+						that.nbCategorie = 0;
+						that.mListeCategorie = {};
+						that.mListeProduit = [];
+						that.mInfoFormulaireProduit = null;
+						that.mIdLot = 0;
+						that.mIdFerme = pParam.id;
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -411,8 +422,10 @@
 							erreur.message = ERR_318_MSG;
 							lVr.log.erreurs.push(erreur);
 							//Infobulle.generer(lVr,'');
-							var lParam = {vr:lVr};					
-							that.refreshCategorie(lParam);
+							//var lParam = {vr:lVr};					
+							//that.refreshCategorie(lParam);
+							that.construct({id:that.mIdFerme,vr:lVr});						
+							
 						} else {
 							Infobulle.generer(lResponse,'cat-');
 						}

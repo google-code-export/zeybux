@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
+define("VUE_DETAILMARCHE", MYSQL_DB_PREFIXE . "view_detail_marche");
 /**
  * @name DetailMarcheViewManager
  * @author Julien PIERRE
@@ -28,7 +29,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
  */
 class DetailMarcheViewManager
 {
-	const VUE_DETAILMARCHE = "view_detail_marche";
+	const VUE_DETAILMARCHE = VUE_DETAILMARCHE;
 
 	/**
 	* @name select($pId)

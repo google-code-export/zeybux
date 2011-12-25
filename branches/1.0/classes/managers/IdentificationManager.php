@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "IdentificationVO.php");
 
+define("TABLE_IDENTIFICATION", MYSQL_DB_PREFIXE . "ide_identification");
 /**
  * @name IdentificationManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "IdentificationVO.php");
  */
 class IdentificationManager
 {
-	const TABLE_IDENTIFICATION = "ide_identification";
+	const TABLE_IDENTIFICATION = TABLE_IDENTIFICATION;
 	const CHAMP_IDENTIFICATION_ID = "ide_id";
 	const CHAMP_IDENTIFICATION_ID_LOGIN = "ide_id_login";
 	const CHAMP_IDENTIFICATION_LOGIN = "ide_login";

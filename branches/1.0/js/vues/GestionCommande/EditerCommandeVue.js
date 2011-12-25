@@ -200,6 +200,7 @@
 		pData = this.affectReservation(pData);
 		pData = this.affectModifier(pData);
 		//pData = this.affectCloturer(pData);
+		pData = this.affectDupliquerMarche(pData);
 		pData = this.affectExportReservation(pData);
 		pData = this.affectBonDeCommande(pData);
 		pData = this.affectBonDeLivraison(pData);
@@ -266,6 +267,14 @@
 		var that = this;
 		pData.find('#btn-livraison-com').click(function() {
 			BonDeLivraisonVue({"id_commande":that.mIdMarche});
+		});
+		return pData;
+	}
+	
+	this.affectDupliquerMarche = function(pData) {
+		var that = this;
+		pData.find('#btn-dupliquer-com').click(function() {
+			DupliquerMarcheVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
 	}
@@ -662,7 +671,15 @@
 							
 							var lIdFerme = lResponse.produit.ferId;
 							var lIdCategorie = lResponse.produit.idCategorie;
-							
+
+							var lStockAffichage = "";
+							if(parseFloat(lResponse.produit.stockInitial) != -1) {
+								lStockAffichage = lResponse.produit.stockInitial.nombreFormate(2,',',' ');
+							}
+							var lQteMaxAffichage = "";
+							if(parseFloat(lResponse.produit.qteMaxCommande) != -1) {
+								lQteMaxAffichage = lResponse.produit.qteMaxCommande.nombreFormate(2,',',' ');
+							}
 							
 							var lData = {	ferId:lIdFerme,
 											ferNom:lResponse.produit.ferNom,
@@ -671,8 +688,8 @@
 											nproId:pId,
 											nproNom:lResponse.produit.nom,
 											unite:lResponse.produit.unite,
-											nproStock:lResponse.produit.stockInitial.nombreFormate(2,',',' '),
-											nproQteMax:lResponse.produit.qteMaxCommande.nombreFormate(2,',',' '),
+											nproStock:lStockAffichage,
+											nproQteMax:lQteMaxAffichage,
 											modelesLot:[]};
 							
 							$(lResponse.modelesLot).each(function() {

@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_GESTIONCOMMANDELISTE_RESERVATION", MYSQL_DB_PREFIXE . "view_gestion_commande_liste_reservation");
 /**
  * @name GestionCommandeListeReservationViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class GestionCommandeListeReservationViewManager
 {
-	const VUE_GESTIONCOMMANDELISTE_RESERVATION = "view_gestion_commande_liste_reservation";
+	const VUE_GESTIONCOMMANDELISTE_RESERVATION = VUE_GESTIONCOMMANDELISTE_RESERVATION;
 
 	/**
 	* @name select($pId)

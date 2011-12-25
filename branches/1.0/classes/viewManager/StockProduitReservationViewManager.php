@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "StockProduitReservationViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 
+define("VUE_STOCKPRODUITRESERVATION", MYSQL_DB_PREFIXE . "view_stock_produit_reservation");
 /**
  * @name StockProduitReservationViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
  */
 class StockProduitReservationViewManager
 {
-	const VUE_STOCKPRODUITRESERVATION = "view_stock_produit_reservation";
+	const VUE_STOCKPRODUITRESERVATION = VUE_STOCKPRODUITRESERVATION;
 
 	/**
 	* @name select($pId)

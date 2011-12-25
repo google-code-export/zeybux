@@ -142,6 +142,53 @@ class StockService
 	}
 	
 	/**
+	* @name updateStockProduit($pStock)
+	* @param StockVO
+	* @return integer
+	* @desc Met à jour une opération
+	*/
+	public function updateStockProduit($pStock) {
+		// TODO les test : on update que les types 0/1/2/3/4/5/6
+		
+		
+		//var_dump($pStock);
+		$lStockActuel = $this->get($pStock->getId());
+		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
+		// TODO Mise à jour du stock selon le type
+		switch($pStock->getType()) {
+			case 0 : // Reservation
+				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				$lProduit = ProduitManager::select($lLot->getIdProduit());
+				
+				
+				if($pStock->getQuantite() != "" && $lProduit->getStockInitial() == -1) {
+					//var_dump($lProduit);
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					//var_dump($lProduit);
+					ProduitManager::update($lProduit);
+				} else if($pStock->getQuantite() == "" && $lProduit->getStockInitial() != -1) {
+					//echo 2;
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial());
+					$lProduit->setStockInitial(-1);
+					ProduitManager::update($lProduit);
+					
+				} else if($pStock->getQuantite() != "" && $lProduit->getStockInitial() != -1) {
+					//echo 3;
+					// Maj Stock Reservation dans le produit
+					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					$lProduit->setStockInitial($pStock->getQuantite());
+					ProduitManager::update($lProduit);
+				}
+				break;
+		}
+		$this->insertHistorique($pStock); // Ajout historique
+		return StockManager::update($pStock); // update
+	}
+	
+	/**
 	* @name delete($pId)
 	* @param integer
 	* @desc Met à jour une opération

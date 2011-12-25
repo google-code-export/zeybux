@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "GestionCommandeReservationProducteurViewV
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 
+define("VUE_GESTIONCOMMANDERESERVATIONPRODUCTEUR", MYSQL_DB_PREFIXE . "view_gestion_commande_reservation_producteur");
 /**
  * @name GestionCommandeReservationProducteurViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
  */
 class GestionCommandeReservationProducteurViewManager
 {
-	const VUE_GESTIONCOMMANDERESERVATIONPRODUCTEUR = "view_gestion_commande_reservation_producteur";
+	const VUE_GESTIONCOMMANDERESERVATIONPRODUCTEUR = VUE_GESTIONCOMMANDERESERVATIONPRODUCTEUR;
 
 	/**
 	* @name select($pId)

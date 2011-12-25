@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
+define("VUE_RESERVATIONDETAIL", MYSQL_DB_PREFIXE . "view_reservation_detail");
 /**
  * @name ReservationDetailViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
  */
 class ReservationDetailViewManager
 {
-	const VUE_RESERVATIONDETAIL = "view_reservation_detail";
+	const VUE_RESERVATIONDETAIL = VUE_RESERVATIONDETAIL;
 
 	/**
 	* @name select($pId)

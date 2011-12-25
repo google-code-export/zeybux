@@ -19,7 +19,7 @@
 							that.listeAdherent[this.adhId] = this;
 						});
 						$(lResponse.listeProducteur).each(function() {
-							that.listeProducteur[this.prdtId] = this;
+							that.listeProducteur[this.ferId] = this;
 						});
 						
 						that.solde = lResponse.solde;
@@ -42,7 +42,7 @@
 		if(lResponse.listeAdherent.length <= 0 || lResponse.listeAdherent[0].adhId == null) {
 			lHtml.find("#virement-adherent").replaceWith(lCompteZeybuTemplate.listeAdherentVide);
 		}
-		if(lResponse.listeProducteur.length <= 0 || lResponse.listeProducteur[0].prdtId == null) {
+		if(lResponse.listeProducteur.length <= 0 || lResponse.listeProducteur[0].ferId == null) {
 			lHtml.find("#virement-producteur").replaceWith(lCompteZeybuTemplate.listeProducteurVide);
 		}
 		
@@ -66,7 +66,8 @@
 	}
 
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
+		pData.find('.table-adherent').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false},5: {sorter: false} }});
+		pData.find('.table-producteur').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false},4: {sorter: false} }});
 		return pData;
 	}
 	
@@ -163,7 +164,7 @@
 				lData.cptDebit ="Zeybu";
 				lData.cptCredit = that.listeProducteur[lId].cptLabel;
 				lData.idCptDebit = -1;
-				lData.idCptCredit = that.listeProducteur[lId].prdtIdCompte;
+				lData.idCptCredit = that.listeProducteur[lId].ferIdCompte;
 				that.virement(lData);
 			});
 			$(this).find(".btn-virement-inverse").click(function() {
@@ -171,7 +172,7 @@
 				lData.type = 1;
 				lData.cptDebit = that.listeProducteur[lId].cptLabel;
 				lData.cptCredit ="Zeybu";
-				lData.idCptDebit = that.listeProducteur[lId].prdtIdCompte;
+				lData.idCptDebit = that.listeProducteur[lId].ferIdCompte;
 				lData.idCptCredit = -1;
 				that.virement(lData);
 			});

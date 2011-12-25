@@ -138,7 +138,6 @@
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 							"</tr>" +
@@ -146,10 +145,9 @@
 						"<tbody>" +
 					"<!-- BEGIN listeProducteur -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-producteur\" >" +
-								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>{listeProducteur.prdtNumero}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.ferId}</span>{listeProducteur.ferNumero}</td>" +
 								"<td class=\"com-table-td\">{listeProducteur.cptLabel}</td>" +
-								"<td class=\"com-table-td\">{listeProducteur.prdtNom}</td>" +
-								"<td class=\"com-table-td\">{listeProducteur.prdtPrenom}</td>" +
+								"<td class=\"com-table-td\">{listeProducteur.ferNom}</td>" +
 								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement ui-state-default ui-corner-all com-button com-center\">Zeybu vers {listeProducteur.cptLabel}</button>" +
 								"</td>" +
@@ -311,13 +309,15 @@
 		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -413,13 +413,15 @@
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
@@ -557,21 +559,23 @@
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_308_CODE;
-						erreur.message = ERR_308_MSG;
-						lVr.log.erreurs.push(erreur);
-						//Infobulle.generer(lVr,'');
-						var lParam = {vr:lVr};
-						that.construct(lParam);
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_308_CODE;
+							erreur.message = ERR_308_MSG;
+							lVr.log.erreurs.push(erreur);
+							//Infobulle.generer(lVr,'');
+							var lParam = {vr:lVr};
+							that.construct(lParam);
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);
@@ -637,21 +641,23 @@
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_309_CODE;
-						erreur.message = ERR_309_MSG;
-						lVr.log.erreurs.push(erreur);
-						//Infobulle.generer(lVr,'');
-						var lParam = {vr:lVr};
-						that.construct(lParam);
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_309_CODE;
+							erreur.message = ERR_309_MSG;
+							lVr.log.erreurs.push(erreur);
+							//Infobulle.generer(lVr,'');
+							var lParam = {vr:lVr};
+							that.construct(lParam);
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);
@@ -673,22 +679,24 @@
 		$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lParam),
 			function(lResponse) {
 				Infobulle.init(); // Supprime les erreurs
-				if(lResponse.valid) {
-					if(pParam && pParam.vr) {
-						Infobulle.generer(pParam.vr,'');
+				if(lResponse) {
+					if(lResponse.valid) {
+						if(pParam && pParam.vr) {
+							Infobulle.generer(pParam.vr,'');
+						}
+						$(lResponse.listeAdherent).each(function() {
+							that.listeAdherent[this.adhId] = this;
+						});
+						$(lResponse.listeProducteur).each(function() {
+							that.listeProducteur[this.ferId] = this;
+						});
+						
+						that.solde = lResponse.solde;
+						
+						that.afficher(lResponse);
+					} else {
+						Infobulle.generer(lResponse,'');
 					}
-					$(lResponse.listeAdherent).each(function() {
-						that.listeAdherent[this.adhId] = this;
-					});
-					$(lResponse.listeProducteur).each(function() {
-						that.listeProducteur[this.prdtId] = this;
-					});
-					
-					that.solde = lResponse.solde;
-					
-					that.afficher(lResponse);
-				} else {
-					Infobulle.generer(lResponse,'');
 				}
 			},"json"
 		);
@@ -703,7 +711,7 @@
 		if(lResponse.listeAdherent.length <= 0 || lResponse.listeAdherent[0].adhId == null) {
 			lHtml.find("#virement-adherent").replaceWith(lCompteZeybuTemplate.listeAdherentVide);
 		}
-		if(lResponse.listeProducteur.length <= 0 || lResponse.listeProducteur[0].prdtId == null) {
+		if(lResponse.listeProducteur.length <= 0 || lResponse.listeProducteur[0].ferId == null) {
 			lHtml.find("#virement-producteur").replaceWith(lCompteZeybuTemplate.listeProducteurVide);
 		}
 		
@@ -727,7 +735,8 @@
 	}
 
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
+		pData.find('.table-adherent').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false},5: {sorter: false} }});
+		pData.find('.table-producteur').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false},4: {sorter: false} }});
 		return pData;
 	}
 	
@@ -824,7 +833,7 @@
 				lData.cptDebit ="Zeybu";
 				lData.cptCredit = that.listeProducteur[lId].cptLabel;
 				lData.idCptDebit = -1;
-				lData.idCptCredit = that.listeProducteur[lId].prdtIdCompte;
+				lData.idCptCredit = that.listeProducteur[lId].ferIdCompte;
 				that.virement(lData);
 			});
 			$(this).find(".btn-virement-inverse").click(function() {
@@ -832,7 +841,7 @@
 				lData.type = 1;
 				lData.cptDebit = that.listeProducteur[lId].cptLabel;
 				lData.cptCredit ="Zeybu";
-				lData.idCptDebit = that.listeProducteur[lId].prdtIdCompte;
+				lData.idCptDebit = that.listeProducteur[lId].ferIdCompte;
 				lData.idCptCredit = -1;
 				that.virement(lData);
 			});
@@ -890,20 +899,22 @@
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						// Message d'information
-						var lVr = new TemplateVR();
-						lVr.valid = false;
-						lVr.log.valid = false;
-						var erreur = new VRerreur();
-						erreur.code = ERR_307_CODE;
-						erreur.message = ERR_307_MSG;
-						lVr.log.erreurs.push(erreur);
-						Infobulle.generer(lVr,'');
-						
-						$(pDialog).dialog("close");										
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_307_CODE;
+							erreur.message = ERR_307_MSG;
+							lVr.log.erreurs.push(erreur);
+							Infobulle.generer(lVr,'');
+							
+							$(pDialog).dialog("close");										
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);

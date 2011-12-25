@@ -15,6 +15,13 @@ include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/CommandeReservationValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "NomProduitViewManager.php");  
+include_once(CHEMIN_CLASSES_VO . "NomProduitCatalogueVO.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE ."/DetailProduitResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/AfficheAchatAdherentValid.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "NomProduitProducteurViewManager.php");  
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CaracteristiqueProduitViewManager.php");  
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");  
 
 /**
  * @name AfficherReservationControleur
@@ -24,6 +31,40 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
  */
 class AfficherReservationControleur
 {
+	/**
+	* @name getDetailProduit($pParam)
+	* @return DetailProduitResponse
+	* @desc Retourne le détail d'un produit
+	*/
+	public function getDetailProduit($pParam) {
+		$lVr = AfficheAchatAdherentValid::validGetDetailProduit($pParam);
+		if($lVr->getValid()) {
+			$lId = $pParam['id'];
+			
+			$lProduit = ProduitManager::select($lId);
+			$lIdNomProduit = $lProduit->getIdNomProduit();
+			
+			$lNomProduit = NomProduitViewManager::select($lProduit->getIdNomProduit($lIdNomProduit));
+			$lNomProduit = $lNomProduit[0];
+			$lNomProduitCatalagueVO = new NomProduitCatalogueVO();
+			$lNomProduitCatalagueVO->setId($lNomProduit->getNProIdFerme());
+			$lNomProduitCatalagueVO->setCproNom($lNomProduit->getCproNom());
+			$lNomProduitCatalagueVO->setNom($lNomProduit->getNProNom());
+			$lNomProduitCatalagueVO->setDescription($lNomProduit->getNProDescription());
+			
+			$lProducteurs = NomProduitProducteurViewManager::select($lIdNomProduit);
+			$lNomProduitCatalagueVO->setProducteurs($lProducteurs);
+			
+			$lCaracteristiques = CaracteristiqueProduitViewManager::select($lIdNomProduit);
+			$lNomProduitCatalagueVO->setCaracteristiques($lCaracteristiques);
+						
+			$lResponse = new DetailProduitResponse();
+			$lResponse->setProduit( $lNomProduitCatalagueVO );
+			return $lResponse;
+		}		
+		return $lVr;
+	}
+	
 	/**
 	* @name getReservation($pParam)
 	* @return AfficherReservationResponse

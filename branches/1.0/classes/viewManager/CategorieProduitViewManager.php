@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "CategorieProduitViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
 
+define("VUE_CATEGORIEPRODUIT", MYSQL_DB_PREFIXE . "view_categorie_produit");
 /**
  * @name CategorieProduitViewManager
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
  */
 class CategorieProduitViewManager
 {
-	const VUE_CATEGORIEPRODUIT = "view_categorie_produit";
+	const VUE_CATEGORIEPRODUIT = VUE_CATEGORIEPRODUIT;
 
 	/**
 	* @name select($pId)

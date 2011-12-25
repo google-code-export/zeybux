@@ -13,6 +13,8 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/AfficheAchatAdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
+include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/ProduitMarcheVR.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 
 /**
  * @name AfficheReservationAdherentVR
@@ -76,6 +78,61 @@ class AfficheAchatAdherentValid
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 				$lVr->getId_commande()->addErreur($lErreur);
+			}
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name validGetDetailProduit($pData)
+	* @return ProduitMarcheVR
+	* @desc Test la validite de l'élément
+	*/
+	public static function validGetDetailProduit($pData) {
+		$lVr = new ProduitMarcheVR();
+		if(!isset($pData['id'])) {
+			$lVr->setValid(false);
+			$lVr->getId()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId()->addErreur($lErreur);	
+		}
+		if($lVr->getValid()) {
+			if(!TestFonction::checkLength($pData['id'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			
+			if(empty($pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			// Le produit doit exister
+			$lProduit = ProduitManager::select($pData['id']);
+			if($lProduit->getId() != $pData['id']) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_210_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_210_MSG);
+				$lVr->getId()->addErreur($lErreur);
 			}
 		}
 		return $lVr;

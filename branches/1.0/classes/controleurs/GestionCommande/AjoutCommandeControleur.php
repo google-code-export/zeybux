@@ -29,9 +29,11 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeRespon
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ListeProduitResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ModelesLotResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/DupliquerMarcheResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 
@@ -44,16 +46,26 @@ include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 class AjoutCommandeControleur
 {	
 	/**
-	* @name getInfoAjoutCommande()
+	* @name getInfoDupliquerMarche($pParam)
 	* @return AfficheAjoutCommandeResponse
 	* @desc Retourne la liste des produits
 	*/
-	/*public function getInfoAjoutCommande() {		
-		$lResponse = new AfficheAjoutCommandeResponse();
-		$lResponse->setProduits(NomProduitManager::selectAll());
-		$lResponse->setProducteurs(ProducteurViewManager::selectAll());
-		return $lResponse;
-	}*/
+	public function getInfoDupliquerMarche($pParam) {	
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];
+
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+
+			$lResponse = new DupliquerMarcheResponse();
+			$lResponse->setMarche($lMarche);
+			$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+
+			return $lResponse;
+		}				
+		return $lVr;
+	}
 	
 	/**
 	* @name getListeFerme()

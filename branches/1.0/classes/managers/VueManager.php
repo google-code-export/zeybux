@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "VueVO.php");
 
+define("TABLE_VUE", MYSQL_DB_PREFIXE . "vue_vues");
 /**
  * @name VueManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "VueVO.php");
  */
 class VueManager
 {
-	const TABLE_VUE = "vue_vues";
+	const TABLE_VUE = TABLE_VUE;
 	const CHAMP_VUE_ID = "vue_id";
 	const CHAMP_VUE_ID_MODULE = "vue_id_module";
 	const CHAMP_VUE_NOM = "vue_nom";

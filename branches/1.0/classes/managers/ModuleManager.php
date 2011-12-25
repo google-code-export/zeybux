@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "ModuleVO.php");
 
+define("TABLE_MODULE", MYSQL_DB_PREFIXE . "mod_module");
 /**
  * @name ModuleManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "ModuleVO.php");
  */
 class ModuleManager
 {
-	const TABLE_MODULE = "mod_module";
+	const TABLE_MODULE = TABLE_MODULE;
 	const CHAMP_MOD_ID = "mod_id";
 	const CHAMP_MOD_NOM = "mod_nom";
 	const CHAMP_MOD_LABEL = "mod_label";
@@ -86,7 +87,7 @@ class ModuleManager
 						"," . ModuleManager::CHAMP_MOD_ADMIN .
 						"," . ModuleManager::CHAMP_MOD_VISIBLE . " 
 					FROM " . ModuleManager::TABLE_MODULE . " 
-					ORDER BY `mod_module`.`mod_ordre` ASC";
+					ORDER BY " . ModuleManager::TABLE_MODULE . "." . ModuleManager::CHAMP_MOD_ORDRE . " ASC";
 		
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);

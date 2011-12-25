@@ -138,7 +138,6 @@
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
 								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"></th>" +
 							"</tr>" +
@@ -146,10 +145,9 @@
 						"<tbody>" +
 					"<!-- BEGIN listeProducteur -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-producteur\" >" +
-								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>{listeProducteur.prdtNumero}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.ferId}</span>{listeProducteur.ferNumero}</td>" +
 								"<td class=\"com-table-td\">{listeProducteur.cptLabel}</td>" +
-								"<td class=\"com-table-td\">{listeProducteur.prdtNom}</td>" +
-								"<td class=\"com-table-td\">{listeProducteur.prdtPrenom}</td>" +
+								"<td class=\"com-table-td\">{listeProducteur.ferNom}</td>" +
 								"<td class=\"com-table-td com-center\">" +
 									"<button class=\"btn-virement ui-state-default ui-corner-all com-button com-center\">Zeybu vers {listeProducteur.cptLabel}</button>" +
 								"</td>" +

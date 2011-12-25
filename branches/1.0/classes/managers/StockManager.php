@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "StockVO.php");
 
+define("TABLE_STOCK", MYSQL_DB_PREFIXE . "sto_stock");
 /**
  * @name StockManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "StockVO.php");
  */
 class StockManager
 {
-	const TABLE_STOCK = "sto_stock";
+	const TABLE_STOCK = TABLE_STOCK;
 	const CHAMP_STOCK_ID = "sto_id";
 	const CHAMP_STOCK_DATE = "sto_date";
 	const CHAMP_STOCK_QUANTITE = "sto_quantite";

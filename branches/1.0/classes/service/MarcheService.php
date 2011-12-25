@@ -382,20 +382,41 @@ class MarcheService
 			}
 		}
 	
+		
+		
+		
 		$lStockService = new StockService();
 		$lResaActuel = GestionCommandeReservationProducteurViewManager::getStockReservationProducteur($lProduitActuel->getIdCompteFerme(),$lProduitActuel->getId());
 		$lStockActuel = $lStockService->get($lResaActuel[0]->getStoId());
 	
 		// Maj du stock
-		$lStockActuel->setQuantite($pProduit->getQteRestante());
+		//if($pProduit->getQteRestante() != "" && $lProduit->getStockInitial() == -1) {
+			$lStockActuel->setQuantite($pProduit->getQteRestante());
+		/*} else if($pProduit->getQteRestante() == "" && $lProduit->getStockInitial() != -1) {
+			$lStockActuel->setQuantite($lProduit->getStockReservation() + $pProduit->getQteRestante() );		
+		} else {	
+			$lStockActuel->setQuantite(0);
+		}*/
 		$lStockActuel->setIdDetailCommande($lDcomId);
-		$lStockService->set($lStockActuel);
+		$lStockService->updateStockProduit($lStockActuel);
 		
-		$lProduit = ProduitManager::select($lProduitActuel->getId());
 		//$lProduit->setIdCommande($lIdMarche);
 		//$lProduitActuel->setIdNomProduit($pProduit->getIdNom());
+		$lProduit = ProduitManager::select($lProduitActuel->getId());
 		$lProduit->setUniteMesure($pProduit->getUnite());
-		$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
+		if($pProduit->getQteMaxCommande() == "") {
+			$lProduit->setMaxProduitCommande(-1);
+		} else {
+			$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
+		}
+	/*	if($pProduit->getQteRestante() == "" && $lProduit->getStockInitial() != -1) {
+			//$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial());
+			$lProduit->setStockInitial(-1);				
+		} else if($pProduit->getQteRestante() != "" && $lProduit->getStockInitial() == -1) {
+			//$lProduit->setStockReservation($lProduit->getStockReservation() + $pProduit->getQteRestante());
+			$lProduit->setStockInitial($pProduit->getQteRestante());
+		}*/
+		//$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
 		//$lProduitActuel->setStockInitial($pProduit->getQteRestante());
 		//$lProduit->setIdCompteFerme($pProduit->getIdCompteFerme()); // C'est bien le compte il faut changer le nom du champ
 		ProduitManager::update($lProduit);

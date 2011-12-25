@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "ListeCaracteristiqueViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CaracteristiqueManager.php");
 
+define("VUE_LISTECARACTERISTIQUE", MYSQL_DB_PREFIXE . "view_liste_caracteristique");
 /**
  * @name ListeCaracteristiqueViewManager
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CaracteristiqueManager.php");
  */
 class ListeCaracteristiqueViewManager
 {
-	const VUE_LISTECARACTERISTIQUE = "view_liste_caracteristique";
+	const VUE_LISTECARACTERISTIQUE = VUE_LISTECARACTERISTIQUE;
 
 	/**
 	* @name select($pId)

@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "ModeleLotViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModeleLotManager.php");
 
+define("VUE_MODELELOT", MYSQL_DB_PREFIXE . "view_modele_lot");
 /**
  * @name ModeleLotViewManager
  * @author Julien PIERRE
@@ -23,7 +24,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ModeleLotManager.php");
  */
 class ModeleLotViewManager
 {
-	const VUE_MODELELOT = "view_modele_lot";
+	const VUE_MODELELOT = VUE_MODELELOT;
 
 	/**
 	* @name select($pId)

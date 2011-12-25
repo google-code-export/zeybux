@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VO . "OperationVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 
+define("TABLE_OPERATION", MYSQL_DB_PREFIXE . "ope_operation");
 /**
  * @name OperationManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
  */
 class OperationManager
 {
-	const TABLE_OPERATION = "ope_operation";
+	const TABLE_OPERATION = TABLE_OPERATION;
 	const CHAMP_OPERATION_ID = "ope_id";
 	const CHAMP_OPERATION_ID_COMPTE = "ope_id_compte";
 	const CHAMP_OPERATION_MONTANT = "ope_montant";

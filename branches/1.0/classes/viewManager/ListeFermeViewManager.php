@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "ListeFermeViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_FERME", MYSQL_DB_PREFIXE . "view_liste_ferme");
 /**
  * @name ListeFermeViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class ListeFermeViewManager
 {
-	const VUE_FERME = "view_liste_ferme";
+	const VUE_FERME = VUE_FERME;
 
 	/**
 	* @name select($pId)
@@ -42,7 +43,8 @@ class ListeFermeViewManager
 			    . FermeManager::CHAMP_FERME_ID . 
 			"," . FermeManager::CHAMP_FERME_NUMERO . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
-			"," . FermeManager::CHAMP_FERME_NOM . "
+			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID_COMPTE . "
 			FROM " . ListeFermeViewManager::VUE_FERME . " 
 			WHERE " . FermeManager::CHAMP_FERME_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -57,7 +59,8 @@ class ListeFermeViewManager
 					$lLigne[FermeManager::CHAMP_FERME_ID],
 					$lLigne[FermeManager::CHAMP_FERME_NUMERO],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-					$lLigne[FermeManager::CHAMP_FERME_NOM]));
+					$lLigne[FermeManager::CHAMP_FERME_NOM],
+					$lLigne[FermeManager::CHAMP_FERME_ID_COMPTE]));
 			}
 		} else {
 			$lListeFerme[0] = new ListeFermeViewVO();
@@ -79,7 +82,8 @@ class ListeFermeViewManager
 			    . FermeManager::CHAMP_FERME_ID . 
 			"," . FermeManager::CHAMP_FERME_NUMERO . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
-			"," . FermeManager::CHAMP_FERME_NOM . "
+			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . FermeManager::CHAMP_FERME_ID_COMPTE . "
 			FROM " . ListeFermeViewManager::VUE_FERME;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -93,7 +97,8 @@ class ListeFermeViewManager
 					$lLigne[FermeManager::CHAMP_FERME_ID],
 					$lLigne[FermeManager::CHAMP_FERME_NUMERO],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-					$lLigne[FermeManager::CHAMP_FERME_NOM]));
+					$lLigne[FermeManager::CHAMP_FERME_NOM],
+					$lLigne[FermeManager::CHAMP_FERME_ID_COMPTE]));
 			}
 		} else {
 			$lListeFerme[0] = new ListeFermeViewVO();
@@ -121,7 +126,8 @@ class ListeFermeViewManager
 			    FermeManager::CHAMP_FERME_ID .
 			"," . FermeManager::CHAMP_FERME_NUMERO .
 			"," . CompteManager::CHAMP_COMPTE_LABEL .
-			"," . FermeManager::CHAMP_FERME_NOM		);
+			"," . FermeManager::CHAMP_FERME_NOM	. 
+			"," . FermeManager::CHAMP_FERME_ID_COMPTE 	);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ListeFermeViewManager::VUE_FERME, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -142,7 +148,8 @@ class ListeFermeViewManager
 						$lLigne[FermeManager::CHAMP_FERME_ID],
 						$lLigne[FermeManager::CHAMP_FERME_NUMERO],
 						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-						$lLigne[FermeManager::CHAMP_FERME_NOM]));
+						$lLigne[FermeManager::CHAMP_FERME_NOM],
+						$lLigne[FermeManager::CHAMP_FERME_ID_COMPTE]));
 				}
 			} else {
 				$lListeFerme[0] = new ListeFermeViewVO();
@@ -156,20 +163,22 @@ class ListeFermeViewManager
 	}
 
 	/**
-	* @name remplir($pFerId, $pFerNumero, $pCptLabel, $pFerNom)
+	* @name remplir($pFerId, $pFerNumero, $pCptLabel, $pFerNom, $pFerIdCompte)
 	* @param int(11)
 	* @param int(11)
-	* @param 	varchar(30)
+	* @param varchar(30)
 	* @param text
+	* @param int(11)
 	* @return ListeFermeViewVO
 	* @desc Retourne une ListeFermeViewVO remplie
 	*/
-	private static function remplir($pFerId, $pFerNumero, $pCptLabel, $pFerNom) {
+	private static function remplir($pFerId, $pFerNumero, $pCptLabel, $pFerNom, $pFerIdCompte) {
 		$lFerme = new ListeFermeViewVO();
 		$lFerme->setFerId($pFerId);
 		$lFerme->setFerNumero($pFerNumero);
 		$lFerme->setCptLabel($pCptLabel);
 		$lFerme->setFerNom($pFerNom);
+		$lFerme->setFerIdCompte($pFerIdCompte);
 		return $lFerme;
 	}
 }

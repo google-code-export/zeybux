@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "CaracteristiqueProduitViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CaracteristiqueProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CaracteristiqueManager.php");
 
+define("VUE_CARACTERISTIQUEPRODUIT", MYSQL_DB_PREFIXE . "view_caracteristique_produit");
 /**
  * @name CaracteristiqueProduitViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CaracteristiqueManager.php");
  */
 class CaracteristiqueProduitViewManager
 {
-	const VUE_CARACTERISTIQUEPRODUIT = "view_caracteristique_produit";
+	const VUE_CARACTERISTIQUEPRODUIT = VUE_CARACTERISTIQUEPRODUIT;
 
 	/**
 	* @name select($pId)

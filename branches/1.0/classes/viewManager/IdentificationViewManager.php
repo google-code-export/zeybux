@@ -15,6 +15,8 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "IdentificationViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 
+define("VUE_IDENTIFICATION", MYSQL_DB_PREFIXE . "view_identification");
+
 /**
  * @name IdentificationViewManager
  * @author Julien PIERRE
@@ -24,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
  */
 class IdentificationViewManager
 {
-	const VUE_IDENTIFICATION = "view_identification";
+	const VUE_IDENTIFICATION = VUE_IDENTIFICATION;
 	
 	/**
 	* @name select($pId)

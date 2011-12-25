@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "NomProduitProducteurVO.php");
 
+define("TABLE_NOMPRODUITPRODUCTEUR", MYSQL_DB_PREFIXE . "nprdt_nom_produit_producteur");
 /**
  * @name NomProduitProducteurManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "NomProduitProducteurVO.php");
  */
 class NomProduitProducteurManager
 {
-	const TABLE_NOMPRODUITPRODUCTEUR = "nprdt_nom_produit_producteur";
+	const TABLE_NOMPRODUITPRODUCTEUR = TABLE_NOMPRODUITPRODUCTEUR;
 	const CHAMP_NOMPRODUITPRODUCTEUR_ID = "nprdt_id";
 	const CHAMP_NOMPRODUITPRODUCTEUR_ID_NOM_PRODUIT = "nprdt_id_nom_produit";
 	const CHAMP_NOMPRODUITPRODUCTEUR_ID_PRODUCTEUR = "nprdt_id_producteur";

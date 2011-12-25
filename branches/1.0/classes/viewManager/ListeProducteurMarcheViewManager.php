@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "ListeProducteurMarcheViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 
+define("VUE_LISTEPRODUCTEURMARCHE", MYSQL_DB_PREFIXE . "view_liste_producteur_marche");
 /**
  * @name ListeProducteurMarcheViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
  */
 class ListeProducteurMarcheViewManager
 {
-	const VUE_LISTEPRODUCTEURMARCHE = "view_liste_producteur_marche";
+	const VUE_LISTEPRODUCTEURMARCHE = VUE_LISTEPRODUCTEURMARCHE;
 
 	/**
 	* @name select($pId)

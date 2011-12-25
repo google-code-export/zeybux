@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "AutorisationVO.php");
 
+define("TABLE_AUTORISATION", MYSQL_DB_PREFIXE . "aut_autorisation");
 /**
  * @name AutorisationManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "AutorisationVO.php");
  */
 class AutorisationManager
 {
-	const TABLE_AUTORISATION = "aut_autorisation";
+	const TABLE_AUTORISATION = TABLE_AUTORISATION;
 	const CHAMP_AUT_ID = "aut_id";
 	const CHAMP_AUT_ID_ADHERENT = "aut_id_adherent";
 	const CHAMP_AUT_ID_MODULE = "aut_id_module";

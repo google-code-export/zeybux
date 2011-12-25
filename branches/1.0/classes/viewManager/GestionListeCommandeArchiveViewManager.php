@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "GestionListeCommandeArchiveViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
+define("VUE_LISTECOMMANDEARCHIVE", MYSQL_DB_PREFIXE . "view_gestion_liste_commande_archive");
 /**
  * @name GestionListeCommandeArchiveViewManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
  */
 class GestionListeCommandeArchiveViewManager
 {
-	const VUE_LISTECOMMANDEARCHIVE = "view_gestion_liste_commande_archive";
+	const VUE_LISTECOMMANDEARCHIVE = VUE_LISTECOMMANDEARCHIVE;
 
 	/**
 	* @name select($pId)
