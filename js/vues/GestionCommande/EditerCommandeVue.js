@@ -8,9 +8,11 @@
 	this.mIdLot = 0;
 	this.mNbProduit = 0;
 	this.mProduits = [];
+	this.mParam = null;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {EditerCommandeVue(pParam);}} );
+		this.mParam = pParam;
 		var that = this;
 		pParam.fonction = 'afficher';
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(pParam),
@@ -185,10 +187,10 @@
 		var lHtml = that.affect($(lTemplate.template(lData)));
 		
 		// Si il n'y a pas de résa on affiche pas le tableau
-		if(!(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null)) {			
+	/*	if(!(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null)) {			
 			lHtml.find('#edt-com-recherche').hide();
 			lHtml.find('#edt-com-liste-resa').replaceWith(lGestionCommandeTemplate.listeReservationVide);
-		}
+		}*/
 		
 		$('#contenu').replaceWith(lHtml);	
 	}
@@ -197,7 +199,7 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		//pData = this.affectNiveau(pData);
-		pData = this.affectReservation(pData);
+		//pData = this.affectReservation(pData);
 		pData = this.affectModifier(pData);
 		//pData = this.affectCloturer(pData);
 		pData = this.affectDupliquerMarche(pData);
@@ -210,6 +212,15 @@
 		pData = this.affectMajListeFerme(pData);
 		pData = this.affectDialogAjoutProduit(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		pData = this.affectInformation(pData);
+		return pData;
+	}
+	
+	this.affectInformation = function(pData) {
+		var that = this;
+		pData.find('#btn-information-marche').click(function() {
+			that.construct(that.mParam);
+		});		
 		return pData;
 	}
 	
@@ -509,9 +520,8 @@
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
-							
 							// Met le bouton en actif
-							$("#btn-liste-resa").removeClass("ui-state-active");
+							$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
 							$("#btn-liste-achat-resa").addClass("ui-state-active");
 							
 							$(lResponse.listeAchatEtReservation).each(function() {
@@ -613,7 +623,7 @@
 						if(lResponse.valid) {
 							
 							// Met le bouton en actif
-							$("#btn-liste-achat-resa").removeClass("ui-state-active");
+							$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
 							$("#btn-liste-resa").addClass("ui-state-active");
 							
 	

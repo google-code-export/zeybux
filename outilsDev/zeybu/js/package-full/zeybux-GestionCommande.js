@@ -1100,16 +1100,16 @@
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th\">Marché</th>	" +
+								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th\"></th>" +
 								"<th class=\"com-table-th\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr>" +
 								"<td class=\"com-table-td com-text-align-right\">{commande.numero}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td lst-resa-btn-commander\">" +
 									"<button class=\"btn-editer ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Editer</button>" +
 								"</td>" +

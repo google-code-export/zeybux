@@ -60,13 +60,13 @@
 	}
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		pData.find('#liste-adherent').tablesorter({sortList: [[2,0]] });
 		return pData;
 	}
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
-		    $.uiTableFilter( $('.com-table'), this.value );
+		    $.uiTableFilter( $('#liste-adherent'), this.value );
 		  });
 		pData.find("#filter-form").submit(function () {return false;});
 		return pData;

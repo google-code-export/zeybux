@@ -121,6 +121,8 @@ const ERR_242_CODE = 242;
 const ERR_242_MSG = 'Le SIREN n\'est pas valide.';
 const ERR_243_CODE = 243;
 const ERR_243_MSG = 'Il faut sélectionner un prix de vente au minimum.';
+const ERR_244_CODE = 244;
+const ERR_244_MSG = 'Le versement doit être égal au prix du marché.';
 
 //Message d'Information
 const ERR_301_CODE = 301;

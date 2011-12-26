@@ -58,6 +58,13 @@
 					"</div>" +
 					"<table class=\"com-table\">" +
 						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
+								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
+							"</tr>" +
+						"</thead>" +
+					"</table>" +
+					"<table class=\"com-table\" id=\"liste-adherent\">" +
+						"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
 							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
 							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
@@ -122,7 +129,7 @@
 				"</div>" +
 			"</div>" +			
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
+				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
 			"</div>" +
 			
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
@@ -147,11 +154,12 @@
 							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
 							
 							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-{categories.produits.proId}\">" +
+								"<select id=\"lot-{categories.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
 									"<!-- BEGIN categories.produits.lot -->" +
 									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
 									"<!-- END categories.produits.lot -->" +
 								"</select>" +
+								"<span class=\"lot-vente-produit ui-helper-hidden\"></span>" +
 							"</td>" +
 							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
 							

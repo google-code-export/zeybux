@@ -1393,7 +1393,6 @@
 		
 	this.construct(pParam);
 };function ListeFermeVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeFermeVue(pParam);}} );
 		var that = this;
@@ -1433,8 +1432,8 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectDialogCreerFerme(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectDetailFerme(pData);
 		return pData;
 	}
@@ -1469,7 +1468,11 @@
 			var lGestionProducteurTemplate = new GestionProducteurTemplate();
 			var lTemplate = lGestionProducteurTemplate.dialogAjoutFerme;
 			var lData = {dateAdhesion:getDateAujourdhuiDb().dateDbToFr()};
-			$(lTemplate.template(lData)).dialog({			
+			
+			lData = gCommunVue.comNumeric($(lTemplate.template(lData)));
+			
+			
+			lData.dialog({			
 				autoOpen: true,
 				modal: true,
 				draggable: true,
@@ -1494,6 +1497,7 @@
 				maxDate: "c+1",
 				yearRange: "2009:c"});			
 			});		
+		
 		return pData;
 	}
 	
@@ -1741,6 +1745,7 @@
 		pData = this.affectDate(pData);
 		pData = this.affectMenu(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	}
 	
