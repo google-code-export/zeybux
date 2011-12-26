@@ -25,6 +25,9 @@ include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+
 /**
  * @name MarcheCommandeControleur
  * @author Julien PIERRE
@@ -89,6 +92,26 @@ class MarcheCommandeControleur
 	}
 	
 	/**
+	* @name getInfoMarche($pParam)
+	* @return InfoAchatCommandeResponse
+	* @desc Retourne les infos de réservation d'un adhérent
+	*/
+	public function getInfoMarche($pParam) {
+		$lVr = MarcheValid::validGetInfoMarche($pParam);
+		if($lVr->getValid()) {
+			$lResponse = new InfoAchatCommandeResponse();
+			$lMarcheService = new MarcheService();
+			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
+						
+			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			$lResponse->setStockSolidaire($lStockSolidaire);	
+			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());			
+			return $lResponse;
+		}				
+		return $lVr;
+	}
+	
+	/**
 	* @name enregistrerAchat($pParam)
 	* @return VR
 	* @desc Enregistre la commande d'un adhérent
@@ -111,13 +134,15 @@ class MarcheCommandeControleur
 				$lAchat->getId()->setIdReservation($lOperations[0]->getId());
 			}
 			
+			$lTotal = 0;
+			
 			foreach($pParam["produits"] as $lDetail){
 				$lDetailAchat = new DetailReservationVO();	
 				$lDcom = DetailCommandeManager::selectByIdProduit($lDetail["id"]);		
 				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
-				
+				$lTotal += $lDetail["prix"];
 				$lAchat->addDetailAchat($lDetailAchat);
 			}
 			
@@ -127,13 +152,10 @@ class MarcheCommandeControleur
 				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
-				
+				$lTotal += $lDetail["prix"];
 				$lAchat->addDetailAchatSolidaire($lDetailAchat);
 			}
-						
-			$lAchatService = new AchatService();
-			$lIdOperation = $lAchatService->set($lAchat); // Achat des produits
-			
+
 			// Si il y a aussi un rechargement du compte
 			$lRechargement = $pParam['rechargement'];
 			if(!empty($lRechargement['montant']) && $lRechargement['montant'] != 0) {
@@ -145,8 +167,26 @@ class MarcheCommandeControleur
 				$lOperation->setTypePaiementChampComplementaire($lRechargement['champComplementaire']);
 				$lOperation->setIdCommande(0);
 				
-				$lOperationService = new OperationService();
-				$lOperationService->set($lOperation);
+				$lTotal += $lRechargement['montant'];
+			}
+			
+			if($pParam['idCompte'] == -3 && $lTotal != 0 ) { // Compte invite reste à 0				
+				$lVr = new TemplateVR();
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_244_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_244_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+				return $lVr;
+			} else {			
+				$lAchatService = new AchatService();
+				$lIdOperation = $lAchatService->set($lAchat); // Achat des produits
+				
+				if(!empty($lRechargement['montant']) && $lRechargement['montant'] != 0) {
+					$lOperationService = new OperationService();
+					$lOperationService->set($lOperation);
+				}
 			}
 		}				
 		return $lVr;

@@ -26,7 +26,7 @@ define("VUE_STOCKLIVRAISON", MYSQL_DB_PREFIXE . "view_stock_livraison");
  */
 class StockLivraisonViewManager
 {
-	const VUE_STOCKLIVRAISON = MYSQL_DB_PREFIXE . "VUE_STOCKLIVRAISON";
+	const VUE_STOCKLIVRAISON = "VUE_STOCKLIVRAISON";
 
 	/**
 	* @name select($pId)

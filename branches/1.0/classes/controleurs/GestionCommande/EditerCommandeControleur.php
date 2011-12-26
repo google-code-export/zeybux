@@ -59,11 +59,11 @@ class EditerCommandeControleur
 
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
-			$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
+			//$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
 
 			$lResponse = new EditerCommandeResponse();
 			$lResponse->setMarche($lMarche);
-			$lResponse->setListeAdherentCommande($lListeAdherent);
+			//$lResponse->setListeAdherentCommande($lListeAdherent);
 
 			return $lResponse;
 		}				

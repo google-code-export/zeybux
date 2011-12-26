@@ -3916,13 +3916,13 @@ $(document).ready(function() {
 		// Gestion du F5
 		// Bloque le fonctionnement du F5
 		$(document).bind('keypress keydown keyup', function(e) {
-		    if(e.which === 116 || (e.which === 82 && e.ctrlKey) ) {
+		    if(e.charCode === 0 && (e.keyCode === 116 || (e.which === 82 && e.ctrlKey))) {
 		       return false;
 		    }
 		});
 		// Recharge la page
 		$(document).keyup(function(e) {
-		    if(e.which === 116 || (e.which === 82 && e.ctrlKey)) {
+		    if(e.charCode === 0 && (e.which === 116 || (e.which === 82 && e.ctrlKey))) {
 	    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
 				// set the history cursor to the current cursor
 				$.history.cursor = parseFloat(cursor) || 0;

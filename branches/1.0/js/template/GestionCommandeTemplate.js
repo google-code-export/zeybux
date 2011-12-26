@@ -1182,6 +1182,13 @@
 					"</div>" +
 					"<table class=\"com-table\">" +
 						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
+								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
+							"</tr>" +
+						"</thead>" +
+					"</table>" +
+					"<table class=\"com-table\" id=\"liste-adherent\">" +
+						"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
 							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
 							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
@@ -1260,7 +1267,7 @@
 			"</div>" +*/
 			
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\"></span> {sigleMonetaire}</span>" +
+				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
 			"</div>" +
 			
 		//	"<div class=\"com-float-left\">" +
@@ -1286,11 +1293,12 @@
 							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
 							
 							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-{categories.produits.proId}\">" +
+								"<select id=\"lot-{categories.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
 									"<!-- BEGIN categories.produits.lot -->" +
 									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
 									"<!-- END categories.produits.lot -->" +
 								"</select>" +
+								"<span class=\"lot-vente-produit ui-helper-hidden\"></span>" +
 							"</td>" +
 							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
 							
@@ -1484,7 +1492,12 @@
 	
 	this.editerCommandePage = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-float-left\" id=\"edt-com-info\">" +
+			"<div id=\"edt-com-nav-resa-achat\">" +
+				"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tl com-btn-hover ui-state-active\" id=\"btn-information-marche\">Information</span>" +
+				"<span class=\"com-cursor-pointer ui-widget-header com-btn-hover\" id=\"btn-liste-resa\">Reservation</span>" +
+				"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tr com-btn-hover\" id=\"btn-liste-achat-resa\">Achat</span>" +
+			"</div>" +
+			"<div id=\"edt-com-liste\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Marché n°{comNumero}" +
@@ -1518,8 +1531,8 @@
 						"</span>" +
 					"</div>" +
 					"<div>" +
-					"Fin des réservations : Le <span id=\"edt-marche-dateFinReservation\">{dateFinReservation}</span> à <span id=\"edt-marche-heureFinReservation\">{heureFinReservation}</span>H<span id=\"edt-marche-minuteFinReservation\">{minuteFinReservation}</span> <br/>" +
-					"Marché : Le <span id=\"edt-marche-dateMarcheDebut\">{dateMarcheDebut}</span> de <span id=\"edt-marche-heureMarcheDebut\">{heureMarcheDebut}</span>H<span id=\"edt-marche-minuteMarcheDebut\">{minuteMarcheDebut}</span> à <span id=\"edt-marche-heureMarcheFin\">{heureMarcheFin}</span>H<span id=\"edt-marche-minuteMarcheFin\">{minuteMarcheFin}</span>" +
+						"Fin des réservations : Le <span id=\"edt-marche-dateFinReservation\">{dateFinReservation}</span> à <span id=\"edt-marche-heureFinReservation\">{heureFinReservation}</span>H<span id=\"edt-marche-minuteFinReservation\">{minuteFinReservation}</span> <br/>" +
+						"Marché : Le <span id=\"edt-marche-dateMarcheDebut\">{dateMarcheDebut}</span> de <span id=\"edt-marche-heureMarcheDebut\">{heureMarcheDebut}</span>H<span id=\"edt-marche-minuteMarcheDebut\">{minuteMarcheDebut}</span> à <span id=\"edt-marche-heureMarcheFin\">{heureMarcheFin}</span>H<span id=\"edt-marche-minuteMarcheFin\">{minuteMarcheFin}</span>" +
 					"</div>" +
 				"</div>" +
 				"<div id=\"btn-ajout-produit-div\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
@@ -1527,26 +1540,26 @@
 				"</div>" +
 				"<div id=\"liste-ferme\">" +
 				"</div>" +
-			/*	"<!-- BEGIN pdtCommande -->" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
-						"{pdtCommande.nproNom}" +
-					"</div>" +
-					"<div>" +
-						"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\">" +
-							"<div class=\"edt-com-info-progressbar-pdt\">{pdtCommande.quantiteCommande} {pdtCommande.unite} / {pdtCommande.quantiteInit} {pdtCommande.unite}</div>" +
-						"</div>" +
-					"</div>" +
-				"</div>" +
-				"<!-- END pdtCommande -->" +*/
+			"</div>" +
+		"</div>";
+	
+
+	/*	"<!-- BEGIN pdtCommande -->" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
+				"{pdtCommande.nproNom}" +
 			"</div>" +
 			"<div>" +
-				"<div class=\"com-float-left\" id=\"edt-com-nav-resa-achat\">" +
-					"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tl com-btn-hover ui-state-active\" id=\"btn-liste-resa\">Reservation</span>" +
-					"<span class=\"com-cursor-pointer ui-widget-header ui-corner-tr com-btn-hover\" id=\"btn-liste-achat-resa\" >Achat</span>" +
+				"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\">" +
+					"<div class=\"edt-com-info-progressbar-pdt\">{pdtCommande.quantiteCommande} {pdtCommande.unite} / {pdtCommande.quantiteInit} {pdtCommande.unite}</div>" +
 				"</div>" +
+			"</div>" +
+		"</div>" +
+		"<!-- END pdtCommande -->" +*/
+			/*"<div>" +
+				
 				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
-					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+					/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 							"Liste des Réservations en cours" +
 							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
@@ -1586,13 +1599,11 @@
 								"</tbody>" +
 							"</table>" +
 						"</div>" +
-					"</div>" +
-				"</div>" +
-			"</div>" +
-		"</div>";
+					"</div>" +*/
+			//	"</div>" +
 	
 	this.listeReservation = 
-		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+		"<div id=\"edt-com-liste\" >" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Liste des Réservations en cours" +
@@ -1636,7 +1647,7 @@
 		"</div>";
 	
 	this.listeAchatEtReservation = 
-		"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+		"<div id=\"edt-com-liste\" >" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Liste des Achats et Réservations" +

@@ -28,6 +28,11 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						echo $lControleur->getInfoAchatMarche($lParam)->exportToJson();
 						$lLogger->log("Affichage de la vue AchatCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
+					
+				case "infoMarche":
+						echo $lControleur->getInfoMarche($lParam)->exportToJson();
+						$lLogger->log("Affichage de la vue AchatCommande (infoMarche) par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;	
 				
 				case "acheter":
 						$lResponse = $lControleur->enregistrerAchat($lParam);
