@@ -37,6 +37,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		// Génération de l'export
 		
 		/******************************************* Generation css *************************************/
+		/** CSS pour la version AJAX **/
 		function parcourirDossierCss($pPath) {
 			$d = dir($pPath);
 			while (false !== ($entry = $d->read())) {	   
@@ -48,6 +49,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   		&& $entry != 'themes' 
 			   		&& $entry != 'Entete.css' 
 	   				&& $entry != 'zeybux.php' 
+			   		&& $entry != 'zeybux-html.php' 
+			   		&& $entry != 'MonCompteHTML' 
 			   		) {
 			   		if(is_dir($d->path.'/'.$entry)) {
 			   			parcourirDossierCss($d->path.'/'.$entry);
@@ -75,6 +78,57 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		fclose($fp);
 		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux.css -o ./zeybu/css/zeybux-min.css');
 		echo $output;
+		
+		/** CSS pour la version HTML **/
+		function parcourirDossierCssHTML($pPath) {
+			$d = dir($pPath);
+			while (false !== ($entry = $d->read())) {	   
+			   if(	&& $entry != '..' 
+			   		&& $entry != '.svn' 
+			   		&& $entry != '.project'
+			   		&& $entry != '.htaccess' 
+			   		&& $entry != 'themes' 
+			   		&& $entry != 'Entete.css'
+			   		&& $entry != 'zeybux.php' 
+			   		&& $entry != 'zeybux-html.php' 
+			   		&& $entry != 'Commande' 
+			   		&& $entry != 'Commun' 
+			   		&& $entry != 'CompteSolidaire'
+			   		&& $entry != 'CompteZeybu'
+			   		&& $entry != 'GestionAdherents'
+			   		&& $entry != 'GestionCommande'
+			   		&& $entry != 'GestionProducteur'
+			   		&& $entry != 'Identification'
+			   		&& $entry != 'MonCompte' 
+			   		&& $entry != 'RechargementCompte'
+			   		) {
+			   		if(is_dir($d->path.'/'.$entry)) {
+			   			parcourirDossierCssHTML($d->path.'/'.$entry);
+			   		} else {
+			   			$filename = $d->path.'/'.$entry;						
+						$lLigne = preg_replace('/@CHARSET "UTF-8";/',"",file_get_contents($filename));
+						$fp = fopen("./zeybu/css/zeybux-html.css", 'a');
+					    fwrite($fp,$lLigne);
+					    fclose($fp);
+						
+			   		}
+			   }
+			}
+			$d->close();
+		}
+		$Path = '/home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/css';
+		$lJs = '';
+		$fp = fopen("./zeybu/css/zeybux-html.css", 'w');
+		fwrite($fp,'@CHARSET "UTF-8";');
+		fclose($fp);	
+		parcourirDossierCssHTML($Path);
+		
+		
+		$fp = fopen("./zeybu/css/zeybux-html-min.css", 'w');
+		fclose($fp);
+		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux-html.css -o ./zeybu/css/zeybux-html-min.css');
+		echo $output;
+		
 		/******************************************* Generation zeybux-jquery.js *************************************/
 		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
 		$filename = "../js/jquery/jquery-1.4.2.min.js";
