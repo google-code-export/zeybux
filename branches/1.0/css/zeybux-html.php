@@ -14,7 +14,16 @@ function parcourirDossier($pPath) {
 	   		&& $entry != 'Entete.css'
 	   		&& $entry != 'zeybux.php' 
 	   		&& $entry != 'zeybux-html.php' 
-	   		&& $entry != 'MonCompteHTML' 
+	   		&& $entry != 'Commande' 
+	   		&& $entry != 'Commun' 
+	   		&& $entry != 'CompteSolidaire'
+	   		&& $entry != 'CompteZeybu'
+	   		&& $entry != 'GestionAdherents'
+	   		&& $entry != 'GestionCommande'
+	   		&& $entry != 'GestionProducteur'
+	   		&& $entry != 'Identification'
+	   		&& $entry != 'MonCompte' 
+	   		&& $entry != 'RechargementCompte'
 	   		) {
 	   		if(is_dir($d->path.'/'.$entry)) {
 	   			parcourirDossier($d->path.'/'.$entry);

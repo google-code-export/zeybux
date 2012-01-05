@@ -10,6 +10,7 @@
 //****************************************************************
 define("MOD_IDENTIFICATION", "Identification");
 define("MOD_MON_COMPTE", "MonCompte");
+define("MOD_MON_COMPTE_HTML", "MonCompteHTML");
 define("MOD_GESTION_ADHERENTS", "GestionAdherents");
 define("MOD_COMMANDE", "Commande");
 define("MOD_GESTION_COMMANDE", "GestionCommande");

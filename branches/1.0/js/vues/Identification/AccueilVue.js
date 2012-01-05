@@ -11,11 +11,17 @@
 			var lIdentificationTemplate = new IdentificationTemplate();
 			$('#contenu').replaceWith(lIdentificationTemplate.naviguateurIncompatible);
 		} else {
+			
+			var lIdentificationTemplate = new IdentificationTemplate();
+			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
+			
+			
+			/*
 			var that = this;
 			$.getScript("./js/zeybux-configuration.php",function() {
 				that.init();
 				IdentificationVue();
-			});
+			});*/
 		}		
 	}
 	
