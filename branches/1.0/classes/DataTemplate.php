@@ -69,4 +69,26 @@ class DataTemplate
 		}
 		return NULL;
 	}
+	
+	/**
+	* @name exportToArray()
+	* @return array
+	* @desc Retourne la valeur des membres en les renommant au format tableau
+	*/
+	public function exportToArray() {		
+		$lMembres = get_object_vars($this);
+		$lMembresJs = array();
+		foreach($lMembres as $lCle => $lValeur) {			
+			$lCle = substr($lCle,1);
+			$lCle[0] = strtolower($lCle[0]);
+			if(is_object($lValeur)) {
+				$lMembresJs[$lCle] = $lValeur->exportToArray();
+			} else if(is_array($lValeur)) {
+				$lMembresJs[$lCle] = $this->exportArray($lValeur);
+			} else {
+				$lMembresJs[$lCle] = $lValeur;
+			}
+		}
+		return $lMembresJs;
+	}
 }

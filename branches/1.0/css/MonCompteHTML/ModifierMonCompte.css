@@ -18,3 +18,13 @@
 	margin-left:268px;
 	width:454px;
 }
+
+#edt-info-compte-form {
+	width:400px;
+	text-align:center;
+	margin-left:295px;
+}
+
+#edt-info-compte-form .btn-annuler {
+	margin-right:75px;
+}

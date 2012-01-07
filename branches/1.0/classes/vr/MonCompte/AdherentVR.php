@@ -26,12 +26,18 @@ class AdherentVR extends DataTemplate
 	 * @desc Donne la validité de l'objet
 	 */
 	protected $mValid;
-
+	
 	/**
 	 * @var VRelement
 	 * @desc Le Log de l'objet
 	 */
 	protected $mLog;
+	
+	/**
+	 * @var VRelement
+	 * @desc L'Id de l'objet
+	 */
+	protected $mId_adherent;
 
 	/**
 	 * @var VRelement
@@ -107,6 +113,7 @@ class AdherentVR extends DataTemplate
 	function AdherentVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
+		$this->mId_adherent = new VRelement();
 		$this->mNom = new VRelement();
 		$this->mPrenom = new VRelement();
 		$this->mCourrielPrincipal = new VRelement();
@@ -156,6 +163,24 @@ class AdherentVR extends DataTemplate
 		$this->mLog = $pLog;
 	}
 
+	/**
+	* @name getId_adherent()
+	* @return VRelement
+	* @desc Renvoie le VRelement Id_adherent
+	*/
+	public function getId_adherent() {
+		return $this->mId_adherent;
+	}
+
+	/**
+	* @name setId_adherent($pId_adherent)
+	* @param VRelement
+	* @desc Remplace le VRelement Id_adherent par $pId_adherent
+	*/
+	public function setId_adherent($pId_adherent) {
+		$this->mId_adherent = $pId_adherent;
+	}
+	
 	/**
 	* @name getNom()
 	* @return VRelement

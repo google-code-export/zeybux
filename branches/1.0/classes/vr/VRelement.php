@@ -87,5 +87,19 @@ class VRelement
 		}		
 		return $lMembresJs;
 	}
+	
+	/**
+	* @name exportToArray()
+	* @return array
+	* @desc Retourne la valeur des membres en les renommant au format tableau
+	*/
+	public function exportToArray() {
+		$lMembresJs['valid'] = $this->mValid;
+		$lMembresJs['erreurs'] = array();
+		foreach($this->mErreurs as $lErreur){
+			array_push($lMembresJs['erreurs'],$lErreur->export());
+		}		
+		return $lMembresJs;
+	}
 }
 ?>
