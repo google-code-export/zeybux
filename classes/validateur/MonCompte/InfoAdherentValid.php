@@ -196,6 +196,14 @@ class InfoAdherentValid
 	public static function validUpdateInformation($pData) {
 		$lVr = new AdherentVR();
 		//Tests Techniques
+		if(!isset($pData['id_adherent'])) {
+			$lVr->setValid(false);
+			$lVr->getId_adherent()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId_adherent()->addErreur($lErreur);	
+		}	
 		if(!isset($pData['nom'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -211,6 +219,22 @@ class InfoAdherentValid
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getPrenom()->addErreur($lErreur);	
+		}
+		if(!isset($pData['dateNaissance'])) {
+			$lVr->setValid(false);
+			$lVr->getDateNaissance()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getDateNaissance()->addErreur($lErreur);	
+		}
+		if(!isset($pData['commentaire'])) {
+			$lVr->setValid(false);
+			$lVr->getCommentaire()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getCommentaire()->addErreur($lErreur);	
 		}
 		if(!isset($pData['courrielPrincipal'])) {
 			$lVr->setValid(false);
@@ -270,6 +294,22 @@ class InfoAdherentValid
 		}
 		
 		if($lVr->getValid()) {
+			if(!is_int((int)$pData['id_adherent'])) {
+				$lVr->setValid(false);
+				$lVr->getId_adherent()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+				$lVr->getId_adherent()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['id_adherent'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId_adherent()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId_adherent()->addErreur($lErreur);	
+			}
 			if(!TestFonction::checkLength($pData['nom'],0,50)) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -368,6 +408,14 @@ class InfoAdherentValid
 			}
 	
 			//Tests Fonctionnels
+			if(empty($pData['id_adherent'])) {
+				$lVr->setValid(false);
+				$lVr->getId_adherent()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId_adherent()->addErreur($lErreur);	
+			}
 			if(empty($pData['nom'])) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -384,23 +432,15 @@ class InfoAdherentValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getPrenom()->addErreur($lErreur);	
 			}
-			if(empty($pData['dateAdhesion'])) {
-				$lVr->setValid(false);
-				$lVr->getDateAdhesion()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getDateAdhesion()->addErreur($lErreur);	
-			}
 		
 			$lAdherent = AdherentManager::select( $pData['id_adherent'] );
 			if($lAdherent->getId() != $pData['id_adherent']) {
 				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
+				$lVr->getId_adherent()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getLog()->addErreur($lErreur);
+				$lVr->getId_adherent()->addErreur($lErreur);
 			}
 	
 			// Les mails sont au bon format

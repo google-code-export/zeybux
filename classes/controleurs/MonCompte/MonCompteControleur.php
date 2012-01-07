@@ -36,5 +36,18 @@ class MonCompteControleur
 		$lResponse->setOperationPassee( OperationPasseeViewManager::select( $lAdherent->getAdhIdCompte() ));
 		return $lResponse;
 	}
+	
+	/**
+	* @name getInfoAdherent($pParam)
+	* @return InfoCompteResponse
+	* @desc Renvoie le Compte de l'adherent après avoir récupérer les informations en fonction de l'ID.
+	*/
+	public function getInfoAdherent($pParam) {
+		$lResponse = new InfoCompteResponse();
+		$lIdAdherent = $pParam['id_adherent'];
+		$lAdherent = AdherentViewManager::select( $lIdAdherent );
+		$lResponse->setAdherent($lAdherent);
+		return $lResponse;
+	}
 }
 ?>

@@ -20,9 +20,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	//echo $lControleur->getInfoCompte($lParam)->exportToJson();
 	$lCompte = $lControleur->getInfoCompte($lParam);
 	$lLogger->log("Affichage du compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-	
-	
-	
+
 	// Inclusion des classes
 	include_once(CHEMIN_CLASSES_UTILS . "Template.php");
 	include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
@@ -43,9 +41,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	// Entete
 	$lTemplate->set_filenames( array('entete' =>  COMMUN_TEMPLATE . 'Entete.html') );
 	$lTemplate->assign_vars( array( 'TITRE' => MON_COMPTE_TITRE) );
-	if(isset($_GET['msg'])) { // Message d'erreur			
-		InfobullesUtils::genererMessage($_GET['msg'],&$lTemplate);
-	}
+	InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
 	$lTemplate->assign_var_from_handle('ENTETE', 'entete');
 	
 	// Menu
@@ -67,7 +63,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 					'adhTelephonePrincipal' => $lAdherent->getAdhTelephonePrincipal(),
 					'adhTelephoneSecondaire' => $lAdherent->getAdhTelephoneSecondaire(),
 					'adhAdresse' => $lAdherent->getAdhAdresse(),
-					'adhCOdePostal' => $lAdherent->getAdhCodePostal(),
+					'adhCodePostal' => $lAdherent->getAdhCodePostal(),
 					'adhVille' => $lAdherent->getAdhVille(),
 					'adhCommentaire' => $lAdherent->getAdhCommentaire() ));
 

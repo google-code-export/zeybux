@@ -1,0 +1,128 @@
+{ENTETE}
+	<div id="menu_ext">{MENU}</div>	
+	<div id="contenu">
+		<form action="./index.php?m=MonCompteHTML&amp;v=ModifierMonCompte&amp;fonction=information" method="post" id="edt-info-compte-form">
+			<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+				<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">
+					Informations
+				</div>
+				<div class="edt-info-compte">
+					<table class="com-table-form">
+						<tr>
+							<th class="com-table-form-th">Nom *</th>
+							<td class="com-table-form-td">
+								<input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-nom}" type="text" name="nom" value="{nom}" maxlength="50" id="nom"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-nom} ui-corner-all">{err-nom}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Prénom *</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-prenom}" type="text" name="prenom" value="{prenom}" maxlength="50" id="prenom"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-prenom} ui-corner-all">{err-prenom}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Date de Naissance (jj/mm/aaaa)</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-dateNaissance}" type="text" name="date_naissance" value="{dateNaissance}" maxlength="10" id="dateNaissance"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-dateNaissance} ui-corner-all">{err-dateNaissance}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Commentaire</th>
+							<td class="com-table-form-td"><textarea class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-commentaire}" name="commentaire" id="commentaire">{commentaire}</textarea></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-commentaire} ui-corner-all">{err-commentaire}</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+				<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Coordonnées</div>	
+				<div class="com-widget-content edt-info-compte">
+					<table class="com-table-form">
+						<tr>
+							<th class="com-table-form-th">Courriel 1</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-courrielPrincipal}" type="text" name="courriel_principal" value="{courrielPrincipal}" maxlength="100" id="courrielPrincipal"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-courrielPrincipal} ui-corner-all">{err-courrielPrincipal}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Courriel 2</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-courrielSecondaire}" ype="text" name="courriel_secondaire" value="{courrielSecondaire}" maxlength="100" id="courrielSecondaire"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-courrielSecondaire} ui-corner-all">{err-courrielSecondaire}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Téléphone 1</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-telephonePrincipal}" type="text" name="telephone_principal" value="{telephonePrincipal}" maxlength="20" id="telephonePrincipal"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-telephonePrincipal} ui-corner-all">{err-telephonePrincipal}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Téléphone 2</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-telephoneSecondaire}" type="text" name="telephone_secondaire" value="{telephoneSecondaire}" maxlength="20" id="telephoneSecondaire"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-telephoneSecondaire} ui-corner-all">{err-telephoneSecondaire}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Adresse</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-adresse}" type="text" name="adresse" value="{adresse}" maxlength="300" id="adresse"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-adresse} ui-corner-all">{err-adresse}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Code Postal</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-codePostal}" type="text" name="code_postal" value="{codePostal}" maxlength="10" id="codePostal"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-codePostal} ui-corner-all">{err-codePostal}</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="com-table-form-th">Ville</th>
+							<td class="com-table-form-td"><input class="com-input-text input-edt-compte ui-widget-content ui-corner-all {class-err-ville}" type="text" name="ville" value="{ville}" maxlength="100" id="ville"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="{class-err-msg-ville} ui-corner-all">{err-ville}</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">
+				<a href="./index.php?m=MonCompteHTML&amp;v=MonCompte" class="ui-state-default ui-corner-all com-button com-center btn-annuler">Annuler</a>
+				<input type="submit" value="Valider" class="ui-state-default ui-corner-all com-button com-center"/>
+			</div>
+		</form>
+	</div>
+{PIED_PAGE}
