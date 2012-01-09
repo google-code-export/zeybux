@@ -112,7 +112,27 @@
 	
 	this.formulaireIdentificationHTML = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div class=\"ui-widget ui-widget-content ui-state-highlight com-center\" >" +
+				"Votre naviguateur n'est pas compatible avec la version complète du zeybux.<br/>" +
+				"Ceci est la version minimale du zeybux.<br/>" +
+				"Vous pouvez utiliser l'un des naviguateur suivants pour profiter de l'ensemble du site : <br/>" +
+				"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+					
+					"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+						"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+							"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+							"Mozilla Firefox" +
+						"</a>" +
+					"</div>" +
+					"<div>" +	
+						"<a href=\"http://www.google.com/chrome/\">" +
+							"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+							"Google Chrome" +
+						"</a>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +

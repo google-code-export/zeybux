@@ -28,9 +28,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 
 	// Constante de titre de la page
 	define("MON_COMPTE_TITRE", ZEYBUX_TITRE_DEBUT . "Mon Compte - " . ZEYBUX_TITRE_FIN);
-	define("COMMUN_TEMPLATE", "Commun/");
 	// Nombre d'opération par page
-	define("NB_OPE_PAGE" , 15);
+	define("NB_OPE_PAGE" , 10);
 	define("SOLDE_CIBLE" , 5);
 	
 	// Préparation de l'affichage
@@ -46,6 +45,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	
 	// Menu
 	$lTemplate->set_filenames( array('menu' => COMMUN_TEMPLATE . 'Menu.html') );
+	$lTemplate->assign_vars( array( 'menu-MonCompte' => "ui-state-active") );	
 	$lTemplate->assign_var_from_handle('MENU', 'menu');
 	
 	// Body
@@ -84,7 +84,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	$lTemplate->assign_var_from_handle('INFO_COMPTE_SOLDE_ADHERENT', 'infoAdherent');
 	
 	
-	$lTemplate->set_filenames( array('listeOperationAdherent' => COMMUN_TEMPLATE . 'ListeOperationAdherent.html') );
+	$lTemplate->set_filenames( array('listeOperationAdherent' => MOD_MON_COMPTE . '/ListeOperationAdherent.html') );
 	$lTemplate->assign_vars( array( 'sigleMonetaire' => SIGLE_MONETAIRE , 'cptSolde' => StringUtils::affichageMonetaireFr($lAdherent->getCptSolde()) ) );
 	
 	
@@ -92,7 +92,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 
 	// Pagination des opérations
 	$lNombreDePages = ceil(count($lListeOperation)/NB_OPE_PAGE);
-	
+		
 	if( isset($_GET['po']) ) // Si la variable $_GET['page'] existe...
 	{
 	     $lPageOperationActuelle = intval( $_GET['po'] );
@@ -110,25 +110,29 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	// Dans le cas où il n'y a pas d'opération
 	if($lNombreDePages == 0) {
 		$lPageOperationActuelle = 0;
-	}
-			
-	// Affichage des informations de pagination
-	$lTemplate->assign_vars( array( 	'PAGE_ACTUELLE_OPERATION' => $lPageOperationActuelle,
-										'NOMBRE_PAGE_OPERATION' => $lNombreDePages ));
+	} 
 	
-	// Génération des liens de pagination suivant et précédent
-	$lPoPrecedent = $lPageOperationActuelle - 1;
-	if($lPoPrecedent > 0) {
-		$lTemplate->assign_vars( array( 'LIEN_OPERATION_PRECEDENT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPoPrecedent . '"'));
-	} else {
-		$lTemplate->assign_vars( array( 'LIEN_OPERATION_PRECEDENT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte"' ));
-	}
-	
-	$lPoSuivant = $lPageOperationActuelle + 1;
-	if($lPoSuivant <= $lNombreDePages) {
-		$lTemplate->assign_vars( array( 'LIEN_OPERATION_SUIVANT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPoSuivant . '"' ));	
-	} else {
-		$lTemplate->assign_vars( array( 'LIEN_OPERATION_SUIVANT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPageOperationActuelle . '"' ));
+	if($lNombreDePages > 1) {
+		$lTemplate->set_filenames( array('barreNaviguationOperation' => MOD_MON_COMPTE . '/BarreNaviguationOperation.html') );
+		// Affichage des informations de pagination
+		$lTemplate->assign_vars( array( 	'PAGE_ACTUELLE_OPERATION' => $lPageOperationActuelle,
+											'NOMBRE_PAGE_OPERATION' => $lNombreDePages ));
+		
+		// Génération des liens de pagination suivant et précédent
+		$lPoPrecedent = $lPageOperationActuelle - 1;
+		if($lPoPrecedent > 0) {
+			$lTemplate->assign_vars( array( 'LIEN_OPERATION_PRECEDENT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPoPrecedent . '"'));
+		} else {
+			$lTemplate->assign_vars( array( 'LIEN_OPERATION_PRECEDENT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte"' ));
+		}
+		
+		$lPoSuivant = $lPageOperationActuelle + 1;
+		if($lPoSuivant <= $lNombreDePages) {
+			$lTemplate->assign_vars( array( 'LIEN_OPERATION_SUIVANT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPoSuivant . '"' ));	
+		} else {
+			$lTemplate->assign_vars( array( 'LIEN_OPERATION_SUIVANT' => '"./index.php?m=' . MOD_MON_COMPTE_HTML . '&amp;v=MonCompte&amp;po=' . $lPageOperationActuelle . '"' ));
+		}		
+		$lTemplate->assign_var_from_handle('BARRE_NAVIGUATION_OPERATION', 'barreNaviguationOperation');
 	}
 	
 	// Affichage des opérations
@@ -154,24 +158,32 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 		$i++;
 	}
 	
+	
+	
 	$lListeOperationAvenir = $lCompte->getOperationAvenir();
-	$lSolde = $lAdherent->getCptSolde();
-	$lRechargementPrecedent = 0;
-	foreach($lListeOperationAvenir as $lOperationAvenir) {
-		$lSolde	+= $lOperationAvenir->getOpeMontant();	
-		$lRechargement = 0;	
-		if($lSolde < SOLDE_CIBLE) {
-			$lRechargement = (ceil((SOLDE_CIBLE-$lSolde)/SOLDE_CIBLE) * SOLDE_CIBLE) - $lRechargementPrecedent;
-		}
-		$lRechargementPrecedent += $lRechargement;
-		$lTemplate->assign_block_vars('operationAvenir', array(
-					'opeLibelle' => $lOperationAvenir->getOpeLibelle(),
-					'opeDate' => StringUtils::dateDbToFr($lOperationAvenir->getOpeDate()),
-					'comDateMarche' => StringUtils::dateDbToFr($lOperationAvenir->getComDateMarche()),
-					'opeMontant'  => StringUtils::affichageMonetaireFr($lOperationAvenir->getOpeMontant() * -1 ),
-					'nouveauSolde' => StringUtils::affichageMonetaireFr( $lSolde),
-					'rechargement' => StringUtils::affichageMonetaireFr( $lRechargement) ));
+	if(!is_null($lListeOperationAvenir[0]->getOpeIdCompte())) {
 		
+		$lTemplate->set_filenames( array('listeOperationfuture' => MOD_MON_COMPTE . '/ListeOperationFuture.html') );
+	//if(count($lListeOperationAvenir))
+		$lSolde = $lAdherent->getCptSolde();
+		$lRechargementPrecedent = 0;
+		foreach($lListeOperationAvenir as $lOperationAvenir) {
+			$lSolde	+= $lOperationAvenir->getOpeMontant();	
+			$lRechargement = 0;	
+			if($lSolde < SOLDE_CIBLE) {
+				$lRechargement = (ceil((SOLDE_CIBLE-$lSolde)/SOLDE_CIBLE) * SOLDE_CIBLE) - $lRechargementPrecedent;
+			}
+			$lRechargementPrecedent += $lRechargement;
+			$lTemplate->assign_block_vars('operationAvenir', array(
+						'opeLibelle' => $lOperationAvenir->getOpeLibelle(),
+						'opeDate' => StringUtils::dateDbToFr($lOperationAvenir->getOpeDate()),
+						'comDateMarche' => StringUtils::dateDbToFr($lOperationAvenir->getComDateMarche()),
+						'opeMontant'  => StringUtils::affichageMonetaireFr($lOperationAvenir->getOpeMontant() * -1 ),
+						'nouveauSolde' => StringUtils::affichageMonetaireFr( $lSolde),
+						'rechargement' => StringUtils::affichageMonetaireFr( $lRechargement) ));
+			
+		}
+		$lTemplate->assign_var_from_handle('LISTE_OPERATION_FUTURE', 'listeOperationfuture');
 	}
 	$lTemplate->assign_var_from_handle('LISTE_OPERATION_ADHERENT', 'listeOperationAdherent');
 	

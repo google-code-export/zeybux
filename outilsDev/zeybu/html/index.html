@@ -33,16 +33,32 @@
 				<span id="contenu_message_information">{MSG_INFORMATION}</span></p>
 			</div>
 		</div>		
+		{MESSAGE_INFORMATION}	
 		<h1><img src="./images/zeybu.png"/> Les Amis du  ZEYBUX  <img src="./images/zeybu.png"/></h1>
 		<div id="menu_ext"><div id="menu_int"></div></div>
 		
-		<noscript>
-			<div id="formulaire_identification_int" class="ui-widget ui-widget-content ui-corner-all">
-				<div id="titre_fenetre" class="ui-widget ui-widget-header ui-corner-all">Connexion à Zeybux</div>				
-				<p>
-					Attention le javascript est désactivé.<br/>
-					Le Zeybux ne pourra pas fonctionner.
-				</p>
+		<noscript>		
+			<div class="ui-widget ui-widget-content ui-state-highlight com-center" >
+				Attention le javascript est désactivé. Vous n'aurez pas accès à la version complète du zeybux.<br/>
+				Ceci est la version minimale du zeybux.
+			</div>		
+			<div id="formulaire_identification_int" class="ui-widget ui-widget-content ui-corner-all" >
+				<div id="titre_fenetre" class="ui-widget ui-widget-header ui-corner-all">Connexion à Zeybux</div>
+				<form id="identification-form" action="./index.php?m=IdentificationHTML&v=Identification" method="post">
+					<table>
+						<tr>
+							<td>Login</td>
+							<td><input class="com-input-text ui-widget-content ui-corner-all" type="text" name="login" id="login" value=""/></td>
+						</tr>
+						<tr>
+							<td>Mot de Passe</td>
+							<td><input class="com-input-text ui-widget-content ui-corner-all" type="password" name="pass" id="pass" value="" /></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="com-center com-ligne-submit" ><input class="ui-state-default ui-corner-all com-button com-center" type="submit" value="Connexion"/></td>
+						</tr>
+					</table>
+				</form>
 			</div>
 		</noscript>
 		<div id="contenu">

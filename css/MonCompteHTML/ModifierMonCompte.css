@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 /* ModifierMonCompteHTML */
+a {
+	text-decoration:none;
+}
+
 #widget_message_information {
 	left:0;
 	position:relative;

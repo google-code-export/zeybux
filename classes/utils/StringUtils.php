@@ -133,6 +133,16 @@ class StringUtils
 	public static function dateTimeExtractTimeDbToFr($pDateTime) {
 		return $pDateTime[11].$pDateTime[12].$pDateTime[13].$pDateTime[14].$pDateTime[15].$pDateTime[16].$pDateTime[17].$pDateTime[18];
 	}
+
+	/**
+	* @name extractDbHeure($pDateTime)
+	* @param string
+	* @return string
+	* @desc Extrait du temps de $pDateTime d'un format BDD (aaaa-mm-jj HH:mm:ss) au format (HH)
+	*/
+	public static function extractDbHeure($pDateTime) {
+		return $pDateTime[11].$pDateTime[12];
+	}
 	
 	/**
 	* @name extractHeure($pTime)
@@ -142,6 +152,16 @@ class StringUtils
 	*/
 	public static function extractHeure($pTime) {
 		return $pTime[0].$pTime[1];
+	}
+	
+	/**
+	* @name extractDbMinute($pDateTime)
+	* @param string
+	* @return string
+	* @desc Extrait du temps de $pDateTime d'un format BDD (aaaa-mm-jj HH:mm:ss) au format (mm)
+	*/
+	public static function extractDbMinute($pDateTime) {
+		return $pDateTime[14].$pDateTime[15];
 	}
 	
 	/**

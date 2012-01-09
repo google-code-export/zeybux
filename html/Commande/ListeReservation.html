@@ -1,0 +1,17 @@
+<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+	<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Mes Réservations</div>
+	<table class="com-table">
+		<tr class="ui-widget ui-widget-header">
+			<th class="com-table-th lst-resa-th-num">N°</th>
+			<th class="com-table-th">Date de cloture des Réservations</th>
+			<th class="com-table-th">Marché</th>	
+		</tr>
+		<!-- BEGIN reservation -->
+		<tr class="com-cursor-pointer visualiser-reservation">
+			<td class="com-table-td com-underline-hover com-text-align-right">{reservation.numero}</td>
+			<td class="com-table-td com-underline-hover">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</td>
+			<td class="com-table-td com-underline-hover">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</td>
+		</tr>
+		<!-- END reservation -->
+	</table>
+</div>
