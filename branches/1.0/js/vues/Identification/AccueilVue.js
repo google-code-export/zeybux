@@ -9,19 +9,13 @@
 	this.afficher = function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.naviguateurIncompatible);
-		} else {
-			
-			var lIdentificationTemplate = new IdentificationTemplate();
 			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
-			
-			
-			/*
+		} else {			
 			var that = this;
 			$.getScript("./js/zeybux-configuration.php",function() {
 				that.init();
 				IdentificationVue();
-			});*/
+			});
 		}		
 	}
 	

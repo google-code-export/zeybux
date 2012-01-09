@@ -6,6 +6,13 @@
 	margin-top:150px;
 }
 
+#formulaire_identification_html {
+	padding:5px;
+	width: 360px;
+	margin-left:320px;
+	margin-top:15px;
+}
+
 
 #formulaire_identification_ifb {
 	padding:5px;
@@ -15,7 +22,7 @@
 	padding:3px;	
 }
 
-#formulaire_identification_int td,#formulaire_identification_ifb td {
+#formulaire_identification_int td,#formulaire_identification_ifb td, #formulaire_identification_html td {
 	border-collapse:collapse;
 	padding:3px;	
 }
@@ -26,7 +33,7 @@
 	margin-bottom:15px;
 }
 
-#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password] {
+#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password], #formulaire_identification_html input[type=text] {
 	width:200px;
 	margin-left:5px;
 }

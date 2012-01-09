@@ -214,6 +214,8 @@ class MessagesErreurs
 	const ERR_334_MSG = 'Marché ajouté.';
 	const ERR_335_CODE = 335;
 	const ERR_335_MSG = 'Marché modifié.';
+	const ERR_336_CODE = 336;
+	const ERR_336_MSG = 'Naviguateur incompatible pour ce type de compte.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

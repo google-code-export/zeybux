@@ -35,6 +35,7 @@ if( isset($_POST["pParam"]) ) {
 					$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
 				}
 				break;
+
 			case "reconnecter":
 				// Identification
 				$lVr = $lControleur->reconnecter($lParam);
@@ -66,10 +67,12 @@ else {
 	
 	// Inclusion des classes
 	include_once(CHEMIN_CLASSES_UTILS . "Template.php");
+	include_once(CHEMIN_CLASSES_UTILS . "InfobullesUtils.php");
 
 	// Préparation de l'affichage
 	$lTemplate = new Template(CHEMIN_TEMPLATE);	
 	$lTemplate->set_filenames( array('index' =>  './index.html') );
+	InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
 	$lTemplate->assign_vars( array( 'TITRE' => IDE_TITRE) );
 	
 	// Affichage des templates

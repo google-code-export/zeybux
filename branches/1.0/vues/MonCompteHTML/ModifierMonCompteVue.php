@@ -21,7 +21,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 				
 		// Constante de titre de la page
 		define("TITRE", ZEYBUX_TITRE_DEBUT . "Mon Compte - " . ZEYBUX_TITRE_FIN);
-		define("COMMUN_TEMPLATE", "Commun/");
 		
 		$lControleur = new ModifierMonCompteControleur();
 		switch($_GET["fonction"]) {					
@@ -37,6 +36,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 				
 				// Menu
 				$lTemplate->set_filenames( array('menu' => COMMUN_TEMPLATE . 'Menu.html') );
+				$lTemplate->assign_vars( array( 'menu-MonCompte' => "ui-state-active") );	
 				$lTemplate->assign_var_from_handle('MENU', 'menu');
 				
 				// Body
@@ -109,7 +109,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 				$lTemplate->assign_var_from_handle('ENTETE', 'entete');
 				
 				// Menu
-				$lTemplate->set_filenames( array('menu' => COMMUN_TEMPLATE . 'Menu.html') );
+				$lTemplate->set_filenames( array('menu' => COMMUN_TEMPLATE . 'Menu.html') );				
+				$lTemplate->assign_vars( array( 'menu-MonCompte' => "ui-state-active") );	
 				$lTemplate->assign_var_from_handle('MENU', 'menu');
 				
 				// Body

@@ -26,6 +26,7 @@ define("CHEMIN_CLASSES_SERVICE", CHEMIN_CLASSES . "service/");
 
 define("CHEMIN_VUES", CHEMIN_RACINE . "/vues/");
 define("CHEMIN_TEMPLATE", CHEMIN_RACINE . "/html/");
+define("COMMUN_TEMPLATE", "Commun/");
 define("CHEMIN_CONFIGURATION", CHEMIN_RACINE . "/configuration/");
 define("CHEMIN_JS", CHEMIN_RACINE . "/js/");
 define("CHEMIN_TEMPORAIRE", CHEMIN_RACINE . "/tmp/");
