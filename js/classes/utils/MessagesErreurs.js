@@ -123,6 +123,8 @@ const ERR_243_CODE = 243;
 const ERR_243_MSG = 'Il faut sélectionner un prix de vente au minimum.';
 const ERR_244_CODE = 244;
 const ERR_244_MSG = 'Le versement doit être égal au prix du marché.';
+const ERR_245_CODE = 245;
+const ERR_245_MSG = 'La quantité doit être un multiple du lot.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -197,3 +199,7 @@ const ERR_335_CODE = 335;
 const ERR_335_MSG = 'Marché modifié.';
 const ERR_336_CODE = 336;
 const ERR_336_MSG = 'Naviguateur incompatible pour ce type de compte.';
+const ERR_337_CODE = 337;
+const ERR_337_MSG = 'Réservation modifiée.';
+const ERR_338_CODE = 338;
+const ERR_338_MSG = 'Nouvelle réservation enregistrée.';

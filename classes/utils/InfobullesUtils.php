@@ -34,23 +34,33 @@ class InfobullesUtils
 	* @name genererMessage($pTemplate)
 	* @desc 
 	*/
+	public static function compilerMessage($pMsg, $pLignesErr, $pPrefixe = "") {
+		foreach($pMsg as $lCle => $lMsg) {
+			if(isset($lMsg['valid']) && $lMsg['valid'] === false && isset($lMsg['erreurs']) && is_array($lMsg['erreurs']) ) {
+				foreach($lMsg['erreurs'] as $lErr) {
+					if(isset($pLignesErr[$lCle])) {					
+						$pLignesErr[$pPrefixe . $lCle] .= $lErr['code'] . " : " . $lErr['message'] . "<br/>";
+					} else {
+						$pLignesErr[$pPrefixe . $lCle] = $lErr['code'] . " : " . $lErr['message'] . "<br/>";
+					}
+				}
+			} else if(is_array($lMsg)) {
+				InfobullesUtils::compilerMessage($lMsg,&$pLignesErr, $pPrefixe . $lCle);
+			}
+		}
+	}
+	
+	/**
+	* @name genererMessage($pTemplate)
+	* @desc 
+	*/
 	public static function genererMessage($pTemplate) {
 		if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])) { // Message d'erreur
 			$pTemplate->set_filenames( array('msg' =>  COMMUN_TEMPLATE . 'MessageInformation.html') );
-			//$pVrMsg = json_decode($_SESSION['msg'],true);
+			
 			$lLignesErr = array();
 			if(!$_SESSION['msg']['valid']) {
-				foreach($_SESSION['msg'] as $lCle => $lMsg) {
-					if($lMsg['valid'] === false) {
-						foreach($lMsg['erreurs'] as $lErr) {
-							if(isset($lLignesErr[$lCle])) {					
-								$lLignesErr[$lCle] .= $lErr['code'] . " : " . $lErr['message'] . "<br/>";
-							} else {
-								$lLignesErr[$lCle] = $lErr['code'] . " : " . $lErr['message'] . "<br/>";
-							}
-						}
-					}
-				}
+				InfobullesUtils::compilerMessage($_SESSION['msg'],&$lLignesErr);
 			}
 			
 			if(isset($lLignesErr["log"]) && !empty($lLignesErr["log"])) {

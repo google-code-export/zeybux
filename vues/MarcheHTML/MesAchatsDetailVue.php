@@ -73,8 +73,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 					}
 					
 				}				
-				$lPdt['stoQuantite'] = $lQte;
-				$lPdt['prix'] = $lPrix;
+				$lPdt['stoQuantite'] = StringUtils::affichageMonetaireFr($lQte);
+				$lPdt['prix'] = StringUtils::affichageMonetaireFr($lPrix);
 				
 				if(!isset($lDataPdtAchat[$lProduit->getIdCategorie()])) {
 					$lDataPdtAchat[$lProduit->getIdCategorie()] = array("nom" => $lProduit->getCproNom(),"achat"=>array());
@@ -100,8 +100,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 				}
 				
 				if($lAchatPdtSolidaire) {
-						$lPdtSolidaire['stoQuantiteSolidaire'] = $lQteSolidaire;
-						$lPdtSolidaire['prixSolidaire'] = $lPrixSolidaire;	
+						$lPdtSolidaire['stoQuantite'] = StringUtils::affichageMonetaireFr($lQteSolidaire);
+						$lPdtSolidaire['prix'] = StringUtils::affichageMonetaireFr($lPrixSolidaire);	
 						
 						if(!isset($lDataPdtAchatSolidaire[$lProduit->getIdCategorie()])) {
 							$lDataPdtAchatSolidaire[$lProduit->getIdCategorie()] = array("nom" => $lProduit->getCproNom(),"achat"=>array());
@@ -137,11 +137,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 					$lTemplate->assign_block_vars('achats.categories', array(
 							'nom' => $lCategorie["nom"] ));
 					foreach($lCategorie["achat"] as $lAchat) {
-						$lTemplate->assign_block_vars('achats.categories.achat', array(
-							'nproNom' => $lAchat["nproNom"],
-							'stoQuantite' => StringUtils::affichageMonetaireFr($lAchat["stoQuantite"]),
-							'proUniteMesure' => $lAchat["proUniteMesure"],
-							'prix'  =>  StringUtils::affichageMonetaireFr($lAchat["prix"]) ));
+						$lTemplate->assign_block_vars('achats.categories.achat', $lAchat);
 					}
 				}
 			}		
@@ -157,15 +153,10 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 				
 				foreach($lAchats["categories"] as $lCategorie) {
 					$lTemplate->assign_block_vars('achatsSolidaire.categories', array(
-							'nom' => $lCategorie["nom"] ));
-					
+							'nom' => $lCategorie["nom"] ));					
 					
 					foreach($lCategorie["achat"] as $lAchat) {
-						$lTemplate->assign_block_vars('achatsSolidaire.categories.achat', array(
-							'nproNom' => $lAchat["nproNom"],
-							'stoQuantite' => StringUtils::affichageMonetaireFr($lAchat["stoQuantiteSolidaire"]),
-							'proUniteMesure' => $lAchat["proUniteMesure"],
-							'prix'  =>  StringUtils::affichageMonetaireFr($lAchat["prixSolidaire"]) ));
+						$lTemplate->assign_block_vars('achatsSolidaire.categories.achat', $lAchat);
 					}
 				}
 			}		
@@ -187,6 +178,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	}
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à MesAchatsDetail",PEAR_LOG_INFO);	// Maj des logs
-	header('location:./index.php?cx=1');
+	header('location:./index.php?cx=2');
 }
 ?>

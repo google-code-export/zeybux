@@ -49,7 +49,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	$lListeReservation = $lPage->getReservations();
 	if(!is_null($lListeReservation[0]->getComId())) {
 		$lTemplate->set_filenames( array('listeReservation' => MOD_COMMANDE . '/' . 'ListeReservation.html') );
-	
+
 		foreach($lListeReservation as $lReservation) {
 			$lTemplate->assign_block_vars('reservation', array(
 						'numero' => $lReservation->getComNumero(),
@@ -60,7 +60,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						'heureMarcheDebut' => StringUtils::extractDbHeure($lReservation->getComDateMarcheDebut()),
 						'minuteMarcheDebut'  => StringUtils::extractDbMinute($lReservation->getComDateMarcheDebut() ),
 						'heureMarcheFin' => StringUtils::extractDbHeure($lReservation->getComDateMarcheFin()),
-						'minuteMarcheFin'  => StringUtils::extractDbMinute($lReservation->getComDateMarcheFin() ) ));
+						'minuteMarcheFin'  => StringUtils::extractDbMinute($lReservation->getComDateMarcheFin() ),
+						'idMarche' => $lReservation->getComId() ));
 			
 		}
 	
@@ -84,7 +85,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						'heureMarcheDebut' => StringUtils::extractDbHeure($lMarche->getDateMarcheDebut()),
 						'minuteMarcheDebut'  => StringUtils::extractDbMinute($lMarche->getDateMarcheDebut() ),
 						'heureMarcheFin' => StringUtils::extractDbHeure($lMarche->getDateMarcheFin()),
-						'minuteMarcheFin'  => StringUtils::extractDbMinute($lMarche->getDateMarcheFin() ) ));
+						'minuteMarcheFin'  => StringUtils::extractDbMinute($lMarche->getDateMarcheFin() ),
+						'idMarche' => $lMarche->getId() ));
 			
 		}
 	
@@ -103,6 +105,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à ListeCommande",PEAR_LOG_INFO);	// Maj des logs
-	header('location:./index.php?cx=1');
+	header('location:./index.php?cx=2');
 }
 ?>

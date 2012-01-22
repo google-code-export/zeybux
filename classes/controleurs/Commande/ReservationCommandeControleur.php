@@ -121,5 +121,19 @@ class ReservationCommandeControleur
 		}				
 		return $lVr;
 	}
+	
+	/**
+	* @name controleModifierReservation($pParam)
+	* @return ListeReservationCommandeVR
+	* @desc Vérifie si il est possible de modifier la réservation
+	*/
+	public function controleModifierReservation($pParam) {
+		$pParam['idCompte'] = $_SESSION[ID_COMPTE];
+		$lVr = CommandeReservationValid::validAjout($pParam);
+		if($lVr->getValid()) {
+			return ReservationCommandeControleur::getReservation($pParam);
+		}				
+		return $lVr;
+	}
 }
 ?>

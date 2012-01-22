@@ -120,10 +120,15 @@ class CommandeReservationValid
 
 					if($lVr->getValid()) {
 						foreach($pData['detailReservation'] as $lReservation) {
+							$lReservation["idOperation"] = $lIdOperation;
 							$lVrReservation = CommandeDetailReservationValid::validAjout($lReservation);
 							if(!$lVrReservation->getValid()){$lVr->setValid(false);}
-							$lVr->addCommandes($lVrReservation);
-						}	
+							if(isset($lReservation["stoIdDetailCommande"])) {
+								$lCommandes = $lVr->getCommandes();
+								$lCommandes[$lReservation["stoIdDetailCommande"]] = $lVrReservation;
+								$lVr->setCommandes($lCommandes);
+							}
+						}
 					}
 				}
 			} else {
@@ -326,14 +331,18 @@ class CommandeReservationValid
 						$lErreur->setMessage(MessagesErreurs::ERR_238_MSG);
 						$lVr->getLog()->addErreur($lErreur);
 					}
-
 					if($lVr->getValid()) {
 						foreach($pData['detailReservation'] as $lReservation) {
 							$lReservation["idOperation"] = $lIdOperation;
 							$lVrReservation = CommandeDetailReservationValid::validUpdate($lReservation);
 							if(!$lVrReservation->getValid()){$lVr->setValid(false);}
-							$lVr->addCommandes($lVrReservation);
-						}	
+							//$lVr->addCommandes($lVrReservation);
+							if(isset($lReservation["stoIdDetailCommande"])) {
+								$lCommandes = $lVr->getCommandes();
+								$lCommandes[$lReservation["stoIdDetailCommande"]] = $lVrReservation;
+								$lVr->setCommandes($lCommandes);
+							}
+						}
 					}
 				}
 			} else {

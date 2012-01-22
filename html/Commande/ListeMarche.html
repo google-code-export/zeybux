@@ -14,7 +14,11 @@
 					<td class="com-table-td">Le {marche.dateFinReservation} à {marche.heureFinReservation}H{marche.minuteFinReservation}</td>
 					<td class="com-table-td">Le {marche.dateMarcheDebut} de {marche.heureMarcheDebut}H{marche.minuteMarcheDebut} à {marche.heureMarcheFin}H{marche.minuteMarcheFin}</td>
 					<td class="com-table-td lst-resa-btn-commander">
-						<button class="btn-commander ui-state-default ui-corner-all com-button com-center">Commander</button>
+						<a href="./index.php?m=MarcheHTML&amp;v=ReservationCommande&amp;fonction=detailMarche&amp;id_marche={marche.idMarche}">
+							<button class="btn-commander ui-state-default ui-corner-all com-button com-center">
+								Commander
+							</button>
+						</a>
 					</td>
 				</tr>
 				<!-- END marche -->

@@ -68,6 +68,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 
 } else {
 	$lLogger->log("Demande d'accés sans autorisation à ListeCommande",PEAR_LOG_INFO);	// Maj des logs
-	header('location:./index.php?cx=1');
+	header('location:./index.php?cx=2');
 }
 ?>

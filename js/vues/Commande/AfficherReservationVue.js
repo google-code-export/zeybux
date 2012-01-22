@@ -633,6 +633,17 @@
 												};
 									}
 								});
+								
+								// Message d'information de la bonne suppression
+								var lVr = new TemplateVR();
+								lVr.valid = false;
+								lVr.log.valid = false;
+								var erreur = new VRerreur();
+								erreur.code = ERR_337_CODE;
+								erreur.message = ERR_337_MSG;
+								lVr.log.erreurs.push(erreur);	
+								Infobulle.generer(lVr,'');
+								
 								that.afficher();
 							} else {
 								Infobulle.generer(lResponse,'');
