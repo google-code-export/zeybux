@@ -121,6 +121,8 @@ const ERR_242_CODE = 242;
 const ERR_242_MSG = 'Le SIREN n\'est pas valide.';
 const ERR_243_CODE = 243;
 const ERR_243_MSG = 'Il faut sélectionner un prix de vente au minimum.';
+const ERR_244_CODE = 244;
+const ERR_244_MSG = 'Le versement doit être égal au prix du marché.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -192,7 +194,11 @@ const ERR_333_MSG = 'Les unités de vente ne sont pas identiques.';
 const ERR_334_CODE = 334;
 const ERR_334_MSG = 'Marché ajouté.';
 const ERR_335_CODE = 335;
-const ERR_335_MSG = 'Marché modifié.';/********** Début Variables Globales ************/
+const ERR_335_MSG = 'Marché modifié.';
+const ERR_336_CODE = 336;
+const ERR_336_MSG = 'Naviguateur incompatible pour ce type de compte.';
+const ERR_337_CODE = 337;
+const ERR_337_MSG = 'Réservation modifiée.';/********** Début Variables Globales ************/
 const gTempsTransition = 150;
 const gTempsTransitionUnique = gTempsTransition * 2;
 const gTempsTransitionMsgInfo = gTempsTransition * 10;

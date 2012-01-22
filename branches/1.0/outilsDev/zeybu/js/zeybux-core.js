@@ -1634,6 +1634,86 @@ function CompteZeybuModifierVirementVR() {
 		
 		return lVR;
 	}
+	
+	this.validAjoutInvite = function(pData) { 
+		var lVR = new AchatCommandeVR();
+		//Tests Techniques
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.solde.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.solde.isFloat()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+		
+		var lNbPdt = false;
+		//if(pData.NbProduits > 0) {
+			if(isArray(pData.produits)) {		
+				if(pData.produits.length > 0 && pData.produits[0] != '') {
+					lNbPdt = true;
+					var lValidProduit = new ProduitAchatValid();
+					var i = 0;
+					var lNbProduit = 0;
+					while(pData.produits[i]) {
+						var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
+						if(!lVrProduit.valid){lVR.valid = false;}
+						if(!pData.produits[i].id.isEmpty()) {
+							lVR.produits[pData.produits[i].id] = lVrProduit;
+						} else {
+							lVR.produits.push(lVrProduit);
+						}
+						
+						if(!isNaN(pData.produits[i].quantite) && pData.produits[i].quantite != 0) {lNbProduit++;}					
+						i++;
+					}				
+				}
+			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
+		//}
+		
+		//if(pData.NbProduitsSolidaire > 0) {
+			if(isArray(pData.produitsSolidaire)) {		
+				if(pData.produitsSolidaire.length > 0 && pData.produitsSolidaire[0] != '') {
+					lNbPdt = true;
+					var lValidProduit = new ProduitAchatValid();
+					var i = 0;
+					var lNbProduitSolidaire = 0;
+					while(pData.produitsSolidaire[i]) {
+						var lVrProduit = lValidProduit.validAjout(pData.produitsSolidaire[i]);	
+						if(!lVrProduit.valid){lVR.valid = false;}
+						if(!pData.produitsSolidaire[i].id.isEmpty()) {
+							lVR.produitsSolidaire[pData.produitsSolidaire[i].id] = lVrProduit;
+						} else {
+							lVR.produitsSolidaire.push(lVrProduit);
+						}
+						if(!isNaN(pData.produitsSolidaire[i].quantite) && pData.produitsSolidaire[i].quantite != 0) {lNbProduitSolidaire++;}
+						i++;
+					}
+				}
+			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}		
+		//}
+		
+		// Il faut au moins 1 produit sur la commande
+		if(!lNbPdt) {
+			lVR.valid = false;
+			lVR.log.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_207_CODE;
+			erreur.message = ERR_207_MSG;
+			lVR.log.erreurs.push(erreur);					
+		}	
+		
+		// Si il y a rechargement du compte on le test
+		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
+				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
+			var lValidRechargement = new RechargementCompteValid();
+			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
+			if(!lVR.rechargement.valid){lVR.valid = false;}
+		}
+		
+		if(pData.solde != 0 ) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_244_CODE;erreur.message = ERR_244_MSG;lVR.log.erreurs.push(erreur);}
+		return lVR;
+	}
 
 	this.validDelete = function(pData) {
 		var lVR = new AchatCommandeVR();
@@ -3528,6 +3608,48 @@ $(document).ready(function() {
 			"</div>" +
 		"</div>";
 	
+	this.formulaireIdentificationHTML = 
+		"<div id=\"contenu\">" +
+			"<div class=\"ui-widget ui-widget-content ui-state-highlight com-center\" >" +
+				"Votre naviguateur n'est pas compatible avec la version complète du zeybux.<br/>" +
+				"Ceci est la version minimale du zeybux.<br/>" +
+				"Vous pouvez utiliser l'un des naviguateur suivants pour profiter de l'ensemble du site : <br/>" +
+				"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+					
+					"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+						"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+							"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+							"Mozilla Firefox" +
+						"</a>" +
+					"</div>" +
+					"<div>" +	
+						"<a href=\"http://www.google.com/chrome/\">" +
+							"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+							"Google Chrome" +
+						"</a>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
+					"<table>" +
+						"<tr>" +
+							"<td>Login</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td>Mot de Passe</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
+			"</div>" +
+		"</div>";
+	
 	this.formulaireIdentification = 
 		"<div id=\"contenu\">" +
 			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
@@ -3991,8 +4113,8 @@ $(document).ready(function() {
 	this.afficher = function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.naviguateurIncompatible);
-		} else {
+			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
+		} else {			
 			var that = this;
 			$.getScript("./js/zeybux-configuration-min.js",function() {
 				that.init();

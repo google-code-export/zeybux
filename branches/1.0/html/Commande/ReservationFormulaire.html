@@ -1,0 +1,65 @@
+<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+	<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">
+		Marché n°{comNumero}
+	</div>
+	<div id="resa-info-commande">
+		Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>
+		Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>
+	</div>
+	<div>
+		<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>
+		<span>Nouveau Solde : </span><span id="nouveau-solde">{soldeNv}</span> <span id="nouveau-solde-sigle">{sigleMonetaire}</span>
+	</div>
+</div>
+<form action="{FORM_ACTION}" method="post">
+	<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+		<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">
+			Ma réservation
+		</div>
+		<div>		
+			<table>
+				<!-- BEGIN categories -->
+				<tr>
+					<td colspan="3" class="ui-widget-header ui-corner-all com-center" >{categories.nom}</td>
+					<td colspan="4" ></td>
+				</tr>						
+				<!-- BEGIN produits -->
+				<tr>
+					<td ><input type="checkbox" {categories.produits.checked} {categories.produits.disabled} class="{categories.produits.hidden}" name="id-produit[]" value="{categories.produits.proId}"/></td>
+					<td >{categories.produits.nproNom}</td>
+					<td >
+						<a target="_blank" href="./index.php?m=MarcheHTML&amp;v=DetailProduit&amp;id={categories.produits.proId}">
+							<span class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit" title="Information sur le produit">
+								<span class="ui-icon ui-icon-info">
+								</span>
+							</span>
+						</a>
+					</td>
+					<td >
+						<select {categories.produits.disabled} class="{categories.produits.hidden}" name="produit-{categories.produits.proId}-lot" >
+							<!-- BEGIN lot -->
+							<option value="{categories.produits.lot.dcomId}" {categories.produits.lot.selected} >par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure} à {categories.produits.lot.prixUnitaire} {sigleMonetaire}/{categories.produits.proUniteMesure}</option>
+							<!-- END lot -->
+						</select>
+					</td>
+					<td><input type="text" value="{categories.produits.stoQuantite}" {categories.produits.disabled} class="{categories.produits.class-err} com-input-text input-edt-compte ui-widget-content ui-corner-all" name="produit-{categories.produits.proId}-quantite"/> {categories.produits.proUniteMesure}</td>
+					<td  class="com-text-align-right">{categories.produits.prix}</td>
+					<td>{sigleMonetaire}</td>
+				</tr>
+				<tr>
+					<td colspan="7">
+						<div class="{categories.produits.class-err-msg} ui-corner-all">{categories.produits.err}</div>
+					</td>
+				</tr>
+				<!-- END produits -->
+				<!-- END categories -->
+				<tr>
+					<td colspan="5" class="com-text-align-right">Total : </td>
+					<td class="com-text-align-right detail-resa-prix"><span id="total">{total}</span></td>
+					<td>{sigleMonetaire}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	{BOUTONS_CALCULER}
+</form>

@@ -8,9 +8,9 @@
 		</tr>
 		<!-- BEGIN reservation -->
 		<tr class="com-cursor-pointer visualiser-reservation">
-			<td class="com-table-td com-underline-hover com-text-align-right">{reservation.numero}</td>
-			<td class="com-table-td com-underline-hover">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</td>
-			<td class="com-table-td com-underline-hover">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</td>
+			<td class="com-table-td com-underline-hover com-text-align-right"><a href="./index.php?m=MarcheHTML&amp;v=AfficherReservation&amp;fonction=afficher&amp;id_marche={reservation.idMarche}">{reservation.numero}</a></td>
+			<td class="com-table-td com-underline-hover"><a href="./index.php?m=MarcheHTML&amp;v=AfficherReservation&amp;fonction=afficher&amp;id_marche={reservation.idMarche}">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</a></td>
+			<td class="com-table-td com-underline-hover"><a href="./index.php?m=MarcheHTML&amp;v=AfficherReservation&amp;fonction=afficher&amp;id_marche={reservation.idMarche}">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</a></td>
 		</tr>
 		<!-- END reservation -->
 	</table>

@@ -50,7 +50,6 @@ if(MAINTENANCE == 1) {
 		}
 	} // Si c'est un problème de connexion
 	else if(isset($_GET['cx'])) {
-		// Retour erreur en json
 		include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 		include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 		$lVr = new TemplateVR();
@@ -60,7 +59,14 @@ if(MAINTENANCE == 1) {
 		$lErreur->setCode(MessagesErreurs::ERR_116_CODE);
 		$lErreur->setMessage(MessagesErreurs::ERR_116_MSG);
 		$lVr->getLog()->addErreur($lErreur);
-		echo $lVr->exportToJson();
+		if($_GET['cx'] == 1) {
+			// Retour erreur en json
+			echo $lVr->exportToJson();
+		} else if($_GET['cx'] == 2) {
+			$_SESSION['msg'] = $lVr->exportToArray();				
+			// Affichage du formulaire d'identification
+			include(CHEMIN_VUES . MOD_IDENTIFICATION . "/IdentificationVue.php");
+		}
 	}
 	else {
 		// Affichage du formulaire d'identification

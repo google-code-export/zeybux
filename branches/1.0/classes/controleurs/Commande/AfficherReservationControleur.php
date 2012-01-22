@@ -20,9 +20,9 @@ include_once(CHEMIN_CLASSES_VO . "NomProduitCatalogueVO.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE ."/DetailProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/AfficheAchatAdherentValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "NomProduitProducteurViewManager.php");  
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CaracteristiqueProduitViewManager.php");  
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CaracteristiqueProduitViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");  
-
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");  
 /**
  * @name AfficherReservationControleur
  * @author Julien PIERRE
@@ -128,6 +128,27 @@ class AfficherReservationControleur
 		}				
 		return $lVr;
 	}
+	
+	/**
+	* @name controleModifierReservation($pParam)
+	* @return ListeReservationCommandeVR
+	* @desc Vérifie si il est possible de modifier la réservation
+	*/
+	public function controleModifierReservation($pParam) {
+		$pParam['idCompte'] = $_SESSION[ID_COMPTE];
+		$lVr = CommandeReservationValid::validUpdate($pParam);
+		if($lVr->getValid()) {
+			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
+			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
+			$lResponse = new AfficherReservationResponse();
+			$lMarcheService = new MarcheService();
+			$lResponse->setMarche($lMarcheService->get($lDetailMarche[0]->getComId()));			
+			$lResponse->setAdherent(AdherentViewManager::select($_SESSION[DROIT_ID]));
+			
+			return $lResponse;
+		}				
+		return $lVr;
+	}
 		
 	/**
 	* @name supprimerReservation($pParam)
@@ -140,10 +161,10 @@ class AfficherReservationControleur
 		if($lVr->getValid()) {
 			$lReservationService = new ReservationService();
 			$lIdReservation = new IdReservationVO();
-			$lIdReservation->setIdCompte($_SESSION[ID_COMPTE]);
+			$lIdReservation->setIdCompte($pParam['idCompte']);
 			$lIdReservation->setIdCommande($pParam["id_commande"]);
 			$lReservationService->delete($lIdReservation);
-		}				
+		}
 		return $lVr;
 	}
 }

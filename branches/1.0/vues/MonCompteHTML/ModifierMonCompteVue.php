@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 24/01/2011
+// Date de creation : 07/01/2012
 // Fichier : MonCompteVue.php
 //
 // Description : Script de vue du compte Adherent
@@ -224,6 +224,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	}
 } else {
 	$lLogger->log("Demande d'affichage sans autorisation du compte de l'Adhérent",PEAR_LOG_INFO);	// Maj des logs
-	header('location:./index.php?cx=1');
+	header('location:./index.php?cx=2');
 }
 ?>

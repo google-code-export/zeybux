@@ -83,7 +83,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		function parcourirDossierCssHTML($pPath) {
 			$d = dir($pPath);
 			while (false !== ($entry = $d->read())) {	   
-			   if(	&& $entry != '..' 
+			   if(	$entry != '.' 
+			   		&& $entry != '..' 
 			   		&& $entry != '.svn' 
 			   		&& $entry != '.project'
 			   		&& $entry != '.htaccess' 
@@ -580,7 +581,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		    }
 		    
 		    // Cette vue doit être placée en fin car elle dépend d'autres vues
-		   	$table[0] = view_info_commande
+		   	$table[0] = "view_info_commande";
 		    array_push($lListeTable,$table[0]);
 			$creations .= "-- -----------------------------\n";
             $creations .= "-- creation de la table ".$table[0]."\n";
