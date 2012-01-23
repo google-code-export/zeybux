@@ -1,0 +1,2233 @@
+Dec 11 13:28:56  [info] Affichage du formulaire de connexion
+Dec 11 13:28:56  [debug] Affichage de la page en : 0.381 secondes !!
+Dec 11 13:29:05  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 11 13:29:05  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 11 13:29:05  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'192.168.1.40'
+				,'2011-12-11 13:29:05'
+				,''
+				,'1')
+Dec 11 13:29:05  [info] Réussite de l'authentification pour l'utilisateur : 100630
+Dec 11 13:29:05  [debug] Affichage de la page en : 0.450 secondes !!
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '1') ORDER BY vue_ordre ASC;
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '3') ORDER BY vue_ordre ASC;
+Dec 11 13:29:08  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100630
+Dec 11 13:29:08  [debug] Affichage de la page en : 0.143 secondes !!
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:08  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:08  [info] Affichage du compte de l'Adhérent : 100630
+Dec 11 13:29:08  [debug] Affichage de la page en : 0.327 secondes !!
+Dec 11 13:29:13  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:13  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:13  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:13  [debug] Affichage de la page en : 0.551 secondes !!
+Dec 11 13:29:14  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:14  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:14  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:14  [debug] Affichage de la page en : 0.043 secondes !!
+Dec 11 13:29:22  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:22  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:22  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:22  [debug] Affichage de la page en : 0.041 secondes !!
+Dec 11 13:29:26  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 11 13:29:26  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100630
+Dec 11 13:29:26  [debug] Affichage de la page en : 0.434 secondes !!
+Dec 11 13:29:27  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 11 13:29:27  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100630
+Dec 11 13:29:27  [debug] Affichage de la page en : 0.057 secondes !!
+Dec 11 13:29:39  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:39  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:39  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:39  [debug] Affichage de la page en : 0.039 secondes !!
+Dec 11 13:29:40  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:29:40  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:40  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:40  [info] Affichage du compte de l'Adhérent : 100630
+Dec 11 13:29:40  [debug] Affichage de la page en : 0.028 secondes !!
+Dec 11 13:29:42  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:42  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:42  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:42  [debug] Affichage de la page en : 0.039 secondes !!
+Dec 11 13:29:43  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:29:43  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:43  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:43  [info] Affichage du compte de l'Adhérent : 100630
+Dec 11 13:29:43  [debug] Affichage de la page en : 0.026 secondes !!
+Dec 11 13:29:45  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:45  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:45  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:45  [debug] Affichage de la page en : 0.043 secondes !!
+Dec 11 13:29:47  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:29:47  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:47  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:47  [info] Affichage du compte de l'Adhérent : 100630
+Dec 11 13:29:47  [debug] Affichage de la page en : 0.023 secondes !!
+Dec 11 13:29:48  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:48  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:48  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:48  [debug] Affichage de la page en : 0.038 secondes !!
+Dec 11 13:29:49  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 11 13:29:49  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100630
+Dec 11 13:29:49  [debug] Affichage de la page en : 0.054 secondes !!
+Dec 11 13:29:52  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:52  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:29:52  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100630
+Dec 11 13:29:52  [debug] Affichage de la page en : 0.044 secondes !!
+Dec 11 13:29:53  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:29:53  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:53  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:29:53  [info] Affichage du compte de l'Adhérent : 100630
+Dec 11 13:29:53  [debug] Affichage de la page en : 0.024 secondes !!
+Dec 11 13:30:13  [info] Déconnexion de l'utilisateur ayant pour ID : 100630
+Dec 11 13:30:13  [debug] Execution de la requete : SELECT acc_id,acc_id_login,acc_type_login,acc_ip,acc_date_creation,acc_date_modification,acc_autorise
+			FROM acc_acces 
+			WHERE acc_id = '100630'
+Dec 11 13:30:13  [debug] Execution de la requete : UPDATE acc_acces
+			 SET
+				 acc_id_login = '1'
+				,acc_type_login = '1'
+				,acc_ip = '192.168.1.40'
+				,acc_date_creation = '2011-12-11 13:29:05'
+				,acc_date_modification = '2011-12-11 13:30:13'
+				,acc_autorise = '0'
+			 WHERE acc_id = '100630'
+Dec 11 13:30:13  [debug] Affichage de la page en : 0.057 secondes !!
+Dec 11 13:30:13  [info] Affichage du formulaire de connexion
+Dec 11 13:30:13  [debug] Affichage de la page en : 0.008 secondes !!
+Dec 11 13:30:25  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 11 13:30:25  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 11 13:30:25  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'192.168.1.40'
+				,'2011-12-11 13:30:25'
+				,''
+				,'1')
+Dec 11 13:30:25  [info] Réussite de l'authentification pour l'utilisateur : 100631
+Dec 11 13:30:25  [debug] Affichage de la page en : 0.024 secondes !!
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '1') ORDER BY vue_ordre ASC;
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '3') ORDER BY vue_ordre ASC;
+Dec 11 13:30:26  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:30:26  [debug] Affichage de la page en : 0.021 secondes !!
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:30:26  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:30:26  [info] Affichage du compte de l'Adhérent : 100631
+Dec 11 13:30:26  [debug] Affichage de la page en : 0.032 secondes !!
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:30:29  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:30:29  [debug] Affichage de la page en : 0.056 secondes !!
+Dec 11 13:30:36  [debug] Execution de la requete : SELECT fer_id,fer_numero,cpt_label,fer_nom,fer_id_compte
+			FROM view_liste_ferme
+Dec 11 13:30:36  [info] Affichage de la liste des fermes par : 100631
+Dec 11 13:30:36  [debug] Affichage de la page en : 0.130 secondes !!
+Dec 11 13:30:57  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '6'
+Dec 11 13:30:57  [debug] Execution de la requete : SELECT fer_id,fer_numero,cpt_label,fer_nom,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_id_compte
+			FROM view_ferme 
+			WHERE fer_id = '6'
+Dec 11 13:30:57  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '66'
+Dec 11 13:30:57  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement
+Dec 11 13:30:57  [info] Affichage des information sur une fermes par : 100631
+Dec 11 13:30:57  [debug] Affichage de la page en : 0.115 secondes !!
+Dec 11 13:31:39  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '6'
+Dec 11 13:31:39  [debug] Execution de la requete : SELECT prdt_id_ferme,prdt_id,prdt_numero,prdt_nom,prdt_prenom,prdt_courriel_principal,prdt_telephone_principal
+			FROM view_liste_producteur 
+			WHERE prdt_id_ferme = '6'
+Dec 11 13:31:39  [info] Affichage de la liste des producteurs par : 100631
+Dec 11 13:31:39  [debug] Affichage de la page en : 0.214 secondes !!
+Dec 11 13:32:25  [debug] Execution de la requete : SELECT prdt_id,prdt_id_ferme,prdt_numero,prdt_nom,prdt_prenom,prdt_courriel_principal,prdt_courriel_secondaire,prdt_telephone_principal,prdt_telephone_secondaire,prdt_adresse,prdt_code_postal,prdt_ville,prdt_date_naissance,prdt_date_creation,prdt_date_maj,prdt_commentaire,prdt_etat
+			FROM prdt_producteur 
+			WHERE prdt_id = '10'
+Dec 11 13:32:25  [debug] Execution de la requete : SELECT prdt_id,prdt_id_ferme,prdt_numero,prdt_nom,prdt_prenom,prdt_courriel_principal,prdt_courriel_secondaire,prdt_telephone_principal,prdt_telephone_secondaire,prdt_adresse,prdt_code_postal,prdt_ville,prdt_date_naissance,prdt_commentaire
+			FROM view_producteur 
+			WHERE prdt_id = '10'
+Dec 11 13:32:25  [info] Detail du producteur par : 100631
+Dec 11 13:32:25  [debug] Affichage de la page en : 0.023 secondes !!
+Dec 11 13:32:39  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '6'
+Dec 11 13:32:39  [debug] Execution de la requete : SELECT cpro_id,cpro_nom
+			FROM view_liste_categorie_produit
+Dec 11 13:32:39  [debug] Execution de la requete : SELECT npro_id_ferme,npro_id,npro_nom,cpro_nom,cpro_id
+			FROM view_liste_nom_produit 
+			WHERE npro_id_ferme = '6'
+Dec 11 13:32:40  [info] Affichage de la vue CatalogueFerme par l'Adhérent : 100631
+Dec 11 13:32:40  [debug] Affichage de la page en : 0.604 secondes !!
+Dec 11 13:33:16  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '6'
+Dec 11 13:33:16  [debug] Execution de la requete : SELECT prdt_id_ferme,prdt_id,prdt_numero,prdt_nom,prdt_prenom,prdt_courriel_principal,prdt_telephone_principal
+			FROM view_liste_producteur 
+			WHERE prdt_id_ferme = '6'
+Dec 11 13:33:16  [debug] Execution de la requete : SELECT car_id,car_nom
+			FROM view_liste_caracteristique
+Dec 11 13:33:16  [info] Demande des infos pour le formulaire d'ajout de produit par l'Adhérent : 100631
+Dec 11 13:33:16  [debug] Affichage de la page en : 0.067 secondes !!
+Dec 11 13:33:43  [debug] Execution de la requete : SELECT npro_id,npro_nom,npro_description,npro_id_categorie,npro_id_ferme,npro_etat
+			FROM npro_nom_produit 
+			WHERE npro_id = '2'
+Dec 11 13:33:43  [debug] Execution de la requete : SELECT npro_id,npro_id_ferme,cpro_nom,npro_nom,npro_description,cpro_id
+			FROM view_nom_produit 
+			WHERE npro_id = '2'
+Dec 11 13:33:43  [debug] Execution de la requete : SELECT nprdt_id_nom_produit,prdt_id,prdt_nom,prdt_prenom,prdt_commentaire,nprdt_id
+			FROM view_nom_produit_producteur 
+			WHERE nprdt_id_nom_produit = '2'
+Dec 11 13:33:43  [debug] Execution de la requete : SELECT carpro_id_nom_produit,car_id,car_nom,car_description,carpro_id
+			FROM view_caracteristique_produit 
+			WHERE carpro_id_nom_produit = '2'
+Dec 11 13:33:43  [debug] Execution de la requete : SELECT mlot_id,mlot_id_nom_produit,mlot_quantite,mlot_unite,mlot_prix
+			FROM view_modele_lot 
+			WHERE mlot_id_nom_produit = '2'
+Dec 11 13:33:43  [info] Affichage de la vue Detail Produit par l'Adhérent : 100631
+Dec 11 13:33:43  [debug] Affichage de la page en : 0.083 secondes !!
+Dec 11 13:33:48  [debug] Execution de la requete : SELECT npro_id,npro_nom,npro_description,npro_id_categorie,npro_id_ferme,npro_etat
+			FROM npro_nom_produit 
+			WHERE npro_id = '28'
+Dec 11 13:33:48  [debug] Execution de la requete : SELECT npro_id,npro_id_ferme,cpro_nom,npro_nom,npro_description,cpro_id
+			FROM view_nom_produit 
+			WHERE npro_id = '28'
+Dec 11 13:33:48  [debug] Execution de la requete : SELECT nprdt_id_nom_produit,prdt_id,prdt_nom,prdt_prenom,prdt_commentaire,nprdt_id
+			FROM view_nom_produit_producteur 
+			WHERE nprdt_id_nom_produit = '28'
+Dec 11 13:33:48  [debug] Execution de la requete : SELECT carpro_id_nom_produit,car_id,car_nom,car_description,carpro_id
+			FROM view_caracteristique_produit 
+			WHERE carpro_id_nom_produit = '28'
+Dec 11 13:33:48  [debug] Execution de la requete : SELECT mlot_id,mlot_id_nom_produit,mlot_quantite,mlot_unite,mlot_prix
+			FROM view_modele_lot 
+			WHERE mlot_id_nom_produit = '28'
+Dec 11 13:33:48  [info] Affichage de la vue Detail Produit par l'Adhérent : 100631
+Dec 11 13:33:48  [debug] Affichage de la page en : 0.044 secondes !!
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:33:57  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:33:57  [debug] Affichage de la page en : 0.025 secondes !!
+Dec 11 13:34:00  [debug] Execution de la requete : SELECT fer_id,fer_numero,cpt_label,fer_nom,fer_id_compte
+			FROM view_liste_ferme
+Dec 11 13:34:00  [info] Affichage de la vue AjoutCommande par l'Adhérent : 100631
+Dec 11 13:34:00  [debug] Affichage de la page en : 0.395 secondes !!
+Dec 11 13:34:29  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '7'
+Dec 11 13:34:29  [debug] Execution de la requete : SELECT npro_id_ferme,npro_id,npro_nom,cpro_nom,cpro_id
+			FROM view_liste_nom_produit 
+			WHERE npro_id_ferme = '7'
+Dec 11 13:34:29  [info] Affichage de la liste des produits dans la vue AjoutCommande par l'Adhérent : 100631
+Dec 11 13:34:29  [debug] Affichage de la page en : 0.069 secondes !!
+Dec 11 13:34:37  [debug] Execution de la requete : SELECT fer_id,fer_numero,fer_nom,fer_id_compte,fer_siren,fer_adresse,fer_code_postal,fer_ville,fer_date_adhesion,fer_description,fer_etat
+			FROM fer_ferme 
+			WHERE fer_id = '7'
+Dec 11 13:34:37  [debug] Execution de la requete : SELECT npro_id_ferme,npro_id,npro_nom,cpro_nom,cpro_id
+			FROM view_liste_nom_produit 
+			WHERE npro_id_ferme = '7'
+Dec 11 13:34:37  [info] Affichage de la liste des produits dans la vue AjoutCommande par l'Adhérent : 100631
+Dec 11 13:34:37  [debug] Affichage de la page en : 0.059 secondes !!
+Dec 11 13:34:42  [debug] Execution de la requete : SELECT npro_id,npro_nom,npro_description,npro_id_categorie,npro_id_ferme,npro_etat
+			FROM npro_nom_produit 
+			WHERE npro_id = '32'
+Dec 11 13:34:42  [debug] Execution de la requete : SELECT mlot_id,mlot_id_nom_produit,mlot_quantite,mlot_unite,mlot_prix
+			FROM view_modele_lot 
+			WHERE mlot_id_nom_produit = '32'
+Dec 11 13:34:42  [info] Affichage de la liste des modeles de lot dans la vue AjoutCommande par l'Adhérent : 100631
+Dec 11 13:34:42  [debug] Affichage de la page en : 0.058 secondes !!
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT npro_id,npro_nom,npro_description,npro_id_categorie,npro_id_ferme,npro_etat
+			FROM npro_nom_produit 
+			WHERE npro_id = '32'
+Dec 11 13:35:20  [debug] Execution de la requete : INSERT INTO com_commande
+				(com_id
+				,com_numero
+				,com_nom
+				,com_description
+				,com_date_marche_debut
+				,com_date_marche_fin
+				,com_date_fin_reservation
+				,com_archive)
+			VALUES (NULL
+				,''
+				,''
+				,''
+				,'2011-12-22 00:00:00'
+				,'2011-12-22 00:55:00'
+				,'2011-12-17 00:00:00'
+				,'0')
+Dec 11 13:35:20  [debug] Execution de la requete : UPDATE com_commande
+			 SET
+				 com_numero = '36'
+				,com_nom = ''
+				,com_description = ''
+				,com_date_marche_debut = '2011-12-22 00:00:00'
+				,com_date_marche_fin = '2011-12-22 00:55:00'
+				,com_date_fin_reservation = '2011-12-17 00:00:00'
+				,com_archive = '0'
+			 WHERE com_id = '36'
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT npro_id,fer_id,fer_id_compte
+			FROM view_compte_nom_produit 
+			WHERE npro_id = '32'
+Dec 11 13:35:20  [debug] Execution de la requete : INSERT INTO pro_produit
+				(pro_id
+				,pro_id_commande
+				,pro_id_nom_produit
+				,pro_unite_mesure
+				,pro_max_produit_commande
+				,pro_id_compte_ferme
+				,pro_stock_reservation
+				,pro_stock_initial
+				,pro_etat)
+			VALUES (NULL
+				,'36'
+				,'32'
+				,'Kg'
+				,'-1'
+				,'67'
+				,'0'
+				,'-1'
+				,'')
+Dec 11 13:35:20  [debug] Execution de la requete : INSERT INTO dcom_detail_commande
+				(dcom_id
+				,dcom_id_produit
+				,dcom_taille
+				,dcom_prix
+				,dcom_etat)
+			VALUES (NULL
+				,'71'
+				,'5.00'
+				,'3.12'
+				,'')
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '67'
+Dec 11 13:35:20  [debug] Execution de la requete : INSERT INTO sto_stock
+				(sto_id
+				,sto_date
+				,sto_quantite
+				,sto_type
+				,sto_id_compte
+				,sto_id_detail_commande
+				,sto_id_operation)
+			VALUES (NULL
+				,'2011-12-11 13:35:20'
+				,''
+				,'0'
+				,'67'
+				,'109'
+				,'')
+Dec 11 13:35:20  [debug] Execution de la requete : INSERT INTO hsto_historique_stock
+				(hsto_id
+				,hsto_sto_id
+				,hsto_date
+				,hsto_quantite
+				,hsto_type
+				,hsto_id_compte
+				,hsto_id_detail_commande
+				,hsto_id_operation
+				,hsto_id_connexion)
+			VALUES (NULL
+				,'491'
+				,'2011-12-11 13:35:20'
+				,''
+				,'0'
+				,'67'
+				,'109'
+				,''
+				,'100631')
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat
+			FROM dcom_detail_commande 
+			WHERE dcom_id = '109'
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:35:20  [debug] Execution de la requete : UPDATE pro_produit
+			 SET
+				 pro_id_commande = '36'
+				,pro_id_nom_produit = '32'
+				,pro_unite_mesure = 'Kg'
+				,pro_max_produit_commande = '-1.00'
+				,pro_id_compte_ferme = '67'
+				,pro_stock_reservation = '0'
+				,pro_stock_initial = '-1.00'
+				,pro_etat = '0'
+			 WHERE pro_id = '71'
+Dec 11 13:35:20  [info] Ajout d'un marche par l'Adhérent : 100631
+Dec 11 13:35:20  [debug] Affichage de la page en : 0.118 secondes !!
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '36'
+Dec 11 13:35:20  [debug] Execution de la requete : SELECT com_id,com_numero,adh_id,adh_numero,cpt_label,adh_nom,adh_prenom
+			FROM view_gestion_commande_liste_reservation 
+			WHERE com_id = '36'
+Dec 11 13:35:20  [info] Affichage de la vue EditerCommande par le compte de l'Adhérent : 100631
+Dec 11 13:35:20  [debug] Affichage de la page en : 0.385 secondes !!
+Dec 11 13:36:46  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:36:46  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE pro_id = '71'
+Dec 11 13:36:46  [debug] Execution de la requete : SELECT mlot_id,mlot_id_nom_produit,mlot_quantite,mlot_unite,mlot_prix
+			FROM view_modele_lot 
+			WHERE mlot_id_nom_produit = '32'
+Dec 11 13:36:46  [info] Détail du produit du marché par : 100631
+Dec 11 13:36:46  [debug] Affichage de la page en : 0.101 secondes !!
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '2' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '2' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '3' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '3' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '4' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '4' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '5' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '5' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '6' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '6' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '7' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '7' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '8' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '8' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '9' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '9' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '10' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '10' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '11' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '11' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '12' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '12' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '13' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '13' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '14' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '14' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '15' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '15' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '16' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '16' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '17' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '17' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '18' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '18' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '19' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '19' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '20' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '20' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '21' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '21' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '22' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '22' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '23' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '23' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '24' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '24' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '25' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '25' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '26' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '26' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '27' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '27' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '28' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '28' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '29' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '29' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '30' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '30' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '32' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '32' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '32' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '32' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '33' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '33' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '33' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '33' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '34' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '34' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '34' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '34' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '35' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '35' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '35' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '35' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '36' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '36' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '36' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '36' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '45' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '45' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '46' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '46' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '49' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '49' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '50' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '50' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '56' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '56' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '57' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '57' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '58' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '58' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '59' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:37:34  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '59' AND ope_id_commande = '36') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:37:34  [info] Affichage de la liste des réservation et achats : 100631
+Dec 11 13:37:34  [debug] Affichage de la page en : 0.264 secondes !!
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:37:48  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:37:48  [debug] Affichage de la page en : 0.026 secondes !!
+Dec 11 13:37:53  [debug] Execution de la requete : SELECT car_id,car_nom
+			FROM view_liste_caracteristique
+Dec 11 13:37:53  [info] Affichage de la vue GestionCaracteristique par l'Adhérent : 100631
+Dec 11 13:37:53  [debug] Affichage de la page en : 0.169 secondes !!
+Dec 11 13:37:55  [debug] Execution de la requete : SELECT car_id,car_nom,car_description,car_etat
+			FROM car_caracteristique 
+			WHERE car_id = '1'
+Dec 11 13:37:55  [debug] Execution de la requete : SELECT car_id,car_nom,car_description
+			FROM view_caracteristique 
+			WHERE car_id = '1'
+Dec 11 13:37:55  [info] Affichage de la vue DetailCaracteristique par l'Adhérent : 100631
+Dec 11 13:37:55  [debug] Affichage de la page en : 0.014 secondes !!
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:37:59  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:37:59  [debug] Affichage de la page en : 0.025 secondes !!
+Dec 11 13:38:03  [debug] Execution de la requete : SELECT com_id,com_numero,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_gestion_liste_commande_en_cours
+Dec 11 13:38:03  [info] Affichage de la vue ListeCommande par le compte de l'Adhérent : 100631
+Dec 11 13:38:03  [debug] Affichage de la page en : 0.083 secondes !!
+Dec 11 13:38:17  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:38:17  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_nom,adh_prenom,adh_courriel_principal,cpt_solde,cpt_label
+			FROM view_liste_adherent
+Dec 11 13:38:17  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:38:17  [info] Affichage de la vue MarcheCommande par l'Adhérent : 100631
+Dec 11 13:38:17  [debug] Affichage de la page en : 0.281 secondes !!
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '2'
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '2'
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '36'
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '2' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT pro_id_commande,pro_id_compte_ferme,pro_id,sto_id,dcom_id,sto_quantite FROM view_stock_solidaire WHERE(pro_id_commande = '36' AND sto_quantite > '0');
+Dec 11 13:38:27  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM view_type_paiement_visible
+Dec 11 13:38:27  [info] Affichage de la vue AchatCommande par l'Adhérent : 100631
+Dec 11 13:38:27  [debug] Affichage de la page en : 0.063 secondes !!
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat FROM view_adherent WHERE(adh_id_compte = '2') ORDER BY adh_id ASC;
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '1'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '2' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat FROM dcom_detail_commande WHERE(dcom_id_produit = '71' AND dcom_etat = '0');
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'2'
+				,'-7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,''
+				,''
+				,'36')
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'834'
+				,'2'
+				,'-7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,''
+				,''
+				,'36'
+				,'100631')
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C2'
+				,cpt_solde = '28.9'
+			 WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-1'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'-1'
+				,'7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,'834'
+				,''
+				,'36')
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'835'
+				,'-1'
+				,'7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,'834'
+				,''
+				,'36'
+				,'100631')
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-1'
+Dec 11 13:41:51  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'ZEYBU'
+				,cpt_solde = '864.5'
+			 WHERE cpt_id = '-1'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'834'
+				,'2'
+				,'-7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,'835'
+				,''
+				,'36'
+				,'100631')
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '834'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C2'
+				,cpt_solde = '28.9'
+			 WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : UPDATE ope_operation
+			 SET
+				 ope_id_compte = '2'
+				,ope_montant = '-7.49'
+				,ope_libelle = 'Marché N°36'
+				,ope_date = '2011-12-11 13:41:51'
+				,ope_type_paiement = '7'
+				,ope_type_paiement_champ_complementaire = '835'
+				,ope_type = ''
+				,ope_id_commande = '36'
+			 WHERE ope_id = '834'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO sto_stock
+				(sto_id
+				,sto_date
+				,sto_quantite
+				,sto_type
+				,sto_id_compte
+				,sto_id_detail_commande
+				,sto_id_operation)
+			VALUES (NULL
+				,'2011-12-11 13:41:51'
+				,'-12'
+				,'1'
+				,'2'
+				,'109'
+				,'834')
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO hsto_historique_stock
+				(hsto_id
+				,hsto_sto_id
+				,hsto_date
+				,hsto_quantite
+				,hsto_type
+				,hsto_id_compte
+				,hsto_id_detail_commande
+				,hsto_id_operation
+				,hsto_id_connexion)
+			VALUES (NULL
+				,'492'
+				,'2011-12-11 13:41:51'
+				,'-12'
+				,'1'
+				,'2'
+				,'109'
+				,'834'
+				,'100631')
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '834'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:51  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO dope_detail_operation
+				(dope_id
+				,dope_id_operation
+				,dope_id_compte
+				,dope_montant
+				,dope_libelle
+				,dope_date
+				,dope_type_paiement
+				,dope_type_paiement_champ_complementaire
+				,dope_id_detail_commande
+				,dope_id_connexion)
+			VALUES (NULL
+				,'834'
+				,'2'
+				,'-7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,''
+				,'109'
+				,'100631')
+Dec 11 13:41:51  [debug] Execution de la requete : INSERT INTO hdope_historique_detail_operation
+				(hdope_id
+				,hdope_id_detail_operation
+				,hdope_id_operation
+				,hdope_id_compte
+				,hdope_montant
+				,hdope_libelle
+				,hdope_date
+				,hdope_type_paiement
+				,hdope_type_paiement_champ_complementaire
+				,hdope_id_detail_commande
+				,hdope_id_connexion)
+			VALUES (NULL
+				,'310'
+				,'834'
+				,'2'
+				,'-7.49'
+				,'Marché N°36'
+				,'2011-12-11 13:41:51'
+				,'7'
+				,''
+				,'109'
+				,'100631')
+Dec 11 13:41:52  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:52  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '1'
+Dec 11 13:41:52  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'2'
+				,'12'
+				,'Rechargement'
+				,'2011-12-11 13:41:52'
+				,'1'
+				,''
+				,''
+				,'0')
+Dec 11 13:41:52  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'836'
+				,'2'
+				,'12'
+				,'Rechargement'
+				,'2011-12-11 13:41:52'
+				,'1'
+				,''
+				,''
+				,'0'
+				,'100631')
+Dec 11 13:41:52  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '2'
+Dec 11 13:41:52  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C2'
+				,cpt_solde = '40.9'
+			 WHERE cpt_id = '2'
+Dec 11 13:41:52  [info] Enregistrement d'un achat par l'adherent : 100631
+Dec 11 13:41:52  [debug] Affichage de la page en : 0.187 secondes !!
+Dec 11 13:41:59  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:41:59  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_nom,adh_prenom,adh_courriel_principal,cpt_solde,cpt_label
+			FROM view_liste_adherent
+Dec 11 13:41:59  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:41:59  [info] Affichage de la vue MarcheCommande par l'Adhérent : 100631
+Dec 11 13:41:59  [debug] Affichage de la page en : 0.065 secondes !!
+Dec 11 13:42:22  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:42:22  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:42:22  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:42:22  [info] Affichage du compte de l'Adhérent : 100631
+Dec 11 13:42:22  [debug] Affichage de la page en : 0.027 secondes !!
+Dec 11 13:42:47  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:42:47  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:42:47  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100631
+Dec 11 13:42:47  [debug] Affichage de la page en : 0.043 secondes !!
+Dec 11 13:42:50  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 11 13:42:50  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100631
+Dec 11 13:42:50  [debug] Affichage de la page en : 0.058 secondes !!
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '28'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '28'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '31' AND ope_id_commande = '28') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '800'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit
+			FROM view_achat_detail 
+			WHERE sto_id_operation = '800'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '798'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit
+			FROM view_achat_detail 
+			WHERE sto_id_operation = '798'
+Dec 11 13:42:55  [debug] Execution de la requete : SELECT pro_id_commande,pro_id_compte_ferme,pro_id,sto_id,dcom_id,sto_quantite FROM view_stock_solidaire WHERE(pro_id_commande = '28' AND sto_quantite > '0');
+Dec 11 13:42:55  [info] Affichage de la vue MesAchatsDetail par le compte de l'Adhérent : 100631
+Dec 11 13:42:55  [debug] Affichage de la page en : 0.128 secondes !!
+Dec 11 13:43:08  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 11 13:43:08  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100631
+Dec 11 13:43:08  [debug] Affichage de la page en : 0.058 secondes !!
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '29'
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '29'
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '7','8' ) AND ope_id_compte = '31' AND ope_id_commande = '29') ORDER BY ope_type_paiement ASC,ope_date DESC;
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '826'
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit
+			FROM view_achat_detail 
+			WHERE sto_id_operation = '826'
+Dec 11 13:43:10  [debug] Execution de la requete : SELECT pro_id_commande,pro_id_compte_ferme,pro_id,sto_id,dcom_id,sto_quantite FROM view_stock_solidaire WHERE(pro_id_commande = '29' AND sto_quantite > '0');
+Dec 11 13:43:10  [info] Affichage de la vue MesAchatsDetail par le compte de l'Adhérent : 100631
+Dec 11 13:43:10  [debug] Affichage de la page en : 0.065 secondes !!
+Dec 11 13:43:17  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:43:17  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:43:17  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100631
+Dec 11 13:43:17  [debug] Affichage de la page en : 0.042 secondes !!
+Dec 11 13:43:40  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:43:40  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '36'
+Dec 11 13:43:40  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:43:40  [info] Affichage de la vue ReservationCommande par : 100631
+Dec 11 13:43:40  [debug] Affichage de la page en : 0.167 secondes !!
+Dec 11 13:43:52  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:43:52  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:43:52  [debug] Execution de la requete : SELECT npro_id,npro_id_ferme,cpro_nom,npro_nom,npro_description,cpro_id
+			FROM view_nom_produit 
+			WHERE npro_id = '32'
+Dec 11 13:43:52  [debug] Execution de la requete : SELECT nprdt_id_nom_produit,prdt_id,prdt_nom,prdt_prenom,prdt_commentaire,nprdt_id
+			FROM view_nom_produit_producteur 
+			WHERE nprdt_id_nom_produit = '32'
+Dec 11 13:43:52  [debug] Execution de la requete : SELECT carpro_id_nom_produit,car_id,car_nom,car_description,carpro_id
+			FROM view_caracteristique_produit 
+			WHERE carpro_id_nom_produit = '32'
+Dec 11 13:43:52  [info] Affichage du détail produit dans ReservationCommande par l'Adhérent : 100631
+Dec 11 13:43:52  [debug] Affichage de la page en : 0.067 secondes !!
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom FROM view_detail_marche WHERE(dcom_id = '109');
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat
+			FROM dcom_detail_commande 
+			WHERE dcom_id = '109'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom FROM view_detail_marche WHERE(dcom_id = '109');
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat
+			FROM dcom_detail_commande 
+			WHERE dcom_id = '109'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '0'
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:44:01'
+				,'0'
+				,''
+				,'0'
+				,'36')
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:44:01'
+				,'0'
+				,''
+				,'0'
+				,'36'
+				,'100631')
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO sto_stock
+				(sto_id
+				,sto_date
+				,sto_quantite
+				,sto_type
+				,sto_id_compte
+				,sto_id_detail_commande
+				,sto_id_operation)
+			VALUES (NULL
+				,'2011-12-11 13:44:01'
+				,'-15'
+				,'0'
+				,'31'
+				,'109'
+				,'837')
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO hsto_historique_stock
+				(hsto_id
+				,hsto_sto_id
+				,hsto_date
+				,hsto_quantite
+				,hsto_type
+				,hsto_id_compte
+				,hsto_id_detail_commande
+				,hsto_id_operation
+				,hsto_id_connexion)
+			VALUES (NULL
+				,'493'
+				,'2011-12-11 13:44:01'
+				,'-15'
+				,'0'
+				,'31'
+				,'109'
+				,'837'
+				,'100631')
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat
+			FROM dcom_detail_commande 
+			WHERE dcom_id = '109'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:44:01  [debug] Execution de la requete : UPDATE pro_produit
+			 SET
+				 pro_id_commande = '36'
+				,pro_id_nom_produit = '32'
+				,pro_unite_mesure = 'Kg'
+				,pro_max_produit_commande = '-1.00'
+				,pro_id_compte_ferme = '67'
+				,pro_stock_reservation = '-15'
+				,pro_stock_initial = '-1.00'
+				,pro_etat = '0'
+			 WHERE pro_id = '71'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '837'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:44:01  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '0'
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO dope_detail_operation
+				(dope_id
+				,dope_id_operation
+				,dope_id_compte
+				,dope_montant
+				,dope_libelle
+				,dope_date
+				,dope_type_paiement
+				,dope_type_paiement_champ_complementaire
+				,dope_id_detail_commande
+				,dope_id_connexion)
+			VALUES (NULL
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:44:01'
+				,'0'
+				,''
+				,'109'
+				,'100631')
+Dec 11 13:44:01  [debug] Execution de la requete : INSERT INTO hdope_historique_detail_operation
+				(hdope_id
+				,hdope_id_detail_operation
+				,hdope_id_operation
+				,hdope_id_compte
+				,hdope_montant
+				,hdope_libelle
+				,hdope_date
+				,hdope_type_paiement
+				,hdope_type_paiement_champ_complementaire
+				,hdope_id_detail_commande
+				,hdope_id_connexion)
+			VALUES (NULL
+				,'311'
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:44:01'
+				,'0'
+				,''
+				,'109'
+				,'100631')
+Dec 11 13:44:01  [info] Réalisation d'une réservation de commande par : 100631
+Dec 11 13:44:01  [debug] Affichage de la page en : 0.082 secondes !!
+Dec 11 13:44:10  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:44:10  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:44:10  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100631
+Dec 11 13:44:10  [debug] Affichage de la page en : 0.042 secondes !!
+Dec 11 13:44:13  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '30') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:13  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '30'
+Dec 11 13:44:13  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '30') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:13  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit,dope_type_paiement,sto_type
+			FROM view_reservation_detail 
+			WHERE sto_id_operation = '833'
+			AND dope_type_paiement = '0'
+			AND sto_type = '0';
+Dec 11 13:44:13  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:44:13  [info] Affichage de la vue AfficherReservation par l'Adhérent : 100631
+Dec 11 13:44:13  [debug] Affichage de la page en : 0.108 secondes !!
+Dec 11 13:44:16  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '55'
+Dec 11 13:44:16  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '55'
+Dec 11 13:44:16  [debug] Execution de la requete : SELECT npro_id,npro_id_ferme,cpro_nom,npro_nom,npro_description,cpro_id
+			FROM view_nom_produit 
+			WHERE npro_id = '31'
+Dec 11 13:44:16  [debug] Execution de la requete : SELECT nprdt_id_nom_produit,prdt_id,prdt_nom,prdt_prenom,prdt_commentaire,nprdt_id
+			FROM view_nom_produit_producteur 
+			WHERE nprdt_id_nom_produit = '31'
+Dec 11 13:44:16  [debug] Execution de la requete : SELECT carpro_id_nom_produit,car_id,car_nom,car_description,carpro_id
+			FROM view_caracteristique_produit 
+			WHERE carpro_id_nom_produit = '31'
+Dec 11 13:44:16  [info] Affichage du détail produit dans AfficherReservation par l'Adhérent : 100631
+Dec 11 13:44:16  [debug] Affichage de la page en : 0.067 secondes !!
+Dec 11 13:44:19  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 11 13:44:19  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 11 13:44:19  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100631
+Dec 11 13:44:19  [debug] Affichage de la page en : 0.039 secondes !!
+Dec 11 13:44:21  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:21  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '36'
+Dec 11 13:44:21  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:44:21  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit,dope_type_paiement,sto_type
+			FROM view_reservation_detail 
+			WHERE sto_id_operation = '837'
+			AND dope_type_paiement = '0'
+			AND sto_type = '0';
+Dec 11 13:44:21  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:44:21  [info] Affichage de la vue AfficherReservation par l'Adhérent : 100631
+Dec 11 13:44:21  [debug] Affichage de la page en : 0.084 secondes !!
+Dec 11 13:44:24  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:44:24  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:44:24  [debug] Execution de la requete : SELECT npro_id,npro_id_ferme,cpro_nom,npro_nom,npro_description,cpro_id
+			FROM view_nom_produit 
+			WHERE npro_id = '32'
+Dec 11 13:44:24  [debug] Execution de la requete : SELECT nprdt_id_nom_produit,prdt_id,prdt_nom,prdt_prenom,prdt_commentaire,nprdt_id
+			FROM view_nom_produit_producteur 
+			WHERE nprdt_id_nom_produit = '32'
+Dec 11 13:44:24  [debug] Execution de la requete : SELECT carpro_id_nom_produit,car_id,car_nom,car_description,carpro_id
+			FROM view_caracteristique_produit 
+			WHERE carpro_id_nom_produit = '32'
+Dec 11 13:44:24  [info] Affichage du détail produit dans AfficherReservation par l'Adhérent : 100631
+Dec 11 13:44:24  [debug] Affichage de la page en : 0.064 secondes !!
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:44:41  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100631
+Dec 11 13:44:41  [debug] Affichage de la page en : 0.027 secondes !!
+Dec 11 13:45:13  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_type = '3');
+Dec 11 13:45:13  [info] Affichage de l'état de la caisse : 100631
+Dec 11 13:45:13  [debug] Affichage de la page en : 0.049 secondes !!
+Dec 11 13:45:16  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_type = '3');
+Dec 11 13:45:16  [debug] Execution de la requete : UPDATE ide_identification
+			 SET
+				 ide_id_login = '0'
+				,ide_login = 'vente'
+				,ide_pass = '01f01083386dc09d99826461b2b6c6f1'
+				,ide_type = '3'
+				,ide_autorise = '0'
+			 WHERE ide_id = '44'
+Dec 11 13:45:16  [info] Fermeture de la caisse : 100631
+Dec 11 13:45:16  [debug] Affichage de la page en : 0.014 secondes !!
+Dec 11 13:45:16  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_type = '3');
+Dec 11 13:45:16  [info] Affichage de l'état de la caisse : 100631
+Dec 11 13:45:16  [debug] Affichage de la page en : 0.013 secondes !!
+Dec 11 13:45:17  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_type = '3');
+Dec 11 13:45:17  [debug] Execution de la requete : UPDATE ide_identification
+			 SET
+				 ide_id_login = '0'
+				,ide_login = 'vente'
+				,ide_pass = '01f01083386dc09d99826461b2b6c6f1'
+				,ide_type = '3'
+				,ide_autorise = '1'
+			 WHERE ide_id = '44'
+Dec 11 13:45:17  [info] Ouverture de la caisse : 100631
+Dec 11 13:45:17  [debug] Affichage de la page en : 0.013 secondes !!
+Dec 11 13:45:17  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_type = '3');
+Dec 11 13:45:17  [info] Affichage de l'état de la caisse : 100631
+Dec 11 13:45:17  [debug] Affichage de la page en : 0.009 secondes !!
+Dec 11 13:45:21  [info] Déconnexion de l'utilisateur ayant pour ID : 100631
+Dec 11 13:45:21  [debug] Execution de la requete : SELECT acc_id,acc_id_login,acc_type_login,acc_ip,acc_date_creation,acc_date_modification,acc_autorise
+			FROM acc_acces 
+			WHERE acc_id = '100631'
+Dec 11 13:45:21  [debug] Execution de la requete : UPDATE acc_acces
+			 SET
+				 acc_id_login = '1'
+				,acc_type_login = '1'
+				,acc_ip = '192.168.1.40'
+				,acc_date_creation = '2011-12-11 13:30:25'
+				,acc_date_modification = '2011-12-11 13:45:21'
+				,acc_autorise = '0'
+			 WHERE acc_id = '100631'
+Dec 11 13:45:21  [debug] Affichage de la page en : 0.010 secondes !!
+Dec 11 13:45:21  [info] Affichage du formulaire de connexion
+Dec 11 13:45:21  [debug] Affichage de la page en : 0.008 secondes !!
+Dec 11 13:45:26  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'vente');
+Dec 11 13:45:26  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'0'
+				,'3'
+				,'192.168.1.40'
+				,'2011-12-11 13:45:26'
+				,''
+				,'1')
+Dec 11 13:45:26  [info] Réussite de l'authentification pour l'utilisateur : 100632
+Dec 11 13:45:26  [debug] Affichage de la page en : 0.023 secondes !!
+Dec 11 13:45:26  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100632
+Dec 11 13:45:26  [debug] Affichage de la page en : 0.017 secondes !!
+Dec 11 13:45:27  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive FROM com_commande WHERE(com_archive = '0') ORDER BY com_date_marche_debut ASC;
+Dec 11 13:45:27  [info] Affichage de la vue ListeCommande par le compte de l'Adhérent : 100632
+Dec 11 13:45:27  [debug] Affichage de la page en : 0.082 secondes !!
+Dec 11 13:45:42  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive FROM com_commande WHERE(com_archive = '0') ORDER BY com_date_marche_debut ASC;
+Dec 11 13:45:42  [info] Affichage de la vue ListeCommande par le compte de l'Adhérent : 100632
+Dec 11 13:45:42  [debug] Affichage de la page en : 0.037 secondes !!
+Dec 11 13:45:48  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:45:48  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_nom,adh_prenom,adh_courriel_principal,cpt_solde,cpt_label
+			FROM view_liste_adherent
+Dec 11 13:45:48  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:45:48  [info] Affichage de la vue MarcheCommande par l'Adhérent : 100632
+Dec 11 13:45:48  [debug] Affichage de la page en : 0.135 secondes !!
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive,pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,npro_id,npro_nom,npro_description,npro_id_categorie,dcom_id,dcom_id_produit,dcom_taille,dcom_prix,cpro_nom,fer_id,fer_nom
+			FROM view_detail_marche 
+			WHERE com_id = '36'
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit,dope_type_paiement,sto_type
+			FROM view_reservation_detail 
+			WHERE sto_id_operation = '837'
+			AND dope_type_paiement = '0'
+			AND sto_type = '0';
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT pro_id_commande,pro_id_compte_ferme,pro_id,sto_id,dcom_id,sto_quantite FROM view_stock_solidaire WHERE(pro_id_commande = '36' AND sto_quantite > '0');
+Dec 11 13:45:54  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM view_type_paiement_visible
+Dec 11 13:45:54  [info] Affichage de la vue AchatCommande par l'Adhérent : 100632
+Dec 11 13:45:54  [debug] Affichage de la page en : 0.072 secondes !!
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT pro_id,pro_id_commande,pro_id_nom_produit,pro_unite_mesure,pro_max_produit_commande,pro_id_compte_ferme,pro_stock_reservation,pro_stock_initial,pro_etat
+			FROM pro_produit 
+			WHERE pro_id = '71'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT dcom_id,dcom_id_produit,dcom_taille,dcom_prix,dcom_etat FROM dcom_detail_commande WHERE(dcom_id_produit = '71' AND dcom_etat = '0');
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande FROM ope_operation WHERE(ope_type_paiement in ( '0','7','15','16' ) AND ope_id_compte = '31' AND ope_id_commande = '36') ORDER BY ope_date DESC,ope_type_paiement ASC;
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT sto_id_operation,sto_id,dope_id,sto_id_detail_commande,dope_montant,sto_quantite,dcom_id_produit,dope_type_paiement,sto_type
+			FROM view_reservation_detail 
+			WHERE sto_id_operation = '837'
+			AND dope_type_paiement = '0'
+			AND sto_type = '0';
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '837'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO sto_stock
+				(sto_id
+				,sto_date
+				,sto_quantite
+				,sto_type
+				,sto_id_compte
+				,sto_id_detail_commande
+				,sto_id_operation)
+			VALUES (NULL
+				,'2011-12-11 13:46:08'
+				,'-15'
+				,'1'
+				,'31'
+				,'109'
+				,'837')
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO hsto_historique_stock
+				(hsto_id
+				,hsto_sto_id
+				,hsto_date
+				,hsto_quantite
+				,hsto_type
+				,hsto_id_compte
+				,hsto_id_detail_commande
+				,hsto_id_operation
+				,hsto_id_connexion)
+			VALUES (NULL
+				,'494'
+				,'2011-12-11 13:46:08'
+				,'-15'
+				,'1'
+				,'31'
+				,'109'
+				,'837'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '837'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO dope_detail_operation
+				(dope_id
+				,dope_id_operation
+				,dope_id_compte
+				,dope_montant
+				,dope_libelle
+				,dope_date
+				,dope_type_paiement
+				,dope_type_paiement_champ_complementaire
+				,dope_id_detail_commande
+				,dope_id_connexion)
+			VALUES (NULL
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,''
+				,'109'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO hdope_historique_detail_operation
+				(hdope_id
+				,hdope_id_detail_operation
+				,hdope_id_operation
+				,hdope_id_compte
+				,hdope_montant
+				,hdope_libelle
+				,hdope_date
+				,hdope_type_paiement
+				,hdope_type_paiement_champ_complementaire
+				,hdope_id_detail_commande
+				,hdope_id_connexion)
+			VALUES (NULL
+				,'312'
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,''
+				,'109'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,''
+				,'0'
+				,'36'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '837'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C31'
+				,cpt_solde = '48.24'
+			 WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : UPDATE ope_operation
+			 SET
+				 ope_id_compte = '31'
+				,ope_montant = '-9.36'
+				,ope_libelle = 'Marché N°36'
+				,ope_date = '2011-12-11 13:46:08'
+				,ope_type_paiement = '7'
+				,ope_type_paiement_champ_complementaire = ''
+				,ope_type = '0'
+				,ope_id_commande = '36'
+			 WHERE ope_id = '837'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-1'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'-1'
+				,'9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,'837'
+				,''
+				,'36')
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'838'
+				,'-1'
+				,'9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,'837'
+				,''
+				,'36'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-1'
+Dec 11 13:46:08  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'ZEYBU'
+				,cpt_solde = '873.86'
+			 WHERE cpt_id = '-1'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '7'
+Dec 11 13:46:08  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'837'
+				,'31'
+				,'-9.36'
+				,'Marché N°36'
+				,'2011-12-11 13:46:08'
+				,'7'
+				,'838'
+				,'0'
+				,'36'
+				,'100632')
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '837'
+Dec 11 13:46:08  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C31'
+				,cpt_solde = '48.24'
+			 WHERE cpt_id = '31'
+Dec 11 13:46:08  [debug] Execution de la requete : UPDATE ope_operation
+			 SET
+				 ope_id_compte = '31'
+				,ope_montant = '-9.36'
+				,ope_libelle = 'Marché N°36'
+				,ope_date = '2011-12-11 13:46:08'
+				,ope_type_paiement = '7'
+				,ope_type_paiement_champ_complementaire = '838'
+				,ope_type = '0'
+				,ope_id_commande = '36'
+			 WHERE ope_id = '837'
+Dec 11 13:46:08  [info] Enregistrement d'un achat par l'adherent : 100632
+Dec 11 13:46:08  [debug] Affichage de la page en : 0.086 secondes !!
+Dec 11 13:46:10  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:46:10  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_nom,adh_prenom,adh_courriel_principal,cpt_solde,cpt_label
+			FROM view_liste_adherent
+Dec 11 13:46:10  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive
+			FROM com_commande 
+			WHERE com_id = '36'
+Dec 11 13:46:10  [info] Affichage de la vue MarcheCommande par l'Adhérent : 100632
+Dec 11 13:46:10  [debug] Affichage de la page en : 0.068 secondes !!
+Dec 11 13:46:13  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_description,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation,com_archive FROM com_commande WHERE(com_archive = '0') ORDER BY com_date_marche_debut ASC;
+Dec 11 13:46:13  [info] Affichage de la vue ListeCommande par le compte de l'Adhérent : 100632
+Dec 11 13:46:13  [debug] Affichage de la page en : 0.038 secondes !!
+Dec 11 13:46:17  [info] Déconnexion de l'utilisateur ayant pour ID : 100632
+Dec 11 13:46:17  [debug] Execution de la requete : SELECT acc_id,acc_id_login,acc_type_login,acc_ip,acc_date_creation,acc_date_modification,acc_autorise
+			FROM acc_acces 
+			WHERE acc_id = '100632'
+Dec 11 13:46:17  [debug] Execution de la requete : UPDATE acc_acces
+			 SET
+				 acc_id_login = '0'
+				,acc_type_login = '3'
+				,acc_ip = '192.168.1.40'
+				,acc_date_creation = '2011-12-11 13:45:26'
+				,acc_date_modification = '2011-12-11 13:46:17'
+				,acc_autorise = '0'
+			 WHERE acc_id = '100632'
+Dec 11 13:46:17  [debug] Affichage de la page en : 0.012 secondes !!
+Dec 11 13:46:18  [info] Affichage du formulaire de connexion
+Dec 11 13:46:18  [debug] Affichage de la page en : 0.008 secondes !!
+Dec 11 13:46:24  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'EAU');
+Dec 11 13:46:24  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'0'
+				,'4'
+				,'192.168.1.40'
+				,'2011-12-11 13:46:24'
+				,''
+				,'1')
+Dec 11 13:46:24  [info] Réussite de l'authentification pour l'utilisateur : 100633
+Dec 11 13:46:24  [debug] Affichage de la page en : 0.023 secondes !!
+Dec 11 13:46:24  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100633
+Dec 11 13:46:24  [debug] Affichage de la page en : 0.024 secondes !!
+Dec 11 13:46:24  [debug] Execution de la requete : SELECT ope_id,ope_date,cpt_label,ope_montant,ope_type_paiement
+			FROM view_compte_solidaire_operation
+Dec 11 13:46:24  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:46:24  [info] Affichage de l'état du compte solidaire : 100633
+Dec 11 13:46:24  [debug] Affichage de la page en : 0.237 secondes !!
+Dec 11 13:46:56  [debug] Execution de la requete : SELECT adh_id,adh_numero,cpt_label,adh_nom,adh_prenom
+			FROM view_compte_solidaire_liste_adherent
+Dec 11 13:46:56  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:46:56  [info] Affichage de la liste des adhérents : 100633
+Dec 11 13:46:56  [debug] Affichage de la page en : 0.058 secondes !!
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '9'
+Dec 11 13:47:10  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'-2'
+				,'-22'
+				,'Virement Solidaire'
+				,'2011-12-11 13:47:10'
+				,'9'
+				,''
+				,'1'
+				,'0')
+Dec 11 13:47:10  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'839'
+				,'-2'
+				,'-22'
+				,'Virement Solidaire'
+				,'2011-12-11 13:47:10'
+				,'9'
+				,''
+				,'1'
+				,'0'
+				,'100633')
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'EAU'
+				,cpt_solde = '300.47'
+			 WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '10'
+Dec 11 13:47:10  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'31'
+				,'22'
+				,'Virement Solidaire'
+				,'2011-12-11 13:47:10'
+				,'10'
+				,'839'
+				,'1'
+				,'0')
+Dec 11 13:47:10  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'840'
+				,'31'
+				,'22'
+				,'Virement Solidaire'
+				,'2011-12-11 13:47:10'
+				,'10'
+				,'839'
+				,'1'
+				,'0'
+				,'100633')
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '31'
+Dec 11 13:47:10  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'C31'
+				,cpt_solde = '70.24'
+			 WHERE cpt_id = '31'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT tpp_id,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,tpp_visible
+			FROM tpp_type_paiement 
+			WHERE tpp_id = '9'
+Dec 11 13:47:10  [debug] Execution de la requete : INSERT INTO hope_historique_operation
+				(hope_id
+				,hope_id_operation
+				,hope_id_compte
+				,hope_montant
+				,hope_libelle
+				,hope_date
+				,hope_type_paiement
+				,hope_type_paiement_champ_complementaire
+				,hope_type
+				,hope_id_commande
+				,hope_id_connexion)
+			VALUES (NULL
+				,'839'
+				,'-2'
+				,'-22'
+				,'Virement Solidaire'
+				,'2011-12-11 13:47:10'
+				,'9'
+				,'840'
+				,'1'
+				,'0'
+				,'100633')
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT ope_id,ope_id_compte,ope_montant,ope_libelle,ope_date,ope_type_paiement,ope_type_paiement_champ_complementaire,ope_type,ope_id_commande
+			FROM ope_operation 
+			WHERE ope_id = '839'
+Dec 11 13:47:10  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : UPDATE cpt_compte
+			 SET
+				 cpt_label = 'EAU'
+				,cpt_solde = '300.47'
+			 WHERE cpt_id = '-2'
+Dec 11 13:47:10  [debug] Execution de la requete : UPDATE ope_operation
+			 SET
+				 ope_id_compte = '-2'
+				,ope_montant = '-22'
+				,ope_libelle = 'Virement Solidaire'
+				,ope_date = '2011-12-11 13:47:10'
+				,ope_type_paiement = '9'
+				,ope_type_paiement_champ_complementaire = '840'
+				,ope_type = '1'
+				,ope_id_commande = '0'
+			 WHERE ope_id = '839'
+Dec 11 13:47:10  [info] Affichage de la liste des adhérents : 100633
+Dec 11 13:47:10  [debug] Affichage de la page en : 0.048 secondes !!
+Dec 11 13:47:13  [debug] Execution de la requete : SELECT ope_id,ope_date,cpt_label,ope_montant,ope_type_paiement
+			FROM view_compte_solidaire_operation
+Dec 11 13:47:13  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-2'
+Dec 11 13:47:13  [info] Affichage de l'état du compte solidaire : 100633
+Dec 11 13:47:13  [debug] Affichage de la page en : 0.033 secondes !!
+Dec 11 13:47:33  [info] Déconnexion de l'utilisateur ayant pour ID : 100633
+Dec 11 13:47:33  [debug] Execution de la requete : SELECT acc_id,acc_id_login,acc_type_login,acc_ip,acc_date_creation,acc_date_modification,acc_autorise
+			FROM acc_acces 
+			WHERE acc_id = '100633'
+Dec 11 13:47:33  [debug] Execution de la requete : UPDATE acc_acces
+			 SET
+				 acc_id_login = '0'
+				,acc_type_login = '4'
+				,acc_ip = '192.168.1.40'
+				,acc_date_creation = '2011-12-11 13:46:24'
+				,acc_date_modification = '2011-12-11 13:47:33'
+				,acc_autorise = '0'
+			 WHERE acc_id = '100633'
+Dec 11 13:47:33  [debug] Affichage de la page en : 0.015 secondes !!
+Dec 11 13:47:33  [info] Affichage du formulaire de connexion
+Dec 11 13:47:33  [debug] Affichage de la page en : 0.008 secondes !!
+Dec 11 13:47:36  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 11 13:47:36  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 11 13:47:36  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'192.168.1.40'
+				,'2011-12-11 13:47:36'
+				,''
+				,'1')
+Dec 11 13:47:36  [info] Réussite de l'authentification pour l'utilisateur : 100634
+Dec 11 13:47:36  [debug] Affichage de la page en : 0.030 secondes !!
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '1') ORDER BY vue_ordre ASC;
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '3') ORDER BY vue_ordre ASC;
+Dec 11 13:47:37  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100634
+Dec 11 13:47:37  [debug] Affichage de la page en : 0.022 secondes !!
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:47:37  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:47:37  [info] Affichage du compte de l'Adhérent : 100634
+Dec 11 13:47:37  [debug] Affichage de la page en : 0.025 secondes !!
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:47:45  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100634
+Dec 11 13:47:45  [debug] Affichage de la page en : 0.024 secondes !!
+Dec 11 13:48:07  [debug] Execution de la requete : SELECT cpt_id,cpt_label,cpt_solde
+			FROM cpt_compte 
+			WHERE cpt_id = '-1'
+Dec 11 13:48:07  [debug] Execution de la requete : SELECT sum(ope_montant) AS ope_montant
+			FROM ope_operation 
+			WHERE ope_type_paiement = '1'
+Dec 11 13:48:07  [debug] Execution de la requete : SELECT sum(ope_montant) AS ope_montant
+			FROM ope_operation 
+			WHERE ope_type_paiement = '2'
+Dec 11 13:48:07  [debug] Execution de la requete : (
+				SELECT
+					ope1.ope_id AS ope_id,
+					ope1.ope_date AS ope_date,
+					cpt_label AS cpt_label,
+					ope1.ope_libelle AS ope_libelle,
+					ope1.ope_montant AS ope_montant,
+					tpp_type AS tpp_type
+				FROM ope_operation ope1 
+				LEFT JOIN ope_operation ope2 ON ope1.ope_type_paiement_champ_complementaire = ope2.ope_id
+				LEFT JOIN cpt_compte ON ope2.ope_id_compte = cpt_id
+				JOIN tpp_type_paiement ON ope1.ope_type_paiement = tpp_id
+				
+				WHERE ope1.ope_id_compte = '-1'
+					AND ope1.ope_type_paiement in (1,2,3,4,7,8,9,10) 
+					AND ope1.ope_id NOT IN ( 
+						SELECT iol_id_ope_zeybu
+						FROM iol_info_operation_livraison )
+			)
+				
+			UNION
+				
+			(
+				SELECT 
+					LIVRAISON.iol_id_ope_zeybu AS ope_id,
+					ope3.ope_date AS ope_date,
+						cpt_label AS cpt_label,
+					`ope3`.ope_libelle AS ope_libelle,
+					`ope3`.ope_montant AS ope_montant,
+					tpp_type AS tpp_type				
+				FROM ope_operation ope3
+				JOIN (
+					SELECT 
+						iol_id_ope_zeybu,
+						ope4.ope_id_compte
+					FROM ope_operation ope4
+					JOIN iol_info_operation_livraison ON ope4.ope_type_paiement_champ_complementaire = iol_id
+					WHERE ope4.ope_type_paiement = 6 ) LIVRAISON ON ope3.ope_id = LIVRAISON. iol_id_ope_zeybu
+				
+				LEFT JOIN cpt_compte on LIVRAISON.ope_id_compte = cpt_compte.cpt_id
+				JOIN  tpp_type_paiement ON ope3.ope_type_paiement = tpp_id
+			)
+			ORDER BY `ope_date` desc
+Dec 11 13:48:07  [info] Affichage de la vue CompteZeybu par le compte de l'Adhérent : 100634
+Dec 11 13:48:07  [debug] Affichage de la page en : 0.115 secondes !!
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '4') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '2') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '5') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '9') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '6') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '7') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
+Dec 11 13:48:34  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100634
+Dec 11 13:48:34  [debug] Affichage de la page en : 0.025 secondes !!
+Dec 11 13:48:40  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent
+Dec 11 13:48:40  [debug] Execution de la requete : SELECT fer_id,fer_numero,cpt_label,fer_nom,fer_id_compte
+			FROM view_liste_ferme
+Dec 11 13:48:40  [info] Affichage de la vue Virements par : 100634
+Dec 11 13:48:40  [debug] Affichage de la page en : 0.167 secondes !!
+Dec 11 13:48:53  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 11 13:48:53  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 11 13:48:53  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 11 13:48:53  [info] Affichage du compte de l'Adhérent : 100634
+Dec 11 13:48:53  [debug] Affichage de la page en : 0.030 secondes !!

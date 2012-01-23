@@ -1,0 +1,180 @@
+Dec 04 22:45:41  [info] Affichage du formulaire de connexion
+Dec 04 22:45:41  [debug] Affichage de la page en : 0.121 secondes !!
+Dec 04 23:24:29  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 04 23:24:29  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 04 23:24:29  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'127.0.0.1'
+				,'2011-12-04 23:24:29'
+				,''
+				,'1')
+Dec 04 23:24:29  [info] Réussite de l'authentification pour l'utilisateur : 100595
+Dec 04 23:24:29  [debug] Affichage de la page en : 0.151 secondes !!
+Dec 04 23:25:02  [info] Affichage du formulaire de connexion
+Dec 04 23:25:02  [debug] Affichage de la page en : 0.006 secondes !!
+Dec 04 23:25:06  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 04 23:25:06  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 04 23:25:06  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'127.0.0.1'
+				,'2011-12-04 23:25:06'
+				,''
+				,'1')
+Dec 04 23:25:06  [info] Réussite de l'authentification pour l'utilisateur : 100596
+Dec 04 23:25:06  [debug] Affichage de la page en : 0.031 secondes !!
+Dec 04 23:25:52  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 04 23:25:52  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 04 23:25:52  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'127.0.0.1'
+				,'2011-12-04 23:25:52'
+				,''
+				,'1')
+Dec 04 23:25:52  [info] Réussite de l'authentification pour l'utilisateur : 100597
+Dec 04 23:25:52  [debug] Affichage de la page en : 0.028 secondes !!
+Dec 04 23:33:07  [debug] Execution de la requete : SELECT ide_id,ide_id_login,ide_login,ide_pass,ide_type,ide_autorise FROM ide_identification WHERE(ide_login = 'Z1');
+Dec 04 23:33:07  [debug] Execution de la requete : SELECT adh_id,adh_id_compte,mod_nom
+			FROM view_identification 
+			WHERE adh_id = '1'
+Dec 04 23:33:07  [debug] Execution de la requete : INSERT INTO acc_acces
+				(acc_id
+				,acc_id_login
+				,acc_type_login
+				,acc_ip
+				,acc_date_creation
+				,acc_date_modification
+				,acc_autorise)
+			VALUES (NULL
+				,'1'
+				,'1'
+				,'127.0.0.1'
+				,'2011-12-04 23:33:07'
+				,''
+				,'1')
+Dec 04 23:33:07  [info] Réussite de l'authentification pour l'utilisateur : 100598
+Dec 04 23:33:07  [debug] Affichage de la page en : 0.033 secondes !!
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT adh_id,mod_id,mod_nom,mod_label,mod_admin
+			FROM view_menu 
+			WHERE adh_id = '1'
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '1') ORDER BY vue_ordre ASC;
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '3') ORDER BY vue_ordre ASC;
+Dec 04 23:33:08  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100598
+Dec 04 23:33:08  [debug] Affichage de la page en : 0.041 secondes !!
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:08  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:08  [info] Affichage du compte de l'Adhérent : 100598
+Dec 04 23:33:08  [debug] Affichage de la page en : 0.184 secondes !!
+Dec 04 23:33:15  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 04 23:33:15  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:15  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:15  [info] Affichage du compte de l'Adhérent : 100598
+Dec 04 23:33:15  [debug] Affichage de la page en : 0.027 secondes !!
+Dec 04 23:33:16  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:16  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 04 23:33:16  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100598
+Dec 04 23:33:16  [debug] Affichage de la page en : 0.046 secondes !!
+Dec 04 23:33:17  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 04 23:33:17  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:17  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:17  [info] Affichage du compte de l'Adhérent : 100598
+Dec 04 23:33:17  [debug] Affichage de la page en : 0.028 secondes !!
+Dec 04 23:33:18  [debug] Execution de la requete : SELECT adh_id,adh_numero,adh_id_compte,cpt_label,adh_nom,adh_prenom,adh_courriel_principal,adh_courriel_secondaire,adh_telephone_principal,adh_telephone_secondaire,adh_adresse,adh_code_postal,adh_ville,adh_date_naissance,adh_date_adhesion,adh_date_maj,adh_commentaire,cpt_solde,adh_etat
+			FROM view_adherent 
+			WHERE adh_id = '1'
+Dec 04 23:33:18  [debug] Execution de la requete : SELECT ope_id_compte,ope_montant,ope_libelle,ope_date,com_date_marche_debut
+			FROM view_operation_avenir 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:18  [debug] Execution de la requete : SELECT ope_id_compte,cpt_label,ope_montant,ope_libelle,ope_date,tpp_type,tpp_champ_complementaire,tpp_label_champ_complementaire,ope_type_paiement_champ_complementaire
+			FROM view_operation_passee 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:18  [info] Affichage du compte de l'Adhérent : 100598
+Dec 04 23:33:18  [debug] Affichage de la page en : 0.024 secondes !!
+Dec 04 23:33:47  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM zeb_view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 04 23:33:47  [debug] Echec de l'exécution de la requête. : Table 'zeybu.zeb_view_marche_liste_reservation' doesn't exist
+Dec 04 23:35:26  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_nom,com_date_fin_reservation,com_date_marche_debut,com_date_marche_fin
+			FROM view_marche_liste_reservation 
+			WHERE ope_id_compte = '31'
+Dec 04 23:35:26  [debug] Execution de la requete : SELECT com_id,com_numero,com_nom,com_date_marche_debut,com_date_marche_fin,com_date_fin_reservation
+			FROM com_commande
+			WHERE com_id NOT IN (
+   					SELECT ope_id_commande
+   					FROM ope_operation
+   					WHERE ope_type_paiement in (0,7,8,15)
+   					AND ope_id_compte = 31)
+   			AND com_date_fin_reservation >= now()
+			AND com_archive = 0
+   			ORDER BY com_date_marche_debut ASC
+Dec 04 23:35:26  [info] Affichage de la vue MonMarche par le compte de l'Adhérent : 100598
+Dec 04 23:35:26  [debug] Affichage de la page en : 0.049 secondes !!
+Dec 04 23:35:27  [debug] Execution de la requete : SELECT ope_id_compte,com_id,com_numero,com_date_marche_debut
+			FROM view_mes_achats 
+			WHERE ope_id_compte = '31'
+			ORDER BY com_date_marche_debut DESC
+			LIMIT 0 , 20
+Dec 04 23:35:27  [info] Affichage de la vue MesAchats par le compte de l'Adhérent : 100598
+Dec 04 23:35:27  [debug] Affichage de la page en : 0.089 secondes !!
