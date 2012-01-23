@@ -1,9 +1,5 @@
 <?php
-
-define("MYSQL_HOST", "localhost");
-define("MYSQL_LOGIN", "zeybu");
-define("MYSQL_PASS", "zeybu");
-define("MYSQL_DBNOM", "zeybu");
+include("./DB.php");
 
 // Dump MySQL et File
 define("MYSQL_DUMP", "./dump/");

@@ -47,6 +47,11 @@
 	margin-top: 20px;
 }
 
+.lien_mot_passe {    
+	font-size: 12px;
+    font-style: italic;
+}
+
 #liste-naviguateur a{
 	text-decoration:none;
 }

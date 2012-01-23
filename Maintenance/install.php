@@ -4421,6 +4421,26 @@ color:#FFFFFF;
 			fwrite($fp,"define(\"MYSQL_DBNOM\", \"" . $_POST["base"] . "\");\n");
 			fwrite($fp,"?>\n");			
 			fclose($fp);
+			
+			// Ajout du fichier de config d'accès à la BDD
+			$fp = fopen($_POST["rep"] . '/Maintenance/DB.php', 'w');
+			fwrite($fp,"<?php\n");
+			fwrite($fp,"//****************************************************************\n");
+			fwrite($fp,"//\n");
+			fwrite($fp,"// Createur : Julien PIERRE\n");
+			fwrite($fp,"// Date de creation : 25/01/2010\n");
+			fwrite($fp,"// Fichier : DB.php\n");
+			fwrite($fp,"//\n");
+			fwrite($fp,"// Description : Informations de configuration pour la connexion à la base de données\n");
+			fwrite($fp,"//\n");
+			fwrite($fp,"//****************************************************************\n");
+			fwrite($fp,"define(\"MYSQL_DB_PREFIXE\", \"" . $_POST["prefixe"] . "\");\n");
+			fwrite($fp,"define(\"MYSQL_HOST\", \"" . $_POST["server"] . "\");\n");
+			fwrite($fp,"define(\"MYSQL_LOGIN\", \"" . $_POST["login"] . "\");\n");
+			fwrite($fp,"define(\"MYSQL_PASS\", \"" . $_POST["pass"] . "\");\n");
+			fwrite($fp,"define(\"MYSQL_DBNOM\", \"" . $_POST["base"] . "\");\n");
+			fwrite($fp,"?>\n");			
+			fclose($fp);
 
 			// Installation de la BDD
 			$connexion = mysql_connect($_POST["server"], $_POST["login"], $_POST["pass"]);

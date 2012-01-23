@@ -2,6 +2,8 @@
 $connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 mysql_select_db(MYSQL_DBNOM, $connexion);
 $lRequete = file_get_contents(FILE_UPDATE_BDD);
+// Ajout du préfixe
+$lRequete=str_replace('{PREFIXE}', MYSQL_DB_PREFIXE, $lRequete);
 $lRequetes = explode(";\n", $lRequete);	
 $lNbErreur = 0;
 mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD

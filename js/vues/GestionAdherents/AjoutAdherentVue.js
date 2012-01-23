@@ -77,8 +77,8 @@
 	
 	this.ajoutAdherent = function() {
 		var lVo = new AdherentVO();
-		lVo.motPasse = $(':input[name=pass]').val();
-		lVo.motPasseConfirm = $(':input[name=pass_confirm]').val();
+		/*lVo.motPasse = $(':input[name=pass]').val();
+		lVo.motPasseConfirm = $(':input[name=pass_confirm]').val();*/
 		lVo.compte = $(':input[name=numero_compte]').val();
 		lVo.nom = $(':input[name=nom]').val();
 		lVo.prenom = $(':input[name=prenom]').val();

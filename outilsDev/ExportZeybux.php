@@ -28,6 +28,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			<option value="install">Installation</option>
 			<option value="local">Local</option>
 			<option value="localr7">Local R7</option>
+			<option value="maintenance">Maintenance</option>
 		</select>		
 	</span><br/>
 	<input type="submit" value="Exporter"/>
@@ -454,6 +455,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		mkdir($lPath . '/logs');
 		mkdir($lPath . '/vues');
 		mkdir($lPath . '/tmp');
+		if($lEnv == 'install') {
+			mkdir($lPath . '/Maintenance');
+		}
 		/************** Fin Création des dossier **************/
 
 		
@@ -485,6 +489,33 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		parcourirDossierCopie('../html',$lPath . '/html');
 		parcourirDossierCopie('../images',$lPath . '/images');
 		parcourirDossierCopie('../vues',$lPath . '/vues');
+		
+		if($lEnv == 'install') {
+			function parcourirDossierCopieMaintenance($pPath,$pDest) {			
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {	   
+				   	if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != 'install.php'
+				   		&& $entry != 'update.sql'
+				   		&& $entry != 'DB.php'
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+					   		if(!is_dir($pDest.'/'.$entry)) {
+								mkdir($pDest.'/'.$entry);
+							}
+				   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
+				   		} else {
+				   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+				   		}
+				   	}
+				}	
+				$d->close();
+			}
+			parcourirDossierCopieMaintenance('../Maintenance',$lPath . '/Maintenance');
+		}
 				
 		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index
 		copy('./zeybu/js/zeybux-core-min.js' , $lPath.'/js/zeybux-core-min.js'); // Copie du js
@@ -674,6 +705,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				<option value="install">Installation</option>
 				<option value="local">Local</option>
 				<option value="localr7">Local R7</option>
+				<option value="maintenance">Maintenance</option>
 			</select>		
 		</span><br/>
 		<input type="submit" value="Exporter"/>

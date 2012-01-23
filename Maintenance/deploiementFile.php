@@ -5,7 +5,7 @@
 function supprimerDossier($pPath) {
 	$d = dir($pPath);
 	while (false !== ($entry = $d->read())) {	   
-	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'logs') {
+	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'logs' && $entry != "DB.php") {
    		if(is_dir($d->path.'/'.$entry)) {
    			supprimerDossier($d->path.'/'.$entry);
 			if($entry != 'configuration') {
@@ -25,7 +25,7 @@ supprimerDossier(DOSSIER_SITE);
 function parcourirDossier($pPathIn,$pPathOut) {
 	$d = dir($pPathIn);
 	while (false !== ($entry = $d->read())) {	   
-	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'update.sql') {
+	   if(	$entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'update.sql' && $entry != "DB.php") {
    		if(is_dir($d->path.'/'.$entry)) {
 			if(!is_dir($pPathOut .'/'. $entry)) {
 				mkdir($pPathOut .'/'. $entry);
