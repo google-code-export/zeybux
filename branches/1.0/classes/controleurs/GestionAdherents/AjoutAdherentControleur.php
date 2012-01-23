@@ -21,6 +21,8 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/AjoutAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_TOVO . "AdherentToVO.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_UTILS . "MotDePasseUtils.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 
 /**
  * @name AjoutAdherentControleur
@@ -46,9 +48,15 @@ class AjoutAdherentControleur
 	* @return string
 	* @desc Controle et formatte les données avant de les insérer dans la BDD. Retourne l'Id en cas de succés ou une erreur.
 	*/
-	public function ajoutAdherent($pParam) {				
+	public function ajoutAdherent($pParam) {		
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+				
 		$lVr = AdherentValid::validAjout($pParam);
 		if($lVr->getValid()) {			
+			include_once(CHEMIN_CONFIGURATION . "Mail.php"); // Les Constantes de mail
+			
 			$lAdherent = AdherentToVO::convertFromArray($pParam);
 			
 			$lAdherentCompte = $pParam['compte'];
@@ -99,13 +107,59 @@ class AjoutAdherentControleur
 			$lAdherent = AdherentManager::select($lId);
 			
 			// Insertion des informations de connexion
+			$lMdp = MotDePasseUtils::generer();	
 			$lIdentification = new IdentificationVO();
 			$lIdentification->setIdLogin($lId);
 			$lIdentification->setLogin($lAdherent->getNumero());
-			$lIdentification->setPass( md5( $pParam['motPasse'] ) );
+			$lIdentification->setPass( md5( $lMdp ) );
 			$lIdentification->setType(1);
 			$lIdentification->setAutorise(1);
 			IdentificationManager::insert( $lIdentification );
+			
+			// Ajout à la mailing liste
+			$lMailingListeService = new MailingListeService();
+			if($lAdherent->getCourrielPrincipal() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielPrincipal());	
+			}
+			if($lAdherent->getCourrielSecondaire() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielSecondaire());			
+			}		
+
+			// Envoi du mail de confirmation		
+			if($lAdherent->getCourrielPrincipal() != "") {
+				$lTo = $lAdherent->getCourrielPrincipal();
+			} else if($lAdherent->getCourrielSecondaire() != "") {
+				$lTo = $lAdherent->getCourrielSecondaire();			
+			} else { // Pas de mail sur le compte : Envoi au gestionnaire
+				$lTo = MAIL_SUPPORT;				
+			}			
+			$lFrom  = MAIL_SUPPORT;  
+
+			$jour  = date("d-m-Y");
+			$heure = date("H:i");			
+			$lSujet = "Votre Compte zeybux";
+
+			$lContenu = file_get_contents(CHEMIN_TEMPLATE . MOD_GESTION_ADHERENTS . "/" . "MailAjoutAdherent.html");
+			$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}"), array($lAdherent->getNumero(), $lMdp), $lContenu);
+			
+			$lHeaders = file_get_contents(CHEMIN_TEMPLATE . COMMUN_TEMPLATE . "/" . "EnteteMail.html");
+			$lHeaders = str_replace("{FROM}", $lFrom, $lHeaders);
+			
+			$VerifEnvoiMail = TRUE;			
+			$VerifEnvoiMail = @mail ($lTo, $lSujet, $lContenu, $lHeaders);
+		
+			if ($VerifEnvoiMail === FALSE) {	
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_118_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_118_MSG);
+				$lVr->getLog()->addErreur($lErreur);				
+				$lLogger->log("Erreur d'envoi du mail de création de l'adhérent " . $pParam['numero'] . "par : " . $_SESSION[ID_CONNEXION] . ".",PEAR_LOG_INFO);	// Maj des logs
+				return $lVr;
+			} else {
+				$lLogger->log("Envoi du mail de création de l'adhérent " . $pParam['numero'] . "par : " . $_SESSION[ID_CONNEXION] . ".",PEAR_LOG_INFO);	// Maj des logs
+			}
 			
 			$lResponse = new AjoutAdherentResponse();
 			$lResponse->setId($lId);			

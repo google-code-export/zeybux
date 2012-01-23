@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_MON_COMPTE . "/InfoAdherentValid.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 
 /**
  * @name ModifierMonCompteControleur
@@ -49,6 +50,21 @@ class ModifierMonCompteControleur
 			
 			// Chargement de l'adherent
 			$lAdherentActuel = AdherentManager::select( $pParam['id_adherent'] );
+
+			//Mise à jour des inscriptions de mailing liste
+			$lMailingListeService = new MailingListeService();
+			if($lAdherentActuel->getCourrielPrincipal() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielPrincipal());	
+			}
+			if($lAdherentActuel->getCourrielSecondaire() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielSecondaire());			
+			}
+			if($pParam['courrielPrincipal'] != "") {
+				$lMailingListeService->insert($pParam['courrielPrincipal']);	
+			}
+			if($pParam['courrielSecondaire'] != "") {
+				$lMailingListeService->insert($pParam['courrielSecondaire']);			
+			}
 			
 			$lAdherentActuel->setNom($pParam['nom']);
 			$lAdherentActuel->setPrenom($pParam['prenom']);
@@ -66,7 +82,7 @@ class ModifierMonCompteControleur
 			$lAdherentActuel->setDateMaj( StringUtils::dateTimeAujourdhuiDb() );
 						
 			// Maj de l'adherent dans la BDD
-			AdherentManager::update( $lAdherentActuel );	
+			AdherentManager::update( $lAdherentActuel );
 		}	
 		return $lVr;
 	}

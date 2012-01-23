@@ -197,6 +197,21 @@ class AdherentManager
 	}
 	
 	/**
+	* @name selectByNumero($pId)
+	* @param integer
+	* @return array(AdherentVO)
+	* @desc Récupères toutes les lignes de la table ayant pour Numero $pId et les renvoie sous forme d'une collection de AdherentVO
+	*/
+	public static function selectByNumero($pId) {		
+		return AdherentManager::rechercheAdherent(
+			array(AdherentManager::CHAMP_ADHERENT_NUMERO),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
+	}
+	
+	/**
 	* @name rechercheAdherent( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche

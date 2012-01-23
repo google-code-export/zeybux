@@ -54,6 +54,8 @@ class MessagesErreurs
 	const ERR_116_MSG = 'Session expirée. Veuillez vous <span class="action-ifb com-cursor-pointer" id="action-ifb-116">reconnecter</span>.';
 	const ERR_117_CODE = 117;
 	const ERR_117_MSG = 'Format incorrect.';
+	const ERR_118_CODE = 118;
+	const ERR_118_MSG = 'Echec de l\'envoi du mail.';
 		
 	//Erreurs fonctionelles
 	const ERR_201_CODE = 201;

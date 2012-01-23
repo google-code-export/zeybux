@@ -21,6 +21,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdheren
 include_once(CHEMIN_CLASSES_TOVO . "AdherentToVO.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 
 /**
  * @name ModificationAdherentControleur
@@ -159,13 +160,29 @@ class ModificationAdherentControleur
 				}
 			}
 			
+			//Mise à jour des inscriptions de mailing liste
+			$lMailingListeService = new MailingListeService();
+			if($lAdherentActuel->getCourrielPrincipal() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielPrincipal());	
+			}
+			if($lAdherentActuel->getCourrielSecondaire() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielSecondaire());			
+			}
+			if($lAdherent->getCourrielPrincipal() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielPrincipal());	
+			}
+			if($lAdherent->getCourrielSecondaire() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielSecondaire());			
+			}
+			
+			
 			// Update des informations de connexion
-			$lIdentification = IdentificationManager::selectByIdType($lAdherent->getId(),1);
+		/*	$lIdentification = IdentificationManager::selectByIdType($lAdherent->getId(),1);
 			$lIdentification = $lIdentification[0];
 			if($pParam['motPasse']  != '') {
 				$lIdentification->setPass( md5( $pParam['motPasse'] ) );
 			}
-			IdentificationManager::update( $lIdentification );
+			IdentificationManager::update( $lIdentification );*/
 						
 			$lResponse = new ModifierAdherentResponse();
 			$lResponse->setNumero($lAdherent->getNumero());
