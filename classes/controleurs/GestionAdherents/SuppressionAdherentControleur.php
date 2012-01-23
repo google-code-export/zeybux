@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 
 /**
  * @name SuppressionAdherentControleur
@@ -56,6 +57,17 @@ class SuppressionAdherentControleur
 				$lReservationService->delete($lIdReservation);
 			}
 		}
+		
+		//Désinscription de la mailing liste
+		$lMailingListeService = new MailingListeService();
+		if($lAdherent->getCourrielPrincipal() != "") {
+			$lMailingListeService->delete($lAdherent->getCourrielPrincipal());	
+		}
+		if($lAdherent->getCourrielSecondaire() != "") {
+			$lMailingListeService->delete($lAdherent->getCourrielSecondaire());			
+		}	
+		
+		
 		$lResponse = new ModifierAdherentResponse();
 		$lResponse->setNumero($lAdherent->getNumero());
 		

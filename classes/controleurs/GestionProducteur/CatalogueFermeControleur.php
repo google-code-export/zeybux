@@ -380,7 +380,7 @@ class CatalogueFermeControleur
 			
 			$lCaracteristiquesInsert = array();
 			foreach($pParam['caracteristiques'] as $lCaracteristique) {
-				if(!in_array($lCaracteristique,$lCaracteristiques)) {
+				if(!in_array($lCaracteristique,$lIdCaracteristiques)) {
 					$lCaracteristiqueProduitVO = new CaracteristiqueProduitVO();
 					$lCaracteristiqueProduitVO->setIdNomProduit($lId);
 					$lCaracteristiqueProduitVO->setIdCaracteristique($lCaracteristique);

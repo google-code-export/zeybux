@@ -31,7 +31,7 @@ class AdherentValid
 	public static function validAjout($pData) {
 		$lVr = new AdherentVR();
 		//Tests Techniques
-		if(!TestFonction::checkLength($pData['motPasse'],0,100)) {
+		/*if(!TestFonction::checkLength($pData['motPasse'],0,100)) {
 			$lVr->setValid(false);
 			$lVr->getMotPasse()->setValid(false);
 			$lErreur = new VRerreur();
@@ -46,7 +46,7 @@ class AdherentValid
 			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 			$lVr->getMotPasse()->addErreur($lErreur);	
-		}
+		}*/
 		if(!TestFonction::checkLength($pData['numero'],0,5)) {
 			$lVr->setValid(false);
 			$lVr->getNumero()->setValid(false);
@@ -185,14 +185,14 @@ class AdherentValid
 		}
 
 		//Tests Fonctionnels
-		if(empty($pData['motPasse'])) {
+		/*if(empty($pData['motPasse'])) {
 			$lVr->setValid(false);
 			$lVr->getMotPasse()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getMotPasse()->addErreur($lErreur);	
-		}
+		}*/
 		if(empty($pData['nom'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -242,14 +242,14 @@ class AdherentValid
 		}
 				
 		// Les mots de passe ne sont pas identique
-		if($pData['motPasse'] !== $pData['motPasseConfirm']) {
+		/*if($pData['motPasse'] !== $pData['motPasseConfirm']) {
 			$lVr->setValid(false);
 			$lVr->getMotPasse()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_223_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_223_MSG);
 			$lVr->getMotPasse()->addErreur($lErreur);
-		}
+		}*/
 		
 		// Les mails sont au bon format
 		if($pData['courrielPrincipal']	!= '' && !TestFonction::checkCourriel($pData['courrielPrincipal'])) {
@@ -353,7 +353,7 @@ class AdherentValid
 		if($lTestId->getValid()) {
 			$lVr = new AdherentVR();
 			//Tests Techniques
-			if(!TestFonction::checkLength($pData['motPasse'],0,100)) {
+			/*if(!TestFonction::checkLength($pData['motPasse'],0,100)) {
 				$lVr->setValid(false);
 				$lVr->getMotPasse()->setValid(false);
 				$lErreur = new VRerreur();
@@ -368,7 +368,7 @@ class AdherentValid
 				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getMotPasse()->addErreur($lErreur);	
-			}
+			}*/
 			if(!TestFonction::checkLength($pData['numero'],0,5)) {
 				$lVr->setValid(false);
 				$lVr->getNumero()->setValid(false);
@@ -571,14 +571,14 @@ class AdherentValid
 			}
 					
 			// Les mots de passe ne sont pas identique
-			if(($pData['motPasse'] != '' || $pData['motPasseConfirm'] != '') && $pData['motPasse'] !== $pData['motPasseConfirm']) {
+			/*if(($pData['motPasse'] != '' || $pData['motPasseConfirm'] != '') && $pData['motPasse'] !== $pData['motPasseConfirm']) {
 				$lVr->setValid(false);
 				$lVr->getMotPasse()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_223_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_223_MSG);
 				$lVr->getMotPasse()->addErreur($lErreur);
-			}
+			}*/
 			
 			// Les mails sont au bon format
 			if($pData['courrielPrincipal']	!= '' && !TestFonction::checkCourriel($pData['courrielPrincipal'])) {

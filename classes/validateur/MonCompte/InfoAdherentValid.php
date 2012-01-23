@@ -189,7 +189,7 @@ class InfoAdherentValid
 	}
 	
 	/**
-	* @name validAjout($pData)
+	* @name validUpdateInformation($pData)
 	* @return AdherentVR
 	* @desc Test la validite de l'élément
 	*/
