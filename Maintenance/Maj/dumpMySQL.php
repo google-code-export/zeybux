@@ -1,5 +1,5 @@
 <?php
-function dumpMySQL($serveur, $login, $password, $base, $mode)
+function dumpMySQL($serveur, $login, $password, $base, $pDossier, $mode)
 {
     $connexion = mysql_connect($serveur, $login, $password);
     mysql_select_db($base, $connexion);
@@ -53,12 +53,12 @@ function dumpMySQL($serveur, $login, $password, $base, $mode)
  
     mysql_close($connexion);
  
-    $fichierDump = fopen(MYSQL_DUMP.date('Y-m-d_H:i:s')."_dump.sql", "w");
+    $fichierDump = fopen($pDossier . "/" . date('Y-m-d_H:i:s') . "_dump.sql", "w");
     fwrite($fichierDump, $entete);
     fwrite($fichierDump, $creations);
     fwrite($fichierDump, $insertions);
     fclose($fichierDump);
-    echo "Sauvegarde de la base réalisée avec succès !!<br/><br/>";
+    echo "Sauvegarde de la base réalisée avec succès.<br/>";
 }
-dumpMySQL(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, MYSQL_DBNOM, 3);
+dumpMySQL(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, MYSQL_DBNOM, $lDossier, 3);
 ?>

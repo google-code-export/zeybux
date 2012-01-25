@@ -96,6 +96,12 @@
 				GestionCaracteristiqueVue();
 				return false;
 			});
+			
+
+			pData.find('#menu-GestionComptesSpeciaux-ListeCompte').click(function() {
+				ListeComptesSpeciauxVue();
+				return false;
+			});
 				
 			return pData;
 		}

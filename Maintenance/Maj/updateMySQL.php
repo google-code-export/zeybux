@@ -16,7 +16,8 @@ foreach( $lRequetes as $lReq ) {
 }
 fclose($f);
 mysql_close($connexion);
-echo "Nombre d'erreur : " . $lNbErreur .".<br/>";
-echo "Mise à jour de la base effectuée !!<br/><br/>";
+
+echo "Mise à jour de la base effectuée.<br/>";
+echo "Nombre d'erreur : " . $lNbErreur .".<br/><br/>";
 
 ?>

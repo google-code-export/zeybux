@@ -484,14 +484,13 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		}
 		
 		parcourirDossierCopie('../classes',$lPath . '/classes');
-		parcourirDossierCopie('../configuration',$lPath . '/configuration');
 		parcourirDossierCopie('../css/themes',$lPath . '/css/themes');
 		parcourirDossierCopie('../html',$lPath . '/html');
 		parcourirDossierCopie('../images',$lPath . '/images');
 		parcourirDossierCopie('../vues',$lPath . '/vues');
 		
 		if($lEnv == 'install') {
-			function parcourirDossierCopieMaintenance($pPath,$pDest) {			
+			function parcourirDossierCopieInstall($pPath,$pDest) {			
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {	   
 				   	if(	$entry != '.' 
@@ -506,6 +505,36 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 					   		if(!is_dir($pDest.'/'.$entry)) {
 								mkdir($pDest.'/'.$entry);
 							}
+							if($entry != "ancien"
+								&& $entry != "archive"
+								&& $entry != "deploiement"
+								&& $entry != "logs"
+								&& $entry != "nouveau") {
+				   				parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
+							}
+				   		} else {
+				   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+				   		}
+				   	}
+				}	
+				$d->close();
+			}
+			parcourirDossierCopieInstall('../Maintenance',$lPath . '/Maintenance');
+			parcourirDossierCopie('../configuration',$lPath . '/configuration');	
+		} else if($lEnv == 'maintenance') {
+			function parcourirDossierCopieMaintenance($pPath,$pDest) {			
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {	   
+				   	if(	$entry != '.' 
+				   		&& $entry != '..' 
+				   		&& $entry != '.svn' 
+				   		&& $entry != '.project'
+				   		&& $entry != 'DB.php'
+				   		) {
+				   		if(is_dir($d->path.'/'.$entry)) {
+					   		if(!is_dir($pDest.'/'.$entry)) {
+								mkdir($pDest.'/'.$entry);
+							}
 				   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
 				   		} else {
 				   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
@@ -514,7 +543,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				}	
 				$d->close();
 			}
-			parcourirDossierCopieMaintenance('../Maintenance',$lPath . '/Maintenance');
+			parcourirDossierCopieMaintenance('../configuration',$lPath . '/configuration');
+			
+		} else {
+			parcourirDossierCopie('../configuration',$lPath . '/configuration');			
 		}
 				
 		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index

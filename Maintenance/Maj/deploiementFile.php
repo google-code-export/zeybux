@@ -41,6 +41,6 @@ function parcourirDossier($pPathIn,$pPathOut) {
 }
 parcourirDossier(DOSSIER_EXTRACT,DOSSIER_SITE);
 
-echo "Déploiement des fichiers réalisé avec succès !!<br/><br/>";
+echo "Déploiement des fichiers réalisé avec succès.<br/><br/>";
 
 ?>

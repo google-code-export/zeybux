@@ -111,6 +111,44 @@ class IdentificationManager
 	}
 	
 	/**
+	* @name selectAllToDisplay()
+	* @return array(IdentificationVO)
+	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de IdentificationVO
+	*/
+	public static function selectAllToDisplay() {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+			"SELECT "
+			    . IdentificationManager::CHAMP_IDENTIFICATION_ID . 
+			"," . IdentificationManager::CHAMP_IDENTIFICATION_LOGIN . 
+			"," . IdentificationManager::CHAMP_IDENTIFICATION_TYPE . "
+			FROM " . IdentificationManager::TABLE_IDENTIFICATION. " 
+			WHERE " . IdentificationManager::CHAMP_IDENTIFICATION_AUTORISE . " = '1'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeIdentification = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeIdentification,
+					IdentificationManager::remplirIdentification(
+					$lLigne[IdentificationManager::CHAMP_IDENTIFICATION_ID],
+					"",
+					$lLigne[IdentificationManager::CHAMP_IDENTIFICATION_LOGIN],
+					"",
+					$lLigne[IdentificationManager::CHAMP_IDENTIFICATION_TYPE],
+					""));
+			}
+		} else {
+			$lListeIdentification[0] = new IdentificationVO();
+		}
+		return $lListeIdentification;
+	}
+	
+	/**
 	* @name selectByIdType($pId,$pType)
 	* @param integer
 	* @param integer

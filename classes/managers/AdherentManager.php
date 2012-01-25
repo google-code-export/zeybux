@@ -362,10 +362,10 @@ class AdherentManager
 			$pVo->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateAdhesion() == '') {
-			$pVo->getDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateMaj() == '') {
-			$pVo->getDateMaj(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
 		}		
 
 		$lRequete =
@@ -440,10 +440,10 @@ class AdherentManager
 			$pVo->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateAdhesion() == '') {
-			$pVo->getDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateMaj() == '') {
-			$pVo->getDateMaj(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
 		}
 
 		$lRequete = 
