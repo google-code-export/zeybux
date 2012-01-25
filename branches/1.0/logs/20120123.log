@@ -1358,3 +1358,443 @@ Jan 23 19:05:06  [debug] Execution de la requete : SELECT vue_id,vue_id_module,v
 Jan 23 19:05:06  [debug] Execution de la requete : SELECT vue_id,vue_id_module,vue_nom,vue_label,vue_ordre,vue_visible FROM vue_vues WHERE(vue_id_module = '8') ORDER BY vue_ordre ASC;
 Jan 23 19:05:06  [info] Affichage de la vue Menu par le compte de l'Adhérent : 100777
 Jan 23 19:05:06  [debug] Affichage de la page en : 0.034 secondes !!
+Jan 23 23:37:43  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C123'
+				,'12,35')
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C123'
+				,'12,35')
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO adh_adherent
+				(adh_id
+				,adh_numero
+				,adh_id_compte
+				,adh_nom
+				,adh_prenom
+				,adh_courriel_principal
+				,adh_courriel_secondaire
+				,adh_telephone_principal
+				,adh_telephone_secondaire
+				,adh_adresse
+				,adh_code_postal
+				,adh_ville
+				,adh_date_naissance
+				,adh_date_adhesion
+				,adh_date_maj
+				,adh_commentaire				
+				,adh_etat)
+				VALUES (NULL
+					,''
+					,'72'
+					,'BALLOT'
+					,'Mario'
+					,'toto@free.fr'
+					,'lulu@toto.fr'
+					,'0606457898'
+					,'05084'
+					,'6 allée du toto'
+					,'38320'
+					,'EYBENS'
+					,'0000-00-00'
+					,'2025-/0-3/'
+					,'2012-01-23 23:37:59'
+					,'rien'
+					,'1')
+Jan 23 23:37:59  [debug] Execution de la requete : UPDATE adh_adherent 
+			SET
+				adh_numero = 'Z52'
+				,adh_id_compte = '72'
+				,adh_nom = 'BALLOT'
+				,adh_prenom = 'Mario'
+				,adh_courriel_principal = 'toto@free.fr'
+				,adh_courriel_secondaire = 'lulu@toto.fr'
+				,adh_telephone_principal = '0606457898'
+				,adh_telephone_secondaire = '05084'
+				,adh_adresse = '6 allée du toto'
+				,adh_code_postal = '38320'
+				,adh_ville = 'EYBENS'
+				,adh_date_naissance = '0000-00-00'
+				,adh_date_adhesion = '2025-/0-3/'
+				,adh_date_maj = '2012-01-23 23:37:59'
+				,adh_commentaire = 'rien'
+				,adh_etat = '1'
+			 WHERE adh_id = '52'
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'52'
+					,'1')
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'52'
+					,'3')
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'72'
+				,'0'
+				,'Création du compte'
+				,'2012-01-23'
+				,'-1'
+				,''
+				,'1'
+				,'0')
+Jan 23 23:37:59  [debug] Execution de la requete : INSERT INTO ide_identification
+				(ide_id
+				,ide_id_login
+				,ide_login
+				,ide_pass
+				,ide_type
+				,ide_autorise)
+			VALUES (NULL
+				,'52'
+				,'Z52'
+				,'3f442eac6d009f85cfe432101c008ca9'
+				,'1'
+				,'1')
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C123'
+				,'12.35')
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO adh_adherent
+				(adh_id
+				,adh_numero
+				,adh_id_compte
+				,adh_nom
+				,adh_prenom
+				,adh_courriel_principal
+				,adh_courriel_secondaire
+				,adh_telephone_principal
+				,adh_telephone_secondaire
+				,adh_adresse
+				,adh_code_postal
+				,adh_ville
+				,adh_date_naissance
+				,adh_date_adhesion
+				,adh_date_maj
+				,adh_commentaire				
+				,adh_etat)
+				VALUES (NULL
+					,''
+					,'73'
+					,'BALLOT'
+					,'Mario'
+					,'toto@free.fr'
+					,'lulu@toto.fr'
+					,'0606457898'
+					,'05084'
+					,'6 allée du toto'
+					,'38320'
+					,'EYBENS'
+					,'0000-00-00'
+					,'2025-/0-3/'
+					,'2012-01-23 23:41:52'
+					,'rien'
+					,'1')
+Jan 23 23:41:52  [debug] Execution de la requete : UPDATE adh_adherent 
+			SET
+				adh_numero = 'Z53'
+				,adh_id_compte = '73'
+				,adh_nom = 'BALLOT'
+				,adh_prenom = 'Mario'
+				,adh_courriel_principal = 'toto@free.fr'
+				,adh_courriel_secondaire = 'lulu@toto.fr'
+				,adh_telephone_principal = '0606457898'
+				,adh_telephone_secondaire = '05084'
+				,adh_adresse = '6 allée du toto'
+				,adh_code_postal = '38320'
+				,adh_ville = 'EYBENS'
+				,adh_date_naissance = '0000-00-00'
+				,adh_date_adhesion = '2025-/0-3/'
+				,adh_date_maj = '2012-01-23 23:41:52'
+				,adh_commentaire = 'rien'
+				,adh_etat = '1'
+			 WHERE adh_id = '53'
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'53'
+					,'1')
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'53'
+					,'3')
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'73'
+				,'0'
+				,'Création du compte'
+				,'2012-01-23'
+				,'-1'
+				,''
+				,'1'
+				,'0')
+Jan 23 23:41:52  [debug] Execution de la requete : INSERT INTO ide_identification
+				(ide_id
+				,ide_id_login
+				,ide_login
+				,ide_pass
+				,ide_type
+				,ide_autorise)
+			VALUES (NULL
+				,'53'
+				,'Z53'
+				,'28df0b9f8f0747610db65f7b248b999a'
+				,'1'
+				,'1')
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C124'
+				,'15')
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO adh_adherent
+				(adh_id
+				,adh_numero
+				,adh_id_compte
+				,adh_nom
+				,adh_prenom
+				,adh_courriel_principal
+				,adh_courriel_secondaire
+				,adh_telephone_principal
+				,adh_telephone_secondaire
+				,adh_adresse
+				,adh_code_postal
+				,adh_ville
+				,adh_date_naissance
+				,adh_date_adhesion
+				,adh_date_maj
+				,adh_commentaire				
+				,adh_etat)
+				VALUES (NULL
+					,''
+					,'74'
+					,'BALLOT'
+					,'Mario'
+					,'lul@fds.fr'
+					,'lolo@gmail.com'
+					,'0669696945'
+					,'0476214587'
+					,'16 allée du toto'
+					,'38320'
+					,'EYBENS2'
+					,'0000-00-00'
+					,'2002-/0-5/'
+					,'2012-01-23 23:41:54'
+					,'rien du tout'
+					,'1')
+Jan 23 23:41:54  [debug] Execution de la requete : UPDATE adh_adherent 
+			SET
+				adh_numero = 'Z54'
+				,adh_id_compte = '74'
+				,adh_nom = 'BALLOT'
+				,adh_prenom = 'Mario'
+				,adh_courriel_principal = 'lul@fds.fr'
+				,adh_courriel_secondaire = 'lolo@gmail.com'
+				,adh_telephone_principal = '0669696945'
+				,adh_telephone_secondaire = '0476214587'
+				,adh_adresse = '16 allée du toto'
+				,adh_code_postal = '38320'
+				,adh_ville = 'EYBENS2'
+				,adh_date_naissance = '0000-00-00'
+				,adh_date_adhesion = '2002-/0-5/'
+				,adh_date_maj = '2012-01-23 23:41:54'
+				,adh_commentaire = 'rien du tout'
+				,adh_etat = '1'
+			 WHERE adh_id = '54'
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'54'
+					,'1')
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'54'
+					,'3')
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'74'
+				,'0'
+				,'Création du compte'
+				,'2012-01-23'
+				,'-1'
+				,''
+				,'1'
+				,'0')
+Jan 23 23:41:54  [debug] Execution de la requete : INSERT INTO ide_identification
+				(ide_id
+				,ide_id_login
+				,ide_login
+				,ide_pass
+				,ide_type
+				,ide_autorise)
+			VALUES (NULL
+				,'54'
+				,'Z54'
+				,'b5891175859c265113cf362a1747f149'
+				,'1'
+				,'1')
+Jan 23 23:45:13  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C123'
+				,'12.35')
+Jan 23 23:45:13  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'55'
+					,'1')
+Jan 23 23:45:13  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'55'
+					,'3')
+Jan 23 23:45:13  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'75'
+				,'0'
+				,'Création du compte'
+				,'2012-01-23'
+				,'-1'
+				,''
+				,'1'
+				,'0')
+Jan 23 23:45:13  [debug] Execution de la requete : INSERT INTO ide_identification
+				(ide_id
+				,ide_id_login
+				,ide_login
+				,ide_pass
+				,ide_type
+				,ide_autorise)
+			VALUES (NULL
+				,'55'
+				,'Z123'
+				,'923375f62c4b576f54c90030307a6f77'
+				,'1'
+				,'1')
+Jan 23 23:45:14  [debug] Execution de la requete : INSERT INTO cpt_compte
+				(cpt_id
+				,cpt_label
+				,cpt_solde)
+			VALUES (NULL
+				,'C124'
+				,'15')
+Jan 23 23:45:14  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'56'
+					,'1')
+Jan 23 23:45:14  [debug] Execution de la requete : INSERT INTO aut_autorisation 
+					(aut_id
+					,aut_id_adherent
+					,aut_id_module) 
+				VALUES (NULL
+					,'56'
+					,'3')
+Jan 23 23:45:14  [debug] Execution de la requete : INSERT INTO ope_operation
+				(ope_id
+				,ope_id_compte
+				,ope_montant
+				,ope_libelle
+				,ope_date
+				,ope_type_paiement
+				,ope_type_paiement_champ_complementaire
+				,ope_type
+				,ope_id_commande)
+			VALUES (NULL
+				,'76'
+				,'0'
+				,'Création du compte'
+				,'2012-01-23'
+				,'-1'
+				,''
+				,'1'
+				,'0')
+Jan 23 23:45:14  [debug] Execution de la requete : INSERT INTO ide_identification
+				(ide_id
+				,ide_id_login
+				,ide_login
+				,ide_pass
+				,ide_type
+				,ide_autorise)
+			VALUES (NULL
+				,'56'
+				,'Z124'
+				,'d4206d91038aaf8ea444de60709fcdfc'
+				,'1'
+				,'1')
+Jan 23 23:54:24  [debug] Echec de l'exécution de la requête. : Query was empty
+Jan 23 23:55:11  [debug] Echec de l'exécution de la requête. : Table 'zeybu.cpt_solde' doesn't exist
+Jan 23 23:57:00  [debug] Echec de l'exécution de la requête. : Table 'zeybu.cpt_solde' doesn't exist
+Jan 23 23:57:26  [debug] Echec de l'exécution de la requête. : Table 'zeybu.cpt_solde' doesn't exist
+Jan 23 23:58:07  [debug] Echec de l'exécution de la requête. : Unknown column 'C2' in 'field list'
+Jan 23 23:58:41  [debug] Echec de l'exécution de la requête. : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''2','0')' at line 1

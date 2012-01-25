@@ -101,7 +101,7 @@
 		// Recharge la page
 		$(document).keyup(function(e) {
 		    if(e.charCode === 0 && (e.which === 116 || (e.which === 82 && e.ctrlKey))) {
-	    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
+		    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
 				// set the history cursor to the current cursor
 				$.history.cursor = parseFloat(cursor) || 0;
 				// reinstate the current cursor data through the callback

@@ -2,7 +2,7 @@
 include("./DB.php");
 
 // Dump MySQL et File
-define("MYSQL_DUMP", "./dump/");
+//define("MYSQL_DUMP", "./dump/");
 define("FILE_DUMP", "./ancien");
 
 // Upload

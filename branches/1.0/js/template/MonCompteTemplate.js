@@ -99,7 +99,7 @@
 	"</div>";
 	
 	this.dialogEditionPass =
-		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\">" +
+		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulaire_identification\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +

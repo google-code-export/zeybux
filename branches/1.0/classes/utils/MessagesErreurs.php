@@ -146,6 +146,8 @@ class MessagesErreurs
 	const ERR_244_MSG = 'Le versement doit être égal au prix du marché.';
 	const ERR_245_CODE = 245;
 	const ERR_245_MSG = 'La quantité doit être un multiple du lot.';
+	const ERR_246_CODE = 246;
+	const ERR_246_MSG = 'Ce type de compte n\'existe pas.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;
@@ -224,6 +226,12 @@ class MessagesErreurs
 	const ERR_337_MSG = 'Réservation modifiée.';
 	const ERR_338_CODE = 338;
 	const ERR_338_MSG = 'Nouvelle réservation enregistrée.';
+	const ERR_339_CODE = 339;
+	const ERR_339_MSG = 'Compte ajouté.';
+	const ERR_340_CODE = 340;
+	const ERR_340_MSG = 'Compte modifié.';
+	const ERR_341_CODE = 341;
+	const ERR_341_MSG = 'Compte supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */
