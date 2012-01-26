@@ -7,6 +7,8 @@
 	this.timeMarcheDebut = '';
 	this.dateMarcheFin = '';
 	this.timeMarcheFin = '';
+	this.dateDebutReservation = '';
+	this.timeDebutReservation = '';
 	this.dateFinReservation = '';
 	this.timeFinReservation = '';
 	this.archive = '';

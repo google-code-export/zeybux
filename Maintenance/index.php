@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) && $_GET['m'] == "Versions") {
+	if(isset($_GET['action']) && $_GET['action'] == "sav") {
+		header('location:./index.php?m=Versions&action=actionSav');
+	} else if(isset($_GET['action']) && $_GET['action'] == "actionRollBack" && isset($_GET["dir"]) ) {
+		header('location:./index.php?m=Versions&action=actionRollBackConfirm&dir=' . $_GET["dir"]);
+	}
+}
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -51,22 +61,23 @@
 		if(isset($_GET['m'])) {
 			switch($_GET['m']) {
 				case "Maj":
-					include("./Maj/maj.php");	
+					include_once("./Maj/maj.php");	
 					break;
 					
 				case "Adherents":
-					include("./Adherents/index.php");	
+					include_once("./Adherents/index.php");	
 					break;
 					
 				case "Versions":
+					include_once("./Versions/index.php");	
 					break;
 					
 				default:
-					include("./accueil.php");	
+					include_once("./accueil.php");	
 					break;	
 			}
 		} else {
-			include("./accueil.php");			
+			include_once("./accueil.php");			
 		}
 	} 
 ?>

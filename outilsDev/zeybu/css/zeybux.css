@@ -225,7 +225,15 @@
 	margin-bottom:15px;
 }
 
-#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password], #formulaire_identification_html input[type=text] {
+#formulaire_identification_int input[type=text], 
+#formulaire_identification_int input[type=password],
+#formulaire_identification_ifb input[type=text],
+#formulaire_identification_ifb input[type=password],
+#formulaire_identification_html input[type=text],
+#formulaire_identification_html input[type=password] 
+.formulaire_identification input[type=text],
+.formulaire_identification input[type=password],
+.input_formulaire_identification {
 	width:200px;
 	margin-left:5px;
 }
@@ -410,8 +418,8 @@
 }
 /*AjoutCommande*/
 #formulaire_ajout_commande_ext {
-	width:800px;
-	margin-left:100px;
+	width:850px;
+	margin-left:75px;
 }
 
 .lots-section {

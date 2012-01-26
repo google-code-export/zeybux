@@ -127,6 +127,12 @@ const ERR_244_CODE = 244;
 const ERR_244_MSG = 'Le versement doit être égal au prix du marché.';
 const ERR_245_CODE = 245;
 const ERR_245_MSG = 'La quantité doit être un multiple du lot.';
+const ERR_246_CODE = 246;
+const ERR_246_MSG = 'Ce type de compte n\'existe pas.';
+const ERR_247_CODE = 247;
+const ERR_247_MSG = 'La date de fin de réservation ne peut être avant celle de début de réservation.';
+const ERR_248_CODE = 248;
+const ERR_248_MSG = 'L\'heure de fin de réservation ne peut être avant celle de début de réservation.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -204,7 +210,13 @@ const ERR_336_MSG = 'Naviguateur incompatible pour ce type de compte.';
 const ERR_337_CODE = 337;
 const ERR_337_MSG = 'Réservation modifiée.';
 const ERR_338_CODE = 338;
-const ERR_338_MSG = 'Nouvelle réservation enregistrée.';/********** Début Variables Globales ************/
+const ERR_338_MSG = 'Nouvelle réservation enregistrée.';
+const ERR_339_CODE = 339;
+const ERR_339_MSG = 'Compte ajouté.';
+const ERR_340_CODE = 340;
+const ERR_340_MSG = 'Compte modifié.';
+const ERR_341_CODE = 341;
+const ERR_341_MSG = 'Compte supprimé.';/********** Début Variables Globales ************/
 const gTempsTransition = 150;
 const gTempsTransitionUnique = gTempsTransition * 2;
 const gTempsTransitionMsgInfo = gTempsTransition * 10;

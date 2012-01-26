@@ -1,6 +1,4 @@
-;function GestionListeCommandeVue(pParam) {
-	this.mCommunVue = new CommunVue();
-	
+;function GestionListeCommandeVue(pParam) {	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {GestionListeCommandeVue(pParam);}} );
 		var that = this;
@@ -57,8 +55,16 @@
 	this.affect = function(pData) {
 		pData = this.affectLienEditer(pData);
 		pData = this.affectLienMarche(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectLienListeCommandeArchive(pData);
+		pData = this.affectNouveauMarche(pData);
+		return pData;
+	}
+	
+	this.affectNouveauMarche = function(pData) {
+		pData.find('#btn-nv-marche').click(function() {
+			AjoutCommandeVue();
+		});
 		return pData;
 	}
 	

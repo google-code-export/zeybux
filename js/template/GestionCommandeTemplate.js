@@ -367,10 +367,18 @@
 				"<table class=\"com-table-form\">" +
 					"<tr>" +
 						"<th class=\"com-table-form-th\">" +
-							"Stock : " +
+							"Limite de stock : " +
 						"</th>" +
 						"<td class=\"com-table-form-td\">" +
-							"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" checked=\"checked\"/>Pas de limite" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<th class=\"com-table-form-th\">" +
+						"</th>" +
+						"<td class=\"com-table-form-td\">" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\"/>" +
+							"<input disabled=\"disabled\" class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
 						"</td>" +
 					"</tr>" +
 					"<tr>" +
@@ -378,7 +386,15 @@
 							"Quantité max par adhérent : " +
 						"</th>" +
 						"<td class=\"com-table-form-td\">" +
-							"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" checked=\"checked\"/>Pas de limite" +
+						"</td>" +
+					"</tr>" +
+					"<tr>" +
+						"<th class=\"com-table-form-th\">" +
+						"</th>" +
+						"<td class=\"com-table-form-td\">" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" />" +
+							"<input disabled=\"disabled\" class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
 						"</td>" +
 					"</tr>" +
 				"</table>" +
@@ -553,10 +569,18 @@
 					"<table class=\"com-table-form\">" +
 						"<tr>" +
 							"<th class=\"com-table-form-th\">" +
-								"Stock : " +
+								"Limite de stock : " +
 							"</th>" +
 							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">" +
+							"</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
+								"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
 							"</td>" +
 						"</tr>" +
 						"<tr>" +
@@ -564,7 +588,15 @@
 								"Quantité max par adhérent : " +
 							"</th>" +
 							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">" +
+							"</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
+								"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
 							"</td>" +
 						"</tr>" +
 					"</table>" +
@@ -679,7 +711,58 @@
 										"<span id=\"nom-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
 										"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"nom\" id=\"marche-nom\" maxlength=\"100\" />" +
 									"</td>" +
-								"</tr>" +
+								"</tr>" +								
+								"<tr>" +
+									"<th class=\"com-table-form-th\">Début des Réservations * : </th>" +
+									"<td class=\"com-table-form-td\">" +
+										"<span id=\"date-debut-reservation-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-debut-reservation\" id=\"marche-dateDebutReservation\" />" +
+									"</td>" +
+									"<td class=\"com-table-form-td\">" +
+										"à " +
+										"<span id=\"time-debut-reservation-marche-span\" class=\"ui-helper-hidden informations-marche\"></span>" +
+										"<select name=\"heure-debut-reservation\" id=\"marche-timeDebutReservation\" class=\"informations-marche\" >" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"01\">01</option>" +
+										    "<option value=\"02\">02</option>" +
+										    "<option value=\"03\">03</option>" +
+										    "<option value=\"04\">04</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"06\">06</option>" +
+										    "<option value=\"07\">07</option>" +
+										    "<option value=\"08\">08</option>" +
+										    "<option value=\"09\">09</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"11\">11</option>" +
+										    "<option value=\"12\">12</option>" +
+										    "<option value=\"13\">13</option>" +
+										    "<option value=\"14\">14</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"16\">16</option>" +
+										    "<option value=\"17\">17</option>" +
+										    "<option value=\"18\">18</option>" +
+										    "<option value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"21\">21</option>" +
+										    "<option value=\"22\">22</option>" +
+										    "<option value=\"23\">23</option>" +
+										  "</select>" +
+					   					"<span class=\"informations-marche\">H</span> <select name=\"minute-debut-reservation\" class=\"informations-marche\">" +
+											"<option value=\"00\">00</option>" +
+										    "<option value=\"05\">05</option>" +
+										    "<option value=\"10\">10</option>" +
+										    "<option value=\"15\">15</option>" +
+										    "<option value=\"20\">20</option>" +
+										    "<option value=\"25\">25</option>" +
+										    "<option value=\"30\">30</option>" +
+										    "<option value=\"35\">35</option>" +
+										    "<option value=\"40\">40</option>" +
+										    "<option value=\"45\">45</option>" +
+										    "<option value=\"50\">50</option>" +
+										    "<option value=\"55\">55</option>" +
+										  "</select>" +
+									"</td>" +
+								"</tr>" +								
 								"<tr>" +
 									"<th class=\"com-table-form-th\">Fin des Réservations * : </th>" +
 									"<td class=\"com-table-form-td\">" +
@@ -1096,7 +1179,13 @@
 					"</button>" +
 				"</div>" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"Les Marchés en cours" +
+						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-marche\" title=\"Ajouter un marché\">" +
+							"<span class=\"ui-icon ui-icon-plusthick\">" +
+							"</span>" +
+						"</span>" +
+					"</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
@@ -1531,7 +1620,7 @@
 						"</span>" +
 					"</div>" +
 					"<div>" +
-						"Fin des réservations : Le <span id=\"edt-marche-dateFinReservation\">{dateFinReservation}</span> à <span id=\"edt-marche-heureFinReservation\">{heureFinReservation}</span>H<span id=\"edt-marche-minuteFinReservation\">{minuteFinReservation}</span> <br/>" +
+						"Réservations : Du <span id=\"edt-marche-dateDebutReservation\">{dateDebutReservation}</span> à <span id=\"edt-marche-heureDebutReservation\">{heureDebutReservation}</span>H<span id=\"edt-marche-minuteDebutReservation\">{minuteDebutReservation}</span> au <span id=\"edt-marche-dateFinReservation\">{dateFinReservation}</span> à <span id=\"edt-marche-heureFinReservation\">{heureFinReservation}</span>H<span id=\"edt-marche-minuteFinReservation\">{minuteFinReservation}</span> <br/>" +
 						"Marché : Le <span id=\"edt-marche-dateMarcheDebut\">{dateMarcheDebut}</span> de <span id=\"edt-marche-heureMarcheDebut\">{heureMarcheDebut}</span>H<span id=\"edt-marche-minuteMarcheDebut\">{minuteMarcheDebut}</span> à <span id=\"edt-marche-heureMarcheFin\">{heureMarcheFin}</span>H<span id=\"edt-marche-minuteMarcheFin\">{minuteMarcheFin}</span>" +
 					"</div>" +
 				"</div>" +
@@ -2378,6 +2467,55 @@
 							"<th class=\"com-table-form-th\">Nom du Marché : </th>" +
 							"<td class=\"com-table-form-td\">" +
 								"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"nom\" id=\"marche-nom\" maxlength=\"100\" value=\"{nom}\"/>" +
+							"</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Début des Réservations * : </th>" +
+							"<td class=\"com-table-form-td\">" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-all informations-marche\" type=\"text\" name=\"date-debut-reservation\" id=\"marche-dateDebutReservation\" value=\"{dateDebutReservation}\"/>" +
+							"</td>" +
+							"<td class=\"com-table-form-td\">" +
+								"à " +
+								"<select name=\"heure-debut-reservation\" id=\"marche-timeDebutReservation\" class=\"informations-marche\" >" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"01\">01</option>" +
+								    "<option value=\"02\">02</option>" +
+								    "<option value=\"03\">03</option>" +
+								    "<option value=\"04\">04</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"06\">06</option>" +
+								    "<option value=\"07\">07</option>" +
+								    "<option value=\"08\">08</option>" +
+								    "<option value=\"09\">09</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"11\">11</option>" +
+								    "<option value=\"12\">12</option>" +
+								    "<option value=\"13\">13</option>" +
+								    "<option value=\"14\">14</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"16\">16</option>" +
+								    "<option value=\"17\">17</option>" +
+								    "<option value=\"18\">18</option>" +
+								    "<option value=\"19\">19</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"21\">21</option>" +
+								    "<option value=\"22\">22</option>" +
+								    "<option value=\"23\">23</option>" +
+								"</select>" +
+			   					"<select name=\"minute-debut-reservation\" class=\"informations-marche\">" +
+									"<option value=\"00\">00</option>" +
+								    "<option value=\"05\">05</option>" +
+								    "<option value=\"10\">10</option>" +
+								    "<option value=\"15\">15</option>" +
+								    "<option value=\"20\">20</option>" +
+								    "<option value=\"25\">25</option>" +
+								    "<option value=\"30\">30</option>" +
+								    "<option value=\"35\">35</option>" +
+								    "<option value=\"40\">40</option>" +
+								    "<option value=\"45\">45</option>" +
+								    "<option value=\"50\">50</option>" +
+								    "<option value=\"55\">55</option>" +
+								"</select>" +
 							"</td>" +
 						"</tr>" +
 						"<tr>" +

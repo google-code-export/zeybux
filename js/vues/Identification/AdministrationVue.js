@@ -37,20 +37,20 @@
 	
 	this.affectVues = function(pData) {
 		if(pData) {		
-			pData.find('#menu-GestionAdherents-AjoutAdherent').click(function() {
+			/*pData.find('#menu-GestionAdherents-AjoutAdherent').click(function() {
 				AjoutAdherentVue();
 				return false;
-			});	
+			});	*/
 			
 			pData.find('#menu-GestionAdherents-ListeAdherent').click(function() {
 				ListeAdherentVue();
 				return false;
 			});	
 			
-			pData.find('#menu-GestionCommande-AjoutCommande').click(function() {
+			/*pData.find('#menu-GestionCommande-AjoutCommande').click(function() {
 				AjoutCommandeVue();
 				return false;
-			});
+			});*/
 			
 			pData.find('#menu-GestionCommande-ListeCommande').click(function() {
 				GestionListeCommandeVue();

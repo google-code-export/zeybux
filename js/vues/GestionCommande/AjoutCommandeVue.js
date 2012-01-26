@@ -253,7 +253,26 @@
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectAjoutLotGestion(pData);
 		pData = this.affectAjoutLot(pData);
+		pData = this.affectLimiteStock(pData);
 		return pData;		
+	}
+	
+	this.affectLimiteStock = function(pData) {
+		pData.find(':input[name=pro-stock-choix]').change(function() {
+			if($(':input[name=pro-stock-choix]:checked').val() == 1) {				
+				$(":input[name=pro-stock]").attr("disabled","").val("");
+			} else {
+				$(":input[name=pro-stock]").attr("disabled","disabled").val("");
+			}
+		});
+		pData.find(':input[name=pro-qte-max-choix]').change(function() {
+			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
+				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+			} else {
+				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+			}
+		});
+		return pData;
 	}
 	
 	this.affectAjoutLot = function(pData) {
@@ -417,88 +436,113 @@
 
 			if(lIdNomProduit != 0) {
 				var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
-				var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
-				
-				var lProduit = {nproId:lIdNomProduit,
-								nproNom:pDialog.find(':input[name=produit] option:selected').text(),
-								nproStock:lStock,
-								nproQteMax:lQteMax,
-								nproUnite:lUnite,
-								modelesLot:[]};
-				
-				pDialog.find('.ligne-lot :checkbox').each( function () {
-					var lModele = false;
-					if($(this).hasClass("modele-lot")) {
-						lModele = true;
-					}
-					
-					var lSelected = false;
-					if($(this).attr("checked")) {
-						lSelected = true;
-					}
-					
-					if(lModele || lSelected) {
-						// Récupération des lots
-						var lIdLot = $(this).closest(".ligne-lot").find(".lot-id").text();
-						var lVoLot = {	id:lIdLot,
-										taille:$(this).closest(".ligne-lot").find(".lot-quantite").text(),
-										prix:$(this).closest(".ligne-lot").find(".lot-prix").text(),
-										unite:$(this).closest(".ligne-lot").find(".lot-unite").text(),
-										selected:lSelected,
-										modele:lModele};
+
+				if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "") { // Si une limite de stock est sélectionné il faut la saisir
+					var lVR = new Object();
+					var erreur = new VRerreur();
+					erreur.code = ERR_201_CODE;
+					erreur.message = ERR_201_MSG;
+					lVR.valid = false;
+					lVR.qteRestante = new VRelement();
+					lVR.qteRestante.valid = false;
+					lVR.qteRestante.erreurs.push(erreur);
+					Infobulle.generer(lVR,"pro-");
+				} else {				
+					var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
+					if(pDialog.find(':input[name=pro-qte-max-choix]:checked').val() == 1 && lQteMax == "") { // Si une Qmax est sélectionné il faut la saisir
+						var lVR = new Object();
+						var erreur = new VRerreur();
+						erreur.code = ERR_201_CODE;
+						erreur.message = ERR_201_MSG;
+						lVR.valid = false;
+						lVR.qteMaxCommande = new VRelement();
+						lVR.qteMaxCommande.valid = false;
+						lVR.qteMaxCommande.erreurs.push(erreur);
+						Infobulle.generer(lVR,"pro-");
+					} else {	
+						var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 						
-						lProduit.modelesLot[lIdLot] = lVoLot;
-					}
-				});	
-				
-				if(!this.mAffichageMarche[lIdFerme]) {
-					this.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
-														ferNom:pDialog.find(':input[name=ferme] option:selected').text(),
-														categories:[]};
-				}
-				
-				if(!this.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
-					this.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
-							cproId:lIdCategorie,
-							cproNom:pDialog.find(':input[name=categorie] option:selected').text(),
-							produits:[]};
-				}
-				
-	
-				// Préparation du MarcheVO		
-				var lVoProduit = new ProduitMarcheVO();
-				lVoProduit.idNom = lIdNomProduit;
-				lVoProduit.unite = lUnite;
-				lVoProduit.qteMaxCommande = lQteMax;
-				lVoProduit.qteRestante = lStock;
+						var lProduit = {nproId:lIdNomProduit,
+										nproNom:pDialog.find(':input[name=produit] option:selected').text(),
+										nproStock:lStock,
+										nproQteMax:lQteMax,
+										nproUnite:lUnite,
+										modelesLot:[]};
 						
-				pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-					// Récupération des lots
-					var lVoLot = new DetailCommandeVO();
-					lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-					lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-					
-					lVoProduit.lots.push(lVoLot);										
-				});						
-				
-				lVoProduit.idFerme = lIdFerme;
-				lVoProduit.idCategorie = lIdCategorie;
-	
-				var lValid = new ProduitMarcheValid();
-				var lVr = lValid.validAjout(lVoProduit);
-				
-				if(lVr.valid) {	
-					Infobulle.init();
-					this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
-					this.mMarche.produits[lIdNomProduit] = lVoProduit;
-	
-					this.mNbProduit++;
-					that.majListeFerme();
-					
-					pDialog.dialog('close');
-				} else {
-					Infobulle.generer(lVr,'pro-');
+						pDialog.find('.ligne-lot :checkbox').each( function () {
+							var lModele = false;
+							if($(this).hasClass("modele-lot")) {
+								lModele = true;
+							}
+							
+							var lSelected = false;
+							if($(this).attr("checked")) {
+								lSelected = true;
+							}
+							
+							if(lModele || lSelected) {
+								// Récupération des lots
+								var lIdLot = $(this).closest(".ligne-lot").find(".lot-id").text();
+								var lVoLot = {	id:lIdLot,
+												taille:$(this).closest(".ligne-lot").find(".lot-quantite").text(),
+												prix:$(this).closest(".ligne-lot").find(".lot-prix").text(),
+												unite:$(this).closest(".ligne-lot").find(".lot-unite").text(),
+												selected:lSelected,
+												modele:lModele};
+								
+								lProduit.modelesLot[lIdLot] = lVoLot;
+							}
+						});	
+						
+						if(!this.mAffichageMarche[lIdFerme]) {
+							this.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
+																ferNom:pDialog.find(':input[name=ferme] option:selected').text(),
+																categories:[]};
+						}
+						
+						if(!this.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
+							this.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
+									cproId:lIdCategorie,
+									cproNom:pDialog.find(':input[name=categorie] option:selected').text(),
+									produits:[]};
+						}
+						
+			
+						// Préparation du MarcheVO		
+						var lVoProduit = new ProduitMarcheVO();
+						lVoProduit.idNom = lIdNomProduit;
+						lVoProduit.unite = lUnite;
+						lVoProduit.qteMaxCommande = lQteMax;
+						lVoProduit.qteRestante = lStock;
+								
+						pDialog.find('.ligne-lot :checkbox:checked').each( function () {
+							// Récupération des lots
+							var lVoLot = new DetailCommandeVO();
+							lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
+							lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
+							
+							lVoProduit.lots.push(lVoLot);										
+						});						
+						
+						lVoProduit.idFerme = lIdFerme;
+						lVoProduit.idCategorie = lIdCategorie;
+			
+						var lValid = new ProduitMarcheValid();
+						var lVr = lValid.validAjout(lVoProduit);
+						
+						if(lVr.valid) {	
+							Infobulle.init();
+							this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
+							this.mMarche.produits[lIdNomProduit] = lVoProduit;
+			
+							this.mNbProduit++;
+							that.majListeFerme();
+							
+							pDialog.dialog('close');
+						} else {
+							Infobulle.generer(lVr,'pro-');
+						}
+					}
 				}
 			}
 		} else {
@@ -642,6 +686,20 @@
 				lData.modelesLot.push(lVoLot);
 			}
 		};
+		
+		if(this.mMarche.produits[pId].qteRestante == "") {
+			lData.nproStockCheckedNoLimit = "checked=\"checked\"";
+			lData.nproStockDisabled = "disabled=\"disabled\"";
+		} else {
+			lData.nproStockCheckedLimit = "checked=\"checked\"";
+		}
+		
+		if(this.mMarche.produits[pId].qteMaxCommande == "") {
+			lData.nproQteMaxCheckedNoLimit = "checked=\"checked\"";
+			lData.nproQteMaxDisabled = "disabled=\"disabled\"";
+		} else {
+			lData.nproQteMaxCheckedLimit = "checked=\"checked\"";
+		}
 				
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		var lTemplate = lGestionCommandeTemplate.dialogModifProduitAjoutMarche;
@@ -673,98 +731,127 @@
 			var lIdCategorie = pDialog.find('#pro-idCategorie').attr("id-categorie");
 			var lIdNomProduit = pDialog.find('#pro-idProduit').attr("id-produit");
 			
+			
 			var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
-			var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
-			
-			var lStockAffichage = "";
-			if(lStock != "") {
-				lStockAffichage = lStock.nombreFormate(2,',',' ');
-			}
-			var lQteMaxAffichage = "";
-			if(lQteMax != "") {
-				lQteMaxAffichage = lQteMax.nombreFormate(2,',',' ');
-			}
-			
-			var lProduit = {nproId:lIdNomProduit,
-							nproNom:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit].nproNom,
-							nproStock:lStockAffichage,
-							nproQteMax:lQteMaxAffichage,
-							nproUnite:lUnite,
-							modelesLot:[]};
-			
-			pDialog.find('.ligne-lot :checkbox').each( function () {
-				var lModele = false;
-				if($(this).hasClass("modele-lot")) {
-					lModele = true;
-				}
-				
-				var lSelected = false;
-				if($(this).attr("checked")) {
-					lSelected = true;
-				}
-				
-				if(lModele || lSelected) {
-					// Récupération des lots
-					var lIdLot = $(this).closest(".ligne-lot").find(".lot-id").text();
-					var lVoLot = {	id:lIdLot,
-									taille:$(this).closest(".ligne-lot").find(".lot-quantite").text(),
-									prix:$(this).closest(".ligne-lot").find(".lot-prix").text(),
-									unite:lUnite,
-									selected:lSelected,
-									modele:lModele};
-					
-					lProduit.modelesLot[lIdLot] = lVoLot;
-				}
-			});	
-			
-			/*if(!this.mAffichageMarche[lIdFerme]) {
-				this.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
-													ferNom:pDialog.find(':input[name=ferme] option:selected').text(),
-													categories:[]};
-			}
-			
-			if(!this.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
-				this.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
-						cproId:lIdCategorie,
-						cproNom:pDialog.find(':input[name=categorie] option:selected').text(),
-						produits:[]};
-			}
-			*/
 
-			// Préparation du MarcheVO		
-			var lVoProduit = new ProduitMarcheVO();
-			lVoProduit.idNom = lIdNomProduit;
-			lVoProduit.unite = lUnite;
-			lVoProduit.qteMaxCommande = lQteMax;
-			lVoProduit.qteRestante = lStock;
+			if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "") { // Si une limite de stock est sélectionné il faut la saisir
+				var lVR = new Object();
+				var erreur = new VRerreur();
+				erreur.code = ERR_201_CODE;
+				erreur.message = ERR_201_MSG;
+				lVR.valid = false;
+				lVR.qteRestante = new VRelement();
+				lVR.qteRestante.valid = false;
+				lVR.qteRestante.erreurs.push(erreur);
+				Infobulle.generer(lVR,"pro-");
+			} else {				
+				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
+				if(pDialog.find(':input[name=pro-qte-max-choix]:checked').val() == 1 && lQteMax == "") { // Si une Qmax est sélectionné il faut la saisir
+					var lVR = new Object();
+					var erreur = new VRerreur();
+					erreur.code = ERR_201_CODE;
+					erreur.message = ERR_201_MSG;
+					lVR.valid = false;
+					lVR.qteMaxCommande = new VRelement();
+					lVR.qteMaxCommande.valid = false;
+					lVR.qteMaxCommande.erreurs.push(erreur);
+					Infobulle.generer(lVR,"pro-");
+				} else {	
+			
+			
+					//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
+					//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
+					var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					
-			pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-				// Récupération des lots
-				var lVoLot = new DetailCommandeVO();
-				lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-				lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-				
-				lVoProduit.lots.push(lVoLot);										
-			});						
-			
-			lVoProduit.idFerme = lIdFerme;
-			lVoProduit.idCategorie = lIdCategorie;
-
-			var lValid = new ProduitMarcheValid();
-			var lVr = lValid.validAjout(lVoProduit);
-			
-			if(lVr.valid) {	
-				Infobulle.init();
-				this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
-				this.mMarche.produits[lIdNomProduit] = lVoProduit;
-				that.majListeFerme();
-				
-				pDialog.dialog('close');
-			} else {
-				Infobulle.generer(lVr,'pro-');
-			}
-			
+					var lStockAffichage = "";
+					if(lStock != "") {
+						lStockAffichage = lStock.nombreFormate(2,',',' ');
+					}
+					var lQteMaxAffichage = "";
+					if(lQteMax != "") {
+						lQteMaxAffichage = lQteMax.nombreFormate(2,',',' ');
+					}
+					
+					var lProduit = {nproId:lIdNomProduit,
+									nproNom:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit].nproNom,
+									nproStock:lStockAffichage,
+									nproQteMax:lQteMaxAffichage,
+									nproUnite:lUnite,
+									modelesLot:[]};
+					
+					pDialog.find('.ligne-lot :checkbox').each( function () {
+						var lModele = false;
+						if($(this).hasClass("modele-lot")) {
+							lModele = true;
+						}
+						
+						var lSelected = false;
+						if($(this).attr("checked")) {
+							lSelected = true;
+						}
+						
+						if(lModele || lSelected) {
+							// Récupération des lots
+							var lIdLot = $(this).closest(".ligne-lot").find(".lot-id").text();
+							var lVoLot = {	id:lIdLot,
+											taille:$(this).closest(".ligne-lot").find(".lot-quantite").text(),
+											prix:$(this).closest(".ligne-lot").find(".lot-prix").text(),
+											unite:lUnite,
+											selected:lSelected,
+											modele:lModele};
+							
+							lProduit.modelesLot[lIdLot] = lVoLot;
+						}
+					});	
+					
+					/*if(!this.mAffichageMarche[lIdFerme]) {
+						this.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
+															ferNom:pDialog.find(':input[name=ferme] option:selected').text(),
+															categories:[]};
+					}
+					
+					if(!this.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
+						this.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
+								cproId:lIdCategorie,
+								cproNom:pDialog.find(':input[name=categorie] option:selected').text(),
+								produits:[]};
+					}
+					*/
+		
+					// Préparation du MarcheVO		
+					var lVoProduit = new ProduitMarcheVO();
+					lVoProduit.idNom = lIdNomProduit;
+					lVoProduit.unite = lUnite;
+					lVoProduit.qteMaxCommande = lQteMax;
+					lVoProduit.qteRestante = lStock;
+							
+					pDialog.find('.ligne-lot :checkbox:checked').each( function () {
+						// Récupération des lots
+						var lVoLot = new DetailCommandeVO();
+						lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
+						lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
+						
+						lVoProduit.lots.push(lVoLot);										
+					});						
+					
+					lVoProduit.idFerme = lIdFerme;
+					lVoProduit.idCategorie = lIdCategorie;
+		
+					var lValid = new ProduitMarcheValid();
+					var lVr = lValid.validAjout(lVoProduit);
+					
+					if(lVr.valid) {	
+						Infobulle.init();
+						this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
+						this.mMarche.produits[lIdNomProduit] = lVoProduit;
+						that.majListeFerme();
+						
+						pDialog.dialog('close');
+					} else {
+						Infobulle.generer(lVr,'pro-');
+					}
+				}
+			}			
 		} else {
 			var lVR = new Object();
 			var erreur = new VRerreur();
@@ -820,6 +907,8 @@
 			this.mMarche.timeMarcheDebut = $(':input[name=heure-debut]').val() + ':' + $(':input[name=minute-debut]').val() + ':00';
 			this.mMarche.dateMarcheFin = $(':input[name=date-debut]').val().dateFrToDb();
 			this.mMarche.timeMarcheFin = $(':input[name=heure-fin]').val() + ':' + $(':input[name=minute-fin]').val() + ':00';
+			this.mMarche.dateDebutReservation = $(':input[name=date-debut-reservation]').val().dateFrToDb();
+			this.mMarche.timeDebutReservation = $(':input[name=heure-debut-reservation]').val() + ':' + $(':input[name=minute-debut-reservation]').val() + ':00';
 			this.mMarche.dateFinReservation = $(':input[name=date-fin-reservation]').val().dateFrToDb();
 			this.mMarche.timeFinReservation = $(':input[name=heure-fin-reservation]').val() + ':' + $(':input[name=minute-fin-reservation]').val() + ':00';
 			this.mMarche.archive = "0";
@@ -833,6 +922,8 @@
 					this.mEtapeCreationMarche = 1;
 					Infobulle.init(); // Supprime les erreurs
 					$("#nom-marche-span").text(this.mMarche.nom);
+					$("#date-debut-reservation-marche-span").text($(':input[name=date-debut-reservation]').val());
+					$("#time-debut-reservation-marche-span").text($(':input[name=heure-debut-reservation]').val() + 'H' + $(':input[name=minute-debut-reservation]').val());
 					$("#date-fin-reservation-marche-span").text($(':input[name=date-fin-reservation]').val());
 					$("#time-fin-reservation-marche-span").text($(':input[name=heure-fin-reservation]').val() + 'H' + $(':input[name=minute-fin-reservation]').val());
 					$("#date-debut-marche-span").text($(':input[name=date-debut]').val());
@@ -910,7 +1001,10 @@
 
 
 	this.affectControleDatepicker = function(pData) {
+		pData = gCommunVue.comLienDatepicker('marche-dateDebutReservation','marche-dateFinReservation',pData);
 		pData = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',pData);
+
+		pData.find('#marche-dateDebutReservation').datepicker( "setDate", getDateAujourdhuiDb().dateDbToFr() );
 		return pData;
 	}
 	

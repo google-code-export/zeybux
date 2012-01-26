@@ -2,75 +2,82 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 26/01/2012
 // Fichier : CommandeVO.php
 //
 // Description : Classe CommandeVO
 //
 //****************************************************************
+include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
  * @name CommandeVO
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 26/01/2012
  * @desc Classe représentant une CommandeVO
  */
-class CommandeVO
+class CommandeVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
 	* @desc Id de la CommandeVO
 	*/
-	private $mId;
+	protected $mId;
 
 	/**
 	* @var int(11)
 	* @desc Numero de la CommandeVO
 	*/
-	private $mNumero;
+	protected $mNumero;
 
 	/**
 	* @var varchar(100)
 	* @desc Nom de la CommandeVO
 	*/
-	private $mNom;
+	protected $mNom;
 
 	/**
 	* @var text
 	* @desc Description de la CommandeVO
 	*/
-	private $mDescription;
+	protected $mDescription;
 
 	/**
 	* @var datetime
 	* @desc DateMarcheDebut de la CommandeVO
 	*/
-	private $mDateMarcheDebut;
+	protected $mDateMarcheDebut;
 
 	/**
 	* @var datetime
 	* @desc DateMarcheFin de la CommandeVO
 	*/
-	private $mDateMarcheFin;
+	protected $mDateMarcheFin;
+
+	/**
+	* @var datetime
+	* @desc DateDebutReservation de la CommandeVO
+	*/
+	protected $mDateDebutReservation;
 
 	/**
 	* @var datetime
 	* @desc DateFinReservation de la CommandeVO
 	*/
-	private $mDateFinReservation;
+	protected $mDateFinReservation;
 
 	/**
 	* @var tinyint(1)
 	* @desc Archive de la CommandeVO
 	*/
-	private $mArchive;
+	protected $mArchive;
 
 	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la CommandeVO
 	*/
-	public function getId(){
+	public function getId() {
 		return $this->mId;
 	}
 
@@ -88,7 +95,7 @@ class CommandeVO
 	* @return int(11)
 	* @desc Renvoie le membre Numero de la CommandeVO
 	*/
-	public function getNumero(){
+	public function getNumero() {
 		return $this->mNumero;
 	}
 
@@ -106,7 +113,7 @@ class CommandeVO
 	* @return varchar(100)
 	* @desc Renvoie le membre Nom de la CommandeVO
 	*/
-	public function getNom(){
+	public function getNom() {
 		return $this->mNom;
 	}
 
@@ -124,7 +131,7 @@ class CommandeVO
 	* @return text
 	* @desc Renvoie le membre Description de la CommandeVO
 	*/
-	public function getDescription(){
+	public function getDescription() {
 		return $this->mDescription;
 	}
 
@@ -142,7 +149,7 @@ class CommandeVO
 	* @return datetime
 	* @desc Renvoie le membre DateMarcheDebut de la CommandeVO
 	*/
-	public function getDateMarcheDebut(){
+	public function getDateMarcheDebut() {
 		return $this->mDateMarcheDebut;
 	}
 
@@ -160,7 +167,7 @@ class CommandeVO
 	* @return datetime
 	* @desc Renvoie le membre DateMarcheFin de la CommandeVO
 	*/
-	public function getDateMarcheFin(){
+	public function getDateMarcheFin() {
 		return $this->mDateMarcheFin;
 	}
 
@@ -174,11 +181,29 @@ class CommandeVO
 	}
 
 	/**
+	* @name getDateDebutReservation()
+	* @return datetime
+	* @desc Renvoie le membre DateDebutReservation de la CommandeVO
+	*/
+	public function getDateDebutReservation() {
+		return $this->mDateDebutReservation;
+	}
+
+	/**
+	* @name setDateDebutReservation($pDateDebutReservation)
+	* @param datetime
+	* @desc Remplace le membre DateDebutReservation de la CommandeVO par $pDateDebutReservation
+	*/
+	public function setDateDebutReservation($pDateDebutReservation) {
+		$this->mDateDebutReservation = $pDateDebutReservation;
+	}
+
+	/**
 	* @name getDateFinReservation()
 	* @return datetime
 	* @desc Renvoie le membre DateFinReservation de la CommandeVO
 	*/
-	public function getDateFinReservation(){
+	public function getDateFinReservation() {
 		return $this->mDateFinReservation;
 	}
 
@@ -196,7 +221,7 @@ class CommandeVO
 	* @return tinyint(1)
 	* @desc Renvoie le membre Archive de la CommandeVO
 	*/
-	public function getArchive(){
+	public function getArchive() {
 		return $this->mArchive;
 	}
 

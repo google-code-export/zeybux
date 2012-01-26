@@ -36,6 +36,8 @@ class CommandeCompleteToVO
 			&& isset($lJson->timeMarcheDebut)
 			&& isset($lJson->dateMarcheFin)
 			&& isset($lJson->timeMarcheFin)
+			&& isset($lJson->dateDebutReservation)
+			&& isset($lJson->timeDebutReservation)
 			&& isset($lJson->dateFinReservation)
 			&& isset($lJson->timeFinReservation)
 			&& isset($lJson->archive)
@@ -51,6 +53,7 @@ class CommandeCompleteToVO
 				$lVo->setDescription($lJson->description);
 				$lVo->setDateMarcheDebut($lJson->dateMarcheDebut . " " . $lJson->timeMarcheDebut);
 				$lVo->setDateMarcheFin($lJson->dateMarcheFin . " " . $lJson->timeMarcheFin);
+				$lVo->setDateDebutReservation($lJson->dateDebutReservation . " " . $lJson->timeDebutReservation);
 				$lVo->setDateFinReservation($lJson->dateFinReservation . " " . $lJson->timeFinReservation);
 				$lVo->setArchive($lJson->archive);
 				foreach($lProduits as $lProduit) {
@@ -76,6 +79,8 @@ class CommandeCompleteToVO
 			&& isset($pArray['timeMarcheDebut'])
 			&& isset($pArray['dateMarcheFin'])
 			&& isset($pArray['timeMarcheFin'])
+			&& isset($pArray['dateDebutReservation'])
+			&& isset($pArray['timeDebutReservation'])
 			&& isset($pArray['dateFinReservation'])
 			&& isset($pArray['timeFinReservation'])
 			&& isset($pArray['archive'])
@@ -90,6 +95,7 @@ class CommandeCompleteToVO
 			$lVo->setDescription($pArray['description']);
 			$lVo->setDateMarcheDebut($pArray['dateMarcheDebut'] . " " . $pArray['timeMarcheDebut']);
 			$lVo->setDateMarcheFin($pArray['dateMarcheFin'] . " " . $pArray['timeMarcheFin']);
+			$lVo->setDateDebutReservation($pArray['dateDebutReservation'] . " " . $pArray['timeDebutReservation']);
 			$lVo->setDateFinReservation($pArray['dateFinReservation'] . " " . $pArray['timeFinReservation']);
 			$lVo->setArchive($pArray['archive']);
 			foreach($pArray['produits'] as $lProduit) {
