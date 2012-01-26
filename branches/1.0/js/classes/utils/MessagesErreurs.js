@@ -129,6 +129,10 @@ const ERR_245_CODE = 245;
 const ERR_245_MSG = 'La quantité doit être un multiple du lot.';
 const ERR_246_CODE = 246;
 const ERR_246_MSG = 'Ce type de compte n\'existe pas.';
+const ERR_247_CODE = 247;
+const ERR_247_MSG = 'La date de fin de réservation ne peut être avant celle de début de réservation.';
+const ERR_248_CODE = 248;
+const ERR_248_MSG = 'L\'heure de fin de réservation ne peut être avant celle de début de réservation.';
 
 //Message d'Information
 const ERR_301_CODE = 301;

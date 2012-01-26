@@ -56,6 +56,12 @@ class DetailMarcheViewVO extends DataTemplate
 
 	/**
 	* @var datetime
+	* @desc ComDateDebutReservation de la DetailMarcheViewVO
+	*/
+	protected $mComDateDebutReservation;
+
+	/**
+	* @var datetime
 	* @desc ComDateFinReservation de la DetailMarcheViewVO
 	*/
 	protected $mComDateFinReservation;
@@ -286,6 +292,24 @@ class DetailMarcheViewVO extends DataTemplate
 	*/
 	public function setComDateMarcheFin($pComDateMarcheFin) {
 		$this->mComDateMarcheFin = $pComDateMarcheFin;
+	}
+
+	/**
+	* @name getComDateDebutReservation()
+	* @return datetime
+	* @desc Renvoie le membre ComDateDebutReservation de la DetailMarcheViewVO
+	*/
+	public function getComDateDebutReservation() {
+		return $this->mComDateDebutReservation;
+	}
+
+	/**
+	* @name setComDateDebutReservation($pComDateDebutReservation)
+	* @param datetime
+	* @desc Remplace le membre ComDateDebutReservation de la DetailMarcheViewVO par $pComDateDebutReservation
+	*/
+	public function setComDateDebutReservation($pComDateDebutReservation) {
+		$this->mComDateDebutReservation = $pComDateDebutReservation;
 	}
 
 	/**

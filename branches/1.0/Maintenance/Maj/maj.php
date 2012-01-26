@@ -34,7 +34,7 @@ if(isset($_GET['e']) && !empty($_GET['e'])) {
 				<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Sauvegarde du site</div>		
 <?php 
 // Création d'un nouveau répertoire de sauvegarde
-$lDossier = FILE_DUMP . "/" . date("d-m-Y H:i:s");
+$lDossier = FILE_DUMP . "/" . date("YmdHis");
 mkdir( $lDossier );
 
 include("./Maj/dumpFile.php");

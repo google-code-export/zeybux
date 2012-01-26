@@ -734,6 +734,8 @@ String.prototype.extractDbMinute = function() {
 	this.timeMarcheDebut = '';
 	this.dateMarcheFin = '';
 	this.timeMarcheFin = '';
+	this.dateDebutReservation = '';
+	this.timeDebutReservation = '';
 	this.dateFinReservation = '';
 	this.timeFinReservation = '';
 	this.archive = '';
@@ -798,6 +800,8 @@ String.prototype.extractDbMinute = function() {
 	this.timeMarcheDebut = '';
 	this.dateMarcheFin = '';
 	this.timeMarcheFin = '';
+	this.dateDebutReservation = '';
+	this.timeDebutReservation = '';
 	this.dateFinReservation = '';
 	this.timeFinReservation = '';
 	this.archive = '';
@@ -880,6 +884,12 @@ function CompteZeybuAjoutVirementVO() {
 	this.idCptDebit = '';
 	this.idCptCredit = '';
 	this.montant = '';
+	this.type = '';
+};function CompteSpecialVO() {
+	this.id = '';
+	this.login = '';
+	this.motPasse = '';
+	this.motPasseConfirm = '';
 	this.type = '';
 };function ReservationCommandeVO() {
 	this.id = '';
@@ -1027,6 +1037,8 @@ function CompteZeybuModifierVirementVO() {
 	this.timeMarcheDebut = new VRelement();
 	this.dateMarcheFin = new VRelement();
 	this.timeMarcheFin = new VRelement();
+	this.dateDebutReservation = new VRelement();
+	this.timeDebutReservation = new VRelement();
 	this.dateFinReservation = new VRelement();
 	this.timeFinReservation = new VRelement();
 	this.archive = new VRelement();
@@ -1085,7 +1097,15 @@ function CompteZeybuModifierVirementVO() {
 	this.stoQuantite = new VRelement();
 	this.stoIdDetailCommande = new VRelement();
 }
-;function AdherentVR() {
+;function CompteSpecialVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.login = new VRelement();
+	this.motPasse = new VRelement();
+	this.motPasseConfirm = new VRelement();
+	this.type = new VRelement();
+};function AdherentVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -1215,6 +1235,8 @@ function CompteZeybuModifierVirementVR() {
 	this.timeMarcheDebut = new VRelement();
 	this.dateMarcheFin = new VRelement();
 	this.timeMarcheFin = new VRelement();
+	this.dateDebutReservation = new VRelement();
+	this.timeDebutReservation = new VRelement();
 	this.dateFinReservation = new VRelement();
 	this.timeFinReservation = new VRelement();
 	this.archive = new VRelement();
@@ -2605,6 +2627,10 @@ function CompteZeybuModifierVirementVR() {
 		//if(!pData.dateMarcheFin.checkDateExist('db')) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
 		if(!pData.timeMarcheFin.checkTime()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}		
 		if(!pData.timeMarcheFin.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDate('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTime()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTimeExist()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
 		if(!pData.dateFinReservation.checkDate('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(!pData.dateFinReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(!pData.timeFinReservation.checkTime()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
@@ -2616,10 +2642,17 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.timeMarcheDebut.isEmpty()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
 		//if(pData.dateMarcheFin.isEmpty()) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
 		if(pData.timeMarcheFin.isEmpty()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(pData.dateDebutReservation.isEmpty()) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(pData.timeDebutReservation.isEmpty()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
 		if(pData.dateFinReservation.isEmpty()) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(pData.timeFinReservation.isEmpty()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
 		if(pData.archive.isEmpty()) {lVR.valid = false;lVR.archive.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.archive.erreurs.push(erreur);}
 
+		if(!dateTimeEstPLusGrandeEgale(pData.dateFinReservation + ' ' + pData.timeFinReservation,pData.dateDebutReservation + ' ' + pData.timeDebutReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateFinReservation,pData.dateDebutReservation,'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_247_CODE;erreur.message = ERR_247_MSG;lVR.dateFinReservation.erreurs.push(erreur);lVR.dateDebutReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeDebutReservation,pData.timeFinReservation)) {lVR.valid = false;lVR.timeFinReservation.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_248_CODE;erreur.message = ERR_248_MSG;lVR.timeFinReservation.erreurs.push(erreur);lVR.timeDebutReservation.erreurs.push(erreur);}
+		}
+				
 		if(!dateTimeEstPLusGrandeEgale(pData.dateMarcheDebut + ' ' + pData.timeMarcheDebut,pData.dateFinReservation + ' ' + pData.timeFinReservation,'db')) {
 			if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,pData.dateFinReservation,'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_202_CODE;erreur.message = ERR_202_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);lVR.dateFinReservation.erreurs.push(erreur);}
 			else if(timeEstPLusGrandeEgale(pData.timeFinReservation,pData.timeMarcheDebut)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_203_CODE;erreur.message = ERR_203_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeFinReservation.erreurs.push(erreur);}
@@ -2668,6 +2701,10 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.timeMarcheDebut.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
 		if(!pData.timeMarcheFin.checkTime()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}		
 		if(!pData.timeMarcheFin.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDate('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTime()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTimeExist()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
 		if(!pData.dateFinReservation.checkDate('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(!pData.dateFinReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(!pData.timeFinReservation.checkTime()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
@@ -2678,9 +2715,16 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateMarcheDebut.isEmpty()) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
 		if(pData.timeMarcheDebut.isEmpty()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
 		if(pData.timeMarcheFin.isEmpty()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(pData.dateDebutReservation.isEmpty()) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(pData.timeDebutReservation.isEmpty()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
 		if(pData.dateFinReservation.isEmpty()) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 		if(pData.timeFinReservation.isEmpty()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
-
+	
+		if(!dateTimeEstPLusGrandeEgale(pData.dateFinReservation + ' ' + pData.timeFinReservation,pData.dateDebutReservation + ' ' + pData.timeDebutReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateFinReservation,pData.dateDebutReservation,'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_247_CODE;erreur.message = ERR_247_MSG;lVR.dateFinReservation.erreurs.push(erreur);lVR.dateDebutReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeDebutReservation,pData.timeFinReservation)) {lVR.valid = false;lVR.timeFinReservation.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_248_CODE;erreur.message = ERR_248_MSG;lVR.timeFinReservation.erreurs.push(erreur);lVR.timeDebutReservation.erreurs.push(erreur);}
+		}
+			
 		if(!dateTimeEstPLusGrandeEgale(pData.dateMarcheDebut + ' ' + pData.timeMarcheDebut,pData.dateFinReservation + ' ' + pData.timeFinReservation,'db')) {
 			if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,pData.dateFinReservation,'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_202_CODE;erreur.message = ERR_202_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);lVR.dateFinReservation.erreurs.push(erreur);}
 			else if(timeEstPLusGrandeEgale(pData.timeFinReservation,pData.timeMarcheDebut)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_203_CODE;erreur.message = ERR_203_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeFinReservation.erreurs.push(erreur);}
@@ -3420,6 +3464,70 @@ function CompteZeybuModifierVirementVR() {
 		return lTestId;
 	}
 
+};function CompteSpecialValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new CompteSpecialVR();
+		//Tests Techniques
+		if(!pData.login.checkLength(0,20)) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.login.erreurs.push(erreur);}
+		if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+		if(!pData.type.checkLength(0,1)) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.type.erreurs.push(erreur);}
+		if(!pData.type.isInt()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.type.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.login.isEmpty()) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.login.erreurs.push(erreur);}
+		if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+		if(pData.type.isEmpty()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.type.erreurs.push(erreur);}
+
+		// Les mots de passe ne sont pas identique
+		if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(pData.type < 2 || pData.type > 4) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_246_CODE;erreur.message = ERR_246_MSG;lVR.type.erreurs.push(erreur);}
+		
+		return lVR;
+	}
+	
+	this.validDelete = function(pData) { 
+		var lVR = new CompteSpecialVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+
+		return lVR;
+	}
+	
+	this.validUpdate = function(pData) { 
+		var lVR = this.validDelete(pData);
+		if(lVR.valid) {
+			//Tests Techniques
+			if(!pData.login.checkLength(0,20)) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.login.erreurs.push(erreur);}
+	
+			//Tests Fonctionnels
+			if(pData.login.isEmpty()) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.login.erreurs.push(erreur);}
+	
+		}
+		return lVR;
+	}
+	
+	this.validUpdatePass = function(pData) { 
+		var lVR = this.validDelete(pData);
+		if(lVR.valid) {
+			//Tests Techniques
+			if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
+			if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+	
+			//Tests Fonctionnels
+			if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
+			if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+	
+			// Les mots de passe ne sont pas identique
+			if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}			
+		}
+		return lVR;
+	}
 }/********** Début Variables Globales ************/
 var TemplateData;
 var Infobulle = {};
@@ -3887,20 +3995,20 @@ $(document).ready(function() {
 	
 	this.affectVues = function(pData) {
 		if(pData) {		
-			pData.find('#menu-GestionAdherents-AjoutAdherent').click(function() {
+			/*pData.find('#menu-GestionAdherents-AjoutAdherent').click(function() {
 				AjoutAdherentVue();
 				return false;
-			});	
+			});	*/
 			
 			pData.find('#menu-GestionAdherents-ListeAdherent').click(function() {
 				ListeAdherentVue();
 				return false;
 			});	
 			
-			pData.find('#menu-GestionCommande-AjoutCommande').click(function() {
+			/*pData.find('#menu-GestionCommande-AjoutCommande').click(function() {
 				AjoutCommandeVue();
 				return false;
-			});
+			});*/
 			
 			pData.find('#menu-GestionCommande-ListeCommande').click(function() {
 				GestionListeCommandeVue();
@@ -3944,6 +4052,12 @@ $(document).ready(function() {
 			
 			pData.find('#menu-GestionProduit-GestionCaracteristique').click(function() {
 				GestionCaracteristiqueVue();
+				return false;
+			});
+			
+
+			pData.find('#menu-GestionComptesSpeciaux-ListeCompte').click(function() {
+				ListeComptesSpeciauxVue();
 				return false;
 			});
 				
@@ -4056,7 +4170,7 @@ $(document).ready(function() {
 		// Recharge la page
 		$(document).keyup(function(e) {
 		    if(e.charCode === 0 && (e.which === 116 || (e.which === 82 && e.ctrlKey))) {
-	    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
+		    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
 				// set the history cursor to the current cursor
 				$.history.cursor = parseFloat(cursor) || 0;
 				// reinstate the current cursor data through the callback

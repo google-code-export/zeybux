@@ -42,6 +42,10 @@
 		lData.comNumero = pResponse.marche.numero;
 		lData.nom = pResponse.marche.nom;
 		lData.comDescription = pResponse.marche.description;
+		lData.dateTimeDebutReservation = pResponse.marche.dateDebutReservation;
+		lData.dateDebutReservation = pResponse.marche.dateDebutReservation.extractDbDate().dateDbToFr();
+		lData.heureDebutReservation = pResponse.marche.dateDebutReservation.extractDbHeure();
+		lData.minuteDebutReservation = pResponse.marche.dateDebutReservation.extractDbMinute();		
 		lData.dateTimeFinReservation = pResponse.marche.dateFinReservation;
 		lData.dateFinReservation = pResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
 		lData.heureFinReservation = pResponse.marche.dateFinReservation.extractDbHeure();
@@ -703,15 +707,17 @@
 											modelesLot:[]};
 							
 							$(lResponse.modelesLot).each(function() {
-								var lVoLot = {	
-										id:this.mLotId,
-										quantite:this.mLotQuantite.nombreFormate(2,',',' '),
-										prix:this.mLotPrix.nombreFormate(2,',',' '),
-										unite:this.mLotUnite,
-										sigleMonetaire:gSigleMonetaire,
-										modele: "modele-lot",
-										checked:""};
-								lData.modelesLot.push(lVoLot);
+								if(this.mLotId != null) {
+									var lVoLot = {	
+											id:this.mLotId,
+											quantite:this.mLotQuantite.nombreFormate(2,',',' '),
+											prix:this.mLotPrix.nombreFormate(2,',',' '),
+											unite:this.mLotUnite,
+											sigleMonetaire:gSigleMonetaire,
+											modele: "modele-lot",
+											checked:""};
+									lData.modelesLot.push(lVoLot);
+								}
 							});
 							$(lResponse.produit.lots).each(function() {
 								var lVoLot = {	
@@ -724,6 +730,20 @@
 										checked:"checked=\"checked\""};
 								lData.modelesLot.push(lVoLot);
 							});
+
+							if(lResponse.produit.qteRestante == "" || lResponse.produit.stockInitial == -1) {
+								lData.nproStockCheckedNoLimit = "checked=\"checked\"";
+								lData.nproStockDisabled = "disabled=\"disabled\"";
+							} else {
+								lData.nproStockCheckedLimit = "checked=\"checked\"";
+							}
+							
+							if(lResponse.produit.qteMaxCommande == "" || lResponse.produit.qteMaxCommande == -1) {
+								lData.nproQteMaxCheckedNoLimit = "checked=\"checked\"";
+								lData.nproQteMaxDisabled = "disabled=\"disabled\"";
+							} else {
+								lData.nproQteMaxCheckedLimit = "checked=\"checked\"";
+							}
 																
 							var lGestionCommandeTemplate = new GestionCommandeTemplate();
 							var lTemplate = lGestionCommandeTemplate.dialogModifProduitAjoutMarche;
@@ -759,7 +779,26 @@
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectAjoutLotGestion(pData);
 		pData = this.affectAjoutLot(pData);
+		pData = this.affectLimiteStock(pData);
 		return pData;		
+	}
+	
+	this.affectLimiteStock = function(pData) {
+		pData.find(':input[name=pro-stock-choix]').change(function() {
+			if($(':input[name=pro-stock-choix]:checked').val() == 1) {				
+				$(":input[name=pro-stock]").attr("disabled","").val("");
+			} else {
+				$(":input[name=pro-stock]").attr("disabled","disabled").val("");
+			}
+		});
+		pData.find(':input[name=pro-qte-max-choix]').change(function() {
+			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
+				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+			} else {
+				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+			}
+		});
+		return pData;
 	}
 	
 	this.affectAjoutLot = function(pData) {
@@ -917,65 +956,92 @@
 		var that = this;
 		if(!this.mEditionLot) {
 			// Préparation du MarcheVO							
+			/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
+			var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
+			
 			var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
-			var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();	
+			if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "") { // Si une limite de stock est sélectionné il faut la saisir
+				var lVR = new Object();
+				var erreur = new VRerreur();
+				erreur.code = ERR_201_CODE;
+				erreur.message = ERR_201_MSG;
+				lVR.valid = false;
+				lVR.qteRestante = new VRelement();
+				lVR.qteRestante.valid = false;
+				lVR.qteRestante.erreurs.push(erreur);
+				Infobulle.generer(lVR,"pro-");
+			} else {				
+				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
+				if(pDialog.find(':input[name=pro-qte-max-choix]:checked').val() == 1 && lQteMax == "") { // Si une Qmax est sélectionné il faut la saisir
+					var lVR = new Object();
+					var erreur = new VRerreur();
+					erreur.code = ERR_201_CODE;
+					erreur.message = ERR_201_MSG;
+					lVR.valid = false;
+					lVR.qteMaxCommande = new VRelement();
+					lVR.qteMaxCommande.valid = false;
+					lVR.qteMaxCommande.erreurs.push(erreur);
+					Infobulle.generer(lVR,"pro-");
+				} else {
 			
-			var lVoProduit = new ProduitMarcheVO();
-			lVoProduit.id = pDialog.find("#pro-idProduit").attr("id-produit");
-			lVoProduit.unite = lUnite;
-			lVoProduit.qteMaxCommande = lQteMax;
-			lVoProduit.qteRestante = lStock;
+					var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();	
 					
-			pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-				// Récupération des lots
-				var lVoLot = new DetailCommandeVO();
-				lVoLot.id = $(this).closest(".ligne-lot").find(".lot-id").text();
-				lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-				lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-				
-				lVoProduit.lots.push(lVoLot);										
-			});						
-			
-			var lValid = new ProduitMarcheValid();
-			var lVr = lValid.validUpdate(lVoProduit);
-			
-			if(lVr.valid) {	
-				Infobulle.init();
-				lVoProduit.fonction = "modifierProduitMarche";
-				$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lVoProduit),
-						function (lResponse) {		
-							if(lResponse) {
-								if(lResponse.valid) {
-									
-									// Message de confirmation
-									var lVR = new Object();
-									var erreur = new VRerreur();
-									erreur.code = ERR_330_CODE;
-									erreur.message = ERR_330_MSG;
-									lVR.valid = false;
-									lVR.log = new VRelement();
-									lVR.log.valid = false;
-									lVR.log.erreurs.push(erreur);								
-									Infobulle.generer(lVR,"");
-									
-
-									
-									pDialog.dialog('close');
-									
-
-									that.construct({id_commande:that.mIdMarche,vr:lVR});
-									
-								} else {
-									Infobulle.generer(lResponse,"pro-");
-								}
-							}
-						},"json"
-				);
-			} else {
-				Infobulle.generer(lVr,'pro-');
+					var lVoProduit = new ProduitMarcheVO();
+					lVoProduit.id = pDialog.find("#pro-idProduit").attr("id-produit");
+					lVoProduit.unite = lUnite;
+					lVoProduit.qteMaxCommande = lQteMax;
+					lVoProduit.qteRestante = lStock;
+							
+					pDialog.find('.ligne-lot :checkbox:checked').each( function () {
+						// Récupération des lots
+						var lVoLot = new DetailCommandeVO();
+						lVoLot.id = $(this).closest(".ligne-lot").find(".lot-id").text();
+						lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
+						lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
+						
+						lVoProduit.lots.push(lVoLot);										
+					});						
+					
+					var lValid = new ProduitMarcheValid();
+					var lVr = lValid.validUpdate(lVoProduit);
+					
+					if(lVr.valid) {	
+						Infobulle.init();
+						lVoProduit.fonction = "modifierProduitMarche";
+						$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lVoProduit),
+								function (lResponse) {		
+									if(lResponse) {
+										if(lResponse.valid) {
+											
+											// Message de confirmation
+											var lVR = new Object();
+											var erreur = new VRerreur();
+											erreur.code = ERR_330_CODE;
+											erreur.message = ERR_330_MSG;
+											lVR.valid = false;
+											lVR.log = new VRelement();
+											lVR.log.valid = false;
+											lVR.log.erreurs.push(erreur);								
+											Infobulle.generer(lVR,"");
+											
+		
+											
+											pDialog.dialog('close');
+											
+		
+											that.construct({id_commande:that.mIdMarche,vr:lVR});
+											
+										} else {
+											Infobulle.generer(lResponse,"pro-");
+										}
+									}
+								},"json"
+						);
+					} else {
+						Infobulle.generer(lVr,'pro-');
+					}
+				}	
 			}
-			
 		} else {
 			var lVR = new Object();
 			var erreur = new VRerreur();
@@ -1066,9 +1132,12 @@
 		lHtml.find(":input[name=minute-debut]").selectOptions(that.mMarche.minuteMarcheDebut);
 		lHtml.find(":input[name=heure-fin]").selectOptions(that.mMarche.heureMarcheFin);
 		lHtml.find(":input[name=minute-fin]").selectOptions(that.mMarche.minuteMarcheFin);
+		lHtml.find(":input[name=heure-debut-reservation]").selectOptions(that.mMarche.heureDebutReservation);
+		lHtml.find(":input[name=minute-debut-reservation]").selectOptions(that.mMarche.minuteDebutReservation);
 		lHtml.find(":input[name=heure-fin-reservation]").selectOptions(that.mMarche.heureFinReservation);
 		lHtml.find(":input[name=minute-fin-reservation]").selectOptions(that.mMarche.minuteFinReservation);
 		
+		lHtml = gCommunVue.comLienDatepicker('marche-dateDebutReservation','marche-dateFinReservation',lHtml);
 		lHtml = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',lHtml);
 		
 		$(lHtml).dialog({
@@ -1100,6 +1169,8 @@
 		lVo.timeMarcheDebut = pDialog.find(':input[name=heure-debut]').val() + ':' + pDialog.find(':input[name=minute-debut]').val() + ':00';
 		lVo.dateMarcheFin = pDialog.find(':input[name=date-debut]').val().dateFrToDb();
 		lVo.timeMarcheFin = pDialog.find(':input[name=heure-fin]').val() + ':' + pDialog.find(':input[name=minute-fin]').val() + ':00';
+		lVo.dateDebutReservation = pDialog.find(':input[name=date-debut-reservation]').val().dateFrToDb();
+		lVo.timeDebutReservation = pDialog.find(':input[name=heure-debut-reservation]').val() + ':' + pDialog.find(':input[name=minute-debut-reservation]').val() + ':00'
 		lVo.dateFinReservation = pDialog.find(':input[name=date-fin-reservation]').val().dateFrToDb();
 		lVo.timeFinReservation = pDialog.find(':input[name=heure-fin-reservation]').val() + ':' + pDialog.find(':input[name=minute-fin-reservation]').val() + ':00'
 				
@@ -1115,7 +1186,11 @@
 								// Maj des infos								
 								that.mMarche.nom = lVo.nom;
 								that.mMarche.comDescription = lVo.description;
-								var lDateTime = lVo.dateFinReservation + " " + lVo.timeFinReservation;
+								var lDateTime = lVo.dateDebutReservation + " " + lVo.timeDebutReservation;
+								that.mMarche.dateDebutReservation = lDateTime.extractDbDate().dateDbToFr();
+								that.mMarche.heureDebutReservation = lDateTime.extractDbHeure();
+								that.mMarche.minuteDebutReservation = lDateTime.extractDbMinute();
+								lDateTime = lVo.dateFinReservation + " " + lVo.timeFinReservation;
 								that.mMarche.dateFinReservation = lDateTime.extractDbDate().dateDbToFr();
 								that.mMarche.heureFinReservation = lDateTime.extractDbHeure();
 								that.mMarche.minuteFinReservation = lDateTime.extractDbMinute();
@@ -1128,6 +1203,10 @@
 								that.mMarche.minuteMarcheFin = lDateTime.extractDbMinute();
 								
 								// Maj de l'affichage
+								$("#edt-marche-dateDebutReservation").text(that.mMarche.dateDebutReservation);
+								$("#edt-marche-heureDebutReservation").text(that.mMarche.heureDebutReservation);
+								$("#edt-marche-minuteDebutReservation").text(that.mMarche.minuteDebutReservation);
+								
 								$("#edt-marche-dateFinReservation").text(that.mMarche.dateFinReservation);
 								$("#edt-marche-heureFinReservation").text(that.mMarche.heureFinReservation);
 								$("#edt-marche-minuteFinReservation").text(that.mMarche.minuteFinReservation);
@@ -1354,83 +1433,114 @@
 			var lIdNomProduit = pDialog.find(':input[name=produit]').val();
 			
 			if(lIdNomProduit != 0) {
+				/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
+				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
+				
 				var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
-				var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
-					
-				// Préparation du MarcheVO		
-				var lVoProduit = new ProduitMarcheVO();
-				lVoProduit.id = that.mIdMarche;
-				lVoProduit.idNom = lIdNomProduit;
-				lVoProduit.unite = lUnite;
-				lVoProduit.qteMaxCommande = lQteMax;
-				lVoProduit.qteRestante = lStock;
+
+				if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "") { // Si une limite de stock est sélectionné il faut la saisir
+					var lVR = new Object();
+					var erreur = new VRerreur();
+					erreur.code = ERR_201_CODE;
+					erreur.message = ERR_201_MSG;
+					lVR.valid = false;
+					lVR.qteRestante = new VRelement();
+					lVR.qteRestante.valid = false;
+					lVR.qteRestante.erreurs.push(erreur);
+					Infobulle.generer(lVR,"pro-");
+				} else {				
+					var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
+					if(pDialog.find(':input[name=pro-qte-max-choix]:checked').val() == 1 && lQteMax == "") { // Si une Qmax est sélectionné il faut la saisir
+						var lVR = new Object();
+						var erreur = new VRerreur();
+						erreur.code = ERR_201_CODE;
+						erreur.message = ERR_201_MSG;
+						lVR.valid = false;
+						lVR.qteMaxCommande = new VRelement();
+						lVR.qteMaxCommande.valid = false;
+						lVR.qteMaxCommande.erreurs.push(erreur);
+						Infobulle.generer(lVR,"pro-");
+					} else {	
+				
+				
+				
+						var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+							
+						// Préparation du MarcheVO		
+						var lVoProduit = new ProduitMarcheVO();
+						lVoProduit.id = that.mIdMarche;
+						lVoProduit.idNom = lIdNomProduit;
+						lVoProduit.unite = lUnite;
+						lVoProduit.qteMaxCommande = lQteMax;
+						lVoProduit.qteRestante = lStock;
+								
+						pDialog.find('.ligne-lot :checkbox:checked').each( function () {
+							// Récupération des lots
+							var lVoLot = new DetailCommandeVO();
+							lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
+							lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
+							
+							lVoProduit.lots.push(lVoLot);										
+						});						
+							
+						var lValid = new CommandeCompleteValid();
+						var lVr = lValid.validAjoutProduit(lVoProduit);
 						
-				pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-					// Récupération des lots
-					var lVoLot = new DetailCommandeVO();
-					lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-					lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-					
-					lVoProduit.lots.push(lVoLot);										
-				});						
-					
-				var lValid = new CommandeCompleteValid();
-				var lVr = lValid.validAjoutProduit(lVoProduit);
-				
-				if(lVr.valid) {	
-					Infobulle.init();
-					lVoProduit.fonction = "ajouterProduitMarche";
-					$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lVoProduit),
-							function (lResponse) {		
-								if(lResponse) {
-									if(lResponse.valid) {
-										
-										// Message de confirmation
-										var lVR = new Object();
-										var erreur = new VRerreur();
-										erreur.code = ERR_329_CODE;
-										erreur.message = ERR_329_MSG;
-										lVR.valid = false;
-										lVR.log = new VRelement();
-										lVR.log.valid = false;
-										lVR.log.erreurs.push(erreur);								
-										Infobulle.generer(lVR,"");
-										
-
-										
-										pDialog.dialog('close');
-										
-
-										that.construct({id_commande:that.mIdMarche,vr:lVR});
-										
-									} else {
-										Infobulle.generer(lResponse,"pro-");
-									}
-								}
-							},"json"
-					);
-				} else {
-					Infobulle.generer(lVr,'pro-');
+						if(lVr.valid) {	
+							Infobulle.init();
+							lVoProduit.fonction = "ajouterProduitMarche";
+							$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lVoProduit),
+									function (lResponse) {		
+										if(lResponse) {
+											if(lResponse.valid) {
+												
+												// Message de confirmation
+												var lVR = new Object();
+												var erreur = new VRerreur();
+												erreur.code = ERR_329_CODE;
+												erreur.message = ERR_329_MSG;
+												lVR.valid = false;
+												lVR.log = new VRelement();
+												lVR.log.valid = false;
+												lVR.log.erreurs.push(erreur);								
+												Infobulle.generer(lVR,"");
+												
+		
+												
+												pDialog.dialog('close');
+												
+		
+												that.construct({id_commande:that.mIdMarche,vr:lVR});
+												
+											} else {
+												Infobulle.generer(lResponse,"pro-");
+											}
+										}
+									},"json"
+							);
+						} else {
+							Infobulle.generer(lVr,'pro-');
+						}
+						
+						
+						
+						/*ar lValid = new ProduitMarcheValid();
+						var lVr = lValid.validAjout(lVoProduit);
+						
+						if(lVr.valid) {	
+							Infobulle.init();
+							this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
+							this.mMarche.produits[lIdNomProduit] = lVoProduit;
+			
+							this.mNbProduit++;
+							that.majListeFerme();
+							
+							pDialog.dialog('close');
+						} else {
+							Infobulle.generer(lVr,'pro-');
+						}*/
+					}
 				}
-				
-				
-				
-				/*ar lValid = new ProduitMarcheValid();
-				var lVr = lValid.validAjout(lVoProduit);
-				
-				if(lVr.valid) {	
-					Infobulle.init();
-					this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
-					this.mMarche.produits[lIdNomProduit] = lVoProduit;
-	
-					this.mNbProduit++;
-					that.majListeFerme();
-					
-					pDialog.dialog('close');
-				} else {
-					Infobulle.generer(lVr,'pro-');
-				}*/
 			}
 		} else {
 			var lVR = new Object();

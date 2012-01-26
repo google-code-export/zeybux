@@ -83,6 +83,18 @@ class CommandeCompleteVR extends DataTemplate
 
 	/**
 	 * @var VRelement
+	 * @desc DateDebutReservation de la CommandeCompleteVR
+	 */
+	protected $mDateDebutReservation;
+
+	/**
+	 * @var VRelement
+	 * @desc TimeDebutReservation de la CommandeCompleteVR
+	 */
+	protected $mTimeDebutReservation;
+
+	/**
+	 * @var VRelement
 	 * @desc DateFinReservation de la CommandeCompleteVR
 	 */
 	protected $mDateFinReservation;
@@ -121,6 +133,8 @@ class CommandeCompleteVR extends DataTemplate
 		$this->mTimeMarcheDebut = new VRelement();
 		$this->mDateMarcheFin = new VRelement();
 		$this->mTimeMarcheFin = new VRelement();
+		$this->mDateDebutReservation = new VRelement();
+		$this->mTimeDebutReservation = new VRelement();
 		$this->mDateFinReservation = new VRelement();
 		$this->mTimeFinReservation = new VRelement();
 		$this->mArchive = new VRelement();
@@ -308,6 +322,42 @@ class CommandeCompleteVR extends DataTemplate
 	}
 
 	/**
+	* @name getDateDebutReservation()
+	* @return VRelement
+	* @desc Renvoie le VRelement mDateDebutReservation
+	*/
+	public function getDateDebutReservation() {
+		return $this->mDateDebutReservation;
+	}
+
+	/**
+	* @name setDateDebutReservation($pDateDebutReservation)
+	* @param VRelement
+	* @desc Remplace le mDateDebutReservation par $pDateDebutReservation
+	*/
+	public function setDateDebutReservation($pDateDebutReservation) {
+		$this->mDateDebutReservation = $pDateDebutReservation;
+	}
+
+	/**
+	* @name getTimeDebutReservation()
+	* @return VRelement
+	* @desc Renvoie le VRelement mTimeDebutReservation
+	*/
+	public function getTimeDebutReservation() {
+		return $this->mTimeDebutReservation;
+	}
+
+	/**
+	* @name setTimeDebutReservation($pTimeDebutReservation)
+	* @param VRelement
+	* @desc Remplace le mTimeDebutReservation par $pTimeDebutReservation
+	*/
+	public function setTimeDebutReservation($pTimeDebutReservation) {
+		$this->mTimeDebutReservation = $pTimeDebutReservation;
+	}
+	
+	/**
 	* @name getDateFinReservation()
 	* @return VRelement
 	* @desc Renvoie le VRelement mDateFinReservation
@@ -342,7 +392,7 @@ class CommandeCompleteVR extends DataTemplate
 	public function setTimeFinReservation($pTimeFinReservation) {
 		$this->mTimeFinReservation = $pTimeFinReservation;
 	}
-
+	
 	/**
 	* @name getArchive()
 	* @return VRelement

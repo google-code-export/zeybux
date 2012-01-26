@@ -44,9 +44,17 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectLienCompte(pData);
+		pData = this.affectAjoutAdherent(pData);
 		return pData;
 	}
-		
+
+	this.affectAjoutAdherent = function(pData) {
+		pData.find('#btn-nv-adherent').click(function() {
+			AjoutAdherentVue();
+		});
+		return pData;
+	}
+	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;

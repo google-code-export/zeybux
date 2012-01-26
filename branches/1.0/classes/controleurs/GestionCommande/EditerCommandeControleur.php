@@ -562,6 +562,7 @@ class EditerCommandeControleur
 			$lMarche->setDescription($pParam['description']);
 			$lMarche->setDateMarcheDebut($pParam['dateMarcheDebut'] . " " . $pParam['timeMarcheDebut']);
 			$lMarche->setDateMarcheFin($pParam['dateMarcheFin'] . " " . $pParam['timeMarcheFin']);
+			$lMarche->setDateDebutReservation($pParam['dateDebutReservation'] . " " . $pParam['timeDebutReservation']);
 			$lMarche->setDateFinReservation($pParam['dateFinReservation'] . " " . $pParam['timeFinReservation']);
 			
 			$lMarcheService = new MarcheService();

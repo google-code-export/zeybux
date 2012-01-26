@@ -44,6 +44,7 @@ class MarcheService
 		$lMarche->setDescription($pMarche->getDescription());
 		$lMarche->setDateMarcheDebut($pMarche->getDateMarcheDebut());
 		$lMarche->setDateMarcheFin($pMarche->getDateMarcheFin());
+		$lMarche->setDateDebutReservation($pMarche->getDateDebutReservation());
 		$lMarche->setDateFinReservation($pMarche->getDateFinReservation());
 		$lMarche->setArchive($pMarche->getArchive());
 		
@@ -174,6 +175,7 @@ class MarcheService
 		$lMarche->setDescription($pMarche->getDescription());
 		$lMarche->setDateMarcheDebut($pMarche->getDateMarcheDebut());
 		$lMarche->setDateMarcheFin($pMarche->getDateMarcheFin());
+		$lMarche->setDateDebutReservation($pMarche->getDateDebutReservation());
 		$lMarche->setDateFinReservation($pMarche->getDateFinReservation());
 		$lMarche->setArchive($pMarche->getArchive());
 		
@@ -326,6 +328,7 @@ class MarcheService
 		$lMarche->setDescription($pMarche->getDescription());
 		$lMarche->setDateMarcheDebut($pMarche->getDateMarcheDebut());
 		$lMarche->setDateMarcheFin($pMarche->getDateMarcheFin());
+		$lMarche->setDateDebutReservation($pMarche->getDateDebutReservation());
 		$lMarche->setDateFinReservation($pMarche->getDateFinReservation());
 		
 		CommandeManager::update($lMarche); // Maj des infos de la commande
@@ -486,6 +489,7 @@ class MarcheService
 		$lMarche->setDescription($lDetailMarche[0]->getComDescription());
 		$lMarche->setDateMarcheDebut($lDetailMarche[0]->getComDateMarcheDebut());
 		$lMarche->setDateMarcheFin($lDetailMarche[0]->getComDateMarcheFin());
+		$lMarche->setDateDebutReservation($lDetailMarche[0]->getComDateDebutReservation());
 		$lMarche->setDateFinReservation($lDetailMarche[0]->getComDateFinReservation());
 		$lMarche->setArchive($lDetailMarche[0]->getComArchive());
 

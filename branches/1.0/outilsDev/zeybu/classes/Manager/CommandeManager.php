@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/06/2010
+// Date de creation : 26/01/2012
 // Fichier : CommandeManager.php
 //
 // Description : Classe de gestion des Commande
@@ -14,21 +14,22 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CommandeVO.php");
 
 /**
- * @name Commande
+ * @name CommandeManager
  * @author Julien PIERRE
- * @since 10/06/2010
+ * @since 26/01/2012
  * 
  * @desc Classe permettant l'accès aux données des Commande
  */
 class CommandeManager
 {
-	const TABLE_COMMANDE = "com_commande";
+	const TABLE_COMMANDE = MYSQL_DB_PREFIXE . "com_commande";
 	const CHAMP_COMMANDE_ID = "com_id";
 	const CHAMP_COMMANDE_NUMERO = "com_numero";
 	const CHAMP_COMMANDE_NOM = "com_nom";
 	const CHAMP_COMMANDE_DESCRIPTION = "com_description";
 	const CHAMP_COMMANDE_DATE_MARCHE_DEBUT = "com_date_marche_debut";
 	const CHAMP_COMMANDE_DATE_MARCHE_FIN = "com_date_marche_fin";
+	const CHAMP_COMMANDE_DATE_DEBUT_RESERVATION = "com_date_debut_reservation";
 	const CHAMP_COMMANDE_DATE_FIN_RESERVATION = "com_date_fin_reservation";
 	const CHAMP_COMMANDE_ARCHIVE = "com_archive";
 
@@ -51,6 +52,7 @@ class CommandeManager
 			"," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_ARCHIVE . "
 			FROM " . CommandeManager::TABLE_COMMANDE . " 
@@ -68,6 +70,7 @@ class CommandeManager
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DESCRIPTION],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_ARCHIVE]);
 		} else {
@@ -76,7 +79,7 @@ class CommandeManager
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(CommandeVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de CommandeVO
 	*/
@@ -92,6 +95,7 @@ class CommandeManager
 			"," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_ARCHIVE . "
 			FROM " . CommandeManager::TABLE_COMMANDE;
@@ -110,11 +114,12 @@ class CommandeManager
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DESCRIPTION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ARCHIVE]));
 			}
 		} else {
-			$lListeCommande = new CommandeVO();
+			$lListeCommande[0] = new CommandeVO();
 		}
 		return $lListeCommande;
 	}
@@ -142,56 +147,49 @@ class CommandeManager
 			"," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN .
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION .
 			"," . CommandeManager::CHAMP_COMMANDE_ARCHIVE		);
 
-		$lFiltres = array(array( 'champ' => StringUtils::securiser($pTypeRecherche), 'valeur' => StringUtils::securiser($pCritereRecherche) ));
-
-		$lTypeFiltre = array($pTypeCritere);
-		// Protection du critère de tri
-		if($pCritereTri != 'ASC' && $pCritereTri != 'DESC') {
-			$pCritereTri = 'ASC';
-		}
-
-		// Protection du type de tri
-		if($pTypeTri == '') {
-			$pTypeTri = CommandeManager::CHAMP_COMMANDE_ID;
-		}
-
-		$lTris = array( array('champ' => StringUtils::securiser($pTypeTri), 'sens'=> StringUtils::securiser($pCritereTri)) );
-
 		// Préparation de la requète de recherche
-		$lRequete = DbUtils::prepareRequeteRecherche(CommandeManager::TABLE_COMMANDE, $lChamps, $lFiltres, $lTypeFiltre, $lTris);
-
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
+		$lRequete = DbUtils::prepareRequeteRecherche(CommandeManager::TABLE_COMMANDE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeCommande = array();
 
-		if( mysql_num_rows($lSql) > 0 ) {
+		if($lRequete !== false) {
 
-			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			$lSql = Dbutils::executerRequete($lRequete);
 
-				array_push($lListeCommande,
-					CommandeManager::remplirCommande(
-					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DESCRIPTION],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
-					$lLigne[CommandeManager::CHAMP_COMMANDE_ARCHIVE]));
+			if( mysql_num_rows($lSql) > 0 ) {
+
+				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+
+					array_push($lListeCommande,
+						CommandeManager::remplirCommande(
+						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DESCRIPTION],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_ARCHIVE]));
+				}
+			} else {
+				$lListeCommande[0] = new CommandeVO();
 			}
-		} else {
-			$lListeCommande[0] = new CommandeVO();
+
+			return $lListeCommande;
 		}
 
+		$lListeCommande[0] = new CommandeVO();
 		return $lListeCommande;
 	}
 
 	/**
-	* @name remplirCommande($pId, $pNumero, $pNom, $pDescription, $pDateMarcheDebut, $pDateMarcheFin, $pDateFinReservation, $pArchive)
+	* @name remplirCommande($pId, $pNumero, $pNom, $pDescription, $pDateMarcheDebut, $pDateMarcheFin, $pDateDebutReservation, $pDateFinReservation, $pArchive)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(100)
@@ -199,11 +197,12 @@ class CommandeManager
 	* @param datetime
 	* @param datetime
 	* @param datetime
+	* @param datetime
 	* @param tinyint(1)
 	* @return CommandeVO
 	* @desc Retourne une CommandeVO remplie
 	*/
-	private static function remplirCommande($pId, $pNumero, $pNom, $pDescription, $pDateMarcheDebut, $pDateMarcheFin, $pDateFinReservation, $pArchive) {
+	private static function remplirCommande($pId, $pNumero, $pNom, $pDescription, $pDateMarcheDebut, $pDateMarcheFin, $pDateDebutReservation, $pDateFinReservation, $pArchive) {
 		$lCommande = new CommandeVO();
 		$lCommande->setId($pId);
 		$lCommande->setNumero($pNumero);
@@ -211,6 +210,7 @@ class CommandeManager
 		$lCommande->setDescription($pDescription);
 		$lCommande->setDateMarcheDebut($pDateMarcheDebut);
 		$lCommande->setDateMarcheFin($pDateMarcheFin);
+		$lCommande->setDateDebutReservation($pDateDebutReservation);
 		$lCommande->setDateFinReservation($pDateFinReservation);
 		$lCommande->setArchive($pArchive);
 		return $lCommande;
@@ -235,6 +235,7 @@ class CommandeManager
 				," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION . "
 				," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . "
 				," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . "
+				," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . "
 				," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . "
 				," . CommandeManager::CHAMP_COMMANDE_ARCHIVE . ")
 			VALUES (NULL
@@ -243,6 +244,7 @@ class CommandeManager
 				,'" . StringUtils::securiser( $pVo->getDescription() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateMarcheDebut() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateMarcheFin() ) . "'
+				,'" . StringUtils::securiser( $pVo->getDateDebutReservation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateFinReservation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getArchive() ) . "')";
 
@@ -263,12 +265,12 @@ class CommandeManager
 		$lRequete = 
 			"UPDATE " . CommandeManager::TABLE_COMMANDE . "
 			 SET
-				 " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'
-				," . CommandeManager::CHAMP_COMMANDE_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
+				 " . CommandeManager::CHAMP_COMMANDE_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_DESCRIPTION . " = '" . StringUtils::securiser( $pVo->getDescription() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . " = '" . StringUtils::securiser( $pVo->getDateMarcheDebut() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . " = '" . StringUtils::securiser( $pVo->getDateMarcheFin() ) . "'
+				," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . " = '" . StringUtils::securiser( $pVo->getDateDebutReservation() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . " = '" . StringUtils::securiser( $pVo->getDateFinReservation() ) . "'
 				," . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = '" . StringUtils::securiser( $pVo->getArchive() ) . "'
 			 WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";

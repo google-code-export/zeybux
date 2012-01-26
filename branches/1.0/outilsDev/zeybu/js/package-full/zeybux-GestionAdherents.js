@@ -142,7 +142,13 @@
 			"<div id=\"liste_adherent_solde_int\">" +
 			
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Adhérents</div>" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"Les Adhérents" +
+						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
+							"<span class=\"ui-icon ui-icon-plusthick\">" +
+							"</span>" +
+						"</span>" +
+					"</div>" +
 						"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 							"<form id=\"filter-form\">" +
 								"<div>" +
@@ -705,9 +711,17 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectLienCompte(pData);
+		pData = this.affectAjoutAdherent(pData);
 		return pData;
 	}
-		
+
+	this.affectAjoutAdherent = function(pData) {
+		pData.find('#btn-nv-adherent').click(function() {
+			AjoutAdherentVue();
+		});
+		return pData;
+	}
+	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
