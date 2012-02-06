@@ -118,12 +118,12 @@ if(isset($_GET["action"])) {
 				
 				// Suppression de la base
 				$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
-   				mysql_select_db(MYSQL_DBNOM, $connexion);
-   				$listeTables = mysql_query("show tables", $connexion);
-			    while($table = mysql_fetch_array($listeTables)) {
-			    	mysql_query("DROP TABLE" . $table[0]);
+				mysql_select_db(MYSQL_DBNOM, $connexion);
+				$listeTables = mysql_query("show tables", $connexion);
+			    while($table = mysql_fetch_array($listeTables)) {			    	
+				    	mysql_query("DROP TABLE " . $table[0], $connexion);
 			    }
-   				mysql_close($connexion);
+				mysql_close($connexion);
 
    				// Mise en place de la base de la version
 				$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);

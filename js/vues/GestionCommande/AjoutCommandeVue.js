@@ -1001,10 +1001,10 @@
 
 
 	this.affectControleDatepicker = function(pData) {
-		pData = gCommunVue.comLienDatepicker('marche-dateDebutReservation','marche-dateFinReservation',pData);
-		pData = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',pData);
-
+		pData = gCommunVue.lienDatepickerMarche('marche-dateDebutReservation', 'marche-dateFinReservation', 'marche-dateMarcheDebut', pData);
 		pData.find('#marche-dateDebutReservation').datepicker( "setDate", getDateAujourdhuiDb().dateDbToFr() );
+		pData.find('#marche-dateFinReservation').datepicker("option", "minDate", new Date());
+		pData.find('#marche-dateMarcheDebut').datepicker("option", "minDate", new Date());
 		return pData;
 	}
 	

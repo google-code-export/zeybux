@@ -36,17 +36,17 @@
 							"<tr class=\"compte-ligne-administrateur\" >" +
 								"<td class=\"com-table-td-debut\">{administrateur.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{administrateur.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{administrateur.id}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -83,17 +83,17 @@
 							"<tr class=\"compte-ligne-caisse\" >" +
 								"<td class=\"com-table-td-debut\">{caisse.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{caisse.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{caisse.id}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -130,17 +130,17 @@
 							"<tr class=\"compte-ligne-solidaire\" >" +
 								"<td class=\"com-table-td-debut\">{solidaire.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{solidaire.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{solidaire.id}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
