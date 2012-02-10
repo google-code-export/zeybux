@@ -44,6 +44,12 @@ class StockProduitReservationViewVO  extends DataTemplate
 
 	/**
 	* @var varchar(50)
+	* @desc NproNumero de la StockProduitReservationViewVO
+	*/
+	protected $mNproNumero;
+
+	/**
+	* @var varchar(50)
 	* @desc NproNom de la StockProduitReservationViewVO
 	*/
 	protected $mNproNom;
@@ -124,6 +130,24 @@ class StockProduitReservationViewVO  extends DataTemplate
 	*/
 	public function setProUniteMesure($pProUniteMesure) {
 		$this->mProUniteMesure = $pProUniteMesure;
+	}
+
+	/**
+	* @name getNproNumero()
+	* @return varchar(50)
+	* @desc Renvoie le membre NproNumero de la StockProduitReservationViewVO
+	*/
+	public function getNproNumero() {
+		return $this->mNproNumero;
+	}
+
+	/**
+	* @name setNproNumero($pNproNumero)
+	* @param varchar(50)
+	* @desc Remplace le membre NproNumero de la StockProduitReservationViewVO par $pNproNumero
+	*/
+	public function setNproNumero($pNproNumero) {
+		$this->mNproNumero = $pNproNumero;
 	}
 
 	/**

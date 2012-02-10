@@ -2,6 +2,7 @@
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.numero = new VRelement();
 	this.idNomProduit = new VRelement();
 	this.idCategorie = new VRelement();
 	this.nom = new VRelement();

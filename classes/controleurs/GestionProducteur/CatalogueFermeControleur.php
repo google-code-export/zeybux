@@ -247,6 +247,7 @@ class CatalogueFermeControleur
 			$lNomProduit = $lNomProduit[0];
 			$lNomProduitCatalagueVO = new NomProduitCatalogueVO();
 			$lNomProduitCatalagueVO->setId($lNomProduit->getNProIdFerme());
+			$lNomProduitCatalagueVO->setNumero($lNomProduit->getNProNumero());
 			$lNomProduitCatalagueVO->setIdNomProduit($lNomProduit->getNProId());
 			$lNomProduitCatalagueVO->setIdCategorie($lNomProduit->getCproId());
 			$lNomProduitCatalagueVO->setCproNom($lNomProduit->getCproNom());
@@ -281,12 +282,19 @@ class CatalogueFermeControleur
 		if($lVr->getValid()) {
 		
 			$lNomProduitVO = new NomProduitVO();
+			$lNomProduitVO->setNumero($pParam['numero']);
 			$lNomProduitVO->setNom($pParam['nom']);
 			$lNomProduitVO->setDescription($pParam['description']);
 			$lNomProduitVO->setIdCategorie($pParam['idCategorie']);
 			$lNomProduitVO->setIdFerme($pParam['id']);
 			$lNomProduitVO->setEtat(0);
 			$lId = NomProduitManager::insert($lNomProduitVO);
+			
+			if(empty($pParam['numero'])) {
+				$lNomProduitVO->setId($lId);
+				$lNomProduitVO->setNumero("PZ".$lId);
+				NomProduitManager::update($lNomProduitVO);
+			}
 		
 			foreach($pParam['producteurs'] as $lProducteur) {
 				$lNomProduitProducteurVO = new NomProduitProducteurVO();
@@ -329,6 +337,7 @@ class CatalogueFermeControleur
 		
 			$lId = $pParam['idNomProduit'];
 			$lNomProduitVO = NomProduitManager::select($lId);
+			$lNomProduitVO->setNumero($pParam['numero']);
 			$lNomProduitVO->setNom($pParam['nom']);
 			$lNomProduitVO->setDescription($pParam['description']);
 			$lNomProduitVO->setIdCategorie($pParam['idCategorie']);
@@ -469,6 +478,7 @@ class CatalogueFermeControleur
 			$lNomProduit = $lNomProduit[0];
 			$lNomProduitCatalagueVO = new NomProduitCatalogueVO();
 			$lNomProduitCatalagueVO->setId($lNomProduit->getNProIdFerme());
+			$lNomProduitCatalagueVO->setNumero($lNomProduit->getNProNumero());
 			$lNomProduitCatalagueVO->setIdNomProduit($lNomProduit->getNProId());
 			$lNomProduitCatalagueVO->setIdCategorie($lNomProduit->getCproId());
 			$lNomProduitCatalagueVO->setCproNom($lNomProduit->getCproNom());

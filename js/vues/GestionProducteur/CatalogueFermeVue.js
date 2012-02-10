@@ -583,6 +583,7 @@
 			var lTemplate = lGestionProducteurTemplate.dialogAjoutProduit;
 			
 			this.mInfoFormulaireProduit.listeCategorie = this.mListeCategorie;
+			this.mInfoFormulaireProduit.form_reference = lGestionProducteurTemplate.ajoutProduitReference;
 			var lhtml = $(lTemplate.template(this.mInfoFormulaireProduit));
 			
 			if(this.mInfoFormulaireProduit.listeProducteur.length > 0 && this.mInfoFormulaireProduit.listeProducteur[0].prdtId == null) {
@@ -619,8 +620,20 @@
 	
 	this.affectFormProduit = function(pData) {
 		pData = this.affectAjoutLot(pData);
+		pData = this.affectReference(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.affectReference = function(pData) {
+		pData.find(':input[name=reference-choix]').change(function() {
+			if($(':input[name=reference-choix]:checked').val() == 1) {				
+				$(":input[name=reference]").attr("disabled","").val("");
+			} else {
+				$(":input[name=reference]").attr("disabled","disabled").val("");
+			}
+		});
 		return pData;
 	}
 	
@@ -746,6 +759,7 @@
 	this.CreerProduit = function(pForm) {
 		var that = this;
 		var lVo = new NomProduitCatalogueVO();
+		lVo.numero = pForm.find(':input[name=reference]').val();
 		lVo.idCategorie = pForm.find(':input[name=categorie]').val();
 		lVo.nom = pForm.find(':input[name=nom]').val();
 		lVo.description = pForm.find(':input[name=description]').val();
@@ -939,6 +953,7 @@
 									sigleMonetaire:gSigleMonetaire,
 									idNomProduit:lResponse.produit.idNomProduit,
 									nom:lResponse.produit.nom,
+									numero:lResponse.produit.numero,
 									description:lResponse.produit.description
 								};
 							
@@ -946,6 +961,7 @@
 							var lTemplate = lGestionProducteurTemplate.dialogAjoutProduit;
 							
 							lInfoFormulaireProduit.listeCategorie = that.mListeCategorie;
+							lInfoFormulaireProduit.form_reference = lGestionProducteurTemplate.modifProduitReference.template(lInfoFormulaireProduit);
 							var lhtml = $(lTemplate.template(lInfoFormulaireProduit));
 							
 							if(lInfoFormulaireProduit.listeProducteur.length > 0 && lInfoFormulaireProduit.listeProducteur[0].prdtId == null) {
@@ -1009,6 +1025,7 @@
 	this.modifierProduit = function(pForm) {
 		var that = this;
 		var lVo = new NomProduitCatalogueVO();
+		lVo.numero = pForm.find(':input[name=reference]').val();
 		lVo.idNomProduit = pForm.find(':input[name=id]').val();
 		lVo.idCategorie = pForm.find(':input[name=categorie]').val();
 		lVo.nom = pForm.find(':input[name=nom]').val();

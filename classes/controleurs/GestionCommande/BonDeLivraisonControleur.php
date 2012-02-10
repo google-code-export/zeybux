@@ -375,6 +375,7 @@ class BonDeLivraisonControleur
 					
 					array_push($lContenuTableau,	
 											utf8_decode($lNomPrdt),
+											utf8_decode($lLigne->getNproNumero()),
 											utf8_decode($lLigne->getNproNom()),
 											utf8_decode($lQuantiteLivraison),
 											utf8_decode($lUniteQuantiteLivraison),
@@ -399,10 +400,10 @@ class BonDeLivraisonControleur
 				$lOperation->setMontant("");
 			}
 			
-			array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant()),SIGLE_MONETAIRE_PDF,"","");
+			array_push($lContenuTableau,"","","","","Total : ",utf8_decode($lOperation->getMontant()),SIGLE_MONETAIRE_PDF,"","");
 								
 			// Contenu du header du tableau.	
-			$lContenuHeader = array(30, 30, 20, 15, 20, 7, 20, 10, "Producteur","Produit",utf8_decode("Qté"),"","Prix","","Solidaire","");
+			$lContenuHeader = array(30, 30, 30, 20, 15, 20, 7, 20, 10, "Producteur","Ref.", "Produit", utf8_decode("Qté"),"","Prix","","Solidaire","");
 			
 			// Préparation du PDF
 			$PDF=new phpToPDF();
@@ -475,7 +476,7 @@ class BonDeLivraisonControleur
 			$lCSV->setNom('Bon_de_Livraison.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Producteur","Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
+			$lEntete = array("Producteur","Ref.", "Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
@@ -570,6 +571,7 @@ class BonDeLivraisonControleur
 					}
 
 					$lLignecontenu = array(	$lNomPrdt,
+											$lLigne->getNproNumero(),
 											$lLigne->getNproNom(),
 											$lQuantite,
 											$lUniteQuantite,
@@ -599,7 +601,7 @@ class BonDeLivraisonControleur
 			}
 			
 			
-			$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+			$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
 			array_push($lContenuTableau,$lLignecontenu);
 			
 			$lCSV->setData($lContenuTableau);

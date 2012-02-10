@@ -36,17 +36,17 @@
 							"<tr class=\"compte-ligne-administrateur\" >" +
 								"<td class=\"com-table-td-debut\">{administrateur.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{administrateur.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{administrateur.id}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{administrateur.id}\" login=\"{administrateur.login}\" type-compte=\"0\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -83,17 +83,17 @@
 							"<tr class=\"compte-ligne-caisse\" >" +
 								"<td class=\"com-table-td-debut\">{caisse.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{caisse.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{caisse.id}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{caisse.id}\" login=\"{caisse.login}\" type-compte=\"1\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -130,17 +130,17 @@
 							"<tr class=\"compte-ligne-solidaire\" >" +
 								"<td class=\"com-table-td-debut\">{solidaire.login}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier\" title=\"Modifier\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{solidaire.id}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-modifier-pass\" title=\"Modifier le mot de passe\" id-compte=\"{solidaire.id}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-key\"></span>" +
 									"</span>" +
 								"</td>" +
 								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer\" title=\"Supprimer\" id-compte=\"{solidaire.id}\" login=\"{solidaire.login}\" type-compte=\"2\">" +
 										"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -226,9 +226,16 @@
 			"<p class=\"ui-state-error ui-corner-all\"><span class=\"ui-icon ui-icon-alert com-float-left\"></span>ATTENTION : Voulez-vous réellement supprimer le compte : {login}</p>" +
 		"</div>";
 };function ListeComptesSpeciauxVue(pParam) {	
+	this.tabSelected = 0;	
+	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeComptesSpeciauxVue(pParam);}} );
-		var that = this;	
+		var that = this;
+		if(pParam && pParam.tabSelected) {
+			this.tabSelected = pParam.tabSelected;
+		} else {
+			this.tabSelected = 0;	
+		}
 		$.post(	"./index.php?m=GestionComptesSpeciaux&v=ListeCompte",
 			function(lResponse) {
 				Infobulle.init(); // Supprime les erreurs
@@ -248,7 +255,7 @@
 	}
 	
 	this.afficher = function(lResponse) {
-		var that = this;
+		var that = this;		
 		var lGestionComptesSpeciauxTemplate = new GestionComptesSpeciauxTemplate();
 		var lTemplate = lGestionComptesSpeciauxTemplate.listeComptes;	
 		var lHtml = $(lTemplate.template(lResponse));
@@ -279,14 +286,15 @@
 	}
 	
 	this.affectTabs = function(pData) {
-		pData.find( "#liste-compte" ).tabs();
+		var that = this;
+		pData.find( "#liste-compte" ).tabs({ selected: that.tabSelected });
 		return pData;
 	}
 
 	this.affectTri = function(pData) {
-		pData.find('.table-administrateur').tablesorter({sortList: [[0,0]],headers: {2: {sorter: false},3: {sorter: false} }});
-		pData.find('.table-caisse').tablesorter({sortList: [[0,0]],headers: { 2: {sorter: false},3: {sorter: false} }});
-		pData.find('.table-solidaire').tablesorter({sortList: [[0,0]],headers: { 2: {sorter: false},3: {sorter: false} }});
+		pData.find('.table-administrateur').tablesorter({sortList: [[0,0]],headers: {1: {sorter: false} }});
+		pData.find('.table-caisse').tablesorter({sortList: [[0,0]],headers: { 1: {sorter: false} }});
+		pData.find('.table-solidaire').tablesorter({sortList: [[0,0]],headers: { 1: {sorter: false} }});
 		return pData;
 	}
 	
@@ -388,8 +396,8 @@
 							//Infobulle.generer(lVr,'');
 							
 							$(pDialog).dialog("close");	
-							
-							that.construct({vr:lVr});
+							var lType = pType - 2;
+							that.construct({vr:lVr, tabSelected : lType});
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -409,6 +417,7 @@
 	
 	this.dialogUpdateCompte = function(pButton) {
 		var that = this;
+		var lType = pButton.attr('type-compte');	
 		var lIdCompte = pButton.attr('id-compte');		
 		var lData = {login:pButton.attr('login')};
 		
@@ -422,7 +431,7 @@
 			width:540,
 			buttons: {
 				'Valider': function() {
-					that.updateCompte($(this),lIdCompte);
+					that.updateCompte($(this),lIdCompte,lType);
 				},
 				'Annuler': function() {
 					$(this).dialog('close');
@@ -433,13 +442,13 @@
 		
 		lDialog.find(':input').keyup(function(event) {
 			if (event.keyCode == '13') {
-				that.updateCompte($(lDialog),lIdCompte);
+				that.updateCompte($(lDialog),lIdCompte,lType);
 				return false;
 			}
 		});
 	}
 	
-	this.updateCompte = function(pDialog, pIdCompte) {
+	this.updateCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
 		var lVo = new CompteSpecialVO();
 		lVo.id = pIdCompte;
@@ -468,7 +477,7 @@
 							
 							$(pDialog).dialog("close");	
 							
-							that.construct({vr:lVr});
+							that.construct({vr:lVr, tabSelected : pType});
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -488,6 +497,7 @@
 	
 	this.dialogUpdatePassCompte = function(pButton) {
 		var that = this;
+		var lType = pButton.attr('type-compte');	
 		var lIdCompte = pButton.attr('id-compte');
 		
 		var lGestionComptesSpeciauxTemplate = new GestionComptesSpeciauxTemplate();
@@ -500,7 +510,7 @@
 			width:540,
 			buttons: {
 				'Valider': function() {
-					that.updatePassCompte($(this),lIdCompte);
+					that.updatePassCompte($(this),lIdCompte,lType);
 				},
 				'Annuler': function() {
 					$(this).dialog('close');
@@ -511,12 +521,12 @@
 		
 		lDialog.find(':input').keyup(function(event) {
 			if (event.keyCode == '13') {
-				that.updatePassCompte($(lDialog),lIdCompte);
+				that.updatePassCompte($(lDialog),lIdCompte,lType);
 			}
 		}).find('form').submit(function() {return false;});
 	}
 	
-	this.updatePassCompte = function(pDialog, pIdCompte) {
+	this.updatePassCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
 		var lVo = new CompteSpecialVO();
 		lVo.id = pIdCompte;
@@ -546,7 +556,7 @@
 							
 							$(pDialog).dialog("close");	
 							
-							that.construct({vr:lVr});
+							that.construct({vr:lVr, tabSelected : pType});
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -566,6 +576,7 @@
 	
 	this.dialogDeleteCompte = function(pButton) {
 		var that = this;
+		var lType = pButton.attr('type-compte');
 		var lIdCompte = pButton.attr('id-compte');
 		var lData = {login:pButton.attr('login')};
 		
@@ -579,7 +590,7 @@
 			width:640,
 			buttons: {
 				'Valider': function() {
-					that.deleteCompte($(this),lIdCompte);
+					that.deleteCompte($(this),lIdCompte,lType);
 				},
 				'Annuler': function() {
 					$(this).dialog('close');
@@ -589,7 +600,7 @@
 		});
 	}
 	
-	this.deleteCompte = function(pDialog, pIdCompte) {
+	this.deleteCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
 		var lVo = new CompteSpecialVO();
 		lVo.id = pIdCompte;
@@ -617,7 +628,7 @@
 							
 							$(pDialog).dialog("close");	
 							
-							that.construct({vr:lVr});
+							that.construct({vr:lVr, tabSelected : pType});
 						} else {
 							Infobulle.generer(lResponse,'');
 						}

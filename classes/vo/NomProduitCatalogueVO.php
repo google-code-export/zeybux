@@ -24,6 +24,12 @@ class NomProduitCatalogueVO extends DataTemplate
 	 * @desc L'Id de l'objet
 	 */
 	protected $mId;
+	
+	/**
+	 * @var varchar(50)
+	 * @desc Numero de la NomProduitCatalogueVO
+	 */
+	protected $mNumero;
 
 	/**
 	 * @var integer
@@ -99,6 +105,24 @@ class NomProduitCatalogueVO extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
+	}
+
+	/**
+	* @name getNumero()
+	* @return varchar(50)
+	* @desc Renvoie le VRelement Numero
+	*/
+	public function getNumero() {
+		return $this->mNumero;
+	}
+
+	/**
+	* @name setNumero($pNumero)
+	* @param varchar(50)
+	* @desc Remplace le VRelement Numero par $pNumero
+	*/
+	public function setNumero($pNumero) {
+		$this->mNumero = $pNumero;
 	}
 
 	/**

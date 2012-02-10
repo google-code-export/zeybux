@@ -41,6 +41,7 @@ class NomProduitViewManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
@@ -58,6 +59,7 @@ class NomProduitViewManager
 				array_push($lListeNomProduit,
 					NomProduitViewManager::remplir(
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
@@ -82,6 +84,7 @@ class NomProduitViewManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
@@ -98,6 +101,7 @@ class NomProduitViewManager
 				array_push($lListeNomProduit,
 					NomProduitViewManager::remplir(
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
@@ -128,6 +132,7 @@ class NomProduitViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    NomProduitManager::CHAMP_NOMPRODUIT_ID .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME .
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
@@ -151,6 +156,7 @@ class NomProduitViewManager
 					array_push($lListeNomProduit,
 						NomProduitViewManager::remplir(
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
 						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
@@ -169,8 +175,9 @@ class NomProduitViewManager
 	}
 
 	/**
-	* @name remplir($pNProId, $pNProIdFerme, $pCproNom, $pNproNom, $pNProDescription, $pCproId)
+	* @name remplir($pNProId, $pNProNumero, $pNProIdFerme, $pCproNom, $pNproNom, $pNProDescription, $pCproId)
 	* @param int(11)
+	* @param varchar(50)
 	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(50)
@@ -179,9 +186,10 @@ class NomProduitViewManager
 	* @return NomProduitViewVO
 	* @desc Retourne une NomProduitViewVO remplie
 	*/
-	private static function remplir($pNProId, $pNProIdFerme, $pCproNom, $pNproNom, $pNProDescription, $pCproId) {
+	private static function remplir($pNProId, $pNProNumero, $pNProIdFerme, $pCproNom, $pNproNom, $pNProDescription, $pCproId) {
 		$lNomProduit = new NomProduitViewVO();
 		$lNomProduit->setNProId($pNProId);
+		$lNomProduit->setNProNumero($pNProNumero);
 		$lNomProduit->setNProIdFerme($pNProIdFerme);
 		$lNomProduit->setCproNom($pCproNom);
 		$lNomProduit->setNproNom($pNproNom);
