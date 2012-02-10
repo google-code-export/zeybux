@@ -43,6 +43,14 @@ class NomProduitCatalogueValid
 			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 			$lVr->getId()->addErreur($lErreur);	
 		}
+		if(!isset($pData['numero'])) {
+			$lVr->setValid(false);
+			$lVr->getNumero()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+			$lVr->getNumero()->addErreur($lErreur);	
+		}
 		if(!isset($pData['idCategorie'])) {
 			$lVr->setValid(false);
 			$lVr->getIdCategorie()->setValid(false);
@@ -107,6 +115,14 @@ class NomProduitCatalogueValid
 				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getId()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['numero'],0,50)) {
+				$lVr->setValid(false);
+				$lVr->getNumero()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getNumero()->addErreur($lErreur);	
 			}
 			if(!TestFonction::checkLength($pData['idCategorie'],0,11)) {
 					$lVr->setValid(false);

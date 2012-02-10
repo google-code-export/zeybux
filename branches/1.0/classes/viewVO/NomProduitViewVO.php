@@ -23,6 +23,12 @@ class NomProduitViewVO  extends DataTemplate
 	* @desc NProId de la NomProduitViewVO
 	*/
 	protected $mNProId;
+	
+	/**
+	* @var varchar(50)
+	* @desc NProNumero de la NomProduitViewVO
+	*/
+	protected $mNProNumero;
 
 	/**
 	* @var int(11)
@@ -70,6 +76,24 @@ class NomProduitViewVO  extends DataTemplate
 	*/
 	public function setNProId($pNProId) {
 		$this->mNProId = $pNProId;
+	}
+
+	/**
+	* @name getNProNumero()
+	* @return int(11)
+	* @desc Renvoie le membre NProNumero de la NomProduitViewVO
+	*/
+	public function getNProNumero() {
+		return $this->mNProNumero;
+	}
+
+	/**
+	* @name setNProNumero($pNProNumero)
+	* @param int(11)
+	* @desc Remplace le membre NProNumero de la NomProduitViewVO par $pNProNumero
+	*/
+	public function setNProNumero($pNProNumero) {
+		$this->mNProNumero = $pNProNumero;
 	}
 
 	/**

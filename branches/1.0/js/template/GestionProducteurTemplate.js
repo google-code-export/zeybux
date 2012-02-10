@@ -679,6 +679,7 @@
 									"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"nom\" maxlength=\"50\" id=\"pro-nom\" value=\"{nom}\"/>" +
 								"</td>" +
 							"</tr>" +
+							"{form_reference}" +
 							"<tr>" +
 							"<th class=\"com-table-form-th\">Catégorie *</th>" +
 								"<td class=\"com-table-form-td\">" +
@@ -768,6 +769,29 @@
 			"</form>" +
 		"</div>";
 	
+	this.ajoutProduitReference = 
+		"<tr>" +
+			"<th class=\"com-table-form-th\">Référence</th>" +
+			"<td class=\"com-table-form-td\">" +
+				"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"reference-choix\" value=\"0\" checked=\"checked\"/>Automatique" +
+			"</td>" +
+		"</tr>" +
+		"<tr>" +
+			"<th class=\"com-table-form-th\"></th>" +
+			"<td class=\"com-table-form-td\">" +
+				"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"reference-choix\" value=\"1\"/>" +
+				"<input disabled=\"disabled\" class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"reference\" maxlength=\"50\" id=\"pro-numero\" value=\"{numero}\"/>" +
+			"</td>" +
+		"</tr>";
+
+	this.modifProduitReference = 
+		"<tr>" +
+			"<th class=\"com-table-form-th\">Référence</th>" +
+			"<td class=\"com-table-form-td\">" +
+				"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"reference\" maxlength=\"50\" id=\"pro-numero\" value=\"{numero}\"/>" +
+			"</td>" +
+		"</tr>";
+	
 	this.produitListeProducteurVide =
 		"<div class=\"com-widget-content\" id=\"pro-producteur\">" +
 			"<p class=\"com-center\">Aucun producteur.</p>" +	
@@ -836,6 +860,10 @@
 						"<tr>" +
 							"<th class=\"com-table-form-th\">Nom : </th>" +
 							"<td class=\"com-table-form-td\">{nom}</td>" +
+						"</tr>" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Référence : </th>" +
+							"<td class=\"com-table-form-td\">{numero}</td>" +
 						"</tr>" +
 						"<tr>" +
 							"<th class=\"com-table-form-th\">Catégorie : </th>" +

@@ -143,15 +143,15 @@ class EditerCommandeControleur
 					} else {
 						array_push($contenuTableau,'');
 					}
-					array_push($contenuTableau,utf8_decode($lAdh['prenom']));
 					array_push($contenuTableau,utf8_decode($lAdh['nom']));
+					array_push($contenuTableau,utf8_decode($lAdh['prenom']));
 					
 					$j = 3;
 					foreach($lIdProduits as $lIdProduit) {
 						if($i == 0) {
-							array_push($contenuTableau,utf8_decode($lVal[$lIdProduit]));
+							array_push($contenuTableau,utf8_decode($lVal[$lIdProduit]),"");
 						} else {
-							array_push($contenuTableau,'');
+							array_push($contenuTableau,'',"");
 						}
 						$j++;
 					}
@@ -162,13 +162,13 @@ class EditerCommandeControleur
 			// Contenu du header du tableau.	
 			$contenuHeader = array(18, 30, 30);
 			foreach($lIdProduits as $lIdProduit) {
-				array_push($contenuHeader,20);
+				array_push($contenuHeader,20,20);
 			}
-			array_push($contenuHeader,"Compte", utf8_decode("Prénom"), "Nom");
+			array_push($contenuHeader,"Compte", "Nom", utf8_decode("Prénom"));
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
-				array_push($contenuHeader,utf8_decode($lNomProduit->getNom()));
+				array_push($contenuHeader,utf8_decode($lNomProduit->getNom()),"");
 			}
 			
 			// Préparation du PDF
@@ -186,15 +186,15 @@ class EditerCommandeControleur
 			
 			// Définition des propriétés du header du tableau.	
 			$proprieteHeader = array(
-				'T_COLOR' => array(255,255,255),
+				'T_COLOR' => array(0,0,0),
 				'T_SIZE' => 12,
 				'T_FONT' => 'Arial',
 				'T_ALIGN' => 'C',
 				'V_ALIGN' => 'T',
 				'T_TYPE' => 'B',
 				'LN_SIZE' => 7,
-				'BG_COLOR_COL0' => array(58,129,4),
-				'BG_COLOR' => array(58,129,4),
+				'BG_COLOR_COL0' => array(255,255,255),
+				'BG_COLOR' => array(255,255,255),
 				'BRD_COLOR' => array(0,0,0),
 				'BRD_SIZE' => 0.2,
 				'BRD_TYPE' => '1',
@@ -211,7 +211,7 @@ class EditerCommandeControleur
 				'V_ALIGN' => 'M',
 				'T_TYPE' => '',
 				'LN_SIZE' => 6,
-				'BG_COLOR_COL0' => array(220, 220, 220),
+				'BG_COLOR_COL0' => array(255,255,255),
 				'BG_COLOR' => array(255,255,255),
 				'BRD_COLOR' => array(0,0,0),
 				'BRD_SIZE' => 0.2,
@@ -246,11 +246,11 @@ class EditerCommandeControleur
 			$lCSV->setNom('Réservations.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Compte","Prénom","Nom");		
+			$lEntete = array("Compte","Nom","Prénom");		
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
-				array_push($lEntete,$lNomProduit->getNom());
+				array_push($lEntete,$lNomProduit->getNom(),"");
 			}
 			$lCSV->setEntete($lEntete);
 			
@@ -266,15 +266,15 @@ class EditerCommandeControleur
 					} else {
 						array_push($lLigne,'');
 					}
-					array_push($lLigne,$lAdh['prenom']);
 					array_push($lLigne,$lAdh['nom']);
+					array_push($lLigne,$lAdh['prenom']);
 					
 					$j = 3;
 					foreach($lIdProduits as $lIdProduit) {
 						if($i == 0) {
-							array_push($lLigne,$lVal[$lIdProduit]);
+							array_push($lLigne,$lVal[$lIdProduit],"");
 						} else {
-							array_push($lLigne,'');
+							array_push($lLigne,'',"");
 						}
 						$j++;
 					}

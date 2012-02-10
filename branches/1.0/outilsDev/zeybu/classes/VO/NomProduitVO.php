@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 31/10/2011
+// Date de creation : 06/02/2012
 // Fichier : NomProduitVO.php
 //
 // Description : Classe NomProduitVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name NomProduitVO
  * @author Julien PIERRE
- * @since 31/10/2011
+ * @since 06/02/2012
  * @desc Classe représentant une NomProduitVO
  */
 class NomProduitVO  extends DataTemplate
@@ -23,6 +23,12 @@ class NomProduitVO  extends DataTemplate
 	* @desc Id de la NomProduitVO
 	*/
 	protected $mId;
+
+	/**
+	* @var varchar(50)
+	* @desc Numero de la NomProduitVO
+	*/
+	protected $mNumero;
 
 	/**
 	* @var varchar(50)
@@ -70,6 +76,24 @@ class NomProduitVO  extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
+	}
+
+	/**
+	* @name getNumero()
+	* @return varchar(50)
+	* @desc Renvoie le membre Numero de la NomProduitVO
+	*/
+	public function getNumero() {
+		return $this->mNumero;
+	}
+
+	/**
+	* @name setNumero($pNumero)
+	* @param varchar(50)
+	* @desc Remplace le membre Numero de la NomProduitVO par $pNumero
+	*/
+	public function setNumero($pNumero) {
+		$this->mNumero = $pNumero;
 	}
 
 	/**

@@ -47,6 +47,7 @@ class InfoBonCommandeViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
@@ -68,6 +69,7 @@ class InfoBonCommandeViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
@@ -96,6 +98,7 @@ class InfoBonCommandeViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
@@ -116,6 +119,7 @@ class InfoBonCommandeViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
@@ -181,6 +185,7 @@ class InfoBonCommandeViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
@@ -208,6 +213,7 @@ class InfoBonCommandeViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
@@ -227,11 +233,12 @@ class InfoBonCommandeViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(20)
+	* @param varchar(50)
 	* @param varchar(50)
 	* @param decimal(10,2)
 	* @param decimal(33,2)
@@ -241,12 +248,13 @@ class InfoBonCommandeViewManager
 	* @return InfoBonCommandeViewVO
 	* @desc Retourne une InfoBonCommandeViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId) {
 		$lInfoBonCommande = new InfoBonCommandeViewVO();
 		$lInfoBonCommande->setProIdCommande($pProIdCommande);
 		$lInfoBonCommande->setProIdCompteFerme($pProIdCompteFerme);
 		$lInfoBonCommande->setProId($pProId);
 		$lInfoBonCommande->setProUniteMesure($pProUniteMesure);
+		$lInfoBonCommande->setNproNumero($pNproNumero);
 		$lInfoBonCommande->setNproNom($pNproNom);
 		$lInfoBonCommande->setDopeMontant($pDopeMontant);
 		$lInfoBonCommande->setStoQuantite($pStoQuantite);

@@ -3772,10 +3772,10 @@
 
 
 	this.affectControleDatepicker = function(pData) {
-		pData = gCommunVue.comLienDatepicker('marche-dateDebutReservation','marche-dateFinReservation',pData);
-		pData = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',pData);
-
+		pData = gCommunVue.lienDatepickerMarche('marche-dateDebutReservation', 'marche-dateFinReservation', 'marche-dateMarcheDebut', pData);
 		pData.find('#marche-dateDebutReservation').datepicker( "setDate", getDateAujourdhuiDb().dateDbToFr() );
+		pData.find('#marche-dateFinReservation').datepicker("option", "minDate", new Date());
+		pData.find('#marche-dateMarcheDebut').datepicker("option", "minDate", new Date());
 		return pData;
 	}
 	
@@ -9201,6 +9201,8 @@
 			this.mMarche.timeMarcheDebut = $(':input[name=heure-debut]').val() + ':' + $(':input[name=minute-debut]').val() + ':00';
 			this.mMarche.dateMarcheFin = $(':input[name=date-debut]').val().dateFrToDb();
 			this.mMarche.timeMarcheFin = $(':input[name=heure-fin]').val() + ':' + $(':input[name=minute-fin]').val() + ':00';
+			this.mMarche.dateDebutReservation = $(':input[name=date-debut-reservation]').val().dateFrToDb();
+			this.mMarche.timeDebutReservation = $(':input[name=heure-debut-reservation]').val() + ':' + $(':input[name=minute-debut-reservation]').val() + ':00';
 			this.mMarche.dateFinReservation = $(':input[name=date-fin-reservation]').val().dateFrToDb();
 			this.mMarche.timeFinReservation = $(':input[name=heure-fin-reservation]').val() + ':' + $(':input[name=minute-fin-reservation]').val() + ':00';
 			this.mMarche.archive = "0";
@@ -9214,6 +9216,8 @@
 					this.mEtapeCreationMarche = 1;
 					Infobulle.init(); // Supprime les erreurs
 					$("#nom-marche-span").text(this.mMarche.nom);
+					$("#date-debut-reservation-marche-span").text($(':input[name=date-debut-reservation]').val());
+					$("#time-debut-reservation-marche-span").text($(':input[name=heure-debut-reservation]').val() + 'H' + $(':input[name=minute-debut-reservation]').val());
 					$("#date-fin-reservation-marche-span").text($(':input[name=date-fin-reservation]').val());
 					$("#time-fin-reservation-marche-span").text($(':input[name=heure-fin-reservation]').val() + 'H' + $(':input[name=minute-fin-reservation]').val());
 					$("#date-debut-marche-span").text($(':input[name=date-debut]').val());
@@ -9291,7 +9295,11 @@
 
 
 	this.affectControleDatepicker = function(pData) {
-		pData = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',pData);
+		//pData = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',pData);
+		pData = gCommunVue.lienDatepickerMarche('marche-dateDebutReservation', 'marche-dateFinReservation', 'marche-dateMarcheDebut', pData);
+		pData.find('#marche-dateDebutReservation').datepicker( "setDate", getDateAujourdhuiDb().dateDbToFr() );
+		pData.find('#marche-dateFinReservation').datepicker("option", "minDate", new Date());
+		pData.find('#marche-dateMarcheDebut').datepicker("option", "minDate", new Date());
 		return pData;
 	}
 	
@@ -10436,8 +10444,12 @@
 		lHtml.find(":input[name=heure-fin-reservation]").selectOptions(that.mMarche.heureFinReservation);
 		lHtml.find(":input[name=minute-fin-reservation]").selectOptions(that.mMarche.minuteFinReservation);
 		
-		lHtml = gCommunVue.comLienDatepicker('marche-dateDebutReservation','marche-dateFinReservation',lHtml);
-		lHtml = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',lHtml);
+		lHtml = gCommunVue.lienDatepickerMarche('marche-dateDebutReservation','marche-dateFinReservation','marche-dateMarcheDebut',lHtml);
+		lHtml.find('#marche-dateDebutReservation').datepicker("option", "maxDate", that.mMarche.dateFinReservation);
+		lHtml.find('#marche-dateFinReservation').datepicker("option", "minDate", that.mMarche.dateDebutReservation).datepicker("option", "maxDate", that.mMarche.dateMarcheDebut);
+		lHtml.find('#marche-dateMarcheDebut').datepicker("option", "minDate", that.mMarche.dateFinReservation);
+		
+		/*lHtml = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',lHtml);*/
 		
 		$(lHtml).dialog({
 			autoOpen: true,

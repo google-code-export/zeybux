@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 31/10/2011
+// Date de creation : 06/02/2012
 // Fichier : NomProduitManager.php
 //
 // Description : Classe de gestion des NomProduit
@@ -17,7 +17,7 @@ define("TABLE_NOMPRODUIT", MYSQL_DB_PREFIXE . "npro_nom_produit");
 /**
  * @name NomProduitManager
  * @author Julien PIERRE
- * @since 31/10/2011
+ * @since 06/02/2012
  * 
  * @desc Classe permettant l'accès aux données des NomProduit
  */
@@ -25,6 +25,7 @@ class NomProduitManager
 {
 	const TABLE_NOMPRODUIT = TABLE_NOMPRODUIT;
 	const CHAMP_NOMPRODUIT_ID = "npro_id";
+	const CHAMP_NOMPRODUIT_NUMERO = "npro_numero";
 	const CHAMP_NOMPRODUIT_NOM = "npro_nom";
 	const CHAMP_NOMPRODUIT_DESCRIPTION = "npro_description";
 	const CHAMP_NOMPRODUIT_ID_CATEGORIE = "npro_id_categorie";
@@ -45,6 +46,7 @@ class NomProduitManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
@@ -60,6 +62,7 @@ class NomProduitManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return NomProduitManager::remplirNomProduit(
 				$pId,
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
@@ -82,6 +85,7 @@ class NomProduitManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
@@ -98,6 +102,7 @@ class NomProduitManager
 				array_push($lListeNomProduit,
 					NomProduitManager::remplirNomProduit(
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
@@ -124,6 +129,7 @@ class NomProduitManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
@@ -141,6 +147,7 @@ class NomProduitManager
 				array_push($lListeNomProduit,
 					NomProduitManager::remplirNomProduit(
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
@@ -171,6 +178,7 @@ class NomProduitManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    NomProduitManager::CHAMP_NOMPRODUIT_ID .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE .
@@ -194,6 +202,7 @@ class NomProduitManager
 					array_push($lListeNomProduit,
 						NomProduitManager::remplirNomProduit(
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
@@ -212,8 +221,9 @@ class NomProduitManager
 	}
 
 	/**
-	* @name remplirNomProduit($pId, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat)
+	* @name remplirNomProduit($pId, $pNumero, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat)
 	* @param int(11)
+	* @param varchar(50)
 	* @param varchar(50)
 	* @param text
 	* @param int(11)
@@ -222,9 +232,10 @@ class NomProduitManager
 	* @return NomProduitVO
 	* @desc Retourne une NomProduitVO remplie
 	*/
-	private static function remplirNomProduit($pId, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat) {
+	private static function remplirNomProduit($pId, $pNumero, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat) {
 		$lNomProduit = new NomProduitVO();
 		$lNomProduit->setId($pId);
+		$lNomProduit->setNumero($pNumero);
 		$lNomProduit->setNom($pNom);
 		$lNomProduit->setDescription($pDescription);
 		$lNomProduit->setIdCategorie($pIdCategorie);
@@ -247,12 +258,14 @@ class NomProduitManager
 		$lRequete =
 			"INSERT INTO " . NomProduitManager::TABLE_NOMPRODUIT . "
 				(" . NomProduitManager::CHAMP_NOMPRODUIT_ID . "
+				," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . ")
 			VALUES (NULL
+				,'" . StringUtils::securiser( $pVo->getNumero() ) . "'
 				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDescription() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdCategorie() ) . "'
@@ -276,7 +289,8 @@ class NomProduitManager
 		$lRequete = 
 			"UPDATE " . NomProduitManager::TABLE_NOMPRODUIT . "
 			 SET
-				 " . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
+				 " . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
+				," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . " = '" . StringUtils::securiser( $pVo->getDescription() ) . "'
 				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = '" . StringUtils::securiser( $pVo->getIdCategorie() ) . "'
 				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . " = '" . StringUtils::securiser( $pVo->getIdFerme() ) . "'

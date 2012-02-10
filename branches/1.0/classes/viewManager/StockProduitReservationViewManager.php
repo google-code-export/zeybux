@@ -44,6 +44,7 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . "
 			FROM " . StockProduitReservationViewManager::VUE_STOCKPRODUITRESERVATION . " 
@@ -62,6 +63,7 @@ class StockProduitReservationViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
 			}
 		} else {
@@ -85,6 +87,7 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . "
 			FROM " . StockProduitReservationViewManager::VUE_STOCKPRODUITRESERVATION;
@@ -101,6 +104,7 @@ class StockProduitReservationViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
 			}
@@ -147,6 +151,7 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . StockManager::CHAMP_STOCK_QUANTITE		);
 
@@ -170,6 +175,7 @@ class StockProduitReservationViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
 				}
@@ -185,22 +191,24 @@ class StockProduitReservationViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pStoQuantite)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pStoQuantite)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(20)
 	* @param varchar(50)
+	* @param varchar(50)
 	* @param decimal(33,2)
 	* @return StockProduitReservationViewVO
 	* @desc Retourne une StockProduitReservationViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pStoQuantite) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pStoQuantite) {
 		$lStockProduitReservation = new StockProduitReservationViewVO();
 		$lStockProduitReservation->setProIdCommande($pProIdCommande);
 		$lStockProduitReservation->setProIdCompteFerme($pProIdCompteFerme);
 		$lStockProduitReservation->setProId($pProId);
 		$lStockProduitReservation->setProUniteMesure($pProUniteMesure);
+		$lStockProduitReservation->setNproNumero($pNproNumero);
 		$lStockProduitReservation->setNproNom($pNproNom);
 		$lStockProduitReservation->setStoQuantite($pStoQuantite);
 		return $lStockProduitReservation;

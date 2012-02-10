@@ -213,9 +213,11 @@ class BonDeCommandeControleur
 						$lNomPrdt = "";
 					} else {
 						$lNomPrdt = utf8_decode($lLigne->getFerNom());
-					}					
+					}				
+					
 					array_push($lContenuTableau,
 											$lNomPrdt,
+											utf8_decode($lLigne->getNproNumero()),
 											utf8_decode($lLigne->getNproNom()),
 											$lLigne->getStoQuantite(),
 											utf8_decode($lLigne->getProUniteMesure()),
@@ -227,7 +229,7 @@ class BonDeCommandeControleur
 			}
 					
 			// Contenu du header du tableau.	
-			$lContenuHeader = array(30, 30, 30, 10, 30, 10, "Producteur","Produit","Commande","","Prix","");
+			$lContenuHeader = array(30, 30, 30, 30, 10, 30, 10, "Producteur","Ref.", "Produit","Commande","","Prix","");
 			
 			// Préparation du PDF
 			$PDF=new phpToPDF();
@@ -302,7 +304,7 @@ class BonDeCommandeControleur
 			$lCSV->setNom('Bon_de_Commande.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Producteur","Produit","Commande","","Prix","");
+			$lEntete = array("Producteur","Ref.","Produit","Commande","","Prix","");
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
@@ -317,6 +319,7 @@ class BonDeCommandeControleur
 					}
 					
 					$lLignecontenu = array(	$lNomPrdt,
+											$lLigne->getNproNumero(),
 											$lLigne->getNproNom(),
 											$lLigne->getStoQuantite(),
 											$lLigne->getProUniteMesure(),

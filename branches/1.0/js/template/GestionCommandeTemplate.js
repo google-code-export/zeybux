@@ -2144,7 +2144,12 @@
 				"</button>" +
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours" +
+				"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-marche\" title=\"Ajouter un marché\">" +
+					"<span class=\"ui-icon ui-icon-plusthick\">" +
+					"</span>" +
+				"</span>" +
+				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
 			"</div>" +
 		"</div>";
@@ -2230,6 +2235,7 @@
 			"<table class=\"com-table\">" +
 				"<thead>" +
 					"<tr>" +
+						"<th>Ref</th>" +
 						"<th>Produit</th>" +
 						"<th>Réservation</th>" +
 						"<th>Commande</th>" +
@@ -2240,6 +2246,7 @@
 				"<tbody>" +
 					"<!-- BEGIN produits -->" +
 					"<tr>" +
+						"<td>{produits.nproNumero}</td>" +
 						"<td>{produits.nproNom}</td>" +
 						"<td>{produits.stoQuantite} {produits.proUniteMesure}</td>" +
 						"<td><span class=\"pro-id ui-helper-hidden\">{produits.proId}</span><input class=\"qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"qte-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.proId}quantite\"/> {produits.proUniteMesure}</td>" +
@@ -2303,6 +2310,7 @@
 			"<table class=\"com-table\">" +
 				"<thead>" +
 					"<tr>" +
+						"<th>Ref</th>" +
 						"<th>Produit</th>" +
 						"<th>Réservation</th>" +
 						"<th>Commande</th>" +
@@ -2316,6 +2324,7 @@
 				"<tbody>" +
 					"<!-- BEGIN produits -->" +
 					"<tr>" +
+						"<td>{produits.nproNumero}</td>" +
 						"<td>{produits.nproNom}</td>" +
 						"<td>{produits.stoQuantite} {produits.proUniteMesure}</td>" +
 						"<td>{produits.stoQuantiteCommande} {produits.proUniteMesure}</td>" +
@@ -2336,7 +2345,7 @@
 				"</tbody>" +
 				"<tfoot>" +
 					"<tr>" +
-						"<td colspan=\"2\"></td>" +
+						"<td colspan=\"3\"></td>" +
 						"<td>Total :</td>" +
 						"<td>{totalCommande} {sigleMonetaire}</td>" +
 						"<td></td>" +
@@ -2349,11 +2358,13 @@
 								"<!-- END typePaiement -->" +
 							"</select>" +
 						"</td>" +
+						"<td></td>" +
 					"</tr>" +
 					"<tr id=\"tr-champ-complementaire\">" +
-						"<td colspan=\"5\"></td>" +
+						"<td colspan=\"6\"></td>" +
 						"<td><span id=\"label-champ-complementaire\" ></span></td>" +
 						"<td><input type=\"text\" name=\"champ-complementaire\" value=\"{champComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"typePaiementChampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
+						"<td></td>" +
 					"</tr>" +
 				"</tfoot>" +
 			"</table>" +
