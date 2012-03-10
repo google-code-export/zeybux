@@ -118,3 +118,4 @@ class AfficheCatalogueResponse extends DataTemplate
 		array_push($this->mListeProduit,$pListeProduit);
 	}
 }
+?>

@@ -140,7 +140,7 @@
 						"<tr class=\"pdt\">" +
 							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
 							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
-							"<td><span class=\"nom-pro\">{categories.produits.nproNom}<span></td>" +
+							"<td id=\"commandes{categories.produits.proId}stoQuantite\" ><span class=\"nom-pro\">{categories.produits.nproNom}<span></td>" +
 							"<td class=\"td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
 									"<span class=\"ui-icon ui-icon-info\">" +
@@ -211,7 +211,7 @@
 						"<tr class=\"pdt\">" +
 							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
 							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
-							"<td>{categories.produits.nproNom}</td>" +
+							"<td id=\"commandes{categories.produits.proId}stoQuantite\" >{categories.produits.nproNom}</td>" +
 							"<td class=\"td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
 									"<span class=\"ui-icon ui-icon-info\">" +

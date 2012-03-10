@@ -118,3 +118,4 @@ class ListeAdherentRechargementResponse extends DataTemplate
 		array_push($this->mTypePaiement, $pTypePaiement);
 	}
 }
+?>

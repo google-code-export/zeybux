@@ -244,3 +244,4 @@ class InfoCompteAdherentResponse extends DataTemplate
 		array_push($this->mTypePaiement,$pTypePaiement);
 	}
 }
+?>

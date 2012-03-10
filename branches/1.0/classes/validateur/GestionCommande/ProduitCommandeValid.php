@@ -332,3 +332,4 @@ class ProduitCommandeValid
 		return $lVr;
 	}
 }
+?>

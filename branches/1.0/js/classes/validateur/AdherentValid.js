@@ -48,13 +48,13 @@
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new AdherentVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -107,7 +107,7 @@
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 	
 	this.validUpdateInformation = function(pData) {
 		var lVR = new AdherentVR();
@@ -143,6 +143,6 @@
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 }

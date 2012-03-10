@@ -29,7 +29,7 @@
 			break;
 		}
 		return pHtml;
-	}
+	};
 	
 	this.identifier = function(pObj) {
 		var lVo = new IdentificationVO();
@@ -63,5 +63,5 @@
 		} else {
 			Infobulle.generer(lVr);
 		}
-	}
+	};
 }

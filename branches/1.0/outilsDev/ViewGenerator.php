@@ -249,7 +249,9 @@ if(isset($_POST['nom']) && isset($_POST['nomBDD'])) {
 
 				fwrite($fp,"\n\n");
 				
-				
+				// Les constantes    
+				fwrite($fp,"define(\"VUE_" . strtoupper($lNom) . "\", MYSQL_DB_PREFIXE . \"" . $lNomBDD . "\");\n");
+
 				fwrite($fp,"/**\n");
 				fwrite($fp," * @name " . $lNom . "ViewManager\n");
 				fwrite($fp," * @author Julien PIERRE\n");
@@ -258,11 +260,11 @@ if(isset($_POST['nom']) && isset($_POST['nomBDD'])) {
 				fwrite($fp," * @desc Classe permettant l'accès aux données des " . $lNom . "\n");
 				fwrite($fp," */\n");
 				fwrite($fp,"class " . $lNom . "ViewManager\n");
-				fwrite($fp,"{\n");
-	
-				// Les constantes
-				fwrite($fp,"\tconst VUE_" . strtoupper($lNom) . " = MYSQL_DB_PREFIXE . \"" . $lNomBDD . "\";\n");	        	
+				fwrite($fp,"{\n");   	
 	        	
+				// Les constantes
+				fwrite($fp,"\tconst VUE_" . strtoupper($lNom) . " = VUE_" . strtoupper($lNom) . ";\n");	   
+				
 	        	//Le select
 	        	
 	        	fwrite($fp,"\n\t/**\n");

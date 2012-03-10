@@ -142,3 +142,4 @@ class InfoFormulaireModifierProduitResponse extends DataTemplate
 		$this->mProduit = $pProduit;
 	}
 }
+?>

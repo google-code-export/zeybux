@@ -12,7 +12,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/MonMarcheResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
 
 /**
  * @name MonMarcheControleur
@@ -29,9 +29,12 @@ class MonMarcheControleur
 	*/
 	public function getListe() {		
 		$lResponse = new MonMarcheResponse();		
-		$lResponse->setReservations(MarcheListeReservationViewManager::select($_SESSION[ID_COMPTE]));
+		//$lResponse->setReservations(MarcheListeReservationViewManager::select($_SESSION[ID_COMPTE]));
 		$lMarcheService = new MarcheService();
-		$lResponse->setMarches( $lMarcheService->getNonReserveeParCompte($_SESSION[ID_COMPTE]) );
+		$lResponse->setMarches( $lMarcheService->getNonAchatParCompte($_SESSION[ID_COMPTE]) );
+		
+		
+		
 		return $lResponse;
 	}
 }

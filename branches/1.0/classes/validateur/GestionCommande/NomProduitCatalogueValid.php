@@ -80,3 +80,4 @@ class NomProduitCatalogueValid
 		return $lVr;
 	}
 }
+?>

@@ -84,3 +84,4 @@ class MesAchatsResponse extends DataTemplate
 		array_push($this->mAchats,$pAchats);
 	}
 }
+?>

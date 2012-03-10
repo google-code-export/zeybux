@@ -108,3 +108,4 @@ class ListeAdherentResponse extends DataTemplate
 		$this->mSolde = $pSolde;
 	}
 }
+?>

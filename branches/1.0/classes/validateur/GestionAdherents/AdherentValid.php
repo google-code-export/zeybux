@@ -10,6 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "AdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
@@ -656,3 +657,4 @@ class AdherentValid
 		return $lTestId;
 	}
 }
+?>

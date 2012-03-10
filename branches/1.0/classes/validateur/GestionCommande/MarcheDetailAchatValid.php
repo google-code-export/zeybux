@@ -204,3 +204,4 @@ class MarcheDetailAchatValid
 		return $lVr;
 	}
 }
+?>

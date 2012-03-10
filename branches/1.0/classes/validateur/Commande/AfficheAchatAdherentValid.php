@@ -138,3 +138,4 @@ class AfficheAchatAdherentValid
 		return $lVr;
 	}
 }
+?>

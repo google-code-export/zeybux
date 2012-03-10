@@ -74,3 +74,4 @@ class DetailCaracteristiqueResponse extends DataTemplate
 		$this->mCaracteristique = $pCaracteristique;
 	}
 }
+?>

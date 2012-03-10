@@ -4,7 +4,7 @@
 			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 				"<table>" +
 					"<tr>" +
-						"<td>Login</td>" +
+						"<td>N° d'adhérent</td>" +
 						"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\"/></td>" +
 					"</tr>" +
 					"<tr>" +
@@ -137,7 +137,7 @@
 				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
-							"<td>Login</td>" +
+							"<td>N° d'adhérent</td>" +
 							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
 						"</tr>" +
 						"<tr>" +
@@ -163,7 +163,7 @@
 				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
-							"<td>Login</td>" +
+							"<td>N° d'adhérent</td>" +
 							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
 						"</tr>" +
 						"<tr>" +

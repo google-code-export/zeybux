@@ -84,3 +84,4 @@ class ListeProducteurResponse extends DataTemplate
 		array_push($this->mListeProducteur,$pListeProducteur);
 	}
 }
+?>

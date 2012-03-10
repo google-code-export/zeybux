@@ -237,6 +237,7 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				fwrite($fp,"include_once(CHEMIN_CLASSES_UTILS . \"StringUtils.php\");\n");
 				fwrite($fp,"include_once(CHEMIN_CLASSES_VO . \"" . $lNomTable[1] . "VO.php\");\n\n");
 				
+				fwrite($fp,"define(\"TABLE_" . strtoupper($lNomTable[1]) . "\", MYSQL_DB_PREFIXE .\"" . $lNomTable[0] . "\");\n");
 				fwrite($fp,"/**\n");
 				fwrite($fp," * @name " . $lNomTable[1] . "Manager\n");
 				fwrite($fp," * @author " . AUTEUR . "\n");
@@ -248,8 +249,9 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				fwrite($fp,"{\n");
 	
 				// Les constantes
-				fwrite($fp,"\tconst TABLE_" . strtoupper($lNomTable[1]) . " = MYSQL_DB_PREFIXE . \"" . $lNomTable[0] . "\";\n");
-	
+				
+				fwrite($fp,"\tconst TABLE_" . strtoupper($lNomTable[1]) . " = TABLE_" . strtoupper($lNomTable[1]) . ";\n");
+				//fwrite($fp,"\tconst TABLE_" . strtoupper($lNomTable[1]) . " = MYSQL_DB_PREFIXE . \"" . $lNomTable[0] . "\";\n");
 	        	foreach($lListeNomAttribut[0] as $lNomAttribut){
 	        		sscanf($lNomAttribut,"%[a-z]_%s",$lEntete,$lNomAttribut2);
 					fwrite($fp,"\tconst CHAMP_" . strtoupper($lNomTable[1]) . "_" . strtoupper($lNomAttribut2) . " = \"" . $lNomAttribut . "\";\n");

@@ -17,7 +17,7 @@
 					}
 				},"json"
 		);
-	}	
+	};	
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -35,10 +35,10 @@
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
-			$('#contenu').replaceWith(lGestionAdherentsTemplate.listeAdherentVide);
+			$('#contenu').replaceWith(that.affect($(lGestionAdherentsTemplate.listeAdherentVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -46,19 +46,19 @@
 		pData = this.affectLienCompte(pData);
 		pData = this.affectAjoutAdherent(pData);
 		return pData;
-	}
+	};
 
 	this.affectAjoutAdherent = function(pData) {
 		pData.find('#btn-nv-adherent').click(function() {
 			AjoutAdherentVue();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -68,7 +68,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectLienCompte = function(pData) {
 		var that = this;
@@ -76,7 +76,7 @@
 			CompteAdherentVue({id_adherent: $(this).find(".id-adherent").text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

@@ -84,3 +84,4 @@ class ListeProduitResponse extends DataTemplate
 		array_push($this->mListeProduit,$pListeProduit);
 	}
 }
+?>

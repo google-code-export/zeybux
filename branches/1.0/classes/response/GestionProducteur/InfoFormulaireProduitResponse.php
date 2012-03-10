@@ -118,3 +118,4 @@ class InfoFormulaireProduitResponse extends DataTemplate
 		array_push($this->mListeCaracteristique,$pListeCaracteristique);
 	}
 }
+?>

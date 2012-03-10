@@ -290,3 +290,4 @@ class CompteSolidaireVirementValid
 		return $lVr;
 	}
 }
+?>

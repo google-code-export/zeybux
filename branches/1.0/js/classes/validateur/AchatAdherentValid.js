@@ -38,5 +38,5 @@
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

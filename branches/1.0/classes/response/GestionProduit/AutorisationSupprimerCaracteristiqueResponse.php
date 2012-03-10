@@ -99,3 +99,4 @@ class AutorisationSupprimerCaracteristiqueResponse extends DataTemplate
 		$this->mNbProduit = $pNbProduit;
 	}
 }
+?>

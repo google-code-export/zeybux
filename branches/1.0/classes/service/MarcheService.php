@@ -449,8 +449,18 @@ class MarcheService
 	* @return array(CommandeVO)
 	* @desc Récupères les commandes en cours non réservées par l'adhérent
 	*/
-	public static function getNonReserveeParCompte($pIdCompte) {		// TODO les tests	
+	public function getNonReserveeParCompte($pIdCompte) {		// TODO les tests	
 		return CommandeManager::selectNonReserveeParCompte($pIdCompte);
+	}
+	
+	/**
+	* @name getNonAchatParCompte($pIdCompte)
+	* @param integer
+	* @return array(CommandeVO)
+	* @desc Récupères les commandes en cours sans achat par l'adhérent
+	*/
+	public function getNonAchatParCompte($pIdCompte) {		// TODO les tests	
+		return CommandeManager::selectNonAchatParCompte($pIdCompte);
 	}
 	
 	/**
@@ -635,7 +645,7 @@ class MarcheService
 	* @return array(OperationVO)
 	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de OperationVO
 	*/
-	public static function selectCaisseListeMarche() {		
+	public function selectCaisseListeMarche() {		
 		return CommandeManager::recherche(
 			array(CommandeManager::CHAMP_COMMANDE_ARCHIVE),
 			array('='),

@@ -4,7 +4,7 @@
 			Infobulle.generer(pParam.vr,'');
 		}
 		this.afficher();
-	}	
+	};	
 	
 	this.afficher = function() {
 		if($.browser.msie) {
@@ -17,12 +17,12 @@
 				IdentificationVue();
 			});
 		}		
-	}
+	};
 	
 	this.init = function() {
 		this.initObj();
 		this.initAction();
-	}
+	};
 	
 	this.initObj = function() {
 		// Initialisation des objets globaux
@@ -30,7 +30,7 @@
 		Infobulle = new Infobulles();
 		gCommunVue = new CommunVue(); // TODO Renommer en CommunVue et utiliser cette classe dans toutes les vues
 		gIdConnexion = null;
-	}
+	};
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
@@ -52,7 +52,7 @@
 		
 		
 		
-	}
+	};
 	
 	this.construct(pParam);
 }

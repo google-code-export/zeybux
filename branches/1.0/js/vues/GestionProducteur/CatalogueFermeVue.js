@@ -42,7 +42,7 @@
 				}
 			},"json"
 		);
-	}	
+	};	
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -90,14 +90,14 @@
 		
 		$('#contenu-ferme').replaceWith(that.affect(lhtml));
 		this.affectMenu();
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectRecherche(pData);
 		pData = affectProduit(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectProduit = function(pData) {
 		pData = this.affectDialogCreerProduit(pData);
@@ -105,7 +105,7 @@
 		pData = this.affectDialogSupprimerProduit(pData);
 		pData = this.affectDetailProduit(pData);
 		return pData;	
-	}
+	};
 	
 	this.affectCategorie = function(pData) {
 		if(this.nbProduit > 0) { pData = this.affectFlitreCategorie(pData);	}
@@ -115,18 +115,18 @@
 		pData = this.affectDialogModifierCategorie(pData);
 		pData = this.affectDialogSupprimerCategorie(pData);	
 		return pData;
-	}
+	};
 		
 	this.affectMenu = function() {
 		$('#btn-information,#btn-liste-producteur').removeClass("ui-state-active");
 		$('#btn-catalogue').addClass("ui-state-active");		
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		//pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		pData.find('#table-cat').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter-pro").keyup(function() {
@@ -136,7 +136,7 @@
 		pData.find("#filter-form-pro").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 	
 	this.affectRechercheCategorie = function(pData) {		
 		pData.find("#filter-cat").keyup(function() {
@@ -146,7 +146,7 @@
 		pData.find("#filter-form-cat").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 	
 	this.affectFlitreCategorie = function(pData) {
 		var that = this;
@@ -155,7 +155,7 @@
 			that.FiltreCategorie(lIdCategorie);
 		});
 		return pData;
-	}
+	};
 	
 	this.FiltreCategorie = function(pIdCategorie) {
 		if(this.nbProduit > 0) {
@@ -178,7 +178,7 @@
 			
 			this.mFiltreIdCategorie = pIdCategorie;
 		}
-	}	
+	};
 
 	this.refreshCategorie = function(pParam) {
 		var that = this;
@@ -222,7 +222,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.refreshProduit = function(pParam) {
 		var that = this;
@@ -268,7 +268,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.affectDialogCreerCategorie = function(pData) {
 		var that = this;
@@ -299,7 +299,7 @@
 			});			
 		});		
 		return pData;
-	}
+	};
 	
 	this.CreerCategorie = function(pForm) {
 		var that = this;
@@ -343,7 +343,7 @@
 		} else {
 			Infobulle.generer(lVr,'cat-');
 		}
-	}
+	};
 	
 	this.affectDialogModifierCategorie = function(pData) {
 		var that = this;
@@ -388,7 +388,7 @@
 			);	
 		});		
 		return pData;
-	}
+	};
 	
 	this.ModifierCategorie = function(pForm) {
 		var that = this;
@@ -435,7 +435,7 @@
 		} else {
 			Infobulle.generer(lVr,'cat-');
 		}
-	}
+	};
 	
 	this.affectDialogSupprimerCategorie = function(pData) {
 		var that = this;
@@ -462,7 +462,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 	
 	this.dialogSupprimerCategorie = function(pId) {
 		var that = this;
@@ -485,7 +485,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.supprimerCategorie = function(pId) {
 		var that = this;
@@ -516,7 +516,7 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.refusSupprimerCategorie = function(pResponse) {
 		var that = this;
@@ -541,7 +541,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.affectDialogCreerProduit = function(pData) {
 		var that = this;
@@ -551,7 +551,7 @@
 				that.dialogProduitRefusCreation();
 			} else {
 				if(that.mInfoFormulaireProduit == null) {
-					lParam = {fonction:'infoFomulaireProduit',id:that.mParam.id}
+					lParam = {fonction:'infoFomulaireProduit',id:that.mParam.id};
 					$.post(	"./index.php?m=GestionProducteur&v=CatalogueFerme", "pParam=" + $.toJSON(lParam),
 						function (lResponse) {		
 							if(lResponse) {
@@ -560,7 +560,7 @@
 										listeProducteur:lResponse.listeProducteur,
 										listeCaracteristique:lResponse.listeCaracteristique,
 										sigleMonetaire:gSigleMonetaire
-									}
+									};
 									that.dialogProduit();
 								} else {
 									Infobulle.generer(lResponse,'pro-');
@@ -574,7 +574,7 @@
 			}
 		});		
 		return pData;
-	}
+	};
 	
 	this.dialogProduit = function() {
 		var that = this;
@@ -616,7 +616,7 @@
 				return false;
 			});
 		}
-	}
+	};
 	
 	this.affectFormProduit = function(pData) {
 		pData = this.affectAjoutLot(pData);
@@ -624,7 +624,7 @@
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectReference = function(pData) {
 		pData.find(':input[name=reference-choix]').change(function() {
@@ -635,7 +635,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.affectAjoutLot = function(pData) {
 		var that = this;
@@ -646,7 +646,7 @@
 			}
 		});		
 		return pData;		
-	}
+	};
 	
 	this.ajoutLot = function() {
 		var lVo = new ModeleLotVO();
@@ -673,14 +673,14 @@
 		} else {
 			Infobulle.generer(lVr,'pro-lot-');
 		}
-	}
+	};
 	
 	this.affectLot = function(pData) {
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectAjoutLotGestion(pData);
 		return pData;
-	}
+	};
 	
 	
 	this.affectAjoutLotGestion = function(pData) {
@@ -703,11 +703,11 @@
 			that.ajoutLotSupprimer($(this).closest('tr').find('#id-lot').text());
 		});
 		return pData;		
-	}
+	};
 	
 	this.ajoutLotSupprimer = function(pId) {
 		$("#ligne-lot-" + pId).remove();
-	}
+	};
 	
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
@@ -715,7 +715,7 @@
 		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
 		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
-	}
+	};
 	
 	this.ajoutLotValiderModification = function(pId) {
 		var lVo = new ModeleLotVO();
@@ -736,11 +736,11 @@
 		} else {
 			Infobulle.generer(lVr,'pro-lot-' + pId + '-');
 		}
-	}
+	};
 	
 	this.ajoutLotAnnulerModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
-	}
+	};
 	
 	this.dialogProduitRefusCreation = function() {
 		var lGestionProducteurTemplate = new GestionProducteurTemplate();
@@ -754,7 +754,7 @@
 			width:400,
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.CreerProduit = function(pForm) {
 		var that = this;
@@ -815,7 +815,7 @@
 		} else {
 			Infobulle.generer(lVr,'pro-');
 		}
-	}
+	};
 	
 	this.affectDialogSupprimerProduit = function(pData) {
 		var that = this;
@@ -845,7 +845,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.supprimerProduit = function(pId) {
 		var that = this;
@@ -872,7 +872,7 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.affectDetailProduit = function(pData) {
 		var that = this;
@@ -926,7 +926,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectModifierProduit = function(pData) {
 		var that = this;
@@ -936,7 +936,7 @@
 			that.dialogModifierProduit(lId);			
 		});
 		return pData;
-	}
+	};
 	
 	this.dialogModifierProduit = function(pId) {
 		var that = this;
@@ -1020,7 +1020,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.modifierProduit = function(pForm) {
 		var that = this;
@@ -1085,7 +1085,7 @@
 		} else {
 			Infobulle.generer(lVr,'pro-');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

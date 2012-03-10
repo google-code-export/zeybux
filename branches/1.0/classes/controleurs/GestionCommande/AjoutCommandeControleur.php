@@ -111,30 +111,6 @@ class AjoutCommandeControleur
 		}		
 		return $lVr;
 	}
-
-	/**
-	* @name AjouterProduit($lParam)
-	* @return NomProduitResponse
-	* @desc Ajoute le produit et retourne son nom et ID
-	*/
-	/*public function AjouterProduit($lParam) {	
-		
-		$lNomProduit = $lParam['nomProduit'];	
-		$lNomProduit['idCategorie']	= 1; // TODO Pour le moment pas de gestion des catégories
-		
-		$lVr = NomProduitValid::validAjout($lNomProduit);
-		
-		if($lVr->getValid()) {
-			$lNomProduitVO = NomProduitToVO::convertFromArray($lNomProduit);
-			$lId = NomProduitManager::insert($lNomProduitVO);
-			
-			$lResponse = new AjoutNomProduitResponse();
-			$lResponse->setId($lId);
-			$lResponse->setNom($lNomProduitVO->getNom());
-			return $lResponse;		
-		}		
-		return $lVr;
-	}*/
 	
 	/**
 	* @name ajouterMarche($lParam)

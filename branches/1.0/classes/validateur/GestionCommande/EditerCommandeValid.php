@@ -61,3 +61,4 @@ class EditerCommandeValid
 		return $lVr;
 	}
 }
+?>

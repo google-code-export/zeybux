@@ -181,6 +181,59 @@ class CommandeManager
 	}
 	
 	/**
+	* @name selectNonAchatParCompte($pIdCompte)
+	* @param integer
+	* @return array(CommandeVO)
+	* @desc Récupères les marchés en cours sans achat par l'adhérent
+	*/
+	public static function selectNonAchatParCompte($pIdCompte) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+			"SELECT "
+			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION .
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . "
+			FROM " . CommandeManager::TABLE_COMMANDE . "
+			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " NOT IN (
+   					SELECT " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+   					FROM " . OperationManager::TABLE_OPERATION . "
+   					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8)
+   					AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pIdCompte . ")
+   			AND " . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . " <= now()
+			AND " . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = 0
+   			ORDER BY " . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . " ASC";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeCommande = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeCommande,
+					CommandeManager::remplirCommande(
+					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
+					'',
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
+					''));
+			}
+		} else {
+			$lListeCommande[0] = new CommandeVO();
+		}
+		return $lListeCommande;	
+	}
+	
+	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche

@@ -118,3 +118,4 @@ class ListeAdherentResponse extends DataTemplate
 		array_push($this->mListeProducteur,$pListeProducteur);
 	}
 }
+?>

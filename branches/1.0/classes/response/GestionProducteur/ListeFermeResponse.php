@@ -84,3 +84,4 @@ class ListeFermeResponse extends DataTemplate
 		array_push($this->mListeFerme,$pListeFerme);
 	}
 }
+?>

@@ -99,3 +99,4 @@ class AutorisationSupprimerCategorieResponse extends DataTemplate
 		$this->mNbProduit = $pNbProduit;
 	}
 }
+?>

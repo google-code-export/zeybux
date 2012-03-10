@@ -482,3 +482,4 @@ class InfoAdherentValid
 		return $lVr;
 	}
 }
+?>

@@ -183,3 +183,4 @@ class BonDeCommandeValid
 		return $lVr;
 	}
 }
+?>

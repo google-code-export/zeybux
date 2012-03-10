@@ -74,3 +74,4 @@ class ModelesLotResponse extends DataTemplate
 		$this->mModelesLot = $pModelesLot;
 	}
 }
+?>

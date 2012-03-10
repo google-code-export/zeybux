@@ -74,3 +74,4 @@ class AjoutFermeResponse extends DataTemplate
 		$this->mId = $pId;
 	}
 }
+?>

@@ -24,7 +24,7 @@ class MotDePasseUtils
 	* @name generer($pLongeur, $pPossible)
 	* @desc génère un mot de passe aléatoire
 	*/
-	public static function generer($pLongeur=10, $pPossible='$=@%<>!&0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+	public static function generer($pLongeur=10, $pPossible='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
 		$lPassword = '';
 		$lPossibleLongueur = strlen($pPossible) - 1;
 

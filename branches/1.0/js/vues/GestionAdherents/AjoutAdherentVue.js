@@ -19,11 +19,11 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		var lData = {modules:[],modules_default:[]}
+		var lData = {modules:[],modules_default:[]};
 		$(lResponse.modules).each(function() {
 			if(this.defaut == 1) {
 				lData.modules_default.push(this);
@@ -37,7 +37,7 @@
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
@@ -46,7 +46,7 @@
 		pData = this.affectSubmit(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.boutonLienCompte = function(pData) {		
 		pData.find(":input[name=lien_numero_compte]").click(function() {
@@ -57,14 +57,14 @@
 			}			
 		});
 		return pData;
-	}	
+	};
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
 		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
-	}
+	};
 	
 	this.affectSubmit = function(pData) {	
 		var that = this;
@@ -73,7 +73,7 @@
 			return false;
 		});
 		return pData;
-	}
+	};
 	
 	this.ajoutAdherent = function() {
 		var lVo = new AdherentVO();
@@ -92,8 +92,8 @@
 		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
-		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
-		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
+		$(':input[name=modules[]]:checked').each(function() { lVo.modules.push($(this).val()); });
+		$(':input[name=modules_default[]]').each(function() { lVo.modules.push($(this).val()); });
 		
 		var lValid = new AdherentValid();
 		var lVr = lValid.validAjout(lVo);
@@ -118,7 +118,7 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }
