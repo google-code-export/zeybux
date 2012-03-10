@@ -69,3 +69,4 @@ class MailingListeValid
 		return $lVr;
 	}
 }
+?>

@@ -248,3 +248,4 @@ class IdentificationValid
 		return $lVr;
 	}
 }
+?>

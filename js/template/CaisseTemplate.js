@@ -88,50 +88,7 @@
 		"</div>";
 	
 	this.achatCommandePage = 
-		"<div id=\"contenu\">" +
-			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
-				"<div id=\"vente-achat-info-marche\">" +
-				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
-				"N° de Compte : {adhCompte}" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<table>" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Montant</th>" +
-								"<th>Type de Paiement</th>" +
-								"<th id=\"label-champ-complementaire\"></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-							"<tr>" +
-								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
-								"<td class=\"com-center\">" +
-									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
-										"<option value=\"0\">== Choisir ==</option>" +
-										"<!-- BEGIN typePaiement -->" +
-										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
-										"<!-- END typePaiement -->" +
-									"</select>" +
-								"</td>" +
-								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
-							"</tr>" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +			
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
-			"</div>" +
-			
+		"<div id=\"contenu\">" +			
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
 				"<div class=\"com-widget-content\">" +
@@ -237,6 +194,51 @@
 				"</table>" +
 				"</div>" +
 			"</div>" +
+			
+			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
+			"</div>" +
+			
+			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+				"<div id=\"vente-achat-info-marche\">" +
+				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+				"N° de Compte : {adhCompte}" +
+				"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<table>" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Montant</th>" +
+								"<th>Type de Paiement</th>" +
+								"<th id=\"label-champ-complementaire\"></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr>" +
+								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
+								"<td class=\"com-center\">" +
+									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
+										"<option value=\"0\">== Choisir ==</option>" +
+										"<!-- BEGIN typePaiement -->" +
+										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
+										"<!-- END typePaiement -->" +
+									"</select>" +
+								"</td>" +
+								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
+							"</tr>" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+			
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
 				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
 				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +

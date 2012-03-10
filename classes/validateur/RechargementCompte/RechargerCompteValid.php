@@ -61,3 +61,4 @@ class RechargerCompteValid
 		return $lVr;
 	}
 }
+?>

@@ -284,3 +284,4 @@ class FermeValid
 		return $lVr;
 	}
 }
+?>

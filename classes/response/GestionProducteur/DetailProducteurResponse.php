@@ -74,3 +74,4 @@ class DetailProducteurResponse extends DataTemplate
 		$this->mProducteur = $pProducteur;
 	}
 }
+?>

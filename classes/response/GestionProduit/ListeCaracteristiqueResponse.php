@@ -84,3 +84,4 @@ class ListeCaracteristiqueResponse extends DataTemplate
 		array_push($this->mListeCaracteristique,$pListeCaracteristique);
 	}
 }
+?>

@@ -173,13 +173,16 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 										$lLotSelect = array("dcomId" => $lLot->getId(),
 																	"dcomTaille" => StringUtils::affichageMonetaireFr($lLot->getTaille()),
 																	"prixUnitaire" => StringUtils::affichageMonetaireFr($lLot->getPrix() / $lLot->getTaille() ) );
-										if($lLot->getId() == $lReservation->getIdDetailCommande() ) {
+										
+										$lReservationLotTest = $lLot->getId() == $lReservation->getIdDetailCommande();
+										if( $lReservationLotTest ) {
 											$lPrix = -1 * ($lStoQuantite / $lLot->getTaille() ) * $lLot->getPrix();
 											$lLotSelect["selected"] = "selected=\"selected\"";
 										}
-										if($lNoStock || (!$lNoStock && $lLot->getTaille() <= $lMax) ) {
+										if($lNoStock || (!$lNoStock && $lLot->getTaille() <= $lMax) || $lReservationLotTest) {
 											array_push($lLots,$lLotSelect);
 										}
+										
 									}
 									$lTotal += $lPrix;
 									
@@ -271,17 +274,17 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 								}
 								
 								if($lErreur) {
-									foreach($lProduit["lot"] as $lLot) {
-										if(isset($lLignesErr["commandes" . $lLot["dcomId"] . "stoQuantite"])) { 
+									//foreach($lProduit["lot"] as $lLot) {
+										if(isset($lLignesErr["commandes" . $lProduit["proId"] . "stoQuantite"])) { 
 											$lProduit['class-err']= "ui-state-error";
 											$lProduit['class-err-msg'] = "ui-state-highlight message-erreur-champ";
-											$lProduit['err'] = $lLignesErr["commandes" .  $lLot["dcomId"] . "stoQuantite"];
-										} else if(isset($lLignesErr["commandes" . $lLot["dcomId"] . "stoIdProduit"])) {
+											$lProduit['err'] = $lLignesErr["commandes" .  $lProduit["proId"] . "stoQuantite"];
+										} else if(isset($lLignesErr["commandes" . $lProduit["proId"] . "stoIdProduit"])) {
 											$lProduit['class-err']= "ui-state-error";
 											$lProduit['class-err-msg'] = "ui-state-highlight message-erreur-champ";
-											$lProduit['err'] = $lLignesErr["commandes" .  $lLot["dcomId"] . "stoIdProduit"];
+											$lProduit['err'] = $lLignesErr["commandes" .  $lProduit["proId"] . "stoIdProduit"];
 										}
-									}
+									//}
 								}
 								
 								if(!empty($lProduit["lot"])) {

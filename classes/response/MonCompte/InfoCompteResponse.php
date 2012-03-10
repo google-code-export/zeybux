@@ -142,3 +142,4 @@ class InfoCompteResponse extends DataTemplate
 		array_push($this->mOperationPassee,$pOperationPassee);
 	}
 }
+?>

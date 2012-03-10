@@ -26,7 +26,7 @@
 		} else {
 			return true;
 		}
-    }
+    };
     
 /*
  * Plugin jquery d'édition de formulaire
@@ -46,7 +46,7 @@
 			this.after("<span name=\"" + this.attr('name') + "\">" + lVal + "</span>");
 		}
 		return this;
-    }
+    };
     
 /*
  * Plugin jquery d'édition de formulaire
@@ -56,7 +56,7 @@
     	this.show();
     	this.next().hide();
 		return this;
-    }    
+    };    
 })(jQuery);
 
 //Function to get the Max value in Array
@@ -77,7 +77,7 @@ function getDateAujourdhuiDb() {
 	lJour = lDate.getDate();
 	if (lJour < 10) {lJour = '0' + lJour;}
 	return lAnnee + '-' + lMois + '-' + lJour;	
-}
+};
 
 function getTimeAujourdhuiDb() {
 	lDate = new Date();	
@@ -88,15 +88,15 @@ function getTimeAujourdhuiDb() {
 	lSeconde = lDate.getSeconds();
 	if (lSeconde < 10) {lSeconde = '0' + lSeconde;}	
 	return lHeure + ':' + lMinute + ':' + lSeconde;
-}
+};
 
 function getDateTimeAujourdhuiDb() {
 	return getDateAujourdhuiDb() + ' ' + getTimeAujourdhuiDb();
-}
+};
 
 String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) {
 	return parseFloat(this).nombreFormate(decimales, signe, separateurMilliers);
-}
+};
 
 
 function differenceDateTime(pDate1,pDate2) {
@@ -156,15 +156,15 @@ function differenceDateTime(pDate1,pDate2) {
 	if(lNegatif) {lRetour = '-' + lRetour;}
 	
 	return parseFloat(lRetour);
-}
+};
 
 function htmlEncode(value){
   return $('<div/>').text(value).html();
-}
+};
 
 function htmlDecode(value){
   return $('<div/>').html(value).text();
-}
+};
 
 	
 /*
@@ -243,7 +243,7 @@ function htmlDecode(value){
 		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
 	 }
 	 return _sRetour;
-}
+};
     
     
 /** 

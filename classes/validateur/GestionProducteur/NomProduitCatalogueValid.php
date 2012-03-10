@@ -346,3 +346,4 @@ class NomProduitCatalogueValid
 		return $lVr;
 	}
 }
+?>

@@ -74,3 +74,4 @@ class DetailCategorieResponse extends DataTemplate
 		$this->mCategorie = $pCategorie;
 	}
 }
+?>

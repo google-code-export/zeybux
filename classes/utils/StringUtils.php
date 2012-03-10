@@ -19,6 +19,8 @@
 class StringUtils
 {
 	const FORMAT_DATE_NULLE = "0000-00-00";
+	const FORMAT_TIME_NULLE = "00:00:00";
+	const FORMAT_DATE_TIME_NULLE = "0000-00-00 00:00:00";
 
 	/**
 	* @name securiser($pString)
@@ -232,6 +234,16 @@ class StringUtils
 	*/
 	public static function dateEstNulle($pDate) {
 		return $pDate == StringUtils::FORMAT_DATE_NULLE;
+	}
+
+	/**
+	* @name dateTimeEstNulle($pDate)
+	* @param string
+	* @return bool
+	* @desc Vérifie si une dateTime est nulle.
+	*/
+	public static function dateTimeEstNulle($pDate) {
+		return $pDate == StringUtils::FORMAT_DATE_TIME_NULLE;
 	}
 
 	/**

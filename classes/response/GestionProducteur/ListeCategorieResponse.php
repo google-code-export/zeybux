@@ -84,3 +84,4 @@ class ListeCategorieResponse extends DataTemplate
 		array_push($this->mListeCategorie,$pListeCategorie);
 	}
 }
+?>

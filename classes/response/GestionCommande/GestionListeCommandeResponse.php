@@ -84,3 +84,4 @@ class GestionListeCommandeResponse extends DataTemplate
 		array_push($this->mListeCommande,$pListeCommande);
 	}
 }
+?>

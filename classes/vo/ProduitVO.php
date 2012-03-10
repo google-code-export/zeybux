@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 08/11/2011
+// Date de creation : 11/02/2012
 // Fichier : ProduitVO.php
 //
 // Description : Classe ProduitVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name ProduitVO
  * @author Julien PIERRE
- * @since 08/11/2011
+ * @since 11/02/2012
  * @desc Classe représentant une ProduitVO
  */
 class ProduitVO  extends DataTemplate
@@ -65,6 +65,12 @@ class ProduitVO  extends DataTemplate
 	* @desc StockInitial de la ProduitVO
 	*/
 	protected $mStockInitial;
+
+	/**
+	* @var tinyint(4)
+	* @desc Type de la ProduitVO
+	*/
+	protected $mType;
 
 	/**
 	* @var int(11)
@@ -214,6 +220,24 @@ class ProduitVO  extends DataTemplate
 	*/
 	public function setStockInitial($pStockInitial) {
 		$this->mStockInitial = $pStockInitial;
+	}
+
+	/**
+	* @name getType()
+	* @return tinyint(4)
+	* @desc Renvoie le membre Type de la ProduitVO
+	*/
+	public function getType() {
+		return $this->mType;
+	}
+
+	/**
+	* @name setType($pType)
+	* @param tinyint(4)
+	* @desc Remplace le membre Type de la ProduitVO par $pType
+	*/
+	public function setType($pType) {
+		$this->mType = $pType;
 	}
 
 	/**

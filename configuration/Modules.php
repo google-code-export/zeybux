@@ -22,4 +22,5 @@ define("MOD_GESTION_CAISSE", "GestionCaisse");
 define("MOD_COMPTE_SOLIDAIRE", "CompteSolidaire");
 define("MOD_GESTION_PRODUIT", "GestionProduit");
 define("MOD_GESTION_COMPTES_SPECIAUX", "GestionComptesSpeciaux");
+define("MOD_GESTION_ABONNEMENT", "GestionAbonnement");
 ?>

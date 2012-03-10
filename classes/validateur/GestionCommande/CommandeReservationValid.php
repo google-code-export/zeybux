@@ -327,3 +327,4 @@ class CommandeReservationValid
 		return $lVr;
 	}
 }
+?>

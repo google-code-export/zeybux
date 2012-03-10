@@ -273,3 +273,4 @@ class CategorieProduitValid
 		return $lVr;
 	}
 }
+?>

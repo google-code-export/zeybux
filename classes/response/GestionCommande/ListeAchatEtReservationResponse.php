@@ -84,3 +84,4 @@ class ListeAchatEtReservationResponse extends DataTemplate
 		array_push($this->mListeAchatEtReservation,$pListeAchatEtReservation);
 	}
 }
+?>

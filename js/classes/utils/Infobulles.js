@@ -2,9 +2,9 @@
 	this.init = function() {
 		$(".com-infobulle").remove();
 		$(".ui-state-error").removeClass("ui-state-error");
-		$("#contenu_message_information").text("")
+		$("#contenu_message_information").text("");
 		$("#widget_message_information").hide();
-	}
+	};
 	
 	this.generation = function(pData,pNomObj) {	
 		var lMessageInformation = false;
@@ -65,13 +65,13 @@
 			}
 		}	
 		$('body').append(TemplateData.infobulle.template(lData));
-	}
+	};
 		
 	this.generer = function(pData,pNomObj) {
 		this.init();
 		if(!pNomObj) {lNomObj = '';} else {lNomObj = pNomObj;}
 		this.generation(pData,lNomObj);
-	}
+	};
 	
 	this.afficher = function(pInput) {
 		var infobulle;				
@@ -101,5 +101,5 @@
 		}
 		
 		pInput.hover( function() {apparition();}, function() {disparition();});
-	}	
+	};
 }

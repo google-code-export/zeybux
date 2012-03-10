@@ -160,3 +160,4 @@ class ProduitsBonDeCommandeValid
 		return $lVr;
 	}
 }
+?>

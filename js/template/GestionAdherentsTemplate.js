@@ -197,7 +197,13 @@
 	this.listeAdherentVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Adhérents</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Adhérents" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
+						"<span class=\"ui-icon ui-icon-plusthick\">" +
+						"</span>" +
+					"</span>" +
+				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	
 			"</div>" +
 		"</div>";

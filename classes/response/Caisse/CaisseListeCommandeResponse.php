@@ -84,3 +84,4 @@ class CaisseListeCommandeResponse extends DataTemplate
 		array_push($this->mListeCommande,$pListeCommande);
 	}
 }
+?>

@@ -80,3 +80,4 @@ class ExportBonCommandeValid
 		return $lVr;
 	}
 }
+?>

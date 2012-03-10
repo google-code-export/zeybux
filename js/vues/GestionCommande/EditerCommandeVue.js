@@ -30,7 +30,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
@@ -56,24 +56,7 @@
 		lData.heureMarcheFin = pResponse.marche.dateMarcheFin.extractDbHeure();
 		lData.minuteMarcheFin = pResponse.marche.dateMarcheFin.extractDbMinute();
 		lData.archive = pResponse.marche.archive;
-		
-		//lData.pdtCommande = [];
-		
-		/*$.each(pResponse.marche.produits,function() {
-			
-			var lProduit = {};
-			lProduit.proId = this.id;
-			lProduit.nproNom = this.nom;
-			lProduit.quantiteCommande = parseFloat(this.stockInitial) - parseFloat(this.stockReservation);
-			lProduit.quantiteInit = parseFloat(this.stockInitial);
-			lProduit.unite = this.unite;
-			
-			that.mNiveau.push({'id':this.id,
-								'quantite':parseInt(lProduit.quantiteCommande*100/lProduit.quantiteInit)});
-			
-			lData.pdtCommande.push(lProduit);
-		});*/
-		
+				
 		var lAffichageMarche = [];
 		$.each(pResponse.marche.produits,function() {
 			var lIdFerme = this.ferId;
@@ -189,15 +172,9 @@
 		var lTemplate = lGestionCommandeTemplate.editerCommandePage;
 		
 		var lHtml = that.affect($(lTemplate.template(lData)));
-		
-		// Si il n'y a pas de résa on affiche pas le tableau
-	/*	if(!(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null)) {			
-			lHtml.find('#edt-com-recherche').hide();
-			lHtml.find('#edt-com-liste-resa').replaceWith(lGestionCommandeTemplate.listeReservationVide);
-		}*/
-		
+				
 		$('#contenu').replaceWith(lHtml);	
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -218,7 +195,7 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectInformation(pData);
 		return pData;
-	}
+	};
 	
 	this.affectInformation = function(pData) {
 		var that = this;
@@ -226,12 +203,12 @@
 			that.construct(that.mParam);
 		});		
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -239,36 +216,23 @@
 		  });
 		pData.find("#filter-form").submit(function () {return false;});
 		return pData;
-	}
-	
-	/*this.affectNiveau = function(pData) {		
-		$(this.mNiveau).each(function() {
-			var lId = this.id;
-			var lQuantite = this.quantite;
-			if(lQuantite < 1) { lQuantite = 1; }
-			pData.find('#pdt-' + lId).progressbar({
-				value:lQuantite
-			});
-		});
-		return pData;
-	}*/
-	
+	};
+		
 	this.affectReservation = function(pData) {
 		var that = this;
 		pData.find('.edt-com-reservation-ligne').click(function() {
 			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectModifier = function(pData) {	
 		var that = this;
 		pData.find('#btn-modif-com').click(function() {
-			//ModifierCommandeVue({"id_commande":that.mIdMarche});
 			that.dialogModifierInformationMarche();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectBonDeCommande = function(pData) {
 		var that = this;
@@ -276,7 +240,7 @@
 			BonDeCommandeVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectBonDeLivraison = function(pData) {
 		var that = this;
@@ -284,7 +248,7 @@
 			BonDeLivraisonVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDupliquerMarche = function(pData) {
 		var that = this;
@@ -292,7 +256,7 @@
 			DupliquerMarcheVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectArchive = function(pData) {
 		if(this.mMarche.archive == 0) {
@@ -304,7 +268,7 @@
 		pData = this.affectPlay(pData);
 		pData = this.affectCloturer(pData);
 		return pData;
-	}
+	};
 	
 	this.modifierArchive = function() {
 		if(this.mMarche.archive == 0) {
@@ -314,7 +278,7 @@
 			$('.marche-archive-0').hide();
 			$('.marche-archive-1').show();
 		}
-	}
+	};
 	
 	this.affectCloturer = function(pData) {
 		var that = this;
@@ -338,9 +302,6 @@
 									Infobulle.init(); // Supprime les erreurs
 									if(lResponse) {
 										if(lResponse.valid) {
-											/*var lGestionCommandeTemplate = new GestionCommandeTemplate();
-											var lTemplate = lGestionCommandeTemplate.cloturerCommandeSucces;
-											$('#contenu').replaceWith(lTemplate.template(lResponse));*/
 											
 											// Message de confirmation
 											var lVr = new TemplateVR();
@@ -372,7 +333,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectPause = function(pData) {
 		var that = this;
@@ -405,7 +366,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 	
 	this.affectPlay = function(pData) {
 		var that = this;
@@ -438,7 +399,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 	
 	this.affectExportReservation = function(pData) {		
 		var that = this;
@@ -488,7 +449,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectListeAchatEtReservation = function(pData) {
 		var that = this;
@@ -497,7 +458,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	
 	this.affectAchatEtReservation = function(pData) {
@@ -506,7 +467,7 @@
 		pData = this.affectAchat(pData);
 		pData = this.affectExportDataEtReservation(pData);
 		return pData;
-	}
+	};
 	
 	this.affectAchat = function(pData) {
 		var that = this;
@@ -514,7 +475,7 @@
 			AchatAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.afficherAchatEtReservation = function() {
 		var that = this;
@@ -548,7 +509,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.affectExportDataEtReservation = function(pData) {		
 		var that = this;
@@ -598,7 +559,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectListeReservation = function(pData) {
 		var that = this;
@@ -607,7 +568,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	this.affectReservationAction = function(pData) {
 		pData = this.affectTri(pData);
@@ -615,7 +576,7 @@
 		pData = this.affectExportReservation(pData);
 		pData = this.affectReservation(pData);
 		return pData;
-	}
+	};
 
 	this.afficherListeReservation = function() {
 		var that = this;
@@ -651,7 +612,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.affectMajListeFerme = function(pData) {
 		var that = this;
@@ -659,13 +620,13 @@
 		var lTemplate = lGestionCommandeTemplate.editerMarcheListeProduit;
 		pData.find("#liste-ferme").replaceWith(that.affectGestionProduit($(lTemplate.template(that.mListeFerme))));
 		return pData;
-	}
+	};
 	
 	this.affectGestionProduit = function(pData) {
 		pData = this.affectModifierProduit(pData);
 		pData = this.affectSupprimerProduit(pData);
 		return pData;		
-	}
+	};
 	
 	this.affectModifierProduit = function(pData) {
 		var that = this;
@@ -673,11 +634,11 @@
 			that.dialogModifierProduit($(this).attr("id-produit"));
 		});
 		return pData;	
-	}
+	};
 	
 	this.dialogModifierProduit = function(pId) {
 		var that = this;
-		var lParam = {fonction:"detailProduitMarche",id:pId}
+		var lParam = {fonction:"detailProduitMarche",id:pId};
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 				function (lResponse) {		
 					if(lResponse) {
@@ -772,7 +733,7 @@
 					}
 				},"json"
 		);		
-	}
+	};
 	
 	this.affectPrixEtStock = function(pData) {
 		pData = gCommunVue.comHoverBtn(pData);
@@ -781,7 +742,7 @@
 		pData = this.affectAjoutLot(pData);
 		pData = this.affectLimiteStock(pData);
 		return pData;		
-	}
+	};
 	
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-stock-choix]').change(function() {
@@ -799,7 +760,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.affectAjoutLot = function(pData) {
 		var that = this;
@@ -810,7 +771,7 @@
 			}
 		});		
 		return pData;		
-	}
+	};
 	
 	this.ajoutLot = function() {
 		var lVo = new ModeleLotVO();
@@ -837,14 +798,14 @@
 		} else {
 			Infobulle.generer(lVr,'pro-lot-');
 		}
-	}
+	};
 
 	this.affectLot = function(pData) {
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectAjoutLotGestion(pData);
 		return pData;
-	}
+	};
 	
 	this.affectAjoutLotGestion = function(pData) {
 		var that = this;
@@ -875,7 +836,7 @@
 			}
 		});
 		return pData;		
-	}
+	};
 	
 	this.majUnite = function() {
 		var lOk = true;
@@ -906,7 +867,7 @@
 			Infobulle.generer(lVR,"");
 		}
 		return lOk;
-	}
+	};
 	
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
@@ -916,7 +877,7 @@
 		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
 
 		this.mEditionLot = true;
-	}
+	};
 	
 	this.ajoutLotValiderModification = function(pId) {
 		var lVo = new ModeleLotVO();
@@ -941,16 +902,16 @@
 		} else {
 			Infobulle.generer(lVr,'pro-lot-' + pId + '-');
 		}
-	}
+	};
 	
 	this.ajoutLotAnnulerModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
 		this.mEditionLot = false;
-	}
+	};
 	
 	this.ajoutLotSupprimer = function(pId) {
 		$("#ligne-lot-" + pId).remove();
-	}
+	};
 	
 	this.modifierProduit = function(pDialog) {
 		var that = this;
@@ -1053,7 +1014,7 @@
 			lVR.log.erreurs.push(erreur);
 			Infobulle.generer(lVR,"");
 		}
-	}
+	};
 	
 	this.affectSupprimerProduit = function(pData) {
 		var that = this;
@@ -1066,7 +1027,7 @@
 			}			
 		});
 		return pData;	
-	}
+	};
 	
 	this.dialogConfirmationSupprimerProduit = function(pId) {
 		var that = this;
@@ -1087,11 +1048,11 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 		});	
-	}
+	};
 	
 	this.supprimerProduit = function(pId) {
 		var that = this;
-		var lParam = {fonction:"supprimerProduitMarche",id:pId}
+		var lParam = {fonction:"supprimerProduitMarche",id:pId};
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 				function (lResponse) {		
 					if(lResponse) {
@@ -1121,7 +1082,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.dialogModifierInformationMarche = function() {
 		var that = this;
@@ -1160,7 +1121,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 		});	
-	}
+	};
 	
 	this.modifierInformationMarche = function(pDialog) {
 		var that = this;
@@ -1174,9 +1135,9 @@
 		lVo.dateMarcheFin = pDialog.find(':input[name=date-debut]').val().dateFrToDb();
 		lVo.timeMarcheFin = pDialog.find(':input[name=heure-fin]').val() + ':' + pDialog.find(':input[name=minute-fin]').val() + ':00';
 		lVo.dateDebutReservation = pDialog.find(':input[name=date-debut-reservation]').val().dateFrToDb();
-		lVo.timeDebutReservation = pDialog.find(':input[name=heure-debut-reservation]').val() + ':' + pDialog.find(':input[name=minute-debut-reservation]').val() + ':00'
+		lVo.timeDebutReservation = pDialog.find(':input[name=heure-debut-reservation]').val() + ':' + pDialog.find(':input[name=minute-debut-reservation]').val() + ':00';
 		lVo.dateFinReservation = pDialog.find(':input[name=date-fin-reservation]').val().dateFrToDb();
-		lVo.timeFinReservation = pDialog.find(':input[name=heure-fin-reservation]').val() + ':' + pDialog.find(':input[name=minute-fin-reservation]').val() + ':00'
+		lVo.timeFinReservation = pDialog.find(':input[name=heure-fin-reservation]').val() + ':' + pDialog.find(':input[name=minute-fin-reservation]').val() + ':00';
 				
 		var lValid = new MarcheValid();
 		var lVR = lValid.validUpdateInformation(lVo);
@@ -1247,7 +1208,7 @@
 			// Affiche les erreurs
 			Infobulle.generer(lVR,"marche-");						
 		}
-	}
+	};
 	
 	this.affectDialogAjoutProduit = function(pData) {
 		var that = this;
@@ -1287,7 +1248,7 @@
 			);			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectAjoutProduitSelectFerme = function(pData) {
 		var that = this;
@@ -1348,7 +1309,7 @@
 			} 		
 		});
 		return pData;
-	}
+	};
 	
 	this.affectAjoutProduitSelectCategorie = function(pData) {
 		var that = this;
@@ -1368,7 +1329,7 @@
 				
 		});
 		return pData;
-	}
+	};
 	
 	this.affectAjoutProduitSelectProduit = function(pData) {
 		var that = this;
@@ -1426,7 +1387,7 @@
 			}			
 		});
 		return pData;
-	}
+	};
 	
 	this.ajouterProduit = function(pDialog) {
 		var that = this;
@@ -1524,25 +1485,7 @@
 							);
 						} else {
 							Infobulle.generer(lVr,'pro-');
-						}
-						
-						
-						
-						/*ar lValid = new ProduitMarcheValid();
-						var lVr = lValid.validAjout(lVoProduit);
-						
-						if(lVr.valid) {	
-							Infobulle.init();
-							this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
-							this.mMarche.produits[lIdNomProduit] = lVoProduit;
-			
-							this.mNbProduit++;
-							that.majListeFerme();
-							
-							pDialog.dialog('close');
-						} else {
-							Infobulle.generer(lVr,'pro-');
-						}*/
+						}						
 					}
 				}
 			}
@@ -1557,7 +1500,7 @@
 			lVR.log.erreurs.push(erreur);
 			Infobulle.generer(lVR,"");
 		}
-	}
+	};
 
 	this.construct(pParam);
 }

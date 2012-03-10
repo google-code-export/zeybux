@@ -21,14 +21,14 @@
 				  	}
 				},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
 		var lIdentificationTemplate = new IdentificationTemplate();	
 		var lTemplate = lIdentificationTemplate.admin;		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse.menu))));
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectVues(pData);		
@@ -97,16 +97,25 @@
 				return false;
 			});
 			
-
 			pData.find('#menu-GestionComptesSpeciaux-ListeCompte').click(function() {
 				ListeComptesSpeciauxVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionAbonnement-ListeProduit').click(function() {
+				ListeProduitVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionAbonnement-ListeAbonne').click(function() {
+				ListeAbonneVue();
 				return false;
 			});
 				
 			return pData;
 		}
 		return null;
-	}
+	};
 	
 	this.construct(pParam);
 }	

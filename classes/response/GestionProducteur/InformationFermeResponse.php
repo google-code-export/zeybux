@@ -141,3 +141,4 @@ class InformationFermeResponse extends DataTemplate
 		array_push($this->mTypePaiement,$pTypePaiement);
 	}
 }
+?>

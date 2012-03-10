@@ -726,3 +726,4 @@ class ModifierMarcheValid
 		return $lTestId;
 	}
 }
+?>

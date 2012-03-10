@@ -53,7 +53,7 @@ function TemplateData() {
 			break;
 		}
 		return pHtml;
-	}
+	};
 	
 	this.identifier = function(pObj) {
 		var lVo = new IdentificationVO();
@@ -87,7 +87,7 @@ function TemplateData() {
 		} else {
 			Infobulle.generer(lVr);
 		}
-	}
+	};
 };String.prototype.checkLength = function(min,max) {
 	return !(this.toString().length > max || this.toString().length < min);
 }
@@ -266,7 +266,7 @@ function TemplateData() {
 		} else {
 			return true;
 		}
-    }
+    };
     
 /*
  * Plugin jquery d'édition de formulaire
@@ -286,7 +286,7 @@ function TemplateData() {
 			this.after("<span name=\"" + this.attr('name') + "\">" + lVal + "</span>");
 		}
 		return this;
-    }
+    };
     
 /*
  * Plugin jquery d'édition de formulaire
@@ -296,7 +296,7 @@ function TemplateData() {
     	this.show();
     	this.next().hide();
 		return this;
-    }    
+    };    
 })(jQuery);
 
 //Function to get the Max value in Array
@@ -317,7 +317,7 @@ function getDateAujourdhuiDb() {
 	lJour = lDate.getDate();
 	if (lJour < 10) {lJour = '0' + lJour;}
 	return lAnnee + '-' + lMois + '-' + lJour;	
-}
+};
 
 function getTimeAujourdhuiDb() {
 	lDate = new Date();	
@@ -328,15 +328,15 @@ function getTimeAujourdhuiDb() {
 	lSeconde = lDate.getSeconds();
 	if (lSeconde < 10) {lSeconde = '0' + lSeconde;}	
 	return lHeure + ':' + lMinute + ':' + lSeconde;
-}
+};
 
 function getDateTimeAujourdhuiDb() {
 	return getDateAujourdhuiDb() + ' ' + getTimeAujourdhuiDb();
-}
+};
 
 String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) {
 	return parseFloat(this).nombreFormate(decimales, signe, separateurMilliers);
-}
+};
 
 
 function differenceDateTime(pDate1,pDate2) {
@@ -396,15 +396,15 @@ function differenceDateTime(pDate1,pDate2) {
 	if(lNegatif) {lRetour = '-' + lRetour;}
 	
 	return parseFloat(lRetour);
-}
+};
 
 function htmlEncode(value){
   return $('<div/>').text(value).html();
-}
+};
 
 function htmlDecode(value){
   return $('<div/>').html(value).text();
-}
+};
 
 	
 /*
@@ -483,7 +483,7 @@ function htmlDecode(value){
 		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
 	 }
 	 return _sRetour;
-}
+};
     
     
 /** 
@@ -577,9 +577,9 @@ sortABC = function(a, b){
 	this.init = function() {
 		$(".com-infobulle").remove();
 		$(".ui-state-error").removeClass("ui-state-error");
-		$("#contenu_message_information").text("")
+		$("#contenu_message_information").text("");
 		$("#widget_message_information").hide();
-	}
+	};
 	
 	this.generation = function(pData,pNomObj) {	
 		var lMessageInformation = false;
@@ -640,13 +640,13 @@ sortABC = function(a, b){
 			}
 		}	
 		$('body').append(TemplateData.infobulle.template(lData));
-	}
+	};
 		
 	this.generer = function(pData,pNomObj) {
 		this.init();
 		if(!pNomObj) {lNomObj = '';} else {lNomObj = pNomObj;}
 		this.generation(pData,lNomObj);
-	}
+	};
 	
 	this.afficher = function(pInput) {
 		var infobulle;				
@@ -676,7 +676,7 @@ sortABC = function(a, b){
 		}
 		
 		pInput.hover( function() {apparition();}, function() {disparition();});
-	}	
+	};
 }String.prototype.dateFrToDb = function() {
 	var pDate = this.toString();
 	if(pDate !== '') {
@@ -779,6 +779,7 @@ String.prototype.extractDbMinute = function() {
 	this.description = '';
 };function NomProduitCatalogueVO() {
 	this.id = '';
+	this.numero = '';
 	this.idNomProduit = '';
 	this.idCategorie = '';
 	this.nom = '';
@@ -991,6 +992,7 @@ function CompteZeybuModifierVirementVO() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.numero = new VRelement();
 	this.idNomProduit = new VRelement();
 	this.idCategorie = new VRelement();
 	this.nom = new VRelement();
@@ -1355,7 +1357,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) {
 		var lVR = new CaracteristiqueVR();
@@ -1370,7 +1372,7 @@ function CompteZeybuModifierVirementVR() {
 			return this.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 };function ListeReservationCommandeValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ListeReservationCommandeVR();
@@ -1655,7 +1657,7 @@ function CompteZeybuModifierVirementVR() {
 		}		
 		
 		return lVR;
-	}
+	};
 	
 	this.validAjoutInvite = function(pData) { 
 		var lVR = new AchatCommandeVR();
@@ -1735,13 +1737,13 @@ function CompteZeybuModifierVirementVR() {
 		
 		if(pData.solde != 0 ) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_244_CODE;erreur.message = ERR_244_MSG;lVR.log.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new AchatCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1788,7 +1790,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function DetailCommandeValid() { 
 	this.validAjout = function(pData) { 
@@ -1894,6 +1896,7 @@ function CompteZeybuModifierVirementVR() {
 	this.validAjout = function(pData) { 
 		var lVR = new NomProduitCatalogueVR();
 		//Tests Techniques
+		if(!pData.numero.checkLength(0,50)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.numero.erreurs.push(erreur);}
 		if(!pData.idCategorie.checkLength(0,11)) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCategorie.erreurs.push(erreur);}
 		if(!pData.idCategorie.isInt()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCategorie.erreurs.push(erreur);}
 		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.nom.erreurs.push(erreur);}
@@ -1947,6 +1950,7 @@ function CompteZeybuModifierVirementVR() {
 	this.validUpdate = function(pData) { 
 		var lVR = new NomProduitCatalogueVR();
 		//Tests Techniques
+		if(!pData.numero.checkLength(0,50)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.numero.erreurs.push(erreur);}
 		if(!pData.idNomProduit.checkLength(0,11)) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNomProduit.erreurs.push(erreur);}
 		if(!pData.idNomProduit.isInt()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idNomProduit.erreurs.push(erreur);}
 		if(!pData.idCategorie.checkLength(0,11)) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCategorie.erreurs.push(erreur);}
@@ -1960,6 +1964,7 @@ function CompteZeybuModifierVirementVR() {
 		
 		if(lVR.valid) {
 			//Tests Fonctionnels
+			if(pData.numero.isEmpty()) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.numero.erreurs.push(erreur);}
 			if(pData.idNomProduit.isEmpty()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNomProduit.erreurs.push(erreur);}
 			if(pData.idCategorie.isEmpty()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
 			if(pData.idCategorie == 0) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
@@ -2418,7 +2423,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 };function ProduitBonDeLivraisonValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitBonDeLivraisonVR();
@@ -2516,13 +2521,13 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new AdherentVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -2575,7 +2580,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 	
 	this.validUpdateInformation = function(pData) {
 		var lVR = new AdherentVR();
@@ -2611,7 +2616,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 };function MarcheValid() { 
 	this.validAjout = function(pData) { 

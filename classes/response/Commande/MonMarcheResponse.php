@@ -118,3 +118,4 @@ class MonMarcheResponse extends DataTemplate
 		array_push($this->mMarches,$pMarches);
 	}
 }
+?>

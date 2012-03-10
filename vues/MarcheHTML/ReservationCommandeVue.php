@@ -117,17 +117,17 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 								}
 								
 								if($lErreur) {
-									foreach($lProduit["lot"] as $lLot) {
-										if(isset($lLignesErr["commandes" . $lLot["dcomId"] . "stoQuantite"])) { 
+									//foreach($lProduit["lot"] as $lLot) {
+										if(isset($lLignesErr["commandes" . $lProduit["proId"] . "stoQuantite"])) { 
 											$lProduit['class-err']= "ui-state-error";
 											$lProduit['class-err-msg'] = "ui-state-highlight message-erreur-champ";
-											$lProduit['err'] = $lLignesErr["commandes" .  $lLot["dcomId"] . "stoQuantite"];
-										} else if(isset($lLignesErr["commandes" . $lLot["dcomId"] . "stoIdProduit"])) {
+											$lProduit['err'] = $lLignesErr["commandes" . $lProduit["proId"] . "stoQuantite"];
+										} else if(isset($lLignesErr["commandes" . $lProduit["proId"] . "stoIdProduit"])) {
 											$lProduit['class-err']= "ui-state-error";
 											$lProduit['class-err-msg'] = "ui-state-highlight message-erreur-champ";
-											$lProduit['err'] = $lLignesErr["commandes" .  $lLot["dcomId"] . "stoIdProduit"];
+											$lProduit['err'] = $lLignesErr["commandes" . $lProduit["proId"] . "stoIdProduit"];
 										}
-									}
+									//}
 								}
 								
 								if(!empty($lProduit["lot"])) {

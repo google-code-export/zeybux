@@ -131,19 +131,19 @@ class CommandeDetailReservationValid
 					$lQte = $pData['stoQuantite'] * -1;
 					if($lPdt->getMaxProduitCommande() != -1 && $lQte > $lPdt->getMaxProduitCommande()) {
 						$lVr->setValid(false);
-						$lVr->getStoIdProduit()->setValid(false);
+						$lVr->getStoQuantite()->setValid(false);
 						$lErreur = new VRerreur();
 						$lErreur->setCode(MessagesErreurs::ERR_217_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_217_MSG);
-						$lVr->getStoIdProduit()->addErreur($lErreur);
+						$lVr->getStoQuantite()->addErreur($lErreur);
 					}
 					if($lPdt->getStockInitial() != -1 && $lQte > $lPdt->getStockReservation()) {
 						$lVr->setValid(false);
-						$lVr->getStoIdProduit()->setValid(false);
+						$lVr->getStoQuantite()->setValid(false);
 						$lErreur = new VRerreur();
 						$lErreur->setCode(MessagesErreurs::ERR_218_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_218_MSG);
-						$lVr->getStoIdProduit()->addErreur($lErreur);
+						$lVr->getStoQuantite()->addErreur($lErreur);
 					}
 				}
 			}
@@ -324,24 +324,33 @@ class CommandeDetailReservationValid
 					$lQte = $pData['stoQuantite'] * -1;
 					if($lPdt->getMaxProduitCommande() != -1 && $lQte > $lPdt->getMaxProduitCommande()) {
 						$lVr->setValid(false);
-						$lVr->getStoIdProduit()->setValid(false);
+						$lVr->getStoQuantite()->setValid(false);
 						$lErreur = new VRerreur();
 						$lErreur->setCode(MessagesErreurs::ERR_217_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_217_MSG);
-						$lVr->getStoIdProduit()->addErreur($lErreur);
+						$lVr->getStoQuantite()->addErreur($lErreur);
 					}
 					
 					$StockService = new StockService();
 					$lStocks = $StockService->getDetailReservation($pData['idOperation']);
-					$lStock = $lStocks[0];					
-					$lQuantiteReservation = $lStock->getQuantite();					
+					
+					$lContinu = true;
+					$lQuantiteReservation = 0;
+					$i = 0;
+					while($lContinu && isset($lStocks[$i])) {
+						if(	$lStocks[$i]->getIdDetailCommande() == $pData['stoIdDetailCommande']) {
+							$lQuantiteReservation = $lStocks[$i]->getQuantite();
+							$lContinu = false;
+						}
+						$i++;
+					}
 					if($lPdt->getStockInitial() != -1 && $lQte > ($lPdt->getStockReservation() - $lQuantiteReservation)) {
 						$lVr->setValid(false);
-						$lVr->getStoIdProduit()->setValid(false);
+						$lVr->getStoQuantite()->setValid(false);
 						$lErreur = new VRerreur();
 						$lErreur->setCode(MessagesErreurs::ERR_218_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_218_MSG);
-						$lVr->getStoIdProduit()->addErreur($lErreur);
+						$lVr->getStoQuantite()->addErreur($lErreur);
 					}
 					
 					// La quantité doit être un multiple du lot
@@ -359,3 +368,4 @@ class CommandeDetailReservationValid
 		return $lVr;
 	}
 }
+?>

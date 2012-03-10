@@ -108,3 +108,4 @@ class ListeAdherentCommandeResponse extends DataTemplate
 		$this->mNumeroMarche = $pNumeroMarche;
 	}
 }
+?>

@@ -87,12 +87,12 @@ if($lTraitementOK) {
 	include("./Maj/deploiementFile.php");
 ?>
 			</div>
-			<div class="detail_action com-widget-window  ui-widget-content menu-lien btn-menu ui-corner-all com-float-left">
-				<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Ouverture des accès</div>
-				<a id="lien_btn_fermer_acces" href="./index.php?m=Maj&amp;e=5">
-					<button class="com-btn-edt ui-state-default ui-corner-all com-button com-center">Ouvrir</button>
-				</a>
-			</div>
+				<div class="detail_action com-widget-window  ui-widget-content menu-lien btn-menu ui-corner-all com-float-left">
+					<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Ouverture des accès</div>
+					<a id="lien_btn_fermer_acces" href="./index.php?m=Maj&amp;e=5">
+						<button class="com-btn-edt ui-state-default ui-corner-all com-button com-center">Ouvrir</button>
+					</a>
+				</div>
 <?php } else { ?>
 			</div>
 <?php }

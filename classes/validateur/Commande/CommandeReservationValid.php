@@ -120,12 +120,14 @@ class CommandeReservationValid
 
 					if($lVr->getValid()) {
 						foreach($pData['detailReservation'] as $lReservation) {
+							$lDetailMarche = DetailMarcheViewManager::selectByLot($lReservation["stoIdDetailCommande"]);
+							$lIdProduit = $lDetailMarche[0]->getProId();
 							$lReservation["idOperation"] = $lIdOperation;
 							$lVrReservation = CommandeDetailReservationValid::validAjout($lReservation);
 							if(!$lVrReservation->getValid()){$lVr->setValid(false);}
-							if(isset($lReservation["stoIdDetailCommande"])) {
+							if(isset($lIdProduit)) {
 								$lCommandes = $lVr->getCommandes();
-								$lCommandes[$lReservation["stoIdDetailCommande"]] = $lVrReservation;
+								$lCommandes[$lIdProduit] = $lVrReservation;
 								$lVr->setCommandes($lCommandes);
 							}
 						}
@@ -333,13 +335,16 @@ class CommandeReservationValid
 					}
 					if($lVr->getValid()) {
 						foreach($pData['detailReservation'] as $lReservation) {
+							$lDetailMarche = DetailMarcheViewManager::selectByLot($lReservation["stoIdDetailCommande"]);
+							$lIdProduit = $lDetailMarche[0]->getProId();		
+							
 							$lReservation["idOperation"] = $lIdOperation;
 							$lVrReservation = CommandeDetailReservationValid::validUpdate($lReservation);
 							if(!$lVrReservation->getValid()){$lVr->setValid(false);}
 							//$lVr->addCommandes($lVrReservation);
-							if(isset($lReservation["stoIdDetailCommande"])) {
+							if(isset($lIdProduit)) {
 								$lCommandes = $lVr->getCommandes();
-								$lCommandes[$lReservation["stoIdDetailCommande"]] = $lVrReservation;
+								$lCommandes[$lIdProduit] = $lVrReservation;
 								$lVr->setCommandes($lCommandes);
 							}
 						}
@@ -526,3 +531,4 @@ class CommandeReservationValid
 		return $lVr;
 	}
 }
+?>

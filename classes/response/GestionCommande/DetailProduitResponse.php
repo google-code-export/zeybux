@@ -98,3 +98,4 @@ class DetailProduitResponse extends DataTemplate
 		$this->mProduit = $pProduit;
 	}
 }
+?>
