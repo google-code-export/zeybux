@@ -37,6 +37,8 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ListeProduitRespo
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ModelesLotResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AutorisationSupprimerLotResponse.php" );
 
 
 /**
@@ -60,6 +62,22 @@ class EditerCommandeControleur
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
 			//$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
+			
+			if(is_null($lMarche->getId())) { // Si aucun produit retourne les infos du marché
+				$lDetailMarche = $lMarcheService->getInfoMarche($lIdMarche);
+				
+				$lMarche = new MarcheVO();				
+				// Information du marche
+				$lMarche->setId($lDetailMarche->getId());
+				$lMarche->setNumero($lDetailMarche->getNumero());
+				$lMarche->setNom($lDetailMarche->getNom());
+				$lMarche->setDescription($lDetailMarche->getDescription());
+				$lMarche->setDateMarcheDebut($lDetailMarche->getDateMarcheDebut());
+				$lMarche->setDateMarcheFin($lDetailMarche->getDateMarcheFin());
+				$lMarche->setDateDebutReservation($lDetailMarche->getDateDebutReservation());
+				$lMarche->setDateFinReservation($lDetailMarche->getDateFinReservation());
+				$lMarche->setArchive($lDetailMarche->getArchive());
+			}
 
 			$lResponse = new EditerCommandeResponse();
 			$lResponse->setMarche($lMarche);
@@ -616,8 +634,8 @@ class EditerCommandeControleur
 		$lVr = ProduitMarcheValid::validUpdate($pParam);
 		if($lVr->getValid()) {			
 			$lMarcheService = new MarcheService();
-			$lProduit = ProduitCommandeToVO::convertFromArray($pParam);			
-			$lMarcheService->updateProduit($lProduit);
+			$lProduit = ProduitCommandeToVO::convertFromArray($pParam);
+			$lMarcheService->updateProduit($lProduit,$pParam["lotRemplacement"]);
 		}
 		return $lVr;
 	}
@@ -674,9 +692,29 @@ class EditerCommandeControleur
 		if($lVr->getValid()) {
 			$lId = $pParam['idNomProduit'];			
 			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
+			$lAbonnementService = new AbonnementService();
 			
 			$lResponse = new ModelesLotResponse();
 			$lResponse->setModelesLot( $lModelesLot );
+			$lResponse->setDetailAbonnement( $lAbonnementService->getProduitByIdNom($lId) );
+			return $lResponse;
+		}		
+		return $lVr;
+	}
+	
+	/**
+	* @name autorisationSupprimerLot($pParam)
+	* @return DetailProduitResponse
+	* @desc Retourne les Modèles de lot d'un produit
+	*/
+	public function autorisationSupprimerLot($pParam) {
+		$lVr = DetailCommandeValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lId = $pParam['id'];
+			$lReservationService = new ReservationService();
+			
+			$lResponse = new AutorisationSupprimerLotResponse();
+			$lResponse->setAutorise( !$lReservationService->reservationSurLot($lId));
 			return $lResponse;
 		}		
 		return $lVr;

@@ -31,6 +31,12 @@ class ModelesLotResponse extends DataTemplate
 	protected $mModelesLot;
 	
 	/**
+	* @var ProduitAbonnementVO
+	* @desc DetailAbonnement de la ModelesLotResponse
+	*/
+	protected $mDetailAbonnement;
+	
+	/**
 	* @name ModelesLotResponse()
 	* @desc Le constructeur
 	*/
@@ -72,6 +78,24 @@ class ModelesLotResponse extends DataTemplate
 	*/
 	public function setModelesLot($pModelesLot) {
 		$this->mModelesLot = $pModelesLot;
+	}
+	
+	/**
+	* @name getDetailAbonnement()
+	* @return ProduitAbonnementVO
+	* @desc Renvoie le membre DetailAbonnement de la DetailAbonnementResponse
+	*/
+	public function getDetailAbonnement(){
+		return $this->mDetailAbonnement;
+	}
+
+	/**
+	* @name setDetailAbonnement($pDetailAbonnement)
+	* @param ProduitAbonnementVO
+	* @desc Remplace le membre DetailAbonnement de la DetailAbonnementResponse par $pDetailAbonnement
+	*/
+	public function setDetailAbonnement($pDetailAbonnement) {
+		$this->mDetailAbonnement = $pDetailAbonnement;
 	}
 }
 ?>

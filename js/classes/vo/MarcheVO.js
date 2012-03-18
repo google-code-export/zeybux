@@ -13,4 +13,5 @@
 	this.timeFinReservation = '';
 	this.archive = '';
 	this.produits = new Array();
+	this.produitsAbonnement = new Array();
 }

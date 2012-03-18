@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VO . "MarcheVO.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeReservationProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteNomProduitViewManager.php");
+include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php");
 
 //include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
@@ -22,6 +23,8 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 /**
  * @name MarcheService
  * @author Julien PIERRE
@@ -56,6 +59,9 @@ class MarcheService
 
 		// Le détail du marché
 		if($lIdMarche != null) {
+			$lReservationAbonnement = array();
+			$lAbonnementService = new AbonnementService();
+			
 			$lStockService = new StockService();
 			foreach($pMarche->getProduits() as $lNouveauProduit) {
 				//$lProducteur = ProducteurManager::select($lNouveauProduit->getIdProducteur());
@@ -82,6 +88,8 @@ class MarcheService
 					$lProduit->setStockReservation($lNouveauProduit->getQteRestante());
 					$lProduit->setStockInitial($lNouveauProduit->getQteRestante());
 				}
+				$lProduit->setType($lNouveauProduit->getType());
+				
 				$lIdProduit = ProduitManager::insert($lProduit);
 
 				//Insertion des lots
@@ -101,7 +109,54 @@ class MarcheService
 				$lStock->setIdDetailCommande($lDcomId);
 				//$lStock->setIdOperation(0);
 				$lStockService->set($lStock);
-			}	
+				
+				
+				// Ajout des réservations pour abonnement
+				if($lProduit->getType() == 2) {
+					$lIdNomProduit = $lNouveauProduit->getIdNom();
+					$lAbonnes = $lAbonnementService->getAbonnesByIdNomProduit($lIdNomProduit);
+					if(!is_null($lAbonnes[0]->getCptAboIdProduitAbonnement())) { // Si il y a des abonnés
+						foreach($lAbonnes as $lAbonne) {
+							// Pas de suspension de l'abonnement
+							if(	(!	(TestFonction::dateTimeEstPLusGrandeEgale($pMarche->getDateMarcheDebut(),$lAbonne->getCptAboDateDebutSuspension(),'db')
+									 && TestFonction::dateTimeEstPLusGrandeEgale($lAbonne->getCptAboDateFinSuspension(),$pMarche->getDateMarcheDebut(),'db') )
+								) && (
+								 !	(TestFonction::dateTimeEstPLusGrandeEgale($pMarche->getDateMarcheFin(),$lAbonne->getCptAboDateDebutSuspension(),'db')
+									 && TestFonction::dateTimeEstPLusGrandeEgale($lAbonne->getCptAboDateFinSuspension(),$pMarche->getDateMarcheFin(),'db') )
+								)
+							 ) {
+								$lIdCompte = $lAbonne->getCptAboIdCompte();
+								if(!isset($lReservationAbonnement[$lIdCompte])) {
+									$lReservationAbonnement[$lIdCompte] = array("idCompte" => $lIdCompte, "produits" => array());
+								}
+								$lReservationAbonnement[$lIdCompte]["produits"][$lIdNomProduit] = array("id" => $lIdNomProduit, "idLot" => $lDcomId, "quantite" => $lAbonne->getCptAboQuantite());
+							}
+						}
+					}
+				}
+			}
+			
+			// Positionnement des réservations			
+			$lReservationService = new ReservationService();
+			foreach($lReservationAbonnement as $lReservation) {
+				$lReservationVO = new ReservationVO();
+				$lReservationVO->getId()->setIdCompte( $lReservation["idCompte"] );
+				$lReservationVO->getId()->setIdCommande( $lIdMarche );
+				
+				foreach($lReservation["produits"] as $lDetail){
+					$lDetailCommande = DetailCommandeManager::select($lDetail["idLot"]);				
+					$lPrix = $lDetail["quantite"] / $lDetailCommande->getTaille() * $lDetailCommande->getPrix();
+	
+					$lDetailReservation = new DetailReservationVO();					
+					$lDetailReservation->setIdDetailCommande($lDetail["idLot"]);
+					$lDetailReservation->setQuantite($lDetail["quantite"] * -1);
+					$lDetailReservation->setMontant($lPrix * -1);
+					
+					$lReservationVO->addDetailReservation($lDetailReservation);
+				}
+						
+				$lReservationService->set($lReservationVO);
+			}			
 		}
 		return $lIdMarche;
 	}
@@ -136,6 +191,8 @@ class MarcheService
 			$lProduit->setStockReservation($pProduit->getQteRestante());
 			$lProduit->setStockInitial($pProduit->getQteRestante());
 		}
+		$lProduit->setType($pProduit->getType());
+//		$lIdProduit= 0;
 		$lIdProduit = ProduitManager::insert($lProduit);
 
 		//Insertion des lots
@@ -156,6 +213,62 @@ class MarcheService
 		$lStock->setIdDetailCommande($lDcomId);
 		//$lStock->setIdOperation(0);
 		$lStockService->set($lStock);
+		
+		// Ajout des réservations pour abonnement
+		if($lProduit->getType() == 2) {
+			$lIdMarche =  $lProduit->getIdCommande();
+			$lMarche = $this->getInfoMarche($lIdMarche);
+		
+			$lAbonnementService = new AbonnementService();
+			$lReservationService = new ReservationService();
+			$lIdNomProduit = $lProduit->getIdNomProduit();
+			
+			$lAbonnes = $lAbonnementService->getAbonnesByIdNomProduit($lIdNomProduit);
+			if(!is_null($lAbonnes[0]->getCptAboIdProduitAbonnement())) { // Si il y a des abonnés
+				foreach($lAbonnes as $lAbonne) {
+					// Pas de suspension de l'abonnement
+					if(	(!	(TestFonction::dateTimeEstPLusGrandeEgale($lMarche->getDateMarcheDebut(),$lAbonne->getCptAboDateDebutSuspension(),'db')
+							 && TestFonction::dateTimeEstPLusGrandeEgale($lAbonne->getCptAboDateFinSuspension(),$lMarche->getDateMarcheDebut(),'db') )
+						) && (
+						 !	(TestFonction::dateTimeEstPLusGrandeEgale($lMarche->getDateMarcheFin(),$lAbonne->getCptAboDateDebutSuspension(),'db')
+							 && TestFonction::dateTimeEstPLusGrandeEgale($lAbonne->getCptAboDateFinSuspension(),$lMarche->getDateMarcheFin(),'db') )
+						)
+					 ) {
+						$lIdCompte = $lAbonne->getCptAboIdCompte();
+						/*if(!isset($lReservationAbonnement[$lIdCompte])) {
+							$lReservationAbonnement[$lIdCompte] = array("idCompte" => $lIdCompte, "produits" => array());
+						}
+						$lReservationAbonnement[$lIdCompte]["produits"][$lIdNomProduit] = array("id" => $lIdNomProduit, "idLot" => $lDcomId, "quantite" => $lAbonne->getCptAboQuantite());
+						*/
+						
+						$lIdReservationVO = new IdReservationVO();
+						$lIdReservationVO->setIdCompte( $lIdCompte );
+						$lIdReservationVO->setIdCommande( $lIdMarche );
+						
+						$lReservationVO = new ReservationVO();
+						$lReservationVO->setId($lIdReservationVO);
+						if($lReservationService->enCours($lIdReservationVO)) {
+							$lReservationVO = $lReservationService->get($lIdReservationVO);
+						}
+						
+						$lDetailCommande = DetailCommandeManager::select($lDcomId);				
+						$lPrix = $lAbonne->getCptAboQuantite() / $lDetailCommande->getTaille() * $lDetailCommande->getPrix();
+		
+						$lDetailReservation = new DetailReservationVO();					
+						$lDetailReservation->setIdDetailCommande($lDcomId);
+						$lDetailReservation->setQuantite($lAbonne->getCptAboQuantite() * -1);
+						$lDetailReservation->setMontant($lPrix * -1);
+						
+						$lReservationVO->addDetailReservation($lDetailReservation);
+						
+						//var_dump($lReservationVO);
+						
+						$lReservationService->set($lReservationVO);
+						
+					}
+				}	
+			}
+		}
 	}
 
 	/**
@@ -247,6 +360,7 @@ class MarcheService
 						$lProduit->setUniteMesure($lProduitNv->getUnite());
 						$lProduit->setMaxProduitCommande($lProduitNv->getQteMaxCommande());
 						$lProduit->setIdCompteProducteur($lProduitNv->getIdProducteur()); // C'est bien le compte il faut changer le nom du champ
+						$lProduit->setType($lProduitNv->getType());
 						ProduitManager::update($lProduit);
 					}
 				}	
@@ -266,6 +380,7 @@ class MarcheService
 					$lProduit->setUniteMesure($lProduitActuel->getUnite());
 					$lProduit->setMaxProduitCommande($lProduitActuel->getQteMaxCommande());
 					$lProduit->setIdCompteProducteur($lProduitActuel->getIdCompteProducteur());
+					$lProduit->setType($lProduitActuel->getType());
 					$lProduit->setEtat(1);
 					ProduitManager::update($lProduit);						
 				}			
@@ -289,6 +404,7 @@ class MarcheService
 					$lProduit->setIdCompteProducteur($lProduitNv->getIdProducteur()); // C'est bien le compte il faut changer le nom du champ
 					$lProduit->setStockReservation($lProduitNv->getQteRestante());
 					$lProduit->setStockInitial($lProduitNv->getQteRestante());
+					$lProduit->setType($lProduitNv->getType());
 					$lIdProduit = ProduitManager::insert($lProduit);
 	
 					//Insertion des lots
@@ -340,10 +456,12 @@ class MarcheService
 	* @param ProduitVO
 	* @desc Met à jour le produit du marché
 	*/
-	public function updateProduit($pProduit) {	
+	public function updateProduit($pProduit, $pLotRemplacement = array()) {	
 		$lProduitActuel = $this->selectProduit($pProduit->getId());
 		
 		//Les lots
+		$lLotModif = array();
+		$lLotSupp = array();
 		foreach($lProduitActuel->getLots() as $lLotActuel) {
 			$lMajLot = true;
 			foreach($pProduit->getLots() as $lLotNv) {								
@@ -358,6 +476,8 @@ class MarcheService
 					$lDetailCommande->setTaille($lLotNv->getTaille());
 					$lDetailCommande->setPrix($lLotNv->getPrix());
 					DetailCommandeManager::update($lDetailCommande);
+					
+					array_push($lLotModif,$lDetailCommande);
 				}																
 			}
 			// Supprimer Lot
@@ -365,10 +485,13 @@ class MarcheService
 				$lDeleteLot = DetailCommandeManager::select($lLotActuel->getId());
 				$lDeleteLot->setEtat(1);
 				DetailCommandeManager::update($lDeleteLot);
+				
+				array_push($lLotSupp,$lLotActuel->getId());
 			}
 		}
 		
 		// Nouveau Lot
+		$lLotAdd = array();
 		foreach($pProduit->getLots() as $lLotNv) {
 			$lAjout = true;
 			foreach($lProduitActuel->getLots() as $lLotActuel) {
@@ -382,47 +505,106 @@ class MarcheService
 				$lDetailCommande->setTaille($lLotNv->getTaille());
 				$lDetailCommande->setPrix($lLotNv->getPrix());
 				$lDcomId = DetailCommandeManager::insert($lDetailCommande);
+				
+				$lLotAdd[$lLotNv->getId()] = $lDcomId; // Si supression d'un lot et positionnement de ce nouveau lot permet de récupérer l'ID
 			}
 		}
 	
-		
-		
-		
 		$lStockService = new StockService();
 		$lResaActuel = GestionCommandeReservationProducteurViewManager::getStockReservationProducteur($lProduitActuel->getIdCompteFerme(),$lProduitActuel->getId());
 		$lStockActuel = $lStockService->get($lResaActuel[0]->getStoId());
 	
 		// Maj du stock
-		//if($pProduit->getQteRestante() != "" && $lProduit->getStockInitial() == -1) {
-			$lStockActuel->setQuantite($pProduit->getQteRestante());
-		/*} else if($pProduit->getQteRestante() == "" && $lProduit->getStockInitial() != -1) {
-			$lStockActuel->setQuantite($lProduit->getStockReservation() + $pProduit->getQteRestante() );		
-		} else {	
-			$lStockActuel->setQuantite(0);
-		}*/
+		$lStockActuel->setQuantite($pProduit->getQteRestante());
 		$lStockActuel->setIdDetailCommande($lDcomId);
 		$lStockService->updateStockProduit($lStockActuel);
 		
-		//$lProduit->setIdCommande($lIdMarche);
-		//$lProduitActuel->setIdNomProduit($pProduit->getIdNom());
 		$lProduit = ProduitManager::select($lProduitActuel->getId());
 		$lProduit->setUniteMesure($pProduit->getUnite());
 		if($pProduit->getQteMaxCommande() == "") {
 			$lProduit->setMaxProduitCommande(-1);
 		} else {
 			$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
-		}
-	/*	if($pProduit->getQteRestante() == "" && $lProduit->getStockInitial() != -1) {
-			//$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial());
-			$lProduit->setStockInitial(-1);				
-		} else if($pProduit->getQteRestante() != "" && $lProduit->getStockInitial() == -1) {
-			//$lProduit->setStockReservation($lProduit->getStockReservation() + $pProduit->getQteRestante());
-			$lProduit->setStockInitial($pProduit->getQteRestante());
-		}*/
-		//$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());
-		//$lProduitActuel->setStockInitial($pProduit->getQteRestante());
-		//$lProduit->setIdCompteFerme($pProduit->getIdCompteFerme()); // C'est bien le compte il faut changer le nom du champ
+		}		
+		$lProduit->setType($pProduit->getType());
 		ProduitManager::update($lProduit);
+		
+		
+		
+		// Modif des réservations
+		$lReservationService = new ReservationService();
+		$lIdMarche = $lProduitActuel->getIdMarche();
+		//var_dump($lLotModif);
+		foreach($lLotModif as $lLot) { // Chaque lot modifié
+			$lListeDetailReservation = $lReservationService->getReservationSurLot($lLot->getId());
+			if(!is_null($lListeDetailReservation[0]->getDopeIdCompte())) { // Si il y a des réservations			
+				foreach($lListeDetailReservation as $lDetailReservation) { // Chaque réservation de lot modifié
+					$lIdReservationVO = new IdReservationVO();
+					$lIdReservationVO->setIdCompte( $lDetailReservation->getDopeIdCompte() );
+					$lIdReservationVO->setIdCommande( $lIdMarche );
+					
+					$lReservationVO = $lReservationService->get($lIdReservationVO);
+					
+					$lNvDetailReservation = array();
+					foreach($lReservationVO->getDetailReservation() as $lDetailReservationActuelle) {						
+						if($lDetailReservationActuelle->getIdDetailCommande() == $lLot->getId()) { // Maj de la reservation pour ce produit
+							$lPrix = $lDetailReservation->getStoQuantite() / $lLot->getTaille() * $lLot->getPrix();
+	
+							$lDetailReservationVO = new DetailReservationVO();					
+							$lDetailReservationVO->setIdDetailCommande($lLot->getId());
+							$lDetailReservationVO->setQuantite($lDetailReservation->getStoQuantite());
+							$lDetailReservationVO->setMontant($lPrix);
+							
+							array_push($lNvDetailReservation,$lDetailReservationVO);						
+						} else { // Ajout des autres produits
+							array_push($lNvDetailReservation,$lDetailReservationActuelle);
+						}
+					}
+					$lReservationVO->setDetailReservation($lNvDetailReservation);
+					$lReservationService->set($lReservationVO); // Maj de la reservation
+				}	
+			}		
+		}
+		
+		foreach($lLotSupp as $lIdLot) { // Chaque lot supprimé => La réservation est positionnée sur un autre lot				
+			if(isset($pLotRemplacement[$lIdLot]) ) {
+				$lIdLotRemplacement = $pLotRemplacement[$lIdLot];
+				if($lIdLotRemplacement < 0) {
+					$lIdLotRemplacement = $lLotAdd[$lIdLotRemplacement]; 
+				}
+				$lListeDetailReservation = $lReservationService->getReservationSurLot($lIdLot);
+				if(!is_null($lListeDetailReservation[0]->getDopeIdCompte())) { // Si il y a des réservations	
+					foreach($lListeDetailReservation as $lDetailReservation) { // Chaque réservation de lot modifié
+						$lIdReservationVO = new IdReservationVO();
+						$lIdReservationVO->setIdCompte( $lDetailReservation->getDopeIdCompte() );
+						$lIdReservationVO->setIdCommande( $lIdMarche );
+						
+						$lReservationVO = $lReservationService->get($lIdReservationVO);
+						
+						$lNvDetailReservation = array();
+						foreach($lReservationVO->getDetailReservation() as $lDetailReservationActuelle) {						
+							if($lDetailReservationActuelle->getIdDetailCommande() == $lIdLot) { // Maj de la reservation pour ce produit
+	
+								$lDetailCommande = DetailCommandeManager::select($lIdLotRemplacement);	
+								$lPrix = $lDetailReservation->getStoQuantite() / $lDetailCommande->getTaille() * $lDetailCommande->getPrix();
+							
+								$lDetailReservationVO = new DetailReservationVO();					
+								$lDetailReservationVO->setIdDetailCommande($lIdLotRemplacement);
+								$lDetailReservationVO->setQuantite($lDetailReservation->getStoQuantite());
+								$lDetailReservationVO->setMontant($lPrix);
+								
+								array_push($lNvDetailReservation,$lDetailReservationVO);						
+							} else { // Ajout des autres produits
+								array_push($lNvDetailReservation,$lDetailReservationActuelle);
+							}
+						}
+						$lReservationVO->setDetailReservation($lNvDetailReservation);
+						
+						$lReservationService->set($lReservationVO); // Maj de la reservation
+					}	
+				}		
+			}
+		}
 	}
 	
 	/**
@@ -520,6 +702,7 @@ class MarcheService
 					$lProduit->setQteMaxCommande($lDetail->getProMaxProduitCommande());
 					$lProduit->setStockReservation($lDetail->getProStockReservation());
 					$lProduit->setStockInitial($lDetail->getProStockInitial());
+					$lProduit->setType($lDetail->getProType());
 					$lProduit->setFerId($lDetail->getFerId());
 					$lProduit->setFerNom($lDetail->getFerNom());
 					$lProduits[$lDetail->getProId()] = $lProduit;
@@ -554,6 +737,7 @@ class MarcheService
 		$lProduit = new ProduitMarcheVO();
 		// Le Produit
 		$lProduit->setId($lDetailMarche[0]->getProId());
+		$lProduit->setIdMarche($lDetailMarche[0]->getComId());
 		$lProduit->setIdCompteFerme($lDetailMarche[0]->getProIdCompteFerme());
 		$lProduit->setIdNom($lDetailMarche[0]->getNproId());
 		$lProduit->setNom($lDetailMarche[0]->getNproNom());
@@ -564,7 +748,9 @@ class MarcheService
 		$lProduit->setQteMaxCommande($lDetailMarche[0]->getProMaxProduitCommande());
 		$lProduit->setStockReservation($lDetailMarche[0]->getProStockReservation());
 		$lProduit->setStockInitial($lDetailMarche[0]->getProStockInitial());
+		$lProduit->setType($lDetailMarche[0]->getProType());
 		$lProduit->setFerId($lDetailMarche[0]->getFerId());
+		$lProduit->setFerNom($lDetailMarche[0]->getFerNom());
 		$lProduit->setFerNom($lDetailMarche[0]->getFerNom());
 			
 		foreach($lDetailMarche as $lDetail) {	

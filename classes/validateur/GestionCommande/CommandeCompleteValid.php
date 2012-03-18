@@ -130,6 +130,14 @@ class CommandeCompleteValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getDescription()->addErreur($lErreur);	
 		}
+		if(!isset($pData['produitsAbonnement'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
+		}
 		
 		if($lVr->getValid()) {
 		
@@ -285,6 +293,14 @@ class CommandeCompleteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_111_MSG);
 				$lVr->getLog()->addErreur($lErreur);	
 			}
+			if(!is_array($pData['produitsAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_111_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_111_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
 	
 			//Tests Fonctionnels
 			if(empty($pData['dateMarcheDebut'])) {
@@ -360,7 +376,7 @@ class CommandeCompleteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getArchive()->addErreur($lErreur);	
 			}
-			if(empty($pData['produits'])) {
+			if(empty($pData['produits']) && empty($pData['produitsAbonnement'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
@@ -471,6 +487,17 @@ class CommandeCompleteValid
 						$i++;
 					}		
 			}
+			
+			if(is_array($pData['produitsAbonnement'])) {
+					$lValidProduit = new ProduitMarcheValid();
+					$i = 0;
+					while(isset($pData['produitsAbonnement'][$i])) {
+						$lVrProduit = $lValidProduit->validAjout($pData['produitsAbonnement'][$i]);	
+						if(!$lVrProduit->getValid()){$lVr->setValid(false);}
+						$lVr->addProduits($lVrProduit);
+						$i++;
+					}		
+			}
 		}
 		return $lVr;
 	}
@@ -487,8 +514,8 @@ class CommandeCompleteValid
 			if($lVr->getValid()) {
 				// Test si produit déjà dans le marché
 				$lProduit = ProduitManager::selectbyIdNomProduitIdMarche($pData['idNom'],$pData['id']);
-				$lId = $lProduit[0]->getId();
-				if(!empty($lId)) {
+				$lType = $lProduit[0]->getType();
+				if(!empty($lId) && $lType == $pData['type'] ) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();

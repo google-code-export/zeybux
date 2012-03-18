@@ -74,6 +74,48 @@ class ProduitAbonnementManager
 	}
 
 	/**
+	* @name selectByIdNom($pId)
+	* @param integer
+	* @return ProduitAbonnementVO
+	* @desc Récupère la ligne correspondant à l'id Nom en paramètre, retourne ProduitAbonnementVO contenant les informations et la renvoie
+	*/
+	public static function selectByIdNom($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_MAX . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_FREQUENCE . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ETAT . "
+			FROM " . ProduitAbonnementManager::TABLE_PRODUITABONNEMENT . " 
+			WHERE " . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . " = '" . StringUtils::securiser($pId) . "'
+			AND " . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ETAT . " = 0";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			return ProduitAbonnementManager::remplirProduitAbonnement(
+				$pId,
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE],
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL],
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_MAX],
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_FREQUENCE],
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ETAT]);
+		} else {
+			return new ProduitAbonnementVO();
+		}
+	}
+	
+	/**
 	* @name selectAll()
 	* @return array(ProduitAbonnementVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de ProduitAbonnementVO

@@ -49,14 +49,24 @@
 		//if(!dateEstPLusGrandeEgale(pData.dateMarcheFin,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
 		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 	
-		if(isArray(pData.produits)) {		
-			if(pData.produits.length > 0) {
+		if(!isArray(pData.produits)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
+		if(!isArray(pData.produitsAbonnement)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
+		if(lVR.valid) {
+			if(pData.produits.length + pData.produitsAbonnement.length > 0) {
 				var lValidProduit = new ProduitMarcheValid();
 				var i = 0;
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
 					lVR.produits[pData.produits[i].idNom] = lVrProduit;
+					i++;
+				}
+				
+				var i = 0;
+				while(pData.produitsAbonnement[i]) {
+					var lVrProduit = lValidProduit.validAjout(pData.produitsAbonnement[i]);	
+					if(!lVrProduit.valid){lVR.valid = false;}
+					lVR.produitsAbonnement[pData.produitsAbonnement[i].idNom] = lVrProduit;
 					i++;
 				}
 			} else {
@@ -68,8 +78,7 @@
 				erreur.message = ERR_207_MSG;
 				lVR.log.erreurs.push(erreur);
 			}	
-		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
-
+		}
 		return lVR;
 	}
 	

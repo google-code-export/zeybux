@@ -61,6 +61,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
@@ -100,6 +101,7 @@ class DetailMarcheViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
@@ -150,6 +152,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .  
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
@@ -188,6 +191,7 @@ class DetailMarcheViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
@@ -236,6 +240,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
@@ -274,6 +279,7 @@ class DetailMarcheViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
@@ -341,6 +347,7 @@ class DetailMarcheViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
 			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION .
@@ -406,6 +413,7 @@ class DetailMarcheViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
@@ -428,7 +436,7 @@ class DetailMarcheViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateDebutReservation, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom)
+	* @name remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateDebutReservation, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pProType, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(100)
@@ -447,6 +455,7 @@ class DetailMarcheViewManager
 	* @param decimal(10,2)
 	* @param decimal(10,2)
 	* @param int(11)
+	* @param int(11)
 	* @param varchar(50)
 	* @param text
 	* @param int(11)
@@ -460,7 +469,7 @@ class DetailMarcheViewManager
 	* @return DetailMarcheViewVO
 	* @desc Retourne une DetailMarcheViewVO remplie
 	*/
-	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateDebutReservation, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom) {
+	private static function remplir($pComId, $pComNumero, $pComNom, $pComDescription, $pComDateMarcheDebut, $pComDateMarcheFin, $pComDateDebutReservation, $pComDateFinReservation, $pComArchive, $pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStockInitial, $pProType, $pNproId, $pNproNom, $pNproDescription, $pNproIdCategorie, $pDcomId, $pDcomIdProduit, $pDcomTaille, $pDcomPrix, $pCproNom, $pFerId, $pFerNom) {
 		$lDetailMarche = new DetailMarcheViewVO();
 		$lDetailMarche->setComId($pComId);
 		$lDetailMarche->setComNumero($pComNumero);
@@ -479,6 +488,7 @@ class DetailMarcheViewManager
 		$lDetailMarche->setProIdCompteFerme($pProIdCompteFerme);
 		$lDetailMarche->setProStockReservation($pProStockReservation);
 		$lDetailMarche->setProStockInitial($pProStockInitial);
+		$lDetailMarche->setProType($pProType);
 		$lDetailMarche->setNproId($pNproId);
 		$lDetailMarche->setNproNom($pNproNom);
 		$lDetailMarche->setNproDescription($pNproDescription);

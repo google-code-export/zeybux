@@ -73,6 +73,14 @@ class ProduitMarcheValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getLog()->addErreur($lErreur);	
 		}
+		if(!isset($pData['type'])) {
+			$lVr->setValid(false);
+			$lVr->getType()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getType()->addErreur($lErreur);	
+		}
 		
 		if($lVr->getValid()) {		
 			if(!TestFonction::checkLength($pData['idNom'],0,11)) {
@@ -138,6 +146,22 @@ class ProduitMarcheValid
 				$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
 				$lVr->getLog()->addErreur($lErreur);	
+			}		
+			if(!TestFonction::checkLength($pData['type'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getType()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getType()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['type'])) {
+				$lVr->setValid(false);
+				$lVr->getType()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getType()->addErreur($lErreur);	
 			}
 	
 			//Tests Fonctionnels
@@ -165,6 +189,14 @@ class ProduitMarcheValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getLog()->addErreur($lErreur);	
 			}
+			if($pData['type'] == '') {
+				$lVr->setValid(false);
+				$lVr->getType()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getType()->addErreur($lErreur);	
+			}
 	
 			// Test de l'existance du produit
 			if($lVr->getIdNom()->getValid()) {
@@ -181,7 +213,7 @@ class ProduitMarcheValid
 			}
 							
 			// Les quantités sont positives
-			if($pData['qteMaxCommande'] < 0) {
+			if($pData['qteMaxCommande'] != -1 && $pData['qteMaxCommande'] < 0) {
 				$lVr->setValid(false);
 				$lVr->getQteMaxCommande()->setValid(false);
 				$lErreur = new VRerreur();
@@ -189,7 +221,7 @@ class ProduitMarcheValid
 				$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
 				$lVr->getQteMaxCommande()->addErreur($lErreur);	
 			}
-			if($pData['qteRestante'] < 0) {
+			if($pData['qteRestante'] != -1 && $pData['qteRestante'] < 0) {
 				$lVr->setValid(false);
 				$lVr->getQteRestante()->setValid(false);
 				$lErreur = new VRerreur();
@@ -198,7 +230,7 @@ class ProduitMarcheValid
 				$lVr->getQteRestante()->addErreur($lErreur);	
 			}
 						
-			if($pData['qteMaxCommande'] != "" && $pData['qteRestante'] != "" && $pData['qteMaxCommande'] > $pData['qteRestante']) {
+			if($pData['qteMaxCommande'] != -1 && $pData['qteRestante'] != -1 && $pData['qteMaxCommande'] > $pData['qteRestante']) {
 				$lVr->setValid(false);
 				$lVr->getQteRestante()->setValid(false);
 				$lVr->getQteMaxCommande()->setValid(false);
@@ -334,6 +366,23 @@ class ProduitMarcheValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getLog()->addErreur($lErreur);	
 			}
+			if(!isset($pData['type'])) {
+				$lVr->setValid(false);
+				$lVr->getType()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getType()->addErreur($lErreur);	
+			}
+			if(!isset($pData['lotRemplacement'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
+			
 			if($lVr->getValid()) {
 				if(!TestFonction::checkLength($pData['unite'],0,20)) {
 					$lVr->setValid(false);
@@ -383,6 +432,30 @@ class ProduitMarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
 					$lVr->getLog()->addErreur($lErreur);	
 				}
+				if(!TestFonction::checkLength($pData['type'],0,11)) {
+					$lVr->setValid(false);
+					$lVr->getType()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+					$lVr->getType()->addErreur($lErreur);	
+				}
+				if(!is_int((int)$pData['type'])) {
+					$lVr->setValid(false);
+					$lVr->getType()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+					$lVr->getType()->addErreur($lErreur);	
+				}
+				if(!is_array($pData['lotRemplacement'])) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+					$lVr->getLog()->addErreur($lErreur);	
+				}
 		
 				//Tests Fonctionnels
 				if(empty($pData['unite'])) {
@@ -401,9 +474,17 @@ class ProduitMarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getLog()->addErreur($lErreur);	
 				}
+				if($pData['type'] == '' && $pData['type'] != 0) {
+					$lVr->setValid(false);
+					$lVr->getType()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_202_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getType()->addErreur($lErreur);	
+				}
 								
 				// Les quantités sont positives
-				if($pData['qteMaxCommande'] < 0) {
+				if($pData['qteMaxCommande'] != -1 && $pData['qteMaxCommande'] < 0) {
 					$lVr->setValid(false);
 					$lVr->getQteMaxCommande()->setValid(false);
 					$lErreur = new VRerreur();
@@ -411,7 +492,7 @@ class ProduitMarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
 					$lVr->getQteMaxCommande()->addErreur($lErreur);	
 				}
-				if($pData['qteRestante'] < 0) {
+				if($pData['qteRestante'] != -1 && $pData['qteRestante'] < 0) {
 					$lVr->setValid(false);
 					$lVr->getQteRestante()->setValid(false);
 					$lErreur = new VRerreur();
@@ -420,7 +501,7 @@ class ProduitMarcheValid
 					$lVr->getQteRestante()->addErreur($lErreur);	
 				}
 							
-				if($pData['qteMaxCommande'] != "" && $pData['qteRestante'] != "" && $pData['qteMaxCommande'] > $pData['qteRestante']) {
+				if($pData['qteMaxCommande'] != -1 && $pData['qteRestante'] != -1 && $pData['qteMaxCommande'] > $pData['qteRestante']) {
 					$lVr->setValid(false);
 					$lVr->getQteRestante()->setValid(false);
 					$lVr->getQteMaxCommande()->setValid(false);

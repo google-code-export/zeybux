@@ -34,7 +34,6 @@ class ReservationService
 	public function set($pReservation) {
 		$lReservationValid = new ReservationValid();
 		if($lReservationValid->insert($pReservation)) {
-			
 			$lOperations = $this->selectOperationReservation($pReservation->getId());
 			$lOperation = $lOperations[0];
 			$lIdOperation = $lOperation->getId();
@@ -259,7 +258,21 @@ class ReservationService
 	public function existe($pId) {		
 		$lOperations = $this->selectOperationReservation($pId);
 		$lIdOperation = $lOperations[0]->getId();
+		var_dump($lOperations);
 		return !is_null($lIdOperation);
+	}
+	
+	/**
+	* @name enCours($pId)
+	* @param IdReservation
+	* @return bool
+	* @desc Retourne si une réservation est en cours
+	*/
+	public function enCours($pId) {		
+		$lOperations = $this->selectOperationReservation($pId);
+		$lTypePaiement = $lOperations[0]->getTypePaiement();
+		
+		return $lTypePaiement == 0;
 	}
 	
 	/**
@@ -388,6 +401,27 @@ class ReservationService
 	*/
 	public function selectAll() {
 	//	return ReservationManager::selectAll();
+	}
+
+	/**
+	* @name reservationSurLot($pId)
+	* @param integer
+	* @return bool
+	* @desc Si des réservations sont positionnées sur le lot
+	*/
+	public function reservationSurLot($pId) {
+		$lDetail = ReservationDetailViewManager::selectReservationEnCoursByLot($pId,0,0);
+		return !is_null($lDetail[0]->getStoId());
+	}
+	
+	/**
+	* @name getReservationSurLot($pId)
+	* @param integer
+	* @return array(ReservationDetailViewVO)
+	* @desc Retourne les réservations positionnées sur le lot
+	*/
+	public function getReservationSurLot($pId) {
+		return ReservationDetailViewManager::selectReservationEnCoursByLot($pId,0,0);
 	}
 }
 ?>

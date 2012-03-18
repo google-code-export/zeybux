@@ -38,6 +38,7 @@ class ProduitCommandeToVO
 			&& isset($lJson->unite)
 			&& isset($lJson->qteMaxCommande)
 			&& isset($lJson->qteRestante)
+			&& isset($lJson->type)
 			&& isset($lJson->lots);
 
 		if($lValid) {
@@ -54,6 +55,7 @@ class ProduitCommandeToVO
 				$lVo->setUnite($lJson->unite);
 				$lVo->setQteMaxCommande($lJson->qteMaxCommande);
 				$lVo->setQteRestante($lJson->qteRestante);
+				$lVo->setType($lJson->type);
 				foreach($lLots as $lLot) {
 					$lVo->addLots(DetailCommandeToVO::convertFromArray($lLot));
 				}
@@ -79,6 +81,7 @@ class ProduitCommandeToVO
 			&& isset($pArray['unite'])
 			&& isset($pArray['qteMaxCommande'])
 			&& isset($pArray['qteRestante'])
+			&& isset($pArray['type'])
 			&& isset($pArray['lots'])
 			&& is_array($pArray['lots']);
 
@@ -94,6 +97,7 @@ class ProduitCommandeToVO
 			$lVo->setUnite($pArray['unite']);
 			$lVo->setQteMaxCommande($pArray['qteMaxCommande']);
 			$lVo->setQteRestante($pArray['qteRestante']);
+			$lVo->setType($pArray['type']);
 			foreach($pArray['lots'] as $lLot) {
 				$lVo->addLots(DetailCommandeToVO::convertFromArray($lLot));
 			}

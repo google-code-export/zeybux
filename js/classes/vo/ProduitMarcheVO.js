@@ -10,5 +10,7 @@
 	this.qteMaxCommande = '';
 	this.qteRestante = '';
 	this.stockInitial = '';
-	this.lots = new Array();
+	this.type = '';
+	this.lots = [];
+	this.lotRemplacement = [];
 }

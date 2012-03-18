@@ -21,7 +21,6 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheAjoutComm
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 
-
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
@@ -36,6 +35,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeComple
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
 
 /**
  * @name AjoutCommandeControleur
@@ -104,9 +104,11 @@ class AjoutCommandeControleur
 		if($lVr->getValid()) {
 			$lId = $pParam['idNomProduit'];			
 			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
+			$lAbonnementService = new AbonnementService();
 			
 			$lResponse = new ModelesLotResponse();
 			$lResponse->setModelesLot( $lModelesLot );
+			$lResponse->setDetailAbonnement( $lAbonnementService->getProduitByIdNom($lId) );
 			return $lResponse;
 		}		
 		return $lVr;

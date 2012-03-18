@@ -121,6 +121,12 @@ class DetailMarcheViewVO extends DataTemplate
 	protected $mProStockInitial;
 	
 	/**
+	* @var integer
+	* @desc ProType de la DetailMarcheViewVO
+	*/
+	protected $mProType;
+	
+	/**
 	* @var int(11)
 	* @desc NproId de la DetailMarcheViewVO
 	*/
@@ -490,6 +496,24 @@ class DetailMarcheViewVO extends DataTemplate
 	*/
 	public function setProStockInitial($pProStockInitial) {
 		$this->mProStockInitial = $pProStockInitial;
+	}
+	
+	/**
+	* @name getProType()
+	* @return int(11)
+	* @desc Renvoie le membre ProType de la DetailMarcheViewVO
+	*/
+	public function getProType() {
+		return $this->mProType;
+	}
+
+	/**
+	* @name setProType($pProType)
+	* @param int(11)
+	* @desc Remplace le membre ProType de la DetailMarcheViewVO par $pProType
+	*/
+	public function setProType($pProType) {
+		$this->mProType = $pProType;
 	}
 	
 	/**

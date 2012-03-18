@@ -85,6 +85,12 @@ class ProduitCommandeVO extends DataTemplate
 	protected $mQteRestante;
 	
 	/**
+	* @var integer
+	* @desc Le Type de Produit
+	*/
+	protected $mType;
+	
+	/**
 	* @var array(DetailCommandeVO)
 	* @desc Les lots du Produit
 	*/
@@ -294,6 +300,24 @@ class ProduitCommandeVO extends DataTemplate
 	*/
 	public function setQteRestante($pQteRestante) {
 		$this->mQteRestante = $pQteRestante;
+	}
+		
+	/**
+	* @name getType()
+	* @return integer
+	* @desc Renvoie le Type du Produit
+	*/
+	public function getType() {
+		return $this->mType;
+	}
+
+	/**
+	* @name setType($pType)
+	* @param integer
+	* @desc Remplace le Type par $pType
+	*/
+	public function setType($pType) {
+		$this->mType = $pType;
 	}
 	
 	/**
