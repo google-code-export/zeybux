@@ -41,7 +41,8 @@ class CommandeCompleteToVO
 			&& isset($lJson->dateFinReservation)
 			&& isset($lJson->timeFinReservation)
 			&& isset($lJson->archive)
-			&& isset($lJson->produits);
+			&& isset($lJson->produits)
+			&& isset($lJson->produitsAbonnement);
 
 		if($lValid) {
 			$lProduits = json_decode($lJson->produits,true);
@@ -56,6 +57,10 @@ class CommandeCompleteToVO
 				$lVo->setDateDebutReservation($lJson->dateDebutReservation . " " . $lJson->timeDebutReservation);
 				$lVo->setDateFinReservation($lJson->dateFinReservation . " " . $lJson->timeFinReservation);
 				$lVo->setArchive($lJson->archive);
+				foreach($lProduits as $lProduit) {
+					$lVo->addProduits(ProduitCommandeToVO::convertFromArray($lProduit));
+				}
+				$lProduits = json_decode($lJson->produitsAbonnement,true);
 				foreach($lProduits as $lProduit) {
 					$lVo->addProduits(ProduitCommandeToVO::convertFromArray($lProduit));
 				}
@@ -85,7 +90,9 @@ class CommandeCompleteToVO
 			&& isset($pArray['timeFinReservation'])
 			&& isset($pArray['archive'])
 			&& isset($pArray['produits'])
-			&& is_array($pArray['produits']);
+			&& is_array($pArray['produits'])
+			&& isset($pArray['produitsAbonnement'])
+			&& is_array($pArray['produitsAbonnement']);
 
 		if($lValid) {
 			$lVo = new CommandeCompleteVO();
@@ -99,6 +106,9 @@ class CommandeCompleteToVO
 			$lVo->setDateFinReservation($pArray['dateFinReservation'] . " " . $pArray['timeFinReservation']);
 			$lVo->setArchive($pArray['archive']);
 			foreach($pArray['produits'] as $lProduit) {
+				$lVo->addProduits(ProduitCommandeToVO::convertFromArray($lProduit));
+			}
+			foreach($pArray['produitsAbonnement'] as $lProduit) {
 				$lVo->addProduits(ProduitCommandeToVO::convertFromArray($lProduit));
 			}
 			return $lVo;

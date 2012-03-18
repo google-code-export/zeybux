@@ -60,7 +60,7 @@ class ReservationValid
 					$i = 0;
 					$lDetailReservationValid = new DetailReservationValid();
 					while($lDetailValid && isset($lDetailReservation[$i])) {
-						$lDetailValid = $lDetailReservationValid->insert($lDetailReservation[$i]);
+						$lDetailValid = $lDetailReservationValid->insert($lDetailReservation[$i]) || $lDetailReservationValid->update($lDetailReservation[$i]);
 						$i++;
 					}
 					return $lDetailValid;				

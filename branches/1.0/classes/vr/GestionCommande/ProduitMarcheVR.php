@@ -70,6 +70,12 @@ class ProduitMarcheVR extends DataTemplate
 	protected $mLots;
 
 	/**
+	 * @var VRelement
+	 * @desc Type de la ProduitMarcheVR
+	 */
+	protected $mType;
+
+	/**
 	* @name ProduitMarcheVR()
 	* @return bool
 	* @desc Constructeur
@@ -83,6 +89,7 @@ class ProduitMarcheVR extends DataTemplate
 		$this->mQteMaxCommande = new VRelement();
 		$this->mQteRestante = new VRelement();
 		$this->mLots = array();
+		$this->mType = new VRelement();
 	}
 
 	/**
@@ -236,6 +243,24 @@ class ProduitMarcheVR extends DataTemplate
 	*/
 	public function addLots($pLots) {
 		array_push($this->mLots,$pLots);
+	}
+
+	/**
+	* @name getType()
+	* @return VRelement
+	* @desc Renvoie le VRelement mType
+	*/
+	public function getType() {
+		return $this->mType;
+	}
+
+	/**
+	* @name setType($pType)
+	* @param VRelement
+	* @desc Remplace le mType par $pType
+	*/
+	public function setType($pType) {
+		$this->mType = $pType;
 	}
 }
 ?>

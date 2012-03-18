@@ -8,5 +8,6 @@
 	this.qteMaxCommande = new VRelement();
 	this.qteRestante = new VRelement();
 	this.stockInitial = new VRelement();
+	this.type = new VRelement();
 	this.lots = new Array();
 }

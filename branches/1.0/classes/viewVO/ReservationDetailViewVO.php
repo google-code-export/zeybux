@@ -43,6 +43,12 @@ class ReservationDetailViewVO  extends DataTemplate
 	protected $mStoIdDetailCommande;
 
 	/**
+	* @var int(11)
+	* @desc DopeIdCompte de la ReservationDetailViewVO
+	*/
+	protected $mDopeIdCompte;
+
+	/**
 	* @var decimal(10,2)
 	* @desc DopeMontant de la ReservationDetailViewVO
 	*/
@@ -142,6 +148,24 @@ class ReservationDetailViewVO  extends DataTemplate
 	*/
 	public function setStoIdDetailCommande($pStoIdDetailCommande) {
 		$this->mStoIdDetailCommande = $pStoIdDetailCommande;
+	}
+
+	/**
+	* @name getDopeIdCompte()
+	* @return int(11)
+	* @desc Renvoie le membre DopeIdCompte de la ReservationDetailViewVO
+	*/
+	public function getDopeIdCompte() {
+		return $this->mDopeIdCompte;
+	}
+
+	/**
+	* @name setDopeIdCompte($pDopeIdCompte)
+	* @param int(11)
+	* @desc Remplace le membre DopeIdCompte de la ReservationDetailViewVO par $pDopeIdCompte
+	*/
+	public function setDopeIdCompte($pDopeIdCompte) {
+		$this->mDopeIdCompte = $pDopeIdCompte;
 	}
 
 	/**

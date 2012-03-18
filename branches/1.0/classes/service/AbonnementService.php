@@ -131,6 +131,16 @@ class AbonnementService
 	}
 	
 	/**
+	* @name getProduitByIdNom($pId)
+	* @param integer
+	* @return ProduitAbonnementVO
+	* @desc Retourne un ProduitAbonnementVO
+	*/
+	public function getProduitByIdNom($pId) {
+		return ProduitAbonnementManager::selectByIdNom($pId);
+	}
+	
+	/**
 	* @name setAbonnement($pCompteAbonnement)
 	* @param CompteAbonnementVO
 	* @return integer
@@ -228,6 +238,15 @@ class AbonnementService
 	*/
 	public function getAbonnesProduit($pIdProduitAbonnement) {
 		return ListeAbonnesProduitViewManager::select($pIdProduitAbonnement);
+	}
+	
+	/**
+	* @name getAbonnesByIdNomProduit($pIdNomProduit)
+	* @return array(ListeAbonnesProduitViewVO)
+	* @desc Retourne une liste de ListeAbonnesProduitViewVO
+	*/
+	public function getAbonnesByIdNomProduit($pIdNomProduit) {
+		return ListeAbonnesProduitViewManager::selectByIdNomProduit($pIdNomProduit);
 	}
 
 	/**

@@ -160,6 +160,10 @@ class MessagesErreurs
 	const ERR_251_MSG = 'Ce produit est déjà disponible en abonnement.';
 	const ERR_252_CODE = 252;
 	const ERR_252_MSG = 'La date de fin de suspension doit ere postérieure à celle de début.';
+	const ERR_253_CODE = 253;
+	const ERR_253_MSG = 'Ce produit est déjà présent en abonnement dans le marché.';
+	const ERR_254_CODE = 254;
+	const ERR_254_MSG = 'Aucun lot sélectionné.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

@@ -59,7 +59,24 @@ class ListeAbonnesProduitViewVO  extends DataTemplate
 	* @desc CptAboQuantite de la ListeAbonnesProduitViewVO
 	*/
 	protected $mCptAboQuantite;
+
+	/**
+	* @var int(11)
+	* @desc ProAboIdNomProduit de la ListeAbonnesProduitViewVO
+	*/
+	protected $mProAboIdNomProduit;
 	
+	/**
+	* @var dateTime
+	* @desc CptAboDateDebutSuspension de la ListeAbonnesProduitViewVO
+	*/
+	protected $mCptAboDateDebutSuspension;
+	
+	/**
+	* @var dateTime
+	* @desc CptAboDateFinSuspension de la ListeAbonnesProduitViewVO
+	*/
+	protected $mCptAboDateFinSuspension;
 
 	/**
 	* @name getCptAboIdProduitAbonnement()
@@ -187,5 +204,58 @@ class ListeAbonnesProduitViewVO  extends DataTemplate
 		$this->mCptAboQuantite = $pCptAboQuantite;
 	}
 
+	/**
+	* @name getProAboIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre ProAboIdNomProduit de la ListeAbonnesProduitViewVO
+	*/
+	public function getProAboIdNomProduit() {
+		return $this->mProAboIdNomProduit;
+	}
+
+	/**
+	* @name setProAboIdNomProduit($pProAboIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre ProAboIdNomProduit de la ListeAbonnesProduitViewVO par $pProAboIdNomProduit
+	*/
+	public function setProAboIdNomProduit($pProAboIdNomProduit) {
+		$this->mProAboIdNomProduit = $pProAboIdNomProduit;
+	}
+
+	/**
+	* @name getCptAboDateDebutSuspension()
+	* @return dateTime
+	* @desc Renvoie le membre CptAboDateDebutSuspension de la ListeAbonnesProduitViewVO
+	*/
+	public function getCptAboDateDebutSuspension() {
+		return $this->mCptAboDateDebutSuspension;
+	}
+
+	/**
+	* @name setCptAboDateDebutSuspension($pCptAboDateDebutSuspension)
+	* @param dateTime
+	* @desc Remplace le membre CptAboDateDebutSuspension de la ListeAbonnesProduitViewVO par $pCptAboDateDebutSuspension
+	*/
+	public function setCptAboDateDebutSuspension($pCptAboDateDebutSuspension) {
+		$this->mCptAboDateDebutSuspension = $pCptAboDateDebutSuspension;
+	}
+
+	/**
+	* @name getCptAboDateFinSuspension()
+	* @return dateTime
+	* @desc Renvoie le membre CptAboDateFinSuspension de la ListeAbonnesProduitViewVO
+	*/
+	public function getCptAboDateFinSuspension() {
+		return $this->mCptAboDateFinSuspension;
+	}
+
+	/**
+	* @name setCptAboDateFinSuspension($pCptAboDateFinSuspension)
+	* @param dateTime
+	* @desc Remplace le membre CptAboDateFinSuspension de la ListeAbonnesProduitViewVO par $pCptAboDateFinSuspension
+	*/
+	public function setCptAboDateFinSuspension($pCptAboDateFinSuspension) {
+		$this->mCptAboDateFinSuspension = $pCptAboDateFinSuspension;
+	}
 }
 ?>

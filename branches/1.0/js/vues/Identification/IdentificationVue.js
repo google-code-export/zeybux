@@ -6,19 +6,19 @@
 			Infobulle.generer(pParam.vr,'');
 		}
 		this.afficher();
-	}
+	};
 	
 	this.afficher = function() {
 		var that = this;
 		var lIdentificationTemplate = new IdentificationTemplate();
 		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
-	}
+	};
 	
 	this.affect = function(pData) {		
 		pData = this.affectIdentifier(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectIdentifier = function(pData) {
 		var that = this;
@@ -27,7 +27,7 @@
 			return false;
 		});
 		return pData;
-	}
+	};
 	
 	this.identifier = function(pObj) {
 		var lVo = new IdentificationVO();
@@ -37,8 +37,10 @@
 		var lVr = lValid.validAjout(lVo);
 
 		Infobulle.init(); // Supprime les erreurs
-		if (lVr.valid) {	
+		if (lVr.valid) {
 			var that = this;
+			var lIdentificationTemplate = new IdentificationTemplate();
+			$('#contenu').replaceWith(lIdentificationTemplate.chargementIdentification);
 			$.post(	"./index.php?m=Identification&v=Identification", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
@@ -47,10 +49,10 @@
 								that.mType = lResponse.type;
 								that.mModules = lResponse.modules;
 								gIdConnexion = lResponse.idConnexion;
-								var lIdentificationTemplate = new IdentificationTemplate();
 								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
 								that.chargerModule(0);
 							} else {
+								$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
 								Infobulle.generer(lResponse,'');
 							}
 					  	}
@@ -59,12 +61,12 @@
 		} else {
 			Infobulle.generer(lVr);
 		}		
-	}
+	};
 	
 	this.affectChargement = function(pData) {
 		pData.find('#chargement-module-progressbar').progressbar({value:1});
 		return pData;
-	}
+	};
 	
 	// Charge les modules les uns après les autres puis lance la page d'acceuil après le dernier chargement
 	this.chargerModule = function(pPosition) {
@@ -81,7 +83,7 @@
 				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + ".php",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
-	}
+	};
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
@@ -120,7 +122,7 @@
 		});
 
 		this.lancement();
-	}
+	};
 		
 	this.lancement = function() {
 		switch(this.mType) {
@@ -155,7 +157,7 @@
 				Infobulle.generer(lVr,'');
 			break;
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

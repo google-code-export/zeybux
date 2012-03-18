@@ -27,6 +27,12 @@ class ProduitMarcheVO extends DataTemplate
 	
 	/**
 	 * @var integer 
+	 * @desc IDMarche du Produit
+	 */
+	protected $mIdMarche;
+	
+	/**
+	 * @var integer 
 	 * @desc ID du compte de la ferme
 	 */
 	protected $mIdCompteFerme;
@@ -86,12 +92,18 @@ class ProduitMarcheVO extends DataTemplate
 	protected $mStockInitial;
 	
 	/**
+	* @var int(11)
+	* @desc Type du produit
+	*/
+	protected $mType;
+	
+	/**
 	* @var array(DetailMarcheVO)
 	* @desc Les lots du Produit
 	*/
 	protected $mLots;
 	
-		/**
+	/**
 	* @var int(11)
 	* @desc FerId du produit
 	*/
@@ -127,6 +139,24 @@ class ProduitMarcheVO extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
+	}
+		
+	/**
+	* @name getIdMarche()
+	* @return integer
+	* @desc Renvoie l'IdMarche du Produit
+	*/
+	public function getIdMarche() {
+		return $this->mIdMarche;
+	}
+
+	/**
+	* @name setIdMarche($pIdMarche)
+	* @param integer
+	* @desc Remplace l'IdMarche par $pIdMarche
+	*/
+	public function setIdMarche($pIdMarche) {
+		$this->mIdMarche = $pIdMarche;
 	}
 	
 	/**
@@ -310,6 +340,24 @@ class ProduitMarcheVO extends DataTemplate
 	}
 	
 	/**
+	* @name getType()
+	* @return int(11)
+	* @desc Renvoie le membre Type du produit
+	*/
+	public function getType() {
+		return $this->mType;
+	}
+
+	/**
+	* @name setType($pType)
+	* @param int(11)
+	* @desc Remplace le membre Type du produit par $pType
+	*/
+	public function setType($pType) {
+		$this->mType = $pType;
+	}
+	
+	/**
 	* @name getLots()
 	* @return array(DetailCommandeVO)
 	* @desc Renvoie le Lots du Produit
@@ -346,7 +394,7 @@ class ProduitMarcheVO extends DataTemplate
 	}
 
 	/**
-	* @name setFerId($pFerId)varchar(50)
+	* @name setFerId($pFerId)
 	* @param int(11)
 	* @desc Remplace le membre FerId du produit par $pFerId
 	*/
@@ -364,7 +412,7 @@ class ProduitMarcheVO extends DataTemplate
 	}
 
 	/**
-	* @name setFerNom($pFerNom)varchar(50)
+	* @name setFerNom($pFerNom)
 	* @param varchar(20)
 	* @desc Remplace le membre FerNom du produit par $pFerNom
 	*/

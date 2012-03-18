@@ -189,4 +189,12 @@
 				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
 		"</div>";
+	
+	this.chargementIdentification = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<div class=\"com-center\">Identification ...</div>" +
+			"</div>" +
+		"</div>";
 }

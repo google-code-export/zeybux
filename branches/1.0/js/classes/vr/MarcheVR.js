@@ -15,4 +15,5 @@
 	this.timeFinReservation = new VRelement();
 	this.archive = new VRelement();
 	this.produits = new Array();
+	this.produitsAbonnement = new Array();
 }
