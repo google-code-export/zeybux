@@ -22,7 +22,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -30,7 +30,7 @@
 		var lCommandeTemplate = new CommandeTemplate();
 		var lHtml = lCommandeTemplate.MonMarcheDebut;
 		
-		var lListeReservation = new Object;
+		/*var lListeReservation = new Object;
 		lListeReservation.reservation = new Array();
 		
 		// Transforme les dates pour l'affichage
@@ -61,7 +61,7 @@
 			lHtml += lCommandeTemplate.listeReservation.template(lListeReservation);			
 		} else {
 			lHtml += lCommandeTemplate.listeReservationVide;
-		}
+		}*/
 		
 		// Test si la liste est vide
 		if(lResponse.marches[0] && lResponse.marches[0].dateFinReservation != null) {
@@ -91,26 +91,29 @@
 		}
 		lHtml += lCommandeTemplate.MonMarcheFin;
 		$('#contenu').replaceWith(that.affect($(lHtml)));
-	}
+	};
+	
 	this.affect = function(pData) {
 		pData = this.affectBtnCommander(pData);
 		pData = this.affectVisualiser(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
+	
 	this.affectBtnCommander = function(pData) {
 		pData.find('.btn-commander').click(function() {
 			var lParam = {id_commande:$(this).attr('id')};
 			ReservationMarcheVue(lParam);
 		});
 		return pData;
-	}	
+	};
+	
 	this.affectVisualiser = function(pData) {
 		pData.find('.visualiser-reservation').click(function() {
 				AfficherReservationVue({id_commande:$(this).attr('id')});
 			});		
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 }
