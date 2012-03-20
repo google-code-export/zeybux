@@ -245,3 +245,5 @@ const ERR_348_CODE = 348;
 const ERR_348_MSG = 'Abonnement suspendu.';
 const ERR_349_CODE = 349;
 const ERR_349_MSG = 'Suspension supprimée.';
+const ERR_350_CODE = 350;
+const ERR_350_MSG = 'Réservation ajoutée.';

@@ -3,33 +3,33 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : CommandeDetailReservationValid.php
+// Fichier : DetailReservationMarcheValid.php
 //
-// Description : ClasseCommandeDetailReservationValid
+// Description : ClasseDetailReservationMarcheValid
 //
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/CommandeDetailReservationVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/DetailReservationMarcheVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 /**
- * @name CommandeDetailReservationVR
+ * @name DetailReservationMarcheVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une CommandeDetailReservationValid
+ * @desc Classe représentant une DetailReservationMarcheValid
  */
-class CommandeDetailReservationValid
+class DetailReservationMarcheValid
 {
 	/**
 	* @name validAjout($pData)
-	* @returnCommandeDetailReservationVR
+	* @return DetailReservationMarcheVR
 	* @desc Test la validite de l'élément
 	*/
 	public static function validAjout($pData) {
-		$lVr = new CommandeDetailReservationVR();
+		$lVr = new DetailReservationMarcheVR();
 		//Tests inputs
 		if(!isset($pData['stoQuantite'])) {
 			$lVr->setValid(false);
@@ -153,11 +153,11 @@ class CommandeDetailReservationValid
 
 	/**
 	* @name validDelete($pData)
-	* @returnCommandeDetailReservationVR
+	* @returnDetailReservationMarcheVR
 	* @desc Test la validite de l'élément
 	*/
 	/*public static function validDelete($pData) {
-		$lVr = new CommandeDetailReservationVR();
+		$lVr = new DetailReservationMarcheVR();
 		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
@@ -193,11 +193,11 @@ class CommandeDetailReservationValid
 
 	/**
 	* @name validUpdate($pData)
-	* @returnCommandeDetailReservationVR
+	* @return DetailReservationMarcheVR
 	* @desc Test la validite de l'élément
 	*/
 	public static function validUpdate($pData) {
-		$lVr = new CommandeDetailReservationVR();
+		$lVr = new DetailReservationMarcheVR();
 		
 		//Tests inputs
 		if(!isset($pData['stoQuantite'])) {

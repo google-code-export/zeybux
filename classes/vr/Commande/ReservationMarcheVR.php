@@ -3,9 +3,9 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 14/10/2010
-// Fichier : CommandeReservationVR.php
+// Fichier : ReservationMarcheVR.php
 //
-// Description : Classe CommandeReservationVR
+// Description : Classe ReservationMarcheVR
 //
 //****************************************************************
 // Inclusion des classes
@@ -14,12 +14,12 @@ include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name CommandeReservationVR
+ * @name ReservationMarcheVR
  * @author Julien PIERRE
  * @since 14/10/2010
- * @desc Classe représentant une CommandeReservationVR
+ * @desc Classe représentant une ReservationMarcheVR
  */
-class CommandeReservationVR extends DataTemplate
+class ReservationMarcheVR extends DataTemplate
 {
 	/**
 	 * @var bool
@@ -35,16 +35,16 @@ class CommandeReservationVR extends DataTemplate
 
 	/**
 	 * @var array(VRelement)
-	 * @desc Commandes de la CommandeReservationVR
+	 * @desc Commandes de la ReservationMarcheVR
 	 */
 	protected $mCommandes;
 
 	/**
-	* @name CommandeReservationVR()
+	* @name ReservationMarcheVR()
 	* @return bool
 	* @desc Constructeur
 	*/
-	function CommandeReservationVR() {
+	function ReservationMarcheVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mCommandes = array();
