@@ -241,7 +241,7 @@
 		pData = this.affectModifier(pData);
 		//pData = this.affectCloturer(pData);
 		pData = this.affectDupliquerMarche(pData);
-		pData = this.affectExportReservation(pData);
+	//	pData = this.affectExportReservation(pData);
 		pData = this.affectBonDeCommande(pData);
 		pData = this.affectBonDeLivraison(pData);
 		pData = this.affectArchive(pData);
@@ -257,17 +257,17 @@
 	this.affectInformation = function(pData) {
 		var that = this;
 		pData.find('#btn-information-marche').click(function() {
-			that.construct(that.mParam);
+			EditerCommandeVue(that.mParam);
 		});		
 		return pData;
 	};
 	
-	this.affectTri = function(pData) {
+	/*this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
 		return pData;
-	};
+	};*/
 	
-	this.affectRecherche = function(pData) {
+	/*this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
 		    $.uiTableFilter( $('.com-table'), this.value );
 		  });
@@ -281,7 +281,7 @@
 			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
 		});
 		return pData;
-	};
+	};*/
 	
 	this.affectModifier = function(pData) {	
 		var that = this;
@@ -352,7 +352,7 @@
 				width:600,
 				buttons: {
 					'Cloturer': function() {
-						var lParam = {id_commande:that.mIdMarche,fonction:"cloturer"};
+						var lParam = {id_marche:that.mIdMarche,fonction:"cloturer"};
 						var lDialog = this;
 						$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 								function(lResponse) {
@@ -396,7 +396,7 @@
 		var that = this;
 		pData.find('#btn-pause-com')
 		.click(function() {
-			var lParam = {id_commande:that.mIdMarche,fonction:"pause"};
+			var lParam = {id_marche:that.mIdMarche,fonction:"pause"};
 			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
@@ -429,7 +429,7 @@
 		var that = this;
 		pData.find('#btn-play-com')
 		.click(function() {
-			var lParam = {id_commande:that.mIdMarche,fonction:"play"};
+			var lParam = {id_marche:that.mIdMarche,fonction:"play"};
 			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
@@ -458,7 +458,7 @@
 		return pData;
 	};
 	
-	this.affectExportReservation = function(pData) {		
+	/*this.affectExportReservation = function(pData) {		
 		var that = this;
 		pData.find('#btn-export-resa')
 		.click(function() {			
@@ -506,136 +506,35 @@
 			
 		});
 		return pData;
-	};
+	};*/
 	
 	this.affectListeAchatEtReservation = function(pData) {
 		var that = this;
 		pData.find("#btn-liste-achat-resa").click(function() {
-			that.afficherAchatEtReservation();
+			ListeAchatMarcheVue({id_marche:that.mIdMarche});
 		});
 		
 		return pData;
 	};
-	
-	
-	this.affectAchatEtReservation = function(pData) {
-		pData = this.affectTri(pData);
-		pData = this.affectRecherche(pData);
-		pData = this.affectAchat(pData);
-		pData = this.affectExportDataEtReservation(pData);
-		return pData;
-	};
-	
-	this.affectAchat = function(pData) {
-		var that = this;
-		pData.find('.edt-com-achat-ligne').click(function() {
-			AchatAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
-		});
-		return pData;
-	};
-	
-	this.afficherAchatEtReservation = function() {
-		var that = this;
-		var lParam = {id_commande:this.mIdMarche,fonction:"listeAchatReservation"};
-		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							// Met le bouton en actif
-							$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-							$("#btn-liste-achat-resa").addClass("ui-state-active");
-							
-							$(lResponse.listeAchatEtReservation).each(function() {
-								if(this.reservation == null) { this.reservation = '';}
-								if(this.achat == null) { this.achat = '';}
-							});
-	
-							var lGestionCommandeTemplate = new GestionCommandeTemplate();
-							if(lResponse.listeAchatEtReservation.length > 0 && lResponse.listeAchatEtReservation[0].adhId != null) {
-								var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-								$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(lResponse))));
-							} else {
-								$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
-							}
-							
-							
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-		);
-	};
-	
-	this.affectExportDataEtReservation = function(pData) {		
-		var that = this;
-		pData.find('#btn-export-achat')
-		.click(function() {			
-			var lGestionCommandeTemplate = new GestionCommandeTemplate();
-			var lTemplate = lGestionCommandeTemplate.dialogExportListeAchatEtReservation;
-			
-			$(lTemplate.template(that.mMarche)).dialog({
-				autoOpen: true,
-				modal: true,
-				draggable: false,
-				resizable: false,
-				width:600,
-				buttons: {
-					'Exporter': function() {
-						// Récupération du formulaire
-						/*var lIdProduits = '';
-						$(this).find(':input[name=id_produits]:checked').each(function() {
-							lIdProduits += $(this).val() + ',';
-						});
-						lIdProduits = lIdProduits.substr(0,lIdProduits.length-1);
-						
-						var lFormat = $(this).find(':input[name=format]:checked').val();
-						var lParam = new ExportListeReservationVO();
-						//lParam = {pParam:1,export_type:1,id_commande:that.mIdMarche,id_produits:lIdProduits,format:lFormat};*/
-						lParam = {fonction:"exportAchatEtReservation",id_commande:that.mIdMarche};
-						
-						// Test des erreurs
-						/*var lValid = new ExportListeReservationValid();
-						var lVr = lValid.validAjout(lParam);
-						
-						Infobulle.init(); // Supprime les erreurs
-						if(lVr.valid) {*/
-							// Affichage
-							$.download("./index.php?m=GestionCommande&v=EditerCommande", lParam);
-						/*} else {
-							Infobulle.generer(lVr,'');
-						}*/
-					},
-					'Annuler': function() {
-						$(this).dialog('close');
-					}
-				},
-				close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
-			});
-			
-		});
-		return pData;
-	};
-	
+
 	this.affectListeReservation = function(pData) {
 		var that = this;
 		pData.find("#btn-liste-resa").click(function() {
-			that.afficherListeReservation();
+			ListeReservationMarcheVue({id_marche:that.mIdMarche});
 		});
 		
 		return pData;
 	};
 	
-	this.affectReservationAction = function(pData) {
+	/*this.affectReservationAction = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectExportReservation(pData);
 		pData = this.affectReservation(pData);
 		return pData;
-	};
+	};*/
 
-	this.afficherListeReservation = function() {
+	/*this.afficherListeReservation = function() {
 		var that = this;
 		var lParam = {id_commande:this.mIdMarche,fonction:"listeReservation"};
 		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
@@ -669,7 +568,7 @@
 					}
 				},"json"
 		);
-	};
+	};*/
 	
 	this.affectMajListeFerme = function(pData) {
 		var that = this;
@@ -1500,7 +1399,7 @@
 
 			//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 			
-			var lStock = 0;
+			var lStock = -1;
 			if(pType == 2) {
 				lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
 			} else if(pType == 0){
@@ -1519,7 +1418,7 @@
 				Infobulle.generer(lVR,"pro-");
 			} else {				
 				//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();	
-				var lQteMax = 0;
+				var lQteMax = -1;
 				if(pType == 0) {
 					lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
 				} else if(pType == 2) {
@@ -1605,7 +1504,7 @@
 											pDialog.dialog('close');
 											
 		
-											that.construct({id_commande:that.mIdMarche,vr:lVR});
+											that.construct({id_marche:that.mIdMarche,vr:lVR});
 											
 										} else {
 											Infobulle.generer(lResponse,"pro-");
@@ -1689,7 +1588,7 @@
 							$("#dialog-supprimer-produit").dialog('close');
 							
 
-							that.construct({id_commande:that.mIdMarche,vr:lVR});	
+							that.construct({id_marche:that.mIdMarche,vr:lVR});	
 							
 						} else {
 							Infobulle.generer(lResponse,"marche-");
@@ -2073,11 +1972,11 @@
 				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
 				
 				//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-
+				var lStock = -1;
 				if(lTypeProduit == 2) {
-					var lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
-				} else {
-					var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
+					lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
+				} else if(lTypeProduit == 0){
+					lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 				}
 
 				if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "" && lTypeProduit == 0) { // Si une limite de stock est sélectionné il faut la saisir
@@ -2092,7 +1991,7 @@
 					Infobulle.generer(lVR,"pro-");
 				} else {				
 					//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();					
-					var lQteMax = 0;
+					var lQteMax = -1;
 					if(lTypeProduit == 2) {
 						lQteMax = pDialog.find('#max-abonnement').text().numberFrToDb();
 					} else if(lTypeProduit == 0){
@@ -2202,7 +2101,7 @@
 													pDialog.dialog('close');
 													
 			
-													that.construct({id_commande:that.mIdMarche,vr:lVR});
+													that.construct({id_marche:that.mIdMarche,vr:lVR});
 													
 												} else {
 													Infobulle.generer(lResponse,"pro-");

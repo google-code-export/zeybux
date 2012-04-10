@@ -40,15 +40,15 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						$lLogger->log("Cloture du marché par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
-				case "listeAchatReservation":
+				/*case "listeAchatReservation":
 						echo $lControleur->getListeAchatEtReservation($lParam)->exportToJson();
 						$lLogger->log("Affichage de la liste des réservation et achats : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-					break;
+					break;*/
 					
-				case "listeReservation":
+				/*case "listeReservation":
 						echo $lControleur->getListeReservation($lParam)->exportToJson();
 						$lLogger->log("Affichage de la liste des réservation : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-					break;
+					break;*/
 					
 				case "modifierInformationMarche":
 						echo $lControleur->modifierInformationMarche($lParam)->exportToJson();
@@ -105,12 +105,12 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			header('location:./index.php');
 		}
 	
-	} else if(isset($_POST['fonction'])) {
+	/*} else if(isset($_POST['fonction'])) {
 		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/EditerCommandeControleur.php");						
 		$lControleur = new EditerCommandeControleur();
 		
 		switch($_POST['fonction']) {					
-			case "exportReservation":
+			/*case "exportReservation":
 					if(isset($_POST['id_commande']) && isset($_POST['id_produits']) && isset($_POST['format'])) {
 						$lParam = array();
 						$lParam['id_commande'] = $_POST['id_commande'];
@@ -128,9 +128,9 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 						header('location:./index.php');
 					}
-				break;
+				break;*/
 				
-			case "exportAchatEtReservation":
+			/*case "exportAchatEtReservation":
 					if(isset($_POST['id_commande']) ) {
 						$lParam = array();
 						$lParam['id_commande'] = $_POST['id_commande'];				
@@ -140,13 +140,13 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 						header('location:./index.php');
 					}
-				break;
+				break;*/
 
-			default:
+		/*	default:
 				$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 				header('location:./index.php');
 				break;
-		}		
+		}	*/	
 	} else {
 		$lLogger->log("Demande d'accés à EditerCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');

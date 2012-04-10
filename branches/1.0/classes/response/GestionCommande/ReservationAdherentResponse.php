@@ -43,11 +43,13 @@ class ReservationAdherentResponse extends DataTemplate
 	protected $mReservation;
 	
 	/**
-	* @name InfoAchatCommandeResponse()
-	* @desc Le constructeur de InfoAchatCommandeResponse
+	* @name ReservationAdherentResponse()
+	* @desc Le constructeur de ReservationAdherentResponse
 	*/	
-	public function InfoAchatCommandeResponse() {
+	public function ReservationAdherentResponse() {
 		$this->mValid = true;
+		$this->mMarche = array();
+		$this->mReservation = array();
 	}
 	
 	/**

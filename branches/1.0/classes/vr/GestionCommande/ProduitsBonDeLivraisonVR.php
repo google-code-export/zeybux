@@ -82,6 +82,7 @@ class ProduitsBonDeLivraisonVR extends DataTemplate
 	*/
 	function ProduitsBonDeLivraisonVR() {
 		$this->mValid = true;
+		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
 		$this->mId_commande = new VRelement();
 		$this->mId_producteur = new VRelement();

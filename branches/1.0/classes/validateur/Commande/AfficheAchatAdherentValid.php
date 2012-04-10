@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/AfficheAchatAdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
-include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/ProduitMarcheVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/ProduitMarcheVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 
 /**

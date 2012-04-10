@@ -96,7 +96,6 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		//lData.reservation = new Array();
 		lData.categories = [];
 		
 		var lTotal = 0;
@@ -120,7 +119,6 @@
 				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 				
-				//lData.reservation.push(lPdt);
 
 				if(!lData.categories[this.idCategorie]) {
 					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
@@ -146,167 +144,179 @@
 		//this.majNouveauSolde();
 	};
 	
-	this.afficherModifier = function() {
-		var that = this;
-		var lCommandeTemplate = new CommandeTemplate();
-		var lTemplate = lCommandeTemplate.modifierReservation;
-		var lData = {};
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.solde = this.solde.nombreFormate(2,',',' ');
-		lData.soldeNv = this.soldeNv.nombreFormate(2,',',' ');
-		lData.comNumero = this.infoCommande.comNumero;
-		lData.dateFinReservation = this.infoCommande.dateFinReservation;
-		lData.heureFinReservation = this.infoCommande.heureFinReservation;
-		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
-		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
-		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
-		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
-		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
-		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		//lData.produit = new Array();
-		lData.categories = [];
-				
-		var lTotal = 0;		
-		$.each(this.pdtCommande, function() {
-			// Test si la ligne n'est pas vide
-			if(this.id) {
-				var lPdt = {};
-				lPdt.proId = this.id;
-				lPdt.nproNom = this.nom;
-				lPdt.proUniteMesure = this.unite;
-				
-				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
-				lPdt.flagType = "";
-				
-								
-				// Recherche de la quantité reservée pour la déduire de la quantité max
-				if(that.reservation[this.id]) {
-					lPdt.stock = parseFloat(this.stockReservation) + parseFloat(that.reservation[this.id].stoQuantite);						
-				} else {
-					lPdt.stock = parseFloat(this.stockReservation);
-				}
-								
-				lPdt.lot = new Array();
-
-				var lNoStock = false;
-				if(parseFloat(this.qteMaxCommande) == -1 && parseFloat(this.stockInitial) == -1) { // Si ni stock ni qmax
-					lNoStock = true;
-				} else if(parseFloat(this.stockInitial) == -1) { // Si qmax mais pas stock
-					lPdt.max = lPdt.proMaxProduitCommande;
-				} else if(parseFloat(this.qteMaxCommande) == -1) { // Si stock mais pas qmax
-					lPdt.max = lPdt.stock;
-				} else { // Si stock et qmax
-					if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
-						lPdt.max = lPdt.proMaxProduitCommande;
-					} else {
-						lPdt.max = lPdt.stock;
-					}					
-				}
-				
-				var i = 0;
-				var lLotReservation = -1;
-				var lLotInit = -1;
-				
-
-				lPdt.stoQuantiteReservation = 0;
-				lPdt.prixReservation = 0;
-				
-				$.each(this.lots, function() {
-					if(this.id) {
-						if(lNoStock || (!lNoStock && parseFloat(this.taille) <= lPdt.max) ) {
-							var lLot = {};
-							lLot.dcomId = this.id;
-							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
-							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
-							lLot.prixReservation = parseFloat(this.prix);
-							lLot.stoQuantiteReservation = parseFloat(this.taille);
-							
-							if(that.reservation[lPdt.proId] && (that.reservation[lPdt.proId].dcomId == this.id)) {
-									lLot.stoQuantiteReservation = parseFloat(that.reservation[lPdt.proId].stoQuantite);
-									lLot.prixReservation = (lLot.stoQuantiteReservation / this.taille) * this.prix;
-									lTotal += lLot.prixReservation;
+	this.afficherModifier = function() {		
+		// Si la date de fin des réservations est passée on bloque la possibilité de réaliser une réservation
+		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
+			// Message d'information de la bonne modification
+			var lVr = new TemplateVR();
+			lVr.valid = false;
+			lVr.log.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_221_CODE;
+			erreur.message = ERR_221_MSG;
+			lVr.log.erreurs.push(erreur);	
+			Infobulle.generer(lVr,'');
+		} else {
+			var that = this;
+			var lCommandeTemplate = new CommandeTemplate();
+			var lTemplate = lCommandeTemplate.modifierReservation;
+			var lData = {};
+			lData.sigleMonetaire = gSigleMonetaire;
+			lData.solde = this.solde.nombreFormate(2,',',' ');
+			lData.soldeNv = this.soldeNv.nombreFormate(2,',',' ');
+			lData.comNumero = this.infoCommande.comNumero;
+			lData.dateFinReservation = this.infoCommande.dateFinReservation;
+			lData.heureFinReservation = this.infoCommande.heureFinReservation;
+			lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
+			lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
+			lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
+			lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
+			lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
+			lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
+			//lData.produit = new Array();
+			lData.categories = [];
+					
+			var lTotal = 0;		
+			$.each(this.pdtCommande, function() {
+				// Test si la ligne n'est pas vide
+				if(this.id) {
+					var lPdt = {};
+					lPdt.proId = this.id;
+					lPdt.nproNom = this.nom;
+					lPdt.proUniteMesure = this.unite;
+					
+					lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
+					lPdt.flagType = "";
+					
 									
-									// Permet de cocher le lot correspondant à la résa
-									lLotReservation = this.id;
-									lLot.checked = 'checked="checked"';									
-			 						
+					// Recherche de la quantité reservée pour la déduire de la quantité max
+					if(that.reservation[this.id]) {
+						lPdt.stock = parseFloat(this.stockReservation) + parseFloat(that.reservation[this.id].stoQuantite);						
+					} else {
+						lPdt.stock = parseFloat(this.stockReservation);
+					}
+									
+					lPdt.lot = new Array();
+	
+					var lNoStock = false;
+					if(parseFloat(this.qteMaxCommande) == -1 && parseFloat(this.stockInitial) == -1) { // Si ni stock ni qmax
+						lNoStock = true;
+					} else if(parseFloat(this.stockInitial) == -1) { // Si qmax mais pas stock
+						lPdt.max = lPdt.proMaxProduitCommande;
+					} else if(parseFloat(this.qteMaxCommande) == -1) { // Si stock mais pas qmax
+						lPdt.max = lPdt.stock;
+					} else { // Si stock et qmax
+						if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
+							lPdt.max = lPdt.proMaxProduitCommande;
+						} else {
+							lPdt.max = lPdt.stock;
+						}					
+					}
+					
+					var i = 0;
+					var lLotReservation = -1;
+					var lLotInit = -1;
+
+					lPdt.stoQuantiteReservation = 0;
+					lPdt.prixReservation = 0;
+					
+					$.each(this.lots, function() {
+						if(this.id) {
+							if(lNoStock || (!lNoStock && parseFloat(this.taille) <= lPdt.max) ) {
+								var lLot = {};
+								lLot.dcomId = this.id;
+								lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
+								lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
+								lLot.prixReservation = parseFloat(this.prix);
+								lLot.stoQuantiteReservation = parseFloat(this.taille);
+								
+								if(that.reservation[lPdt.proId] && (that.reservation[lPdt.proId].dcomId == this.id)) {
+										lLot.stoQuantiteReservation = parseFloat(that.reservation[lPdt.proId].stoQuantite);
+										lLot.prixReservation = (lLot.stoQuantiteReservation / this.taille) * this.prix;
+										lTotal += lLot.prixReservation;
+										
+										// Permet de cocher le lot correspondant à la résa
+										lLotReservation = this.id;
+										lLot.checked = 'checked="checked"';									
+				 						
+										lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
+										lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+								}
+								
+								if( lPdt.prixReservation == 0) {
 									lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
 									lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+								}
+								
+								lPdt.prixUnitaire = (lLot.prixReservation / lLot.stoQuantiteReservation).nombreFormate(2,',',' ');
+								
+								lPdt.lot.push(lLot);
 							}
-							
-							if( lPdt.prixReservation == 0) {
-								lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
-								lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
-							}
-							
-							lPdt.prixUnitaire = (lLot.prixReservation / lLot.stoQuantiteReservation).nombreFormate(2,',',' ');
-							
-							lPdt.lot.push(lLot);
 						}
-					}
-				});
-				
-				lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
-				
-				// Si il y a une réservation pour ce produit on le coche
-				if(lLotReservation != -1) {
-					lPdt.checked = 'checked="checked"';
-				} else {
-					lPdt.checked = '';
-				}
-				
-			/*	if(lPdt.lot.length == 0) {		
-					lPdt.checked = 'rel="indisponible"';
-				}*/
-				//lData.produit.push(lPdt);
-				if(!lData.categories[this.idCategorie]) {
-					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
-				
-				lPdt.sigleMonetaire = gSigleMonetaire;
-				var lAjoutProduit = true;
-				if(this.type == 0 ) {
-					if(lPdt.lot.length == 0) {
-						lPdt.detailProduit = lCommandeTemplate.produitIndisponible.template(lPdt);
+					});
+					
+					lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
+					
+					// Si il y a une réservation pour ce produit on le coche
+					if(lLotReservation != -1) {
+						lPdt.checked = 'checked="checked"';
 					} else {
-						lPdt.detailProduit = lCommandeTemplate.formReservationProduit.template(lPdt);
+						lPdt.checked = '';
 					}
-				} else if(this.type == 1 ) {
-					lPdt.flagType = lCommandeTemplate.flagSolidaire;
-					lPdt.detailProduit = lCommandeTemplate.formReservationProduitInfo.template(lPdt);
-				} else if(this.type == 2 ) {
-					lPdt.flagType = lCommandeTemplate.flagAbonnement;
-					if(that.reservation[this.id]) {						
-						lPdt.detailProduit = lCommandeTemplate.formReservationProduitAbonnementInfo.template(lPdt);
-					} else {
+					
+				/*	if(lPdt.lot.length == 0) {		
+						lPdt.checked = 'rel="indisponible"';
+					}*/
+					//lData.produit.push(lPdt);
+					if(!lData.categories[this.idCategorie]) {
+						lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+					}
+					
+					lPdt.sigleMonetaire = gSigleMonetaire;
+					var lAjoutProduit = true;
+					if(this.type == 0 ) {
 						if(lPdt.lot.length == 0) {
-							lAjoutProduit = false;
+							lPdt.detailProduit = lCommandeTemplate.produitIndisponible.template(lPdt);
 						} else {
 							lPdt.detailProduit = lCommandeTemplate.formReservationProduit.template(lPdt);
 						}
-					}				
+					} else if(this.type == 1 ) {
+						lPdt.flagType = lCommandeTemplate.flagSolidaire;
+						lPdt.detailProduit = lCommandeTemplate.formReservationProduitInfo.template(lPdt);
+					} else if(this.type == 2 ) {
+						lPdt.flagType = lCommandeTemplate.flagAbonnement;
+						if(that.reservation[this.id]) {						
+							lPdt.detailProduit = lCommandeTemplate.formReservationProduitAbonnementInfo.template(lPdt);
+						} else {
+							if(lPdt.lot.length == 0) {
+								lAjoutProduit = false;
+							} else {
+								lPdt.detailProduit = lCommandeTemplate.formReservationProduit.template(lPdt);
+							}
+						}				
+					}
+					
+					if(lAjoutProduit) {
+						lData.categories[this.idCategorie].produits.push(lPdt);
+					}
 				}
-				
-				if(lAjoutProduit) {
-					lData.categories[this.idCategorie].produits.push(lPdt);
+			});
+			
+			// Maj des reservations temp pour modif
+			this.reservationModif = [];
+			$(this.reservation).each(function() {
+				if(this.proId) {
+						that.reservationModif[this.proId] = {
+							proId:this.proId,
+							dcomId:this.dcomId,
+							stoQuantite:this.stoQuantite
+							};
 				}
-			}
-		});
-		
-		// Maj des reservations temp pour modif
-		this.reservationModif = [];
-		$(this.reservation).each(function() {
-			if(this.proId) {
-					that.reservationModif[this.proId] = {
-						proId:this.proId,
-						dcomId:this.dcomId,
-						stoQuantite:this.stoQuantite
-						};
-			}
-		});
-		
-		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
-		this.majNouveauSolde();
+			});
+			
+			$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
+			this.majNouveauSolde();
+		}
 	};
 	
 	this.affect = function(pData) {
@@ -396,12 +406,14 @@
 	this.affectBtnQte = function(pData) {
 		var that = this;
 		pData.find('.btn-plus').click(function() {
+			Infobulle.init(); // Supprime les erreurs
 			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
 			that.nouvelleQuantite(	lIdPdt,
 									$(this).parent().parent().find('#lot-' + lIdPdt).val(),
 									1);
 		});	
 		pData.find('.btn-moins').click(function() {
+			Infobulle.init(); // Supprime les erreurs
 			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
 			that.nouvelleQuantite(lIdPdt,$(this).parent().parent().find('#lot-' + lIdPdt).val(),-1);
 		});
@@ -411,6 +423,7 @@
 	this.affectChangementLot = function(pData) {
 		var that = this;
 		pData.find('.pdt select').change(function() {
+			Infobulle.init(); // Supprime les erreurs
 			that.changerLot($(this).parent().parent().find(".pdt-id").text(),$(this).val());
 		});
 		return pData;
@@ -419,6 +432,7 @@
 	this.affectChangementProduit = function(pData) {
 		var that = this;
 		pData.find('.pdt :checkbox').click(function() {
+			Infobulle.init(); // Supprime les erreurs
 			that.changerProduit($(this).parent().parent().find(".pdt-id").text());			
 		});
 		return pData;
@@ -453,24 +467,13 @@
 		return pData;
 	};
 	
-	/*this.masquerIndisponible = function(pData) {
-		pData.find("[rel='indisponible']").each(function() {
-			var lCommandeTemplate = new CommandeTemplate();
-			var lTemplate = lCommandeTemplate.produitIndisponible;
-			var lData = {nom:$(this).parents(".pdt").find(".nom-pro").text()};			
-			$(this).parents(".pdt").before(lTemplate.template(lData));
-			$(this).parents(".pdt").remove();
-		});		
-		return pData;
-	};*/
-	
 	this.affectInitLot = function(pData) {
 		var that = this;
 		pData.find('.pdt select').each(function() {
 			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
 			var lIdLot = $(this).val();
 			
-			if(that.pdtCommande[lIdPdt].lots[lIdLot]) {
+			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
 				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
 				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
 				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
@@ -490,10 +493,7 @@
 			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
 		} else {
 			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
-		}
-		//if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
-		
-		
+		}	
 		
 		var lNoStock = false;
 		if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1 && parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si ni stock ni qmax
@@ -515,13 +515,12 @@
 			lQteReservation = parseFloat(this.reservationModif[pIdPdt].stoQuantite)/parseFloat(lTaille);
 		}
 		lQteReservation += pIncrement;
-
 		
 		var lNvQteReservation = 0;		
 		lNvQteReservation = lQteReservation * lTaille;
 		
 		// Test si la quantité est dans les limites
-		if(lNoStock || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax)) {
+		if((lNoStock && lNvQteReservation > 0) || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax)) {
 			var lNvPrix = 0;
 			lNvPrix = (lQteReservation * lPrix).toFixed(2);
 			
@@ -532,7 +531,7 @@
 			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
 
 			this.majTotal();
-		} else if(lNvQteReservation > lMax) {
+		} else if(lNvQteReservation > lMax && lMax != -1) {
 			var lVr = new TemplateVR();
 			lVr.valid = false;
 			lVr.commandes = [];
@@ -696,7 +695,7 @@
 
 								if(that.mPremiereReservation)  {
 									that.mPremiereReservation = false;								
-									// Message d'information de la bonn enregistrement
+									// Message d'information du bon enregistrement
 									var lVr = new TemplateVR();
 									lVr.valid = false;
 									lVr.log.valid = false;

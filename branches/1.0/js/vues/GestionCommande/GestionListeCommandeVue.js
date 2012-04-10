@@ -70,7 +70,7 @@
 	
 	this.affectLienEditer = function(pData) {
 		pData.find('.btn-editer').click(function() {
-			var lparam = {"id_commande":$(this).attr('id')};
+			var lparam = {"id_marche":$(this).attr('id')};
 			EditerCommandeVue(lparam);
 		});
 		return pData;

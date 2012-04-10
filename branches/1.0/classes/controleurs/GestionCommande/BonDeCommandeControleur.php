@@ -304,7 +304,7 @@ class BonDeCommandeControleur
 			$lCSV->setNom('Bon_de_Commande.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Producteur","Ref.","Produit","Commande","","Prix","");
+			$lEntete = array("Ferme","Ref.","Produit","Commande","","Prix","");
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
@@ -318,9 +318,17 @@ class BonDeCommandeControleur
 						$lNomPrdt = $lLigne->getFerNom();
 					}
 					
+					if($lLigne->getProType() == 1) {
+						$lNomProduit = $lLigne->getNproNom() . " (Solidaire)";
+					} else if($lLigne->getProType() == 2) {
+						$lNomProduit = $lLigne->getNproNom() . " (Abonnement)";
+					} else {
+						$lNomProduit = $lLigne->getNproNom();
+					}
+					
 					$lLignecontenu = array(	$lNomPrdt,
 											$lLigne->getNproNumero(),
-											$lLigne->getNproNom(),
+											$lNomProduit,
 											$lLigne->getStoQuantite(),
 											$lLigne->getProUniteMesure(),
 											$lLigne->getDopeMontant(),

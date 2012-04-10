@@ -81,8 +81,8 @@ class ReservationValid
 			$lIdValid = $lIdReservationValid->estVide($pReservation->getId());
 			if(!is_null($lIdValid) && !$lIdValid) {
 				if($this->detailReservation($pReservation->getDetailReservation())) {
+					$lDetailValid = true;
 					foreach($pReservation->getDetailReservation() as $lDetail) {
-						$lDetailValid = true;
 						$lDetailReservationValid = new DetailReservationValid();
 						$lDetailValid &= $lDetailReservationValid->update($lDetail) || $lDetailReservationValid->insert($lDetail);
 					}

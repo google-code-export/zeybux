@@ -37,7 +37,7 @@ class AchatAdherentControleur
 		$lVr = AfficheAchatAdherentValid::validGetAchatEtReservation($pParam);
 		if($lVr->getValid()) {
 			$lIdAdherent = $pParam["id_adherent"];
-			$lIdCommande = $pParam["id_commande"];
+			$lIdCommande = $pParam["id_marche"];
 			
 			$lResponse = new AchatAdherentResponse();
 			
@@ -45,21 +45,21 @@ class AchatAdherentControleur
 			$lResponse->setAdherent($lAdherent);
 			
 			$lMarcheService = new MarcheService();
-			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
+			$lResponse->setMarche($lMarcheService->get($pParam["id_marche"]));
 
 			$lReservationService = new ReservationService();
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdReservation->setIdCommande($pParam["id_commande"]);
+			$lIdReservation->setIdCommande($pParam["id_marche"]);
 			$lResponse->setReservation($lReservationService->get($lIdReservation));	
 
 			$lAchatService = new AchatService();
 			$lIdAchat = new IdAchatVO();
 			$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdAchat->setIdCommande($pParam["id_commande"]);
+			$lIdAchat->setIdCommande($pParam["id_marche"]);
 			$lResponse->setAchats($lAchatService->getAll($lIdAchat));	
 			
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_marche"]);
 			$lResponse->setStockSolidaire($lStockSolidaire);	
 			return $lResponse;
 		}

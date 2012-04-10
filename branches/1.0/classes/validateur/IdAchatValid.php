@@ -41,7 +41,7 @@ class IdAchatValid extends IdValid
 	*/
 	public function estAjout($pIdAchat) {
 		if($this->format($pIdAchat)) {
-			 return $pIdAchat->getIdCompte() != ''
+			return $pIdAchat->getIdCompte() != ''
 			 && $pIdAchat->getIdCommande() != ''
 			 && $pIdAchat->getIdAchat() == ''
 			 && $pIdAchat->getIdReservation() == '';

@@ -43,6 +43,12 @@ class ListeProduitsAbonneViewVO  extends DataTemplate
 	protected $mFerNom;
 
 	/**
+	* @var int(11)
+	* @desc NproId de la ListeProduitsAbonneViewVO
+	*/
+	protected $mNproId;
+
+	/**
 	* @var varchar(50)
 	* @desc NproNom de la ListeProduitsAbonneViewVO
 	*/
@@ -151,6 +157,24 @@ class ListeProduitsAbonneViewVO  extends DataTemplate
 	}
 	
 	/**
+	* @name getNproId()
+	* @return int(11)
+	* @desc Renvoie le membre NproId de la ListeProduitsAbonneViewVO
+	*/
+	public function getNproId() {
+		return $this->mNproId;
+	}
+
+	/**
+	* @name setNproId($pNproId)
+	* @param int(11)
+	* @desc Remplace le membre NproId de la ListeProduitsAbonneViewVO par $pNproId
+	*/
+	public function setNproId($pNproId) {
+		$this->mNproId = $pNproId;
+	}
+	
+	/**
 	* @name getNproNom()
 	* @return varchar(50)
 	* @desc Renvoie le membre NproNom de la ListeProduitsAbonneViewVO
@@ -167,7 +191,7 @@ class ListeProduitsAbonneViewVO  extends DataTemplate
 	public function setNproNom($pNproNom) {
 		$this->mNproNom = $pNproNom;
 	}
-
+	
 	/**
 	* @name getCproNom()
 	* @return varchar(50)

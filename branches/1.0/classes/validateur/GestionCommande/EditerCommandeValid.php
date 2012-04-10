@@ -28,34 +28,34 @@ class EditerCommandeValid
 	public static function validGetInfoCommande($pData) {
 		$lVr = new InfoCommandeVR();
 		//Tests inputs
-		if(!isset($pData['id_commande'])) {
+		if(!isset($pData['id_marche'])) {
 			$lVr->setValid(false);
-			$lVr->getIdCommande()->setValid(false);
+			$lVr->getIdMarche()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$lVr->getIdCommande()->addErreur($lErreur);	
+			$lVr->getIdMarche()->addErreur($lErreur);	
 		}
 
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!is_int((int)$pData['id_commande'])) {
+			if(!is_int((int)$pData['id_marche'])) {
 				$lVr->setValid(false);
-				$lVr->getIdCommande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
-				$lVr->getIdCommande()->addErreur($lErreur);	
+				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
 
 			//Tests Fonctionnels
-			if(empty($pData['id_commande'])) {
+			if(empty($pData['id_marche'])) {
 				$lVr->setValid(false);
-				$lVr->getIdCommande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
-				$lVr->getIdCommande()->addErreur($lErreur);	
+				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
 		}
 		return $lVr;

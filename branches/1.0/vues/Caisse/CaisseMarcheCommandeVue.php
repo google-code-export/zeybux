@@ -44,6 +44,17 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_CAISSE]) || isset($_SESS
 							$lLogger->log("Echec de l'enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 						}						
 					break;
+					
+				case "modifier":
+						$lResponse = $lControleur->modifierAchat($lParam);
+						echo $lResponse->exportToJson();
+		
+						if($lResponse->getValid()) {
+							$lLogger->log("Enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						} else {
+							$lLogger->log("Echec de l'enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						}						
+					break;
 
 				default:
 					$lLogger->log("Demande d'accés à MarcheCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs

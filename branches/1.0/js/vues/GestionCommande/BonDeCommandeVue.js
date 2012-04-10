@@ -1,5 +1,5 @@
 ;function BonDeCommandeVue(pParam) {
-	this.mCommunVue = new CommunVue();
+	//this.mCommunVue = new CommunVue();
 	this.mIdCommande = null;
 	this.mComNumero = null;
 	this.mEtatEdition = false;
@@ -28,7 +28,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
@@ -39,23 +39,23 @@
 		this.mComNumero = pResponse.comNumero;
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
-	}
+	};
 	
 	this.affect = function(pData) {
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectBtnRetourMarche(pData);
 		pData = this.affectChangementProducteur(pData);
 		pData = this.affectExportBonCommande(pData);
 		return pData;
-	}
+	};
 	
 	this.affectBtnRetourMarche = function(pData) {
 		var that = this;
 		pData.find('#btn-editer-com').click(function() {
-			EditerCommandeVue({"id_commande":that.mIdCommande});
+			EditerCommandeVue({"id_marche":that.mIdCommande});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectChangementProducteur = function(pData) {
 		var that = this;
@@ -68,15 +68,15 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
-	this.changementProducteur = function() {
+	this.changementProducteur = function(pParam) {
 		var that = this;
 		var lIdCompteProducteur = $('#select-prdt').val();
 		if(lIdCompteProducteur > 0) {
 			var lParam = {	"id_commande":that.mIdCommande,
 						 	"id_compte_ferme":lIdCompteProducteur,
-						 	fonction:"afficherProducteur"}
+						 	fonction:"afficherProducteur"};
 			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
@@ -85,39 +85,16 @@
 								that.mIdCompteProducteur = lIdCompteProducteur;
 								that.mEtatEdition = false;
 								
-								$(lResponse.produits).each(function() {
-									that.mListeProduit[this.proId] = this.stoQuantite;
-									
-									this.stoQuantiteCommande = '';
-									this.dopeMontant = '';
-									
-									var lProId = this.proId;
-									var these = this;
-									
-									$(lResponse.produitsCommande).each(function() {
-										if(this.proId == lProId) {
-											these.stoQuantiteCommande = this.stoQuantite;
-											these.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
-										}
-									});
-									
-									if(this.stoQuantiteCommande - this.stoQuantite < 0) {
-										this.classEtat = 'qte-reservation-ko';
-									} else {
-										this.classEtat = 'qte-reservation-ok';
-									}
-									if(this.stoQuantiteCommande != '') {
-										this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
-									}
-									this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-								});	
+								if(lResponse.produitsCommande[0] && lResponse.produitsCommande[0].proIdCommande != null) {
+									that.afficherDetail(lResponse);
+								} else {
+									that.afficherFormulaire(lResponse);
+								}
 								
-								lResponse.sigleMonetaire = gSigleMonetaire;
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}
 								
-								var lGestionCommandeTemplate = new GestionCommandeTemplate();
-								var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
-								
-								$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(lResponse))));
 							} else {
 								Infobulle.generer(lResponse,'');
 							}
@@ -129,15 +106,99 @@
 			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
 			$('#liste-pdt').replaceWith(lTemplate);
 		}
-	}
+	};
+	
+	this.afficherDetail = function(pResponse) {
+		var that = this;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = this.stoQuantite;
+			
+			this.stoQuantiteCommande = "0";
+			this.dopeMontant = "0";
+			
+			var lProId = this.proId;
+			var these = this;			
+			$(pResponse.produitsCommande).each(function() {
+				if(this.proId == lProId) {
+					these.stoQuantiteCommande = this.stoQuantite;
+					these.dopeMontant = this.dopeMontant;
+				}
+			});
+			
+			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+			
+			if(this.stoQuantiteCommande != '') {
+				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			this.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+		});
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
+		
+		$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(pResponse))));
+	};	
+	
+	this.afficherFormulaire = function(pResponse) {
+		var that = this;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = this.stoQuantite;
+
+			this.stoQuantiteCommande = this.stoQuantite;
+			this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',',' ');
+			
+			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+			if(this.stoQuantiteCommande != '') {
+				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+		});		
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
+		
+		$('#liste-pdt').replaceWith(that.affectListeProduitFormulaire($(lTemplate.template(pResponse))));
+	};	
 	
 	this.affectListeProduit = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
 		pData = this.affectEtatCommande(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
 		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectMasquerFormulaire(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
+	
+	this.affectListeProduitFormulaire = function(pData) {
+		pData = this.affectEtatCommande(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectMasquerDetail(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectMasquerDetail = function(pData) {
+		pData.find(".detail").hide();
+		return pData;
+	};
+	this.affectMasquerFormulaire = function(pData) {
+		pData.find(".formulaire").hide();
+		return pData;
+	};
 	
 	this.affectEtatCommande = function(pData) {
 		var that = this;
@@ -157,7 +218,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.affectEnregistrer = function(pData) {
 		var that = this;
@@ -172,7 +233,18 @@
 			}			
 		});
 		return pData;
-	}
+	};
+	this.affectModifier = function(pData) {
+		var that = this;
+		pData.find("#btn-modifier").click(function() {
+			$(".detail").hide();
+			$(".formulaire, #btn-annuler").show();
+		});
+		pData.find("#btn-annuler").click(function() {
+			that.changementProducteur();
+		});	
+		return pData;
+	};
 	
 	this.enregistrer = function() {
 		var that = this;
@@ -218,7 +290,8 @@
 									erreur.message = ERR_301_MSG;
 									lVr.log.erreurs.push(erreur);							
 									
-									Infobulle.generer(lVr,'');
+									//Infobulle.generer(lVr,'');
+									that.changementProducteur({vr:lVr});
 								}
 							} else {
 								Infobulle.generer(lResponse,'');
@@ -232,7 +305,7 @@
 			Infobulle.generer(lVr,'');
 			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 		}
-	}
+	};
 	
 	this.affectExportBonCommande = function(pData) {
 		var that = this;	
@@ -246,7 +319,7 @@
 			}			
 		});
 		return pData;
-	}
+	};
 	
 	this.dialogExportBonDeCommande = function() {
 		var that = this;
@@ -286,7 +359,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
 		});
-	}
+	};
 	
 	this.dialogEnregistrer = function() {	
 		var that = this;
@@ -323,7 +396,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.construct(pParam);
 }
