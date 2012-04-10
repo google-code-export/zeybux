@@ -69,7 +69,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
@@ -321,7 +321,7 @@
 		}
 
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectAnnulerDetailReservation(pData);
@@ -332,15 +332,15 @@
 		pData = gCommunVue.comHoverBtn(pData);		
 		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectAnnulerDetailReservation = function(pData) {
 		var that = this;
 		pData.find('#btn-annuler').click(function() {
-			EditerCommandeVue({"id_commande":that.infoCommande.comId});		
+			EditerCommandeVue({"id_marche":that.infoCommande.comId});		
 		});
 		return pData;
-	}
+	};
 	
 	this.affectModifierReservation = function(pData) {
 		var that = this;
@@ -348,7 +348,7 @@
 			that.modifierReservation();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectValiderModifierReservation = function(pData) {
 		var that = this;
@@ -356,7 +356,7 @@
 			that.validerModifierReservation();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectSupprimerAchat = function(pData) {
 		var that = this;
@@ -367,7 +367,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectModifierAchat = function(pData) {
 		var that = this;
@@ -381,11 +381,11 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.modifierReservation = function() {
 		$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();	
-	}
+	};
 	
 	this.validerModifierReservation = function() {
 		var lReservation = {};
@@ -461,11 +461,11 @@
 		} else {
 			Infobulle.generer(lVr,'reservation-');
 		}
-	}
+	};
 
 	this.modifierAchat = function(pIdAchat) {
 		$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();	
-	}
+	};
 	
 	this.validerModifierAchat = function(pIdAchat) {
 		var that = this;
@@ -501,7 +501,7 @@
 		
 		if(parseInt(pIdAchat) < 0) { // Si c'est un achat
 			lAchat.idCompte = that.mAdherent.adhIdCompte;
-			lAchat.idMarche = that.pParam.id_commande;
+			lAchat.idMarche = that.pParam.id_marche;
 		}
 		
 		var lValid = new AchatAdherentValid();
@@ -548,7 +548,7 @@
 		} else {
 			Infobulle.generer(lVr,'achat-' + pIdAchat + '-');
 		}
-	}
+	};
 	
 	this.supprimerAchat = function(pIdAchat) {
 		var that = this;
@@ -596,7 +596,7 @@
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 		});
 		
-	}
+	};
 	
 	this.construct(pParam);
 }

@@ -12,8 +12,8 @@
 // Vérification de la bonne connexion de l'adherent dans le cas contraire redirection vers le formulaire de connexion
 if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SESSION[DROIT_SUPER_ZEYBU]) ) ) {
 	if(isset($_GET['id']) ) {	
-		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/AfficherReservationControleur.php");						
-		$lControleur = new AfficherReservationControleur();
+		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_COMMANDE . "/ReservationMarcheControleur.php");						
+		$lControleur = new ReservationMarcheControleur();
 		
 		// Inclusion des classes
 		include_once(CHEMIN_CLASSES_UTILS . "Template.php");

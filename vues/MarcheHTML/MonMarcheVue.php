@@ -46,7 +46,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	$lTemplate->set_filenames( array('body' => MOD_COMMANDE . '/' . 'MonMarche.html') );
 	
 	// Les Réservations
-	$lListeReservation = $lPage->getReservations();
+	/*$lListeReservation = $lPage->getReservations();
 	if(!is_null($lListeReservation[0]->getComId())) {
 		$lTemplate->set_filenames( array('listeReservation' => MOD_COMMANDE . '/' . 'ListeReservation.html') );
 
@@ -68,7 +68,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	} else {
 		$lTemplate->set_filenames( array('listeReservation' => MOD_COMMANDE . '/' . 'ListeReservationVide.html') );
 	}
-	$lTemplate->assign_var_from_handle('LISTE_RESERVATION', 'listeReservation');
+	$lTemplate->assign_var_from_handle('LISTE_RESERVATION', 'listeReservation');*/
 	
 	// Les Marchés
 	$lListeMarche = $lPage->getMarches();

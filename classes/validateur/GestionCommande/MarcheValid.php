@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/AchatCommandeVR.php" )
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/RechargementCompteValid.php" );
@@ -203,6 +204,64 @@ class MarcheValid
 				$lValidRechargement = new RechargementCompteValid();
 				$lVr->setRechargement($lValidRechargement->validAjout($pData['rechargement']));
 				if(!$lVr->getRechargement()->getValid()) {$lVr->setValid(false);}
+			}
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name validUpdateMarche($pData)
+	* @return AchatCommandeVR
+	* @desc Test la validite de l'élément
+	*/
+	public static function validUpdateMarche($pData) {
+		$lVr = new AchatCommandeVR();
+		//Tests inputs
+		if(!isset($pData['idAchat'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
+		}
+
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!is_array($pData['idAchat'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_115_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_115_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
+			
+			//Tests Fonctionnels
+			if(empty($pData['idAchat'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
+			
+			if($lVr->getValid(false)) {
+				$lOperationService = new OperationService();
+				$lValid = true;
+				foreach($pData['idAchat'] as $lIdAchat) {
+					$lValid &= $lOperationService->existe($lIdAchat);
+				}
+				if(!$lValid) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getLog()->addErreur($lErreur);					
+				}
+				$lVr = MarcheValid::validAjout($pData);
 			}
 		}
 		return $lVr;

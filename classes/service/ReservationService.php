@@ -104,94 +104,99 @@ class ReservationService
 	* @return integer
 	* @desc Met à jour une réservation
 	*/
-	private function update($pReservation) {		
-		$lReservationsActuelle = $this->get($pReservation->getId());
-		$lOperations = $this->selectOperationReservation($pReservation->getId());
-		$lOperation = $lOperations[0];
-		$lIdOperation = $lOperation->getId();
-		$lTotal = 0;
-
-		$lStockService = new StockService();
-		$lDetailOperationService = new DetailOperationService();
-//var_dump($lReservationsActuelle);
-//var_dump($lOperations);
-		foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
-			$lTestUpdate = false;
+	private function update($pReservation) {
+		$lTestDetailReservation = $pReservation->getDetailReservation();
+		if(!empty($lTestDetailReservation)) { // Si il y a encore des produits dans la réservation
+			$lReservationsActuelle = $this->get($pReservation->getId());
+			$lOperations = $this->selectOperationReservation($pReservation->getId());
+			$lOperation = $lOperations[0];
+			$lIdOperation = $lOperation->getId();
+			$lTotal = 0;
+	
+			$lStockService = new StockService();
+			$lDetailOperationService = new DetailOperationService();
+	//var_dump($lReservationsActuelle);
+	//var_dump($lOperations);
+			foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
+				$lTestUpdate = false;
+				foreach($pReservation->getDetailReservation() as $lReservationNouvelle) {
+					if($lReservationActuelle->getIdDetailCommande() == $lReservationNouvelle->getIdDetailCommande()) {
+						$lTotal += $lReservationNouvelle->getMontant();
+			//			echo "update";
+			//			var_dump($lReservationNouvelle);
+						// Maj du stock
+						$lStock = new StockVO();
+						$lStock->setId($lReservationActuelle->getId()->getIdStock());
+						$lStock->setQuantite($lReservationNouvelle->getQuantite());
+						$lStock->setType(0);
+						$lStock->setIdCompte($pReservation->getId()->getIdCompte());
+						$lStock->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
+						
+						// Maj du détail Opération
+						$lDetailOperation = new DetailOperationVO();
+						$lDetailOperation->setId($lReservationActuelle->getId()->getIdDetailOperation());
+						$lDetailOperation->setIdOperation($lIdOperation);
+						$lDetailOperation->setIdCompte($pReservation->getId()->getIdCompte());
+						$lDetailOperation->setMontant($lReservationNouvelle->getMontant());
+						$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
+						$lDetailOperation->setTypePaiement(0);
+						$lDetailOperation->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
+						$lDetailOperationService->set($lDetailOperation);					
+						
+						$lTestUpdate = true;
+					}
+				}
+				if(!$lTestUpdate) {
+		//			echo "delete";
+		//			var_dump($lReservationActuelle);
+					// Suppression du stock et du detail operation
+					$lStockService->delete($lReservationActuelle->getId()->getIdStock());
+					$lDetailOperationService->delete($lReservationActuelle->getId()->getIdDetailOperation());
+				}
+			}
+			
 			foreach($pReservation->getDetailReservation() as $lReservationNouvelle) {
-				if($lReservationActuelle->getIdDetailCommande() == $lReservationNouvelle->getIdDetailCommande()) {
-					$lTotal += $lReservationNouvelle->getMontant();
-		//			echo "update";
+				$lTestInsert = true;
+				foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
+					if($lReservationActuelle->getIdDetailCommande() == $lReservationNouvelle->getIdDetailCommande()) {
+						$lTestInsert = false;
+					}
+				}
+				if($lTestInsert) {
+		//			echo "insert";
 		//			var_dump($lReservationNouvelle);
-					// Maj du stock
+					$lTotal += $lReservationNouvelle->getMontant();
+						
+					// Ajout du stock
 					$lStock = new StockVO();
-					$lStock->setId($lReservationActuelle->getId()->getIdStock());
 					$lStock->setQuantite($lReservationNouvelle->getQuantite());
 					$lStock->setType(0);
 					$lStock->setIdCompte($pReservation->getId()->getIdCompte());
-					$lStock->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
+					$lStock->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
 					
-					// Maj du détail Opération
+					// Ajout du détail Opération
 					$lDetailOperation = new DetailOperationVO();
-					$lDetailOperation->setId($lReservationActuelle->getId()->getIdDetailOperation());
 					$lDetailOperation->setIdOperation($lIdOperation);
 					$lDetailOperation->setIdCompte($pReservation->getId()->getIdCompte());
 					$lDetailOperation->setMontant($lReservationNouvelle->getMontant());
 					$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(0);
-					$lDetailOperation->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
-					$lDetailOperationService->set($lDetailOperation);					
-					
-					$lTestUpdate = true;
+					$lDetailOperation->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
+					$lDetailOperationService->set($lDetailOperation);	
 				}
 			}
-			if(!$lTestUpdate) {
-	//			echo "delete";
-	//			var_dump($lReservationActuelle);
-				// Suppression du stock et du detail operation
-				$lStockService->delete($lReservationActuelle->getId()->getIdStock());
-				$lDetailOperationService->delete($lReservationActuelle->getId()->getIdDetailOperation());
-			}
+	
+			// Maj de l'opération
+			$lOperationService = new OperationService();
+			$lOperation->setMontant($lTotal);
+			$lOperationService->set($lOperation);
+		} else { // La réservation est vide on la supprime
+			$this->delete($pReservation->getId());
 		}
-		
-		foreach($pReservation->getDetailReservation() as $lReservationNouvelle) {
-			$lTestInsert = true;
-			foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
-				if($lReservationActuelle->getIdDetailCommande() == $lReservationNouvelle->getIdDetailCommande()) {
-					$lTestInsert = false;
-				}
-			}
-			if($lTestInsert) {
-	//			echo "insert";
-	//			var_dump($lReservationNouvelle);
-				$lTotal += $lReservationNouvelle->getMontant();
-					
-				// Ajout du stock
-				$lStock = new StockVO();
-				$lStock->setQuantite($lReservationNouvelle->getQuantite());
-				$lStock->setType(0);
-				$lStock->setIdCompte($pReservation->getId()->getIdCompte());
-				$lStock->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
-				$lStock->setIdOperation($lIdOperation);
-				$lStockService->set($lStock);
-				
-				// Ajout du détail Opération
-				$lDetailOperation = new DetailOperationVO();
-				$lDetailOperation->setIdOperation($lIdOperation);
-				$lDetailOperation->setIdCompte($pReservation->getId()->getIdCompte());
-				$lDetailOperation->setMontant($lReservationNouvelle->getMontant());
-				$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
-				$lDetailOperation->setTypePaiement(0);
-				$lDetailOperation->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
-				$lDetailOperationService->set($lDetailOperation);	
-			}
-		}
-
-		// Maj de l'opération
-		$lOperationService = new OperationService();
-		$lOperation->setMontant($lTotal);
-		$lOperationService->set($lOperation);
 	}
 	
 	/**
@@ -258,7 +263,6 @@ class ReservationService
 	public function existe($pId) {		
 		$lOperations = $this->selectOperationReservation($pId);
 		$lIdOperation = $lOperations[0]->getId();
-		var_dump($lOperations);
 		return !is_null($lIdOperation);
 	}
 	
@@ -270,9 +274,8 @@ class ReservationService
 	*/
 	public function enCours($pId) {		
 		$lOperations = $this->selectOperationReservation($pId);
-		$lTypePaiement = $lOperations[0]->getTypePaiement();
-		
-		return $lTypePaiement == 0;
+		$lOperation = $lOperations[0];
+		return $lOperation->getTypePaiement() == 0 && !is_null($lOperation->getTypePaiement());
 	}
 	
 	/**

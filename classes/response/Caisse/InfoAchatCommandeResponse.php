@@ -59,18 +59,25 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @desc La liste des types de paiement
 	 */
 	protected $mTypePaiement;
+	
+	/**
+	 * @var array(AchatVO)
+	 * @desc Les Achats
+	 */
+	protected $mAchats;
 
 	/**
-	* @name InfoAchatMarcheResponse()
-	* @desc Le constructeur de InfoAchatMarcheResponse
+	* @name InfoAchatCommandeResponse()
+	* @desc Le constructeur de InfoAchatCommandeResponse
 	*/	
-	public function InfoAchatMarcheResponse() {
+	public function InfoAchatCommandeResponse() {
 		$this->mValid = true;
 		$this->mMarche = array();
 		$this->mStock = array();
 		$this->mStockSolidaire = array();
 		$this->mReservation = array();
 		$this->mTypePaiement = array();
+		$this->mAchats = array();
 	}
 	
 	/**
@@ -242,6 +249,33 @@ class InfoAchatCommandeResponse extends DataTemplate
 	*/
 	public function addTypePaiement($pTypePaiement) {
 		array_push($this->mTypePaiement, $pTypePaiement);
+	}
+	
+	/**
+	* @name getAchats()
+	* @return array(AchatVO)
+	* @desc Renvoie le Achats
+	*/
+	public function getAchats() {
+		return $this->mAchats;
+	}
+
+	/**
+	* @name setAchats($pAchats)
+	* @param array(AchatVO)
+	* @desc Remplace le Achats par $pAchats
+	*/
+	public function setAchats($pAchats) {
+		$this->mAchats = $pAchats;
+	}
+	
+	/**
+	* @name addAchats($pAchats)
+	* @param AchatVO
+	* @desc Ajoute le $pAchats à Achats
+	*/
+	public function addAchats($pAchats) {
+		array_push($this->mAchats, $pAchats);
 	}
 }
 ?>

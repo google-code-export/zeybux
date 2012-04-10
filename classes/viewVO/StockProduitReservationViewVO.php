@@ -43,6 +43,12 @@ class StockProduitReservationViewVO  extends DataTemplate
 	protected $mProUniteMesure;
 
 	/**
+	* @var tinyint(4)
+	* @desc ProType de la StockProduitReservationViewVO
+	*/
+	protected $mProType;
+
+	/**
 	* @var varchar(50)
 	* @desc NproNumero de la StockProduitReservationViewVO
 	*/
@@ -59,6 +65,12 @@ class StockProduitReservationViewVO  extends DataTemplate
 	* @desc StoQuantite de la StockProduitReservationViewVO
 	*/
 	protected $mStoQuantite;
+
+	/**
+	* @var decimal(32,2)
+	* @desc DopeMontant de la DopeMontantViewVO
+	*/
+	protected $mDopeMontant;
 
 	/**
 	* @name getProIdCommande()
@@ -133,6 +145,24 @@ class StockProduitReservationViewVO  extends DataTemplate
 	}
 
 	/**
+	* @name getProType()
+	* @return tinyint(4)
+	* @desc Renvoie le membre ProType de la StockProduitReservationViewVO
+	*/
+	public function getProType() {
+		return $this->mProType;
+	}
+
+	/**
+	* @name setProType($pProType)
+	* @param tinyint(4)
+	* @desc Remplace le membre ProType de la StockProduitReservationViewVO par $pProType
+	*/
+	public function setProType($pProType) {
+		$this->mProType = $pProType;
+	}
+
+	/**
 	* @name getNproNumero()
 	* @return varchar(50)
 	* @desc Renvoie le membre NproNumero de la StockProduitReservationViewVO
@@ -184,6 +214,24 @@ class StockProduitReservationViewVO  extends DataTemplate
 	*/
 	public function setStoQuantite($pStoQuantite) {
 		$this->mStoQuantite = $pStoQuantite;
+	}
+
+	/**
+	* @name getDopeMontant()
+	* @return decimal(33,2)
+	* @desc Renvoie le membre DopeMontant de la StockProduitReservationViewVO
+	*/
+	public function getDopeMontant() {
+		return $this->mDopeMontant;
+	}
+
+	/**
+	* @name setDopeMontant($pDopeMontant)
+	* @param decimal(33,2)
+	* @desc Remplace le membre DopeMontant de la StockProduitReservationViewVO par $pDopeMontant
+	*/
+	public function setDopeMontant($pDopeMontant) {
+		$this->mDopeMontant = $pDopeMontant;
 	}
 
 }

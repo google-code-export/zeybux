@@ -47,6 +47,7 @@ class ListeProduitsAbonneViewManager
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE .
@@ -68,6 +69,7 @@ class ListeProduitsAbonneViewManager
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[FermeManager::CHAMP_FERME_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
@@ -96,6 +98,7 @@ class ListeProduitsAbonneViewManager
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE .
@@ -116,6 +119,7 @@ class ListeProduitsAbonneViewManager
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[FermeManager::CHAMP_FERME_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
@@ -150,6 +154,7 @@ class ListeProduitsAbonneViewManager
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . FermeManager::CHAMP_FERME_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM	.
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE .
@@ -177,6 +182,7 @@ class ListeProduitsAbonneViewManager
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 						$lLigne[FermeManager::CHAMP_FERME_NOM],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
@@ -196,11 +202,12 @@ class ListeProduitsAbonneViewManager
 	}
 
 	/**
-	* @name remplir($pCptAboIdCompte, $pCptAboIdProduitAbonnement, $pCptAboId, $pFerNom, $pNproNom, $pCproNom, $pCptAboQuantite, $pProAboUnite, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension)
+	* @name remplir($pCptAboIdCompte, $pCptAboIdProduitAbonnement, $pCptAboId, $pFerNom, $pNproId, $pNproNom, $pCproNom, $pCptAboQuantite, $pProAboUnite, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param text
+	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param decimal(10,2)
@@ -210,12 +217,13 @@ class ListeProduitsAbonneViewManager
 	* @return ListeProduitsAbonneViewVO
 	* @desc Retourne une ListeProduitsAbonneViewVO remplie
 	*/
-	private static function remplir($pCptAboIdCompte, $pCptAboIdProduitAbonnement, $pCptAboId, $pFerNom, $pNproNom, $pCproNom, $pCptAboQuantite, $pProAboUnite, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension) {
+	private static function remplir($pCptAboIdCompte, $pCptAboIdProduitAbonnement, $pCptAboId, $pFerNom, $pNproId, $pNproNom, $pCproNom, $pCptAboQuantite, $pProAboUnite, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension) {
 		$lListeProduitsAbonne = new ListeProduitsAbonneViewVO();
 		$lListeProduitsAbonne->setCptAboIdCompte($pCptAboIdCompte);
 		$lListeProduitsAbonne->setCptAboIdProduitAbonnement($pCptAboIdProduitAbonnement);
 		$lListeProduitsAbonne->setCptAboId($pCptAboId);
 		$lListeProduitsAbonne->setFerNom($pFerNom);
+		$lListeProduitsAbonne->setNproId($pNproId);
 		$lListeProduitsAbonne->setNproNom($pNproNom);
 		$lListeProduitsAbonne->setCproNom($pCproNom);
 		$lListeProduitsAbonne->setCptAboQuantite($pCptAboQuantite);

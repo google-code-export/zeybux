@@ -89,14 +89,14 @@ class CommandeReservationValid
 				$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
 
 				// Marché : réservation non terminée
-				if(!TestFonction::dateTimeEstPLusGrandeEgale($lDetailMarche[0]->getComDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {
+				/*if(!TestFonction::dateTimeEstPLusGrandeEgale($lDetailMarche[0]->getComDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();
 					$lErreur->setCode(MessagesErreurs::ERR_221_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_221_MSG);
 					$lVr->getLog()->addErreur($lErreur);
-				} else {
+				} else {*/
 					$lIdReservation = new IdReservationVO();
 					$lIdReservation->setIdCompte($pData['id_compte']);
 					$lIdReservation->setIdCommande($lDetailMarche[0]->getComId());
@@ -107,7 +107,7 @@ class CommandeReservationValid
 					$lIdOperation = $lOperation->getId();			
 	
 					// Si il y a une réservation existante
-					$lTypeResa = array(0,7,15);
+				/*	$lTypeResa = array(0,7,15);
 					if(!is_null($lIdOperation) && in_array($lOperation->getTypePaiement(), $lTypeResa)) {
 						$lVr->setValid(false);
 						$lVr->getLog()->setValid(false);
@@ -115,7 +115,7 @@ class CommandeReservationValid
 						$lErreur->setCode(MessagesErreurs::ERR_220_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_220_MSG);
 						$lVr->getLog()->addErreur($lErreur);
-					}
+					}*/
 
 					if($lVr->getValid()) {
 						foreach($pData['detailReservation'] as $lReservation) {
@@ -124,7 +124,7 @@ class CommandeReservationValid
 							$lVr->addCommandes($lVrReservation);
 						}	
 					}
-				}
+			//	}
 			} else {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
@@ -226,7 +226,7 @@ class CommandeReservationValid
 	* @return CommandeReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validUpdate($pData) {
+	/*public static function validUpdate($pData) {
 		$lVr = new CommandeReservationVR();
 		//Tests inputs
 		if(!isset($pData['detailReservation'])) {
@@ -325,6 +325,6 @@ class CommandeReservationValid
 			}
 		}
 		return $lVr;
-	}
+	}*/
 }
 ?>

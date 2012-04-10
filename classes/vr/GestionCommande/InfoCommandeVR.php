@@ -35,9 +35,9 @@ class InfoCommandeVR extends DataTemplate
 	
 	/**
 	 * @var VRelement
-	 * @desc Id Commande de l'objet
+	 * @desc Id Marche de l'objet
 	 */
-	protected $mIdCommande;
+	protected $mIdMarche;
 
 	/**
 	* @name InfoCommandeVR()
@@ -47,7 +47,7 @@ class InfoCommandeVR extends DataTemplate
 	function InfoCommandeVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
-		$this->mIdCommande = new VRelement();
+		$this->mIdMarche = new VRelement();
 	}
 
 	/**
@@ -87,21 +87,21 @@ class InfoCommandeVR extends DataTemplate
 	}
 	
 	/**
-	* @name getIdCommande()
+	* @name getIdMarche()
 	* @return VRelement
-	* @desc Renvoie le VRelement IdCommande
+	* @desc Renvoie le VRelement IdMarche
 	*/
-	public function getIdCommande() {
-		return $this->mIdCommande;
+	public function getIdMarche() {
+		return $this->mIdMarche;
 	}
 
 	/**
-	* @name setIdCommande($pIdCommande)
+	* @name setIdMarche($pIdMarche)
 	* @param VRelement
-	* @desc Remplace le VRelement IdCommande par $pIdCommande
+	* @desc Remplace le VRelement IdMarche par $pIdMarche
 	*/
-	public function setIdCommande($pIdCommande) {
-		$this->mIdCommande = $pIdCommande;
+	public function setIdMarche($pIdMarche) {
+		$this->mIdMarche = $pIdMarche;
 	}
 }
 ?>

@@ -37,6 +37,12 @@ class InfoBonCommandeViewVO  extends DataTemplate
 	protected $mProId;
 
 	/**
+	* @var tinyint(4)
+	* @desc ProType de la InfoBonCommandeViewVO
+	*/
+	protected $mProType;
+
+	/**
 	* @var varchar(20)
 	* @desc ProUniteMesure de la InfoBonCommandeViewVO
 	*/
@@ -136,6 +142,24 @@ class InfoBonCommandeViewVO  extends DataTemplate
 	*/
 	public function setProId($pProId) {
 		$this->mProId = $pProId;
+	}
+
+	/**
+	* @name getProType()
+	* @return tinyint(4)
+	* @desc Renvoie le membre ProType de la InfoBonCommandeViewVO
+	*/
+	public function getProType() {
+		return $this->mProType;
+	}
+
+	/**
+	* @name setProType($pProType)
+	* @param tinyint(4)
+	* @desc Remplace le membre ProType de la InfoBonCommandeViewVO par $pProType
+	*/
+	public function setProType($pProType) {
+		$this->mProType = $pProType;
 	}
 
 	/**

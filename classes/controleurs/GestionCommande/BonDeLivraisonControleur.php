@@ -319,20 +319,18 @@ class BonDeLivraisonControleur
 					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
 						$lNomPrdt = "";
 					} else {
-						if($lIdPrdt != 0) {
-							$lIdCompteFerme = $lLigne->getProIdCompteFerme();
-							
-							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
+						if($lIdPrdt != 0) {							
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdPrdt);
 							$lOperation = $lOperations[0];
 							
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 							if(!is_null($lOperation->getId())) {
-								$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-								$lOperation = $lOperationService->get($lIds[0]);
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 							} else {
 								$lOperation->setMontant("");
 							}
-							array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
-							array_push($lContenuTableau,"","","","","","","","");
+							array_push($lContenuTableau,"","","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
+							array_push($lContenuTableau,"","","","","","","","","");
 						}
 						$lNomPrdt = $lLigne->getFerNom();
 					}
@@ -476,7 +474,7 @@ class BonDeLivraisonControleur
 			$lCSV->setNom('Bon_de_Livraison.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Producteur","Ref.", "Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
+			$lEntete = array("Ferme","Ref.", "Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
@@ -494,21 +492,32 @@ class BonDeLivraisonControleur
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
-							$lIdCompteFerme = $lLigne->getProIdCompteFerme();							
+							/*$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
 							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
 							$lOperation = $lOperations[0];
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+							if(!is_null($lOperation->getId())) {
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+							} else {
+								$lOperation->setMontant("");
+							}*/					
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdPrdt);
+							$lOperation = $lOperations[0];
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 							
 							if(!is_null($lOperation->getId())) {
-								$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-								$lOperation = $lOperationService->get($lIds[0]);
+							/*	$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
+								$lOperation = $lOperationService->get($lIds[0]);*/
+								
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 							} else {
 								$lOperation->setMontant("");
 							}
 							
 							
-							$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+							$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
 							array_push($lContenuTableau,$lLignecontenu);
-							$lLignecontenu = array("","","","","","","","","","","","");
+							$lLignecontenu = array("","","","","","","","","","","","","");
 							array_push($lContenuTableau,$lLignecontenu);
 						}
 						$lNomPrdt = $lLigne->getFerNom();

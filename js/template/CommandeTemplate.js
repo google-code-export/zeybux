@@ -94,7 +94,7 @@
 					"<!-- END categories.produits -->" +
 					"<!-- END categories -->" +
 					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
+						"<td class=\"com-text-align-right\" colspan=\"5\">Total : </td>" +
 						"<td class=\"com-text-align-right\">{total}</td>" +
 						"<td>{sigleMonetaire}</td>" +
 					"</tr>" +
@@ -177,8 +177,7 @@
 		"</div>";*/
 	this.produitIndisponible = 
 		"<tr><td colspan=\"12\">{nproNom} n'est plus disponible.</td></tr>";
-	
-	
+
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 	
@@ -243,9 +242,8 @@
 						"<!-- END categories.produits -->" +
 						"<!-- END categories -->" +
 						"<tr>" +
-							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
-							"<td>{sigleMonetaire}</td>" +
+							"<td colspan=\"10\" class=\"com-text-align-right\">Total : </td>" +
+							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span> {sigleMonetaire}</td>" +
 						"</tr>" +
 					"</table>" +
 					/*"<table>" +
@@ -320,7 +318,7 @@
 	this.formReservationProduitInfo =
 		"<tr class=\"pdt\">" +
 			"<td></td>" +
-			"<td></td>" +
+			"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{proId}</span></span></td>" +
 			"<td id=\"commandes{proId}stoQuantite\" >{nproNom}</td>" +
 			"<td class=\"td-edt\">" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{proId}\">" +
@@ -346,7 +344,7 @@
 	this.formReservationProduitAbonnementInfo =
 		"<tr class=\"pdt\">" +
 			"<td></td>" +
-			"<td></td>" +
+			"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{proId}</span></span></td>" +
 			"<td id=\"commandes{proId}stoQuantite\" >{nproNom}</td>" +
 			"<td class=\"td-edt\">" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{proId}\">" +
@@ -366,7 +364,7 @@
 			"<td></td>" +
 			"<td>{stoQuantiteReservation} {proUniteMesure}</td>" +
 			"<td></td>" +
-			"<td>{prixReservation} {sigleMonetaire}</td>" +
+			"<td class=\"com-text-align-right\">{prixReservation} {sigleMonetaire}</td>" +
 		"</tr>";
 	
 	/*this.listeCommandePage = 

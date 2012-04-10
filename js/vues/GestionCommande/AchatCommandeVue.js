@@ -680,7 +680,7 @@
 			lVo.champComplementaireObligatoire = 0;
 		}
 		return lVo;
-	}
+	};
 	
 	this.creerRecapitulatif = function() {
 		var lVr = this.controlerAchat();
@@ -700,7 +700,7 @@
 				this.enregistrerAchat();
 			}
 		}
-	}
+	};
 	
 	this.enregistrerAchat = function() {
 		var that = this;
@@ -721,7 +721,7 @@
 					}
 				},"json"
 			);
-	}
+	};
 	
 	this.boutonModifier = function() {
 		if(this.etapeValider == 1) {
@@ -729,11 +729,11 @@
 			$(".lot-vente-produit, #btn-annuler, #btn-modifier").toggle();	
 			this.etapeValider = 0;
 		}
-	}
+	};
 	
 	this.retourListe = function() {
 		MarcheCommandeVue({id_commande:this.idCommande});
-	}
+	};
 	
 	this.construct(pParam);
 }

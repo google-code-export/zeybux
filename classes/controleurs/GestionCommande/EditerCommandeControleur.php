@@ -57,27 +57,11 @@ class EditerCommandeControleur
 	public function getInfoCommande($pParam) {
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
-			$lIdMarche = $pParam["id_commande"];
+			$lIdMarche = $pParam["id_marche"];
 
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
 			//$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
-			
-			if(is_null($lMarche->getId())) { // Si aucun produit retourne les infos du marché
-				$lDetailMarche = $lMarcheService->getInfoMarche($lIdMarche);
-				
-				$lMarche = new MarcheVO();				
-				// Information du marche
-				$lMarche->setId($lDetailMarche->getId());
-				$lMarche->setNumero($lDetailMarche->getNumero());
-				$lMarche->setNom($lDetailMarche->getNom());
-				$lMarche->setDescription($lDetailMarche->getDescription());
-				$lMarche->setDateMarcheDebut($lDetailMarche->getDateMarcheDebut());
-				$lMarche->setDateMarcheFin($lDetailMarche->getDateMarcheFin());
-				$lMarche->setDateDebutReservation($lDetailMarche->getDateDebutReservation());
-				$lMarche->setDateFinReservation($lDetailMarche->getDateFinReservation());
-				$lMarche->setArchive($lDetailMarche->getArchive());
-			}
 
 			$lResponse = new EditerCommandeResponse();
 			$lResponse->setMarche($lMarche);
@@ -93,8 +77,8 @@ class EditerCommandeControleur
 	* @return array()
 	* @desc Retourne la liste des réservations pour une commande et la liste de produits demandés
 	*/
-	private function getListeReservationExport($pParam) {
-		$lIdCommande = $pParam['id_commande'];
+	/*private function getListeReservationExport($pParam) {
+		$lIdCommande = $pParam['id_marche'];
 		$lIdProduits = $pParam['id_produits'];
 		
 		$lReservations = ReservationViewManager::selectReservationProduit($lIdCommande, $lIdProduits);
@@ -133,7 +117,7 @@ class EditerCommandeControleur
 		}
 		
 		return $lTableauReservation;
-	}
+	}*/
 	
 	
 	/**
@@ -141,7 +125,7 @@ class EditerCommandeControleur
 	* @return Un Fichier Pdf
 	* @desc Retourne la liste des réservations pour une commande et la liste de produits demandés
 	*/
-	public function getListeReservationPdf($pParam) {
+	/*public function getListeReservationPdf($pParam) {
 
 		$lVr = ExportListeReservationValid::validAjout($pParam);
 		
@@ -245,14 +229,14 @@ class EditerCommandeControleur
 		} else {
 			return $lVr;
 		}		
-	}
+	}*/
 	
 	/**
 	* @name getListeReservationCSV($pParam)
 	* @return Un Fichier CSV
 	* @desc Retourne la liste des réservations pour une commande et la liste de produits demandés
 	*/
-	public function getListeReservationCSV($pParam) {
+	/*public function getListeReservationCSV($pParam) {
 		$lVr = ExportListeReservationValid::validAjout($pParam);
 		
 		if($lVr->getValid()) {	
@@ -307,18 +291,18 @@ class EditerCommandeControleur
 		} else {
 			return $lVr;
 		}	
-	}
+	}*/
 	
 	/**
 	* @name getListeAchatEtReservationCSV($pParam)
 	* @return Un Fichier CSV
 	* @desc Retourne la liste des achats et réservations pour un Marché et la liste de produits demandés
 	*/
-	public function getListeAchatEtReservationCSV($pParam) {
+/*	public function getListeAchatEtReservationCSV($pParam) {
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {	
 			$lMarcheService = new MarcheService();
-			$lMarche = $lMarcheService->get($pParam["id_commande"]);
+			$lMarche = $lMarcheService->get($pParam["id_marche"]);
 			
 			$lCSV = new CSV();
 			$lCSV->setNom('Réservations.csv'); // Le Nom
@@ -344,12 +328,12 @@ class EditerCommandeControleur
 			foreach($lAdherents as $lAdherent) {				
 				$lIdReservation = new IdReservationVO();
 				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdReservation->setIdCommande($pParam["id_commande"]);
+				$lIdReservation->setIdCommande($pParam["id_marche"]);
 				$lReservation = $lReservationService->get($lIdReservation);
 
 				$lIdAchat = new IdAchatVO();
 				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdAchat->setIdCommande($pParam["id_commande"]);
+				$lIdAchat->setIdCommande($pParam["id_marche"]);
 				$lAchats = $lAchatService->getAll($lIdAchat);	
 				$lProduits = array();
 
@@ -452,7 +436,7 @@ class EditerCommandeControleur
 		} else {
 			return $lVr;
 		}
-	}
+	}*/
 	
 	/**
 	* @name setPause($pParam)
@@ -463,7 +447,7 @@ class EditerCommandeControleur
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 			$lMarcheService = new MarcheService();
-			$lMarcheService->setPause($pParam["id_commande"]);
+			$lMarcheService->setPause($pParam["id_marche"]);
 		}
 		return $lVr;
 	}
@@ -477,7 +461,7 @@ class EditerCommandeControleur
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 			$lMarcheService = new MarcheService();
-			$lMarcheService->setPlay($pParam["id_commande"]);
+			$lMarcheService->setPlay($pParam["id_marche"]);
 		}
 		return $lVr;
 	}
@@ -491,7 +475,7 @@ class EditerCommandeControleur
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 			$lMarcheService = new MarcheService();
-			$lMarcheService->setCloturer($pParam["id_commande"]);			
+			$lMarcheService->setCloturer($pParam["id_marche"]);			
 		}
 		return $lVr;
 	}
@@ -501,7 +485,7 @@ class EditerCommandeControleur
 	* @param Id du marché
 	* @desc Cloture le marché
 	*/
-	public function getListeAchatEtReservation($pParam) {		
+	/*public function getListeAchatEtReservation($pParam) {		
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 		$lResponse = new ListeAchatEtReservationResponse();
@@ -513,12 +497,12 @@ class EditerCommandeControleur
 			foreach($lAdherents as $lAdherent) {				
 				$lIdReservation = new IdReservationVO();
 				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdReservation->setIdCommande($pParam["id_commande"]);
+				$lIdReservation->setIdCommande($pParam["id_marche"]);
 				$lReservation = $lReservationService->get($lIdReservation);
 
 				$lIdAchat = new IdAchatVO();
 				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdAchat->setIdCommande($pParam["id_commande"]);
+				$lIdAchat->setIdCommande($pParam["id_marche"]);
 				$lAchats = $lAchatService->getAll($lIdAchat);	
 				
 				
@@ -548,7 +532,7 @@ class EditerCommandeControleur
 			return $lResponse;
 		}
 		return $lVr;
-	}
+	}*/
 	
 	/**
 	* @name getListeReservation($pParam)
@@ -559,7 +543,7 @@ class EditerCommandeControleur
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 			$lResponse = new EditerCommandeResponse();
-			$lListeAdherent = GestionCommandeListeReservationViewManager::select($pParam["id_commande"]);
+			$lListeAdherent = GestionCommandeListeReservationViewManager::select($pParam["id_marche"]);
 			$lResponse->setListeAdherentCommande($lListeAdherent);
 			return $lResponse;
 		}

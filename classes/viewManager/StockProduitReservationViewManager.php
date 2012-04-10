@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "StockProduitReservationViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 
 define("VUE_STOCKPRODUITRESERVATION", MYSQL_DB_PREFIXE . "view_stock_produit_reservation");
 /**
@@ -44,9 +45,11 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
-			"," . StockManager::CHAMP_STOCK_QUANTITE . "
+			"," . StockManager::CHAMP_STOCK_QUANTITE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . "
 			FROM " . StockProduitReservationViewManager::VUE_STOCKPRODUITRESERVATION . " 
 			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -62,9 +65,11 @@ class StockProduitReservationViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
-					$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
+					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
 			}
 		} else {
 			$lListeStockProduitReservation[0] = new StockProduitReservationViewVO();
@@ -87,9 +92,11 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
-			"," . StockManager::CHAMP_STOCK_QUANTITE . "
+			"," . StockManager::CHAMP_STOCK_QUANTITE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT ."
 			FROM " . StockProduitReservationViewManager::VUE_STOCKPRODUITRESERVATION;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -104,9 +111,11 @@ class StockProduitReservationViewManager
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
-					$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
+					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
 			}
 		} else {
 			$lListeStockProduitReservation[0] = new StockProduitReservationViewVO();
@@ -151,9 +160,11 @@ class StockProduitReservationViewManager
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
-			"," . StockManager::CHAMP_STOCK_QUANTITE		);
+			"," . StockManager::CHAMP_STOCK_QUANTITE	.
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT	);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(StockProduitReservationViewManager::VUE_STOCKPRODUITRESERVATION, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -175,9 +186,11 @@ class StockProduitReservationViewManager
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
-						$lLigne[StockManager::CHAMP_STOCK_QUANTITE]));
+						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
 				}
 			} else {
 				$lListeStockProduitReservation[0] = new StockProduitReservationViewVO();
@@ -191,26 +204,30 @@ class StockProduitReservationViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pStoQuantite)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
+	* @param tinyint(4)
 	* @param varchar(20)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param decimal(33,2)
+	* @param decimal(32,2)
 	* @return StockProduitReservationViewVO
 	* @desc Retourne une StockProduitReservationViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNumero, $pNproNom, $pStoQuantite) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant) {
 		$lStockProduitReservation = new StockProduitReservationViewVO();
 		$lStockProduitReservation->setProIdCommande($pProIdCommande);
 		$lStockProduitReservation->setProIdCompteFerme($pProIdCompteFerme);
 		$lStockProduitReservation->setProId($pProId);
 		$lStockProduitReservation->setProUniteMesure($pProUniteMesure);
+		$lStockProduitReservation->setProType($pProType);
 		$lStockProduitReservation->setNproNumero($pNproNumero);
 		$lStockProduitReservation->setNproNom($pNproNom);
 		$lStockProduitReservation->setStoQuantite($pStoQuantite);
+		$lStockProduitReservation->setDopeMontant($pDopeMontant);
 		return $lStockProduitReservation;
 	}
 }

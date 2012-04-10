@@ -154,7 +154,7 @@ class AchatService
 		// Récupération de l'opération
 		$lOperationService = new OperationService();
 		$lOperation = $lOperationService->get($pIdOperation);
-		
+
 		switch($lOperation->getTypePaiement()) {
 			case 0: // Une réservation
 				// Mise à jour du détail			
@@ -187,14 +187,14 @@ class AchatService
 				
 			case 7: // Achat
 				$lTotal = $this->updateProduitAchat($pAchatActuel,$pNouvelAchat,$pIdOperation);
-				if($pNouvelAchat->getTotal() < 0) {
+				if($lTotal < 0) {
 					// Mise à jour de l'opération d'achat
-					$lOperation->setMontant($pNouvelAchat->getTotal());
+					$lOperation->setMontant($lTotal);
 					$lOperationService->set($lOperation);
 					
 					
 					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
-					$lOperationZeybu->setMontant($pNouvelAchat->getTotal() * -1);
+					$lOperationZeybu->setMontant($lTotal * -1);
 					$lOperationService->set($lOperationZeybu);
 				} else {
 					// Mise à jour de l'opération en annulation
@@ -209,14 +209,13 @@ class AchatService
 				
 			case 8: // Achat Solidaire
 				$lTotalSolidaire = $this->updateProduitAchatSolidaire($pAchatActuel,$pNouvelAchat,$pIdOperation);
-				if($pNouvelAchat->getTotal() < 0) {
+				if($lTotalSolidaire < 0) {
 					// Mise à jour de l'opération d'achat
-					$lOperation->setMontant($pNouvelAchat->getTotal());
+					$lOperation->setMontant($lTotalSolidaire);
 					$lOperationService->set($lOperation);
-					
-					
+										
 					$lOperationZeybu = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
-					$lOperationZeybu->setMontant($pNouvelAchat->getTotal() * -1);
+					$lOperationZeybu->setMontant($lTotalSolidaire * -1);
 					$lOperationService->set($lOperationZeybu);
 				} else {
 					// Mise à jour de l'opération en annulation
@@ -252,7 +251,6 @@ class AchatService
 			foreach($pNouvelAchat->getDetailAchat() as $lAchatNouvelle) {
 				if($lAchatActuelle->getIdDetailCommande() == $lAchatNouvelle->getIdDetailCommande()) {
 					$lTotal += $lAchatNouvelle->getMontant();
-					
 					// Maj du stock
 					$lStock = new StockVO();
 					$lStock->setId($lAchatActuelle->getId()->getIdStock());
@@ -293,7 +291,7 @@ class AchatService
 			}
 			if($lTestInsert) {
 				$lTotal += $lAchatNouvelle->getMontant();
-					
+
 				// Ajout du stock
 				$lStock = new StockVO();
 				$lStock->setQuantite($lAchatNouvelle->getQuantite());
@@ -314,7 +312,7 @@ class AchatService
 				$lDetailOperationService->set($lDetailOperation);	
 			}
 		}
-		
+
 		return $lTotal;		
 	}
 	
@@ -485,6 +483,7 @@ class AchatService
 				$lDetailOperationService->set($lDetailOperation);	
 			}
 		}
+
 		return $lTotalSolidaire;
 	}
 	

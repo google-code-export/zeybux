@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/ReservationMarcheResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/ReservationMarcheValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
@@ -139,7 +140,7 @@ class ReservationMarcheControleur
 	*/
 	public function controleModifierReservation($pParam) {
 		$pParam['idCompte'] = $_SESSION[ID_COMPTE];
-		$lVr = ReservationMarcheValid::validUpdate($pParam);
+		$lVr = ReservationMarcheValid::validAjout($pParam);
 		if($lVr->getValid()) {
 			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
 			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
@@ -167,6 +168,10 @@ class ReservationMarcheControleur
 			$lIdReservation->setIdCompte($pParam['idCompte']);
 			$lIdReservation->setIdCommande($pParam["id_commande"]);
 			$lReservationService->delete($lIdReservation);
+			
+			// Repositionne une réservations sur les abonnements
+			$lAbonnementService = new AbonnementService();
+			$lAbonnementService->ajoutReservation($pParam['idCompte'],$pParam["id_commande"]);
 		}
 		return $lVr;
 	}

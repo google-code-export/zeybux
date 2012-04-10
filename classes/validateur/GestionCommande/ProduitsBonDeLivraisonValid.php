@@ -190,7 +190,7 @@ class ProduitsBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);	
 			}
-			if(empty($pData['total'])) {
+			if($pData['total'] == '') {
 				$lVr->setValid(false);
 				$lVr->getTotal()->setValid(false);
 				$lErreur = new VRerreur();
@@ -207,7 +207,7 @@ class ProduitsBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_236_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);	
 			}
-			if($pData['total'] <= 0) {
+			if($pData['total'] < 0) {
 				$lVr->setValid(false);
 				$lVr->getTotal()->setValid(false);
 				$lErreur = new VRerreur();

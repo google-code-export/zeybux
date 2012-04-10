@@ -47,9 +47,9 @@ class AfficheAchatAdherentVR extends DataTemplate
 
 	/**
 	 * @var VRelement
-	 * @desc Id_commande de la AfficheAchatAdherentVR
+	 * @desc Id Marche de la AfficheAchatAdherentVR
 	 */
-	protected $mId_commande;
+	protected $mIdMarche;
 
 	/**
 	* @name AfficheAchatAdherentVR()
@@ -61,7 +61,7 @@ class AfficheAchatAdherentVR extends DataTemplate
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
 		$this->mId_adherent = new VRelement();
-		$this->mId_commande = new VRelement();
+		$this->mIdMarche = new VRelement();
 	}
 
 	/**
@@ -137,21 +137,21 @@ class AfficheAchatAdherentVR extends DataTemplate
 	}
 
 	/**
-	* @name getId_commande()
+	* @name getIdMarche()
 	* @return VRelement
-	* @desc Renvoie le VRelement mId_commande
+	* @desc Renvoie le VRelement mIdMarche
 	*/
-	public function getId_commande() {
-		return $this->mId_commande;
+	public function getIdMarche() {
+		return $this->mIdMarche;
 	}
 
 	/**
-	* @name setId_commande($pId_commande)
+	* @name setIdMarche($pIdMarche)
 	* @param VRelement
-	* @desc Remplace le mId_commande par $pId_commande
+	* @desc Remplace le mIdMarche par $pIdMarche
 	*/
-	public function setId_commande($pId_commande) {
-		$this->mId_commande = $pId_commande;
+	public function setIdMarche($pIdMarche) {
+		$this->mIdMarche = $pIdMarche;
 	}
 
 }

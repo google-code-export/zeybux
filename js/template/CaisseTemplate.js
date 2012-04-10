@@ -87,8 +87,20 @@
 			"</div>" +
 		"</div>";
 	
-	this.achatCommandePage = 
-		"<div id=\"contenu\">" +			
+	this.achatMarchePage = 
+	"<div id=\"contenu\">" +
+		"{formulaire}" +
+		"{detail}" +
+		"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
+			"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
+			"<button type=\"button\" id=\"btn-modifier\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+			"<button type=\"button\" id=\"btn-confirmer\" class=\"btn-valider ui-state-default ui-corner-all com-button com-center\">Confirmer</button>" +
+			"<button type=\"button\" id=\"btn-enregistrer\" class=\"btn-valider ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Enregistrer</button>" +
+		"</div>" +
+	"</div>";
+	
+	this.achatMarcheFormulaire = 
+		"<div id=\"achat-marche-formulaire\" class=\"{formMarcheVisible}\">" +			
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
 				"<div class=\"com-widget-content\">" +
@@ -108,22 +120,24 @@
 						"</tr>" +
 						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"ligne-produit\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
-							
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom} {categories.produits.flagType}</td>" +
 							"<td class=\"table-vente-lot\">" +
 								"<select id=\"lot-{categories.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
 									"<!-- BEGIN categories.produits.lot -->" +
 									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
 									"<!-- END categories.produits.lot -->" +
 								"</select>" +
-								"<span class=\"lot-vente-produit ui-helper-hidden\"></span>" +
 							"</td>" +
 							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
 							
 							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-							"<td class=\"\">{categories.produits.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right \" ><input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td class=\"com-text-align-right\">" +
+								"<input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+							"</td>" +
+							"<td>{categories.produits.proUniteMesure}</td>" +
+							"<td class=\"com-text-align-right\" >" +
+								"<input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							"</td>" +
 							"<td><span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
 						"<!-- END categories.produits -->" +
@@ -160,12 +174,12 @@
 						"</tr>" +
 						"<!-- BEGIN categoriesSolidaire.produits -->" +
 						"<tr class=\"ligne-produit-solidaire\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +
+							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom} {categoriesSolidaire.produits.flagType}</td>" +
 							
 							
 							
 							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\">" +
+								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
 									"<!-- BEGIN categoriesSolidaire.produits.lot -->" +
 									"<option value=\"{categoriesSolidaire.produits.lot.dcomId}\">par {categoriesSolidaire.produits.lot.dcomTaille} {categoriesSolidaire.produits.proUniteMesure}</option>" +
 									"<!-- END categoriesSolidaire.produits.lot -->" +
@@ -175,9 +189,13 @@
 							
 
 							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
+							"<td class=\"com-text-align-right\">" +
+								"<input type=\"text\" value=\"{categoriesSolidaire.produits.stoQuantite}\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+							"</td>" +
 							"<td>{categoriesSolidaire.produits.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
+							"<td class=\"com-text-align-right\" >" +
+								"<input type=\"text\" value=\"{categoriesSolidaire.produits.proPrix}\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							"</td>" +
 							"<td><span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
 						"<!-- END categoriesSolidaire.produits -->" +
@@ -187,7 +205,7 @@
 						"<tr>" +
 							"<td colspan=\"4\"></td>" +
 							"<td class=\"com-text-align-right\" >Total :</td>" +
-							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
+							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">{totalSolidaire}</span></td>" +
 							"<td><span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
 					"</tfoot>" +
@@ -223,26 +241,183 @@
 						"</thead>" +
 						"<tbody>" +
 							"<tr>" +
-								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
+								"<td>" +
+									"<input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"recap com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/>" +
+									"<span class=\"recap ui-helper-hidden\" id=\"recharger-montant-label\"></span>" +
+									"<span>{sigleMonetaire}</span>" +
+								"</td>" +
 								"<td class=\"com-center\">" +
-									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
+									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\" class=\"recap\">" +
 										"<option value=\"0\">== Choisir ==</option>" +
 										"<!-- BEGIN typePaiement -->" +
 										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
 										"<!-- END typePaiement -->" +
 									"</select>" +
+									"<span class=\"recap ui-helper-hidden\" id=\"rechargementtypePaiement-label\"></span>" +
 								"</td>" +
-								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
+								"<td id=\"td-champ-complementaire\">" +
+									"<input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"recap com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/>" +
+									"<span class=\"recap ui-helper-hidden\" id=\"rechargementchampComplementaire-label\"></span>" +
+								"</td>" +
 							"</tr>" +
 						"</tbody>" +
 					"</table>" +
 				"</div>" +
 			"</div>" +
-			
+		"</div>";
+	
+	this.achatMarcheDetail = 
+		"<div id=\"achat-marche-detail\" class=\"{detailMarcheVisible}\">" +			
+			"{produit} {produitSolidaire}" +
 			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
-				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +
-				"<button type=\"button\" id=\"btn-valider\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
+				"<span>Total Marché : <span id=\"total-global\">{totalMarche}</span> {sigleMonetaire}</span>" +
+			"</div>" +
+			
+			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
+				"<div id=\"vente-achat-info-marche\">" +
+				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
+				"N° de Compte : {adhCompte}" +
+				"</div>" +
+				"<div>" +
+					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+					"<span>Nouveau Solde : </span><span class=\"{classSolde}\">{adhNouveauSolde} {sigleMonetaire}</span>" +
+				"</div>" +
+			"</div>" +
+			"<div class=\"{rechargementVisible} com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
+				"<div class=\"com-widget-content\">" +
+					"<table>" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Montant</th>" +
+								"<th>Type de Paiement</th>" +
+								"<th id=\"label-champ-complementaire\"></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr>" +
+								"<td>" +
+									"{rechargementMontant} {sigleMonetaire}" +
+								"</td>" +
+								"<td class=\"com-center\">" +
+									"{rechargementTypePaiement}" +
+								"</td>" +
+								"<td>" +
+									"{rechargementChampComplementaire}" +
+								"</td>" +
+							"</tr>" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.achatMarcheDetailProduit = 
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+			"<div class=\"com-widget-content\">" +
+			"<table class=\"achat-commande-table-pdt\">" +
+				"<thead>" +
+					"<tr>" +
+						"<th ></th>" +
+						"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+						"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+				"<!-- BEGIN categoriesAchat -->" +
+					"<tr>" +
+						"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesAchat.nom}</td>" +
+						"<td colspan=\"4\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN categoriesAchat.produits -->" +
+					"<tr>" +
+						"<td class=\"table-vente-produit\">{categoriesAchat.produits.nproNom} {categoriesAchat.produits.flagType}</td>" +
+						"<td class=\"com-text-align-right\">" +
+							"{categoriesAchat.produits.stoQuantite}" +
+						"</td>" +
+						"<td>{categoriesAchat.produits.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right\" >" +
+							"{categoriesAchat.produits.proPrix}" +
+						"</td>" +
+						"<td><span>{sigleMonetaire}</span></td>" +
+					"</tr>" +
+					"<!-- END categoriesAchat.produits -->" +
+				"<!-- END categoriesAchat -->" +
+				"</tbody>" +
+				"<tfoot>" +
+					"<tr>" +
+						"<td colspan=\"2\"></td>" +
+						"<td class=\"com-text-align-right\" >Total :</td>" +
+						"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
+						"<td><span>{sigleMonetaire}</span></td>" +
+					"</tr>" +
+				"</tfoot>" +
+			"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.achatMarcheDetailProduitVide = 
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+			"<div class=\"com-widget-content com-center\">" +
+				"Pas d'achat" +
+			"</div>" +
+		"</div>";
+	
+	this.achatMarcheDetailProduitSolidaire = 
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
+			"<div class=\"com-widget-content\">" +
+			"<table class=\"achat-commande-table-pdt\">" +
+				"<thead>" +
+					"<tr>" +
+						"<th ></th>" +
+						"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
+						"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+				"<!-- BEGIN categoriesSolidaireAchat -->" +
+					"<tr>" +
+						"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaireAchat.nom}</td>" +
+						"<td colspan=\"4\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN categoriesSolidaireAchat.produits -->" +
+					"<tr>" +
+						"<td class=\"table-vente-produit\">" +
+							"{categoriesSolidaireAchat.produits.nproNom} {categoriesSolidaireAchat.produits.flagType}" +
+						"</td>" +							
+						"<td class=\"com-text-align-right\">" +
+							"{categoriesSolidaireAchat.produits.stoQuantite}" +
+						"</td>" +
+						"<td>{categoriesSolidaireAchat.produits.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right\" >" +
+							"{categoriesSolidaireAchat.produits.proPrix}" +
+						"</td>" +
+						"<td><span>{sigleMonetaire}</span></td>" +
+					"</tr>" +
+					"<!-- END categoriesSolidaireAchat.produits -->" +
+				"<!-- END categoriesSolidaireAchat -->" +
+				"</tbody>" +
+				"<tfoot>" +
+					"<tr>" +
+						"<td colspan=\"2\"></td>" +
+						"<td class=\"com-text-align-right\" >Total :</td>" +
+						"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">{totalSolidaire}</span></td>" +
+						"<td><span>{sigleMonetaire}</span></td>" +
+					"</tr>" +
+				"</tfoot>" +
+			"</table>" +
+			"</div>" +
+		"</div>";
+	
+	this.achatMarcheDetailProduitSolidaireVide = 
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
+			"<div class=\"com-widget-content com-center\">" +
+				"Pas d'achat Solidaire" +
 			"</div>" +
 		"</div>";
 	
@@ -265,4 +440,7 @@
 	
 	this.lotUniqueSolidaire = 
 		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
+	
+	this.flagAbonnement = 
+		"<span class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Abo</span>";
 }

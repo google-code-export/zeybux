@@ -1412,7 +1412,7 @@
 									lVR.log.erreurs.push(erreur);
 									
 									
-									EditerCommandeVue({id_commande:lResponse.id,vr:lVR});									
+									EditerCommandeVue({id_marche:lResponse.id,vr:lVR});									
 								} else {
 									that.editerMarche();
 									Infobulle.generer(lResponse,"marche-");
