@@ -1,5 +1,6 @@
 ;function InfoAdherentValid() { 
 	this.validAjout = function(pData) { 
+		
 		var lVR = new InfoAdherentVR();
 		//Tests Techniques
 		if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
@@ -13,15 +14,17 @@
 
 		// Les mots de passe ne sont pas identique
 		if(pData.motPasseNouveau !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasseNouveau.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasseNouveau.erreurs.push(erreur);}
+		if(pData.motPasseNouveau.indexOf('&') != -1) {lVR.valid = false;lVR.motPasseNouveau.valid = false;var erreur = new VRerreur();erreur.code = ERR_255_CODE;erreur.message = ERR_255_MSG;lVR.motPasseNouveau.erreurs.push(erreur);}
+		
 		
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new InfoAdherentVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -43,6 +46,6 @@
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 }

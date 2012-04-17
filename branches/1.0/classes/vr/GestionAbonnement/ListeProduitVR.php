@@ -70,6 +70,12 @@ class ListeProduitVR extends DataTemplate
 	protected $mFrequence;
 
 	/**
+	 * @var array(VRelement)
+	 * @desc Lots de la ListeProduitVR
+	 */
+	protected $mLots;
+
+	/**
 	* @name ListeProduitVR()
 	* @return bool
 	* @desc Constructeur
@@ -83,6 +89,7 @@ class ListeProduitVR extends DataTemplate
 		$this->mStockInitial = new VRelement();
 		$this->mMax = new VRelement();
 		$this->mFrequence = new VRelement();
+		$this->mLots = array();
 	}
 
 	/**
@@ -229,5 +236,31 @@ class ListeProduitVR extends DataTemplate
 		$this->mFrequence = $pFrequence;
 	}
 
+	/**
+	* @name getLots()
+	* @return VRelement
+	* @desc Renvoie le VRelement mLots
+	*/
+	public function getLots() {
+		return $this->mLots;
+	}
+
+	/**
+	* @name setLots($pLots)
+	* @param VRelement
+	* @desc Remplace le mLots par $pLots
+	*/
+	public function setLots($pLots) {
+		$this->mLots = $pLots;
+	}
+
+	/**
+	* @name addLots($pLots)
+	* @param VRelement
+	* @desc Ajoute le $pLots à mLots
+	*/
+	public function addLots($pLots) {
+		array_push($this->mLots,$pLots);
+	}
 }
 ?>

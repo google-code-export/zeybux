@@ -5,4 +5,6 @@
 	this.stockInitial = '';
 	this.max = '';
 	this.frequence = '';
+	this.lots = [];
+	this.lotRemplacement = [];
 };

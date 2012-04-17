@@ -119,6 +119,11 @@
 			lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 			lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 			
+			lPdt.flagType = "";
+			if(this.type == 2) {
+				lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+			}
+			
 			lData.reservation.push(lPdt);
 		});	
 
@@ -156,7 +161,11 @@
 							});
 						}
 					});
-
+					
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
 					lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 					lDataPdtAchat.push(lPdt);
@@ -182,6 +191,10 @@
 					lPdt.proUniteMesure = this.unite;
 					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
 					lPdt.prix = "0".nombreFormate(2,',',' ');
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
 					lDataPdtAchat.push(lPdt);
 				}
 			});
@@ -194,6 +207,7 @@
 			var lAchat = this;
 			var lDataPdtAchat = [];
 			var lAchatSolidaire = false;
+
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
 					var lAchatPdtSolidaire = false;
@@ -219,21 +233,28 @@
 											lPdt.prix = this.montant * -1;
 											lNbAchatSolidaire++;
 											lAchatSolidaire = true;
-											lAchatPdtSolidaire = true;
+									//		lAchatPdtSolidaire = true;
 										}
 									});
 								}
 							});
+							lAchatPdtSolidaire = true;
 						}
 					});
-
+					
 					if(lAchatPdtSolidaire) {
+						
+						lPdt.flagType = "";
+						if(this.type == 2) {
+							lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+						}
+						
 						lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 						lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');							
 						lDataPdtAchat.push(lPdt);
 					}
 				}
-			});
+			});			
 			if(lAchatSolidaire) {
 				var lDataAchat = {	achat:lDataPdtAchat,
 									idAchat:this.id.idAchat,
@@ -253,7 +274,10 @@
 					lPdt.proUniteMesure = this.unite;
 					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
 					lPdt.prix = "0".nombreFormate(2,',',' ');
-					
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
 					$(pResponse.stockSolidaire).each(function() {
 						if(lPdt.id == this.proId){							
 							lDataPdtAchat.push(lPdt);
@@ -323,6 +347,11 @@
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
 	};
 	
+	this.affectDroitArchive = function(pData) {
+		pData.find(".com-btn-header-multiples").remove();
+		return pData;
+	};
+	
 	this.affect = function(pData) {
 		pData = this.affectAnnulerDetailReservation(pData);
 		pData = this.affectModifierReservation(pData);
@@ -331,13 +360,16 @@
 		pData = this.affectSupprimerAchat(pData);
 		pData = gCommunVue.comHoverBtn(pData);		
 		pData = gCommunVue.comNumeric(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
 		return pData;
 	};
 	
 	this.affectAnnulerDetailReservation = function(pData) {
 		var that = this;
 		pData.find('#btn-annuler').click(function() {
-			EditerCommandeVue({"id_marche":that.infoCommande.comId});		
+			ListeAchatMarcheVue({"id_marche":that.infoCommande.comId});		
 		});
 		return pData;
 	};

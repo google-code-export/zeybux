@@ -114,10 +114,11 @@ class ListeProduitControleur
 		if($lVr->getValid()) {
 			$lAbonnementService = new AbonnementService();
 			$lResponse = new DetailProduitModifierResponse();
-			$lResponse->setProduit($lAbonnementService->getDetailProduit($pParam["id"]));
+			$lProduit = $lAbonnementService->getDetailProduit($pParam["id"]);
+			$lResponse->setProduit($lProduit);
 			
-			$lProduit = $lAbonnementService->getProduit($pParam["id"]);
-			$lResponse->setUnite( ModeleLotViewManager::selectUnite($lProduit->getId()) );
+		//	$lProduit = $lAbonnementService->getProduit($pParam["id"]);
+			$lResponse->setUnite( ModeleLotViewManager::selectByIdNomProduit($lProduit[0]->getProAboIdNomProduit()) );
 			return $lResponse;
 		}
 		return $lVr;
@@ -137,6 +138,7 @@ class ListeProduitControleur
 			$lProduitAbonnement->setMax($pParam['max']);
 			$lProduitAbonnement->setFrequence($pParam['frequence']);
 			$lProduitAbonnement->setEtat(0);
+			$lProduitAbonnement->setLots($pParam['lots']);
 			
 			$lAbonnementService = new AbonnementService();
 			$lAbonnementService->setProduit($lProduitAbonnement);
@@ -158,7 +160,21 @@ class ListeProduitControleur
 			$lProduitAbonnement->setStockInitial($pParam['stockInitial']);
 			$lProduitAbonnement->setMax($pParam['max']);
 			$lProduitAbonnement->setFrequence($pParam['frequence']);
-			$lAbonnementService->setProduit($lProduitAbonnement);
+			
+			$lProduitAbonnement->setLots(array());
+			foreach($pParam['lots'] as $lLot) {
+				$lLotAbonnement = new LotAbonnementVO();
+				$lLotAbonnement->setId($lLot["id"]);
+				$lLotAbonnement->setIdProduitAbonnement($pParam["id"]);
+				$lLotAbonnement->setTaille($lLot["taille"]);
+				$lLotAbonnement->setPrix($lLot["prix"]);
+				$lLotAbonnement->setEtat(0);
+				$lProduitAbonnement->addLots($lLotAbonnement);
+			 }		 
+			
+			
+			//$lProduitAbonnement->setLots($pParam['lots']);
+			$lAbonnementService->setProduit($lProduitAbonnement,$pParam["lotRemplacement"]);
 		}
 		return $lVr;
 	}
@@ -212,7 +228,7 @@ class ListeProduitControleur
 		$lVr = ListeProduitValid::validIdNomProduit($pParam);
 		if($lVr->getValid()) {
 			$lId = $pParam['id'];			
-			$lUnite = ModeleLotViewManager::selectUnite($lId);			
+			$lUnite = ModeleLotViewManager::selectByIdNomProduit($lId);			
 			$lResponse = new UniteResponse();
 			$lResponse->setUnite( $lUnite );
 			return $lResponse;

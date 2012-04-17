@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VR . MOD_GESTION_ABONNEMENT. "/ListeProduitVR.php" )
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_ABONNEMENT. "/NomProduitVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitAbonnementManager.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ABONNEMENT. "/DetailCommandeValid.php" );
 /*
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AbonnementListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
@@ -75,6 +76,14 @@ class ListeProduitValid
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getFrequence()->addErreur($lErreur);	
+		}
+		if(!isset($pData['lots'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
 		}
 
 		if($lVr->getValid()) {
@@ -142,6 +151,14 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getFrequence()->addErreur($lErreur);	
 			}
+			if(!is_array($pData['lots'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}	
 
 			//Tests Fonctionnels
 			if(empty($pData['idNomProduit'])) {
@@ -176,6 +193,14 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getMax()->addErreur($lErreur);	
 			}
+			if(empty($pData['lots'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
 			
 			// Test de l'existance du produit
 			if($lVr->getIdNomProduit()->getValid()) {
@@ -192,7 +217,7 @@ class ListeProduitValid
 				
 				$lProAbo = ProduitAbonnementManager::selectByIdNomProduit($pData['idNomProduit']);
 				$lProAbo = $lProAbo[0];
-				if($lProAbo->getId() != NULL) {
+				if($lProAbo->getId() != NULL && $lProAbo->getEtat() == 0) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();
@@ -226,7 +251,19 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_205_MSG);
 				$lVr->getStockInitial()->addErreur($lErreur);
 				$lVr->getMax()->addErreur($lErreur);	
-			}	
+			}
+			if(is_array($pData['lots'])) {
+				$lValidLot = new DetailCommandeValid();
+				$i = 0;
+				while(isset($pData['lots'][$i])) {
+					$lVrLot = $lValidLot->validAjout($pData['lots'][$i]);					
+					if(!$lVrLot->getValid()){
+						$lVr->setValid(false);
+					}
+					$lVr->addLots($lVrLot);			
+					$i++;
+				}			
+			}
 			
 		}
 		return $lVr;
@@ -323,6 +360,22 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getFrequence()->addErreur($lErreur);	
 			}
+			if(!isset($pData['lots'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
+			if(!isset($pData['lotRemplacement'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
 	
 			if($lVr->getValid()) {
 				if(!TestFonction::checkLength($pData['unite'],0,20)) {
@@ -373,6 +426,22 @@ class ListeProduitValid
 					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 					$lVr->getFrequence()->addErreur($lErreur);	
 				}
+				if(!is_array($pData['lots'])) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+					$lVr->getLog()->addErreur($lErreur);	
+				}
+				if(!is_array($pData['lotRemplacement'])) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+					$lVr->getLog()->addErreur($lErreur);	
+				}
 	
 				//Tests Fonctionnels
 				if(empty($pData['unite'])) {
@@ -398,6 +467,14 @@ class ListeProduitValid
 					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getMax()->addErreur($lErreur);	
+				}
+				if(empty($pData['lots'])) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getLog()->addErreur($lErreur);	
 				}
 				
 				// Test de l'existance du produit		
@@ -426,6 +503,18 @@ class ListeProduitValid
 					$lErreur->setMessage(MessagesErreurs::ERR_205_MSG);
 					$lVr->getStockInitial()->addErreur($lErreur);
 					$lVr->getMax()->addErreur($lErreur);	
+				}
+				if(is_array($pData['lots'])) {
+					$lValidLot = new DetailCommandeValid();
+					$i = 0;
+					while(isset($pData['lots'][$i])) {
+						$lVrLot = $lValidLot->validAjout($pData['lots'][$i]);					
+						if(!$lVrLot->getValid()){
+							$lVr->setValid(false);
+						}
+						$lVr->addLots($lVrLot);			
+						$i++;
+					}			
 				}
 			}
 		}

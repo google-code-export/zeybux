@@ -20,7 +20,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {		
 		var that = this;
@@ -66,42 +66,44 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.listeCommandeArchiveVide)));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectLienDetail(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectLienListeCommandeArchive = function(pData) {
 		pData.find('#lien-marche-encours').click(function() {
 			GestionListeCommandeVue();
 		});
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-marche-archive")
 			.tablesorter({sortList: [[2,1]]})
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:30}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		pData.find("#table-marche-archive").tablesorter({sortList: [[2,1]]});
 		return pData;
-	}
+	};
 	
 	this.affectLienDetail = function(pData) {
 		pData.find('.detail-commande-ligne').click(function() {
-			var lparam = {"id_commande":$(this).find('.id-commande').text()};
-			InfoCommandeArchiveVue(lparam);
+			var lparam = {"id_marche":$(this).find('.id-commande').text()};
+			//InfoCommandeArchiveVue(lparam);
+			//var lparam = {"id_marche":$(this).attr('id')};
+			EditerCommandeVue(lparam);
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

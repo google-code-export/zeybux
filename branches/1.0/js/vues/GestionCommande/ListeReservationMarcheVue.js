@@ -28,15 +28,22 @@
 		var that = this;
 
 		// Met le bouton en actif
-		$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-resa").addClass("ui-state-active");
+		/*$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
+		$("#btn-liste-resa").addClass("ui-state-active");*/
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		var lTemplate = lGestionCommandeTemplate.listeReservation;
+
+
+		pResponse.infoMarcheSelected = '';
+		pResponse.listeReservationSelected = 'ui-state-active';
+		pResponse.listeAchatSelected = '';
+		pResponse.resumeMarcheSelected = '';
 		
+		pResponse.editerMenu = lGestionCommandeTemplate.editerMarcheMenu.template(pResponse);
 		var lHtml = that.affectReservationAction($(lTemplate.template(pResponse)));
 		
-		$('#edt-com-liste').replaceWith(lHtml);		
+		$('#contenu').replaceWith(lHtml);		
 	};
 	
 	this.affectReservationAction = function(pData) {
@@ -44,7 +51,25 @@
 		pData = this.affectRecherche(pData);
 		pData = this.affectExportReservation(pData);
 		pData = this.affectReservation(pData);
+		pData = this.affectMenu(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectMenu = function(pData) {
+		var that = this;
+		pData.find('#btn-information-marche').click(function() {
+			EditerCommandeVue(that.mParam);
+		});		
+		pData.find("#btn-liste-achat-resa").click(function() {
+			ListeAchatMarcheVue({id_marche:that.mIdMarche});
+		});
+		pData.find("#btn-liste-resa").click(function() {
+			ListeReservationMarcheVue({id_marche:that.mIdMarche});
+		});
+		pData.find("#btn-resume-marche").click(function() {
+			ResumeMarcheVue({id_marche:that.mIdMarche});
+		});
 		return pData;
 	};
 	

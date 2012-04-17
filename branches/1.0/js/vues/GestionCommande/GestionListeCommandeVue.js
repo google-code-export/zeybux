@@ -17,7 +17,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -50,7 +50,7 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.listeCommandeVide)));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectLienEditer(pData);
@@ -59,14 +59,14 @@
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectNouveauMarche(pData);
 		return pData;
-	}
+	};
 	
 	this.affectNouveauMarche = function(pData) {
 		pData.find('#btn-nv-marche').click(function() {
 			AjoutCommandeVue();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectLienEditer = function(pData) {
 		pData.find('.btn-editer').click(function() {
@@ -74,7 +74,7 @@
 			EditerCommandeVue(lparam);
 		});
 		return pData;
-	}
+	};
 	
 	this.affectLienMarche = function(pData) {
 		pData.find('.btn-marche').click(function() {
@@ -82,14 +82,14 @@
 			MarcheCommandeVue(lparam);
 		});
 		return pData;
-	}
+	};
 	
 	this.affectLienListeCommandeArchive = function(pData) {
 		pData.find('#lien-marche-archive').click(function() {
 			ListeCommandeArchiveVue();
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

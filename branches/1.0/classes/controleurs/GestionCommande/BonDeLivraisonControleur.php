@@ -76,6 +76,7 @@ class BonDeLivraisonControleur
 			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
 			
 			$lResponse->setComNumero($lMarche->getNumero());
+			$lResponse->setArchive($lMarche->getArchive());
 			$lResponse->setProducteurs($lProducteurs);
 			$lResponse->setTypePaiement($lTypePaiement);
 			

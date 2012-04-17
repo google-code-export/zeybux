@@ -103,7 +103,7 @@ class ProduitAbonnementManager
 		if( mysql_num_rows($lSql) > 0 ) {
 			$lLigne = mysql_fetch_assoc($lSql);
 			return ProduitAbonnementManager::remplirProduitAbonnement(
-				$pId,
+				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID],
 				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
 				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE],
 				$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL],

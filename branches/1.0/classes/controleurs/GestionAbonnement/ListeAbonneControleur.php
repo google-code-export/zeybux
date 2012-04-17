@@ -122,15 +122,16 @@ class ListeAbonneControleur
 		if($lVr->getValid()) {
 			$lAbonnementService = new AbonnementService();
 			// Si il y a une suspension en cours on ajoute l'abonnement en suspension
-			$lProduits = $lAbonnementService->getProduitsAbonne($pParam['idCompte']);
+			//$lProduits = $lAbonnementService->getProduitsAbonne($pParam['idCompte']);
 			
 			$lCompteAbonnement = new CompteAbonnementVO();
 			//$lCompteAbonnement->setId($pId);
 			$lCompteAbonnement->setIdCompte($pParam['idCompte']);
 			$lCompteAbonnement->setIdProduitAbonnement($pParam['idProduitAbonnement']);
+			$lCompteAbonnement->setIdLotAbonnement($pParam['idLotAbonnement']);
 			$lCompteAbonnement->setQuantite($pParam['quantite']);
-			$lCompteAbonnement->setDateDebutSuspension($lProduits[0]->getCptAboDateDebutSuspension() );
-			$lCompteAbonnement->setDateFinSuspension($lProduits[0]->getCptAboDateFinSuspension() );
+			$lCompteAbonnement->setDateDebutSuspension(StringUtils::FORMAT_DATE_TIME_NULLE);
+			$lCompteAbonnement->setDateFinSuspension(StringUtils::FORMAT_DATE_TIME_NULLE);
 			$lCompteAbonnement->setEtat(0);
 
 			$lAbonnementService->setAbonnement($lCompteAbonnement);
@@ -152,6 +153,7 @@ class ListeAbonneControleur
 			$lCompteAbonnement->setId($pParam["id"]);
 			$lCompteAbonnement->setIdCompte($pParam['idCompte']);
 			$lCompteAbonnement->setIdProduitAbonnement($pParam['idProduitAbonnement']);
+			$lCompteAbonnement->setIdLotAbonnement($pParam['idLotAbonnement']);
 			$lCompteAbonnement->setQuantite($pParam['quantite']);
 			$lCompteAbonnement->setDateDebutSuspension($lDetailCompteAbonnement->getCptAboDateDebutSuspension());
 			$lCompteAbonnement->setDateFinSuspension($lDetailCompteAbonnement->getCptAboDateFinSuspension());

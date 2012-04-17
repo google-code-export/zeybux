@@ -183,7 +183,16 @@ class InfoAdherentValid
 				$lErreur->setCode(MessagesErreurs::ERR_223_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_223_MSG);
 				$lVr->getMotPasseNouveau()->addErreur($lErreur);
-			}		
+			}
+			
+			if(stripos($pData['motPasseNouveau'],'&') !== false ) {
+				$lVr->setValid(false);
+				$lVr->getMotPasseNouveau()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_255_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_255_MSG);
+				$lVr->getMotPasseNouveau()->addErreur($lErreur);				
+			}
 		}
 		return $lVr;
 	}

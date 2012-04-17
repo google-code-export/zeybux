@@ -6,6 +6,7 @@
 	this.mListeProduit = [];
 	this.mSuiteEdition = 0;
 	this.mIdCompteProducteur = 0;
+	this.mArchive = -1;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
@@ -21,6 +22,7 @@
 								Infobulle.generer(pParam.vr,'');
 							}
 							that.mEtatEdition = false;
+							that.mArchive = lResponse.archive;
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -39,6 +41,13 @@
 		this.mComNumero = pResponse.comNumero;
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find("#btn-annuler").remove();
+		pData.find("#btn-enregistrer").remove();
+		pData.find("#btn-modifier").remove();
+		return pData;
 	};
 	
 	this.affect = function(pData) {
@@ -178,6 +187,9 @@
 		pData = this.affectMasquerFormulaire(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
 		return pData;
 	};
 	
@@ -188,6 +200,9 @@
 		pData = this.affectMasquerDetail(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
 		return pData;
 	};
 	

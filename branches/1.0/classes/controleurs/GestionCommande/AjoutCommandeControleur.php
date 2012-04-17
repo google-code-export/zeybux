@@ -36,6 +36,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommande
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php" );
 
 /**
  * @name AjoutCommandeControleur
@@ -53,7 +54,7 @@ class AjoutCommandeControleur
 	public function getInfoDupliquerMarche($pParam) {	
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
-			$lIdMarche = $pParam["id_commande"];
+			$lIdMarche = $pParam["id_marche"];
 
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
@@ -108,7 +109,25 @@ class AjoutCommandeControleur
 			
 			$lResponse = new ModelesLotResponse();
 			$lResponse->setModelesLot( $lModelesLot );
-			$lResponse->setDetailAbonnement( $lAbonnementService->getProduitByIdNom($lId) );
+			
+			$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lId);
+			$lNvLots = array();
+			foreach($lDetailAbonnement->getLots() as $lLot) {
+				$lAbonnement = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+				
+				$lLotAbonnementMarcheVO = new LotAbonnementMarcheVO();
+				$lLotAbonnementMarcheVO->setId($lLot->getId());
+				$lLotAbonnementMarcheVO->setIdProduitAbonnement($lLot->getIdProduitAbonnement());
+				$lLotAbonnementMarcheVO->setTaille($lLot->getTaille());
+				$lLotAbonnementMarcheVO->setPrix($lLot->getPrix());
+				if(!is_null($lAbonnement[0]->getCptAboId())) {
+					$lLotAbonnementMarcheVO->setReservation(true);
+				}
+				array_push($lNvLots,$lLotAbonnementMarcheVO);
+			}
+			$lDetailAbonnement->setLots($lNvLots);
+			
+			$lResponse->setDetailAbonnement( $lDetailAbonnement );
 			return $lResponse;
 		}		
 		return $lVr;

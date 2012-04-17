@@ -23,6 +23,11 @@ class DetailProduitAbonnementViewVO  extends DataTemplate
 	* @desc ProAboId de la DetailProduitAbonnementViewVO
 	*/
 	protected $mProAboId;
+	/**
+	* @var int(11)
+	* @desc ProAboIdNomProduit de la DetailProduitAbonnementViewVO
+	*/
+	protected $mProAboIdNomProduit;
 
 	/**
 	* @var varchar(50)
@@ -59,6 +64,20 @@ class DetailProduitAbonnementViewVO  extends DataTemplate
 	* @desc ProAboReservation de la DetailProduitAbonnementViewVO
 	*/
 	protected $mProAboReservation;
+	
+	/**
+	* @var array(LotAbonnementVo);
+	* @desc Lots de la DetailProduitAbonnementViewVO
+	*/
+	protected $mLots;
+	
+	/**
+	* @name DetailProduitAbonnementViewVO()
+	* @desc Constructeur
+	*/
+	function DetailProduitAbonnementViewVO() {
+		$this->mLots = array();
+	}
 
 	/**
 	* @name getProAboId()
@@ -76,6 +95,24 @@ class DetailProduitAbonnementViewVO  extends DataTemplate
 	*/
 	public function setProAboId($pProAboId) {
 		$this->mProAboId = $pProAboId;
+	}
+
+	/**
+	* @name getProAboIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre ProAboIdNomProduit de la DetailProduitAbonnementViewVO
+	*/
+	public function getProAboIdNomProduit() {
+		return $this->mProAboIdNomProduit;
+	}
+
+	/**
+	* @name setProAboIdNomProduit($pProAboIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre ProAboIdNomProduit de la DetailProduitAbonnementViewVO par $pProAboIdNomProduit
+	*/
+	public function setProAboIdNomProduit($pProAboIdNomProduit) {
+		$this->mProAboIdNomProduit = $pProAboIdNomProduit;
 	}
 
 	/**
@@ -186,5 +223,31 @@ class DetailProduitAbonnementViewVO  extends DataTemplate
 		$this->mProAboReservation = $pProAboReservation;
 	}
 
+	/**
+	* @name getLots()
+	* @return array(LotAbonnementVO)
+	* @desc Renvoie le membre mLots de la DetailProduitAbonnementViewVO
+	*/
+	public function getLots() {
+		return $this->mLots;
+	}
+
+	/**
+	* @name setLots($pLots)
+	* @param array(LotAbonnementVO)
+	* @desc Remplace le membre mLots de la DetailProduitAbonnementViewVO par $pLots
+	*/
+	public function setLots($pLots) {
+		$this->mLots = $pLots;
+	}
+
+	/**
+	* @name addLots($pLots)
+	* @param LotAbonnementVO
+	* @desc Ajout $pLots au membre mLots de la DetailProduitAbonnementViewVO par $pLots
+	*/
+	public function addLots($pLots) {
+		array_push($this->mLots,$pLots);
+	}
 }
 ?>

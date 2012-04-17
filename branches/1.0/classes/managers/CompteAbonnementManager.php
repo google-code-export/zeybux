@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 11/02/2012
+// Date de creation : 14/04/2012
 // Fichier : CompteAbonnementManager.php
 //
 // Description : Classe de gestion des CompteAbonnement
@@ -17,7 +17,7 @@ define("TABLE_COMPTEABONNEMENT", MYSQL_DB_PREFIXE ."cptabo_compte_abonnement");
 /**
  * @name CompteAbonnementManager
  * @author Julien PIERRE
- * @since 11/02/2012
+ * @since 14/04/2012
  * 
  * @desc Classe permettant l'accès aux données des CompteAbonnement
  */
@@ -27,6 +27,7 @@ class CompteAbonnementManager
 	const CHAMP_COMPTEABONNEMENT_ID = "cptabo_id";
 	const CHAMP_COMPTEABONNEMENT_ID_COMPTE = "cptabo_id_compte";
 	const CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT = "cptabo_id_produit_abonnement";
+	const CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT = "cptabo_id_lot_abonnement";
 	const CHAMP_COMPTEABONNEMENT_QUANTITE = "cptabo_quantite";
 	const CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION = "cptabo_date_debut_suspension";
 	const CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION = "cptabo_date_fin_suspension";
@@ -48,6 +49,7 @@ class CompteAbonnementManager
 			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION . 
@@ -64,6 +66,7 @@ class CompteAbonnementManager
 				$pId,
 				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
 				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
 				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION],
 				$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION],
@@ -87,6 +90,7 @@ class CompteAbonnementManager
 			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION . 
@@ -104,6 +108,7 @@ class CompteAbonnementManager
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION],
@@ -114,7 +119,23 @@ class CompteAbonnementManager
 		}
 		return $lListeCompteAbonnement;
 	}
-
+	
+	
+	/**
+	* @name selectActifByIdCompte($pIdCompte)
+	* @param string
+	* @return array(CompteAbonnementVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pIdCompte et les renvoie sous forme d'une collection de CompteAbonnementVO
+	*/
+	public static function selectActifByIdCompte($pIdCompte) {		
+		return CompteAbonnementManager::recherche(
+			array(CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE,CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ETAT),
+			array('=','='),
+			array($pIdCompte,0),
+			array(''),
+			array(''));
+	}
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
@@ -135,6 +156,7 @@ class CompteAbonnementManager
 			    CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT .
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION .
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION .
@@ -159,6 +181,7 @@ class CompteAbonnementManager
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION],
@@ -176,7 +199,8 @@ class CompteAbonnementManager
 	}
 
 	/**
-	* @name remplirCompteAbonnement($pId, $pIdCompte, $pIdProduitAbonnement, $pQuantite, $pDateDebutSuspension, $pDateFinSuspension, $pEtat)
+	* @name remplirCompteAbonnement($pId, $pIdCompte, $pIdProduitAbonnement, $pIdLotAbonnement, $pQuantite, $pDateDebutSuspension, $pDateFinSuspension, $pEtat)
+	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -187,11 +211,12 @@ class CompteAbonnementManager
 	* @return CompteAbonnementVO
 	* @desc Retourne une CompteAbonnementVO remplie
 	*/
-	private static function remplirCompteAbonnement($pId, $pIdCompte, $pIdProduitAbonnement, $pQuantite, $pDateDebutSuspension, $pDateFinSuspension, $pEtat) {
+	private static function remplirCompteAbonnement($pId, $pIdCompte, $pIdProduitAbonnement, $pIdLotAbonnement, $pQuantite, $pDateDebutSuspension, $pDateFinSuspension, $pEtat) {
 		$lCompteAbonnement = new CompteAbonnementVO();
 		$lCompteAbonnement->setId($pId);
 		$lCompteAbonnement->setIdCompte($pIdCompte);
 		$lCompteAbonnement->setIdProduitAbonnement($pIdProduitAbonnement);
+		$lCompteAbonnement->setIdLotAbonnement($pIdLotAbonnement);
 		$lCompteAbonnement->setQuantite($pQuantite);
 		$lCompteAbonnement->setDateDebutSuspension($pDateDebutSuspension);
 		$lCompteAbonnement->setDateFinSuspension($pDateFinSuspension);
@@ -215,6 +240,7 @@ class CompteAbonnementManager
 				(" . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . "
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . "
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . "
+				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . "
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE . "
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION . "
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION . "
@@ -222,6 +248,7 @@ class CompteAbonnementManager
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdProduitAbonnement() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdLotAbonnement() ) . "'
 				,'" . StringUtils::securiser( $pVo->getQuantite() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateDebutSuspension() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateFinSuspension() ) . "'
@@ -246,6 +273,7 @@ class CompteAbonnementManager
 			 SET
 				 " . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . " = '" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . " = '" . StringUtils::securiser( $pVo->getIdProduitAbonnement() ) . "'
+				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . " = '" . StringUtils::securiser( $pVo->getIdLotAbonnement() ) . "'
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE . " = '" . StringUtils::securiser( $pVo->getQuantite() ) . "'
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION . " = '" . StringUtils::securiser( $pVo->getDateDebutSuspension() ) . "'
 				," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION . " = '" . StringUtils::securiser( $pVo->getDateFinSuspension() ) . "'
@@ -277,7 +305,7 @@ class CompteAbonnementManager
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
 	}
-
+	
 	/**
 	* @name delete($pId)
 	* @param integer

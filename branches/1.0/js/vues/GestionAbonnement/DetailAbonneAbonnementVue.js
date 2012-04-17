@@ -5,6 +5,8 @@
 	this.idAdherent = 0;
 	this.mDateDebutSuspension = '';
 	this.mDateFinSuspension = '';
+	this.reservationModif = {};
+	this.reservation = {};
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {DetailAbonneAbonnementVue(pParam);}} );
@@ -403,13 +405,36 @@
 								
 								var lData = lResponse.produit[0];
 								if(lData.proAboMax == -1) {
-									lData.proAboMax = "Pas de limite";
+									lData.proAboMaxLabel = "Pas de limite";
 								} else {
-									lData.proAboMax = lData.proAboMax.nombreFormate(2,',',' ') + " " + lData.proAboUnite;
+									lData.proAboMaxLabel = lData.proAboMax.nombreFormate(2,',',' ') + " " + lData.proAboUnite;
 								}
 								lData.qteRestant = (parseFloat(lData.proAboStockInitial) - parseFloat(lData.proAboReservation)).nombreFormate(2,',',' ');
-								$("#detail-produit").replaceWith(that.affectDetailProduit($(lTemplate.template(lData))));									
 								
+								lData.lot = [];
+								var lLots = [];
+								$.each(lResponse.produit[0].lots, function() {
+									if(this.id) {
+										var lLot = {};
+										lLot.dcomId = this.id;
+										lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
+										lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
+										if(!lData.prixUnitaire) {
+											lData.prixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).nombreFormate(2,',',' ');
+											lData.qteInit = lLot.dcomTaille;
+											lData.prixInit = lLot.dcomPrix;
+											that.reservationModif.dcomId = this.id;
+											that.reservationModif.stoQuantite = this.taille;
+										}
+										lData.lot.push(lLot);
+										lLots[this.id] = this;
+									}
+								});
+								that.produit.lots = lLots;
+								
+								lData.sigleMonetaire = gSigleMonetaire;
+								
+								$("#detail-produit").replaceWith(that.affectDetailProduit($(lTemplate.template(lData))));
 							} else {
 								Infobulle.generer(lResponse,'');
 							}
@@ -424,9 +449,107 @@
 	};
 	
 	this.affectDetailProduit = function(pData) {
+		pData = this.affectChangementLot(pData);
+		pData = this.affectBtnQte(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		return pData;		
+	};
+	
+	this.affectChangementLot = function(pData) {
+		var that = this;
+		pData.find('#lot').change(function() {
+			Infobulle.init(); // Supprime les erreurs
+			that.changerLot($(this).val());
+		});
+		return pData;
+	};
+	
+	this.changerLot = function(pIdLot) {
+		var lPrix = this.produit.lots[pIdLot].prix;
+		var lQte = this.produit.lots[pIdLot].taille;
+		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 
+		
+		$('#prix-unitaire').text(lprixUnitaire);
+		this.reservationModif.dcomId = pIdLot;
+		this.reservationModif.stoQuantite = lQte;
+		$('#qte-pdt').text(lQte.nombreFormate(2,',',' '));
+		$('#prix-pdt').text(lPrix.nombreFormate(2,',',' '));
+	};
+	
+	this.affectBtnQte = function(pData) {
+		var that = this;
+		pData.find('.btn-plus').click(function() {
+			Infobulle.init(); // Supprime les erreurs
+			that.nouvelleQuantite($('#lot').val(), 1);
+		});	
+		pData.find('.btn-moins').click(function() {
+			Infobulle.init(); // Supprime les erreurs
+			that.nouvelleQuantite($('#lot').val(),-1);
+		});
+		return pData;		
+	};
+	
+	this.nouvelleQuantite = function(pIdLot,pIncrement) {
+		// La quantité max soit qte max soit stock
+		var lMax = parseFloat(this.produit.proAboMax);
+		
+		// Recherche de la quantité reservée pour la déduire de la quantité max
+		if(this.reservation && this.reservation.stoQuantite) {
+			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation) + parseFloat(this.reservation.stoQuantite);						
+		} else {
+			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation);
+		}
+
+		
+		var lNoStock = false;
+		if(parseFloat(this.produit.proAboMax) == -1 && parseFloat(this.produit.proAboStockInitial) == -1) { // Si ni stock ni qmax
+			lNoStock = true;
+		} else if(parseFloat(this.produit.proAboStockInitial) == -1) { // Si qmax mais pas stock
+			lMax = this.produit.proAboMax;
+		} else if(parseFloat(this.produit.proAboMax) == -1) { // Si stock mais pas qmax
+			lMax = lStock;
+		} else { // Si stock et qmax
+			if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }				
+		}
+		
+		var lTaille = this.produit.lots[pIdLot].taille;
+		var lPrix = this.produit.lots[pIdLot].prix;
+		
+		// Récupère le nombre de lot réservé
+		var lQteReservation = 0;
+		if(this.reservationModif && (this.reservationModif.dcomId == pIdLot)) {
+			lQteReservation = parseFloat(this.reservationModif.stoQuantite)/parseFloat(lTaille);
+		}
+		lQteReservation += pIncrement;
+		
+		var lNvQteReservation = lQteReservation * lTaille;
+
+		// Test si la quantité est dans les limites
+		if((lNoStock && lNvQteReservation > 0) || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax)) {
+			var lNvPrix = (lQteReservation * lPrix).toFixed(2);
+
+			// Mise à jour de la quantite reservée
+			this.reservationModif.stoQuantite = lNvQteReservation;			
+			
+			$('#qte-pdt').text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
+			$('#prix-pdt').text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
+
+		} else if(lNvQteReservation > lMax && lMax != -1) {
+			var lVr = new TemplateVR();
+			lVr.valid = false;
+			              
+			var lProduit = new ReservationCommandeVR();              
+			lProduit.valid = false;
+			lProduit.stoQuantite.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_304_CODE;
+			erreur.message = ERR_304_MSG;
+			lProduit.stoQuantite.erreurs.push(erreur);		
+			lVr.produit = lProduit;
+			
+			Infobulle.generer(lVr,'');
+		}		
 	};
 	
 	this.ajouterAbonnement = function(pDialog) {
@@ -437,7 +560,8 @@
 			var lCompteAbonnementVO = new CompteAbonnementVO();
 			lCompteAbonnementVO.idCompte = this.idCompte;
 			lCompteAbonnementVO.idProduitAbonnement = lIdNomProduit;
-			lCompteAbonnementVO.quantite = pDialog.find("#quantite").val().numberFrToDb();
+			lCompteAbonnementVO.quantite = this.reservationModif.stoQuantite;
+			lCompteAbonnementVO.idLotAbonnement = pDialog.find("#lot").val();
 			
 			var lValid = new CompteAbonnementValid();
 			var lVr = lValid.validAjout(lCompteAbonnementVO,that.produit);
@@ -498,16 +622,40 @@
 						
 						var lData = lResponse.produit[0];
 						if(lData.proAboMax == -1) {
-							lData.proAboMax = "Pas de limite";
+							lData.proAboMaxLabel = "Pas de limite";
 						} else {
-							lData.proAboMax = lData.proAboMax.nombreFormate(2,',',' ') + " " + lData.proAboUnite;
+							lData.proAboMaxLabel = lData.proAboMax.nombreFormate(2,',',' ') + " " + lData.proAboUnite;
 						}
 						lData.qteRestant = (parseFloat(lData.proAboStockInitial) - parseFloat(lData.proAboReservation) + parseFloat(lResponse.abonnement.cptAboQuantite) ).nombreFormate(2,',',' ');
 						lData.cptAboQuantite = lResponse.abonnement.cptAboQuantite.nombreFormate(2,',',' ');
 						lData.proAboId = pIdProduit;
 						lData.idCompteAbonnement = pIdCompteAbonnement;
 						
+						lData.lot = [];
+						var lLots = [];
+						$.each(lResponse.produit[0].lots, function() {
+							if(this.id) {
+								var lLot = {};
+								lLot.dcomId = this.id;
+								lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
+								lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
+								lLot.selected = '';
+								if(this.id == lResponse.abonnement.cptAboIdLotAbonnement) {
+									lData.prixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).nombreFormate(2,',',' ');
+									lData.qteInit = lResponse.abonnement.cptAboQuantite.nombreFormate(2,',',' ');
+									lData.prixInit = (lResponse.abonnement.cptAboQuantite * this.prix / this.taille).nombreFormate(2,',',' ');
+									that.reservationModif.dcomId = this.id;
+									that.reservationModif.stoQuantite = lResponse.abonnement.cptAboQuantite;
+									that.reservation.stoQuantite = lResponse.abonnement.cptAboQuantite;
+									lLot.selected = "selected=\"selected\"";
+								}
+								lData.lot.push(lLot);
+								lLots[this.id] = this;
+							}
+						});
+						that.produit.lots = lLots;
 						
+						lData.sigleMonetaire = gSigleMonetaire;
 						
 						$(that.affectModifierProduit($(lTemplate.template(lData)))).dialog({		
 							autoOpen: true,
@@ -535,6 +683,8 @@
 	};
 	
 	this.affectModifierProduit = function(pData) {
+		pData = this.affectChangementLot(pData);
+		pData = this.affectBtnQte(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		return pData;		
@@ -546,7 +696,9 @@
 		lCompteAbonnementVO.id = pDialog.find("#id").val();
 		lCompteAbonnementVO.idCompte = this.idCompte;
 		lCompteAbonnementVO.idProduitAbonnement = pDialog.find("#idProduitAbonnement").val();
-		lCompteAbonnementVO.quantite = pDialog.find("#quantite").val().numberFrToDb();
+		//lCompteAbonnementVO.quantite = pDialog.find("#quantite").val().numberFrToDb();
+		lCompteAbonnementVO.quantite = this.reservationModif.stoQuantite;
+		lCompteAbonnementVO.idLotAbonnement = pDialog.find("#lot").val();
 		
 		var lValid = new CompteAbonnementValid();
 		var lVr = lValid.validUpdate(lCompteAbonnementVO,that.produit,that.abonnement);
@@ -639,7 +791,7 @@
 
 	this.affectRetour = function(pData) {
 		var that = this;
-		pData.find("#lien-retour").click(function() { ListeAbonneVue()});
+		pData.find("#lien-retour").click(function() { ListeAbonneVue();});
 		return pData;
 	};
 	

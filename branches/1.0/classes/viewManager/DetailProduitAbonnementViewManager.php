@@ -42,6 +42,7 @@ class DetailProduitAbonnementViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE . 
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL . 
@@ -60,6 +61,7 @@ class DetailProduitAbonnementViewManager
 				array_push($lListeDetailProduitAbonnement,
 					DetailProduitAbonnementViewManager::remplir(
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID],
+					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE],
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL],
@@ -85,6 +87,7 @@ class DetailProduitAbonnementViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID . 
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE . 
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL . 
@@ -102,6 +105,7 @@ class DetailProduitAbonnementViewManager
 				array_push($lListeDetailProduitAbonnement,
 					DetailProduitAbonnementViewManager::remplir(
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID],
+					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE],
 					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL],
@@ -133,6 +137,7 @@ class DetailProduitAbonnementViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID .
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE . 
 			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL .
@@ -157,6 +162,7 @@ class DetailProduitAbonnementViewManager
 					array_push($lListeDetailProduitAbonnement,
 						DetailProduitAbonnementViewManager::remplir(
 						$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID],
+						$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_UNITE],
 						$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_STOCK_INITIAL],
@@ -176,7 +182,8 @@ class DetailProduitAbonnementViewManager
 	}
 
 	/**
-	* @name remplir($pProAboId, $pNproNom, $pProAboUnite, $pProAboStockInitial, $pProAboMax, $pProAboFrequence, $pProAboReservation)
+	* @name remplir($pProAboId, $pProAboIdNomProduit, $pNproNom, $pProAboUnite, $pProAboStockInitial, $pProAboMax, $pProAboFrequence, $pProAboReservation)
+	* @param int(11)
 	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(20)
@@ -187,9 +194,10 @@ class DetailProduitAbonnementViewManager
 	* @return DetailProduitAbonnementViewVO
 	* @desc Retourne une DetailProduitAbonnementViewVO remplie
 	*/
-	private static function remplir($pProAboId, $pNproNom, $pProAboUnite, $pProAboStockInitial, $pProAboMax, $pProAboFrequence, $pProAboReservation) {
+	private static function remplir($pProAboId, $pProAboIdNomProduit, $pNproNom, $pProAboUnite, $pProAboStockInitial, $pProAboMax, $pProAboFrequence, $pProAboReservation) {
 		$lDetailProduitAbonnement = new DetailProduitAbonnementViewVO();
 		$lDetailProduitAbonnement->setProAboId($pProAboId);
+		$lDetailProduitAbonnement->setProAboIdNomProduit($pProAboIdNomProduit);
 		$lDetailProduitAbonnement->setNproNom($pNproNom);
 		$lDetailProduitAbonnement->setProAboUnite($pProAboUnite);
 		$lDetailProduitAbonnement->setProAboStockInitial($pProAboStockInitial);

@@ -93,20 +93,23 @@ class MarcheService
 				$lIdProduit = ProduitManager::insert($lProduit);
 
 				//Insertion des lots
+				$lCorrespondanceLotAbonnement = array();
 				foreach($lNouveauProduit->getLots() as $lNouveauLot) {
 					$lDetailCommande = new DetailCommandeVO();
 					$lDetailCommande->setIdProduit($lIdProduit);
 					$lDetailCommande->setTaille($lNouveauLot->getTaille());
 					$lDetailCommande->setPrix($lNouveauLot->getPrix());
 					$lDcomId = DetailCommandeManager::insert($lDetailCommande);
+					
+					$lCorrespondanceLotAbonnement[$lNouveauLot->getId()] = $lDcomId;					
 				}
 				
 				//Insertion du stock -> Met à jour le stock reservation dans le produit
 				$lStock = new StockVO();
-				if($pProduit->getQteRestante() == "" || $pProduit->getQteRestante() == -1) {
+				if($lNouveauProduit->getQteRestante() == "" || $lNouveauProduit->getQteRestante() == -1) {
 					$lStock->setQuantite(0);			
 				} else {
-					$lStock->setQuantite($pProduit->getQteRestante());
+					$lStock->setQuantite($lNouveauProduit->getQteRestante());
 				}
 				$lStock->setType(0);
 				$lStock->setIdCompte($lIdCompteFerme);
@@ -133,7 +136,7 @@ class MarcheService
 								if(!isset($lReservationAbonnement[$lIdCompte])) {
 									$lReservationAbonnement[$lIdCompte] = array("idCompte" => $lIdCompte, "produits" => array());
 								}
-								$lReservationAbonnement[$lIdCompte]["produits"][$lIdNomProduit] = array("id" => $lIdNomProduit, "idLot" => $lDcomId, "quantite" => $lAbonne->getCptAboQuantite());
+								$lReservationAbonnement[$lIdCompte]["produits"][$lIdNomProduit] = array("id" => $lIdNomProduit, "idLot" => $lCorrespondanceLotAbonnement[$lAbonne->getCptAboIdLotAbonnement()], "quantite" => $lAbonne->getCptAboQuantite());
 							}
 						}
 					}
@@ -200,12 +203,14 @@ class MarcheService
 		$lIdProduit = ProduitManager::insert($lProduit);
 
 		//Insertion des lots
+		$lCorrespondanceLotAbonnement = array();
 		foreach($pProduit->getLots() as $lNouveauLot) {
 			$lDetailCommande = new DetailCommandeVO();
 			$lDetailCommande->setIdProduit($lIdProduit);
 			$lDetailCommande->setTaille($lNouveauLot->getTaille());
 			$lDetailCommande->setPrix($lNouveauLot->getPrix());
 			$lDcomId = DetailCommandeManager::insert($lDetailCommande);
+			$lCorrespondanceLotAbonnement[$lNouveauLot->getId()] = $lDcomId;	
 		}
 		
 		$lStockService = new StockService();
@@ -254,11 +259,11 @@ class MarcheService
 							$lReservationVO = $lReservationService->get($lIdReservationVO);
 						}
 						
-						$lDetailCommande = DetailCommandeManager::select($lDcomId);				
+						$lDetailCommande = DetailCommandeManager::select($lCorrespondanceLotAbonnement[$lAbonne->getCptAboIdLotAbonnement()]);				
 						$lPrix = $lAbonne->getCptAboQuantite() / $lDetailCommande->getTaille() * $lDetailCommande->getPrix();
 		
 						$lDetailReservation = new DetailReservationVO();					
-						$lDetailReservation->setIdDetailCommande($lDcomId);
+						$lDetailReservation->setIdDetailCommande($lCorrespondanceLotAbonnement[$lAbonne->getCptAboIdLotAbonnement()]);
 						$lDetailReservation->setQuantite($lAbonne->getCptAboQuantite() * -1);
 						$lDetailReservation->setMontant($lPrix * -1);
 						
@@ -538,7 +543,7 @@ class MarcheService
 		$lReservationService = new ReservationService();
 		$lIdMarche = $lProduitActuel->getIdMarche();
 		//var_dump($lLotModif);
-		foreach($lLotModif as $lLot) { // Chaque lot modifié
+		/*foreach($lLotModif as $lLot) { // Chaque lot modifié
 			$lListeDetailReservation = $lReservationService->getReservationSurLot($lLot->getId());
 			if(!is_null($lListeDetailReservation[0]->getDopeIdCompte())) { // Si il y a des réservations			
 				foreach($lListeDetailReservation as $lDetailReservation) { // Chaque réservation de lot modifié
@@ -567,7 +572,7 @@ class MarcheService
 					$lReservationService->set($lReservationVO); // Maj de la reservation
 				}	
 			}		
-		}
+		}*/
 		
 		foreach($lLotSupp as $lIdLot) { // Chaque lot supprimé => La réservation est positionnée sur un autre lot				
 			if(isset($pLotRemplacement[$lIdLot]) ) {

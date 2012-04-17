@@ -152,7 +152,7 @@ class ModeleLotViewManager
 	* @return array(ModeleLotViewVO)
 	* @desc Récupères toutes les lignes correspondant à l'IdNomProduit et les renvoie sous forme d'une collection de ModeleLotViewVO
 	*/
-	public static function selectUnite($pId) {
+	/*public static function selectUnite($pId) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -187,7 +187,7 @@ class ModeleLotViewManager
 			$lListeModeleLot[0] = new ModeleLotViewVO();
 		}
 		return $lListeModeleLot;
-	}
+	}*/
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

@@ -51,6 +51,14 @@ class ListeAbonneValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getIdProduitAbonnement()->addErreur($lErreur);	
 		}
+		if(!isset($pData['idLotAbonnement'])) {
+			$lVr->setValid(false);
+			$lVr->getIdLotAbonnement()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+		}
 		if(!isset($pData['quantite'])) {
 			$lVr->setValid(false);
 			$lVr->getQuantite()->setValid(false);
@@ -93,6 +101,22 @@ class ListeAbonneValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getIdProduitAbonnement()->addErreur($lErreur);	
 			}
+			if(!TestFonction::checkLength($pData['idLotAbonnement'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getIdLotAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['idLotAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getIdLotAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+			}
 			if(!TestFonction::checkLength($pData['quantite'],0,12)) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
@@ -127,6 +151,14 @@ class ListeAbonneValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getIdProduitAbonnement()->addErreur($lErreur);	
 			}
+			if(empty($pData['idLotAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getIdLotAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+			}
 			if(empty($pData['quantite'])) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
@@ -154,6 +186,25 @@ class ListeAbonneValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getIdProduitAbonnement()->addErreur($lErreur);
+			}
+			
+			if(!$lAbonnementService->lotExiste($pData['idLotAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getIdLotAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);
+			}
+			
+			if(!$lAbonnementService->lotAppartientProduit($pData['idProduitAbonnement'],$pData['idLotAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getIdProduitAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getIdProduitAbonnement()->addErreur($lErreur);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);
 			}
 		
 			if($pData['quantite'] < 0) {
@@ -261,6 +312,14 @@ class ListeAbonneValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getQuantite()->addErreur($lErreur);	
 			}
+			if(!isset($pData['idLotAbonnement'])) {
+				$lVr->setValid(false);
+				$lVr->getIdLotAbonnement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+			}
 	
 			if($lVr->getValid()) {
 				if(!TestFonction::checkLength($pData['idCompte'],0,11)) {
@@ -294,6 +353,22 @@ class ListeAbonneValid
 					$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 					$lVr->getIdProduitAbonnement()->addErreur($lErreur);	
+				}
+				if(!TestFonction::checkLength($pData['idLotAbonnement'],0,11)) {
+					$lVr->setValid(false);
+					$lVr->getIdLotAbonnement()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+					$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+				}
+				if(!is_int((int)$pData['idLotAbonnement'])) {
+					$lVr->setValid(false);
+					$lVr->getIdLotAbonnement()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+					$lVr->getIdLotAbonnement()->addErreur($lErreur);	
 				}
 				if(!TestFonction::checkLength($pData['quantite'],0,12)) {
 					$lVr->setValid(false);
@@ -329,6 +404,14 @@ class ListeAbonneValid
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getIdProduitAbonnement()->addErreur($lErreur);	
 				}
+				if(empty($pData['idLotAbonnement'])) {
+					$lVr->setValid(false);
+					$lVr->getIdLotAbonnement()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getIdLotAbonnement()->addErreur($lErreur);	
+				}
 				if(empty($pData['quantite'])) {
 					$lVr->setValid(false);
 					$lVr->getQuantite()->setValid(false);
@@ -356,6 +439,25 @@ class ListeAbonneValid
 					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getIdProduitAbonnement()->addErreur($lErreur);
+				}
+			
+				if(!$lAbonnementService->lotExiste($pData['idLotAbonnement'])) {
+					$lVr->setValid(false);
+					$lVr->getIdLotAbonnement()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getIdLotAbonnement()->addErreur($lErreur);
+				}
+				
+				if(!$lAbonnementService->lotAppartientProduit($pData['idProduitAbonnement'],$pData['idLotAbonnement'])) {
+					$lVr->setValid(false);
+					$lVr->getIdProduitAbonnement()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getIdProduitAbonnement()->addErreur($lErreur);
+					$lVr->getIdLotAbonnement()->addErreur($lErreur);
 				}
 			
 				if($pData['quantite'] < 0) {

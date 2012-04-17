@@ -110,7 +110,6 @@ class ReservationMarcheControleur
 			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
 			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
 	
-			$lReservationService = new ReservationService();
 			$lReservation = new ReservationVO();
 			$lReservation->getId()->setIdCompte($_SESSION[ID_COMPTE]);
 			$lReservation->getId()->setIdCommande($lDetailMarche[0]->getComId());

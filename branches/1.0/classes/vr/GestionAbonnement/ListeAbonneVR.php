@@ -59,6 +59,12 @@ class ListeAbonneVR extends DataTemplate
 
 	/**
 	 * @var VRelement
+	 * @desc IdLotAbonnement de la ListeAbonneVR
+	 */
+	protected $mIdLotAbonnement;
+
+	/**
+	 * @var VRelement
 	 * @desc Quantite de la ListeAbonneVR
 	 */
 	protected $mQuantite;
@@ -87,6 +93,7 @@ class ListeAbonneVR extends DataTemplate
 		$this->mIdAdherent = new VRelement();
 		$this->mIdCompte = new VRelement();
 		$this->mIdProduitAbonnement = new VRelement();
+		$this->mIdLotAbonnement = new VRelement();
 		$this->mQuantite = new VRelement();
 		$this->mDateDebutSuspension = new VRelement();
 		$this->mDateFinSuspension = new VRelement();
@@ -198,6 +205,24 @@ class ListeAbonneVR extends DataTemplate
 	*/
 	public function setIdProduitAbonnement($pIdProduitAbonnement) {
 		$this->mIdProduitAbonnement = $pIdProduitAbonnement;
+	}
+
+	/**
+	* @name getIdLotAbonnement()
+	* @return VRelement
+	* @desc Renvoie le VRelement mIdLotAbonnemen
+	*/
+	public function getIdLotAbonnemen() {
+		return $this->mIdLotAbonnemen;
+	}
+
+	/**
+	* @name setIdLotAbonnemen($pIdLotAbonnemen)
+	* @param VRelement
+	* @desc Remplace le mIdLotAbonnemen par $pIdLotAbonnemen
+	*/
+	public function setIdLotAbonnemen($pIdLotAbonnemen) {
+		$this->mIdLotAbonnemen = $pIdLotAbonnemen;
 	}
 
 	/**
