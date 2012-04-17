@@ -12,6 +12,7 @@
 		var that = this;
 		var lIdentificationTemplate = new IdentificationTemplate();
 		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+		$('#login').focus();
 	};
 	
 	this.affect = function(pData) {		

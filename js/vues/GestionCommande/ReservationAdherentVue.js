@@ -20,8 +20,8 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							that.mAdherent = lResponse.adherent;						
-	
+							that.mAdherent = lResponse.adherent;
+							
 							that.infoCommande.comId = lResponse.marche.id;
 							that.infoCommande.comNumero = lResponse.marche.numero;
 							that.infoCommande.comNom = lResponse.marche.nom;
@@ -139,7 +139,7 @@
 		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
 		
 		
-		$('#edt-com-liste').replaceWith(that.affect($(lTemplate.template(lData))));		
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
 	};
 	
 	this.afficherModifier = function() {
@@ -276,6 +276,7 @@
 				var lAjoutProduit = true;
 				if(this.type == 0 ) {
 					if(lPdt.lot.length == 0) {
+						lPdt.nom = this.nom;
 						lPdt.detailProduit = lGestionCommandeTemplate.produitIndisponible.template(lPdt);
 					} else {
 						lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduit.template(lPdt);
@@ -310,15 +311,25 @@
 			}
 		});
 		
-		$('#edt-com-liste').replaceWith(that.affectModifier($(lTemplate.template(lData))));
+		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
 		this.majNouveauSolde();
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find(".boutons-edition").remove();
+		pData.find(".boutons-edition-modification").remove();
+		return pData;
 	};
 	
 	this.affect = function(pData) {
 		pData = this.affectModifierReservation(pData);
+		pData = this.affectAnnulerDetailReservation(pData);
 		pData = this.affectSupprimerReservation(pData);		
 		pData = this.affectInfoProduit(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
 		return pData;
 	};
 		
@@ -334,6 +345,9 @@
 		pData = this.affectInitLot(pData);
 		pData = this.affectInfoProduit(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
 		return pData;
 	};
 	
@@ -426,10 +440,10 @@
 	
 	this.affectAnnulerReservation = function(pData) {
 		var that = this;
-		pData.find('#btn-annuler').click(function() {			
+		pData.find('#btn-annuler').click(function() {
 			if(that.mPremiereReservation) {
 				ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});	
-			} else {	
+			} else {
 				that.afficherDetailReservation();		
 			}
 		});
@@ -443,7 +457,15 @@
 		});
 		return pData;
 	};
-		
+	
+	this.affectAnnulerDetailReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-annuler').click(function() {
+			ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});		
+		});
+		return pData;
+	};	
+	
 	this.affectInitLot = function(pData) {
 		var that = this;
 		pData.find('.pdt select').each(function() {

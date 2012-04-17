@@ -13,7 +13,9 @@
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitAbonnementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteAbonnementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueSuspensionAbonnementManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "LotAbonnementManager.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
+include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "AbonnementValid.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitAbonnementViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailCompteAbonnementViewManager.php");
@@ -21,6 +23,9 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailProduitAbonnementViewManager.p
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsNonAbonneViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsAbonneViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAbonnesProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeLotAbonnementViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 
@@ -38,13 +43,13 @@ class AbonnementService
 	* @return integer
 	* @desc Ajoute ou modifie un ProduitAbonnement
 	*/
-	public function setProduit($pProduitAbonnement) {
+	public function setProduit($pProduitAbonnement,$pLotsRemplacement = array()) {
 		$lAbonnementValid = new AbonnementValid();
 		if($lAbonnementValid->inputProduit($pProduitAbonnement)) {
 			if($lAbonnementValid->insertProduit($pProduitAbonnement)) {
 				return $this->insertProduit($pProduitAbonnement);			
 			} else if($lAbonnementValid->updateProduit($pProduitAbonnement)) {
-				return $this->updateProduit($pProduitAbonnement);
+				return $this->updateProduit($pProduitAbonnement,$pLotsRemplacement);
 			} else {
 				return false;
 			}
@@ -60,7 +65,16 @@ class AbonnementService
 	* @desc Ajoute un ProduitAbonnementVO
 	*/
 	private function insertProduit($pProduitAbonnement) {		
-		return ProduitAbonnementManager::insert($pProduitAbonnement);
+		 $lId = ProduitAbonnementManager::insert($pProduitAbonnement);
+		 foreach($pProduitAbonnement->getLots() as $lLot) {
+			$lLotAbonnement = new LotAbonnementVO();
+			$lLotAbonnement->setIdProduitAbonnement($lId);
+			$lLotAbonnement->setTaille($lLot["taille"]);
+			$lLotAbonnement->setPrix($lLot["prix"]);
+			$lLotAbonnement->setEtat(0);
+		 	LotAbonnementManager::insert($lLotAbonnement);
+		 }		 
+		 return $lId;
 	}
 	
 	/**
@@ -69,7 +83,82 @@ class AbonnementService
 	* @return integer
 	* @desc Met à jour un ProduitAbonnementVO
 	*/
-	private function updateProduit($pProduitAbonnement) {		
+	private function updateProduit($pProduitAbonnement, $pLotRemplacement = array()) {		
+		$lProduitActuel = $this->selectProduit($pProduitAbonnement->getId());
+		/*var_dump($lProduitActuel);
+		var_dump($pProduitAbonnement);*/
+		//Les lots
+	//	$lLotModif = array();
+		$lLotSupp = array();
+		foreach($lProduitActuel->getLots() as $lLotActuel) {
+			$lMajLot = true;
+			foreach($pProduitAbonnement->getLots() as $lLotNv) {								
+				// Maj Lot
+				if($lLotActuel->getId() == $lLotNv->getId()) {
+					$lDcomId = $lLotActuel->getId();
+					
+					$lMajLot = false;
+					$lLotAbonnement = new LotAbonnementVO();
+					$lLotAbonnement->setId($lLotActuel->getId());
+					$lLotAbonnement->setIdProduitAbonnement($lProduitActuel->getId());
+					$lLotAbonnement->setTaille($lLotNv->getTaille());
+					$lLotAbonnement->setPrix($lLotNv->getPrix());
+					LotAbonnementManager::update($lLotAbonnement);
+					
+		//			array_push($lLotModif,$lLotAbonnement);
+				}																
+			}
+			
+			// Supprimer Lot
+			if($lMajLot) {
+				$lDeleteLot = LotAbonnementManager::select($lLotActuel->getId());
+				$lDeleteLot->setEtat(1);
+				LotAbonnementManager::update($lDeleteLot);
+				
+				array_push($lLotSupp,$lLotActuel->getId());
+			}
+		}
+		
+		// Nouveau Lot
+		$lLotAdd = array();
+		foreach($pProduitAbonnement->getLots() as $lLotNv) {
+			$lAjout = true;
+			foreach($lProduitActuel->getLots() as $lLotActuel) {
+				if($lLotActuel->getId() == $lLotNv->getId()) {
+					$lAjout = false;
+				}
+			}
+			if($lAjout) {
+				$lLotAbonnement = new LotAbonnementVO();
+				$lLotAbonnement->setIdProduitAbonnement($lProduitActuel->getId());
+				$lLotAbonnement->setTaille($lLotNv->getTaille());
+				$lLotAbonnement->setPrix($lLotNv->getPrix());
+				$lDcomId = LotAbonnementManager::insert($lLotAbonnement);
+				
+				$lLotAdd[$lLotNv->getId()] = $lDcomId; // Si supression d'un lot et positionnement de ce nouveau lot permet de récupérer l'ID
+			}
+		}
+		
+		foreach($lLotSupp as $lIdLot) { // Chaque lot supprimé => La réservation est positionnée sur un autre lot				
+			if(isset($pLotRemplacement[$lIdLot]) ) {
+				$lIdLotRemplacement = $pLotRemplacement[$lIdLot];
+				if($lIdLotRemplacement < 0) {
+					$lIdLotRemplacement = $lLotAdd[$lIdLotRemplacement]; 
+				}
+				$lListeAbonnement = $this->getAbonnementSurLot($lIdLot);
+				if(!is_null($lListeAbonnement[0]->getCptAboId())) {
+					foreach($lListeAbonnement as $lAbonnement) {
+						$lAncienAbonnement = CompteAbonnementManager::select($lAbonnement->getCptAboId());
+						$lAncienAbonnement->setIdLotAbonnement($lIdLotRemplacement);
+						$this->updateAbonnement($lAncienAbonnement);
+					}
+				}
+			}
+		}
+		
+		
+		
+		
 		return ProduitAbonnementManager::update($pProduitAbonnement);
 	}
 	
@@ -81,9 +170,21 @@ class AbonnementService
 	public function deleteProduit($pId) {
 		$lAbonnementValid = new AbonnementValid();
 		if($lAbonnementValid->deleteProduit($pId)){	
+			// Suppression des lots
+			$lLots = LotAbonnementManager::selectByIdProduitAbonnement($pId);
+			foreach($lLots as $lLot) {
+				$lLot->setEtat(1);
+				LotAbonnementManager::update($lLot);
+			}
+			
+			$lListeAbonnement = $this->getAbonnesProduit($pId); // Supression des abonnements
+			foreach($lListeAbonnement as $lAbonnement) {
+				$this->deleteAbonnement($lAbonnement->getCptAboId());
+			}
+			
 			$lProduitAbonnementVO = $this->getProduit($pId);
 			$lProduitAbonnementVO->setEtat(1);
-			$this->updateProduit($lProduitAbonnementVO);
+			return ProduitAbonnementManager::update($lProduitAbonnementVO);
 		} else {
 			return false;
 		}
@@ -110,7 +211,9 @@ class AbonnementService
 	* @desc Retourne un ProduitAbonnementVO
 	*/
 	public function selectProduit($pId) {
-		return ProduitAbonnementManager::select($pId);
+		$lProduit = ProduitAbonnementManager::select($pId);
+		$lProduit->setLots( ListeLotAbonnementViewManager::selectByIdProduitAbonnement($pId));
+		return $lProduit;
 	}
 	
 	/**
@@ -120,7 +223,9 @@ class AbonnementService
 	* @desc Retourne un ProduitAbonnementVO
 	*/
 	public function getDetailProduit($pId) {
-		return DetailProduitAbonnementViewManager::select($pId);
+		$lProduit = DetailProduitAbonnementViewManager::select($pId);
+		$lProduit[0]->setLots( ListeLotAbonnementViewManager::selectByIdProduitAbonnement($pId));
+		return $lProduit;
 	}
 		
 	/**
@@ -139,7 +244,9 @@ class AbonnementService
 	* @desc Retourne un ProduitAbonnementVO
 	*/
 	public function getProduitByIdNom($pId) {
-		return ProduitAbonnementManager::selectByIdNom($pId);
+		$lProduit = ProduitAbonnementManager::selectByIdNom($pId);
+		$lProduit->setLots( ListeLotAbonnementViewManager::selectByIdProduitAbonnement($lProduit->getId()));
+		return $lProduit;
 	}
 	
 	/**
@@ -169,7 +276,108 @@ class AbonnementService
 	* @return integer
 	* @desc Ajoute un Abonnement
 	*/
-	private function insertAbonnement($pCompteAbonnement) {		
+	private function insertAbonnement($pCompteAbonnement) {
+		// Si il y a une suspension en cours on ajoute l'abonnement en suspension
+		$lProduits = $this->getProduitsAbonne($pCompteAbonnement->getIdCompte());		
+		$pCompteAbonnement->setDateDebutSuspension($lProduits[0]->getCptAboDateDebutSuspension() );
+		$pCompteAbonnement->setDateFinSuspension($lProduits[0]->getCptAboDateFinSuspension() );
+		
+		// On essaye de positionner des réservations sur les marché en cours : en fonction de la quantité encore disponbile.
+		
+		// Récupère le produitAbonnement
+		$lProduitAbonnement = $this->getProduit($pCompteAbonnement->getIdProduitAbonnement());
+		// La liste des Produit identique en abonnement sur des marche en cours
+		$lProduitsMarche = DetailMarcheViewManager::selectProduitAbonnementMarcheActifByIdNomProduit($lProduitAbonnement->getIdNomProduit());
+		
+		$lListeProduitsMarche = array();
+		foreach($lProduitsMarche as $lProduit) {
+			if(isset($lListeProduitsMarche[$lProduit->getProId()])) {					
+				array_push($lListeProduitsMarche[$lProduit->getProId()]["lots"],$lProduit);
+			} else {
+				$lListeProduitsMarche[$lProduit->getProId()]["produit"] = $lProduit;
+				$lListeProduitsMarche[$lProduit->getProId()]["lots"] = array();
+				array_push($lListeProduitsMarche[$lProduit->getProId()]["lots"],$lProduit);
+			}
+		}
+		
+		$lReservationService = new ReservationService();
+		foreach($lListeProduitsMarche as $lProduitMarche) {
+			$lPoursuivre = true;
+			// Si il n'y a pas de suspension à la date du marché
+			if(TestFonction::dateTimeEstPLusGrandeEgale($lProduitMarche["produit"]->getComDateMarcheDebut(),$lProduits[0]->getCptAboDateDebutSuspension(),'db') 
+			&& TestFonction::dateTimeEstPLusGrandeEgale($lProduits[0]->getCptAboDateFinSuspension(),$lProduitMarche["produit"]->getComDateMarcheFin(),'db')) {
+				$lPoursuivre = false;
+			}
+			
+			// Si le marché n'est pas encore passé
+			if(!TestFonction::dateTimeEstPLusGrandeEgale($lProduitMarche["produit"]->getComDateMarcheDebut(),StringUtils::dateTimeAujourdhuiDb(),'db')) {
+				$lPoursuivre = false;
+			}
+			
+			if($lPoursuivre) {				
+				$lIdLot = 0;
+				foreach($lProduitMarche["lots"] as $lLot) {
+					if(	$pCompteAbonnement->getQuantite() % $lLot->getDcomTaille() == 0) {
+						$lIdLot = $lLot->getDcomId();
+						$lTailleLot = $lLot->getDcomTaille();
+						$lPrixLot = $lLot->getDcomPrix();
+					}
+				}
+
+				$lPoursuivre = $lIdLot != 0;
+				if($lPoursuivre) {
+					$lReservation = new ReservationVO();
+					$lReservation->getId()->setIdCompte($pCompteAbonnement->getIdCompte());
+					$lReservation->getId()->setIdCommande($lProduitMarche["produit"]->getComId());				
+					$lReservationsActuelle = $lReservationService->get($lReservation->getId());
+					
+					
+					$lTestDetailReservation = $lReservationsActuelle->getDetailReservation();
+					if(!empty($lTestDetailReservation)) { // Si il y a une réservation déjà sur ce produit
+						foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
+							if($lReservationActuelle->getIdDetailCommande() == $lIdLot) {
+								$lPoursuivre = false;
+							}
+						}
+					}
+
+					
+					if($lPoursuivre) {
+						$lQuantite = $pCompteAbonnement->getQuantite();
+						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
+							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+							$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite();
+							if($lStockDispo > 0) {
+								if($lStockDispo < $lQuantite) {
+									$lQuantite = $lStockDispo;
+								}
+							} else { // Plus de stock
+								$lPoursuivre = false;
+							}
+						}
+						
+						if($lPoursuivre) {
+							if($lProduitMarche["produit"]->getProMaxProduitCommande() != -1 && $lProduitMarche["produit"]->getProMaxProduitCommande()  < $lQuantite) {
+								$lQuantite = $lProduitMarche["produit"]->getProMaxProduitCommande();
+							}						
+										
+							$lDetailReservation = new DetailReservationVO();							
+							$lDetailReservation->setIdDetailCommande($lIdLot);
+							$lDetailReservation->setQuantite(-1 * $lQuantite);
+							$lDetailReservation->setMontant(-1 * $lQuantite/$lTailleLot * $lPrixLot);
+							
+							$lReservationsActuelle->addDetailReservation($lDetailReservation);
+							$lReservationsActuelle->setId($lReservation->getId());
+							$lReservationService->set($lReservationsActuelle);
+							
+						}
+					}
+				}
+			}
+			
+		}
+		
+		
 		return CompteAbonnementManager::insert($pCompteAbonnement);
 	}
 	
@@ -180,6 +388,137 @@ class AbonnementService
 	* @desc Met à jour un Abonnement
 	*/
 	private function updateAbonnement($pCompteAbonnement) {		
+		
+		// Récupère le produitAbonnement
+		$lProduitAbonnement = $this->getProduit($pCompteAbonnement->getIdProduitAbonnement());
+		// La liste des Produit identique en abonnement sur des marche en cours
+		$lProduitsMarche = DetailMarcheViewManager::selectProduitAbonnementMarcheActifByIdNomProduit($lProduitAbonnement->getIdNomProduit());
+		
+		$lListeProduitsMarche = array();
+		foreach($lProduitsMarche as $lProduit) {
+			if(isset($lListeProduitsMarche[$lProduit->getProId()])) {					
+				array_push($lListeProduitsMarche[$lProduit->getProId()]["lots"],$lProduit);
+			} else {
+				$lListeProduitsMarche[$lProduit->getProId()]["produit"] = $lProduit;
+				$lListeProduitsMarche[$lProduit->getProId()]["lots"] = array();
+				array_push($lListeProduitsMarche[$lProduit->getProId()]["lots"],$lProduit);
+			}
+		}
+		
+		$lReservationService = new ReservationService();
+		foreach($lListeProduitsMarche as $lProduitMarche) {
+			$lSuspendu = false;
+			// Si il n'y a pas de suspension à la date du marché
+			if(TestFonction::dateTimeEstPLusGrandeEgale($lProduitMarche["produit"]->getComDateMarcheDebut(),$pCompteAbonnement->getDateDebutSuspension(),'db') 
+			&& TestFonction::dateTimeEstPLusGrandeEgale($pCompteAbonnement->getDateFinSuspension(),$lProduitMarche["produit"]->getComDateMarcheFin(),'db')) {
+				$lSuspendu = true;
+			}
+			
+			$lPoursuivre = true;
+			// Si le marché n'est pas encore passé
+			if(!TestFonction::dateTimeEstPLusGrandeEgale($lProduitMarche["produit"]->getComDateMarcheDebut(),StringUtils::dateTimeAujourdhuiDb(),'db')) {
+				$lPoursuivre = false;
+			}
+			
+			if($lPoursuivre) {				
+				$lIdLot = 0;
+				foreach($lProduitMarche["lots"] as $lLot) {
+					if(	$pCompteAbonnement->getQuantite() % $lLot->getDcomTaille() == 0) {
+						$lIdLot = $lLot->getDcomId();
+						$lTailleLot = $lLot->getDcomTaille();
+						$lPrixLot = $lLot->getDcomPrix();
+					}
+				}
+
+				$lPoursuivre = $lIdLot != 0;
+				if($lPoursuivre) {
+					$lReservation = new ReservationVO();
+					$lReservation->getId()->setIdCompte($pCompteAbonnement->getIdCompte());
+					$lReservation->getId()->setIdCommande($lProduitMarche["produit"]->getComId());				
+					$lReservationsActuelle = $lReservationService->get($lReservation->getId());
+					
+					
+					$lTestDetailReservation = $lReservationsActuelle->getDetailReservation();
+					if(empty($lTestDetailReservation) && !$lSuspendu) { // Ajoute une réservation
+
+						$lQuantite = $pCompteAbonnement->getQuantite();
+						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
+							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+							$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite();
+							if($lStockDispo > 0) {
+								if($lStockDispo < $lQuantite) {
+									$lQuantite = $lStockDispo;
+								}
+							} else { // Plus de stock
+								$lPoursuivre = false;
+							}
+						}
+						
+						if($lPoursuivre) {
+							if($lProduitMarche["produit"]->getProMaxProduitCommande() != -1 && $lProduitMarche["produit"]->getProMaxProduitCommande()  < $lQuantite) {
+								$lQuantite = $lProduitMarche["produit"]->getProMaxProduitCommande();
+							}						
+										
+							$lDetailReservation = new DetailReservationVO();							
+							$lDetailReservation->setIdDetailCommande($lIdLot);
+							$lDetailReservation->setQuantite(-1 * $lQuantite);
+							$lDetailReservation->setMontant(-1 * $lQuantite/$lTailleLot * $lPrixLot);
+							
+							$lReservationsActuelle->addDetailReservation($lDetailReservation);
+							$lReservationsActuelle->setId($lReservation->getId());
+							$lReservationService->set($lReservationsActuelle);
+							
+						}
+						
+					} else { // Si il y a une réservation déjà sur ce produit on la met à jour
+						$lMaj = false;
+						$lQuantiteActuelle = 0;
+						foreach($lReservationsActuelle->getDetailReservation() as $lDetailReservationActuelle) {
+							if($lDetailReservationActuelle->getIdProduit() == $lProduitMarche["produit"]->getProId()) {		
+								$lQuantiteActuelle = $lDetailReservationActuelle->getQuantite();
+								$lMaj = true;
+							} else {
+								$lReservation->addDetailReservation($lDetailReservationActuelle);
+							}
+						}
+						
+						if($lMaj || (!$lMaj && !$lSuspendu && $pCompteAbonnement->getEtat() == 0) ) {
+							$lQuantite = $pCompteAbonnement->getQuantite();
+							if($lProduitMarche["produit"]->getProStockInitial() != -1) {
+								$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+								$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite() - $lQuantiteActuelle;
+								
+								if($lStockDispo > 0) {
+									if($lStockDispo < $lQuantite) {
+										$lQuantite = $lStockDispo;
+									}
+								} else { // Plus de stock
+									$lPoursuivre = false;
+								}
+							}
+							
+							if($lPoursuivre) {
+								if($lProduitMarche["produit"]->getProMaxProduitCommande() != -1 && $lProduitMarche["produit"]->getProMaxProduitCommande()  < $lQuantite) {
+									$lQuantite = $lProduitMarche["produit"]->getProMaxProduitCommande();
+								}						
+											
+								$lDetailReservation = new DetailReservationVO();							
+								$lDetailReservation->setIdDetailCommande($lIdLot);
+								$lDetailReservation->setQuantite(-1 * $lQuantite);
+								$lDetailReservation->setMontant(-1 * $lQuantite/$lTailleLot * $lPrixLot);
+								
+								if($pCompteAbonnement->getEtat() == 0 && !$lSuspendu) { // Si l'abonnement est toujours actif et qu'il n'y a pas de suspension
+									$lReservation->addDetailReservation($lDetailReservation);
+								}
+							}
+							$lReservationService->set($lReservation);
+						}
+					}
+				}
+			}
+			
+		}
+		
 		return CompteAbonnementManager::update($pCompteAbonnement);
 	}
 	
@@ -243,6 +582,15 @@ class AbonnementService
 	}
 	
 	/**
+	* @name getAbonnementSurLot($pIdLotAbonnement)
+	* @return array(ListeAbonnesProduitViewVO)
+	* @desc Retourne une liste de ListeAbonnesProduitViewVO
+	*/
+	public function getAbonnementSurLot($pIdLotAbonnement) {
+		return ListeAbonnesProduitViewManager::selectByIdLot($pIdLotAbonnement);
+	}
+	
+	/**
 	* @name getAbonnesByIdNomProduit($pIdNomProduit)
 	* @return array(ListeAbonnesProduitViewVO)
 	* @desc Retourne une liste de ListeAbonnesProduitViewVO
@@ -285,6 +633,41 @@ class AbonnementService
 	}
 	
 	/**
+	* @name lotExiste($pIdlotAbonnement)
+	* @param integer
+	* @return bool
+	* @desc Vérifie si le produit Abonnement existe
+	*/
+	public function lotExiste($pIdlotAbonnement) {
+		$lLotAbonnement = ListeLotAbonnementViewManager::select($pIdlotAbonnement);
+		if($lLotAbonnement[0]->getId() == $pIdlotAbonnement) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	* @name lotAppartientProduit($pIdProduitAbonnement,$pIdlotAbonnement)
+	* @param integer
+	* @param integer
+	* @return bool
+	* @desc Vérifie si le produit Abonnement existe
+	*/
+	public function lotAppartientProduit($pIdProduitAbonnement,$pIdlotAbonnement) {
+		$lProduitAbonnement = $this->getProduit($pIdProduitAbonnement);
+		if($lProduitAbonnement->getId() == $pIdProduitAbonnement) {
+			$lRetour = false;
+			foreach($lProduitAbonnement->getLots() as $lLot) {
+				$lRetour |= $lLot->getId() == $pIdlotAbonnement;
+			}
+			return $lRetour;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	* @name abonnementExiste($pIdCompteAbonnement)
 	* @param integer
 	* @return bool
@@ -317,6 +700,13 @@ class AbonnementService
 			$lHistoriqueSuspensionAbonnement->setDate(StringUtils::dateTimeAujourdhuiDb());
 			$lHistoriqueSuspensionAbonnement->setIdConnexion($_SESSION[ID_CONNEXION]);
 			HistoriqueSuspensionAbonnementManager::insert($lHistoriqueSuspensionAbonnement); 
+			
+			// Récupère l'ensemble des abonnements et met à jour les réservations en conséquence
+			$lListeCompteAbonnement = CompteAbonnementManager::selectActifByIdCompte($pCompteAbonnement->getIdCompte());
+			foreach($lListeCompteAbonnement as $lCompteAbonnement) {
+				//var_dump($lCompteAbonnement);
+				$this->updateAbonnement($lCompteAbonnement);
+			}
 		} else {
 			return false;
 		}

@@ -22,7 +22,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -115,7 +115,7 @@
 		}		
 
 		$('#contenu').replaceWith(that.affect(lHtml));	
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.nouveauSoldeNegatif(pData);
@@ -125,7 +125,7 @@
 		pData = this.affectDate(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -138,8 +138,7 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
 		return pData;
-	}
-	
+	};
 	this.nouveauSoldeNegatif = function(pData) {
 		pData.find('.nouveau-solde-val').each(function() {
 			if(parseFloat($(this).text().numberFrToDb()) < 0 ) {
@@ -147,22 +146,22 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.soldeNegatif = function(pData) {
 		pData.find('#solde').addClass("com-nombre-negatif");
 		return pData;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.affectDate = function(pData) {
 		var that = this;
@@ -172,7 +171,7 @@
 			maxDate:that.mInformationAdherent.dateAdhesion,
 			yearRange:'1900:c'});
 		return pData;
-	}
+	};
 	
 	this.affectEditionCompte = function(pData) {		
 		var that = this;
@@ -202,7 +201,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	this.affectEditionPass = function(pData) {		
 		var that = this;
@@ -234,7 +233,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	this.modifInformation = function() {
 		var that = this;
@@ -311,7 +310,7 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.changerMotPasse = function(pDialog) {
 		var lVo = new InfoAdherentVO();
@@ -350,7 +349,7 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

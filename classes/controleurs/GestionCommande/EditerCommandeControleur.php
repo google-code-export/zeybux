@@ -39,6 +39,8 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AutorisationSupprimerLotResponse.php" );
+include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php" );
+include_once(CHEMIN_CLASSES_VO . "DetailMarcheReservationVO.php" );
 
 
 /**
@@ -596,14 +598,31 @@ class EditerCommandeControleur
 		$lVr = ProduitMarcheValid::validDelete($pParam);
 		if($lVr->getValid()) {			
 			$lMarcheService = new MarcheService();
+			$lReservationService = new ReservationService();
 			$lProduit = $lMarcheService->selectProduit($pParam["id"]);
 
 			$lId = $lProduit->getIdNom();			
 			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
 			
 			$lResponse = new DetailProduitResponse();
-			$lResponse->setProduit( $lProduit );
 			$lResponse->setModelesLot( $lModelesLot );
+			
+			$lNvLots = array();
+			foreach($lProduit->getLots() as $lLot) {
+				$lReservation = $lReservationService->getReservationSurLot($lLot->getId());
+				
+				$lNvLot = new DetailMarcheReservationVO();
+				$lNvLot->setId($lLot->getId());
+				$lNvLot->setTaille($lLot->getTaille());
+				$lNvLot->setPrix($lLot->getPrix());
+				if(!is_null($lReservation[0]->getStoId())) {
+					$lNvLot->setReservation(true);
+				}
+				array_push($lNvLots,$lNvLot);
+			}
+			$lProduit->setLots($lNvLots);
+			$lResponse->setProduit( $lProduit );
+			
 			return $lResponse;
 		}
 		return $lVr;
@@ -680,7 +699,23 @@ class EditerCommandeControleur
 			
 			$lResponse = new ModelesLotResponse();
 			$lResponse->setModelesLot( $lModelesLot );
-			$lResponse->setDetailAbonnement( $lAbonnementService->getProduitByIdNom($lId) );
+			$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lId);
+			$lNvLots = array();
+			foreach($lDetailAbonnement->getLots() as $lLot) {
+				$lAbonnement = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+				
+				$lLotAbonnementMarcheVO = new LotAbonnementMarcheVO();
+				$lLotAbonnementMarcheVO->setId($lLot->getId());
+				$lLotAbonnementMarcheVO->setIdProduitAbonnement($lLot->getIdProduitAbonnement());
+				$lLotAbonnementMarcheVO->setTaille($lLot->getTaille());
+				$lLotAbonnementMarcheVO->setPrix($lLot->getPrix());
+				if(!is_null($lAbonnement[0]->getCptAboId())) {
+					$lLotAbonnementMarcheVO->setReservation(true);
+				}
+				array_push($lNvLots,$lLotAbonnementMarcheVO);
+			}
+			$lDetailAbonnement->setLots($lNvLots);
+			$lResponse->setDetailAbonnement( $lDetailAbonnement );
 			return $lResponse;
 		}		
 		return $lVr;

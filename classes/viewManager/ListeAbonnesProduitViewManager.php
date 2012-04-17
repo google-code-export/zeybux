@@ -43,7 +43,9 @@ class ListeAbonnesProduitViewManager
 		$lRequete =
 			"SELECT "
 			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
@@ -64,7 +66,9 @@ class ListeAbonnesProduitViewManager
 				array_push($lListeListeAbonnesProduit,
 					ListeAbonnesProduitViewManager::remplir(
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -94,7 +98,9 @@ class ListeAbonnesProduitViewManager
 		$lRequete =
 			"SELECT "
 			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
@@ -115,7 +121,64 @@ class ListeAbonnesProduitViewManager
 				array_push($lListeListeAbonnesProduit,
 					ListeAbonnesProduitViewManager::remplir(
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE],
+					$lLigne[ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION]));
+			}
+		} else {
+			$lListeListeAbonnesProduit[0] = new ListeAbonnesProduitViewVO();
+		}
+		return $lListeListeAbonnesProduit;
+	}
+	
+	/**
+	* @name selectByIdLot($pId)
+	* @param integer
+	* @return ListeAbonnesProduitViewVO
+	* @desc Récupère la ligne correspondant à l'id Nom Produit en paramètre, créé une ListeAbonnesProduitViewVO contenant les informations et la renvoie
+	*/
+	public static function selectByIdLot($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
+			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
+			"," . CompteManager::CHAMP_COMPTE_LABEL . 
+			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
+			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_QUANTITE .
+			"," . ProduitAbonnementManager::CHAMP_PRODUITABONNEMENT_ID_NOM_PRODUIT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_DEBUT_SUSPENSION .
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_DATE_FIN_SUSPENSION . "
+			FROM " . ListeAbonnesProduitViewManager::VUE_LISTEABONNESPRODUIT . " 
+			WHERE " . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . " = '" . StringUtils::securiser($pId) . "'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeListeAbonnesProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeListeAbonnesProduit,
+					ListeAbonnesProduitViewManager::remplir(
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -143,7 +206,9 @@ class ListeAbonnesProduitViewManager
 		$lRequete =
 			"SELECT "
 			    . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE . 
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
 			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
@@ -163,7 +228,9 @@ class ListeAbonnesProduitViewManager
 				array_push($lListeListeAbonnesProduit,
 					ListeAbonnesProduitViewManager::remplir(
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
+					$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -197,7 +264,9 @@ class ListeAbonnesProduitViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT .
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT . 
 			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE .
+			"," . CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID . 
 			"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
 			"," . CompteManager::CHAMP_COMPTE_LABEL .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
@@ -224,7 +293,9 @@ class ListeAbonnesProduitViewManager
 					array_push($lListeListeAbonnesProduit,
 						ListeAbonnesProduitViewManager::remplir(
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_PRODUIT_ABONNEMENT],
+						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_LOT_ABONNEMENT],
 						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID_COMPTE],
+						$lLigne[CompteAbonnementManager::CHAMP_COMPTEABONNEMENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
@@ -246,7 +317,9 @@ class ListeAbonnesProduitViewManager
 	}
 
 	/**
-	* @name remplir($pCptAboIdProduitAbonnement, $pCptAboIdCompte, $pAdhNumero, $pCptLabel, $pAdhNom, $pAdhPrenom, $pCptAboQuantite, $pProAboIdNomProduit, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension)
+	* @name remplir($pCptAboIdProduitAbonnement, $pCptAboIdLotAbonnement, $pCptAboIdCompte, $pCptAboId, $pAdhNumero, $pCptLabel, $pAdhNom, $pAdhPrenom, $pCptAboQuantite, $pProAboIdNomProduit, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension)
+	* @param int(11)
+	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(20)
@@ -260,10 +333,12 @@ class ListeAbonnesProduitViewManager
 	* @return ListeAbonnesProduitViewVO
 	* @desc Retourne une ListeAbonnesProduitViewVO remplie
 	*/
-	private static function remplir($pCptAboIdProduitAbonnement, $pCptAboIdCompte, $pAdhNumero, $pCptLabel, $pAdhNom, $pAdhPrenom, $pCptAboQuantite, $pProAboIdNomProduit, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension) {
+	private static function remplir($pCptAboIdProduitAbonnement, $pCptAboIdLotAbonnement, $pCptAboIdCompte, $pCptAboId, $pAdhNumero, $pCptLabel, $pAdhNom, $pAdhPrenom, $pCptAboQuantite, $pProAboIdNomProduit, $pCptAboDateDebutSuspension, $pCptAboDateFinSuspension) {
 		$lListeAbonnesProduit = new ListeAbonnesProduitViewVO();
 		$lListeAbonnesProduit->setCptAboIdProduitAbonnement($pCptAboIdProduitAbonnement);
+		$lListeAbonnesProduit->setCptAboIdLotAbonnement($pCptAboIdLotAbonnement);
 		$lListeAbonnesProduit->setCptAboIdCompte($pCptAboIdCompte);
+		$lListeAbonnesProduit->setCptAboId($pCptAboId);
 		$lListeAbonnesProduit->setAdhNumero($pAdhNumero);
 		$lListeAbonnesProduit->setCptLabel($pCptLabel);
 		$lListeAbonnesProduit->setAdhNom($pAdhNom);

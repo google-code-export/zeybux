@@ -139,6 +139,22 @@ class StockProduitReservationViewManager
 			array('ASC'));
 	}
 	
+	
+	/**
+	* @name selectByIdProduit($pIdProduit)
+	* @param integer
+	* @return array(StockProduitReservationViewVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdProduit $pIdProduit. Puis les renvoie sous forme d'une collection de StockProduitReservationViewVO
+	*/
+	public static function selectByIdProduit($pIdProduit) {
+		return StockProduitReservationViewManager::recherche(
+			array(ProduitManager::CHAMP_PRODUIT_ID),
+			array('='),
+			array($pIdProduit),
+			array(''),
+			array(''));
+	}
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table

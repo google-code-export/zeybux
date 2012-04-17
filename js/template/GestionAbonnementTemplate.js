@@ -117,15 +117,83 @@
 							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-frequence\" maxlength=\"200\" id=\"pro-frequence\"/>" +
 						"</td>" +
 					"</tr>" +
-					"<tr>" +
+				/*	"<tr>" +
 						"<th class=\"com-table-form-th\">" +
 							"Unité : " +
 						"</th>" +
 						"<td class=\"com-table-form-td\">" +
 							"{formUnite}" +
 						"</td>" +
+					"</tr>" +*/
+				"</table>" +
+				
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
+				"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
+					"<tr>" +
+						"<td class=\"catalogue-entete-lot\">Quantité</td>" +
+						"<td class=\"catalogue-entete-lot\">Unité</td>" +
+						"<td>Prix</td>" +
+						"<td></td>" +
+						"<td></td>" +
+					"</tr>" +
+					"<tr class=\"btn-lot\">" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
+						"</td>" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
+						"</td>" +
+						"<td>" +
+							"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"</td>" +
 					"</tr>" +
 				"</table>" +
+				"<table class=\"com-table\" id=\"lot-liste\">" +
+		
+					"<!-- BEGIN modelesLot -->" +
+					"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
+						"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
+						"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+							"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" class=\"modele-lot\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med\">" +
+							"à " +
+							"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
+							"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
+							" {modelesLot.sigleMonetaire}" +
+						"</td>" +
+						"<td class=\"com-table-td-med td-edt\">" +
+							"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
+								"<span class=\"ui-icon ui-icon-trash\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END modelesLot -->" +
+				
+				"</table>" +
+				
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
 				"<table class=\"com-table-form\">" +
 					"<tr>" +
@@ -156,7 +224,7 @@
 			"</div>" +
 		"</div>" ;
 	
-	this.formUniteSansUnite = 
+	/*this.formUniteSansUnite = 
 		"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-formUnite\" maxlength=\"20\" id=\"pro-unite\" value=\"{unite}\"/>";
 	
 	this.formUnite = "<span id=\"pro-unite\">{unite}</span><input type=\"hidden\" name=\"pro-formUnite\" value=\"{unite}\" />";
@@ -166,7 +234,7 @@
 			"<!-- BEGIN unite -->" +
 			"<option value=\"{unite.mLotUnite}\" {unite.selected}>{unite.mLotUnite}</option>" +
 			"<!-- END unite -->" +
-		"</select>";
+		"</select>";*/
 	
 	this.dialogModifierProduit =
 		"<div id=\"dialog-modif-pro\" title=\"Modifier : {nproNom}\">" +
@@ -181,15 +249,110 @@
 						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-frequence\" maxlength=\"200\" id=\"pro-frequence\" value=\"{proAboFrequence}\"/>" +
 					"</td>" +
 				"</tr>" +
-				"<tr>" +
+				/*"<tr>" +
 					"<th class=\"com-table-form-th\">" +
 						"Unité : " +
 					"</th>" +
 					"<td class=\"com-table-form-td\">" +
 						"{formUnite}" +
 					"</td>" +
+				"</tr>" +*/
+			"</table>" +
+			
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
+			"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
+				"<tr>" +
+					"<td class=\"catalogue-entete-lot\">Quantité</td>" +
+					"<td class=\"catalogue-entete-lot\">Unité</td>" +
+					"<td>Prix</td>" +
+					"<td></td>" +
+					"<td></td>" +
+				"</tr>" +
+				"<tr class=\"btn-lot\">" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
+					"</td>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
+					"</td>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
+					"</td>" +
+					"<td colspan=\"2\">" +
+						"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+					"</td>" +
 				"</tr>" +
 			"</table>" +
+			"<table class=\"com-table\" id=\"lot-liste\">" +
+		
+				"<!-- BEGIN modelesLot -->" +
+				"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
+					"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
+					"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+						"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" {modelesLot.checked} class=\"{modelesLot.modele}\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+						"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
+						"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+						"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
+						"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med\">" +
+						"à " +
+						"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
+						"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
+						" {modelesLot.sigleMonetaire}" +
+					"</td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
+							"<span class=\"ui-icon ui-icon-check\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
+							"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+						"</span>" +
+						"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\"  id=\"btn-supprimer-lot-{modelesLot.id}\" title=\"Supprimer\">" +				
+							"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+				"</tr>" +
+				"<!-- END modelesLot -->" +
+	
+				"<!-- BEGIN listeModelesLot -->" +
+				"<tr class=\"ligne-lot\" id=\"ligne-lot-modele-{listeModelesLot.id}\">" +
+					"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{listeModelesLot.id}</span></td>" +
+					"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+						"<input type=\"checkbox\" value=\"{listeModelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{listeModelesLot.id}-id\" {listeModelesLot.checked} class=\"{listeModelesLot.modele}\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+						"<span class=\"champ-lot-{listeModelesLot.id} lot-quantite\" id=\"lot-{listeModelesLot.id}-quantite\">{listeModelesLot.quantite}</span>"+
+						"<input class=\"champ-lot-{listeModelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{listeModelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{listeModelesLot.id}-quantite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+						"<span class=\"champ-lot-{listeModelesLot.id} lot-unite\" id=\"lot-{listeModelesLot.id}-unite\">{listeModelesLot.unite}</span>" +
+						"<input class=\"champ-lot-{listeModelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{listeModelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{listeModelesLot.id}-unite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med\">" +
+						"à " +
+						"<span class=\"champ-lot-{listeModelesLot.id} lot-prix\" id=\"lot-{listeModelesLot.id}-prix\">{listeModelesLot.prix}</span>" +
+						"<input class=\"champ-lot-{listeModelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{listeModelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{listeModelesLot.id}-prix\"/>" +
+						" {listeModelesLot.sigleMonetaire}" +
+					"</td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+					"</td>" +
+				"</tr>" +
+				"<!-- END listeModelesLot -->" +
+			
+			"</table>" +
+			
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
 			"<table class=\"com-table-form\">" +
 				"<tr>" +
@@ -217,6 +380,75 @@
 					"</td>" +
 				"</tr>" +
 			"</table>" +
+		"</div>";
+	
+	this.modeleLot =
+		"<tr class=\"ligne-lot\" id=\"ligne-lot-{id}\">" +
+			"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{id}</span></td>" +
+			"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+				"<input type=\"checkbox\" value=\"{id}\" name=\"pro-lot\" id=\"pro-lot-{id}-id\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+				"<span class=\"champ-lot-{id} lot-quantite\" id=\"lot-{id}-quantite\">{quantite}</span>"+
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{id}-quantite\" maxlength=\"13\" id=\"pro-lot-{id}-quantite\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+				"<span class=\"champ-lot-{id} lot-unite\" id=\"lot-{id}-unite\">{unite}</span>" +
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{id}-unite\" maxlength=\"20\" id=\"pro-lot-{id}-unite\"/>" +
+			"</td>" +
+			"<td class=\"com-table-td-med\">" +
+				"à " +
+				"<span class=\"champ-lot-{id} lot-prix\" id=\"lot-{id}-prix\">{prix}</span>" +
+				"<input class=\"champ-lot-{id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{id}-prix\" maxlength=\"13\" id=\"pro-lot-{id}-prix\"/>" +
+				" {sigleMonetaire}" +
+			"</td>" +
+			"<td class=\"com-table-td-med td-edt\">" +
+				"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+					"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+				"</span>" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{id}\" title=\"Valider\">" +
+					"<span class=\"ui-icon ui-icon-check\"></span>" +
+				"</span>" +
+			"</td>" +
+			"<td class=\"com-table-td-fin td-edt\">" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{id}\" title=\"Annuler\">" +
+					"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+				"</span>" +
+				"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" id=\"btn-supprimer-lot-abonnement-{id}\" title=\"Supprimer\">" +				
+					"<span class=\"ui-icon ui-icon-trash\"></span>" +
+				"</span>" +
+			"</td>" +
+		"</tr>";
+	
+	this.dialogSupprimerLotModifierMarche =
+		"<div id=\"dialog-supp-lot\" title=\"Supprimer le prix de vente\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"Des abonnements sont positionnés sur ce prix de vente.<br/>" +
+				"Veuillez préciser le nouveau prix de vente sur lequel se baseront ces abonnements." +				
+			"</div>" +
+			"<div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
+				"<table class=\"com-table-100\" id=\"lot-liste\">" +				
+					"<!-- BEGIN modelesLot -->" +
+					"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
+						"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+							"<input type=\"radio\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\"/>" +
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
+						"</td>" +
+						"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+							"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
+						"</td>" +
+						"<td class=\"com-table-td-fin\">" +
+							"à " +
+							"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
+							" {modelesLot.sigleMonetaire}" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END modelesLot -->" +				
+				"</table>" +
+			"</div>" +
 		"</div>";
 	
 	this.detailProduit = 
@@ -512,7 +744,7 @@
 						"Limite par adhérent : " +
 					"</th>" +
 					"<td class=\"com-table-form-td\">" +
-						"{proAboMax}" +
+						"{proAboMaxLabel}" +
 					"</td>" +
 				"</tr>" +
 				"<tr>" +
@@ -520,7 +752,17 @@
 						"Quantité abonnement : " +
 					"</th>" +
 					"<td class=\"com-table-form-td\">" +
-						"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"quantite\" maxlength=\"12\" id=\"quantite\"/> {proAboUnite}" +
+						"<select id=\"lot\">" +
+							"<!-- BEGIN lot -->" +
+							"<option value=\"{lot.dcomId}\">par {lot.dcomTaille} {proAboUnite}</option>" +
+							"<!-- END lot -->" +
+						"</select>" +
+						"à <span id=\"prix-unitaire\">{prixUnitaire}</span> {sigleMonetaire}/{proAboUnite}" +
+						"<button class=\"btn-moins\">-</button>" +
+						"<span id=\"qte-pdt\">{qteInit}</span> {proAboUnite}" +
+						"<button class=\"btn-plus\">+</button>" +
+						"<span id=\"prix-pdt\">{prixInit}</span> {sigleMonetaire}" +
+					//	"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"quantite\" maxlength=\"12\" id=\"quantite\"/> {proAboUnite}" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +
@@ -550,7 +792,7 @@
 						"Limite par adhérent : " +
 					"</th>" +
 					"<td class=\"com-table-form-td\">" +
-						"{proAboMax}" +
+						"{proAboMaxLabel}" +
 					"</td>" +
 				"</tr>" +
 				"<tr>" +
@@ -560,7 +802,19 @@
 					"<td class=\"com-table-form-td\">" +
 						"<input type=\"hidden\" name=\"idProduitAbonnement\" id=\"idProduitAbonnement\" value=\"{proAboId}\"/>" +
 						"<input type=\"hidden\" name=\"id\" id=\"id\" value=\"{idCompteAbonnement}\"/>" +
-						"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"quantite\" maxlength=\"12\" id=\"quantite\" value=\"{cptAboQuantite}\"/> {proAboUnite}" +
+
+						"<select id=\"lot\">" +
+							"<!-- BEGIN lot -->" +
+							"<option {lot.selected} value=\"{lot.dcomId}\">par {lot.dcomTaille} {proAboUnite}</option>" +
+							"<!-- END lot -->" +
+						"</select>" +
+						"à <span id=\"prix-unitaire\">{prixUnitaire}</span> {sigleMonetaire}/{proAboUnite}" +
+						"<button class=\"btn-moins\">-</button>" +
+						"<span id=\"qte-pdt\">{qteInit}</span> {proAboUnite}" +
+						"<button class=\"btn-plus\">+</button>" +
+						"<span id=\"prix-pdt\">{prixInit}</span> {sigleMonetaire}" +
+						
+						//"<input class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"quantite\" maxlength=\"12\" id=\"quantite\" value=\"{cptAboQuantite}\"/> {proAboUnite}" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +

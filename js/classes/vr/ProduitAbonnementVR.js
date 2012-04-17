@@ -7,4 +7,6 @@
 	this.stockInitial = new VRelement();
 	this.max = new VRelement();
 	this.frequence = new VRelement();
+	this.lots = [];
+	this.lotRemplacement = [];
 };

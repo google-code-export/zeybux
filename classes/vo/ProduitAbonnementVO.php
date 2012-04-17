@@ -59,6 +59,20 @@ class ProduitAbonnementVO  extends DataTemplate
 	* @desc Etat de la ProduitAbonnementVO
 	*/
 	protected $mEtat;
+	
+	/**
+	* @var array(LotAbonnementVo);
+	* @desc Lots de la ProduitAbonnementVO
+	*/
+	protected $mLots;
+	
+	/**
+	* @name ProduitAbonnementVO()
+	* @desc Constructeur
+	*/
+	function ProduitAbonnementVO() {
+		$this->mLots = array();
+	}
 
 	/**
 	* @name getId()
@@ -184,6 +198,33 @@ class ProduitAbonnementVO  extends DataTemplate
 	*/
 	public function setEtat($pEtat) {
 		$this->mEtat = $pEtat;
+	}
+
+	/**
+	* @name getLots()
+	* @return array(LotAbonnementVO)
+	* @desc Renvoie le membre mLots de la ProduitAbonnementVO
+	*/
+	public function getLots() {
+		return $this->mLots;
+	}
+
+	/**
+	* @name setLots($pLots)
+	* @param array(LotAbonnementVO)
+	* @desc Remplace le membre mLots de la ProduitAbonnementVO par $pLots
+	*/
+	public function setLots($pLots) {
+		$this->mLots = $pLots;
+	}
+
+	/**
+	* @name addLots($pLots)
+	* @param LotAbonnementVO
+	* @desc Ajout $pLots au membre mLots de la ProduitAbonnementVO par $pLots
+	*/
+	public function addLots($pLots) {
+		array_push($this->mLots,$pLots);
 	}
 
 }

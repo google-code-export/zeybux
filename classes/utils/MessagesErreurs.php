@@ -164,6 +164,12 @@ class MessagesErreurs
 	const ERR_253_MSG = 'Ce produit est déjà présent en abonnement dans le marché.';
 	const ERR_254_CODE = 254;
 	const ERR_254_MSG = 'Aucun lot sélectionné.';
+	const ERR_255_CODE = 255;
+	const ERR_255_MSG = 'Le mot de passe ne doit pas contenir le caractère &.';
+	const ERR_256_CODE = 256;
+	const ERR_256_MSG = 'Des abonnements sont positionné sur ce lot : la nouvelle quantité doit être multiple de l\'ancienne.';
+	const ERR_257_CODE = 257;
+	const ERR_257_MSG = 'Des abonnements sont positionné sur ce lot : la nouvelle quantité doit être inférieure ou égale à l\'ancienne.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;
@@ -249,11 +255,11 @@ class MessagesErreurs
 	const ERR_341_CODE = 341;
 	const ERR_341_MSG = 'Compte supprimé.';
 	const ERR_342_CODE = 342;
-	const ERR_342_MSG = 'Abonnement de produit ajouté.';
+	const ERR_342_MSG = 'Produit d\'abonnement ajouté.';
 	const ERR_343_CODE = 343;
-	const ERR_343_MSG = 'Abonnement de produit modifié.';
+	const ERR_343_MSG = 'Produit d\'abonnement modifié.';
 	const ERR_344_CODE = 344;
-	const ERR_344_MSG = 'Abonnement de produit supprimé.';
+	const ERR_344_MSG = 'Produit d\'abonnement supprimé.';
 	const ERR_345_CODE = 345;
 	const ERR_345_MSG = 'Abonnement ajouté.';
 	const ERR_346_CODE = 346;

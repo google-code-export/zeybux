@@ -23,6 +23,18 @@ class DetailCompteAbonnementViewVO  extends DataTemplate
 	* @desc CptAboId de la DetailCompteAbonnementViewVO
 	*/
 	protected $mCptAboId;
+	
+	/**
+	* @var int(11)
+	* @desc CptAboIdProduitAbonnement de la DetailCompteAbonnementViewVO
+	*/
+	protected $mCptAboIdProduitAbonnement;
+	
+	/**
+	* @var int(11)
+	* @desc CptAboIdLotAbonnement de la DetailCompteAbonnementViewVO
+	*/
+	protected $mCptAboIdLotAbonnement;
 
 	/**
 	* @var varchar(30)
@@ -70,6 +82,42 @@ class DetailCompteAbonnementViewVO  extends DataTemplate
 	*/
 	public function setCptAboId($pCptAboId) {
 		$this->mCptAboId = $pCptAboId;
+	}
+
+	/**
+	* @name getCptAboIdProduitAbonnement()
+	* @return int(11)
+	* @desc Renvoie le membre CptAboIdProduitAbonnement de la DetailCompteAbonnementViewVO
+	*/
+	public function getCptAboIdProduitAbonnement() {
+		return $this->mCptAboIdProduitAbonnement;
+	}
+
+	/**
+	* @name setCptAboIdProduitAbonnement($pCptAboIdProduitAbonnement)
+	* @param int(11)
+	* @desc Remplace le membre CptAboIdProduitAbonnement de la DetailCompteAbonnementViewVO par $pCptAboIdProduitAbonnement
+	*/
+	public function setCptAboIdProduitAbonnement($pCptAboIdProduitAbonnement) {
+		$this->mCptAboIdProduitAbonnement = $pCptAboIdProduitAbonnement;
+	}
+
+	/**
+	* @name getCptAboIdLotAbonnement()
+	* @return int(11)
+	* @desc Renvoie le membre CptAboIdLotAbonnement de la DetailCompteAbonnementViewVO
+	*/
+	public function getCptAboIdLotAbonnement() {
+		return $this->mCptAboIdLotAbonnement;
+	}
+
+	/**
+	* @name setCptAboIdLotAbonnement($pCptAboIdLotAbonnement)
+	* @param int(11)
+	* @desc Remplace le membre CptAboIdLotAbonnement de la DetailCompteAbonnementViewVO par $pCptAboIdLotAbonnement
+	*/
+	public function setCptAboIdLotAbonnement($pCptAboIdLotAbonnement) {
+		$this->mCptAboIdLotAbonnement = $pCptAboIdLotAbonnement;
 	}
 
 	/**

@@ -20,7 +20,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {		
 		var that = this;
@@ -33,15 +33,22 @@
 		
 		$(lResponse.infoCommande).each(function() {
 			that.mIdMarche = this.comId;
-			if(this.stoQuantite == null) { this.stoQuantite = 0}
-			if(this.opeMontant == null) { this.opeMontant = 0 }
-			if(this.stoQuantiteLivraison == null) { this.stoQuantiteLivraison = 0 }
-			if(this.opeMontantLivraison == null) { this.opeMontantLivraison = 0 }
-			if(this.stoQuantiteSolidaire == null) { this.stoQuantiteSolidaire = 0 }
-			if(this.stoQuantiteVente == null) { this.stoQuantiteVente = 0 }
-			if(this.opeMontantVente == null) { this.opeMontantVente = 0 }
-			if(this.stoQuantiteVenteSolidaire == null) { this.stoQuantiteVenteSolidaire = 0 }
-			if(this.opeMontantVenteSolidaire == null) { this.opeMontantVenteSolidaire = 0 }
+			
+			if(this.proType == 1) {
+				this.nproNom += " (Solidaire)";
+			} else if(this.proType == 2) {
+				this.nproNom += " (Abonnement)" ;
+			}
+			
+			if(this.stoQuantite == null) { this.stoQuantite = 0; }
+			if(this.opeMontant == null) { this.opeMontant = 0; }
+			if(this.stoQuantiteLivraison == null) { this.stoQuantiteLivraison = 0; }
+			if(this.opeMontantLivraison == null) { this.opeMontantLivraison = 0; }
+			if(this.stoQuantiteSolidaire == null) { this.stoQuantiteSolidaire = 0; }
+			if(this.stoQuantiteVente == null) { this.stoQuantiteVente = 0; }
+			if(this.opeMontantVente == null) { this.opeMontantVente = 0; }
+			if(this.stoQuantiteVenteSolidaire == null) { this.stoQuantiteVenteSolidaire = 0; }
+			if(this.opeMontantVenteSolidaire == null) { this.opeMontantVenteSolidaire = 0; }
 			
 			lTotal -= parseFloat(this.opeMontantLivraison);
 			lTotal += parseFloat(this.opeMontantVente);
@@ -63,15 +70,13 @@
 		lResponse.numero = lResponse.detailMarche.numero;
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
-	}
+	};
 	
 	this.affect = function(pData) {
-	//	pData = this.affectLienListeCommandeArchive(pData);
-	//	pData = this.mCommunVue.comHoverBtn(pData);
 		pData = this.affectDupliquerMarche(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectDupliquerMarche = function(pData) {
 		var that = this;
@@ -79,7 +84,7 @@
 			DupliquerMarcheVue({"id_commande":that.mIdMarche});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

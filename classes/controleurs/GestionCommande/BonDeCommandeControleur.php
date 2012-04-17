@@ -54,6 +54,7 @@ class BonDeCommandeControleur
 			$lProducteurs = ListeProducteurMarcheViewManager::select($lIdMarche);
 			
 			$lResponse->setComNumero($lMarche->getNumero());
+			$lResponse->setArchive($lMarche->getArchive());
 			$lResponse->setProducteurs($lProducteurs);
 			
 			return $lResponse;

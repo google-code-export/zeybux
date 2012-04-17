@@ -11,7 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-include_once(CHEMIN_CLASSES_VR . "InfoCommandeVR.php" );
+include_once(CHEMIN_CLASSES_VR  . MOD_GESTION_COMMANDE . "/InfoCommandeVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php" );
 
 /**
@@ -30,52 +30,52 @@ class InfoCommandeValid
 	public static function get($pData) {
 		$lVr = new InfoCommandeVR();
 		//Tests inputs
-		if(!isset($pData['id_commande'])) {
+		if(!isset($pData['id_marche'])) {
 			$lVr->setValid(false);
-			$lVr->getId_commande()->setValid(false);
+			$lVr->getIdMarche()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$lVr->getId_commande()->addErreur($lErreur);	
+			$lVr->getIdMarche()->addErreur($lErreur);	
 		}
 
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!TestFonction::checkLength($pData['id_commande'],0,11)) {
+			if(!TestFonction::checkLength($pData['id_marche'],0,11)) {
 				$lVr->setValid(false);
-				$lVr->getId_commande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-				$lVr->getId_commande()->addErreur($lErreur);	
+				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
-			if(!is_int((int)$pData['id_commande'])) {
+			if(!is_int((int)$pData['id_marche'])) {
 				$lVr->setValid(false);
-				$lVr->getId_commande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getId_commande()->addErreur($lErreur);	
+				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
 	
 			//Tests Fonctionnels
-			if(empty($pData['id_commande'])) {
+			if(empty($pData['id_marche'])) {
 				$lVr->setValid(false);
-				$lVr->getId_commande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId_commande()->addErreur($lErreur);	
+				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
 			
-			$lCommande = CommandeManager::select($pData['id_commande']);
-			if($lCommande->getId() != $pData['id_commande']) {
+			$lCommande = CommandeManager::select($pData['id_marche']);
+			if($lCommande->getId() != $pData['id_marche']) {
 				$lVr->setValid(false);
-				$lVr->getId_commande()->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getId_commande()->addErreur($lErreur);
+				$lVr->getIdMarche()->addErreur($lErreur);
 			}
 		}
 		return $lVr;

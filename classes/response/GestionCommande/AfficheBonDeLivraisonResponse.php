@@ -29,6 +29,12 @@ class AfficheBonDeLivraisonResponse extends DataTemplate
 	 * @desc Le numero de la commande
 	 */
 	protected $mComNumero;
+
+	/**
+	 * @var int(11)
+	 * @desc Archive de la commande
+	 */
+	protected $mArchive;
 	
 	/**
 	 * @var array(ListeProducteurCommandeViewVO)
@@ -85,6 +91,24 @@ class AfficheBonDeLivraisonResponse extends DataTemplate
 	*/
 	public function setComNumero($pComNumero) {
 		$this->mComNumero = $pComNumero;
+	}
+	
+	/**
+	* @name getArchive()
+	* @return int(11)
+	* @desc Renvoie le Archive
+	*/
+	public function getArchive() {
+		return $this->mArchive;
+	}
+
+	/**
+	* @name setArchive($pArchive)
+	* @param int(11)
+	* @desc Remplace le Archive par $pArchive
+	*/
+	public function setArchive($pArchive) {
+		$this->mArchive = $pArchive;
 	}
 	
 	/**

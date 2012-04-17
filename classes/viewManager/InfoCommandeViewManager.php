@@ -53,6 +53,7 @@ class InfoCommandeViewManager
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
@@ -78,6 +79,7 @@ class InfoCommandeViewManager
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -110,6 +112,7 @@ class InfoCommandeViewManager
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
@@ -134,6 +137,7 @@ class InfoCommandeViewManager
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -172,6 +176,7 @@ class InfoCommandeViewManager
 			    CommandeManager::CHAMP_COMMANDE_ID .
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
@@ -203,6 +208,7 @@ class InfoCommandeViewManager
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -227,10 +233,11 @@ class InfoCommandeViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire)
+	* @name remplir($pComId, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
+	* @param tinyint(4)
 	* @param varchar(20)
 	* @param varchar(50)
 	* @param decimal(10,2)
@@ -245,11 +252,12 @@ class InfoCommandeViewManager
 	* @return InfoCommandeViewVO
 	* @desc Retourne une InfoCommandeViewVO remplie
 	*/
-	private static function remplir($pComId, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire) {
+	private static function remplir($pComId, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire) {
 		$lInfoCommande = new InfoCommandeViewVO();
 		$lInfoCommande->setComId($pComId);
 		$lInfoCommande->setProIdCompteFerme($pProIdCompteFerme);
 		$lInfoCommande->setProId($pProId);
+		$lInfoCommande->setProType($pProType);
 		$lInfoCommande->setProUniteMesure($pProUniteMesure);
 		$lInfoCommande->setNproNom($pNproNom);
 		$lInfoCommande->setOpeMontant($pOpeMontant);

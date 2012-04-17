@@ -26,8 +26,8 @@
 	this.afficher = function(pResponse) {
 		var that = this;
 		// Met le bouton en actif
-		$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-achat-resa").addClass("ui-state-active");
+	/*	$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
+		$("#btn-liste-achat-resa").addClass("ui-state-active");*/
 		
 		$(pResponse.listeAchatEtReservation).each(function() {
 			if(this.reservation == null) { this.reservation = '';}
@@ -35,11 +35,18 @@
 		});
 
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+
+		pResponse.infoMarcheSelected = '';
+		pResponse.listeReservationSelected = '';
+		pResponse.listeAchatSelected = 'ui-state-active';
+		pResponse.resumeMarcheSelected = '';
+		
+		pResponse.editerMenu = lGestionCommandeTemplate.editerMarcheMenu.template(pResponse);
 		if(pResponse.listeAchatEtReservation.length > 0 && pResponse.listeAchatEtReservation[0].adhId != null) {
 			var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-			$('#edt-com-liste').replaceWith(that.affectAchatEtReservation($(lTemplate.template(pResponse))));
+			$('#contenu').replaceWith(that.affectAchatEtReservation($(lTemplate.template(pResponse))));
 		} else {
-			$('#edt-com-liste').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide);
+			$('#contenu').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide.template(pResponse));
 		}							
 	};	
 
@@ -48,6 +55,24 @@
 		pData = this.affectRecherche(pData);
 		pData = this.affectAchat(pData);
 		pData = this.affectExportDataEtReservation(pData);
+		pData = this.affectMenu(pData);
+		return pData;
+	};
+	
+	this.affectMenu = function(pData) {
+		var that = this;
+		pData.find('#btn-information-marche').click(function() {
+			EditerCommandeVue(that.mParam);
+		});		
+		pData.find("#btn-liste-achat-resa").click(function() {
+			ListeAchatMarcheVue({id_marche:that.mIdMarche});
+		});
+		pData.find("#btn-liste-resa").click(function() {
+			ListeReservationMarcheVue({id_marche:that.mIdMarche});
+		});
+		pData.find("#btn-resume-marche").click(function() {
+			ResumeMarcheVue({id_marche:that.mIdMarche});
+		});
 		return pData;
 	};
 	

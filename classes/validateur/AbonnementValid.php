@@ -45,6 +45,7 @@ class AbonnementValid
 			$lInput &= TestFonction::checkLength($pProduitAbonnement->getUnite(),0,20);			
 			$lInput &= TestFonction::checkLength($pProduitAbonnement->getEtat(),0,1);
 			$lInput &= is_int((int)$pProduitAbonnement->getEtat());
+			$lInput &= is_array($pProduitAbonnement->getLots());
 			return $lInput;
 		} else {
 			return false;
@@ -110,6 +111,7 @@ class AbonnementValid
 			}
 			$lInput &= $lIdValid->estId($pCompteAbonnement->getIdCompte());	
 			$lInput &= $lIdValid->estId($pCompteAbonnement->getIdProduitAbonnement());	
+			$lInput &= $lIdValid->estId($pCompteAbonnement->getIdLotAbonnement());	
 			$lInput &= TestFonction::checkLength($pCompteAbonnement->getQuantite(),0,12);
 			$lInput &= is_float((float)$pCompteAbonnement->getQuantite());
 			if($pCompteAbonnement->getDateDebutSuspension() != '')	 {
@@ -135,6 +137,7 @@ class AbonnementValid
 		return $pCompteAbonnement->getId() == ""
 		&& $pCompteAbonnement->getIdCompte() != ""
 		&& $pCompteAbonnement->getIdProduitAbonnement() != ""
+		&& $pCompteAbonnement->getIdLotAbonnement() != ""
 		&& $pCompteAbonnement->getQuantite() != ""
 		&& (string)$pCompteAbonnement->getEtat() != "";
 	}
@@ -148,6 +151,7 @@ class AbonnementValid
 		return $pCompteAbonnement->getId() != ""
 		&& $pCompteAbonnement->getIdCompte() != ""
 		&& $pCompteAbonnement->getIdProduitAbonnement() != ""
+		&& $pCompteAbonnement->getIdLotAbonnement() != ""
 		&& $pCompteAbonnement->getQuantite() != ""
 		&& (string)$pCompteAbonnement->getEtat() != "";
 	}
