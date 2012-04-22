@@ -21,7 +21,7 @@
 				},"json"
 		);
 		this.idCommande = pParam.id_commande;
-	}		
+	};	
 	
 	this.afficher = function(pResponse) {
 		Infobulle.init(); // Supprime les erreurs
@@ -50,19 +50,19 @@
 		} else {
 			Infobulle.generer(pResponse,'');
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectLienAchat(pData);
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
-		pData.find('#liste-adherent').tablesorter({sortList: [[2,0]] });
+		pData.find('#liste-adherent').tablesorter({sortList: [[2,0]],headers: { 4: {sorter: false} } });
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -70,7 +70,7 @@
 		  });
 		pData.find("#filter-form").submit(function () {return false;});
 		return pData;
-	}
+	};
 	
 	this.affectLienAchat = function(pData) {
 		var that = this;
@@ -80,7 +80,7 @@
 			CaisseAchatCommandeVue(lParam);
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

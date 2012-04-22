@@ -30,7 +30,25 @@ class GestionCaisseControleur
 	public function getEtatCaisse() {
 		$lResponse = new EtatCaisseResponse();
 		$lIde = IdentificationManager::selectByType(3);
-		$lResponse->setEtat($lIde[0]->getAutorise());
+		
+		$lStatutAutorise = 1;
+		$lAutoriseActif = false;
+
+		$i = 0;
+		while(isset($lIde[$i]) && $lStatutAutorise == 1) {
+			$lAutorise = $lIde[0]->getAutorise();
+			if($lAutorise == 1) {
+				$lAutoriseActif = true;
+			} else if($lAutorise == 2) {
+				$lStatutAutorise = 0;
+			}
+			$i++;
+		}
+		if(!$lAutoriseActif) {
+			$lStatutAutorise = 0;
+		}
+		
+		$lResponse->setEtat($lStatutAutorise);
 		return $lResponse;
 	}
 	
@@ -40,11 +58,11 @@ class GestionCaisseControleur
 	* @desc Ferme les caisses
 	*/
 	public function fermerCaisse() {
-		$lIde = IdentificationManager::selectByType(3);
+		$lIde = IdentificationManager::selectByTypeActif(3);
 		
 		if(is_array($lIde)) {
 			foreach($lIde as $lCaisse) {
-				$lCaisse->setAutorise(0);
+				$lCaisse->setAutorise(2);
 				IdentificationManager::update($lCaisse);
 			}
 			
@@ -69,7 +87,7 @@ class GestionCaisseControleur
 	* @desc Ouvre les caisses
 	*/
 	public function ouvrirCaisse() {
-		$lIde = IdentificationManager::selectByType(3);
+		$lIde = IdentificationManager::selectByTypeSuspendu(3);
 		
 		if(is_array($lIde)) {
 			foreach($lIde as $lCaisse) {

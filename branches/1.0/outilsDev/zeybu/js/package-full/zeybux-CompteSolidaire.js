@@ -468,7 +468,7 @@
 				}
 			},"json"
 	);
-	}	
+	};	
 	
 	this.afficher = function(lResponse) {
 		var that = this;

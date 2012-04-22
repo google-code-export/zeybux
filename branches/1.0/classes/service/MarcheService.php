@@ -529,7 +529,8 @@ class MarcheService
 		
 		$lProduit = ProduitManager::select($lProduitActuel->getId());
 		$lProduit->setUniteMesure($pProduit->getUnite());
-		if($pProduit->getQteMaxCommande() == "") {
+		
+		if($pProduit->getQteMaxCommande() == "" || $pProduit->getQteMaxCommande() == -1) {
 			$lProduit->setMaxProduitCommande(-1);
 		} else {
 			$lProduit->setMaxProduitCommande($pProduit->getQteMaxCommande());

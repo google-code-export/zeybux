@@ -136,6 +136,16 @@ class IdentificationService
 	}
 	
 	/**
+	* @name selectByType($pId)
+	* @param integer
+	* @return array(IdentificationVO)
+	* @desc Retourne une Identification de Type $pId
+	*/
+	public function selectByType($pId) {
+		return IdentificationManager::selectByType($pId);
+	}
+	
+	/**
 	* @name selectByLabel($pLabel)
 	* @param string
 	* @return CompteVO

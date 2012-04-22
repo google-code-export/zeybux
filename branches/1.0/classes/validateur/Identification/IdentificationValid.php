@@ -197,6 +197,15 @@ class IdentificationValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getNumero()->addErreur($lErreur);	
 		}	
+		if(!isset($pData['mail'])) {
+			$lVr->setValid(false);
+			$lVr->getMail()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getMail()->addErreur($lErreur);	
+		}
+			
 		if($lVr->getValid()) {
 			if(!TestFonction::checkLength($pData['numero'],0,100)) {
 				$lVr->setValid(false);
@@ -205,6 +214,14 @@ class IdentificationValid
 				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getNumero()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['mail'],0,100)) {
+				$lVr->setValid(false);
+				$lVr->getMail()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getMail()->addErreur($lErreur);	
 			}
 	
 			//Tests Fonctionnels
@@ -215,6 +232,14 @@ class IdentificationValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getNumero()->addErreur($lErreur);	
+			}
+			if(empty($pData['mail'])) {
+				$lVr->setValid(false);
+				$lVr->getMail()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getMail()->addErreur($lErreur);	
 			}
 			
 			// L'adhérent existe	
@@ -227,7 +252,14 @@ class IdentificationValid
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 				$lVr->getNumero()->addErreur($lErreur);
-			
+			}
+			if($lAdherent->getCourrielPrincipal() != $pData['mail'] && $lAdherent->getCourrielSecondaire() != $pData['mail']) {
+				$lVr->setValid(false);
+				$lVr->getMail()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_258_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_258_MSG);
+				$lVr->getMail()->addErreur($lErreur);
 			}
 			
 			if($lVr->getValid()) {

@@ -161,21 +161,21 @@ class StockService
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				
 				
-				if($pStock->getQuantite() != "" && $lProduit->getStockInitial() == -1) {
+				if($pStock->getQuantite() != -1 && $lProduit->getStockInitial() == -1) {
 					//var_dump($lProduit);
 					// Maj Stock Reservation dans le produit
 					$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite());
 					$lProduit->setStockInitial($pStock->getQuantite());
 					//var_dump($lProduit);
 					ProduitManager::update($lProduit);
-				} else if($pStock->getQuantite() == "" && $lProduit->getStockInitial() != -1) {
+				} else if($pStock->getQuantite() == -1 && $lProduit->getStockInitial() != -1) {
 					//echo 2;
 					// Maj Stock Reservation dans le produit
 					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial());
 					$lProduit->setStockInitial(-1);
 					ProduitManager::update($lProduit);
 					
-				} else if($pStock->getQuantite() != "" && $lProduit->getStockInitial() != -1) {
+				} else if($pStock->getQuantite() != -1 && $lProduit->getStockInitial() != -1) {
 					//echo 3;
 					// Maj Stock Reservation dans le produit
 					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());

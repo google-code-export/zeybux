@@ -272,7 +272,7 @@ class MarcheValid
 	* @return GetMarcheListeReservationVR
 	* @desc Test la validite de l'élément
 	*/
-	public static function validGetMarcheListeReservation($pData) {
+	/*public static function validGetMarcheListeReservation($pData) {
 		$lVr = new GetMarcheListeReservationVR();
 		//Tests inputs
 		if(!isset($pData['id_commande'])) {
@@ -317,7 +317,7 @@ class MarcheValid
 			}
 		}
 		return $lVr;
-	}
+	}*/
 	
 	/**
 	* @name validGetInfoAchatMarche($pData)

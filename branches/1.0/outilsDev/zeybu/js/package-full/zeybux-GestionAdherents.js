@@ -197,7 +197,13 @@
 	this.listeAdherentVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Adhérents</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Adhérents" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
+						"<span class=\"ui-icon ui-icon-plusthick\">" +
+						"</span>" +
+					"</span>" +
+				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	
 			"</div>" +
 		"</div>";
@@ -354,11 +360,11 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		var lData = {modules:[],modules_default:[]}
+		var lData = {modules:[],modules_default:[]};
 		$(lResponse.modules).each(function() {
 			if(this.defaut == 1) {
 				lData.modules_default.push(this);
@@ -372,7 +378,7 @@
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
@@ -381,7 +387,7 @@
 		pData = this.affectSubmit(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.boutonLienCompte = function(pData) {		
 		pData.find(":input[name=lien_numero_compte]").click(function() {
@@ -392,14 +398,14 @@
 			}			
 		});
 		return pData;
-	}	
+	};
 	
 	this.affectControleDatepicker = function(pData) {
 		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
 		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
-	}
+	};
 	
 	this.affectSubmit = function(pData) {	
 		var that = this;
@@ -408,7 +414,7 @@
 			return false;
 		});
 		return pData;
-	}
+	};
 	
 	this.ajoutAdherent = function() {
 		var lVo = new AdherentVO();
@@ -427,8 +433,8 @@
 		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
-		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
-		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
+		$(':input[name=modules[]]:checked').each(function() { lVo.modules.push($(this).val()); });
+		$(':input[name=modules_default[]]').each(function() { lVo.modules.push($(this).val()); });
 		
 		var lValid = new AdherentValid();
 		var lVr = lValid.validAjout(lVo);
@@ -453,7 +459,7 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 };function CompteAdherentVue(pParam) {
@@ -478,7 +484,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -565,7 +571,7 @@
 		}		
 
 		$('#contenu').replaceWith(that.affect(lHtml));	
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.nouveauSoldeNegatif(pData);
@@ -574,7 +580,7 @@
 		pData = this.affectDialogSuppAdherent(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -587,7 +593,7 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
 		return pData;
-	}
+	};
 	
 	this.nouveauSoldeNegatif = function(pData) {
 		pData.find('.nouveau-solde-val').each(function() {
@@ -596,22 +602,22 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.soldeNegatif = function(pData) {
 		pData.find('#solde').addClass("com-nombre-negatif");
 		return pData;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.affectLienModifier = function(pData) {
 		var that = this;
@@ -619,7 +625,7 @@
 			ModificationAdherentVue({id_adherent:that.mIdAdherent});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogSuppAdherent = function(pData) {
 		var that = this;
@@ -662,7 +668,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 };function ListeAdherentVue(pParam) {
@@ -684,7 +690,7 @@
 					}
 				},"json"
 		);
-	}	
+	};	
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -702,10 +708,10 @@
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
-			$('#contenu').replaceWith(lGestionAdherentsTemplate.listeAdherentVide);
+			$('#contenu').replaceWith(that.affect($(lGestionAdherentsTemplate.listeAdherentVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -713,19 +719,19 @@
 		pData = this.affectLienCompte(pData);
 		pData = this.affectAjoutAdherent(pData);
 		return pData;
-	}
+	};
 
 	this.affectAjoutAdherent = function(pData) {
 		pData.find('#btn-nv-adherent').click(function() {
 			AjoutAdherentVue();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -735,7 +741,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectLienCompte = function(pData) {
 		var that = this;
@@ -743,7 +749,7 @@
 			CompteAdherentVue({id_adherent: $(this).find(".id-adherent").text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 };function ModificationAdherentVue(pParam) {

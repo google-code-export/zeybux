@@ -4507,36 +4507,21 @@ color:#FFFFFF;
 						<td><input type="password" name="admin-confirm-pass" id="admin-confirm-pass"/></td>						
 					</tr>
 					<tr>
-						<td colspan="2" class="ui-widget-header">Compte Solidaire</td>		
+						<td colspan="2" class="ui-widget-header">Mail</td>		
 					</tr>
 					<tr>
-						<td>Login</td>
-						<td><input type="text" name="solidaire-login" id="solidaire-login"/></td>						
+						<td>Adresse mail</td>
+						<td><input type="text" name="mailSupport" id="mailSupport"/></td>						
 					</tr>
 					<tr>
-						<td>Mot de passe</td>
-						<td><input type="password" name="solidaire-pass" id="solidaire-pass"/></td>						
+						<td>Mailing liste</td>
+						<td><input type="text" name="mailingListe" id="mailingListe"/></td>						
 					</tr>
 					<tr>
-						<td>Resaisir le mot de passe</td>
-						<td><input type="password" name="solidaire-confirm-pass" id="solidaire-confirm-pass"/></td>						
+						<td>Domaine des mailing liste</td>
+						<td><input type="text" name="mailingListeDomain" id="mailingListeDomain"/></td>						
 					</tr>
-					<tr>
-						<td colspan="2" class="ui-widget-header">Caisse</td>		
-					</tr>
-					<tr>
-						<td>Login</td>
-						<td><input type="text" name="caisse-login" id="caisse-login"/></td>						
-					</tr>
-					<tr>
-						<td>Mot de passe</td>
-						<td><input type="password" name="caisse-pass" id="caisse-pass"/></td>						
-					</tr>
-					<tr>
-						<td>Resaisir le mot de passe</td>
-						<td><input type="password" name="caisse-confirm-pass" id="caisse-confirm-pass"/></td>						
-					</tr>
-					
+										
 					<tr>
 						<td colspan="2" class="center">
 							<input type="hidden" name="rep" id="rep" value="<?php echo $p_path; ?>"/>
@@ -4549,23 +4534,18 @@ color:#FFFFFF;
 		</div>
 <?php 
 	} else if($_GET["page"] == 4) {
-		if(	isset($_POST['admin-login']) && isset($_POST['admin-pass']) && isset($_POST['admin-confirm-pass']) 
-			&& isset($_POST['solidaire-login']) && isset($_POST['solidaire-pass']) && isset($_POST['solidaire-confirm-pass']) 
-			&& isset($_POST['caisse-login']) && isset($_POST['caisse-pass']) && isset($_POST['caisse-confirm-pass']) 
+		if(	isset($_POST['admin-login']) && isset($_POST['admin-pass']) && isset($_POST['admin-confirm-pass'])
+			&& isset($_POST['mailSupport']) && isset($_POST['mailingListe']) && isset($_POST['mailingListeDomain'])
 			&& isset($_POST['rep']) && isset($_POST['prefixe'])) {
 		
 			if(	empty($_POST['admin-login']) || empty($_POST['admin-pass']) || empty($_POST['admin-confirm-pass']) 
-			|| empty($_POST['solidaire-login']) || empty($_POST['solidaire-pass']) || empty($_POST['solidaire-confirm-pass']) 
-			|| empty($_POST['caisse-login']) || empty($_POST['caisse-pass']) || empty($_POST['caisse-confirm-pass'])) {	
+				&& empty($_POST['mailSupport']) || empty($_POST['mailingListe']) || empty($_POST['mailingListeDomain'])			
+			) {	
 				header('location:./install.php?page=3&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);
 			} else {
 				
 				if( $_POST['admin-pass'] !== $_POST['admin-confirm-pass'] ) {
-						header('location:./install.php?page=3&mdp=admin&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);					
-				} else if( $_POST['solidaire-pass'] !== $_POST['solidaire-confirm-pass'] )  {
-						header('location:./install.php?page=3&mdp=solidaire&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);					
-				} else if($_POST['caisse-pass'] !== $_POST['caisse-confirm-pass']) {
-						header('location:./install.php?page=3&mdp=caisse&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);
+						header('location:./install.php?page=3&mdp=admin&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);
 				} else {				
 					require_once($_POST["rep"] . '/configuration/DB.php');
 					
@@ -4590,7 +4570,7 @@ color:#FFFFFF;
 					mysql_query($lRequete, $connexion);
 					
 					// Création du compte solidaire
-					$lRequete =
+					/*$lRequete =
 					"INSERT INTO " . $_POST['prefixe'] . "ide_identification
 						(ide_id
 						,ide_id_login
@@ -4604,10 +4584,10 @@ color:#FFFFFF;
 						,'" . md5($_POST['solidaire-pass']) . "'
 						,'4'
 						,'1')";
-					mysql_query($lRequete, $connexion);
+					mysql_query($lRequete, $connexion);*/
 					
 					// Création du compte caisse
-					$lRequete =
+					/*$lRequete =
 					"INSERT INTO " . $_POST['prefixe'] . "ide_identification
 						(ide_id
 						,ide_id_login
@@ -4621,9 +4601,27 @@ color:#FFFFFF;
 						,'" . md5($_POST['caisse-pass']) . "'
 						,'3'
 						,'1')";
-					mysql_query($lRequete, $connexion);
+					mysql_query($lRequete, $connexion);*/
 					
 					mysql_close($connexion);
+					
+					// Ajout du fichier de config des Mails
+					$fp = fopen($_POST["rep"] . '/configuration/Mail.php', 'w');
+					fwrite($fp,"<?php\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Createur : Julien PIERRE\n");
+					fwrite($fp,"// Date de creation : 23/01/2012\n");
+					fwrite($fp,"// Fichier : Mail.php\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Description : Les constantes de mail\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"define(\"MAIL_SUPPORT\", \"" . $_POST["mailSupport"] . "\");\n");
+					fwrite($fp,"define(\"MAIL_MAILING_LISTE\", \"" . $_POST["mailingListe"] . "\");\n");
+					fwrite($fp,"define(\"MAIL_MAILING_LISTE_DOMAIN\", \"" . $_POST["mailingListeDomain"] . "\");\n");
+					fwrite($fp,"?>\n");			
+					fclose($fp);
 				}
 			}				
 		} else { // Retour à la Page 1

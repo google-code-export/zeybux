@@ -111,6 +111,11 @@
 				ListeAbonneVue();
 				return false;
 			});
+			
+			pData.find('#menu-Caisse-ListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
 				
 			return pData;
 		}

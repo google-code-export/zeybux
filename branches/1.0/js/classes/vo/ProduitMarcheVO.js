@@ -13,4 +13,6 @@
 	this.type = '';
 	this.lots = [];
 	this.lotRemplacement = [];
+	this.tailleLotResaMax = -1;
+	this.quantiteReservation = -1;
 }

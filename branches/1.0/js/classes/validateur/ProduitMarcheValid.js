@@ -75,7 +75,10 @@
 		if(parseFloat(pData.qteRestante) <= 0 && parseFloat(pData.qteRestante) != -1) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.qteRestante.erreurs.push(erreur);}
 
 		if(pData.qteRestante != -1 && pData.qteMaxCommande != -1 && parseFloat(pData.qteMaxCommande) > parseFloat(pData.qteRestante)){lVR.valid = false;lVR.qteRestante.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.qteRestante.erreurs.push(erreur);lVR.qteMaxCommande.erreurs.push(erreur);}
-
+		
+		if(pData.qteRestante != -1 && pData.quantiteReservation != -1 && parseFloat(pData.qteRestante) < pData.quantiteReservation) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_259_CODE;erreur.message = ERR_259_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != -1 && pData.tailleLotResaMax != -1 && parseFloat(pData.qteMaxCommande) < pData.tailleLotResaMax) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_260_CODE;erreur.message = ERR_260_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		
 		//Tests des Lots
 		if(isArray(pData.lots)) {
 			if(pData.lots.length > 0) {

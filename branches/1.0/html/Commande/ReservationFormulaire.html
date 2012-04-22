@@ -25,7 +25,9 @@
 				</tr>						
 				<!-- BEGIN produits -->
 				<tr class="{categories.produits.abo-hidden}">
-					<td ><input type="checkbox" {categories.produits.checked} {categories.produits.abo-info-checked} {categories.produits.abo-info-disabled} {categories.produits.disabled} class="{categories.produits.hidden} {categories.produits.info-hidden}" name="id-produit[]" value="{categories.produits.proId}"/></td>
+					<td>
+						<input type="checkbox" {categories.produits.checked} {categories.produits.abo-info-checked} {categories.produits.abo-info-disabled} {categories.produits.disabled} class="{categories.produits.hidden} {categories.produits.info-hidden}" name="id-produit[]" value="{categories.produits.proId}"/>
+					</td>
 					<td >{categories.produits.nproNom}</td>
 					<td >
 						<a target="_blank" href="./index.php?m=MarcheHTML&amp;v=DetailProduit&amp;id={categories.produits.proId}">
@@ -43,7 +45,8 @@
 						</select>
 					</td>
 					<td>{categories.produits.flagType}</td>
-					<td><input type="text" value="{categories.produits.stoQuantite}" {categories.produits.disabled} {categories.produits.abo-info-disabled} class="{categories.produits.info-hidden} {categories.produits.class-err} com-input-text input-edt-compte ui-widget-content ui-corner-all" name="produit-{categories.produits.proId}-quantite"/> <span class="{categories.produits.info-hidden}">{categories.produits.proUniteMesure}</span></td>
+					<td><input type="text" value="{categories.produits.stoQuantite}" {categories.produits.disabled} {categories.produits.abo-info-disabled} class="{categories.produits.info-hidden} {categories.produits.class-err} com-input-text ui-widget-content ui-corner-all" size="3" name="produit-{categories.produits.proId}-quantite"/></td>
+					<td><span class="{categories.produits.info-hidden}">{categories.produits.proUniteMesure}</span></td>
 					<td  class="com-text-align-right"><span class="{categories.produits.info-hidden}">{categories.produits.prix}</span></td>
 					<td><span class="{categories.produits.info-hidden}">{sigleMonetaire}</span></td>
 				</tr>

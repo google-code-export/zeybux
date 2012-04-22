@@ -32,3 +32,8 @@ a {
 #edt-info-compte-form .btn-annuler {
 	margin-right:75px;
 }
+
+#detail-produit {
+    clear: left;
+    margin-top: 55px;
+}

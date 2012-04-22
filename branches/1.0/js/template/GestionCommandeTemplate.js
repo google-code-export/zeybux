@@ -69,7 +69,7 @@
 						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
 					"</td>" +
 					"<td colspan=\"2\">" +
-						"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un prix de vente</button>" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +
@@ -139,7 +139,7 @@
 						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-abo-prix\" maxlength=\"13\" id=\"pro-abo-lot-prix\"/> {sigleMonetaire}" +
 					"</td>" +
 					"<td colspan=\"2\">" +
-						"<button type=\"button\" id=\"btn-ajout-lot-abonnement\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"<button type=\"button\" id=\"btn-ajout-lot-abonnement\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un prix de vente</button>" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +
@@ -574,7 +574,7 @@
 						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
 					"</td>" +
 					"<td colspan=\"2\">" +
-						"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un prix de vente</button>" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +
@@ -709,7 +709,7 @@
 						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-abo-prix\" maxlength=\"13\" id=\"pro-abo-lot-prix\"/> {sigleMonetaire}" +
 					"</td>" +
 					"<td colspan=\"2\">" +
-						"<button type=\"button\" id=\"btn-ajout-lot-abonnement\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
+						"<button type=\"button\" id=\"btn-ajout-lot-abonnement\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un prix de vente</button>" +
 					"</td>" +
 				"</tr>" +
 			"</table>" +
@@ -1059,7 +1059,7 @@
 										    "<option value=\"15\">15</option>" +
 										    "<option value=\"16\">16</option>" +
 										    "<option value=\"17\">17</option>" +
-										    "<option value=\"18\">18</option>" +
+										    "<option selected=\"selected\" value=\"18\">18</option>" +
 										    "<option value=\"19\">19</option>" +
 										    "<option value=\"20\">20</option>" +
 										    "<option value=\"21\">21</option>" +
@@ -1073,7 +1073,7 @@
 										    "<option value=\"15\">15</option>" +
 										    "<option value=\"20\">20</option>" +
 										    "<option value=\"25\">25</option>" +
-										    "<option value=\"30\">30</option>" +
+										    "<option selected=\"selected\" value=\"30\">30</option>" +
 										    "<option value=\"35\">35</option>" +
 										    "<option value=\"40\">40</option>" +
 										    "<option value=\"45\">45</option>" +
@@ -1105,7 +1105,7 @@
 										    "<option value=\"17\">17</option>" +
 										    "<option value=\"18\">18</option>" +
 										    "<option value=\"19\">19</option>" +
-										    "<option value=\"20\">20</option>" +
+										    "<option selected=\"selected\" value=\"20\">20</option>" +
 										    "<option value=\"21\">21</option>" +
 										    "<option value=\"22\">22</option>" +
 										    "<option value=\"23\">23</option>" +
@@ -1164,23 +1164,27 @@
 					"</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-								"<th class=\"com-table-th\">Marché</th>	" +
-								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
-								"<th class=\"com-table-th\"></th>" +
-								"<th class=\"com-table-th\"></th>" +
+								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-med\">Marché</th>	" +
+								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
+								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
-							"<tr>" +
-								"<td class=\"com-table-td com-text-align-right\">{commande.numero}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								"<td class=\"com-table-td lst-resa-btn-commander\">" +
+							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
+								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} :</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
 									"<button class=\"btn-editer ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Editer</button>" +
 								"</td>" +
 								"<td class=\"com-table-td lst-resa-btn-commander\">" +
 									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
-								"</td>" +
+								"</td>" +*/
+								"<td class=\"com-table-td-fin\">" +
+									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+									"</span>" +
+								"</td>" +								
 							"</tr>" +
 							"<!-- END commande -->" +
 						"</table>" +
@@ -1205,24 +1209,30 @@
 							"	<span id=\"icone-nav-liste-operation-w\" class=\"prev ui-helper-hidden ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-w\"></span></span>" +
 							"	<span id=\"page-compteur\">Page : <span type=\"text\" class=\"pagedisplay\"></span></span>" +
 							"	<span id=\"icone-nav-liste-operation-e\" class=\"next ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-e\"></span></span>" +
-							"	<input type=\"hidden\" class=\"pagesize\" value=\"30\">" +
+							"	<input type=\"hidden\" class=\"pagesize\" value=\"15\">" +
 							"</form>" +	
 						"</div>" +
 						
 						"<table class=\"com-table\" id=\"table-marche-archive\">" +
 							"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header\">" +
-									"<th class=\"com-table-th lst-resa-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-									"<th class=\"com-table-th com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Date de cloture des Réservations</th>" +
-									"<th class=\"com-table-th com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+									"<th class=\"com-table-th-debut lst-resa-th-num com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Date de cloture des Réservations</th>" +
+									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+									"<th class=\"com-table-th-fin\"></th>	" +
 								"</tr>" +
 							"</thead>" +
 							"<tbody>" +
 								"<!-- BEGIN commande -->" +
 								"<tr class=\"com-cursor-pointer detail-commande-ligne\" >" +
-									"<td class=\"com-table-td com-underline-hover com-text-align-right\"><span class=\"ui-helper-hidden id-commande\">{commande.id}</span>{commande.numero}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+									"<td class=\"com-table-td-debut com-text-align-right\"><span class=\"ui-helper-hidden id-commande\">{commande.id}</span>{commande.numero} :</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeFinResa}</span>Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeMarche}</span>Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+									"<td class=\"com-table-td-fin\">" +
+										"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+											"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+										"</span>" +
+									"</td>" +		
 								"</tr>" +
 								"<!-- END commande -->" +
 							"</tbody>" +
@@ -1232,7 +1242,7 @@
 			"</div>" +
 		"</div>";
 	
-	this.listeAdherentCommandePage = 
+	/*this.listeAdherentCommandePage = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{numeroMarche}</div>" +
@@ -1274,9 +1284,9 @@
 					"</table>" +
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
-	this.achatCommandePage = 
+	/*this.achatCommandePage = 
 		"<div id=\"contenu\">" +
 			
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
@@ -1435,15 +1445,15 @@
 				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +
 				"<button type=\"button\" id=\"btn-valider\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 	
-	this.lotUniqueSolidaire = 
-		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
+	/*this.lotUniqueSolidaire = 
+		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";*/
 	
-	this.achatCommandeSucces = 
+	/*this.achatCommandeSucces = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -1455,7 +1465,7 @@
 					"</p>" +
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	/*this.cloturerCommandeSucces = 
 		"<div id=\"contenu\">" +
@@ -1737,7 +1747,7 @@
 	this.listeAchatEtReservationVide = 
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
-			"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
+			"<div>" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Liste des Achats et Réservations" +
@@ -2163,16 +2173,26 @@
 			"</div>" +
 		"</div>";
 	
-	this.listeMarcheVide =
+	/*this.listeMarcheVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente</div>" +
 				"<p id=\"texte-liste-vide\">Aucune adhérent.</p>" +	
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.listeReservationVide =
-		"<p id=\"texte-liste-vide\">Aucune réservation.</p>";
+		"<div id=\"contenu\">" +
+			"{editerMenu}" +
+			"<div>" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"Gestion des réservations" +
+					"</div>" +
+					"<p id=\"texte-liste-vide\">Aucune réservation.</p>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
 	
 	this.dialogEnregistrement =
 		"<div title=\"Enregistrer les modifications\">" +

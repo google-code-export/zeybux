@@ -1,5 +1,5 @@
 ;function ListeCommandeArchiveVue(pParam) {
-	this.mCommunVue = new CommunVue();
+	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeCommandeArchiveVue(pParam);}} );
@@ -51,11 +51,11 @@
 					lListeCommande.commande.push(lCommande);
 				});
 			
-			var lTemplate = lGestionCommandeTemplate.listeCommandeArchivePage;			
+			var lTemplate = lGestionCommandeTemplate.listeCommandeArchivePage;
 			var lHtml = $(lTemplate.template(lListeCommande));
 			
-			// Ne pas afficher la pagination si il y a moins de 30 éléments
-			if(lResponse.listeCommande.length < 31) {
+			// Ne pas afficher la pagination si il y a moins de 15 éléments
+			if(lResponse.listeCommande.length < 16) {
 				lHtml = this.masquerPagination(lHtml);
 			} else {
 				lHtml = this.paginnation(lHtml);
@@ -71,7 +71,7 @@
 	this.affect = function(pData) {
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectLienDetail(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	
@@ -84,14 +84,14 @@
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-marche-archive")
-			.tablesorter({sortList: [[2,1]]})
-			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:30}); 
+			.tablesorter({sortList: [[2,1]],headers: { 3: {sorter: false} } })
+			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:15}); 
 		return pData;
 	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
-		pData.find("#table-marche-archive").tablesorter({sortList: [[2,1]]});
+		pData.find("#table-marche-archive").tablesorter({sortList: [[2,1]],headers: { 3: {sorter: false} }});
 		return pData;
 	};
 	

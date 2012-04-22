@@ -46,7 +46,7 @@
 			var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
 			$('#contenu').replaceWith(that.affectAchatEtReservation($(lTemplate.template(pResponse))));
 		} else {
-			$('#contenu').replaceWith(lGestionCommandeTemplate.listeAchatEtReservationVide.template(pResponse));
+			$('#contenu').replaceWith(that.affectAchatEtReservation($(lGestionCommandeTemplate.listeAchatEtReservationVide.template(pResponse))));
 		}							
 	};	
 
