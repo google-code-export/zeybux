@@ -170,6 +170,12 @@ class MessagesErreurs
 	const ERR_256_MSG = 'Des abonnements sont positionné sur ce lot : la nouvelle quantité doit être multiple de l\'ancienne.';
 	const ERR_257_CODE = 257;
 	const ERR_257_MSG = 'Des abonnements sont positionné sur ce lot : la nouvelle quantité doit être inférieure ou égale à l\'ancienne.';
+	const ERR_258_CODE = 258;
+	const ERR_258_MSG = 'Mauvaise adresse mail.';
+	const ERR_259_CODE = 259;
+	const ERR_259_MSG = 'La limite de stock doit être supérieure à la quantité déjà réservée.';
+	const ERR_260_CODE = 260;
+	const ERR_260_MSG = 'La limite par adhérent doit être supérieure au plus grand des prix de vente avec réservation.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

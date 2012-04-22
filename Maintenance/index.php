@@ -1,13 +1,23 @@
 <?php 
 session_start();
-if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) && $_GET['m'] == "Versions") {
-	if(isset($_GET['action']) && $_GET['action'] == "sav") {
-		header('location:./index.php?m=Versions&action=actionSav');
-	} else if(isset($_GET['action']) && $_GET['action'] == "actionRollBack" && isset($_GET["dir"]) ) {
-		header('location:./index.php?m=Versions&action=actionRollBackConfirm&dir=' . $_GET["dir"]);
+$lAffiche = true;
+if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
+	if($_GET['m'] == "Versions") {	
+		if(isset($_GET['action']) && $_GET['action'] == "sav") {
+			header('location:./index.php?m=Versions&action=actionSav');
+		} else if(isset($_GET['action']) && $_GET['action'] == "actionRollBack" && isset($_GET["dir"]) ) {
+			header('location:./index.php?m=Versions&action=actionRollBackConfirm&dir=' . $_GET["dir"]);
+		}
+	}
+	
+	if($_GET['m'] == "LogLevel") {	
+		if(isset($_GET['action']) && $_GET['action'] == "getLog") {
+			include_once("./LogLevel/GetLog.php");	
+			$lAffiche = false;
+		}
 	}
 }
-
+if($lAffiche) {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -40,7 +50,10 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) && $_GET[
 						<a href="./index.php?m=Adherents" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "Adherents") echo "ui-state-active";?>"><span>Adherents</span></a>
 					</li>
 					<li>
-						<a href="./index.php?m=Versions" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Versions") echo "ui-state-active";?>"><span>Versions</span></a>
+						<a href="./index.php?m=Versions" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "Versions") echo "ui-state-active";?>"><span>Versions</span></a>
+					</li>
+					<li>
+						<a href="./index.php?m=LogLevel" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "LogLevel") echo "ui-state-active";?>"><span>Logs</span></a>
 					</li>
 				</ul>
 			</div>
@@ -72,6 +85,10 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) && $_GET[
 					include_once("./Versions/index.php");	
 					break;
 					
+				case "LogLevel":
+					include_once("./LogLevel/index.php");
+					break;
+					
 				default:
 					include_once("./accueil.php");	
 					break;	
@@ -88,3 +105,4 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) && $_GET[
 	</div>
 </body>
 </html>
+<?php } ?>

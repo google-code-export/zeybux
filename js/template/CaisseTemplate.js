@@ -6,18 +6,23 @@
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
-								"<th class=\"com-table-th\">Marché</th>	" +
-								"<th class=\"com-table-th\"></th>" +
+								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
+								"<th class=\"com-table-th-med\">Marché</th>	" +
+								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
-							"<tr>" +
-								"<td class=\"com-table-td com-text-align-right\">{commande.numero}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								"<td class=\"com-table-td lst-resa-btn-commander\">" +
+							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
+								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} : </td>" +
+								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
 									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
+								"</td>" +*/
+								"<td class=\"com-table-td-fin\">" +
+									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+									"</span>" +
 								"</td>" +
 							"</tr>" +
 							"<!-- END commande -->" +
@@ -66,19 +71,25 @@
 					"<table class=\"com-table\" id=\"liste-adherent\">" +
 						"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-nom\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th class=\"com-table-th-debut com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
+							"<th class=\"com-table-th-med com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
+							"<th class=\"com-table-th-med com-underline-hover marche-com-th-nom\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th class=\"com-table-th-fin com-underline-hover\"></th>" +
 						"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAdherentCommande -->" +
 						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
-							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
+							"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
+							"<td class=\"com-table-td-fin\">" +
+								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+								"</span>" +
+							"</td>" +
 						"</tr>" +
 						"<!-- END listeAdherentCommande -->" +
 						"</tbody>" +
@@ -108,6 +119,7 @@
 					"<thead>" +
 						"<tr>" +
 							"<th colspan=\"3\"></th>" +
+							"<th colspan=\"2\">Réservation</th>" +
 							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
 							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
 						"</tr>" +
@@ -115,8 +127,8 @@
 					"<tbody>" +
 					"<!-- BEGIN categories -->" +
 						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
+							"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</div></td>" +
+							"<td colspan=\"8\"></td>" +
 						"</tr>" +
 						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"ligne-produit\">" +
@@ -130,6 +142,10 @@
 							"</td>" +
 							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
 							
+							"<td class=\"com-text-align-right\">" +
+								"{categories.produits.stoQuantiteReservation}" +
+							"</td>" +
+							"<td>{categories.produits.proUniteMesureReservation}</td>" +
 							
 							"<td class=\"com-text-align-right\">" +
 								"<input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
@@ -146,7 +162,7 @@
 					"<tfoot>" +
 						"<tr>" +
 							"<td colspan=\"4\"></td>" +
-							"<td class=\"com-text-align-right\" >Total :</td>" +
+							"<td class=\"com-text-align-right\" colspan=\"3\" >Total :</td>" +
 							"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
 							"<td><span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
@@ -169,7 +185,7 @@
 					"<tbody>" +
 					"<!-- BEGIN categoriesSolidaire -->" +
 						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
+							"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</div></td>" +
 							"<td colspan=\"6\"></td>" +
 						"</tr>" +
 						"<!-- BEGIN categoriesSolidaire.produits -->" +
@@ -328,7 +344,7 @@
 				"<tbody>" +
 				"<!-- BEGIN categoriesAchat -->" +
 					"<tr>" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesAchat.nom}</td>" +
+						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categoriesAchat.nom}</div></td>" +
 						"<td colspan=\"4\"></td>" +
 					"</tr>" +
 					"<!-- BEGIN categoriesAchat.produits -->" +
@@ -381,7 +397,7 @@
 				"<tbody>" +
 				"<!-- BEGIN categoriesSolidaireAchat -->" +
 					"<tr>" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaireAchat.nom}</td>" +
+						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaireAchat.nom}</div></td>" +
 						"<td colspan=\"4\"></td>" +
 					"</tr>" +
 					"<!-- BEGIN categoriesSolidaireAchat.produits -->" +

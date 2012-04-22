@@ -238,16 +238,16 @@ class CaisseMarcheCommandeControleur
 			}*/
 			
 		
-			if($lReservationService->enCours($lIdReservation)) {
+			//if($lReservationService->enCours($lIdReservation)) {
 			//	var_dump($lReservationService->get($lIdReservation));
 				$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());			
-			} else {
+			//} else {
 				$lAchatService = new AchatService();
 				$lIdAchat = new IdAchatVO();
 				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
 				$lIdAchat->setIdCommande($pParam["id_commande"]);
 				$lResponse->setAchats($lAchatService->getAll($lIdAchat));	
-			}
+			//}
 			
 			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			$lResponse->setStockSolidaire($lStockSolidaire);	

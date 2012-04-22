@@ -51,14 +51,17 @@ class MotDePasseControleur
 			$lIdentification->setPass( md5( $lMdp ) );
 			IdentificationManager::update( $lIdentification );
 			
+			// Envoi du mail de confirmation	
+			$lTo = $pParam['mail'];
+			
 			// Envoi du mail de confirmation		
-			if($lAdherent->getCourrielPrincipal() != "") {
+			/*if($lAdherent->getCourrielPrincipal() != "") {
 				$lTo = $lAdherent->getCourrielPrincipal();
 			} else if($lAdherent->getCourrielSecondaire() != "") {
 				$lTo = $lAdherent->getCourrielSecondaire();			
 			} else { // Pas de mail sur le compte : Envoi au gestionnaire
 				$lTo = MAIL_SUPPORT;				
-			}
+			}*/
 			
 			$lFrom  = MAIL_SUPPORT;  
 

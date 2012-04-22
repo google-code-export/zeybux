@@ -19,4 +19,7 @@ define("FILE_UPDATE_BDD", DOSSIER_EXTRACT . "/update.sql");
 // Configuration
 define("DOSSIER_CONFIGURATION", "./configuration");
 define("DOSSIER_SITE_CONFIGURATION", DOSSIER_SITE . "configuration");
+
+define("DOSSIER_SITE_UTILS", DOSSIER_SITE . "classes/utils/");
+define("DOSSIER_SITE_LOGS", DOSSIER_SITE . "logs/");
 ?>

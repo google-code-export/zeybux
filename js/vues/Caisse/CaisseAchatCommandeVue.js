@@ -12,12 +12,13 @@
 	this.mAdherent = null;
 	
 	this.mAchatOuReservation = [];
+	this.mReservation = [];
 	
 	this.pdtCommande = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
-		var that = this;		 // TODO gestion avec param pour le server aussi
+		var that = this;
 		this.idCommande = pParam.id_commande;
 		this.idAdherent = pParam.id_adherent;
 
@@ -67,7 +68,8 @@
 								});
 								that.mAdherent = lResponse.adherent;
 								that.solde = parseFloat(lResponse.adherent.cptSolde);
-								
+
+								that.mReservation = lResponse.reservation;
 								if(lResponse.achats.length > 0) {
 									that.mAchatOuReservation = lResponse.achats;
 									that.afficherDetailAchat(lResponse);
@@ -124,6 +126,10 @@
 					lProduit.proPrix = "";
 					lProduit.lot = [];
 	
+
+					lProduit.stoQuantiteReservation = '';
+					lProduit.proUniteMesureReservation = '';
+					
 					var lPrix = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
@@ -143,6 +149,12 @@
 									lLot.prixReservation = lPrix;
 									
 									that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
+								}											
+							});
+							$(that.mReservation).each(function() {
+								if(this.idDetailCommande == lLot.dcomId) {
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
 								}											
 							});
 							
@@ -173,6 +185,7 @@
 					lProduitSolidaire.proPrix = "";
 					lProduitSolidaire.lot = lProduit.lot;
 					lProduitSolidaire.flagType = lProduit.flagType;
+					lProduitSolidaire.prixUnitaire = lProduit.prixUnitaire;
 					
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proId == this.proId){
@@ -256,7 +269,10 @@
 					lProduit.stoQuantite = "";
 					lProduit.proPrix = "";
 					lProduit.lot = [];
-	
+
+					lProduit.stoQuantiteReservation = '';
+					lProduit.proUniteMesureReservation = '';
+					
 					var lPrix = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
@@ -287,6 +303,12 @@
 									}
 								});										
 							});
+							$(that.mReservation).each(function() {
+								if(this.idDetailCommande == lLot.dcomId) {
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
+								}											
+							});
 							
 							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
 																	
@@ -314,6 +336,7 @@
 					lProduit.stoQuantite = "";
 					lProduit.proPrix = "";
 					lProduit.lot = [];
+
 					
 					lProduit.flagType = "";
 					if(this.type == 2) {
@@ -373,7 +396,7 @@
 			
 			lData.adhNouveauSolde = this.solde.nombreFormate(2,',',' ');
 			
-			this.solde = this.solde + lData.total + lData.totalSolidaire;
+			this.solde = (this.solde + lData.total + lData.totalSolidaire).toFixed(2);;
 
 			lData.adhSolde = this.solde;
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');

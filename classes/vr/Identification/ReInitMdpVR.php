@@ -46,6 +46,12 @@ class ReInitMdpVR extends DataTemplate
 	protected $mNumero;
 
 	/**
+	 * @var VRelement
+	 * @desc Mail de la ReInitMdpVR
+	 */
+	protected $mMail;
+
+	/**
 	* @name ReInitMdpVR()
 	* @return bool
 	* @desc Constructeur
@@ -55,6 +61,7 @@ class ReInitMdpVR extends DataTemplate
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
 		$this->mNumero = new VRelement();
+		$this->mMail = new VRelement();
 	}
 
 	/**
@@ -127,6 +134,24 @@ class ReInitMdpVR extends DataTemplate
 	*/
 	public function setNumero($pNumero) {
 		$this->mNumero = $pNumero;
+	}
+
+	/**
+	* @name getMail()
+	* @return VRelement
+	* @desc Renvoie le VRelement mNumero
+	*/
+	public function getMail() {
+		return $this->mMail;
+	}
+
+	/**
+	* @name setMail($pMail)
+	* @param VRelement
+	* @desc Remplace le mMail par $pMail
+	*/
+	public function setMail($pMail) {
+		$this->mMail = $pMail;
 	}
 }
 ?>

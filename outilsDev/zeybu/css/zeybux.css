@@ -191,6 +191,22 @@
 	margin-bottom:15px;
 	margin-top:10px;
 }
+
+#detail-produit {
+    clear: left;
+    margin-top: 55px;
+}
+
+.achat-commande-table-pdt {
+	margin-bottom:5px;
+	width:100%;
+	border-collapse:collapse;	
+	text-align:left;
+}
+
+.achat-commande-table-pdt .ligne-produit:hover, .achat-commande-table-pdt .ligne-produit-solidaire:hover {
+	background-color:#4eb305;
+}
 #formulaire_identification_int {
 	padding:5px;
 	width: 360px;
@@ -614,7 +630,7 @@ margin-right: 60px;
 }
 
 .edt-marche-pro-unite {
-	width:65px;
+	width:200px;
 	text-align:right;
 }
 

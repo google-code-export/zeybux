@@ -11,11 +11,11 @@
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
-							that.mIdMarche = pParam.id_marche;
-							that.afficher(lResponse);
 							if(pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+							that.mIdMarche = pParam.id_marche;
+							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -30,19 +30,22 @@
 		// Met le bouton en actif
 		/*$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
 		$("#btn-liste-resa").addClass("ui-state-active");*/
-		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.listeReservation;
-
-
+		
+		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
+			var lTemplate = lGestionCommandeTemplate.listeReservation;
+		} else {
+			var lTemplate = lGestionCommandeTemplate.listeReservationVide;
+		}
+		
 		pResponse.infoMarcheSelected = '';
 		pResponse.listeReservationSelected = 'ui-state-active';
 		pResponse.listeAchatSelected = '';
 		pResponse.resumeMarcheSelected = '';
-		
+
 		pResponse.editerMenu = lGestionCommandeTemplate.editerMarcheMenu.template(pResponse);
-		var lHtml = that.affectReservationAction($(lTemplate.template(pResponse)));
 		
+		var lHtml = that.affectReservationAction($(lTemplate.template(pResponse)));	
 		$('#contenu').replaceWith(lHtml);		
 	};
 	
@@ -59,7 +62,7 @@
 	this.affectMenu = function(pData) {
 		var that = this;
 		pData.find('#btn-information-marche').click(function() {
-			EditerCommandeVue(that.mParam);
+			EditerCommandeVue({id_marche:that.mIdMarche});
 		});		
 		pData.find("#btn-liste-achat-resa").click(function() {
 			ListeAchatMarcheVue({id_marche:that.mIdMarche});

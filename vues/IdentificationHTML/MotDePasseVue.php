@@ -29,11 +29,11 @@ $lTemplate->assign_vars( array( 'TITRE' => TITRE) );
 InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
 $lTemplate->assign_var_from_handle('ENTETE', 'entete');	
 
-if(isset($_POST['numero'])) {
+if(isset($_POST['numero']) && isset($_POST['mail'])) {
 	include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/MotDePasseControleur.php");						
 	$lControleur = new MotDePasseControleur();
 	
-	$lParam = array("numero" => $_POST['numero']);
+	$lParam = array("numero" => $_POST['numero'],"mail"=>$_POST['mail']);
 	$lPage = $lControleur->reinitier($lParam);
 
 	if($lPage->getValid()) {

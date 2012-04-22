@@ -222,39 +222,43 @@ class ListeAchatMarcheControleur
 			$lAdherents = AdherentViewManager::selectAll();
 			$lReservationService = new ReservationService();
 			$lAchatService = new AchatService();
-			foreach($lAdherents as $lAdherent) {				
-				$lIdReservation = new IdReservationVO();
-				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdReservation->setIdCommande($pParam["id_marche"]);
-				$lReservation = $lReservationService->get($lIdReservation);
-
-				$lIdAchat = new IdAchatVO();
-				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-				$lIdAchat->setIdCommande($pParam["id_marche"]);
-				$lAchats = $lAchatService->getAll($lIdAchat);	
-				
-				
-				$lListeAchat = new ListeAchatReservationVO();
-				$lListeAchat->setAdhId($lAdherent->getAdhId());
-				$lListeAchat->setAdhNumero($lAdherent->getAdhNumero());
-				$lListeAchat->setAdhIdCompte($lAdherent->getAdhIdCompte());
-				$lListeAchat->setCptLabel($lAdherent->getCptLabel());
-				$lListeAchat->setAdhNom($lAdherent->getAdhNom());
-				$lListeAchat->setAdhPrenom($lAdherent->getAdhPrenom());
-				
-				$lNbAchat = 0;
-				// Reservation en cours ou Achetée
-				if(!is_null($lReservation->getEtat()) && ($lReservation->getEtat() == 0 || $lReservation->getEtat() == 7)) {
-					$lListeAchat->setReservation('X');
-					$lNbAchat++;
-				}
-				// Si il y a un achat
-				if(!empty($lAchats)) {
-					$lListeAchat->setAchat('X');
-					$lNbAchat++;
-				}
-				if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé on vérifie qu'il faut si il a des ahcats/Résa pour l'ajouter
-					$lResponse->addListeAchatEtReservation($lListeAchat);
+			
+			foreach($lAdherents as $lAdherent) {
+				if(!is_null($lAdherent->getAdhId())) {			
+					$lIdReservation = new IdReservationVO();
+					$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
+					$lIdReservation->setIdCommande($pParam["id_marche"]);
+					$lReservation = $lReservationService->get($lIdReservation);
+					
+					$lIdAchat = new IdAchatVO();
+					$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
+					$lIdAchat->setIdCommande($pParam["id_marche"]);
+					$lAchats = $lAchatService->getAll($lIdAchat);	
+					
+					
+					$lListeAchat = new ListeAchatReservationVO();
+					$lListeAchat->setAdhId($lAdherent->getAdhId());
+					$lListeAchat->setAdhNumero($lAdherent->getAdhNumero());
+					$lListeAchat->setAdhIdCompte($lAdherent->getAdhIdCompte());
+					$lListeAchat->setCptLabel($lAdherent->getCptLabel());
+					$lListeAchat->setAdhNom($lAdherent->getAdhNom());
+					$lListeAchat->setAdhPrenom($lAdherent->getAdhPrenom());
+					
+					$lNbAchat = 0;
+					// Reservation en cours ou Achetée
+					if(!is_null($lReservation->getEtat()) && ($lReservation->getEtat() == 0 || $lReservation->getEtat() == 7)) {
+						$lListeAchat->setReservation('X');
+						$lNbAchat++;
+					}
+	
+					// Si il y a un achat
+					if(!empty($lAchats)) {
+						$lListeAchat->setAchat('X');
+						$lNbAchat++;
+					}
+					if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé on vérifie qu'il faut si il a des ahcats/Résa pour l'ajouter
+						$lResponse->addListeAchatEtReservation($lListeAchat);
+					}
 				}
 			}
 			return $lResponse;

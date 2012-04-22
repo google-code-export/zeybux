@@ -186,11 +186,17 @@ if(isset($_GET["action"])) {
 		<tr class="ui-widget ui-widget-header" >
 			<th class="com-table-th-debut" >Date de Sauvegarde</th>
 			<th class="com-table-th-med td-edt"></th>
+			<th class="com-table-th-med td-edt"></th>
 			<th class="com-table-th-fin td-edt"></th>
 		</tr>
 		<?php foreach($lVersions as $lVersion) {?>
 		<tr>
 			<td class="com-table-td-debut"><?php echo $lVersion[6] . $lVersion[7] ."-". $lVersion[4] . $lVersion[5] . "-" . $lVersion[0] . $lVersion[1] . $lVersion[2] . $lVersion[3] . " " . $lVersion[8] . $lVersion[9] .":". $lVersion[10] . $lVersion[11] .":". $lVersion[12]. $lVersion[13];?></td>
+			<td class="com-table-td-med">
+				<a href="./ancien/<?php echo $lVersion;?>/dump.sql" target="_blank" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Télécharger la base">
+					<span class="ui-icon ui-icon-arrowthick-1-n"></span>
+				</a>
+			</td>
 			<td class="com-table-td-med">
 				<a href="./index.php?m=Versions&amp;action=rollBack&amp;dir=<?php echo $lVersion;?>" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Appliquer">
 					<span class="ui-icon ui-icon-check"></span>

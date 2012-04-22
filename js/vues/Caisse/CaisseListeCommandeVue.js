@@ -1,5 +1,5 @@
 ;function CaisseListeCommandeVue(pParam) {
-	this.mCommunVue = new CommunVue();
+	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CaisseListeCommandeVue(pParam);}} );
@@ -19,7 +19,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -52,20 +52,23 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lCaisseTemplate.listeCommandeVide)));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectLienMarche(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = this.gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectLienMarche = function(pData) {
-		pData.find('.btn-marche').click(function() {
-			var lparam = {"id_commande":$(this).attr('id')};
+		/*pData.find('.btn-marche').click(function() {
+			var lparam = ;
 			CaisseMarcheCommandeVue(lparam);
+		});*/
+		pData.find(".btn-marche").click(function() {
+			CaisseMarcheCommandeVue({"id_commande":$(this).attr('id')});
 		});
 		return pData;
-	}	
+	};
 	this.construct(pParam);
 }

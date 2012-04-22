@@ -8,9 +8,6 @@
 				<td>Votre Numéro d'adhérent</td>
 				<td>
 					<input type="text" class="com-input-text ui-widget-content ui-corner-all {class-err-numero}" name="numero" value="{numero}"/> 
-				</td>
-				<td>
-					<input type="submit" class="ui-state-default ui-corner-all com-button com-center" value="valider"/> 
 				</td>	
 			</tr>
 			<tr>
@@ -18,12 +15,27 @@
 					<div class="{class-err-msg-numero} ui-corner-all">{err-numero}</div>
 				</td>
 			</tr>
+			<tr>
+				<td>Votre courriel de contact</td>
+				<td>
+					<input type="text" class="com-input-text ui-widget-content ui-corner-all {class-err-mail}" name="mail" value="{mail}"/> 
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="{class-err-msg-mail} ui-corner-all">{err-mail}</div>
+				</td>
+			</tr>
+			<tr class="com-center">
+				<td>
+					<a class="ui-state-default ui-corner-all com-button com-center" href="./index.php">
+						Retour
+					</a>
+				</td>	
+				<td>
+					<input type="submit" class="ui-state-default ui-corner-all com-button com-center" value="valider"/> 
+				</td>	
+			</tr>
 		</table>
 	</form>
-	<br/>
-	<div class="com-center">
-		<a class="ui-state-default ui-corner-all com-button com-center" href="./index.php">
-			Retour
-		</a>
-	</div>
 </div>

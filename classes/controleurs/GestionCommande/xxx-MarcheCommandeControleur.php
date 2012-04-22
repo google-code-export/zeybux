@@ -41,7 +41,7 @@ class MarcheCommandeControleur
 	* @return ListeAdherentCommandeResponse
 	* @desc Retourne la liste des adhérents qui ont réservé sur ce Marche.
 	*/
-	public function getMarcheListeReservation($pParam) {		
+	/*public function getMarcheListeReservation($pParam) {		
 		$lVr = MarcheValid::validGetMarcheListeReservation($pParam);
 		if($lVr->getValid()) {
 			$lResponse = new ListeAdherentCommandeResponse();
@@ -55,7 +55,7 @@ class MarcheCommandeControleur
 			return $lResponse;		
 		}				
 		return $lVr;
-	}
+	}*/
 	
 	/**
 	* @name getInfoAchatMarche($pParam)

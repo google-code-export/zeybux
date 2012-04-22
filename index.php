@@ -24,10 +24,11 @@ if(MAINTENANCE == 1) {
 	include_once(CHEMIN_CONFIGURATION . "Version.php"); // La version
 	include_once(CHEMIN_CONFIGURATION . "Titre.php"); // Définition des constantes de titre
 	include_once(CHEMIN_CLASSES_UTILS . "Log.php"); // La classe de Log
+	include_once(CHEMIN_CONFIGURATION . "LogLevel.php"); // Définition du level de log
 	
-	// Définition du level de log
+	
 	//define("LOG_LEVEL",PEAR_LOG_INFO);
-	define("LOG_LEVEL",PEAR_LOG_DEBUG);
+	//define("LOG_LEVEL",PEAR_LOG_DEBUG);
 	
 	// Mise en place du fichier de log
 	// initialisation du logger pour écriture dans le dossier /Logs/ avec comme nom de fichier la date

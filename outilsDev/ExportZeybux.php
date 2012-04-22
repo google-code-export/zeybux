@@ -93,6 +93,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			   		&& $entry != 'Entete.css'
 			   		&& $entry != 'zeybux.php' 
 			   		&& $entry != 'zeybux-html.php' 
+			   		&& $entry != 'Caisse' 
 			   		&& $entry != 'Commande' 
 			   		&& $entry != 'Commun' 
 			   		&& $entry != 'CompteSolidaire'
@@ -500,6 +501,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != 'install.php'
 				   		&& $entry != 'update.sql'
 				   		&& $entry != 'DB.php'
+				   		&& $entry != 'Mail.php'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -530,6 +532,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != '.svn' 
 				   		&& $entry != '.project'
 				   		&& $entry != 'DB.php'
+				   		&& $entry != 'Mail.php'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -565,6 +568,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
 		} else {
 			unlink($lPath.'/configuration/DB.php');
+			unlink($lPath.'/configuration/Mail.php');
 			
 			// le install.sql
 			$serveur = "127.0.0.1";
@@ -612,7 +616,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				            $insertions .= "-- -----------------------------\n";
 				            $insertions .= "INSERT INTO {PREFIXE}cpt_compte (`cpt_id`, `cpt_label`, `cpt_solde`) VALUES
 											(-1, 'ZEYBU', '0'),
-											(-2, 'EAU', '0');\n\n";
+											(-2, 'EAU', '0'),
+											(-3, 'invité', '0');\n\n";
 				            break;
 				            
 				        case "mod_module":    
@@ -659,6 +664,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		    	 
 		    mysql_close($connexion);
 		 
+		    // Gestion des préfixes de table
 		    foreach($lListeTable as $lTable) {
 		    	$creations = preg_replace ("/`".$lTable."`/","`{PREFIXE}".$lTable."`", $creations);
 		    }
@@ -666,7 +672,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		    $fichierDump = fopen($lPath.'/install.sql', "wb");
 		    fwrite($fichierDump, utf8_encode($entete));
 		    fwrite($fichierDump, utf8_encode($creations));
-		    fwrite($fichierDump,utf8_encode($insertions));
+		    fwrite($fichierDump, utf8_encode($insertions));
 		    fclose($fichierDump);
 		}
 		

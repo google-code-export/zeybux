@@ -145,6 +145,16 @@ class DetailReservationMarcheValid
 						$lErreur->setMessage(MessagesErreurs::ERR_218_MSG);
 						$lVr->getStoQuantite()->addErreur($lErreur);
 					}
+					
+					// La quantité doit être un multiple du lot
+					if($lQte % $lDcom->getTaille() != 0) {
+						$lVr->setValid(false);
+						$lVr->getStoQuantite()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_245_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_245_MSG);
+						$lVr->getStoQuantite()->addErreur($lErreur);
+					}
 				}
 			}
 		}

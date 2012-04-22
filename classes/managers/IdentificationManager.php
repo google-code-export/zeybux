@@ -125,7 +125,7 @@ class IdentificationManager
 			"," . IdentificationManager::CHAMP_IDENTIFICATION_LOGIN . 
 			"," . IdentificationManager::CHAMP_IDENTIFICATION_TYPE . "
 			FROM " . IdentificationManager::TABLE_IDENTIFICATION. " 
-			WHERE " . IdentificationManager::CHAMP_IDENTIFICATION_AUTORISE . " = '1'";
+			WHERE " . IdentificationManager::CHAMP_IDENTIFICATION_AUTORISE . " in ('1','2')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
@@ -190,6 +190,36 @@ class IdentificationManager
 			array(IdentificationManager::CHAMP_IDENTIFICATION_TYPE),
 			array('='),
 			array($pType),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectByTypeActif($pType)
+	* @param integer
+	* @return array(IdentificationVO)
+	* @desc Récupères toutes les lignes de la table ayant pour Type $pType et les renvoie sous forme d'une collection de IdentificationVO
+	*/
+	public static function selectByTypeActif($pType) {		
+		return IdentificationManager::recherche(
+			array(IdentificationManager::CHAMP_IDENTIFICATION_TYPE,IdentificationManager::CHAMP_IDENTIFICATION_AUTORISE),
+			array('=','='),
+			array($pType,1),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectByTypeSuspendu($pType)
+	* @param integer
+	* @return array(IdentificationVO)
+	* @desc Récupères toutes les lignes de la table ayant pour Type $pType et les renvoie sous forme d'une collection de IdentificationVO
+	*/
+	public static function selectByTypeSuspendu($pType) {		
+		return IdentificationManager::recherche(
+			array(IdentificationManager::CHAMP_IDENTIFICATION_TYPE,IdentificationManager::CHAMP_IDENTIFICATION_AUTORISE),
+			array('=','='),
+			array($pType,2),
 			array(''),
 			array(''));
 	}

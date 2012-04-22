@@ -38,13 +38,28 @@ class GestionControleur
 	*/
 	public function ajouter($pParam) {		
 		$lVr = CompteSpecialValid::validAjout($pParam);
-		if($lVr->getValid()) {
+		if($lVr->getValid()) {			
+			$lIdentificationService = new IdentificationService();
+			
+			$lIde = $lIdentificationService->selectByType(3);
+			
+			$lStatutAutorise = 1;
+			$lAutoriseActif = false;
+			
+			$i = 0;
+			while(isset($lIde[$i]) && $lStatutAutorise == 1) {
+				$lAutorise = $lIde[0]->getAutorise();
+				if($lAutorise == 2) {
+					$lStatutAutorise = 2;
+				}
+				$i++;
+			}			
+			
 			$lIdentificationVO = new IdentificationVO();
 			$lIdentificationVO->setLogin($pParam["login"]);
 			$lIdentificationVO->setPass(md5($pParam["motPasse"]));
 			$lIdentificationVO->setType($pParam["type"]);
-			$lIdentificationVO->setAutorise(1);			
-			$lIdentificationService = new IdentificationService();
+			$lIdentificationVO->setAutorise($lStatutAutorise);			
 			$lIdentificationService->set($lIdentificationVO);
 		}
 		return $lVr;

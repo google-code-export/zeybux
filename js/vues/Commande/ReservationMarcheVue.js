@@ -6,6 +6,7 @@
 	this.solde = 0;
 	this.soldeNv = 0;
 	this.mPremiereReservation = true;
+	this.mAbonnementSurReservation = false;
 	
 	this.construct = function(pParam) {
 		var that = this;
@@ -50,6 +51,8 @@
 													this.dcomId = this.idDetailCommande;
 													this.proId = lIdProduit;
 													that.reservation[lIdProduit] = this;
+													
+													
 												}											
 											});
 										}
@@ -127,6 +130,7 @@
 				lPdt.flagType = "";
 				if(lInfoProduit.type == 2) {
 					lPdt.flagType = lCommandeTemplate.flagAbonnement;
+					that.mAbonnementSurReservation = true;
 				}
 				
 				lData.categories[this.idCategorie].produits.push(lPdt);
@@ -377,6 +381,9 @@
 		// Si la date de fin des réservations est passée on bloque la possibilitée de modifier
 		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
 			pData.find('.boutons-edition').hide();
+		}
+		if(this.mAbonnementSurReservation) {
+			pData.find("#btn-supprimer").remove();
 		}
 		return pData;
 	};

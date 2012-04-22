@@ -54,10 +54,10 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectLienEditer(pData);
-		pData = this.affectLienMarche(pData);
-		pData = gCommunVue.comHoverBtn(pData);
+		//pData = this.affectLienMarche(pData);
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectNouveauMarche(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	
@@ -69,20 +69,19 @@
 	};
 	
 	this.affectLienEditer = function(pData) {
-		pData.find('.btn-editer').click(function() {
-			var lparam = {"id_marche":$(this).attr('id')};
-			EditerCommandeVue(lparam);
+		pData.find('.btn-marche').click(function() {
+			EditerCommandeVue( {"id_marche":$(this).attr('id')});
 		});
 		return pData;
 	};
 	
-	this.affectLienMarche = function(pData) {
+	/*this.affectLienMarche = function(pData) {
 		pData.find('.btn-marche').click(function() {
 			var lparam = {"id_commande":$(this).attr('id')};
 			MarcheCommandeVue(lparam);
 		});
 		return pData;
-	};
+	};*/
 	
 	this.affectLienListeCommandeArchive = function(pData) {
 		pData.find('#lien-marche-archive').click(function() {

@@ -68,6 +68,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						
 						$lData = array("categories" => array());						
 						
+						$lAbonnementSurReservation = false;
+						
 						$lTotal = 0;
 						foreach($lPage->getMarche()->getProduits() as $lProduit) {
 							foreach($lPage->getReservation() as $lReservation) {
@@ -85,6 +87,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 									$lFlagType = "";
 									if($lProduit->getType() == 2) {
 										$lFlagType = file_get_contents( CHEMIN_TEMPLATE . MOD_COMMANDE . '/' . 'FlagAbonnement.html');
+										$lAbonnementSurReservation = true;
 									}
 									
 									$lPdt = array(	"proId" => $lProduit->getId(),
@@ -129,8 +132,12 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 													'heureMarcheFin' => StringUtils::extractDbHeure($lPage->getMarche()->getDateMarcheFin()),
 													'minuteMarcheFin'  => StringUtils::extractDbMinute($lPage->getMarche()->getDateMarcheFin() ) ));
 					
-						if(TestFonction::dateTimeEstPLusGrandeEgale($lPage->getMarche()->getDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {		
-							$lTemplate->set_filenames( array('gestionReservation' => MOD_COMMANDE . '/' . 'GestionReservation.html') );
+						if(TestFonction::dateTimeEstPLusGrandeEgale($lPage->getMarche()->getDateFinReservation(),StringUtils::dateTimeAujourdhuiDb())) {	
+							if($lAbonnementSurReservation) {
+								$lTemplate->set_filenames( array('gestionReservation' => MOD_COMMANDE . '/' . 'GestionReservationModifier.html') );
+							} else {
+								$lTemplate->set_filenames( array('gestionReservation' => MOD_COMMANDE . '/' . 'GestionReservation.html') );
+							}
 							$lTemplate->assign_var_from_handle('GESTION_RESERVATION', 'gestionReservation');
 						}
 
@@ -419,7 +426,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 			break;
 				
 			case "modifierValider":	
-					if(isset($_POST["id-produit"]) && isset($_GET["id_marche"])) {						
+					if(isset($_POST["id-produit"]) && isset($_GET["id_marche"]) || isset($_POST['id-produit-abonnement'])) {						
 						$lParam = array("detailReservation" => array());
 							
 						if(isset($_POST['id-produit'])) {
@@ -588,6 +595,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 							$_SESSION['id-produit'] = $lParam;
 							
 						} else {
+							$lParam = array();
 							if(isset($_POST['id-produit'])) {
 								foreach($_POST['id-produit'] as $lIdProduit) {
 									if(isset($_POST['produit-' . $lIdProduit . '-lot']) && isset($_POST['produit-' . $lIdProduit . '-quantite'])) {
@@ -598,17 +606,17 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 									}
 								}
 							}
-							if(isset($_POST['id-produit-abonnement'])) {
+							if(isset($_POST['id-produit-abonnement'])) {								
 								foreach($_POST['id-produit-abonnement'] as $lIdProduit) {
-									if(isset($_POST['produit-' . $lIdProduit . '-lot']) && isset($_POST['produit-' . $lIdProduit . '-quantite'])) {
+									if(isset($_POST['produit-abonnement-' . $lIdProduit . '-lot']) && isset($_POST['produit-abonnement-' . $lIdProduit . '-quantite'])) {
+										
 										$lParam["detailReservation"][$lIdProduit] = array(	"id" => "",
-																					"stoIdDetailCommande" => $_POST['produit-' . $lIdProduit . '-lot'],
-																					"stoQuantite" => StringUtils::decimalFrToDb($_POST['produit-' . $lIdProduit . '-quantite']) * -1 ,
+																					"stoIdDetailCommande" => $_POST['produit-abonnement-' . $lIdProduit . '-lot'],
+																					"stoQuantite" => StringUtils::decimalFrToDb($_POST['produit-abonnement-' . $lIdProduit . '-quantite']) * -1 ,
 																					"idProduit" => $lIdProduit);
 									}
 								}
 							}
-					
 							$_SESSION['msg'] = $lPage->exportToArray();
 							$_SESSION['val'] = $lParam;
 							header('location:./index.php?m=MarcheHTML&v=ReservationMarche&fonction=modifierForm&id_marche=' . $_GET["id_marche"]);
