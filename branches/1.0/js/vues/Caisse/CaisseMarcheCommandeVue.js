@@ -33,6 +33,11 @@
 				if(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null) {
 					var lTemplate = lCaisseTemplate.listeAdherentCommandePage;
 					pResponse.comNumero = pResponse.listeAdherentCommande[0].comNumero;
+					
+					$.each(pResponse.listeAdherentCommande,function() {
+						this.adhIdTri = this.adhNumero.replace("Z","");
+					});
+					
 					$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
 				} else {
 					$('#contenu').replaceWith(lCaisseTemplate.listeMarcheVide);

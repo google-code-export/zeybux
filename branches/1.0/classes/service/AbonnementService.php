@@ -317,7 +317,7 @@ class AbonnementService
 			if($lPoursuivre) {				
 				$lIdLot = 0;
 				foreach($lProduitMarche["lots"] as $lLot) {
-					if(	$pCompteAbonnement->getQuantite() % $lLot->getDcomTaille() == 0) {
+					if(	fmod($pCompteAbonnement->getQuantite(), $lLot->getDcomTaille()) == 0) {
 						$lIdLot = $lLot->getDcomId();
 						$lTailleLot = $lLot->getDcomTaille();
 						$lPrixLot = $lLot->getDcomPrix();
@@ -423,7 +423,7 @@ class AbonnementService
 			if($lPoursuivre) {				
 				$lIdLot = 0;
 				foreach($lProduitMarche["lots"] as $lLot) {
-					if(	$pCompteAbonnement->getQuantite() % $lLot->getDcomTaille() == 0) {
+					if(	fmod($pCompteAbonnement->getQuantite(), $lLot->getDcomTaille()) == 0) {
 						$lIdLot = $lLot->getDcomId();
 						$lTailleLot = $lLot->getDcomTaille();
 						$lPrixLot = $lLot->getDcomPrix();

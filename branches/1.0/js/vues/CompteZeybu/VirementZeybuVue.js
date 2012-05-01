@@ -31,10 +31,18 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+		
+		$.each(lResponse.listeAdherent,function() {
+			this.adhIdTri = this.adhNumero.replace("Z","");
+		});
+		$.each(lResponse.listeProducteur,function() {
+			this.ferIdTri = this.ferNumero.replace("F","");
+		});
+		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
 		var lTemplate = lCompteZeybuTemplate.listeAdherent;	
 		var lHtml = $(lTemplate.template(lResponse));
@@ -48,7 +56,7 @@
 		
 		$('#contenu').replaceWith(that.affect(lHtml));
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -58,18 +66,18 @@
 		pData = this.affectVirementSolidaire(pData);
 		pData = this.affectVirement(pData);
 		return pData;
-	}
+	};
 	
 	this.affectTabs = function(pData) {
 		pData.find( "#virements" ).tabs();
 		return pData;
-	}
+	};
 
 	this.affectTri = function(pData) {
 		pData.find('.table-adherent').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false},5: {sorter: false} }});
 		pData.find('.table-producteur').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false},4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter-producteur").keyup(function() {
@@ -83,14 +91,14 @@
 		pData.find("#filter-form-producteur, #filter-form-adherent").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 
 	this.affectVirementSolidaire = function(pData) {
 		var that = this;
 		pData.find("#btn-virement-solidaire").click(function() {that.virementSolidaire(1);});
 		pData.find("#btn-virement-solidaire-inverse").click(function() {that.virementSolidaire(2);});
 		return pData;
-	}
+	};
 	
 	this.virementSolidaire = function(pType) {
 		var that = this;			
@@ -131,7 +139,7 @@
 			that.envoyerVirement(lDialog,lData);
 			return false;
 		});
-	}
+	};
 	
 	this.affectVirement = function(pData) {
 		var that = this;
@@ -178,7 +186,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.virement = function(pData) {
 		var that = this;
@@ -206,12 +214,12 @@
 			that.envoyerVirement(lDialog,pData);
 			return false;
 		});
-	}
+	};
 	
 	this.affectDialog = function(pData) {
 		pData = this.mCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.envoyerVirement = function(pDialog,pData) {
 		var lVo = new CompteZeybuAjoutVirementVO();								
@@ -252,7 +260,7 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }	

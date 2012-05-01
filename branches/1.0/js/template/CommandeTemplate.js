@@ -353,7 +353,7 @@
 				"</span>" +
 			"</td>" +
 			"<td>" +
-				"<select id=\"lot-{proId}\">" +
+				"<select id=\"lot-{proId}\" disabled=\"disabled\">" +
 					"<!-- BEGIN lot -->" +
 					"<option value=\"{lot.dcomId}\">par {lot.dcomTaille} {proUniteMesure}</option>" +
 					"<!-- END lot -->" +

@@ -190,7 +190,7 @@ class FermeValid
 					$lImpair = !$lImpair;
 					$lPosition--;
 				}
-				if($lSomme % 10 != 0 || !TestFonction::checkLength($pData['siren'],9,9)) {
+				if(fmod($lSomme, 10) != 0 || !TestFonction::checkLength($pData['siren'],9,9)) {
 					$lVr->setValid(false);
 					$lVr->getSiren()->setValid(false);
 					$lErreur = new VRerreur();

@@ -91,32 +91,33 @@
 				"<table class=\"com-table\">" +
 					"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header\">" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-							"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
-							"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Téléphone</th>" +
-							"<th class=\"com-table-th com-underline-hover\"></th>" +
-							"<th class=\"com-table-th com-underline-hover\"></th>" +
+							"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Téléphone</th>" +
+							"<th class=\"com-table-th-med com-underline-hover\"></th>" +
+							"<th class=\"com-table-th-fin com-underline-hover\"></th>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
 				"<!-- BEGIN listeProducteur -->" +
 						"<tr class=\"com-cursor-pointer\" >" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">" +
+							"<td class=\"com-table-td-debut com-underline-hover compte-ligne\">" +
+								"<span class=\"ui-helper-hidden\">{listeProducteur.prdtIdTri}</span>" +
 								"<span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>" +
 								"<span class=\"numero-producteur\">{listeProducteur.prdtNumero}</span>" +
 							"</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtPrenom}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtCourrielPrincipal}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtTelephonePrincipal}</td>" +
-							"<td class=\"com-table-td com-underline-hover td-edt\">" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtPrenom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtCourrielPrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtTelephonePrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" title=\"Modifier\">" +
 									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 								"</span>" +
 							"</td>" +
-							"<td class=\"com-table-td com-underline-hover td-edt\">" +
+							"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supp\" title=\"Supprimer\">" +
 									"<span class=\"ui-icon ui-icon-trash\"></span>" +
 								"</span>" +
@@ -194,17 +195,26 @@
 					"<table class=\"com-table\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeFerme -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>{listeFerme.ferNumero}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeFerme.cptLabel}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeFerme.ferNom}</td>" +
+								"<td class=\"com-table-td-debut com-underline-hover\">" +
+									"<span class=\"ui-helper-hidden\">{listeFerme.ferIdTri}</span>" +
+									"<span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>" +
+									"{listeFerme.ferNumero}</td>" +
+								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.cptLabel}</td>" +
+								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.ferNom}</td>" +
+								"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
+									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+									"</span>" +
+								"</td>" +
 							"</tr>" +
 					"<!-- END listeFerme -->" +
 						"</tbody>" +

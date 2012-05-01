@@ -105,7 +105,10 @@
 						"<tbody>" +
 					"<!-- BEGIN listeAdherent -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-adherent\" >" +
-								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+									"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
+									"{listeAdherent.adhNumero}</td>" +
 								"<td class=\"com-table-td\">{listeAdherent.cptLabel}</td>" +
 								"<td class=\"com-table-td\">{listeAdherent.adhNom}</td>" +
 								"<td class=\"com-table-td\">{listeAdherent.adhPrenom}</td>" +
@@ -145,7 +148,11 @@
 						"<tbody>" +
 					"<!-- BEGIN listeProducteur -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne-producteur\" >" +
-								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden id-producteur\">{listeProducteur.ferId}</span>{listeProducteur.ferNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeProducteur.ferIdTri}</span>" +
+									"<span class=\"ui-helper-hidden id-producteur\">{listeProducteur.ferId}</span>" +
+									"{listeProducteur.ferNumero}" +
+								"</td>" +
 								"<td class=\"com-table-td\">{listeProducteur.cptLabel}</td>" +
 								"<td class=\"com-table-td\">{listeProducteur.ferNom}</td>" +
 								"<td class=\"com-table-td com-center\">" +

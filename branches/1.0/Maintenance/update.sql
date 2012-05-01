@@ -1,2 +1,0 @@
-INSERT INTO `mod_module` (`mod_id`, `mod_nom`, `mod_label`, `mod_defaut`, `mod_ordre`, `mod_admin`, `mod_visible`) VALUES (NULL, 'Caisse', 'Caisse', '0', '12', '1', '1');
-INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '12', 'ListeMarche', 'Liste des Marchés', '1', '1');

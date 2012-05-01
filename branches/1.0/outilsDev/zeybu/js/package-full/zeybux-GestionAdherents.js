@@ -179,7 +179,10 @@
 								"<tbody>" +
 							"<!-- BEGIN listeAdherent -->" +
 									"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-										"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
+										"<td class=\"com-table-td com-underline-hover\">" +
+											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+											"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
+											"{listeAdherent.adhNumero}</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
@@ -704,6 +707,7 @@
 				this.classSolde = '';
 				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
 				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
+				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));

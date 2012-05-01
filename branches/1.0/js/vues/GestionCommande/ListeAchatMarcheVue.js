@@ -32,6 +32,7 @@
 		$(pResponse.listeAchatEtReservation).each(function() {
 			if(this.reservation == null) { this.reservation = '';}
 			if(this.achat == null) { this.achat = '';}
+			this.adhIdTri = this.adhNumero.replace("Z","");
 		});
 
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();

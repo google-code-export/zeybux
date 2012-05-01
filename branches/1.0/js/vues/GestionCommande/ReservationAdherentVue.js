@@ -786,7 +786,7 @@
 											lVr.log.erreurs.push(erreur);							
 	
 											// Redirection vers la vue edition
-											ListeReservationMarcheVue({id_commande:that.infoCommande.comId,
+											ListeReservationMarcheVue({id_marche:that.infoCommande.comId,
 																vr:lVr});
 											
 											$(lDialog).dialog("close");

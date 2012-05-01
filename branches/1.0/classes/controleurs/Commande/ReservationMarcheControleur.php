@@ -107,12 +107,29 @@ class ReservationMarcheControleur
 		//$lVr = ReservationMarcheValid::validUpdate($pParam);
 		$lVr = ReservationMarcheValid::validAjout($pParam);
 		if($lVr->getValid()) {
+			$lReservationService = new ReservationService();
+			
 			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
 			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);
 	
 			$lReservation = new ReservationVO();
 			$lReservation->getId()->setIdCompte($_SESSION[ID_COMPTE]);
 			$lReservation->getId()->setIdCommande($lDetailMarche[0]->getComId());
+			
+			$lReservationAbonnement = array();
+			
+			$lReservationsActuelle = $lReservationService->get($lReservation->getId());
+			$lProduitsAbonnementMarche = ProduitManager::selectbyIdMarcheProduitAbonnement($lDetailMarche[0]->getComId());
+			//var_dump($lReservationsActuelle->getDetailReservation());
+			foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
+		 		foreach($lProduitsAbonnementMarche as $lProduitAboMarche) {
+					if($lReservationActuelle->getIdProduit() == $lProduitAboMarche->getId()) {
+						$lReservationAbonnement[$lProduitAboMarche->getId()] = $lReservationActuelle;
+						//var_dump($lReservationActuelle);
+					}
+		 		}
+			}
+			
 			
 			foreach($pParam["detailReservation"] as $lDetail) {
 					$lDetailCommande = DetailCommandeManager::select($lDetail["stoIdDetailCommande"]);				
@@ -124,9 +141,27 @@ class ReservationMarcheControleur
 					$lDetailReservation->setQuantite($lDetail["stoQuantite"]);
 					$lDetailReservation->setMontant($lPrix);
 					
-					$lReservation->addDetailReservation($lDetailReservation);
-			}		
-			$lReservationService = new ReservationService();
+					$lAjout = true;
+					foreach($lProduitsAbonnementMarche as $lProduitAboMarche) {
+						if($lDetailCommande->getIdProduit() == $lProduitAboMarche->getId()) {
+							if(!isset($lReservationAbonnement[$lProduitAboMarche->getId()])) {
+								$lReservationAbonnement[$lProduitAboMarche->getId()] = $lDetailReservation;		
+							}
+							$lAjout = false;
+						}
+			 		}
+					
+			 		if($lAjout) {
+						$lReservation->addDetailReservation($lDetailReservation);
+			 		}
+			}
+			foreach($lReservationAbonnement as $lReservationAbo) {
+				$lReservation->addDetailReservation($lReservationAbo);
+			}
+			
+			//var_dump($lReservation);
+			
+			
 			$lIdOperation = $lReservationService->set($lReservation);
 		}				
 		return $lVr;

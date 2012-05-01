@@ -31,6 +31,7 @@
 				this.classSolde = '';
 				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
 				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
+				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));

@@ -90,7 +90,7 @@
 							nproQteMax:this.qteMaxCommande,
 							nproUnite:this.unite,
 							type:lTypeProduit,
-							qteReservation:lQteReservation};	
+							qteReservation:lQteReservation.nombreFormate(2,',',' ')};	
 			
 			if(!lAffichageMarche[lIdFerme]) {
 				lAffichageMarche[lIdFerme] = {	ferId:lIdFerme,

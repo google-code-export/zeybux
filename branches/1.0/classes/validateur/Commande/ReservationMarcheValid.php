@@ -105,7 +105,12 @@ class ReservationMarcheValid
 					$lReservationService = new ReservationService();
 					$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
 					$lOperation = $lOperations[0];
-					$lIdOperation = $lOperation->getId();			
+					
+					if($lReservationService->enCours($lIdReservation)) {					
+						$lIdOperation = $lOperation->getId();			
+					} else {
+						$lIdOperation = -1;
+					}
 	
 					// Si il y a une réservation existante
 					/*$lTypeResa = array(0,7,15);
