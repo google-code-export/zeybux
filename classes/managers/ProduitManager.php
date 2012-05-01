@@ -182,6 +182,58 @@ class ProduitManager
 		}
 		return $lListeProduit;
 	}
+	
+	/**
+	* @name selectbyIdMarcheProduitAbonnement($pIdMarche)
+	* @param integer
+	* @return array(ProduitVO)
+	* @desc Récupère les lignes de $pIdMarche
+	*/
+	public static function selectbyIdMarcheProduitAbonnement($pIdMarche) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
+			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE .
+			"," . ProduitManager::CHAMP_PRODUIT_ETAT . "
+			FROM " . ProduitManager::TABLE_PRODUIT . " 
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pIdMarche) . "'
+			AND " . ProduitManager::CHAMP_PRODUIT_TYPE . " = '2'
+			AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = '0';";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		$lListeProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeProduit,
+					ProduitManager::remplirProduit(
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT]));
+			}
+		} else {
+			$lListeProduit[0] = new ProduitVO();
+		}
+		return $lListeProduit;
+	}
 		
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

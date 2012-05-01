@@ -552,7 +552,10 @@
 					"<tbody>" +
 				"<!-- BEGIN listeAdherent -->" +
 						"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
-							"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+								"{listeAdherent.adhNumero}" +
+							"</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
 							"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
@@ -851,7 +854,10 @@
 		var that = this;
 		var lGestionAbonnementTemplate = new GestionAbonnementTemplate();		
 		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lGestionAbonnementTemplate.listeAdherent;			
+			var lTemplate = lGestionAbonnementTemplate.listeAdherent;		
+			$.each(lResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.listeAdherentVide)));

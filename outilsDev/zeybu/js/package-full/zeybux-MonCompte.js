@@ -227,7 +227,6 @@
 		
 		lResponse.sigleMonetaire = gSigleMonetaire;
 
-		
 		lResponse.adherent.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
 		lResponse.adherent.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		
@@ -367,7 +366,7 @@
 	this.affectEditionCompte = function(pData) {		
 		var that = this;
 		pData.find('#btn-edt-compte').click(function() {
-			
+			Infobulle.init(); // Supprime les erreurs
 			$(':input[name=nom]').val(htmlDecode(that.mInformationAdherent.nom));
 			$(':input[name=prenom]').val(htmlDecode(that.mInformationAdherent.prenom));
 			$(':input[name=courriel_principal]').val(htmlDecode(that.mInformationAdherent.courrielPrincipal));
@@ -443,6 +442,10 @@
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
 
+		if(lVo.dateAdhesion == "") {
+			lVo.dateAdhesion = getDateAujourdhuiDb();
+		}
+		
 		var lValid = new AdherentValid();
 		var lVr = lValid.validUpdateInformation(lVo);
 		

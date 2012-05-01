@@ -25,7 +25,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -39,6 +39,7 @@
 				this.classSolde = '';
 				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
 				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
+				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 			
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
@@ -46,19 +47,19 @@
 			$('#contenu').replaceWith(lRechargementCompteTemplate.listeAdherentVide);
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectLienCompte(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -68,7 +69,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}	
+	};
 	
 	this.affectLienCompte = function(pData) {
 		var that = this;
@@ -156,14 +157,14 @@
 			);		
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
 		pData = this.affectNouveauSolde(pData);
 		pData = this.mCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectSelectTypePaiement = function(pData) {
 		var that = this;
@@ -171,7 +172,7 @@
 			that.changerTypePaiement($(this));
 		});
 		return pData;
-	}
+	};
 	
 	this.changerTypePaiement = function(pObj) {
 		var lId = pObj.val();
@@ -184,7 +185,7 @@
 			$(":input[name=champ-complementaire]").val('');
 			$("#td-champ-complementaire").hide();
 		}
-	}
+	};
 	
 	this.getLabelChamComplementaire = function(pId) {
 		var lTpp = this.mTypePaiement;
@@ -194,7 +195,7 @@
 			}
 		}	
 		return null;
-	}
+	};
 	
 	this.affectNouveauSolde = function(pData) {
 		var that = this;
@@ -202,7 +203,7 @@
 			that.majNouveauSolde();
 		});
 		return pData;
-	}
+	};
 	
 	this.majNouveauSolde = function() {
 		var lTotal = this.calculNouveauSolde();
@@ -214,13 +215,13 @@
 			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
 		}
 		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
-	}
+	};
 	
 	this.calculNouveauSolde = function() {
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
 		if(isNaN(lRechargement)) {lRechargement = 0;}		
 		return this.solde + lRechargement;
-	}
+	};
 	
 	this.getRechargementVO = function() {
 		var lVo = new RechargementCompteVO();
@@ -237,7 +238,7 @@
 			lVo.champComplementaireObligatoire = 0;
 		}
 		return lVo;
-	}
+	};
 	
 	this.construct(pParam);
 }

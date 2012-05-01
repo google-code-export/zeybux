@@ -34,6 +34,9 @@
 		
 		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
 			var lTemplate = lGestionCommandeTemplate.listeReservation;
+			$.each(pResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
 		} else {
 			var lTemplate = lGestionCommandeTemplate.listeReservationVide;
 		}
@@ -174,132 +177,6 @@
 			
 		});
 		return pData;
-	};
-	
-	/*this.chargerListeFerme = function() {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		$.post(	"./index.php?m=GestionCommande&v=ListeReservationMarche", "pParam=" + $.toJSON({fonction:"detailMarche",id_commande:that.mIdMarche}),
-			function(lResponse) {
-				Infobulle.init(); // Supprime les erreurs
-				if(lResponse) {
-					if(lResponse.valid) {
-						var lAffichageMarche = [];
-						$.each(lResponse.marche.produits,function() {
-							var lTypeProduit = this.type;
-							if(lTypeProduit == 2 || lTypeProduit == 0) {
-								var lIdFerme = this.ferId;
-								var lIdCategorie = this.idCategorie;
-								var lIdNomProduit = this.idNom;
-								
-								var lProduit = {id:this.id,
-												nproId:lIdNomProduit,
-												nproNom:this.nom,
-												type:lTypeProduit};	
-								
-								if(!lAffichageMarche[lIdFerme]) {
-									lAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
-																		ferNom:this.ferNom,
-																		categories:[]};
-								}
-								
-								if(!lAffichageMarche[lIdFerme].categories[lIdCategorie]){
-									lAffichageMarche[lIdFerme].categories[lIdCategorie] = {
-											cproId:lIdCategorie,
-											cproNom:this.cproNom,
-											produits:[]};
-								}
-								lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;		
-							}
-						});
-						
-						
-						var lFermes = [];		
-						$(lAffichageMarche).each(function() {
-							if(this.ferId) {
-								var lCategories = [];
-								$(this.categories).each(function() {
-									if(this.cproId) {
-										var lProduits = [];
-										$(this.produits).each(function() {
-											if(this.nproId) {
-												lProduits.push([this.nproNom,this.nproId,this.type]);
-											}						
-										});
-										lProduits.sort(sortABC);
-										lCategories.push([this.cproNom,this.cproId,lProduits]);
-									}
-								});		
-								lCategories.sort(sortABC);
-								lFermes.push([this.ferNom,this.ferId,lCategories]);		
-							}
-						});
-						lFermes.sort(sortABC);
-						
-						that.mListeFerme = {fermes:[]};
-						$(lFermes).each(function(i,val) {
-							var lIdFerme = val[1];
-							var lCategories = val[2];
-							if(lAffichageMarche[lIdFerme]) {
-								var lAjoutFerme = false;
-								var lFerme = {	ferId:lAffichageMarche[lIdFerme].ferId,
-												ferNom:lAffichageMarche[lIdFerme].ferNom,
-												categories:[]};
-								$(lCategories).each(function(i,val) {
-									var lIdCategorie = val[1];
-									var lProduits = val[2];
-									if(lAffichageMarche[lIdFerme].categories[lIdCategorie]) {
-										var lAjoutCategorie = false;
-										var lCategorie = {
-												cproId:lAffichageMarche[lIdFerme].categories[lIdCategorie].cproId,
-												cproNom:lAffichageMarche[lIdFerme].categories[lIdCategorie].cproNom,
-												produits:[]};
-										$(lProduits).each(function(i,val) {
-											var lIdProduit = val[1];
-											var lType = val[2];
-											var lAbonnement = "";											
-											if(lType == 2) {
-												lAbonnement = lGestionCommandeTemplate.flagAbonnement;
-												if(lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit]) {									
-													lCategorie.produits.push({
-														id:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].id,
-														nproId:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].nproId,
-														nproNom:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].nproNom,
-														type:lType,
-														abonnement:lAbonnement});
-													lAjoutFerme = true;
-													lAjoutCategorie = true;
-												}
-											} else {
-												if(lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit]) {																					
-													lCategorie.produits.push({
-														id:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].id,
-														nproId:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].nproId,
-														nproNom:lAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdProduit].nproNom,
-														type:lType,
-														abonnement:lAbonnement});
-													lAjoutFerme = true;
-													lAjoutCategorie = true;
-												}	
-											}
-										});
-										if(lAjoutCategorie) {
-											lFerme.categories.push(lCategorie);
-										}
-									}
-								});
-								if(lAjoutFerme) {
-									that.mListeFerme.fermes.push(lFerme);
-								}
-							}
-						});						
-					} else {
-						Infobulle.generer(lResponse,'');
-					}
-				}
-			},"json"
-		);
-	};*/
-	
+	};	
 	this.construct(pParam);
 }

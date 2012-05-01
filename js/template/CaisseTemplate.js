@@ -81,7 +81,11 @@
 						"<tbody>" +
 						"<!-- BEGIN listeAdherentCommande -->" +
 						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
-							"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.adhIdTri}</span>" +
+								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>" +
+								"{listeAdherentCommande.adhNumero}" +
+							"</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +

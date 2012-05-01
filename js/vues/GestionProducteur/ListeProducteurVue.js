@@ -20,7 +20,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -28,13 +28,15 @@
 		
 		if(lResponse.listeProducteur.length > 0 && lResponse.listeProducteur[0].prdtId != null) {
 			var lTemplate = lGestionProducteurTemplate.listeProducteur;
-						
+			$.each(lResponse.listeProducteur,function() {
+				this.prdtIdTri = this.prdtNumero.replace("P","");
+			});
 			$('#contenu-ferme').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu-ferme').replaceWith(that.affect($(lGestionProducteurTemplate.listeProducteurVide)));
 		}
 		this.affectMenu();
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -46,22 +48,22 @@
 		pData = this.affectLienRetour(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 		
 	this.affectMenu = function() {
 		$('#btn-information,#btn-catalogue').removeClass("ui-state-active");
 		$('#btn-liste-producteur').addClass("ui-state-active");		
-	}
+	};
 	
 	this.affectLienRetour = function(pData) {
 		pData.find("#btn-liste-ferme").click(function() { ListeFermeVue(); });
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -71,7 +73,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectLienCompte = function(pData) {
 		var that = this;
@@ -108,7 +110,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerProducteur = function(pData) {
 		var that = this;
@@ -141,7 +143,7 @@
 				yearRange: "1900:c"});		
 		});
 		return pData;
-	}
+	};
 		
 	this.CreerProducteur = function(pForm) {
 		var that = this;
@@ -195,7 +197,7 @@
 		} else {
 			Infobulle.generer(lVr,'prdt-');
 		}
-	}
+	};
 	
 	this.affectDialogModifierProducteur = function(pData) {
 		var that = this;
@@ -246,7 +248,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 		
 	this.modifierProducteur = function(pForm) {
 		var that = this;
@@ -301,7 +303,7 @@
 		} else {
 			Infobulle.generer(lVr,'prdt-');
 		}
-	}
+	};
 	
 	this.affectDialogSuppProducteur = function(pData) {		
 		var that = this;
@@ -354,7 +356,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

@@ -91,32 +91,33 @@
 				"<table class=\"com-table\">" +
 					"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header\">" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-							"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-							"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
-							"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Téléphone</th>" +
-							"<th class=\"com-table-th com-underline-hover\"></th>" +
-							"<th class=\"com-table-th com-underline-hover\"></th>" +
+							"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Téléphone</th>" +
+							"<th class=\"com-table-th-med com-underline-hover\"></th>" +
+							"<th class=\"com-table-th-fin com-underline-hover\"></th>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
 				"<!-- BEGIN listeProducteur -->" +
 						"<tr class=\"com-cursor-pointer\" >" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">" +
+							"<td class=\"com-table-td-debut com-underline-hover compte-ligne\">" +
+								"<span class=\"ui-helper-hidden\">{listeProducteur.prdtIdTri}</span>" +
 								"<span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>" +
 								"<span class=\"numero-producteur\">{listeProducteur.prdtNumero}</span>" +
 							"</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtPrenom}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtCourrielPrincipal}</td>" +
-							"<td class=\"com-table-td com-underline-hover compte-ligne\">{listeProducteur.prdtTelephonePrincipal}</td>" +
-							"<td class=\"com-table-td com-underline-hover td-edt\">" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtPrenom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtCourrielPrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtTelephonePrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" title=\"Modifier\">" +
 									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 								"</span>" +
 							"</td>" +
-							"<td class=\"com-table-td com-underline-hover td-edt\">" +
+							"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
 								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supp\" title=\"Supprimer\">" +
 									"<span class=\"ui-icon ui-icon-trash\"></span>" +
 								"</span>" +
@@ -194,17 +195,26 @@
 					"<table class=\"com-table\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeFerme -->" +
 							"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-								"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>{listeFerme.ferNumero}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeFerme.cptLabel}</td>" +
-								"<td class=\"com-table-td com-underline-hover\">{listeFerme.ferNom}</td>" +
+								"<td class=\"com-table-td-debut com-underline-hover\">" +
+									"<span class=\"ui-helper-hidden\">{listeFerme.ferIdTri}</span>" +
+									"<span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>" +
+									"{listeFerme.ferNumero}</td>" +
+								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.cptLabel}</td>" +
+								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.ferNom}</td>" +
+								"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
+									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+									"</span>" +
+								"</td>" +
 							"</tr>" +
 					"<!-- END listeFerme -->" +
 						"</tbody>" +
@@ -938,7 +948,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -946,13 +956,15 @@
 		
 		if(lResponse.listeProducteur.length > 0 && lResponse.listeProducteur[0].prdtId != null) {
 			var lTemplate = lGestionProducteurTemplate.listeProducteur;
-						
+			$.each(lResponse.listeProducteur,function() {
+				this.prdtIdTri = this.prdtNumero.replace("P","");
+			});
 			$('#contenu-ferme').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu-ferme').replaceWith(that.affect($(lGestionProducteurTemplate.listeProducteurVide)));
 		}
 		this.affectMenu();
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -964,22 +976,22 @@
 		pData = this.affectLienRetour(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 		
 	this.affectMenu = function() {
 		$('#btn-information,#btn-catalogue').removeClass("ui-state-active");
 		$('#btn-liste-producteur').addClass("ui-state-active");		
-	}
+	};
 	
 	this.affectLienRetour = function(pData) {
 		pData.find("#btn-liste-ferme").click(function() { ListeFermeVue(); });
 		return pData;
-	}
+	};
 	
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -989,7 +1001,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectLienCompte = function(pData) {
 		var that = this;
@@ -1026,7 +1038,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerProducteur = function(pData) {
 		var that = this;
@@ -1059,7 +1071,7 @@
 				yearRange: "1900:c"});		
 		});
 		return pData;
-	}
+	};
 		
 	this.CreerProducteur = function(pForm) {
 		var that = this;
@@ -1113,7 +1125,7 @@
 		} else {
 			Infobulle.generer(lVr,'prdt-');
 		}
-	}
+	};
 	
 	this.affectDialogModifierProducteur = function(pData) {
 		var that = this;
@@ -1164,7 +1176,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 		
 	this.modifierProducteur = function(pForm) {
 		var that = this;
@@ -1219,7 +1231,7 @@
 		} else {
 			Infobulle.generer(lVr,'prdt-');
 		}
-	}
+	};
 	
 	this.affectDialogSuppProducteur = function(pData) {		
 		var that = this;
@@ -1272,7 +1284,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 };function ListeFermeVue(pParam) {
@@ -1295,7 +1307,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -1303,13 +1315,15 @@
 		
 		if(lResponse.listeFerme.length > 0 && lResponse.listeFerme[0].ferId != null) {
 			var lTemplate = lGestionProducteurTemplate.listeFerme;
-						
+			$.each(lResponse.listeFerme,function() {
+				this.ferIdTri = this.ferNumero.replace("F","");
+			})
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionProducteurTemplate.listeFermeVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -1319,12 +1333,12 @@
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectDetailFerme(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -1334,7 +1348,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectDetailFerme = function(pData) {
 		var that = this;
@@ -1342,7 +1356,7 @@
 			InformationFermeVue({id: $(this).find(".id-ferme").text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerFerme = function(pData) {
 		var that = this;
@@ -1382,7 +1396,7 @@
 			});		
 		
 		return pData;
-	}
+	};
 	
 	this.CreerFerme = function(pForm) {
 		var that = this;
@@ -1432,7 +1446,7 @@
 		} else {
 			Infobulle.generer(lVr,'fer-');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 };function InformationFermeVue(pParam) {

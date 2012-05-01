@@ -1676,7 +1676,10 @@
 						"<tbody>" +
 						"<!-- BEGIN listeAdherent -->" +
 						"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
-							"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
+								"{listeAdherent.adhNumero}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
@@ -1730,7 +1733,10 @@
 						"<tbody>" +
 						"<!-- BEGIN listeAchatEtReservation -->" +
 						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" >" +							
-							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAchatEtReservation.adhId}</span>{listeAchatEtReservation.adhNumero}</td>" +
+							"<td class=\"com-table-td com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
+								"<span class=\"ui-helper-hidden id-adherent\">{listeAchatEtReservation.adhId}</span>" +
+								"{listeAchatEtReservation.adhNumero}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +

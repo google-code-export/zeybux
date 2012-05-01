@@ -18,7 +18,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -26,13 +26,15 @@
 		
 		if(lResponse.listeFerme.length > 0 && lResponse.listeFerme[0].ferId != null) {
 			var lTemplate = lGestionProducteurTemplate.listeFerme;
-						
+			$.each(lResponse.listeFerme,function() {
+				this.ferIdTri = this.ferNumero.replace("F","");
+			})
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionProducteurTemplate.listeFermeVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -42,12 +44,12 @@
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectDetailFerme(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -57,7 +59,7 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectDetailFerme = function(pData) {
 		var that = this;
@@ -65,7 +67,7 @@
 			InformationFermeVue({id: $(this).find(".id-ferme").text()});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerFerme = function(pData) {
 		var that = this;
@@ -105,7 +107,7 @@
 			});		
 		
 		return pData;
-	}
+	};
 	
 	this.CreerFerme = function(pForm) {
 		var that = this;
@@ -155,7 +157,7 @@
 		} else {
 			Infobulle.generer(lVr,'fer-');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

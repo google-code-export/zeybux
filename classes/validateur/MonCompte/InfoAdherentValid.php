@@ -10,6 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_MON_COMPTE . "/InfoAdherentVR.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_MON_COMPTE . "/AdherentVR.php" );
@@ -470,8 +471,13 @@ class InfoAdherentValid
 				$lVr->getCourrielSecondaire()->addErreur($lErreur);
 			}
 			
-			// Date Naissance <= Date Adhésion <= Date Actuelle		
-			if($pData['dateNaissance'] != '' && !TestFonction::dateEstPLusGrandeEgale($lAdherent->getDateAdhesion(),$pData['dateNaissance'],'db')) {
+			$lDateAdhesion = $lAdherent->getDateAdhesion();
+			if($lAdherent->getDateAdhesion() == StringUtils::FORMAT_DATE_NULLE) {
+				$lDateAdhesion = StringUtils::dateAujourdhuiDb();
+			}
+			
+			// Date Naissance <= Date Adhésion <= Date Actuelle	
+			if($pData['dateNaissance'] != '' && !TestFonction::dateEstPLusGrandeEgale($lDateAdhesion,$pData['dateNaissance'],'db')) {
 				$lVr->setValid(false);
 				$lVr->getDateNaissance()->setValid(false);
 				$lErreur = new VRerreur();

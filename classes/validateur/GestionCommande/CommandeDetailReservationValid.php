@@ -47,6 +47,14 @@ class CommandeDetailReservationValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getStoIdDetailCommande()->addErreur($lErreur);	
 		}
+		if(!isset($pData['idOperation'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getLog()->addErreur($lErreur);	
+		}
 
 		if($lVr->getValid()) {
 			//Tests Techniques
@@ -82,6 +90,14 @@ class CommandeDetailReservationValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getStoIdDetailCommande()->addErreur($lErreur);	
 			}
+			if(!is_int((int)$pData['idOperation'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
+			}
 	
 			//Tests Fonctionnels
 			if(empty($pData['stoQuantite'])) {
@@ -99,6 +115,14 @@ class CommandeDetailReservationValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getStoIdDetailCommande()->addErreur($lErreur);	
+			}
+			if(empty($pData['idOperation'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getLog()->addErreur($lErreur);	
 			}
 			
 			if($pData['stoQuantite'] >= 0) {
@@ -137,7 +161,35 @@ class CommandeDetailReservationValid
 						$lErreur->setMessage(MessagesErreurs::ERR_217_MSG);
 						$lVr->getStoIdProduit()->addErreur($lErreur);
 					}
-					if($lPdt->getStockInitial() != -1 && $lQte > $lPdt->getStockReservation()) {
+					/*if($lPdt->getStockInitial() != -1 && $lQte > $lPdt->getStockReservation()) {
+						$lVr->setValid(false);
+						$lVr->getStoIdProduit()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_218_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_218_MSG);
+						$lVr->getStoIdProduit()->addErreur($lErreur);
+					}*/
+					
+					$lQteMax = $lPdt->getStockReservation();
+					
+					if($pData['idOperation'] != -1) {
+						$StockService = new StockService();
+						$lStocks = $StockService->getDetailReservation($pData['idOperation']);
+						
+						$lContinu = true;
+						$lQuantiteReservation = 0;
+						$i = 0;
+						while($lContinu && isset($lStocks[$i])) {
+							if(	$lStocks[$i]->getIdDetailCommande() == $pData['stoIdDetailCommande']) {
+								$lQuantiteReservation = $lStocks[$i]->getQuantite();
+								$lContinu = false;
+							}
+							$i++;
+						}
+						$lQteMax -= $lQuantiteReservation; // Qté réservation est négative -- = +
+					}
+								
+					if($lPdt->getStockInitial() != -1 && $lQte > $lQteMax) {
 						$lVr->setValid(false);
 						$lVr->getStoIdProduit()->setValid(false);
 						$lErreur = new VRerreur();

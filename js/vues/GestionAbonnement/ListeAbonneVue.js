@@ -25,7 +25,10 @@
 		var that = this;
 		var lGestionAbonnementTemplate = new GestionAbonnementTemplate();		
 		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lGestionAbonnementTemplate.listeAdherent;			
+			var lTemplate = lGestionAbonnementTemplate.listeAdherent;		
+			$.each(lResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.listeAdherentVide)));

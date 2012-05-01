@@ -81,7 +81,11 @@
 						"<tbody>" +
 						"<!-- BEGIN listeAdherentCommande -->" +
 						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
-							"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.adhIdTri}</span>" +
+								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>" +
+								"{listeAdherentCommande.adhNumero}" +
+							"</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
@@ -567,6 +571,11 @@
 				if(pResponse.listeAdherentCommande.length > 0 && pResponse.listeAdherentCommande[0].adhId != null) {
 					var lTemplate = lCaisseTemplate.listeAdherentCommandePage;
 					pResponse.comNumero = pResponse.listeAdherentCommande[0].comNumero;
+					
+					$.each(pResponse.listeAdherentCommande,function() {
+						this.adhIdTri = this.adhNumero.replace("Z","");
+					});
+					
 					$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
 				} else {
 					$('#contenu').replaceWith(lCaisseTemplate.listeMarcheVide);
