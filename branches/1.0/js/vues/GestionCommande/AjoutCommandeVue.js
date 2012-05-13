@@ -12,8 +12,13 @@
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AjoutCommandeVue(pParam);}} );
-		var lParam = $.extend(lParam, pParam);
-		lParam.fonction = "afficher";
+		var lParam = $.extend(lParam, pParam);		
+		if(pParam && pParam.fonction && pParam.fonction == "dupliquer") {
+			lParam.fonction = "dupliquer";
+		} else {
+			lParam.fonction = "afficher";
+		}
+		
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=AjoutCommande", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
@@ -25,8 +30,11 @@
 								}
 								delete that.mProduits;
 								that.mProduits = [];
-								
-								that.afficher(lResponse);
+								if(lParam.fonction == "dupliquer") {
+									that.afficherDupliquer(lResponse);
+								} else {
+									that.afficher(lResponse);
+								}
 							} else {
 								Infobulle.generer(lResponse,'');
 							}				
@@ -53,6 +61,119 @@
 		return pData;
 	};
 	
+	this.afficherDupliquer = function(pResponse) {
+		var that = this;
+		$.each(pResponse.marche.produits, function() {
+			if(this.id) {
+				var lIdFerme = this.ferId;
+				var lIdCategorie = this.idCategorie;
+				var lIdNomProduit = this.idNom;
+				var lTypeProduit = this.type;
+				
+				var lStock = -1;
+				var lStockAffichage = "";
+				if(parseFloat(this.stockInitial) != -1) {
+					lStock = this.stockInitial;
+					lStockAffichage = this.stockInitial.nombreFormate(2,',',' ');
+				}
+				var lQteMax = -1;
+				var lQteMaxAffichage = "";
+				if(parseFloat(this.qteMaxCommande) != -1) {
+					lQteMax = this.qteMaxCommande;
+					lQteMaxAffichage = this.qteMaxCommande.nombreFormate(2,',',' ');
+				}
+				var lUnite = this.unite;
+								
+				var lProduit = {nproId:lIdNomProduit,
+						nproNom:this.nom,
+						nproStock:lStockAffichage,
+						nproQteMax:lQteMax,
+						nproUnite:lUnite,
+						type:lTypeProduit,
+						modelesLot:[],
+						modelesLotReservation:[]};
+				
+				// Préparation du MarcheVO		
+				var lVoProduit = new ProduitMarcheVO();
+				lVoProduit.idNom = lIdNomProduit;
+				lVoProduit.unite = lUnite;
+				lVoProduit.qteMaxCommande = lQteMax;
+				lVoProduit.qteRestante = lStock;
+				lVoProduit.type = lTypeProduit;
+				
+				$.each(this.lots,function() {
+					// Récupération des lots
+					var lIdLot = this.id;
+					var lVoLot = {	id:lIdLot,
+									taille:this.taille.nombreFormate(2,',',' '),
+									prix:this.prix.nombreFormate(2,',',' '),
+									unite:lUnite,
+									selected:true,
+									modele:true};
+					
+					//lProduit.modelesLot[lIdLot] = lVoLot;
+					
+					if(this.reservation) {
+						lProduit.modelesLotReservation[lIdLot] = lVoLot;
+					} else {
+						lProduit.modelesLot[lIdLot] = lVoLot;
+					}
+					
+					
+					// Récupération des lots
+					var lVoLot = new DetailCommandeVO();
+					lVoLot.id = lIdLot;
+					lVoLot.taille = this.taille;
+					lVoLot.prix = this.prix;
+					
+					lVoProduit.lots.push(lVoLot);	
+				});
+				
+				if(!that.mAffichageMarche[lIdFerme]) {
+					that.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
+														ferNom:this.ferNom,
+														categories:[]};
+				}
+				
+				if(!that.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
+							cproId:lIdCategorie,
+							cproNom:this.cproNom,
+							produits:[],
+							produitsAbonnement:[]};
+				}
+	
+				lVoProduit.idFerme = lIdFerme;
+				lVoProduit.idCategorie = lIdCategorie;
+				
+				if(lTypeProduit == 2) {					
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie].produitsAbonnement[lIdNomProduit] = lProduit;
+					that.mMarche.produitsAbonnement[lIdNomProduit] = lVoProduit;
+				} else {
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
+					that.mMarche.produits[lIdNomProduit] = lVoProduit;					
+				}
+			
+				that.mNbProduit++;
+			}
+		});
+	
+		this.mListeFerme = pResponse.listeFerme;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.formulaireAjoutMarche;
+		$('#contenu').replaceWith( that.affectDupliquer($(lTemplate.template(pResponse))));
+	};
+	
+	this.affectDupliquer = function(pData) {
+		pData = this.affectDialogAjoutProduit(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.majListeFerme(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
 	this.affectDialogAjoutProduit = function(pData) {
 		var that = this;
 		pData.find("#btn-ajout-produit").click(function() {
@@ -60,7 +181,7 @@
 			var lTemplate = lGestionCommandeTemplate.dialogAjoutProduitAjoutMarche;
 			
 			var lData = {
-					listeFerme:that.mListeFerme
+				listeFerme:that.mListeFerme
 			};
 
 			$(that.affectAjoutProduitSelectFerme($(lTemplate.template(lData)))).dialog({			
@@ -839,7 +960,7 @@
 							lVoProduit.idFerme = lIdFerme;
 							lVoProduit.idCategorie = lIdCategorie;
 							
-							if(lTypeProduit == 1) { // Si produit Solidaire par de limite de stock
+							if(lTypeProduit == 1) { // Si produit Solidaire pas de limite de stock
 								lVoProduit.qteMaxCommande = -1;
 								lVoProduit.qteRestante = -1;
 							}
@@ -886,7 +1007,7 @@
 		}
 	};
 	
-	this.majListeFerme = function() {
+	this.majListeFerme = function(pData) {
 		var that = this;		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		
@@ -978,7 +1099,7 @@
 		});
 		var lTemplate = lGestionCommandeTemplate.ajoutMarcheListeProduit;
 				
-		$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));
+		/*$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));
 		
 		if(this.mNbProduit > 0) {
 			if($("#btn-gestion-marche").length < 1) {
@@ -986,7 +1107,35 @@
 			}
 		} else {
 			$("#btn-gestion-marche").remove();
-		}		
+		}*/
+		
+		
+		
+		if(pData) {
+			pData.find("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));		
+		} else {
+			$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));			
+		}
+		
+		if(this.mNbProduit > 0) {
+			if($("#btn-gestion-marche").length < 1) {
+				if(pData) {
+					pData.find("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+				} else {
+					$("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+				}
+			}
+		} else {
+			if(pData) {
+				pData.find("#btn-gestion-marche").remove();
+			} else {
+				$("#btn-gestion-marche").remove();
+			}
+		}
+
+		if(pData) {
+			return pData;
+		}
 	};
 	
 	this.affectListeProduit = function(pData) {

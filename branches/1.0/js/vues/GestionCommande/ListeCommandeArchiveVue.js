@@ -1,5 +1,4 @@
 ;function ListeCommandeArchiveVue(pParam) {
-	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeCommandeArchiveVue(pParam);}} );
@@ -34,10 +33,13 @@
 					var lCommande = new Object();
 					lCommande.id = this.comId;
 					lCommande.numero = this.comNumero;
+					lCommande.nom = this.comNom;
+					lCommande.jourFinReservation = jourSem(this.comDateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
-					
+
+					lCommande.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
@@ -97,9 +99,7 @@
 	
 	this.affectLienDetail = function(pData) {
 		pData.find('.detail-commande-ligne').click(function() {
-			var lparam = {"id_marche":$(this).find('.id-commande').text()};
-			//InfoCommandeArchiveVue(lparam);
-			//var lparam = {"id_marche":$(this).attr('id')};
+			var lparam = {"id_marche":$(this).attr('id-marche')};
 			EditerCommandeVue(lparam);
 		});
 		return pData;

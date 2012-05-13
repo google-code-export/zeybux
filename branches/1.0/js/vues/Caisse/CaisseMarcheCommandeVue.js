@@ -36,6 +36,7 @@
 					
 					$.each(pResponse.listeAdherentCommande,function() {
 						this.adhIdTri = this.adhNumero.replace("Z","");
+						this.cptIdTri = this.cptLabel.replace("C","");
 					});
 					
 					$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
@@ -81,7 +82,7 @@
 		var that = this;
 		pData.find(".achat-commande-ligne").click(function() {
 			var lParam = {	id_commande:that.idCommande,
-							id_adherent:$(this).find(".id-adherent").text()};
+							id_adherent:$(this).attr("id-adherent")};
 			CaisseAchatCommandeVue(lParam);
 		});
 		return pData;

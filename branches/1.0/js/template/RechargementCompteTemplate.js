@@ -27,10 +27,9 @@
 								"</thead>" +
 								"<tbody>" +
 							"<!-- BEGIN listeAdherent -->" +
-									"<tr class=\"com-cursor-pointer compte-ligne\" >" +
+									"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
 										"<td class=\"com-table-td com-underline-hover\">" +
 											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-											"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
 											"{listeAdherent.adhNumero}" +
 										"</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +

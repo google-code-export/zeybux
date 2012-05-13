@@ -28,8 +28,6 @@
 		var that = this;
 
 		// Met le bouton en actif
-		/*$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-resa").addClass("ui-state-active");*/
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		
 		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
@@ -95,7 +93,7 @@
 	this.affectReservation = function(pData) {
 		var that = this;
 		pData.find('.edt-com-reservation-ligne').click(function() {
-			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
+			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
 		});
 		return pData;
 	};

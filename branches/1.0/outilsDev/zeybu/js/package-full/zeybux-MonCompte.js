@@ -165,7 +165,7 @@
 	
 	this.listeOperationAvenir = 
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat(s) Futur(s)</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">{achatFuturLabel}</div>" +
 			"<div>" +
 				"<table class=\"com-table\">" +
 					"<tr class=\"ui-widget ui-widget-header\" >" +
@@ -205,7 +205,6 @@
 							that.afficher(lResponse);
 							
 							// Maj du Menu
-							//var lCommunVue = new CommunVue();
 							gCommunVue.majMenu('MonCompte','MonCompte');
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -276,7 +275,7 @@
 				this.opeMontant = (this.opeMontant * -1).nombreFormate(2,',',' ');
 			}
 		});
-				
+		
 		var lMonCompteTemplate = new MonCompteTemplate();
 		var lCommunTemplate = new CommunTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
@@ -287,6 +286,10 @@
 		lHtml += lMonCompteTemplate.listeOperationPassee.template(lResponse);
 		// Affiche des opérations avenir uniquement si elles existent
 		if(isArray(lResponse.operationAvenir) && lResponse.operationAvenir[0].opeLibelle != null) {
+			lResponse.achatFuturLabel = "Achat Futur";
+			if(lResponse.operationAvenir.length > 1) {
+				lResponse.achatFuturLabel = "Achats Futurs";
+			}
 			lHtml += lMonCompteTemplate.listeOperationAvenir.template(lResponse);
 		}
 		lHtml += lMonCompteTemplate.listeOperationAdherentFin.template(lResponse);

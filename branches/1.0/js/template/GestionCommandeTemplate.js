@@ -442,113 +442,6 @@
 				"</div>" +
 				"{divLot}" +
 				"{divStock}" + 
-				/*"<div>" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
-					"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
-						"<tr>" +
-							"<td class=\"catalogue-entete-lot\">Quantité</td>" +
-							"<td class=\"catalogue-entete-lot\">Unité</td>" +
-							"<td>Prix</td>" +
-							"<td></td>" +
-							"<td></td>" +
-						"</tr>" +
-						"<tr class=\"btn-lot\">" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
-							"</td>" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
-							"</td>" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
-							"</td>" +
-							"<td colspan=\"2\">" +
-								"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
-							"</td>" +
-						"</tr>" +
-					"</table>" +
-					"<table class=\"com-table\" id=\"lot-liste\">" +
-	
-						"<!-- BEGIN modelesLot -->" +
-						"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
-							"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
-							"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
-								"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" {modelesLot.checked} class=\"{modelesLot.modele}\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
-								"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
-								"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med\">" +
-								"à " +
-								"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
-								" {modelesLot.sigleMonetaire}" +
-							"</td>" +
-							"<td class=\"com-table-td-med td-edt\">" +
-								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
-									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-								"</span>" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
-									"<span class=\"ui-icon ui-icon-check\"></span>" +
-								"</span>" +
-							"</td>" +
-							"<td class=\"com-table-td-fin td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
-									"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-								"</span>" +
-								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
-									"<span class=\"ui-icon ui-icon-trash\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-						"<!-- END modelesLot -->" +
-					
-					"</table>" +
-				"</div>" +
-				
-		
-				"<div>" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
-					"<table class=\"com-table-form\">" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-								"Limite de stock : " +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
-								"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-								"Quantité max par adhérent : " +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
-								"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
-							"</td>" +
-						"</tr>" +
-					"</table>" +
-				"</div>" +*/
 			"</div>" +
 		"</div>";
 	
@@ -1104,8 +997,8 @@
 										    "<option value=\"16\">16</option>" +
 										    "<option value=\"17\">17</option>" +
 										    "<option value=\"18\">18</option>" +
-										    "<option value=\"19\">19</option>" +
-										    "<option selected=\"selected\" value=\"20\">20</option>" +
+										    "<option selected=\"selected\" value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
 										    "<option value=\"21\">21</option>" +
 										    "<option value=\"22\">22</option>" +
 										    "<option value=\"23\">23</option>" +
@@ -1120,7 +1013,7 @@
 										    "<option value=\"30\">30</option>" +
 										    "<option value=\"35\">35</option>" +
 										    "<option value=\"40\">40</option>" +
-										    "<option value=\"45\">45</option>" +
+										    "<option selected=\"selected\" value=\"45\">45</option>" +
 										    "<option value=\"50\">50</option>" +
 										    "<option value=\"55\">55</option>" +
 										  "</select>" +
@@ -1164,22 +1057,17 @@
 					"</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
 								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
-								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} :</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-editer ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Editer</button>" +
-								"</td>" +
-								"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
-								"</td>" +*/
+								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} :</td>" +
+								"<td class=\"com-table-td-med lst-resa-td-nom \">{commande.nom}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -1216,7 +1104,7 @@
 						"<table class=\"com-table\" id=\"table-marche-archive\">" +
 							"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header\">" +
-									"<th class=\"com-table-th-debut lst-resa-th-num com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th-debut com-underline-hover com-cursor-pointer com-center\" colspan=\"2\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Date de cloture des Réservations</th>" +
 									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
 									"<th class=\"com-table-th-fin\"></th>	" +
@@ -1224,10 +1112,11 @@
 							"</thead>" +
 							"<tbody>" +
 								"<!-- BEGIN commande -->" +
-								"<tr class=\"com-cursor-pointer detail-commande-ligne\" >" +
-									"<td class=\"com-table-td-debut com-text-align-right\"><span class=\"ui-helper-hidden id-commande\">{commande.id}</span>{commande.numero} :</td>" +
-									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeFinResa}</span>Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeMarche}</span>Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<tr class=\"com-cursor-pointer detail-commande-ligne\" id-marche=\"{commande.id}\">" +
+									"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
+									"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeFinResa}</span>Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeMarche}</span>Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
 									"<td class=\"com-table-td-fin\">" +
 										"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 											"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -1241,244 +1130,10 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
-	
-	/*this.listeAdherentCommandePage = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{numeroMarche}</div>" +
-					"<div class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"<form id=\"filter-form\"> " +
-							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-									"<span class=\"ui-icon ui-icon-search\">" +
-								"</span>" +
-							"</span>" +
-							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-						"</form>" +
-					"</div>" +
-					"<table class=\"com-table\">" +
-						"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
-								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
-							"</tr>" +
-						"</thead>" +
-					"</table>" +
-					"<table class=\"com-table\" id=\"liste-adherent\">" +
-						"<thead>" +
-						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-nom\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN listeAdherentCommande -->" +
-						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
-							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
-						"</tr>" +
-						"<!-- END listeAdherentCommande -->" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.achatCommandePage = 
-		"<div id=\"contenu\">" +
-			
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
-				"<div class=\"com-widget-content\">" +
-				"<table class=\"achat-commande-table-pdt\">" +
-					"<thead>" +
-						"<tr>" +
-							"<th colspan=\"3\"></th>" +
-							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
-							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
-						"</tr>" +
-					"</thead>" +
-					"<tbody>" +
-					"<!-- BEGIN categories -->" +
-						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
-						"</tr>" +
-						"<!-- BEGIN categories.produits -->" +
-						"<tr class=\"ligne-produit\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
-							
-							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-{categories.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
-									"<!-- BEGIN categories.produits.lot -->" +
-									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
-									"<!-- END categories.produits.lot -->" +
-								"</select>" +
-								"<span class=\"lot-vente-produit ui-helper-hidden\"></span>" +
-							"</td>" +
-							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
-							
-							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-							"<td class=\"\">{categories.produits.proUniteMesure}</td>" + //td-unite
-							"<td class=\"com-text-align-right \" ><input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-							//td-qte
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END categories.produits -->" +
-					"<!-- END categories -->" +
-					"</tbody>" +
-					"<tfoot>" +
-						"<tr>" +
-							"<td colspan=\"4\"></td>" +
-							"<td class=\"com-text-align-right\" >Total :</td>" +
-							"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-					"</tfoot>" +
-				"</table>" +
-				"</div>" +
-			"</div>" +
-		
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
-				"<div class=\"com-widget-content\">" +
-				"<table class=\"achat-commande-table-pdt\">" +
-					"<thead>" +
-						"<tr>" +
-							"<th colspan=\"3\"></th>" +
-							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
-							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
-						"</tr>" +
-					"</thead>" +
-					"<tbody>" +
-					"<!-- BEGIN categoriesSolidaire -->" +
-						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
-						"</tr>" +
-						"<!-- BEGIN categoriesSolidaire.produits -->" +
-						"<tr class=\"ligne-produit-solidaire\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +
-							
-							
-							
-							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\">" +
-									"<!-- BEGIN categoriesSolidaire.produits.lot -->" +
-									"<option value=\"{categoriesSolidaire.produits.lot.dcomId}\">par {categoriesSolidaire.produits.lot.dcomTaille} {categoriesSolidaire.produits.proUniteMesure}</option>" +
-									"<!-- END categoriesSolidaire.produits.lot -->" +
-								"</select>" +
-							"</td>" +
-							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-solidaire-{categoriesSolidaire.produits.proId}\">{categoriesSolidaire.produits.prixUnitaire}</span> {sigleMonetaire}/{categoriesSolidaire.produits.proUniteMesure}</td>" +
-							
 
-							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-							"<td>{categoriesSolidaire.produits.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END categoriesSolidaire.produits -->" +
-					"<!-- END categoriesSolidaire -->" +
-					"</tbody>" +
-					"<tfoot>" +
-						"<tr>" +
-							"<td colspan=\"4\"></td>" +
-							"<td class=\"com-text-align-right\" >Total :</td>" +
-							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-					"</tfoot>" +
-				"</table>" +
-				"</div>" +
-			"</div>" +
-			
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
-			"</div>" +
-			
-			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
-				"<div id=\"vente-achat-info-marche\">" +
-				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
-				"N° de Compte : {adhCompte}" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<table>" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Montant</th>" +
-								"<th>Type de Paiement</th>" +
-								"<th id=\"label-champ-complementaire\"></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-							"<tr>" +
-								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
-								"<td class=\"com-center\">" +
-									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
-										"<option value=\"0\">== Choisir ==</option>" +
-										"<!-- BEGIN typePaiement -->" +
-										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
-										"<!-- END typePaiement -->" +
-									"</select>" +
-								"</td>" +
-								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
-							"</tr>" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +
-		
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
-				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +
-				"<button type=\"button\" id=\"btn-valider\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
-			"</div>" +
-		"</div>";*/
-	
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 	
-	/*this.lotUniqueSolidaire = 
-		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";*/
-	
-	/*this.achatCommandeSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
-						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des adhérents</button>" +
-					"</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.cloturerCommandeSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Cloture du Marché n°{numero}" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Cloture du Marché n°{numero} effectuée avec succès.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";
-	*/
 	this.dialogClotureCommande = 				
 			"<div id=\"dialog-cloturer-com\" title=\"Cloture du Marché n°{comNumero}\">" +
 				"<p>Vous allez cloturer le Marché n°{comNumero}</p>" +
@@ -1496,8 +1151,8 @@
 					"<table>" +
 						"<tr>" +
 							"<td>Format de sortie : </td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"0\" checked=\"checked\" />Pdf</td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"1\" />CSV</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"1\" checked=\"checked\" />CSV</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"0\" />Pdf</td>" +
 						"</tr>" +
 					"</table>" +
 					"<div>Sélectionner les produits : </div>" +
@@ -1538,7 +1193,7 @@
 			"<div id=\"edt-com-liste\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Marché n°{comNumero}" +
+						"Marché n°{comNumero} : {nom}" +
 						"<span class=\"ui-helper-hidden marche-archive-1 com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-cloture-com\" title=\"Cloturer\">" +
 							"<span class=\"ui-icon ui-icon-locked\">" +
 							"</span>" +
@@ -1581,65 +1236,6 @@
 			"</div>" +
 		"</div>";
 	
-
-	/*	"<!-- BEGIN pdtCommande -->" +
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
-				"{pdtCommande.nproNom}" +
-			"</div>" +
-			"<div>" +
-				"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\">" +
-					"<div class=\"edt-com-info-progressbar-pdt\">{pdtCommande.quantiteCommande} {pdtCommande.unite} / {pdtCommande.quantiteInit} {pdtCommande.unite}</div>" +
-				"</div>" +
-			"</div>" +
-		"</div>" +
-		"<!-- END pdtCommande -->" +*/
-			/*"<div>" +
-				
-				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
-					/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"Liste des Réservations en cours" +
-							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
-								"<span class=\"ui-icon ui-icon-print\">" +
-								"</span>" +
-							"</span>" +
-						"</div>" +
-							"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-								"<form id=\"filter-form\">" +
-	
-									"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-											"<span class=\"ui-icon ui-icon-search\">" +
-										"</span>" +
-									"</span>" +
-									"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-									
-								"</form>" +
-							"</div>" +
-							"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
-								"<thead>" +
-								"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"</tr>" +
-								"</thead>" +
-								"<tbody>" +
-								"<!-- BEGIN listeAdherentCommande -->" +
-								"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
-									"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
-								"</tr>" +
-								"<!-- END listeAdherentCommande -->" +
-								"</tbody>" +
-							"</table>" +
-						"</div>" +
-					"</div>" +*/
-			//	"</div>" +
-	
 	this.listeReservation = 
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
@@ -1675,10 +1271,9 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAdherent -->" +
-						"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +							
 							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
 								"{listeAdherent.adhNumero}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
@@ -1732,10 +1327,9 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAchatEtReservation -->" +
-						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" id-adherent=\"{listeAchatEtReservation.adhId}\">" +							
 							"<td class=\"com-table-td com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAchatEtReservation.adhId}</span>" +
 								"{listeAchatEtReservation.adhNumero}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +

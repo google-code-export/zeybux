@@ -17,6 +17,8 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CompteZeybuOperationVO.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteAdherentViewManager.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteFermeViewManager.php" );
 
 /**
  * @name OperationService
@@ -125,6 +127,7 @@ class OperationService
 					
 				case 1 : // Annulation achat/dépot
 				case 2 : 
+				case 6 : 
 					$lOperation->setTypePaiement(18);
 					return $this->update($lOperation);
 					break;
@@ -140,7 +143,7 @@ class OperationService
 					break;
 					
 				default:
-					$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+					$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 					$lOperation->setlibelle("Supression");
 					$this->insertHistorique($lOperation); // Ajout historique
 					$this->insertHistorique($lDetailOperation); // Ajout historique
@@ -449,6 +452,73 @@ class OperationService
 		$lCompteZeybuOperation->setOpeMontant($pOpeMontant);
 		$lCompteZeybuOperation->setTppType($pTppType);
 		return $lCompteZeybuOperation;
+	}
+	
+	/**
+	* @name validerPaiement()
+	* @param int(11)
+	* @desc Passe une operation au statut validé
+	*/
+	public function validerPaiement($pId) {		
+		$lOperation = $this->get($pId);
+		$lOperation->setType(1);
+		$this->update($lOperation);
+	}
+	
+	/**
+	* @name getListeEspeceNonEnregistre()
+	* @return array(OperationAttenteAdherentViewVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentViewVO
+	*/
+	public static function getListeEspeceAdherentNonEnregistre() {		
+		return OperationAttenteAdherentViewManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('='),
+				array(1),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	* @name getListeChequeAdherentNonEnregistre()
+	* @return array(OperationAttenteAdherentViewVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentViewVO
+	*/
+	public static function getListeChequeAdherentNonEnregistre() {		
+		return OperationAttenteAdherentViewManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('='),
+				array(2),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	* @name getListeEspeceFermeNonEnregistre()
+	* @return array(OperationAttenteFermeViewVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeViewVO
+	*/
+	public static function getListeEspeceFermeNonEnregistre() {		
+		return OperationAttenteFermeViewManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('='),
+				array(1),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	* @name getListeChequeFermeNonEnregistre()
+	* @return array(OperationAttenteFermeViewVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeViewVO
+	*/
+	public static function getListeChequeFermeNonEnregistre() {		
+		return OperationAttenteFermeViewManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('='),
+				array(2),
+				array(''),
+				array(''));
 	}
 }
 ?>

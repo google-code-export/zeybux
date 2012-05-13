@@ -442,113 +442,6 @@
 				"</div>" +
 				"{divLot}" +
 				"{divStock}" + 
-				/*"<div>" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
-					"<table class=\"com-table-form\" id=\"table-pro-prix\">" +
-						"<tr>" +
-							"<td class=\"catalogue-entete-lot\">Quantité</td>" +
-							"<td class=\"catalogue-entete-lot\">Unité</td>" +
-							"<td>Prix</td>" +
-							"<td></td>" +
-							"<td></td>" +
-						"</tr>" +
-						"<tr class=\"btn-lot\">" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-lot-quantite\"/>" +
-							"</td>" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"lot-unite\" maxlength=\"20\" id=\"pro-lot-unite\"/>" +
-							"</td>" +
-							"<td>" +
-								"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-lot-prix\"/> {sigleMonetaire}" +
-							"</td>" +
-							"<td colspan=\"2\">" +
-								"<button type=\"button\" id=\"btn-ajout-lot\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter</button>" +
-							"</td>" +
-						"</tr>" +
-					"</table>" +
-					"<table class=\"com-table\" id=\"lot-liste\">" +
-	
-						"<!-- BEGIN modelesLot -->" +
-						"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
-							"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
-							"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
-								"<input type=\"checkbox\" value=\"{modelesLot.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLot.id}-id\" {modelesLot.checked} class=\"{modelesLot.modele}\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
-								"<span class=\"champ-lot-{modelesLot.id} lot-quantite\" id=\"lot-{modelesLot.id}-quantite\">{modelesLot.quantite}</span>"+
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-quantite\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
-								"<span class=\"champ-lot-{modelesLot.id} lot-unite\" id=\"lot-{modelesLot.id}-unite\">{modelesLot.unite}</span>" +
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLot.id}-unite\"/>" +
-							"</td>" +
-							"<td class=\"com-table-td-med\">" +
-								"à " +
-								"<span class=\"champ-lot-{modelesLot.id} lot-prix\" id=\"lot-{modelesLot.id}-prix\">{modelesLot.prix}</span>" +
-								"<input class=\"champ-lot-{modelesLot.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLot.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLot.id}-prix\"/>" +
-								" {modelesLot.sigleMonetaire}" +
-							"</td>" +
-							"<td class=\"com-table-td-med td-edt\">" +
-								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
-									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-								"</span>" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLot.id}\" title=\"Valider\">" +
-									"<span class=\"ui-icon ui-icon-check\"></span>" +
-								"</span>" +
-							"</td>" +
-							"<td class=\"com-table-td-fin td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLot.id}\" title=\"Annuler\">" +
-									"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-								"</span>" +
-								"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\" title=\"Supprimer\">" +				
-									"<span class=\"ui-icon ui-icon-trash\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-						"<!-- END modelesLot -->" +
-					
-					"</table>" +
-				"</div>" +
-				
-		
-				"<div>" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
-					"<table class=\"com-table-form\">" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-								"Limite de stock : " +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
-								"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-								"Quantité max par adhérent : " +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
-							"</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<th class=\"com-table-form-th\">" +
-							"</th>" +
-							"<td class=\"com-table-form-td\">" +
-								"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
-								"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
-							"</td>" +
-						"</tr>" +
-					"</table>" +
-				"</div>" +*/
 			"</div>" +
 		"</div>";
 	
@@ -1104,8 +997,8 @@
 										    "<option value=\"16\">16</option>" +
 										    "<option value=\"17\">17</option>" +
 										    "<option value=\"18\">18</option>" +
-										    "<option value=\"19\">19</option>" +
-										    "<option selected=\"selected\" value=\"20\">20</option>" +
+										    "<option selected=\"selected\" value=\"19\">19</option>" +
+										    "<option value=\"20\">20</option>" +
 										    "<option value=\"21\">21</option>" +
 										    "<option value=\"22\">22</option>" +
 										    "<option value=\"23\">23</option>" +
@@ -1120,7 +1013,7 @@
 										    "<option value=\"30\">30</option>" +
 										    "<option value=\"35\">35</option>" +
 										    "<option value=\"40\">40</option>" +
-										    "<option value=\"45\">45</option>" +
+										    "<option selected=\"selected\" value=\"45\">45</option>" +
 										    "<option value=\"50\">50</option>" +
 										    "<option value=\"55\">55</option>" +
 										  "</select>" +
@@ -1164,22 +1057,17 @@
 					"</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
 								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
-								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} :</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-editer ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Editer</button>" +
-								"</td>" +
-								"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
-								"</td>" +*/
+								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} :</td>" +
+								"<td class=\"com-table-td-med lst-resa-td-nom \">{commande.nom}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -1216,7 +1104,7 @@
 						"<table class=\"com-table\" id=\"table-marche-archive\">" +
 							"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header\">" +
-									"<th class=\"com-table-th-debut lst-resa-th-num com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th-debut com-underline-hover com-cursor-pointer com-center\" colspan=\"2\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Date de cloture des Réservations</th>" +
 									"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\" ><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
 									"<th class=\"com-table-th-fin\"></th>	" +
@@ -1224,10 +1112,11 @@
 							"</thead>" +
 							"<tbody>" +
 								"<!-- BEGIN commande -->" +
-								"<tr class=\"com-cursor-pointer detail-commande-ligne\" >" +
-									"<td class=\"com-table-td-debut com-text-align-right\"><span class=\"ui-helper-hidden id-commande\">{commande.id}</span>{commande.numero} :</td>" +
-									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeFinResa}</span>Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeMarche}</span>Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<tr class=\"com-cursor-pointer detail-commande-ligne\" id-marche=\"{commande.id}\">" +
+									"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
+									"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeFinResa}</span>Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+									"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{commande.dateTimeMarche}</span>Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
 									"<td class=\"com-table-td-fin\">" +
 										"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 											"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -1241,244 +1130,10 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
-	
-	/*this.listeAdherentCommandePage = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{numeroMarche}</div>" +
-					"<div class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"<form id=\"filter-form\"> " +
-							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-									"<span class=\"ui-icon ui-icon-search\">" +
-								"</span>" +
-							"</span>" +
-							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-						"</form>" +
-					"</div>" +
-					"<table class=\"com-table\">" +
-						"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
-								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
-							"</tr>" +
-						"</thead>" +
-					"</table>" +
-					"<table class=\"com-table\" id=\"liste-adherent\">" +
-						"<thead>" +
-						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Adhérent</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-num-adh\"><span class=\"ui-icon span-icon\"></span>Numéro Compte</th>" +
-							"<th class=\"com-table-th com-underline-hover marche-com-th-nom\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN listeAdherentCommande -->" +
-						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
-							"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
-						"</tr>" +
-						"<!-- END listeAdherentCommande -->" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.achatCommandePage = 
-		"<div id=\"contenu\">" +
-			
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-widget\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
-				"<div class=\"com-widget-content\">" +
-				"<table class=\"achat-commande-table-pdt\">" +
-					"<thead>" +
-						"<tr>" +
-							"<th colspan=\"3\"></th>" +
-							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
-							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
-						"</tr>" +
-					"</thead>" +
-					"<tbody>" +
-					"<!-- BEGIN categories -->" +
-						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
-						"</tr>" +
-						"<!-- BEGIN categories.produits -->" +
-						"<tr class=\"ligne-produit\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categories.produits.proId}</span>{categories.produits.nproNom}</td>" +
-							
-							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-{categories.produits.proId}\" class=\"lot-vente-produit lot-vente-produit-select\">" +
-									"<!-- BEGIN categories.produits.lot -->" +
-									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
-									"<!-- END categories.produits.lot -->" +
-								"</select>" +
-								"<span class=\"lot-vente-produit ui-helper-hidden\"></span>" +
-							"</td>" +
-							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
-							
-							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"{categories.produits.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-							"<td class=\"\">{categories.produits.proUniteMesure}</td>" + //td-unite
-							"<td class=\"com-text-align-right \" ><input type=\"text\" value=\"{categories.produits.proPrix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"produits{categories.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-							//td-qte
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END categories.produits -->" +
-					"<!-- END categories -->" +
-					"</tbody>" +
-					"<tfoot>" +
-						"<tr>" +
-							"<td colspan=\"4\"></td>" +
-							"<td class=\"com-text-align-right\" >Total :</td>" +
-							"<td class=\"com-text-align-right\" ><span id=\"total-achat\">{total}</span></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-					"</tfoot>" +
-				"</table>" +
-				"</div>" +
-			"</div>" +
-		
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-pdt-solidaire-widget\" >" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat Solidaire</div>" +
-				"<div class=\"com-widget-content\">" +
-				"<table class=\"achat-commande-table-pdt\">" +
-					"<thead>" +
-						"<tr>" +
-							"<th colspan=\"3\"></th>" +
-							"<th colspan=\"2\" class=\"table-vente-quantite\">Quantité</th>" +
-							"<th colspan=\"2\" class=\"table-vente-prix\">Prix</th>" +
-						"</tr>" +
-					"</thead>" +
-					"<tbody>" +
-					"<!-- BEGIN categoriesSolidaire -->" +
-						"<tr>" +
-							"<td class=\"ui-widget-header ui-corner-all com-center\">{categoriesSolidaire.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
-						"</tr>" +
-						"<!-- BEGIN categoriesSolidaire.produits -->" +
-						"<tr class=\"ligne-produit-solidaire\">" +
-							"<td class=\"table-vente-produit\"><span class=\"produit-id ui-helper-hidden\">{categoriesSolidaire.produits.proId}</span>{categoriesSolidaire.produits.nproNom}</td>" +
-							
-							
-							
-							"<td class=\"table-vente-lot\">" +
-								"<select id=\"lot-solidaire-{categoriesSolidaire.produits.proId}\">" +
-									"<!-- BEGIN categoriesSolidaire.produits.lot -->" +
-									"<option value=\"{categoriesSolidaire.produits.lot.dcomId}\">par {categoriesSolidaire.produits.lot.dcomTaille} {categoriesSolidaire.produits.proUniteMesure}</option>" +
-									"<!-- END categoriesSolidaire.produits.lot -->" +
-								"</select>" +
-							"</td>" +
-							"<td class=\"table-vente-prix-unitaire\" >à <span id=\"prix-unitaire-solidaire-{categoriesSolidaire.produits.proId}\">{categoriesSolidaire.produits.prixUnitaire}</span> {sigleMonetaire}/{categoriesSolidaire.produits.proUniteMesure}</td>" +
-							
 
-							
-							"<td class=\"com-text-align-right\"><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-quantite com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}quantite\" maxlength=\"12\" size=\"3\"/> </td>" +
-							"<td>{categoriesSolidaire.produits.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right\" ><input type=\"text\" value=\"0\" class=\"com-numeric produit-solidaire-prix com-input-text ui-widget-content ui-corner-all\" id=\"produitsSolidaire{categoriesSolidaire.produits.proId}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END categoriesSolidaire.produits -->" +
-					"<!-- END categoriesSolidaire -->" +
-					"</tbody>" +
-					"<tfoot>" +
-						"<tr>" +
-							"<td colspan=\"4\"></td>" +
-							"<td class=\"com-text-align-right\" >Total :</td>" +
-							"<td class=\"com-text-align-right\" ><span id=\"total-achat-solidaire\">0,00</span></td>" +
-							"<td><span>{sigleMonetaire}</span></td>" +
-						"</tr>" +
-					"</tfoot>" +
-				"</table>" +
-				"</div>" +
-			"</div>" +
-			
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<span>Total Marché : <span id=\"total-global\">0,00</span> {sigleMonetaire}</span>" +
-			"</div>" +
-			
-			"<div id=\"vente-info-adherent\" class=\"com-float-left com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Vente du Marché n°{comNumero}</div>" +
-				"<div id=\"vente-achat-info-marche\">" +
-				"{adhNumero} :  {adhPrenom} {adhNom}<br/>" +
-				"N° de Compte : {adhCompte}" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all com-float-left\" id=\"achat-rechgt-widget\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Rechargement du compte</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<table>" +
-						"<thead>" +
-							"<tr>" +
-								"<th>Montant</th>" +
-								"<th>Type de Paiement</th>" +
-								"<th id=\"label-champ-complementaire\"></th>" +
-							"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-							"<tr>" +
-								"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
-								"<td class=\"com-center\">" +
-									"<select name=\"typepaiement\" id=\"rechargementtypePaiement\">" +
-										"<option value=\"0\">== Choisir ==</option>" +
-										"<!-- BEGIN typePaiement -->" +
-										"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
-										"<!-- END typePaiement -->" +
-									"</select>" +
-								"</td>" +
-								"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
-							"</tr>" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +
-		
-			"<div class=\"com-clear-float-left com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button type=\"button\" id=\"btn-annuler\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
-				"<button type=\"button\" class=\"ui-helper-hidden com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +
-				"<button type=\"button\" id=\"btn-valider\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
-			"</div>" +
-		"</div>";*/
-	
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
 	
-	/*this.lotUniqueSolidaire = 
-		"<input type=\"hidden\" id=\"lot-solidaire-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";*/
-	
-	/*this.achatCommandeSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Achat effectué avec succès.<br/><br/>" +
-						"<button id=\"btn-annuler\" class=\"ui-state-default ui-corner-all com-button com-center\">Retourner à la liste des adhérents</button>" +
-					"</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.cloturerCommandeSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Cloture du Marché n°{numero}" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Cloture du Marché n°{numero} effectuée avec succès.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";
-	*/
 	this.dialogClotureCommande = 				
 			"<div id=\"dialog-cloturer-com\" title=\"Cloture du Marché n°{comNumero}\">" +
 				"<p>Vous allez cloturer le Marché n°{comNumero}</p>" +
@@ -1496,8 +1151,8 @@
 					"<table>" +
 						"<tr>" +
 							"<td>Format de sortie : </td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"0\" checked=\"checked\" />Pdf</td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"1\" />CSV</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"1\" checked=\"checked\" />CSV</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"0\" />Pdf</td>" +
 						"</tr>" +
 					"</table>" +
 					"<div>Sélectionner les produits : </div>" +
@@ -1538,7 +1193,7 @@
 			"<div id=\"edt-com-liste\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Marché n°{comNumero}" +
+						"Marché n°{comNumero} : {nom}" +
 						"<span class=\"ui-helper-hidden marche-archive-1 com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-cloture-com\" title=\"Cloturer\">" +
 							"<span class=\"ui-icon ui-icon-locked\">" +
 							"</span>" +
@@ -1581,65 +1236,6 @@
 			"</div>" +
 		"</div>";
 	
-
-	/*	"<!-- BEGIN pdtCommande -->" +
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +					
-				"{pdtCommande.nproNom}" +
-			"</div>" +
-			"<div>" +
-				"<div class=\"edt-com-progressbar-pdt\" id=\"pdt-{pdtCommande.proId}\">" +
-					"<div class=\"edt-com-info-progressbar-pdt\">{pdtCommande.quantiteCommande} {pdtCommande.unite} / {pdtCommande.quantiteInit} {pdtCommande.unite}</div>" +
-				"</div>" +
-			"</div>" +
-		"</div>" +
-		"<!-- END pdtCommande -->" +*/
-			/*"<div>" +
-				
-				"<div class=\"com-float-left\" id=\"edt-com-liste\" >" +
-					/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"Liste des Réservations en cours" +
-							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
-								"<span class=\"ui-icon ui-icon-print\">" +
-								"</span>" +
-							"</span>" +
-						"</div>" +
-							"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-								"<form id=\"filter-form\">" +
-	
-									"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-											"<span class=\"ui-icon ui-icon-search\">" +
-										"</span>" +
-									"</span>" +
-									"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-									
-								"</form>" +
-							"</div>" +
-							"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
-								"<thead>" +
-								"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-									"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"</tr>" +
-								"</thead>" +
-								"<tbody>" +
-								"<!-- BEGIN listeAdherentCommande -->" +
-								"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
-									"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>{listeAdherentCommande.adhNumero}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhLabelCompte}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
-								"</tr>" +
-								"<!-- END listeAdherentCommande -->" +
-								"</tbody>" +
-							"</table>" +
-						"</div>" +
-					"</div>" +*/
-			//	"</div>" +
-	
 	this.listeReservation = 
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
@@ -1675,10 +1271,9 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAdherent -->" +
-						"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer edt-com-reservation-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +							
 							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
 								"{listeAdherent.adhNumero}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
@@ -1732,10 +1327,9 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAchatEtReservation -->" +
-						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" id-adherent=\"{listeAchatEtReservation.adhId}\">" +							
 							"<td class=\"com-table-td com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAchatEtReservation.adhId}</span>" +
 								"{listeAchatEtReservation.adhNumero}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
 							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
@@ -2894,10 +2488,16 @@
 					var lCommande = new Object();
 					lCommande.id = this.comId;
 					lCommande.numero = this.comNumero;
+					lCommande.nom = this.comNom;
+					
+
+					lCommande.jourFinReservation = jourSem(this.comDateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
 					
+
+					lCommande.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
@@ -2917,7 +2517,6 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectLienEditer(pData);
-		//pData = this.affectLienMarche(pData);
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectNouveauMarche(pData);
 		pData = gCommunVue.comHoverBtn(pData);
@@ -2937,15 +2536,7 @@
 		});
 		return pData;
 	};
-	
-	/*this.affectLienMarche = function(pData) {
-		pData.find('.btn-marche').click(function() {
-			var lparam = {"id_commande":$(this).attr('id')};
-			MarcheCommandeVue(lparam);
-		});
-		return pData;
-	};*/
-	
+		
 	this.affectLienListeCommandeArchive = function(pData) {
 		pData.find('#lien-marche-archive').click(function() {
 			ListeCommandeArchiveVue();
@@ -3074,8 +2665,13 @@
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AjoutCommandeVue(pParam);}} );
-		var lParam = $.extend(lParam, pParam);
-		lParam.fonction = "afficher";
+		var lParam = $.extend(lParam, pParam);		
+		if(pParam && pParam.fonction && pParam.fonction == "dupliquer") {
+			lParam.fonction = "dupliquer";
+		} else {
+			lParam.fonction = "afficher";
+		}
+		
 		var that = this;
 		$.post(	"./index.php?m=GestionCommande&v=AjoutCommande", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
@@ -3087,8 +2683,11 @@
 								}
 								delete that.mProduits;
 								that.mProduits = [];
-								
-								that.afficher(lResponse);
+								if(lParam.fonction == "dupliquer") {
+									that.afficherDupliquer(lResponse);
+								} else {
+									that.afficher(lResponse);
+								}
 							} else {
 								Infobulle.generer(lResponse,'');
 							}				
@@ -3115,6 +2714,119 @@
 		return pData;
 	};
 	
+	this.afficherDupliquer = function(pResponse) {
+		var that = this;
+		$.each(pResponse.marche.produits, function() {
+			if(this.id) {
+				var lIdFerme = this.ferId;
+				var lIdCategorie = this.idCategorie;
+				var lIdNomProduit = this.idNom;
+				var lTypeProduit = this.type;
+				
+				var lStock = -1;
+				var lStockAffichage = "";
+				if(parseFloat(this.stockInitial) != -1) {
+					lStock = this.stockInitial;
+					lStockAffichage = this.stockInitial.nombreFormate(2,',',' ');
+				}
+				var lQteMax = -1;
+				var lQteMaxAffichage = "";
+				if(parseFloat(this.qteMaxCommande) != -1) {
+					lQteMax = this.qteMaxCommande;
+					lQteMaxAffichage = this.qteMaxCommande.nombreFormate(2,',',' ');
+				}
+				var lUnite = this.unite;
+								
+				var lProduit = {nproId:lIdNomProduit,
+						nproNom:this.nom,
+						nproStock:lStockAffichage,
+						nproQteMax:lQteMax,
+						nproUnite:lUnite,
+						type:lTypeProduit,
+						modelesLot:[],
+						modelesLotReservation:[]};
+				
+				// Préparation du MarcheVO		
+				var lVoProduit = new ProduitMarcheVO();
+				lVoProduit.idNom = lIdNomProduit;
+				lVoProduit.unite = lUnite;
+				lVoProduit.qteMaxCommande = lQteMax;
+				lVoProduit.qteRestante = lStock;
+				lVoProduit.type = lTypeProduit;
+				
+				$.each(this.lots,function() {
+					// Récupération des lots
+					var lIdLot = this.id;
+					var lVoLot = {	id:lIdLot,
+									taille:this.taille.nombreFormate(2,',',' '),
+									prix:this.prix.nombreFormate(2,',',' '),
+									unite:lUnite,
+									selected:true,
+									modele:true};
+					
+					//lProduit.modelesLot[lIdLot] = lVoLot;
+					
+					if(this.reservation) {
+						lProduit.modelesLotReservation[lIdLot] = lVoLot;
+					} else {
+						lProduit.modelesLot[lIdLot] = lVoLot;
+					}
+					
+					
+					// Récupération des lots
+					var lVoLot = new DetailCommandeVO();
+					lVoLot.id = lIdLot;
+					lVoLot.taille = this.taille;
+					lVoLot.prix = this.prix;
+					
+					lVoProduit.lots.push(lVoLot);	
+				});
+				
+				if(!that.mAffichageMarche[lIdFerme]) {
+					that.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
+														ferNom:this.ferNom,
+														categories:[]};
+				}
+				
+				if(!that.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
+							cproId:lIdCategorie,
+							cproNom:this.cproNom,
+							produits:[],
+							produitsAbonnement:[]};
+				}
+	
+				lVoProduit.idFerme = lIdFerme;
+				lVoProduit.idCategorie = lIdCategorie;
+				
+				if(lTypeProduit == 2) {					
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie].produitsAbonnement[lIdNomProduit] = lProduit;
+					that.mMarche.produitsAbonnement[lIdNomProduit] = lVoProduit;
+				} else {
+					that.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[lIdNomProduit] = lProduit;
+					that.mMarche.produits[lIdNomProduit] = lVoProduit;					
+				}
+			
+				that.mNbProduit++;
+			}
+		});
+	
+		this.mListeFerme = pResponse.listeFerme;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.formulaireAjoutMarche;
+		$('#contenu').replaceWith( that.affectDupliquer($(lTemplate.template(pResponse))));
+	};
+	
+	this.affectDupliquer = function(pData) {
+		pData = this.affectDialogAjoutProduit(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.majListeFerme(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
 	this.affectDialogAjoutProduit = function(pData) {
 		var that = this;
 		pData.find("#btn-ajout-produit").click(function() {
@@ -3122,7 +2834,7 @@
 			var lTemplate = lGestionCommandeTemplate.dialogAjoutProduitAjoutMarche;
 			
 			var lData = {
-					listeFerme:that.mListeFerme
+				listeFerme:that.mListeFerme
 			};
 
 			$(that.affectAjoutProduitSelectFerme($(lTemplate.template(lData)))).dialog({			
@@ -3901,7 +3613,7 @@
 							lVoProduit.idFerme = lIdFerme;
 							lVoProduit.idCategorie = lIdCategorie;
 							
-							if(lTypeProduit == 1) { // Si produit Solidaire par de limite de stock
+							if(lTypeProduit == 1) { // Si produit Solidaire pas de limite de stock
 								lVoProduit.qteMaxCommande = -1;
 								lVoProduit.qteRestante = -1;
 							}
@@ -3948,7 +3660,7 @@
 		}
 	};
 	
-	this.majListeFerme = function() {
+	this.majListeFerme = function(pData) {
 		var that = this;		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		
@@ -4040,7 +3752,7 @@
 		});
 		var lTemplate = lGestionCommandeTemplate.ajoutMarcheListeProduit;
 				
-		$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));
+		/*$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));
 		
 		if(this.mNbProduit > 0) {
 			if($("#btn-gestion-marche").length < 1) {
@@ -4048,7 +3760,35 @@
 			}
 		} else {
 			$("#btn-gestion-marche").remove();
-		}		
+		}*/
+		
+		
+		
+		if(pData) {
+			pData.find("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));		
+		} else {
+			$("#liste-ferme").replaceWith(this.affectListeProduit( $(lTemplate.template(lData)) ));			
+		}
+		
+		if(this.mNbProduit > 0) {
+			if($("#btn-gestion-marche").length < 1) {
+				if(pData) {
+					pData.find("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+				} else {
+					$("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+				}
+			}
+		} else {
+			if(pData) {
+				pData.find("#btn-gestion-marche").remove();
+			} else {
+				$("#btn-gestion-marche").remove();
+			}
+		}
+
+		if(pData) {
+			return pData;
+		}
 	};
 	
 	this.affectListeProduit = function(pData) {
@@ -4650,10 +4390,7 @@
 	
 	this.afficher = function(pResponse) {
 		var that = this;
-		// Met le bouton en actif
-	/*	$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-achat-resa").addClass("ui-state-active");*/
-		
+		// Met le bouton en actif		
 		$(pResponse.listeAchatEtReservation).each(function() {
 			if(this.reservation == null) { this.reservation = '';}
 			if(this.achat == null) { this.achat = '';}
@@ -4747,7 +4484,7 @@
 	this.affectAchat = function(pData) {
 		var that = this;
 		pData.find('.edt-com-achat-ligne').click(function() {
-			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
 		});
 		return pData;
 	};
@@ -4755,7 +4492,6 @@
 	this.construct(pParam);
 }
 	;function ListeCommandeArchiveVue(pParam) {
-	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeCommandeArchiveVue(pParam);}} );
@@ -4790,10 +4526,13 @@
 					var lCommande = new Object();
 					lCommande.id = this.comId;
 					lCommande.numero = this.comNumero;
+					lCommande.nom = this.comNom;
+					lCommande.jourFinReservation = jourSem(this.comDateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
-					
+
+					lCommande.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
@@ -4853,2532 +4592,9 @@
 	
 	this.affectLienDetail = function(pData) {
 		pData.find('.detail-commande-ligne').click(function() {
-			var lparam = {"id_marche":$(this).find('.id-commande').text()};
-			//InfoCommandeArchiveVue(lparam);
-			//var lparam = {"id_marche":$(this).attr('id')};
+			var lparam = {"id_marche":$(this).attr('id-marche')};
 			EditerCommandeVue(lparam);
 		});
-		return pData;
-	};
-	
-	this.construct(pParam);
-};function BonDeLivraisonVue(pParam) {
-	this.mCommunVue = new CommunVue();
-	this.mIdCommande = null;
-	this.mComNumero = null;
-	this.mEtatEdition = false;
-	this.mListeProduit = [];
-	this.mSuiteEdition = 0;
-	this.mIdCompteProducteur = 0;
-	this.mTypePaiement = [];
-	this.mResponse;
-	this.mArchive = -1;
-	
-	this.construct = function(pParam) {
-		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
-		var that = this;
-		//pParam.export_type = 0;
-		pParam.fonction = "afficher";
-		$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(pParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}
-							that.mEtatEdition = false;
-							that.mArchive = lResponse.archive;
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-		);
-	};
-	
-	this.afficher = function(pResponse) {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.bonDeLivraison;
-		
-		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
-		this.mComNumero = pResponse.comNumero;
-		
-		$(pResponse.typePaiement).each(function() {
-			that.mTypePaiement[this.tppId] = this;
-		});
-		
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
-	};
-	
-	this.affectDroitArchive = function(pData) {
-		pData.find("#btn-annuler").remove();
-		pData.find("#btn-enregistrer").remove();
-		pData.find("#btn-modifier").remove();
-		return pData;
-	};
-
-	this.affect = function(pData) {
-		pData = this.mCommunVue.comHoverBtn(pData);
-		pData = this.affectBtnRetourMarche(pData);
-		pData = this.affectChangementProducteur(pData);
-		pData = this.affectExportBonDeLivraison(pData);
-		return pData;
-	};
-	
-	this.affectBtnRetourMarche = function(pData) {
-		var that = this;
-		pData.find('#btn-editer-com').click(function() {
-			EditerCommandeVue({"id_marche":that.mIdCommande});
-		});
-		return pData;
-	};
-	
-	this.affectChangementProducteur = function(pData) {
-		var that = this;
-		pData.find('#select-prdt').change(function() {
-			if(that.mEtatEdition) {
-				that.mSuiteEdition = 1;
-				that.dialogEnregistrer();
-			} else {
-				that.changementProducteur();
-			}
-		});
-		return pData;
-	};
-	
-	this.changementProducteur = function() {
-		var that = this;
-		var lIdCompteProducteur = $('#select-prdt').val();
-		if(lIdCompteProducteur > 0) {
-			var lParam = {	"id_commande":that.mIdCommande,
-						 	"id_compte_ferme":lIdCompteProducteur,
-						 	fonction:"afficherProducteur"};
-			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								that.mIdCompteProducteur = lIdCompteProducteur;
-								that.mEtatEdition = false;
-								that.mResponse = lResponse;
-								if(lResponse.operationProducteur && lResponse.operationProducteur.idCompte != null ) {
-									that.afficherDetail(lResponse);
-								} else {
-									that.afficherFormulaire(lResponse,1);									
-								}
-								if(pParam && pParam.vr) {
-									Infobulle.generer(pParam.vr,'');
-								}
-							} else {
-								Infobulle.generer(lResponse,'');
-							}
-						}
-					},"json"
-			);
-		} else {
-			var lGestionCommandeTemplate = new GestionCommandeTemplate();
-			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
-			$('#liste-pdt').replaceWith(lTemplate);
-		}
-	};
-	
-	this.afficherDetail = function(pResponse) {
-		var that = this;
-		var lTotal = 0;
-		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
-			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
-			var lQuantite = 0;
-			
-			var lProId = this.proId;
-			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
-			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
-					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
-					}
-					lTotal += lMontant;
-				}
-			});
-			
-			$(pResponse.produitsLivraison).each(function() {
-				if(this.proId == lProId) {
-					if(this.stoQuantite != null) {
-						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
-						lQuantite += parseFloat(this.stoQuantite);
-					}
-					if(this.dopeMontant != null) {
-						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
-					}
-				}
-			});
-			
-			$(pResponse.produitsSolidaire).each(function() {
-				if(this.proId == lProId) {										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
-						lQuantite += parseFloat(this.stoQuantite);
-					}
-				}
-			});
-			
-			if(lQuantite - parseFloat(this.stoQuantite) < 0) {
-				this.classEtat = 'qte-reservation-ko';
-			} else {
-				this.classEtat = 'qte-reservation-ok';
-			}
-				
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-			this.masquerNormal = '';
-			if(this.proType == 1) {
-				this.masquerNormal = "ui-helper-hidden";
-			}
-		});	
-		
-		pResponse.total = '';
-		if(pResponse.operationProducteur) {
-			if(pResponse.operationProducteur.montant != null) {
-				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',',' ');
-			}
-			if(pResponse.operationProducteur.typePaiementChampComplementaire != null) {
-				pResponse.champComplementaire = pResponse.operationProducteur.typePaiementChampComplementaire;
-			}
-		}
-		
-		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
-		pResponse.typePaiement = that.mTypePaiement;
-		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
-		
-		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
-			pResponse.tppType = that.mTypePaiement[pResponse.operationProducteur.typePaiement].tppType;
-		}
-		
-		var lHtml = that.affectListeProduit($(lTemplate.template(pResponse)));
-		
-		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
-			var lId = pResponse.operationProducteur.typePaiement;
-			
-			lHtml.find(':input[name=typepaiement]').selectOptions(lId);
-			
-			var lLabel = that.getLabelChamComplementaire(lId);
-			if(lLabel != null) {
-				lHtml.find("#label-champ-complementaire").text(lLabel);
-				lHtml.find("#tr-champ-complementaire").show();
-			} else {
-				lHtml.find("#label-champ-complementaire").text('');
-				lHtml.find("#tr-champ-complementaire").hide();
-			}
-		} else {
-			lHtml.find("#label-champ-complementaire").text('');
-			lHtml.find("#tr-champ-complementaire").hide();
-		}
-		
-		$('#liste-pdt').replaceWith(lHtml);
-	};
-	
-	this.afficherFormulaire = function(pResponse,pType) {
-		var that = this;
-		var lTotal = 0;
-		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
-			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
-			var lQuantite = 0;
-			
-			var lProId = this.proId;
-			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
-			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
-					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
-					}
-					lTotal += lMontant;
-				}
-			});
-			
-			$(pResponse.produitsLivraison).each(function() {
-				if(this.proId == lProId) {
-					if(this.stoQuantite != null) {
-						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
-						lQuantite += parseFloat(this.stoQuantite);
-					}
-					if(this.dopeMontant != null) {
-						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
-					}
-				}
-			});
-			
-			$(pResponse.produitsSolidaire).each(function() {
-				if(this.proId == lProId) {										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
-						lQuantite += parseFloat(this.stoQuantite);
-					}
-				}
-			});
-			
-			if(lQuantite - parseFloat(this.stoQuantite) < 0) {
-				this.classEtat = 'qte-reservation-ko';
-			} else {
-				this.classEtat = 'qte-reservation-ok';
-			}
-				
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-			
-			this.masquerNormal = '';
-			if(this.proType == 1) {
-				this.masquerNormal = "ui-helper-hidden";
-			}
-			
-		});	
-		
-		pResponse.total = '';
-		if(pResponse.operationProducteur) {
-			if(pResponse.operationProducteur.montant != null) {
-				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',',' ');
-			}
-			if(pResponse.operationProducteur.typePaiementChampComplementaire != null) {
-				pResponse.champComplementaire = pResponse.operationProducteur.typePaiementChampComplementaire;
-			}
-		}
-		
-		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
-		pResponse.typePaiement = that.mTypePaiement;
-		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
-		
-		
-		
-		var lHtml = that.affectListeProduitFormulaire($(lTemplate.template(pResponse)));
-		
-		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
-			var lId = pResponse.operationProducteur.typePaiement;
-			
-			lHtml.find(':input[name=typepaiement]').selectOptions(lId);
-			
-			var lLabel = that.getLabelChamComplementaire(lId);
-			if(lLabel != null) {
-				lHtml.find("#label-champ-complementaire").text(lLabel);
-				lHtml.find("#tr-champ-complementaire").show();
-			} else {
-				lHtml.find("#label-champ-complementaire").text('');
-				lHtml.find("#tr-champ-complementaire").hide();
-			}
-		} else {
-			lHtml.find("#label-champ-complementaire").text('');
-			lHtml.find("#tr-champ-complementaire").hide();
-		}
-
-		if(pType == 2) {
-			lHtml.find("#btn-annuler").show();
-		}
-		
-		$('#liste-pdt').replaceWith(lHtml);
-	};
-	
-	this.affectListeProduit = function(pData) {
-		pData = this.affectEtatCommande(pData);
-		pData = this.affectEnregistrer(pData);
-		pData = this.affectModifier(pData);
-		pData = this.affectTypePaiement(pData);
-		pData = this.affectChangementEtatEdition(pData);
-		pData = this.affectMasquerFormulaire(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		pData = gCommunVue.comNumeric(pData);
-		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectListeProduitFormulaire = function(pData) {
-		pData = this.affectEtatCommande(pData);
-		pData = this.affectEnregistrer(pData);
-		pData = this.affectModifier(pData);
-		pData = this.affectTypePaiement(pData);
-		pData = this.affectChangementEtatEdition(pData);
-		pData = this.affectMasquerDetail(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		pData = gCommunVue.comNumeric(pData);
-		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectMasquerDetail = function(pData) {
-		pData.find(".detail").hide();
-		return pData;
-	};
-	this.affectMasquerFormulaire = function(pData) {
-		pData.find(".formulaire").hide();
-		return pData;
-	};
-	
-	this.affectTypePaiement = function(pData) {
-		var that = this;
-		pData.find(':input[name=typepaiement]').change(function() {
-			that.changerTypePaiement($(this));
-		});
-		return pData;
-	};
-	
-	this.changerTypePaiement = function(pObj) {
-		var lId = pObj.val();
-		var lLabel = this.getLabelChamComplementaire(lId);
-		if(lLabel != null) {
-			$("#label-champ-complementaire").text(lLabel);
-			$("#tr-champ-complementaire").show();
-		} else {
-			$("#label-champ-complementaire").text('');
-			$(":input[name=champ-complementaire]").val('');
-			$("#tr-champ-complementaire").hide();
-		}
-	};
-	
-	this.getLabelChamComplementaire = function(pId) {
-		var lTpp = this.mTypePaiement;
-		if(lTpp[pId]) {
-			if(lTpp[pId].tppChampComplementaire == 1) {
-				return lTpp[pId].tppLabelChampComplementaire;
-			}
-		}	
-		return null;
-	};
-	
-	this.affectEtatCommande = function(pData) {
-		var that = this;
-		pData.find(".qte-commande ,.qte-solidaire-commande ").keyup(function() {
-			that.mEtatEdition = true;
-			var lIdProduit = $(this).prev(".pro-id-etat").text();
-			if(that.mListeProduit[lIdProduit]) {
-				var lQuantite = 0;
-				var lQuantiteLivraison = $(':input[name=qte-commande-' + lIdProduit + ']').val().numberFrToDb();
-				var lQuantiteSolidaire = $(':input[name=qte-solidaire-commande-' + lIdProduit + ']').val().numberFrToDb();
-				
-				if(!isNaN(lQuantiteLivraison) && !lQuantiteLivraison.isEmpty()){
-					lQuantite += parseFloat(lQuantiteLivraison);
-				}
-				if(!isNaN(lQuantiteSolidaire) && !lQuantiteSolidaire.isEmpty()){
-					lQuantite += parseFloat(lQuantiteSolidaire);
-				}
-				
-				if(lQuantite - that.mListeProduit[lIdProduit] < 0) {
-					$("#etat-commande-" + lIdProduit)
-						.removeClass('qte-reservation-ok')
-						.addClass('qte-reservation-ko');
-				} else {
-					$("#etat-commande-" + lIdProduit)
-						.removeClass('qte-reservation-ko')
-						.addClass('qte-reservation-ok');
-				}
-			}
-		});
-		return pData;
-	};
-	
-	this.affectEnregistrer = function(pData) {
-		var that = this;
-		pData.find("#btn-enregistrer").click(function() {
-			that.mSuiteEdition = 0;
-			that.enregistrer();
-		});
-		pData.find(".qte-commande ,.prix-commande ").keyup(function(event) {
-			if (event.keyCode == '13') {
-				that.mSuiteEdition = 0;
-				that.enregistrer();
-			}			
-		});
-		return pData;
-	};
-	this.affectModifier = function(pData) {
-		var that = this;
-		pData.find("#btn-modifier").click(function() {
-			that.afficherFormulaire(that.mResponse,2);
-		});
-		pData.find("#btn-annuler").click(function() {
-			that.changementProducteur();
-		});		
-		return pData;
-	};
-	
-	this.enregistrer = function() {
-		var that = this;
-		
-		var lParam = new ProduitsBonDeLivraisonVO();
-		
-		lParam.id_commande = this.mIdCommande;
-		lParam.id_compte_ferme = this.mIdCompteProducteur;
-		//lParam.export_type = 0;
-
-		$('.pro-id').each(function() {
-			var lId = $(this).text();				
-			var lProduit = new ProduitBonDeLivraisonVO();
-			lProduit.id  = lId;
-			lProduit.quantite = $(':input[name=qte-commande-' + lId + ']').val().numberFrToDb();
-			lProduit.quantiteSolidaire = $(':input[name=qte-solidaire-commande-' + lId + ']').val().numberFrToDb();
-			lProduit.prix = $(':input[name=prix-commande-' + lId + ']').val().numberFrToDb();
-			lParam.produits.push(lProduit);
-		});		
-		
-		lParam.typePaiement = $(':input[name=typepaiement]').val();
-		lParam.total = $(':input[name=total]').val().numberFrToDb();
-		
-		if(this.getLabelChamComplementaire(lParam.typePaiement) != null) {
-			lParam.typePaiementChampComplementaireObligatoire = 1;
-			lParam.typePaiementChampComplementaire = $(":input[name=champ-complementaire]").val();
-		} else {
-			lParam.typePaiementChampComplementaireObligatoire = 0;
-		}
-		
-		var lValid = new ProduitsBonDeLivraisonValid();
-		var lVr = lValid.validAjout(lParam);
-				
-		if(lVr.valid) {
-			lParam.fonction = "enregistrer";
-			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								that.mEtatEdition = false;
-								if(that.mSuiteEdition == 1) {
-									that.changementProducteur();
-								} else if (that.mSuiteEdition == 2) {
-									that.dialogExportBonDeLivraison();
-								} else {
-									var lVr = new TemplateVR();
-									lVr.valid = false;
-									lVr.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_301_CODE;
-									erreur.message = ERR_301_MSG;
-									lVr.log.erreurs.push(erreur);							
-									
-									//Infobulle.generer(lVr,'');
-									that.changementProducteur({vr:lVr});
-								}
-							} else {
-								Infobulle.generer(lResponse,'');
-								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-							}
-						}
-					},"json"
-			);
-			
-		} else {
-			Infobulle.generer(lVr,'');
-			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-		}
-	};
-	
-	this.affectExportBonDeLivraison = function(pData) {		
-		var that = this;		
-		pData.find('#btn-export-bcom')
-		.click(function() {
-			if(that.mEtatEdition) {
-				that.mSuiteEdition = 2;
-				that.dialogEnregistrer();
-			} else {
-				that.dialogExportBonDeLivraison();
-			}			
-		});
-		return pData;
-	};
-	
-	this.affectChangementEtatEdition = function(pData) {
-		var that = this;
-		pData.find('.com-input-text').keyup(function() {that.mEtatEdition = true;});
-		pData.find(':input[name=typepaiement]').change(function() {that.mEtatEdition = true;});
-		return pData;
-	};
-	
-	this.dialogExportBonDeLivraison = function() {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogExportBonDeLivraison;
-		$(lTemplate.template({comNumero:that.mComNumero})).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Exporter': function() {
-					// Récupération du formulaire
-					var lFormat = $(this).find(':input[name=format]:checked').val();
-					
-					var lParam = new ExportBonLivraisonVO();
-					//lParam.pParam = 1;
-					//lParam.export_type = 1;
-					lParam.id_commande = that.mIdCommande;
-					lParam.format = lFormat;
-					lParam.fonction = "export";
-					
-					// Test des erreurs
-					var lValid = new ExportBonLivraisonValid();
-					var lVr = lValid.validAjout(lParam);
-					
-					Infobulle.init(); // Supprime les erreurs
-					if(lVr.valid) {
-						// Affichage
-						$.download("./index.php?m=GestionCommande&v=BonDeLivraison", lParam);
-					} else {
-						Infobulle.generer(lVr,'');
-					}
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
-		});
-	};
-		
-	this.dialogEnregistrer = function() {	
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogEnregistrement;
-		
-		$(lTemplate).dialog({			
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Enregistrer': function() {
-					that.enregistrer();
-					$(this).dialog('close');
-				},
-				'Annuler': function() {
-					if(that.mSuiteEdition == 1) {
-						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-					}
-					$(this).dialog('close');
-				},
-				'Ne pas Enregistrer': function() {
-					that.mEtatEdition = false;
-					if(that.mSuiteEdition == 1) {
-						that.changementProducteur();
-					} else if (that.mSuiteEdition == 2) {
-						that.changementProducteur();
-						that.dialogExportBonDeLivraison();
-					}
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
-		});
-	};
-	
-	this.construct(pParam);
-};function AchatAdherentVue(pParam) {
-	this.mAdherent = null;
-	this.infoCommande = new Object();
-	this.pdtCommande = new Array();
-	this.reservation = [];
-	this.achats = [];
-	this.achatsSolidaire = [];
-	this.infoReservation = {};
-	this.stockSolidaire = [];
-	this.pParam = {};
-
-	this.construct = function(pParam) {
-		$.history( {'vue':function() {AchatAdherentVue(pParam);}} );
-		var that = this;
-		this.pParam = pParam;
-		pParam.fonction = "afficher";
-		$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(pParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}
-							that.mAdherent = lResponse.adherent;						
-	
-							that.infoCommande.comId = lResponse.marche.id;
-							that.infoCommande.comNumero = lResponse.marche.numero;
-							that.infoCommande.comNom = lResponse.marche.nom;
-							that.infoCommande.comDescription = lResponse.marche.description;
-							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
-							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
-							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
-							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
-							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
-							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
-							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
-							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
-							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
-							that.infoCommande.comArchive = lResponse.marche.archive;
-							that.pdtCommande = lResponse.marche.produits;
-							
-							that.infoReservation = lResponse.reservation;
-							that.stockSolidaire = lResponse.stockSolidaire;
-							$.each(that.pdtCommande,function() {
-								if(this.id) {
-									var lIdProduit = this.id;
-									$.each(this.lots, function() {
-										if(this.id) {
-											var lIdLot = this.id;
-											$(lResponse.reservation.detailReservation).each(function() {
-												if(this.idDetailCommande == lIdLot) {
-													this.stoQuantite = this.quantite * -1;
-													this.dcomId = this.idDetailCommande;
-													this.proId = lIdProduit;
-													this.montant = this.montant * -1;
-													that.reservation[lIdProduit] = this;
-												}											
-											});
-										}
-									});
-								}
-							});
-					
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-		);
-	};
-	
-	this.afficher = function(pResponse) {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.detailAchatEtReservation;
-		
-		var lData = {};		
-		lData.adhId = this.mAdherent.adhId;
-		lData.adhNumero = this.mAdherent.adhNumero;
-		lData.adhCompte = this.mAdherent.cptLabel;
-		lData.adhNom = this.mAdherent.adhNom;
-		lData.adhPrenom = this.mAdherent.adhPrenom;
-		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
-		
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.comNumero = this.infoCommande.comNumero;
-		lData.dateFinReservation = this.infoCommande.dateFinReservation;
-		lData.heureFinReservation = this.infoCommande.heureFinReservation;
-		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
-		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
-		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
-		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
-		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
-		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		
-		lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
-		lData.reservation = [];
-
-		var lPdtAchat = false; // Pour n'afficher le formulaire achat uniquement si il y a des produits
-		$.each(this.pdtCommande,function() {
-			lPdtAchat = true;
-			
-			var lIdProduit = this.id;
-			var lPdt = {};
-			lPdt.id = this.id;
-			lPdt.nproNom = this.nom;
-			lPdt.proUniteMesure = this.unite;
-			
-			lPdt.prix = 0;
-			lPdt.stoQuantite = 0;
-						
-			if(that.reservation[lIdProduit]) {
-				lPdt.stoQuantite = parseFloat(that.reservation[lIdProduit].stoQuantite);
-				lPdt.prix = parseFloat(that.reservation[lIdProduit].montant);
-			}
-
-			lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-			lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
-			
-			lPdt.flagType = "";
-			if(this.type == 2) {
-				lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-			}
-			
-			lData.reservation.push(lPdt);
-		});	
-
-
-		lData.achats = [];
-		lData.achatsSolidaire = [];
-
-		var lNbAchat = 0;
-		$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatClassique = false;
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
-					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-					
-					$.each(this.lots, function() {
-						if(this.id) {
-							var lIdLot = this.id;
-							$(lAchat.detailAchat).each(function() {
-								if(this.idDetailCommande == lIdLot) {
-									lPdt.stoQuantite = this.quantite * -1;
-									lPdt.prix = this.montant * -1;
-									lNbAchat++;
-									lAchatClassique = true;
-								}
-							});
-						}
-					});
-					
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-					}
-					lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
-					lDataPdtAchat.push(lPdt);
-				}
-			});
-			
-			if(lAchatClassique) {
-				var lDataAchat = {	achat:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									total:(this.total * -1).nombreFormate(2,',',' ')};
-				lData.achats.push(lDataAchat);
-			}
-		});
-
-		if(lNbAchat == 0 && lPdtAchat ) {
-			var lDataPdtAchat = [];
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
-					lPdt.prix = "0".nombreFormate(2,',',' ');
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-					}
-					lDataPdtAchat.push(lPdt);
-				}
-			});
-			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-1",total:"0".nombreFormate(2,',',' ')};
-			lData.achats.push(lDataAchat);
-		}
-
-		var lNbAchatSolidaire = 0;
-		$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatSolidaire = false;
-
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lAchatPdtSolidaire = false;
-					var lProduit = this;
-					var lIdProduit = this.id;
-					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-
-					$(pResponse.stockSolidaire).each(function() {
-						if(lPdt.id == this.proId){
-							$.each(lProduit.lots, function() {
-								if(this.id) {
-									var lIdLot = this.id;
-									$(lAchat.detailAchatSolidaire).each(function() {
-										if(this.idDetailCommande == lIdLot) {
-											lPdt.stoQuantite = this.quantite * -1;
-											lPdt.prix = this.montant * -1;
-											lNbAchatSolidaire++;
-											lAchatSolidaire = true;
-									//		lAchatPdtSolidaire = true;
-										}
-									});
-								}
-							});
-							lAchatPdtSolidaire = true;
-						}
-					});
-					
-					if(lAchatPdtSolidaire) {
-						
-						lPdt.flagType = "";
-						if(this.type == 2) {
-							lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-						}
-						
-						lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-						lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');							
-						lDataPdtAchat.push(lPdt);
-					}
-				}
-			});			
-			if(lAchatSolidaire) {
-				var lDataAchat = {	achat:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
-				lData.achatsSolidaire.push(lDataAchat);
-			}
-		});
-		
-		if(lNbAchatSolidaire == 0 && pResponse.stockSolidaire.length > 0 && pResponse.stockSolidaire[0].proId != null) {
-			var lDataPdtAchat = [];
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
-					lPdt.prix = "0".nombreFormate(2,',',' ');
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-					}
-					$(pResponse.stockSolidaire).each(function() {
-						if(lPdt.id == this.proId){							
-							lDataPdtAchat.push(lPdt);
-						}
-					});
-				}
-			});
-			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-2",totalSolidaire:"0".nombreFormate(2,',',' ')};
-			lData.achatsSolidaire.push(lDataAchat);
-		}
-
-		lData.typeEtatReservation = [];
-
-		var lEtatReservation = {};
-		lEtatReservation.value = "-1";
-		lEtatReservation.label = "Aucune Réservation";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[-1] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "0";
-		lEtatReservation.label = "En réservation";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[0] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "7";
-		lEtatReservation.label = "Achetée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[7] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "15";
-		lEtatReservation.label = "Non Récupérée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[15] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "16";
-		lEtatReservation.label = "Supprimée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[16] = lEtatReservation;
-		
-		switch(this.infoReservation.etat) {
-			case "0":
-				lData.etatReservation = "En réservation";
-				lData.typeEtatReservation[0].selected = "selected=\"selected\"";
-				break;
-			case "7":
-				lData.etatReservation = "Achetée";
-				lData.typeEtatReservation[7].selected = "selected=\"selected\"";
-				break;
-			case "15":
-				lData.etatReservation = "Non Récupérée";
-				lData.typeEtatReservation[15].selected = "selected=\"selected\"";
-				break;
-			case "16":
-				lData.etatReservation = "Supprimée";
-				lData.typeEtatReservation[16].selected = "selected=\"selected\"";
-				break;
-			default:
-				lData.etatReservation = "Aucune Réservation";
-				lData.typeEtatReservation[-1].selected = "selected=\"selected\"";
-				break;
-		}
-
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-	};
-	
-	this.affectDroitArchive = function(pData) {
-		pData.find(".com-btn-header-multiples").remove();
-		return pData;
-	};
-	
-	this.affect = function(pData) {
-		pData = this.affectAnnulerDetailReservation(pData);
-		pData = this.affectModifierReservation(pData);
-		pData = this.affectValiderModifierReservation(pData);
-		pData = this.affectModifierAchat(pData);
-		pData = this.affectSupprimerAchat(pData);
-		pData = gCommunVue.comHoverBtn(pData);		
-		pData = gCommunVue.comNumeric(pData);
-		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectAnnulerDetailReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-annuler').click(function() {
-			ListeAchatMarcheVue({"id_marche":that.infoCommande.comId});		
-		});
-		return pData;
-	};
-	
-	this.affectModifierReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-modif-resa').click(function() {
-			that.modifierReservation();
-		});
-		return pData;
-	};
-	
-	this.affectValiderModifierReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-check-resa').click(function() {
-			that.validerModifierReservation();
-		});
-		return pData;
-	};
-	
-	this.affectSupprimerAchat = function(pData) {
-		var that = this;
-		pData.find('.achat, .achatSolidaire').each(function() {
-			var lIdAchat = $(this).find(".achat-id").text();
-			pData.find("#btn-supp-achat-" + lIdAchat).click(function() {
-				that.supprimerAchat(lIdAchat);
-			});
-		});
-		return pData;
-	};
-	
-	this.affectModifierAchat = function(pData) {
-		var that = this;
-		pData.find('.achat, .achatSolidaire').each(function() {
-			var lIdAchat = $(this).find(".achat-id").text();
-			pData.find("#btn-annuler-achat-" + lIdAchat + ", #btn-modif-achat-" + lIdAchat).click(function() {
-				that.modifierAchat(lIdAchat);
-			});
-			pData.find("#btn-check-achat-" + lIdAchat).click(function() {
-				that.validerModifierAchat(lIdAchat);
-			});
-		});
-		return pData;
-	};
-	
-	this.modifierReservation = function() {
-		$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();	
-	};
-	
-	this.validerModifierReservation = function() {
-		var lReservation = {};
-		lReservation.total = $("#reservation-total").val().numberFrToDb();
-		lReservation.etat = $("#reservation-etat").val();
-		lReservation.produits = [];
-		var lProduit = [];
-		$('.ligne-produit-reservation').each(function() {
-			var lVoProduit = new ProduitAchatVO();
-			lVoProduit.id = $(this).find(".produit-id").text();
-			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
-				lQuantite = parseFloat(lQuantite);
-				lVoProduit.quantite = lQuantite * -1;			
-			
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-				}
-				lReservation.produits.push(lVoProduit);
-			} else {
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-					lReservation.produits.push(lVoProduit);
-				}
-			}
-			lProduit.push(lVoProduit);
-		});
-		
-		lReservation.id = this.infoReservation.id;
-		
-		var lValid = new ReservationAdherentValid();
-		var lVr = lValid.validUpdate(lReservation);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			// TODO envoi vers le server
-			
-			
-			$(lProduit).each(function() {
-				if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
-				$("#reservation-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
-				if(isNaN(this.prix) || this.quantite.isEmpty()) {this.prix = 0;}
-				$("#reservation-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
-			});
-			
-			switch(lReservation.etat) {
-				case "0":
-					$("#reservation-etat-label").text("En réservation");
-					break;
-				case "7":
-					$("#reservation-etat-label").text("Achetée");
-					break;
-				case "15":
-					$("#reservation-etat-label").text("Non Récupérée");
-					break;
-				case "16":
-					$("#reservation-etat-label").text("Supprimée");
-					break;
-				default:
-					$("#reservation-etat-label").text("Aucune Réservation");
-					break;
-			}
-	
-			if(isNaN(lReservation.total) || lReservation.total.isEmpty()) {lReservation.total = 0;}
-			$("#reservation-total-label").text(lReservation.total.nombreFormate(2,',',' '));
-			
-			
-			$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();
-		} else {
-			Infobulle.generer(lVr,'reservation-');
-		}
-	};
-
-	this.modifierAchat = function(pIdAchat) {
-		$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();	
-	};
-	
-	this.validerModifierAchat = function(pIdAchat) {
-		var that = this;
-		var lAchat = {};
-		lAchat.idAchat = pIdAchat;
-		lAchat.total = $("#achat-" + pIdAchat + "-total").val().numberFrToDb() * -1;
-		lAchat.produits = [];
-		var lProduit = [];
-		$('.ligne-produit-achat-' + pIdAchat).each(function() {
-			var lVoProduit = new ProduitAchatVO();
-			lVoProduit.id = $(this).find(".produit-id").text();
-			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
-				lQuantite = parseFloat(lQuantite);
-				lVoProduit.quantite = lQuantite * -1;			
-			
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-				}
-				lAchat.produits.push(lVoProduit);
-			} else {
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-					lAchat.produits.push(lVoProduit);
-				}
-			}
-			lProduit.push(lVoProduit);
-		});
-		
-		if(parseInt(pIdAchat) < 0) { // Si c'est un achat
-			lAchat.idCompte = that.mAdherent.adhIdCompte;
-			lAchat.idMarche = that.pParam.id_marche;
-		}
-		
-		var lValid = new AchatAdherentValid();
-		var lVr = lValid.validUpdate(lAchat);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			var lParam ={fonction:"modifierAchat",achat:lAchat};
-			$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse && lResponse.valid) {
-							var lMsg = new TemplateVR();
-							lMsg.valid = false;
-							lMsg.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_314_CODE;
-							erreur.message = ERR_314_MSG;
-							lMsg.log.erreurs.push(erreur);
-							
-							if(lAchat.idAchat < 0) {
-								that.pParam.vr = lMsg;
-								that.construct(that.pParam);
-							} else {
-								$(lProduit).each(function() {
-									if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
-									$("#achat-" + pIdAchat + "-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
-									if(isNaN(this.prix) || this.prix.isEmpty()) {this.prix = 0;}
-									$("#achat-" + pIdAchat + "-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
-								});
-								if(isNaN(lAchat.total) || lAchat.total.isEmpty()) {lAchat.total = 0;}
-								$("#achat-" + pIdAchat + "-total-label").text((lAchat.total * -1).nombreFormate(2,',',' '));
-								
-								$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();						
-								
-								Infobulle.generer(lMsg,'');
-							}
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-			},"json");
-		} else {
-			Infobulle.generer(lVr,'achat-' + pIdAchat + '-');
-		}
-	};
-	
-	this.supprimerAchat = function(pIdAchat) {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogSupprimerAchat;
-		
-		$(lTemplate).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Supprimer': function() {
-					var lDialog = this;
-					var lParam ={fonction:"supprimerAchat",idAchat:pIdAchat};
-					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
-						function(lResponse) {
-							Infobulle.init(); // Supprime les erreurs
-							if(lResponse) {
-								if(lResponse && lResponse.valid) {								
-									var lMsg = new TemplateVR();
-									lMsg.valid = false;
-									lMsg.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_315_CODE;
-									erreur.message = ERR_315_MSG;
-									lMsg.log.erreurs.push(erreur);
-									
-									that.pParam.vr = lMsg;
-									
-									that.construct(that.pParam);
-									$(lDialog).dialog('close');
-								} else {
-									Infobulle.generer(lResponse,'');
-								}
-							}
-					},"json");
-			
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
-		});
-		
-	};
-	
-	this.construct(pParam);
-};function BonDeCommandeVue(pParam) {
-	//this.mCommunVue = new CommunVue();
-	this.mIdCommande = null;
-	this.mComNumero = null;
-	this.mEtatEdition = false;
-	this.mListeProduit = [];
-	this.mSuiteEdition = 0;
-	this.mIdCompteProducteur = 0;
-	this.mArchive = -1;
-	
-	this.construct = function(pParam) {
-		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
-		var that = this;
-		//pParam.export_type = 0;
-		pParam.fonction = "afficher";
-		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}
-							that.mEtatEdition = false;
-							that.mArchive = lResponse.archive;
-							that.afficher(lResponse);
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-		);
-	};
-	
-	this.afficher = function(pResponse) {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.bonDeCommande;
-		
-		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
-		this.mComNumero = pResponse.comNumero;
-		
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
-	};
-	
-	this.affectDroitArchive = function(pData) {
-		pData.find("#btn-annuler").remove();
-		pData.find("#btn-enregistrer").remove();
-		pData.find("#btn-modifier").remove();
-		return pData;
-	};
-	
-	this.affect = function(pData) {
-		pData = gCommunVue.comHoverBtn(pData);
-		pData = this.affectBtnRetourMarche(pData);
-		pData = this.affectChangementProducteur(pData);
-		pData = this.affectExportBonCommande(pData);
-		return pData;
-	};
-	
-	this.affectBtnRetourMarche = function(pData) {
-		var that = this;
-		pData.find('#btn-editer-com').click(function() {
-			EditerCommandeVue({"id_marche":that.mIdCommande});
-		});
-		return pData;
-	};
-	
-	this.affectChangementProducteur = function(pData) {
-		var that = this;
-		pData.find('#select-prdt').change(function() {
-			if(that.mEtatEdition) {
-				that.mSuiteEdition = 1;
-				that.dialogEnregistrer();
-			} else {
-				that.changementProducteur();
-			}
-		});
-		return pData;
-	};
-	
-	this.changementProducteur = function(pParam) {
-		var that = this;
-		var lIdCompteProducteur = $('#select-prdt').val();
-		if(lIdCompteProducteur > 0) {
-			var lParam = {	"id_commande":that.mIdCommande,
-						 	"id_compte_ferme":lIdCompteProducteur,
-						 	fonction:"afficherProducteur"};
-			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								that.mIdCompteProducteur = lIdCompteProducteur;
-								that.mEtatEdition = false;
-								
-								if(lResponse.produitsCommande[0] && lResponse.produitsCommande[0].proIdCommande != null) {
-									that.afficherDetail(lResponse);
-								} else {
-									that.afficherFormulaire(lResponse);
-								}
-								
-								if(pParam && pParam.vr) {
-									Infobulle.generer(pParam.vr,'');
-								}
-								
-							} else {
-								Infobulle.generer(lResponse,'');
-							}
-						}
-					},"json"
-			);
-		} else {
-			var lGestionCommandeTemplate = new GestionCommandeTemplate();
-			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
-			$('#liste-pdt').replaceWith(lTemplate);
-		}
-	};
-	
-	this.afficherDetail = function(pResponse) {
-		var that = this;
-		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = this.stoQuantite;
-			
-			this.stoQuantiteCommande = "0";
-			this.dopeMontant = "0";
-			
-			var lProId = this.proId;
-			var these = this;			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					these.stoQuantiteCommande = this.stoQuantite;
-					these.dopeMontant = this.dopeMontant;
-				}
-			});
-			
-			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
-				this.classEtat = 'qte-reservation-ko';
-			} else {
-				this.classEtat = 'qte-reservation-ok';
-			}
-			
-			if(this.stoQuantiteCommande != '') {
-				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
-			}
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-			this.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
-		});
-		pResponse.sigleMonetaire = gSigleMonetaire;
-		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
-		
-		$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(pResponse))));
-	};	
-	
-	this.afficherFormulaire = function(pResponse) {
-		var that = this;
-		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = this.stoQuantite;
-
-			this.stoQuantiteCommande = this.stoQuantite;
-			this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',',' ');
-			
-			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
-				this.classEtat = 'qte-reservation-ko';
-			} else {
-				this.classEtat = 'qte-reservation-ok';
-			}
-			if(this.stoQuantiteCommande != '') {
-				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
-			}
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-		});		
-		pResponse.sigleMonetaire = gSigleMonetaire;
-		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
-		
-		$('#liste-pdt').replaceWith(that.affectListeProduitFormulaire($(lTemplate.template(pResponse))));
-	};	
-	
-	this.affectListeProduit = function(pData) {
-		pData = this.affectEtatCommande(pData);
-		pData = this.affectEnregistrer(pData);
-		pData = this.affectModifier(pData);
-		pData = this.affectMasquerFormulaire(pData);
-		pData = gCommunVue.comNumeric(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectListeProduitFormulaire = function(pData) {
-		pData = this.affectEtatCommande(pData);
-		pData = this.affectEnregistrer(pData);
-		pData = this.affectModifier(pData);
-		pData = this.affectMasquerDetail(pData);
-		pData = gCommunVue.comNumeric(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectMasquerDetail = function(pData) {
-		pData.find(".detail").hide();
-		return pData;
-	};
-	this.affectMasquerFormulaire = function(pData) {
-		pData.find(".formulaire").hide();
-		return pData;
-	};
-	
-	this.affectEtatCommande = function(pData) {
-		var that = this;
-		pData.find(":input").keyup(function() {
-			that.mEtatEdition = true;
-			var lIdProduit = $(this).prev(".pro-id").text();
-			if(that.mListeProduit[lIdProduit]) {
-				if($(this).val().numberFrToDb()- that.mListeProduit[lIdProduit] < 0) {
-					$("#etat-commande-" + lIdProduit)
-						.removeClass('qte-reservation-ok')
-						.addClass('qte-reservation-ko');
-				} else {
-					$("#etat-commande-" + lIdProduit)
-						.removeClass('qte-reservation-ko')
-						.addClass('qte-reservation-ok');
-				}
-			}
-		});
-		return pData;
-	};
-	
-	this.affectEnregistrer = function(pData) {
-		var that = this;
-		pData.find("#btn-enregistrer").click(function() {
-			that.mSuiteEdition = 0;
-			that.enregistrer();
-		});
-		pData.find(".qte-commande ,.prix-commande ").keyup(function(event) {
-			if (event.keyCode == '13') {
-				that.mSuiteEdition = 0;
-				that.enregistrer();
-			}			
-		});
-		return pData;
-	};
-	this.affectModifier = function(pData) {
-		var that = this;
-		pData.find("#btn-modifier").click(function() {
-			$(".detail").hide();
-			$(".formulaire, #btn-annuler").show();
-		});
-		pData.find("#btn-annuler").click(function() {
-			that.changementProducteur();
-		});	
-		return pData;
-	};
-	
-	this.enregistrer = function() {
-		var that = this;
-		
-		var lParam = new ProduitsBonDeCommandeVO();
-		
-		lParam.id_commande = this.mIdCommande;
-		lParam.id_compte_ferme = this.mIdCompteProducteur;
-		lParam.export_type = 0;
-
-		$('.pro-id').each(function() {
-			var lId = $(this).text();				
-			var lProduit = new ProduitBonDeCommandeVO();
-			lProduit = {id:lId,
-						quantite:$(':input[name=qte-commande-' + lId + ']').val().numberFrToDb(),
-						prix:$(':input[name=prix-commande-' + lId + ']').val().numberFrToDb()
-						};				
-			lParam.produits.push(lProduit);
-		});		
-		
-		var lValid = new ProduitsBonDeCommandeValid();
-		var lVr = lValid.validAjout(lParam);
-		
-		if(lVr.valid) {
-			lParam.fonction = "enregistrer";
-			return $.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								that.mEtatEdition = false;
-								
-								if(that.mSuiteEdition == 1) {
-									that.changementProducteur();
-								} else if (that.mSuiteEdition == 2) {
-									that.dialogExportBonDeCommande();
-								} else {
-									var lVr = new TemplateVR();
-									lVr.valid = false;
-									lVr.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_301_CODE;
-									erreur.message = ERR_301_MSG;
-									lVr.log.erreurs.push(erreur);							
-									
-									//Infobulle.generer(lVr,'');
-									that.changementProducteur({vr:lVr});
-								}
-							} else {
-								Infobulle.generer(lResponse,'');
-								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-							}
-						}
-					},"json"
-			);
-			
-		} else {
-			Infobulle.generer(lVr,'');
-			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-		}
-	};
-	
-	this.affectExportBonCommande = function(pData) {
-		var that = this;	
-		pData.find('#btn-export-bcom')
-		.click(function() {
-			if(that.mEtatEdition) {
-				that.mSuiteEdition = 2;
-				that.dialogEnregistrer();
-			} else {
-				that.dialogExportBonDeCommande();				
-			}			
-		});
-		return pData;
-	};
-	
-	this.dialogExportBonDeCommande = function() {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogExportBonDeCommande;
-		$(lTemplate.template({comNumero:that.mComNumero})).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Exporter': function() {
-					// Récupération du formulaire
-					var lFormat = $(this).find(':input[name=format]:checked').val();
-					
-					var lParam = new ExportBonReservationVO();
-					lParam.id_commande = that.mIdCommande;
-					lParam.format = lFormat;
-					lParam.fonction = "export";
-					
-					// Test des erreurs
-					var lValid = new ExportBonReservationValid();
-					var lVr = lValid.validAjout(lParam);
-					
-					Infobulle.init(); // Supprime les erreurs
-					if(lVr.valid) {
-						// Affichage
-						$.download("./index.php?m=GestionCommande&v=BonDeCommande", lParam);
-					} else {
-						Infobulle.generer(lVr,'');
-					}
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
-		});
-	};
-	
-	this.dialogEnregistrer = function() {	
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogEnregistrement;
-		
-		$(lTemplate).dialog({			
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Enregistrer': function() {
-					that.enregistrer();
-					$(this).dialog('close');
-				},
-				'Annuler': function() {
-					if(that.mSuiteEdition == 1) {
-						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
-					}
-					$(this).dialog('close');
-				},
-				'Ne pas Enregistrer': function() {
-					that.mEtatEdition = false;
-					if(that.mSuiteEdition == 1) {
-						that.changementProducteur();
-					} else if (that.mSuiteEdition == 2) {
-						that.changementProducteur();
-						that.dialogExportBonDeCommande();
-					}
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
-		});
-	};
-	
-	this.construct(pParam);
-};function ReservationAdherentVue(pParam) {
-	this.mAdherent = null;
-	this.infoCommande = new Object();
-	this.pdtCommande = new Array();
-	this.reservation = new Array();
-	this.reservationModif = new Array();
-	this.solde = 0;
-	this.soldeNv = 0;
-	this.mPremiereReservation = true;
-	
-	this.construct = function(pParam) {
-		$.history( {'vue':function() {ReservationAdherentVue(pParam);}} );
-		var that = this;
-		pParam.fonction = "afficherReservation";
-		$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(pParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
-							}
-							that.mAdherent = lResponse.adherent;
-							
-							that.infoCommande.comId = lResponse.marche.id;
-							that.infoCommande.comNumero = lResponse.marche.numero;
-							that.infoCommande.comNom = lResponse.marche.nom;
-							that.infoCommande.comDescription = lResponse.marche.description;
-							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
-							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
-							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
-							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
-							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
-							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
-							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
-							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
-							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
-							that.infoCommande.comArchive = lResponse.marche.archive;
-							
-							that.pdtCommande = lResponse.marche.produits;
-							$.each(that.pdtCommande,function() {
-								if(this.id) {
-									var lIdProduit = this.id;
-									$.each(this.lots, function() {
-										if(this.id) {
-											var lIdLot = this.id;
-											$(lResponse.reservation).each(function() {
-												if(this.idDetailCommande == lIdLot) {
-													this.stoQuantite = this.quantite * -1;
-													this.dcomId = this.idDetailCommande;
-													this.proId = lIdProduit;
-													that.reservation[lIdProduit] = this;
-												}											
-											});
-										}
-									});
-								}
-							});
-							if(lResponse.reservation.length > 0)  {
-								that.mPremiereReservation = false;
-								that.afficher(1);								
-							} else {
-								that.afficher(2);					
-							}
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-		);
-	};
-	
-	this.afficher = function(pType) {		
-		if(pType == 1) {
-			this.afficherDetailReservation();
-		} else {
-			this.afficherModifier();
-		}	
-	};
-	
-	this.afficherDetailReservation = function() {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.detailReservation;
-		
-		var lData = {};		
-		lData.adhId = this.mAdherent.adhId;
-		lData.adhNumero = this.mAdherent.adhNumero;
-		lData.adhCompte = this.mAdherent.cptLabel;
-		lData.adhNom = this.mAdherent.adhNom;
-		lData.adhPrenom = this.mAdherent.adhPrenom;
-		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
-		
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.comNumero = this.infoCommande.comNumero;
-		lData.dateFinReservation = this.infoCommande.dateFinReservation;
-		lData.heureFinReservation = this.infoCommande.heureFinReservation;
-		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
-		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
-		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
-		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
-		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
-		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.categories = [];
-		
-		var lTotal = 0;
-		$.each(this.pdtCommande, function() {
-			var lInfoProduit = this;
-			if(that.reservation[this.id]) {
-				var lPdt = new Object;
-				lPdt.proId = lInfoProduit.id;
-				lPdt.nproNom = this.nom;
-				lPdt.stoQuantite = parseFloat(that.reservation[this.id].stoQuantite);
-				lPdt.proUniteMesure = this.unite;
-				lPdt.prix = 0;
-				var lDcomId = that.reservation[this.id].dcomId;
-				$.each(this.lots, function() {
-					if(this.id == lDcomId) {
-						lPdt.prix = (lPdt.stoQuantite / this.taille) * this.prix;
-					}
-				});
-				lTotal += lPdt.prix;
-				
-				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
-				
-				if(!lData.categories[this.idCategorie]) {
-					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
-				
-				lPdt.flagType = "";
-				if(lInfoProduit.type == 2) {
-					lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-				}
-				
-				lData.categories[this.idCategorie].produits.push(lPdt);
-			}			
-		});
-		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
-		
-		
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-	};
-	
-	this.afficherModifier = function() {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.modifierReservation;
-		var lData = {};
-		lData.adhId = this.mAdherent.adhId;
-		lData.adhNumero = this.mAdherent.adhNumero;
-		lData.adhCompte = this.mAdherent.cptLabel;
-		lData.adhNom = this.mAdherent.adhNom;
-		lData.adhPrenom = this.mAdherent.adhPrenom;
-		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
-		lData.adhNouveauSolde = 0;
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.comNumero = this.infoCommande.comNumero;
-		lData.dateFinReservation = this.infoCommande.dateFinReservation;
-		lData.heureFinReservation = this.infoCommande.heureFinReservation;
-		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
-		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
-		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
-		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
-		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
-		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.categories = [];
-		
-		var lTotal = 0;		
-		$.each(this.pdtCommande, function() {
-			// Test si la ligne n'est pas vide
-			if(this.id) {
-				var lPdt = {};
-				lPdt.proId = this.id;
-				lPdt.nproNom = this.nom;
-				lPdt.proUniteMesure = this.unite;
-				
-				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
-				lPdt.flagType = "";
-				
-				// Recherche de la quantité reservée pour la déduire de la quantité max
-				if(that.reservation[this.id]) {
-					lPdt.stock = parseFloat(this.stockReservation) + parseFloat(that.reservation[this.id].stoQuantite);						
-				} else {
-					lPdt.stock = parseFloat(this.stockReservation);
-				}
-				
-				/*if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
-					lPdt.max = lPdt.proMaxProduitCommande;
-				} else {
-					lPdt.max = lPdt.stock;
-				}*/
-				
-				lPdt.lot = new Array();
-				
-				var lNoStock = false;
-				if(parseFloat(this.qteMaxCommande) == -1 && parseFloat(this.stockInitial) == -1) { // Si ni stock ni qmax
-					lNoStock = true;
-				} else if(parseFloat(this.stockInitial) == -1) { // Si qmax mais pas stock
-					lPdt.max = lPdt.proMaxProduitCommande;
-				} else if(parseFloat(this.qteMaxCommande) == -1) { // Si stock mais pas qmax
-					lPdt.max = lPdt.stock;
-				} else { // Si stock et qmax
-					if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
-						lPdt.max = lPdt.proMaxProduitCommande;
-					} else {
-						lPdt.max = lPdt.stock;
-					}					
-				}
-				
-				var i = 0;
-				var lLotReservation = -1;
-				var lLotInit = -1;
-				
-				lPdt.stoQuantiteReservation = 0;
-				lPdt.prixReservation = 0;
-				
-				$.each(this.lots, function() {
-					if(this.id) {
-						if(lNoStock || (!lNoStock && parseFloat(this.taille) <= lPdt.max) ) {
-							var lLot = {};
-							lLot.dcomId = this.id;
-							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
-							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
-							lLot.prixReservation = parseFloat(this.prix);
-							lLot.stoQuantiteReservation = parseFloat(this.taille);
-							
-							if(that.reservation[lPdt.proId] && (that.reservation[lPdt.proId].dcomId == this.id)) {
-									lLot.stoQuantiteReservation = parseFloat(that.reservation[lPdt.proId].stoQuantite);
-									lLot.prixReservation = (lLot.stoQuantiteReservation / this.taille) * this.prix;
-									lTotal += lLot.prixReservation;
-									
-									// Permet de cocher le lot correspondant à la résa
-									lLotReservation = this.id;
-									lLot.checked = 'checked="checked"';
-									
-									lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
-									lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
-							}
-							
-							if( lPdt.prixReservation == 0) {
-								lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
-								lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
-							}
-							
-							lPdt.prixUnitaire = (lLot.prixReservation / lLot.stoQuantiteReservation).nombreFormate(2,',',' '); 						
-														
-							lPdt.lot.push(lLot);
-						}
-					}
-				});
-				
-				lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
-				
-				// Si il y a une réservation pour ce produit on le coche
-				if(lLotReservation != -1) {
-					lPdt.checked = 'checked="checked"';
-				} else {
-					lPdt.checked = '';
-				}
-				
-				/*if(lPdt.lot.length == 0) {		
-					lPdt.checked = 'rel="indisponible"';
-				}*/
-				//lData.produit.push(lPdt);
-				/*if(!lData.categories[this.idCategorie]) {
-					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
-				lData.categories[this.idCategorie].produits.push(lPdt);*/
-				
-				if(!lData.categories[this.idCategorie]) {
-					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
-				
-				lPdt.sigleMonetaire = gSigleMonetaire;
-				var lAjoutProduit = true;
-				if(this.type == 0 ) {
-					if(lPdt.lot.length == 0) {
-						lPdt.nom = this.nom;
-						lPdt.detailProduit = lGestionCommandeTemplate.produitIndisponible.template(lPdt);
-					} else {
-						lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduit.template(lPdt);
-					}
-				} else if(this.type == 1 ) {
-					lPdt.flagType = lGestionCommandeTemplate.flagSolidaire;
-					lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduitInfo.template(lPdt);
-				} else if(this.type == 2 ) {
-					lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;					
-					if(lPdt.lot.length == 0) { // L'admin peut modifier les réservations abonnement
-						lAjoutProduit = false;
-					} else {
-						lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduit.template(lPdt);
-					}		
-				}
-				
-				if(lAjoutProduit) {
-					lData.categories[this.idCategorie].produits.push(lPdt);
-				}
-			}
-		});
-		
-		// Maj des reservations temp pour modif
-		this.reservationModif = [];
-		$(this.reservation).each(function() {
-			if(this.proId) {
-					that.reservationModif[this.proId] = {
-						proId:this.proId,
-						dcomId:this.dcomId,
-						stoQuantite:this.stoQuantite
-						};
-			}
-		});
-		
-		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
-		this.majNouveauSolde();
-	};
-	
-	this.affectDroitArchive = function(pData) {
-		pData.find(".boutons-edition").remove();
-		pData.find(".boutons-edition-modification").remove();
-		return pData;
-	};
-	
-	this.affect = function(pData) {
-		pData = this.affectModifierReservation(pData);
-		pData = this.affectAnnulerDetailReservation(pData);
-		pData = this.affectSupprimerReservation(pData);		
-		pData = this.affectInfoProduit(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-		
-	this.affectModifier = function(pData) {
-		pData = this.affectBtnQte(pData);
-		pData = this.affectChangementLot(pData);
-		pData = this.affectChangementProduit(pData);
-		pData = this.preparerAffichageModifier(pData);
-		pData = this.affectValiderReservation(pData);
-		pData = this.affectAnnulerReservation(pData);	
-		pData = this.supprimerSelect(pData);	
-		pData = this.affectNouveauSolde(pData);
-		pData = this.affectInitLot(pData);
-		pData = this.affectInfoProduit(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
-		return pData;
-	};
-	
-	this.affectInfoProduit = function(pData) {
-		var that = this;
-		pData.find('.btn-info-produit')
-		.click(function() {		
-			var lId = $(this).attr('id-produit');
-			var lParam = {id:lId,fonction:"detailProduit"};
-			$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								var lGestionCommandeTemplate = new GestionCommandeTemplate();
-								var lTemplate = lGestionCommandeTemplate.dialogInfoProduit;
-								
-								lResponse.produit.sigleMonetaire = gSigleMonetaire;
-								
-								var lHtml = $(lTemplate.template(lResponse.produit));
-								
-								if(lResponse.produit.producteurs.length > 0 && lResponse.produit.producteurs[0].nPrdtIdNomProduit == null) {
-									lHtml.find('#pro-prdt').remove();
-								}
-								if(lResponse.produit.caracteristiques.length > 0 && lResponse.produit.caracteristiques[0].carProIdNomProduit == null) {
-									lHtml.find('#pro-car').remove();
-								}
-								
-								$(lHtml).dialog({			
-									autoOpen: true,
-									modal: true,
-									draggable: true,
-									resizable: false,
-									width:600,
-									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
-								});								
-							} else {
-								Infobulle.generer(lResponse,'');
-							}
-						}
-					},"json"
-			);
-			
-		});
-		return pData;
-	};
-	
-	this.affectBtnQte = function(pData) {
-		var that = this;
-		pData.find('.btn-plus').click(function() {
-			Infobulle.init(); // Supprime les erreurs
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
-			that.nouvelleQuantite(	lIdPdt,
-									$(this).parent().parent().find('#lot-' + lIdPdt).val(),
-									1);
-		});	
-		pData.find('.btn-moins').click(function() {
-			Infobulle.init(); // Supprime les erreurs
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
-			that.nouvelleQuantite(lIdPdt,$(this).parent().parent().find('#lot-' + lIdPdt).val(),-1);
-		});
-		return pData;		
-	};
-	
-	this.affectChangementLot = function(pData) {
-		var that = this;
-		pData.find('.pdt select').change(function() {
-			Infobulle.init(); // Supprime les erreurs
-			that.changerLot($(this).parent().parent().find(".pdt-id").text(),$(this).val());
-		});
-		return pData;
-	};
-	
-	this.affectChangementProduit = function(pData) {
-		var that = this;
-		pData.find('.pdt :checkbox').click(function() {
-			Infobulle.init(); // Supprime les erreurs
-			that.changerProduit($(this).parent().parent().find(".pdt-id").text());			
-		});
-		return pData;
-	};
-	
-	this.affectValiderReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-valider').click(function() {
-			that.validerReservation();			
-		});
-		return pData;	
-	};
-	
-	this.affectAnnulerReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-annuler').click(function() {
-			if(that.mPremiereReservation) {
-				ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});	
-			} else {
-				that.afficherDetailReservation();		
-			}
-		});
-		return pData;
-	};
-	
-	this.affectModifierReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-modifier').click(function() {
-			that.afficherModifier();		
-		});
-		return pData;
-	};
-	
-	this.affectAnnulerDetailReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-annuler').click(function() {
-			ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});		
-		});
-		return pData;
-	};	
-	
-	this.affectInitLot = function(pData) {
-		var that = this;
-		pData.find('.pdt select').each(function() {
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
-			var lIdLot = $(this).val();
-			
-			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
-				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
-				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
-				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
-				
-				$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
-			}
-		});
-		return pData;
-	};
-	
-	this.nouvelleQuantite = function(pIdPdt,pIdLot,pIncrement) {		
-		// La quantité max soit qte max soit stock
-		var lMax = parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande);
-		
-		// Recherche de la quantité reservée pour la déduire de la quantité max
-		if(this.reservation[pIdPdt]) {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
-		} else {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
-		}
-		
-		var lNoStock = false;
-		if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1 && parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si ni stock ni qmax
-			lNoStock = true;
-		} else if(parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si qmax mais pas stock
-			lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
-		} else if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1) { // Si stock mais pas qmax
-			lMax = lStock;
-		} else { // Si stock et qmax
-			if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }				
-		}
-		
-		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
-
-		// Récupère le nombre de lot réservé
-		var lQteReservation = 0;
-		if(this.reservationModif[pIdPdt] && (this.reservationModif[pIdPdt].dcomId == pIdLot)) {
-			lQteReservation = parseFloat(this.reservationModif[pIdPdt].stoQuantite)/parseFloat(lTaille);
-		}
-		lQteReservation += pIncrement;
-		
-		var lNvQteReservation = 0;		
-		lNvQteReservation = lQteReservation * lTaille;
-		
-		// Test si la quantité est dans les limites
-		if((lNoStock && lNvQteReservation > 0) || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax)) {
-			var lNvPrix = 0;
-			lNvPrix = (lQteReservation * lPrix).toFixed(2);
-
-			// Mise à jour de la quantite reservée
-			this.reservationModif[pIdPdt].stoQuantite = lNvQteReservation;			
-			
-			$('#qte-pdt-' + pIdPdt).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
-			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
-
-			this.majTotal();
-		} else if(lNvQteReservation > lMax && lMax != -1) {			
-			var lVr = new TemplateVR();
-			lVr.valid = false;
-			lVr.commandes = [];
-			              
-			var lProduit = new ReservationCommandeVR();              
-			lProduit.valid = false;
-			lProduit.stoQuantite.valid = false;
-			var erreur = new VRerreur();
-			erreur.code = ERR_304_CODE;
-			erreur.message = ERR_304_MSG;
-			lProduit.stoQuantite.erreurs.push(erreur);		
-			lVr.commandes[pIdPdt] = lProduit;
-			
-			Infobulle.generer(lVr,'');
-		}		
-	};
-	
-	this.changerLot = function(pIdPdt,pIdLot) {
-		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
-		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
-
-		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
-		
-		if(this.reservationModif[pIdPdt]) {
-			this.reservationModif[pIdPdt].dcomId = pIdLot;
-			this.reservationModif[pIdPdt].stoQuantite = lQte;
-			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
-			$('#prix-pdt-' + pIdPdt).text(lPrix.nombreFormate(2,',',' '));
-		}
-		
-		this.majTotal();
-	};
-	
-	this.changerProduit = function(pIdPdt) {
-		if(this.reservationModif[pIdPdt] != null) {
-			$('.resa-pdt-' + pIdPdt).hide();
-			$('#qte-pdt-' + pIdPdt).text('');
-			$('#prix-pdt-' + pIdPdt).text('');
-			this.reservationModif[pIdPdt] = null;
-		} else {
-			var lIdLot = $('#lot-' + pIdPdt).val();
-			var lQte = this.pdtCommande[pIdPdt].lots[lIdLot].taille;			
-			
-			var lResa = {};
-			lResa.comId = this.infoCommande.comId;
-			lResa.proId = pIdPdt;
-			lResa.dcomId = lIdLot;
-			lResa.stoQuantite = lQte;						
-			this.reservationModif[pIdPdt] = lResa;
-			
-			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
-			var lPrix = this.pdtCommande[pIdPdt].lots[lIdLot].prix.nombreFormate(2,',',' ');
-			$('#prix-pdt-' + pIdPdt).text(lPrix);
-			
-			$('.resa-pdt-' + pIdPdt).show();
-		}
-		this.majTotal();
-	};
-	
-	this.majTotal = function() {
-		$('#total').text(this.calculTotal().nombreFormate(2,',',' '));
-		this.majNouveauSolde();
-	};
-	
-	this.majNouveauSolde = function() {
-		var lNvSolde = this.mAdherent.cptSolde - this.calculTotal();
-		if(lNvSolde <= 0) {
-			$("#nouveau-solde").addClass("com-nombre-negatif");
-			$("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
-		} else {
-			$("#nouveau-solde").removeClass("com-nombre-negatif");
-			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
-		}
-		$("#nouveau-solde").text(lNvSolde.nombreFormate(2,',',' '));
-	};
-	
-	this.affectNouveauSolde = function(pData) {
-		var lNvSolde = this.mAdherent.cptSolde - this.calculTotal();
-		if(lNvSolde <= 0) {
-			pData.find("#nouveau-solde").addClass("com-nombre-negatif");
-			pData.find("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
-		} else {
-			pData.find("#nouveau-solde").removeClass("com-nombre-negatif");
-			pData.find("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
-		}
-		pData.find("#nouveau-solde").text(lNvSolde.nombreFormate(2,',',' '));
-		return pData;		
-	};
-	
-	this.calculTotal = function() {
-		var that = this;
-		var lTotal = 0;
-		$(this.reservationModif).each(function() {
-			var lResa = this;
-			if(lResa.stoQuantite) {
-				if(that.pdtCommande[lResa.proId]) {
-					$.each(that.pdtCommande[lResa.proId].lots, function() {
-						if(lResa.dcomId == this.id) {
-							lTotal += (lResa.stoQuantite / this.taille) * this.prix;
-						}
-					});					
-				}				
-			}
-		});
-		return lTotal;
-	};
-	
-	this.preparerAffichageModifier = function(pData) {
-		var that = this;
-		
-		$(pData).find('.pdt').each(function() {
-			var lIdPdt = $(this).find('.pdt-id').text();
-			if(that.reservation[lIdPdt] != null) {
-				var lResa = that.reservation[lIdPdt];
-				var lIdLot = lResa.dcomId;
-				var lQte = lResa.stoQuantite;			
-				$(pData).find('#qte-pdt-' + lIdPdt).text(lQte.nombreFormate(2,',',' '));
-				
-				var lPrix = ((that.pdtCommande[lIdPdt].lots[lIdLot].prix * lResa.stoQuantite)/that.pdtCommande[lIdPdt].lots[lIdLot].taille).nombreFormate(2,',',' ');
-				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
-				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
-				
-				//$(pData).find('.resa-pdt-' + lIdPdt).show();
-				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
-			}
-		});
-		return pData;
-	};
-	
-	this.validerReservation = function() {
-		var that = this;
-		Infobulle.init(); // Supprime les erreurs
-		
-		var lVo = new ListeReservationCommandeVO();
-		var lNbPdt = 0;
-		$(this.reservationModif).each(function() {
-			if(this.stoQuantite) {
-				var lVoResa = new ReservationCommandeVO();
-				lVoResa.stoQuantite = this.stoQuantite * -1;
-				lVoResa.stoIdDetailCommande = this.dcomId;
-				lVo.detailReservation.push(lVoResa);
-				lNbPdt++;
-			}
-		});
-		
-		if(lNbPdt > 0){
-			var lValid = new ListeReservationCommandeValid();
-			var lVR = lValid.validAjout(lVo);
-			if(!lVR.valid){
-				Infobulle.generer(lVR,'');
-			} else {
-				// Maj de la reservation
-				lVo.fonction = "modifierReservation";
-				lVo.id_compte = this.mAdherent.adhIdCompte;
-				//lParam = {"reservation":lVo,"id_compte":this.mAdherent.adhIdCompte,fonction:"modifierReservation"};
-				$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lVo),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {							
-								// Maj des reservations pour le recap
-								/*that.reservation = new Array();
-								$(that.reservationModif).each(function() {
-									if(this.proId) {									
-										that.reservation[this.proId] = {comId:this.comId,proId:this.proId,dcomId:this.dcomId,stoId:this.stoId,stoQuantite:this.stoQuantite,stoType:this.stoType,stoIdCompte:this.stoIdCompte};
-									}
-								});
-								that.afficher();*/
-								// Maj des reservations pour le recap
-								that.reservation = [];
-								$(that.reservationModif).each(function() {
-									if(this.proId) {
-										that.reservation[this.proId] = {
-												proId:this.proId,
-												dcomId:this.dcomId,
-												stoQuantite:this.stoQuantite
-												};
-									}
-								});
-								
-								if(that.mPremiereReservation)  {
-									that.mPremiereReservation = false;								
-									// Message d'information du bon enregistrement
-									var lVr = new TemplateVR();
-									lVr.valid = false;
-									lVr.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_350_CODE;
-									erreur.message = ERR_350_MSG;
-									lVr.log.erreurs.push(erreur);	
-									Infobulle.generer(lVr,'');
-									
-								} else {								
-									// Message d'information de la bonne modification
-									var lVr = new TemplateVR();
-									lVr.valid = false;
-									lVr.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_337_CODE;
-									erreur.message = ERR_337_MSG;
-									lVr.log.erreurs.push(erreur);	
-									Infobulle.generer(lVr,'');
-								}
-								
-								that.afficher(1);
-								
-								
-								
-							} else {
-								Infobulle.generer(lResponse,'');
-							}
-						}
-					},"json"
-				);	
-			}			
-		} else {
-			var lVR = new TemplateVR();
-			lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_207_CODE;erreur.message = ERR_207_MSG;lVR.log.erreurs.push(erreur);
-			Infobulle.generer(lVR,'');
-		}		
-	};
-	
-	this.affectSupprimerReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-supprimer').click(function() {
-			var lGestionCommandeTemplate = new GestionCommandeTemplate();
-			var lTemplate = lGestionCommandeTemplate.supprimerReservationDialog;
-			$(lTemplate).dialog({
-				autoOpen: true,
-				modal: true,
-				draggable: false,
-				resizable: false,
-				width:600,
-				buttons: {
-					'Supprimer': function() {
-						var lParam = {	id_commande:that.infoCommande.comId,
-										id_compte:that.mAdherent.adhIdCompte,
-										fonction:"supprimerReservation"};
-						var lDialog = this;
-						$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lParam),
-								function(lResponse) {
-									Infobulle.init(); // Supprime les erreurs
-									if(lResponse) {
-										if(lResponse.valid) {
-											
-											var lVr = new TemplateVR();
-											lVr.valid = false;
-											lVr.log.valid = false;
-											var erreur = new VRerreur();
-											erreur.code = ERR_303_CODE;
-											erreur.message = ERR_303_MSG;
-											lVr.log.erreurs.push(erreur);							
-	
-											// Redirection vers la vue edition
-											ListeReservationMarcheVue({id_marche:that.infoCommande.comId,
-																vr:lVr});
-											
-											$(lDialog).dialog("close");
-											
-										} else {
-											Infobulle.generer(lResponse,'');
-										}
-									}
-								},"json"
-						);
-					},
-					'Annuler': function() { $(this).dialog("close"); }
-					},
-				close: function(ev, ui) { $(this).remove(); }
-			});
-		});
-		return pData;
-	};
-	
-	this.supprimerSelect = function(pData) {
-		pData.find('.pdt select').each(function() {
-			if($(this).find('option').size() == 1) {				
-				var lGestionCommandeTemplate = new GestionCommandeTemplate();
-				var lTemplate = lGestionCommandeTemplate.lotUnique;
-				var lData = {};
-				lData.IdPdt = $(this).parent().parent().find(".pdt-id").text();
-				lData.valeur = $(this).val();
-				lData.text = $(this).text();
-				
-				$(this).replaceWith(lTemplate.template(lData));
-			}
-		});
-		
 		return pData;
 	};
 	
@@ -8935,6 +6151,2525 @@
 
 	this.construct(pParam);
 	
+};function BonDeLivraisonVue(pParam) {
+	this.mIdCommande = null;
+	this.mComNumero = null;
+	this.mEtatEdition = false;
+	this.mListeProduit = [];
+	this.mSuiteEdition = 0;
+	this.mIdCompteProducteur = 0;
+	this.mTypePaiement = [];
+	this.mResponse;
+	this.mArchive = -1;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
+		var that = this;
+		//pParam.export_type = 0;
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mEtatEdition = false;
+							that.mArchive = lResponse.archive;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(pResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.bonDeLivraison;
+		
+		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
+		this.mComNumero = pResponse.comNumero;
+		
+		$(pResponse.typePaiement).each(function() {
+			that.mTypePaiement[this.tppId] = this;
+		});
+		
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find("#btn-annuler").remove();
+		pData.find("#btn-enregistrer").remove();
+		pData.find("#btn-modifier").remove();
+		return pData;
+	};
+
+	this.affect = function(pData) {
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = this.affectBtnRetourMarche(pData);
+		pData = this.affectChangementProducteur(pData);
+		pData = this.affectExportBonDeLivraison(pData);
+		return pData;
+	};
+	
+	this.affectBtnRetourMarche = function(pData) {
+		var that = this;
+		pData.find('#btn-editer-com').click(function() {
+			EditerCommandeVue({"id_marche":that.mIdCommande});
+		});
+		return pData;
+	};
+	
+	this.affectChangementProducteur = function(pData) {
+		var that = this;
+		pData.find('#select-prdt').change(function() {
+			if(that.mEtatEdition) {
+				that.mSuiteEdition = 1;
+				that.dialogEnregistrer();
+			} else {
+				that.changementProducteur();
+			}
+		});
+		return pData;
+	};
+	
+	this.changementProducteur = function() {
+		var that = this;
+		var lIdCompteProducteur = $('#select-prdt').val();
+		if(lIdCompteProducteur > 0) {
+			var lParam = {	"id_commande":that.mIdCommande,
+						 	"id_compte_ferme":lIdCompteProducteur,
+						 	fonction:"afficherProducteur"};
+			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mIdCompteProducteur = lIdCompteProducteur;
+								that.mEtatEdition = false;
+								that.mResponse = lResponse;
+								if(lResponse.operationProducteur && lResponse.operationProducteur.idCompte != null ) {
+									that.afficherDetail(lResponse);
+								} else {
+									that.afficherFormulaire(lResponse,1);									
+								}
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+		} else {
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
+			$('#liste-pdt').replaceWith(lTemplate);
+		}
+	};
+	
+	this.afficherDetail = function(pResponse) {
+		var that = this;
+		var lTotal = 0;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			
+			this.stoQuantiteCommande = '';
+			this.opeMontant = '';
+			var lQuantite = 0;
+			
+			var lProId = this.proId;
+			var these = this;
+
+			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
+			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
+			these.stoQuantiteLivraison = '';
+			these.opeMontantLivraison = '';
+			these.stoQuantiteSolidaire = '';
+			
+			$(pResponse.produitsCommande).each(function() {
+				if(this.proId == lProId) {
+					var lMontant = 0;										
+					if(this.stoQuantite != null) {
+						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+					}
+					if(this.dopeMontant != null) {
+						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+						lMontant = parseFloat(this.dopeMontant);
+					}
+					lTotal += lMontant;
+				}
+			});
+			
+			$(pResponse.produitsLivraison).each(function() {
+				if(this.proId == lProId) {
+					if(this.stoQuantite != null) {
+						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
+						lQuantite += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
+					}
+				}
+			});
+			
+			$(pResponse.produitsSolidaire).each(function() {
+				if(this.proId == lProId) {										
+					if(this.stoQuantite != null) {
+						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
+						lQuantite += parseFloat(this.stoQuantite);
+					}
+				}
+			});
+			
+			if(lQuantite - parseFloat(this.stoQuantite) < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+				
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			this.masquerNormal = '';
+			if(this.proType == 1) {
+				this.masquerNormal = "ui-helper-hidden";
+			}
+		});	
+		
+		pResponse.total = '';
+		if(pResponse.operationProducteur) {
+			if(pResponse.operationProducteur.montant != null) {
+				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',',' ');
+			}
+			if(pResponse.operationProducteur.typePaiementChampComplementaire != null) {
+				pResponse.champComplementaire = pResponse.operationProducteur.typePaiementChampComplementaire;
+			}
+		}
+		
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		pResponse.typePaiement = that.mTypePaiement;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
+		
+		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
+			pResponse.tppType = that.mTypePaiement[pResponse.operationProducteur.typePaiement].tppType;
+		}
+		
+		var lHtml = that.affectListeProduit($(lTemplate.template(pResponse)));
+		
+		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
+			var lId = pResponse.operationProducteur.typePaiement;
+			
+			lHtml.find(':input[name=typepaiement]').selectOptions(lId);
+			
+			var lLabel = that.getLabelChamComplementaire(lId);
+			if(lLabel != null) {
+				lHtml.find("#label-champ-complementaire").text(lLabel);
+				lHtml.find("#tr-champ-complementaire").show();
+			} else {
+				lHtml.find("#label-champ-complementaire").text('');
+				lHtml.find("#tr-champ-complementaire").hide();
+			}
+		} else {
+			lHtml.find("#label-champ-complementaire").text('');
+			lHtml.find("#tr-champ-complementaire").hide();
+		}
+		
+		$('#liste-pdt').replaceWith(lHtml);
+	};
+	
+	this.afficherFormulaire = function(pResponse,pType) {
+		var that = this;
+		var lTotal = 0;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			
+			this.stoQuantiteCommande = '';
+			this.opeMontant = '';
+			var lQuantite = 0;
+			
+			var lProId = this.proId;
+			var these = this;
+
+			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
+			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
+			these.stoQuantiteLivraison = '';
+			these.opeMontantLivraison = '';
+			these.stoQuantiteSolidaire = '';
+			
+			$(pResponse.produitsCommande).each(function() {
+				if(this.proId == lProId) {
+					var lMontant = 0;										
+					if(this.stoQuantite != null) {
+						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+					}
+					if(this.dopeMontant != null) {
+						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+						lMontant = parseFloat(this.dopeMontant);
+					}
+					lTotal += lMontant;
+				}
+			});
+			
+			$(pResponse.produitsLivraison).each(function() {
+				if(this.proId == lProId) {
+					if(this.stoQuantite != null) {
+						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
+						lQuantite += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
+					}
+				}
+			});
+			
+			$(pResponse.produitsSolidaire).each(function() {
+				if(this.proId == lProId) {										
+					if(this.stoQuantite != null) {
+						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
+						lQuantite += parseFloat(this.stoQuantite);
+					}
+				}
+			});
+			
+			if(lQuantite - parseFloat(this.stoQuantite) < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+				
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			
+			this.masquerNormal = '';
+			if(this.proType == 1) {
+				this.masquerNormal = "ui-helper-hidden";
+			}
+			
+		});	
+		
+		pResponse.total = '';
+		if(pResponse.operationProducteur) {
+			if(pResponse.operationProducteur.montant != null) {
+				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',',' ');
+			}
+			if(pResponse.operationProducteur.typePaiementChampComplementaire != null) {
+				pResponse.champComplementaire = pResponse.operationProducteur.typePaiementChampComplementaire;
+			}
+		}
+		
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		pResponse.typePaiement = that.mTypePaiement;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitLivraison;
+		
+		
+		
+		var lHtml = that.affectListeProduitFormulaire($(lTemplate.template(pResponse)));
+		
+		if(pResponse.operationProducteur && pResponse.operationProducteur.typePaiement != null) {
+			var lId = pResponse.operationProducteur.typePaiement;
+			
+			lHtml.find(':input[name=typepaiement]').selectOptions(lId);
+			
+			var lLabel = that.getLabelChamComplementaire(lId);
+			if(lLabel != null) {
+				lHtml.find("#label-champ-complementaire").text(lLabel);
+				lHtml.find("#tr-champ-complementaire").show();
+			} else {
+				lHtml.find("#label-champ-complementaire").text('');
+				lHtml.find("#tr-champ-complementaire").hide();
+			}
+		} else {
+			lHtml.find("#label-champ-complementaire").text('');
+			lHtml.find("#tr-champ-complementaire").hide();
+		}
+
+		if(pType == 2) {
+			lHtml.find("#btn-annuler").show();
+		}
+		
+		$('#liste-pdt').replaceWith(lHtml);
+	};
+	
+	this.affectListeProduit = function(pData) {
+		pData = this.affectEtatCommande(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectTypePaiement(pData);
+		pData = this.affectChangementEtatEdition(pData);
+		pData = this.affectMasquerFormulaire(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectListeProduitFormulaire = function(pData) {
+		pData = this.affectEtatCommande(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectTypePaiement(pData);
+		pData = this.affectChangementEtatEdition(pData);
+		pData = this.affectMasquerDetail(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectMasquerDetail = function(pData) {
+		pData.find(".detail").hide();
+		return pData;
+	};
+	this.affectMasquerFormulaire = function(pData) {
+		pData.find(".formulaire").hide();
+		return pData;
+	};
+	
+	this.affectTypePaiement = function(pData) {
+		var that = this;
+		pData.find(':input[name=typepaiement]').change(function() {
+			that.changerTypePaiement($(this));
+		});
+		return pData;
+	};
+	
+	this.changerTypePaiement = function(pObj) {
+		var lId = pObj.val();
+		var lLabel = this.getLabelChamComplementaire(lId);
+		if(lLabel != null) {
+			$("#label-champ-complementaire").text(lLabel);
+			$("#tr-champ-complementaire").show();
+		} else {
+			$("#label-champ-complementaire").text('');
+			$(":input[name=champ-complementaire]").val('');
+			$("#tr-champ-complementaire").hide();
+		}
+	};
+	
+	this.getLabelChamComplementaire = function(pId) {
+		var lTpp = this.mTypePaiement;
+		if(lTpp[pId]) {
+			if(lTpp[pId].tppChampComplementaire == 1) {
+				return lTpp[pId].tppLabelChampComplementaire;
+			}
+		}	
+		return null;
+	};
+	
+	this.affectEtatCommande = function(pData) {
+		var that = this;
+		pData.find(".qte-commande ,.qte-solidaire-commande ").keyup(function() {
+			that.mEtatEdition = true;
+			var lIdProduit = $(this).prev(".pro-id-etat").text();
+			if(that.mListeProduit[lIdProduit]) {
+				var lQuantite = 0;
+				var lQuantiteLivraison = $(':input[name=qte-commande-' + lIdProduit + ']').val().numberFrToDb();
+				var lQuantiteSolidaire = $(':input[name=qte-solidaire-commande-' + lIdProduit + ']').val().numberFrToDb();
+				
+				if(!isNaN(lQuantiteLivraison) && !lQuantiteLivraison.isEmpty()){
+					lQuantite += parseFloat(lQuantiteLivraison);
+				}
+				if(!isNaN(lQuantiteSolidaire) && !lQuantiteSolidaire.isEmpty()){
+					lQuantite += parseFloat(lQuantiteSolidaire);
+				}
+				
+				if(lQuantite - that.mListeProduit[lIdProduit] < 0) {
+					$("#etat-commande-" + lIdProduit)
+						.removeClass('qte-reservation-ok')
+						.addClass('qte-reservation-ko');
+				} else {
+					$("#etat-commande-" + lIdProduit)
+						.removeClass('qte-reservation-ko')
+						.addClass('qte-reservation-ok');
+				}
+			}
+		});
+		return pData;
+	};
+	
+	this.affectEnregistrer = function(pData) {
+		var that = this;
+		pData.find("#btn-enregistrer").click(function() {
+			that.mSuiteEdition = 0;
+			that.enregistrer();
+		});
+		pData.find(".qte-commande ,.prix-commande ").keyup(function(event) {
+			if (event.keyCode == '13') {
+				that.mSuiteEdition = 0;
+				that.enregistrer();
+			}			
+		});
+		return pData;
+	};
+	this.affectModifier = function(pData) {
+		var that = this;
+		pData.find("#btn-modifier").click(function() {
+			that.afficherFormulaire(that.mResponse,2);
+		});
+		pData.find("#btn-annuler").click(function() {
+			that.changementProducteur();
+		});		
+		return pData;
+	};
+	
+	this.enregistrer = function() {
+		var that = this;
+		
+		var lParam = new ProduitsBonDeLivraisonVO();
+		
+		lParam.id_commande = this.mIdCommande;
+		lParam.id_compte_ferme = this.mIdCompteProducteur;
+		//lParam.export_type = 0;
+
+		$('.pro-id').each(function() {
+			var lId = $(this).text();				
+			var lProduit = new ProduitBonDeLivraisonVO();
+			lProduit.id  = lId;
+			lProduit.quantite = $(':input[name=qte-commande-' + lId + ']').val().numberFrToDb();
+			lProduit.quantiteSolidaire = $(':input[name=qte-solidaire-commande-' + lId + ']').val().numberFrToDb();
+			lProduit.prix = $(':input[name=prix-commande-' + lId + ']').val().numberFrToDb();
+			lParam.produits.push(lProduit);
+		});		
+		
+		lParam.typePaiement = $(':input[name=typepaiement]').val();
+		lParam.total = $(':input[name=total]').val().numberFrToDb();
+		
+		if(this.getLabelChamComplementaire(lParam.typePaiement) != null) {
+			lParam.typePaiementChampComplementaireObligatoire = 1;
+			lParam.typePaiementChampComplementaire = $(":input[name=champ-complementaire]").val();
+		} else {
+			lParam.typePaiementChampComplementaireObligatoire = 0;
+		}
+		
+		var lValid = new ProduitsBonDeLivraisonValid();
+		var lVr = lValid.validAjout(lParam);
+				
+		if(lVr.valid) {
+			lParam.fonction = "enregistrer";
+			$.post(	"./index.php?m=GestionCommande&v=BonDeLivraison", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mEtatEdition = false;
+								if(that.mSuiteEdition == 1) {
+									that.changementProducteur();
+								} else if (that.mSuiteEdition == 2) {
+									that.dialogExportBonDeLivraison();
+								} else {
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_301_CODE;
+									erreur.message = ERR_301_MSG;
+									lVr.log.erreurs.push(erreur);							
+									
+									//Infobulle.generer(lVr,'');
+									that.changementProducteur({vr:lVr});
+								}
+							} else {
+								Infobulle.generer(lResponse,'');
+								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+							}
+						}
+					},"json"
+			);
+			
+		} else {
+			Infobulle.generer(lVr,'');
+			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+		}
+	};
+	
+	this.affectExportBonDeLivraison = function(pData) {		
+		var that = this;		
+		pData.find('#btn-export-bcom')
+		.click(function() {
+			if(that.mEtatEdition) {
+				that.mSuiteEdition = 2;
+				that.dialogEnregistrer();
+			} else {
+				that.dialogExportBonDeLivraison();
+			}			
+		});
+		return pData;
+	};
+	
+	this.affectChangementEtatEdition = function(pData) {
+		var that = this;
+		pData.find('.com-input-text').keyup(function() {that.mEtatEdition = true;});
+		pData.find(':input[name=typepaiement]').change(function() {that.mEtatEdition = true;});
+		return pData;
+	};
+	
+	this.dialogExportBonDeLivraison = function() {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogExportBonDeLivraison;
+		$(lTemplate.template({comNumero:that.mComNumero})).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Exporter': function() {
+					// Récupération du formulaire
+					var lFormat = $(this).find(':input[name=format]:checked').val();
+					
+					var lParam = new ExportBonLivraisonVO();
+					//lParam.pParam = 1;
+					//lParam.export_type = 1;
+					lParam.id_commande = that.mIdCommande;
+					lParam.format = lFormat;
+					lParam.fonction = "export";
+					
+					// Test des erreurs
+					var lValid = new ExportBonLivraisonValid();
+					var lVr = lValid.validAjout(lParam);
+					
+					Infobulle.init(); // Supprime les erreurs
+					if(lVr.valid) {
+						// Affichage
+						$.download("./index.php?m=GestionCommande&v=BonDeLivraison", lParam);
+					} else {
+						Infobulle.generer(lVr,'');
+					}
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
+		});
+	};
+		
+	this.dialogEnregistrer = function() {	
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogEnregistrement;
+		
+		$(lTemplate).dialog({			
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Enregistrer': function() {
+					that.enregistrer();
+					$(this).dialog('close');
+				},
+				'Annuler': function() {
+					if(that.mSuiteEdition == 1) {
+						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+					}
+					$(this).dialog('close');
+				},
+				'Ne pas Enregistrer': function() {
+					that.mEtatEdition = false;
+					if(that.mSuiteEdition == 1) {
+						that.changementProducteur();
+					} else if (that.mSuiteEdition == 2) {
+						that.changementProducteur();
+						that.dialogExportBonDeLivraison();
+					}
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+		});
+	};
+	
+	this.construct(pParam);
+};function AchatAdherentVue(pParam) {
+	this.mAdherent = null;
+	this.infoCommande = new Object();
+	this.pdtCommande = new Array();
+	this.reservation = [];
+	this.achats = [];
+	this.achatsSolidaire = [];
+	this.infoReservation = {};
+	this.stockSolidaire = [];
+	this.pParam = {};
+
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatAdherentVue(pParam);}} );
+		var that = this;
+		this.pParam = pParam;
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mAdherent = lResponse.adherent;						
+	
+							that.infoCommande.comId = lResponse.marche.id;
+							that.infoCommande.comNumero = lResponse.marche.numero;
+							that.infoCommande.comNom = lResponse.marche.nom;
+							that.infoCommande.comDescription = lResponse.marche.description;
+							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
+							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
+							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
+							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
+							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
+							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
+							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
+							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
+							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
+							that.infoCommande.comArchive = lResponse.marche.archive;
+							that.pdtCommande = lResponse.marche.produits;
+							
+							that.infoReservation = lResponse.reservation;
+							that.stockSolidaire = lResponse.stockSolidaire;
+							$.each(that.pdtCommande,function() {
+								if(this.id) {
+									var lIdProduit = this.id;
+									$.each(this.lots, function() {
+										if(this.id) {
+											var lIdLot = this.id;
+											$(lResponse.reservation.detailReservation).each(function() {
+												if(this.idDetailCommande == lIdLot) {
+													this.stoQuantite = this.quantite * -1;
+													this.dcomId = this.idDetailCommande;
+													this.proId = lIdProduit;
+													this.montant = this.montant * -1;
+													that.reservation[lIdProduit] = this;
+												}											
+											});
+										}
+									});
+								}
+							});
+					
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(pResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.detailAchatEtReservation;
+		
+		var lData = {};		
+		lData.adhId = this.mAdherent.adhId;
+		lData.adhNumero = this.mAdherent.adhNumero;
+		lData.adhCompte = this.mAdherent.cptLabel;
+		lData.adhNom = this.mAdherent.adhNom;
+		lData.adhPrenom = this.mAdherent.adhPrenom;
+		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
+		
+		lData.sigleMonetaire = gSigleMonetaire;
+		lData.comNumero = this.infoCommande.comNumero;
+		lData.dateFinReservation = this.infoCommande.dateFinReservation;
+		lData.heureFinReservation = this.infoCommande.heureFinReservation;
+		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
+		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
+		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
+		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
+		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
+		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
+		
+		lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
+		lData.reservation = [];
+
+		var lPdtAchat = false; // Pour n'afficher le formulaire achat uniquement si il y a des produits
+		$.each(this.pdtCommande,function() {
+			lPdtAchat = true;
+			
+			var lIdProduit = this.id;
+			var lPdt = {};
+			lPdt.id = this.id;
+			lPdt.nproNom = this.nom;
+			lPdt.proUniteMesure = this.unite;
+			
+			lPdt.prix = 0;
+			lPdt.stoQuantite = 0;
+						
+			if(that.reservation[lIdProduit]) {
+				lPdt.stoQuantite = parseFloat(that.reservation[lIdProduit].stoQuantite);
+				lPdt.prix = parseFloat(that.reservation[lIdProduit].montant);
+			}
+
+			lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
+			lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
+			
+			lPdt.flagType = "";
+			if(this.type == 2) {
+				lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+			}
+			
+			lData.reservation.push(lPdt);
+		});	
+
+
+		lData.achats = [];
+		lData.achatsSolidaire = [];
+
+		var lNbAchat = 0;
+		$(pResponse.achats).each(function() {
+			var lAchat = this;
+			var lDataPdtAchat = [];
+			var lAchatClassique = false;
+			$.each(that.pdtCommande,function() {
+				if(this.id) {
+					var lIdProduit = this.id;
+					
+					var lPdt = {};
+					lPdt.id = this.id;
+					lPdt.nproNom = this.nom;
+					lPdt.proUniteMesure = this.unite;
+					
+					lPdt.prix = 0;
+					lPdt.stoQuantite = 0;
+					
+					$.each(this.lots, function() {
+						if(this.id) {
+							var lIdLot = this.id;
+							$(lAchat.detailAchat).each(function() {
+								if(this.idDetailCommande == lIdLot) {
+									lPdt.stoQuantite = this.quantite * -1;
+									lPdt.prix = this.montant * -1;
+									lNbAchat++;
+									lAchatClassique = true;
+								}
+							});
+						}
+					});
+					
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
+					lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
+					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
+					lDataPdtAchat.push(lPdt);
+				}
+			});
+			
+			if(lAchatClassique) {
+				var lDataAchat = {	achat:lDataPdtAchat,
+									idAchat:this.id.idAchat,
+									total:(this.total * -1).nombreFormate(2,',',' ')};
+				lData.achats.push(lDataAchat);
+			}
+		});
+
+		if(lNbAchat == 0 && lPdtAchat ) {
+			var lDataPdtAchat = [];
+			$.each(that.pdtCommande,function() {
+				if(this.id) {
+					var lIdProduit = this.id;
+					var lPdt = {};
+					lPdt.id = this.id;
+					lPdt.nproNom = this.nom;
+					lPdt.proUniteMesure = this.unite;
+					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
+					lPdt.prix = "0".nombreFormate(2,',',' ');
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
+					lDataPdtAchat.push(lPdt);
+				}
+			});
+			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-1",total:"0".nombreFormate(2,',',' ')};
+			lData.achats.push(lDataAchat);
+		}
+
+		var lNbAchatSolidaire = 0;
+		$(pResponse.achats).each(function() {
+			var lAchat = this;
+			var lDataPdtAchat = [];
+			var lAchatSolidaire = false;
+
+			$.each(that.pdtCommande,function() {
+				if(this.id) {
+					var lAchatPdtSolidaire = false;
+					var lProduit = this;
+					var lIdProduit = this.id;
+					
+					var lPdt = {};
+					lPdt.id = this.id;
+					lPdt.nproNom = this.nom;
+					lPdt.proUniteMesure = this.unite;
+					
+					lPdt.prix = 0;
+					lPdt.stoQuantite = 0;
+
+					$(pResponse.stockSolidaire).each(function() {
+						if(lPdt.id == this.proId){
+							$.each(lProduit.lots, function() {
+								if(this.id) {
+									var lIdLot = this.id;
+									$(lAchat.detailAchatSolidaire).each(function() {
+										if(this.idDetailCommande == lIdLot) {
+											lPdt.stoQuantite = this.quantite * -1;
+											lPdt.prix = this.montant * -1;
+											lNbAchatSolidaire++;
+											lAchatSolidaire = true;
+									//		lAchatPdtSolidaire = true;
+										}
+									});
+								}
+							});
+							lAchatPdtSolidaire = true;
+						}
+					});
+					
+					if(lAchatPdtSolidaire) {
+						
+						lPdt.flagType = "";
+						if(this.type == 2) {
+							lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+						}
+						
+						lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
+						lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');							
+						lDataPdtAchat.push(lPdt);
+					}
+				}
+			});			
+			if(lAchatSolidaire) {
+				var lDataAchat = {	achat:lDataPdtAchat,
+									idAchat:this.id.idAchat,
+									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
+				lData.achatsSolidaire.push(lDataAchat);
+			}
+		});
+		
+		if(lNbAchatSolidaire == 0 && pResponse.stockSolidaire.length > 0 && pResponse.stockSolidaire[0].proId != null) {
+			var lDataPdtAchat = [];
+			$.each(that.pdtCommande,function() {
+				if(this.id) {
+					var lIdProduit = this.id;
+					var lPdt = {};
+					lPdt.id = this.id;
+					lPdt.nproNom = this.nom;
+					lPdt.proUniteMesure = this.unite;
+					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
+					lPdt.prix = "0".nombreFormate(2,',',' ');
+					lPdt.flagType = "";
+					if(this.type == 2) {
+						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					}
+					$(pResponse.stockSolidaire).each(function() {
+						if(lPdt.id == this.proId){							
+							lDataPdtAchat.push(lPdt);
+						}
+					});
+				}
+			});
+			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-2",totalSolidaire:"0".nombreFormate(2,',',' ')};
+			lData.achatsSolidaire.push(lDataAchat);
+		}
+
+		lData.typeEtatReservation = [];
+
+		var lEtatReservation = {};
+		lEtatReservation.value = "-1";
+		lEtatReservation.label = "Aucune Réservation";
+		lEtatReservation.selected = "";
+		lData.typeEtatReservation[-1] = lEtatReservation;
+		
+		var lEtatReservation = {};
+		lEtatReservation.value = "0";
+		lEtatReservation.label = "En réservation";
+		lEtatReservation.selected = "";
+		lData.typeEtatReservation[0] = lEtatReservation;
+		
+		var lEtatReservation = {};
+		lEtatReservation.value = "7";
+		lEtatReservation.label = "Achetée";
+		lEtatReservation.selected = "";
+		lData.typeEtatReservation[7] = lEtatReservation;
+		
+		var lEtatReservation = {};
+		lEtatReservation.value = "15";
+		lEtatReservation.label = "Non Récupérée";
+		lEtatReservation.selected = "";
+		lData.typeEtatReservation[15] = lEtatReservation;
+		
+		var lEtatReservation = {};
+		lEtatReservation.value = "16";
+		lEtatReservation.label = "Supprimée";
+		lEtatReservation.selected = "";
+		lData.typeEtatReservation[16] = lEtatReservation;
+		
+		switch(this.infoReservation.etat) {
+			case "0":
+				lData.etatReservation = "En réservation";
+				lData.typeEtatReservation[0].selected = "selected=\"selected\"";
+				break;
+			case "7":
+				lData.etatReservation = "Achetée";
+				lData.typeEtatReservation[7].selected = "selected=\"selected\"";
+				break;
+			case "15":
+				lData.etatReservation = "Non Récupérée";
+				lData.typeEtatReservation[15].selected = "selected=\"selected\"";
+				break;
+			case "16":
+				lData.etatReservation = "Supprimée";
+				lData.typeEtatReservation[16].selected = "selected=\"selected\"";
+				break;
+			default:
+				lData.etatReservation = "Aucune Réservation";
+				lData.typeEtatReservation[-1].selected = "selected=\"selected\"";
+				break;
+		}
+
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find(".com-btn-header-multiples").remove();
+		return pData;
+	};
+	
+	this.affect = function(pData) {
+		pData = this.affectAnnulerDetailReservation(pData);
+		pData = this.affectModifierReservation(pData);
+		pData = this.affectValiderModifierReservation(pData);
+		pData = this.affectModifierAchat(pData);
+		pData = this.affectSupprimerAchat(pData);
+		pData = gCommunVue.comHoverBtn(pData);		
+		pData = gCommunVue.comNumeric(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectAnnulerDetailReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-annuler').click(function() {
+			ListeAchatMarcheVue({"id_marche":that.infoCommande.comId});		
+		});
+		return pData;
+	};
+	
+	this.affectModifierReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-modif-resa').click(function() {
+			that.modifierReservation();
+		});
+		return pData;
+	};
+	
+	this.affectValiderModifierReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-check-resa').click(function() {
+			that.validerModifierReservation();
+		});
+		return pData;
+	};
+	
+	this.affectSupprimerAchat = function(pData) {
+		var that = this;
+		pData.find('.achat, .achatSolidaire').each(function() {
+			var lIdAchat = $(this).find(".achat-id").text();
+			pData.find("#btn-supp-achat-" + lIdAchat).click(function() {
+				that.supprimerAchat(lIdAchat);
+			});
+		});
+		return pData;
+	};
+	
+	this.affectModifierAchat = function(pData) {
+		var that = this;
+		pData.find('.achat, .achatSolidaire').each(function() {
+			var lIdAchat = $(this).find(".achat-id").text();
+			pData.find("#btn-annuler-achat-" + lIdAchat + ", #btn-modif-achat-" + lIdAchat).click(function() {
+				that.modifierAchat(lIdAchat);
+			});
+			pData.find("#btn-check-achat-" + lIdAchat).click(function() {
+				that.validerModifierAchat(lIdAchat);
+			});
+		});
+		return pData;
+	};
+	
+	this.modifierReservation = function() {
+		$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();	
+	};
+	
+	this.validerModifierReservation = function() {
+		var lReservation = {};
+		lReservation.total = $("#reservation-total").val().numberFrToDb();
+		lReservation.etat = $("#reservation-etat").val();
+		lReservation.produits = [];
+		var lProduit = [];
+		$('.ligne-produit-reservation').each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).find(".produit-id").text();
+			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
+				lQuantite = parseFloat(lQuantite);
+				lVoProduit.quantite = lQuantite * -1;			
+			
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+				}
+				lReservation.produits.push(lVoProduit);
+			} else {
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					lReservation.produits.push(lVoProduit);
+				}
+			}
+			lProduit.push(lVoProduit);
+		});
+		
+		lReservation.id = this.infoReservation.id;
+		
+		var lValid = new ReservationAdherentValid();
+		var lVr = lValid.validUpdate(lReservation);
+		
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			// TODO envoi vers le server
+			
+			
+			$(lProduit).each(function() {
+				if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
+				$("#reservation-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
+				if(isNaN(this.prix) || this.quantite.isEmpty()) {this.prix = 0;}
+				$("#reservation-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
+			});
+			
+			switch(lReservation.etat) {
+				case "0":
+					$("#reservation-etat-label").text("En réservation");
+					break;
+				case "7":
+					$("#reservation-etat-label").text("Achetée");
+					break;
+				case "15":
+					$("#reservation-etat-label").text("Non Récupérée");
+					break;
+				case "16":
+					$("#reservation-etat-label").text("Supprimée");
+					break;
+				default:
+					$("#reservation-etat-label").text("Aucune Réservation");
+					break;
+			}
+	
+			if(isNaN(lReservation.total) || lReservation.total.isEmpty()) {lReservation.total = 0;}
+			$("#reservation-total-label").text(lReservation.total.nombreFormate(2,',',' '));
+			
+			
+			$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();
+		} else {
+			Infobulle.generer(lVr,'reservation-');
+		}
+	};
+
+	this.modifierAchat = function(pIdAchat) {
+		$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();	
+	};
+	
+	this.validerModifierAchat = function(pIdAchat) {
+		var that = this;
+		var lAchat = {};
+		lAchat.idAchat = pIdAchat;
+		lAchat.total = $("#achat-" + pIdAchat + "-total").val().numberFrToDb() * -1;
+		lAchat.produits = [];
+		var lProduit = [];
+		$('.ligne-produit-achat-' + pIdAchat).each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).find(".produit-id").text();
+			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
+				lQuantite = parseFloat(lQuantite);
+				lVoProduit.quantite = lQuantite * -1;			
+			
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+				}
+				lAchat.produits.push(lVoProduit);
+			} else {
+				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					lAchat.produits.push(lVoProduit);
+				}
+			}
+			lProduit.push(lVoProduit);
+		});
+		
+		if(parseInt(pIdAchat) < 0) { // Si c'est un achat
+			lAchat.idCompte = that.mAdherent.adhIdCompte;
+			lAchat.idMarche = that.pParam.id_marche;
+		}
+		
+		var lValid = new AchatAdherentValid();
+		var lVr = lValid.validUpdate(lAchat);
+		
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			var lParam ={fonction:"modifierAchat",achat:lAchat};
+			$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse && lResponse.valid) {
+							var lMsg = new TemplateVR();
+							lMsg.valid = false;
+							lMsg.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_314_CODE;
+							erreur.message = ERR_314_MSG;
+							lMsg.log.erreurs.push(erreur);
+							
+							if(lAchat.idAchat < 0) {
+								that.pParam.vr = lMsg;
+								that.construct(that.pParam);
+							} else {
+								$(lProduit).each(function() {
+									if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
+									$("#achat-" + pIdAchat + "-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
+									if(isNaN(this.prix) || this.prix.isEmpty()) {this.prix = 0;}
+									$("#achat-" + pIdAchat + "-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
+								});
+								if(isNaN(lAchat.total) || lAchat.total.isEmpty()) {lAchat.total = 0;}
+								$("#achat-" + pIdAchat + "-total-label").text((lAchat.total * -1).nombreFormate(2,',',' '));
+								
+								$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();						
+								
+								Infobulle.generer(lMsg,'');
+							}
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+			},"json");
+		} else {
+			Infobulle.generer(lVr,'achat-' + pIdAchat + '-');
+		}
+	};
+	
+	this.supprimerAchat = function(pIdAchat) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogSupprimerAchat;
+		
+		$(lTemplate).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Supprimer': function() {
+					var lDialog = this;
+					var lParam ={fonction:"supprimerAchat",idAchat:pIdAchat};
+					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+						function(lResponse) {
+							Infobulle.init(); // Supprime les erreurs
+							if(lResponse) {
+								if(lResponse && lResponse.valid) {								
+									var lMsg = new TemplateVR();
+									lMsg.valid = false;
+									lMsg.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_315_CODE;
+									erreur.message = ERR_315_MSG;
+									lMsg.log.erreurs.push(erreur);
+									
+									that.pParam.vr = lMsg;
+									
+									that.construct(that.pParam);
+									$(lDialog).dialog('close');
+								} else {
+									Infobulle.generer(lResponse,'');
+								}
+							}
+					},"json");
+			
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
+		});
+		
+	};
+	
+	this.construct(pParam);
+};function BonDeCommandeVue(pParam) {
+	this.mIdCommande = null;
+	this.mComNumero = null;
+	this.mEtatEdition = false;
+	this.mListeProduit = [];
+	this.mSuiteEdition = 0;
+	this.mIdCompteProducteur = 0;
+	this.mArchive = -1;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
+		var that = this;
+		//pParam.export_type = 0;
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mEtatEdition = false;
+							that.mArchive = lResponse.archive;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(pResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.bonDeCommande;
+		
+		this.mIdCommande = pResponse.producteurs[0].proIdCommande;
+		this.mComNumero = pResponse.comNumero;
+		
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));	
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find("#btn-annuler").remove();
+		pData.find("#btn-enregistrer").remove();
+		pData.find("#btn-modifier").remove();
+		return pData;
+	};
+	
+	this.affect = function(pData) {
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = this.affectBtnRetourMarche(pData);
+		pData = this.affectChangementProducteur(pData);
+		pData = this.affectExportBonCommande(pData);
+		return pData;
+	};
+	
+	this.affectBtnRetourMarche = function(pData) {
+		var that = this;
+		pData.find('#btn-editer-com').click(function() {
+			EditerCommandeVue({"id_marche":that.mIdCommande});
+		});
+		return pData;
+	};
+	
+	this.affectChangementProducteur = function(pData) {
+		var that = this;
+		pData.find('#select-prdt').change(function() {
+			if(that.mEtatEdition) {
+				that.mSuiteEdition = 1;
+				that.dialogEnregistrer();
+			} else {
+				that.changementProducteur();
+			}
+		});
+		return pData;
+	};
+	
+	this.changementProducteur = function(pParam) {
+		var that = this;
+		var lIdCompteProducteur = $('#select-prdt').val();
+		if(lIdCompteProducteur > 0) {
+			var lParam = {	"id_commande":that.mIdCommande,
+						 	"id_compte_ferme":lIdCompteProducteur,
+						 	fonction:"afficherProducteur"};
+			$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mIdCompteProducteur = lIdCompteProducteur;
+								that.mEtatEdition = false;
+								
+								if(lResponse.produitsCommande[0] && lResponse.produitsCommande[0].proIdCommande != null) {
+									that.afficherDetail(lResponse);
+								} else {
+									that.afficherFormulaire(lResponse);
+								}
+								
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}
+								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+		} else {
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
+			$('#liste-pdt').replaceWith(lTemplate);
+		}
+	};
+	
+	this.afficherDetail = function(pResponse) {
+		var that = this;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = this.stoQuantite;
+			
+			this.stoQuantiteCommande = "0";
+			this.dopeMontant = "0";
+			
+			var lProId = this.proId;
+			var these = this;			
+			$(pResponse.produitsCommande).each(function() {
+				if(this.proId == lProId) {
+					these.stoQuantiteCommande = this.stoQuantite;
+					these.dopeMontant = this.dopeMontant;
+				}
+			});
+			
+			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+			
+			if(this.stoQuantiteCommande != '') {
+				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			this.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+		});
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
+		
+		$('#liste-pdt').replaceWith(that.affectListeProduit($(lTemplate.template(pResponse))));
+	};	
+	
+	this.afficherFormulaire = function(pResponse) {
+		var that = this;
+		$(pResponse.produits).each(function() {
+			that.mListeProduit[this.proId] = this.stoQuantite;
+
+			this.stoQuantiteCommande = this.stoQuantite;
+			this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',',' ');
+			
+			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
+				this.classEtat = 'qte-reservation-ko';
+			} else {
+				this.classEtat = 'qte-reservation-ok';
+			}
+			if(this.stoQuantiteCommande != '') {
+				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+		});		
+		pResponse.sigleMonetaire = gSigleMonetaire;
+		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.listeProduitBonDeCommande;
+		
+		$('#liste-pdt').replaceWith(that.affectListeProduitFormulaire($(lTemplate.template(pResponse))));
+	};	
+	
+	this.affectListeProduit = function(pData) {
+		pData = this.affectEtatCommande(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectMasquerFormulaire(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectListeProduitFormulaire = function(pData) {
+		pData = this.affectEtatCommande(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectMasquerDetail(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectMasquerDetail = function(pData) {
+		pData.find(".detail").hide();
+		return pData;
+	};
+	this.affectMasquerFormulaire = function(pData) {
+		pData.find(".formulaire").hide();
+		return pData;
+	};
+	
+	this.affectEtatCommande = function(pData) {
+		var that = this;
+		pData.find(":input").keyup(function() {
+			that.mEtatEdition = true;
+			var lIdProduit = $(this).prev(".pro-id").text();
+			if(that.mListeProduit[lIdProduit]) {
+				if($(this).val().numberFrToDb()- that.mListeProduit[lIdProduit] < 0) {
+					$("#etat-commande-" + lIdProduit)
+						.removeClass('qte-reservation-ok')
+						.addClass('qte-reservation-ko');
+				} else {
+					$("#etat-commande-" + lIdProduit)
+						.removeClass('qte-reservation-ko')
+						.addClass('qte-reservation-ok');
+				}
+			}
+		});
+		return pData;
+	};
+	
+	this.affectEnregistrer = function(pData) {
+		var that = this;
+		pData.find("#btn-enregistrer").click(function() {
+			that.mSuiteEdition = 0;
+			that.enregistrer();
+		});
+		pData.find(".qte-commande ,.prix-commande ").keyup(function(event) {
+			if (event.keyCode == '13') {
+				that.mSuiteEdition = 0;
+				that.enregistrer();
+			}			
+		});
+		return pData;
+	};
+	this.affectModifier = function(pData) {
+		var that = this;
+		pData.find("#btn-modifier").click(function() {
+			$(".detail").hide();
+			$(".formulaire, #btn-annuler").show();
+		});
+		pData.find("#btn-annuler").click(function() {
+			that.changementProducteur();
+		});	
+		return pData;
+	};
+	
+	this.enregistrer = function() {
+		var that = this;
+		
+		var lParam = new ProduitsBonDeCommandeVO();
+		
+		lParam.id_commande = this.mIdCommande;
+		lParam.id_compte_ferme = this.mIdCompteProducteur;
+		lParam.export_type = 0;
+
+		$('.pro-id').each(function() {
+			var lId = $(this).text();				
+			var lProduit = new ProduitBonDeCommandeVO();
+			lProduit = {id:lId,
+						quantite:$(':input[name=qte-commande-' + lId + ']').val().numberFrToDb(),
+						prix:$(':input[name=prix-commande-' + lId + ']').val().numberFrToDb()
+						};				
+			lParam.produits.push(lProduit);
+		});		
+		
+		var lValid = new ProduitsBonDeCommandeValid();
+		var lVr = lValid.validAjout(lParam);
+		
+		if(lVr.valid) {
+			lParam.fonction = "enregistrer";
+			return $.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								that.mEtatEdition = false;
+								
+								if(that.mSuiteEdition == 1) {
+									that.changementProducteur();
+								} else if (that.mSuiteEdition == 2) {
+									that.dialogExportBonDeCommande();
+								} else {
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_301_CODE;
+									erreur.message = ERR_301_MSG;
+									lVr.log.erreurs.push(erreur);							
+									
+									//Infobulle.generer(lVr,'');
+									that.changementProducteur({vr:lVr});
+								}
+							} else {
+								Infobulle.generer(lResponse,'');
+								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+							}
+						}
+					},"json"
+			);
+			
+		} else {
+			Infobulle.generer(lVr,'');
+			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+		}
+	};
+	
+	this.affectExportBonCommande = function(pData) {
+		var that = this;	
+		pData.find('#btn-export-bcom')
+		.click(function() {
+			if(that.mEtatEdition) {
+				that.mSuiteEdition = 2;
+				that.dialogEnregistrer();
+			} else {
+				that.dialogExportBonDeCommande();				
+			}			
+		});
+		return pData;
+	};
+	
+	this.dialogExportBonDeCommande = function() {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogExportBonDeCommande;
+		$(lTemplate.template({comNumero:that.mComNumero})).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Exporter': function() {
+					// Récupération du formulaire
+					var lFormat = $(this).find(':input[name=format]:checked').val();
+					
+					var lParam = new ExportBonReservationVO();
+					lParam.id_commande = that.mIdCommande;
+					lParam.format = lFormat;
+					lParam.fonction = "export";
+					
+					// Test des erreurs
+					var lValid = new ExportBonReservationValid();
+					var lVr = lValid.validAjout(lParam);
+					
+					Infobulle.init(); // Supprime les erreurs
+					if(lVr.valid) {
+						// Affichage
+						$.download("./index.php?m=GestionCommande&v=BonDeCommande", lParam);
+					} else {
+						Infobulle.generer(lVr,'');
+					}
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
+		});
+	};
+	
+	this.dialogEnregistrer = function() {	
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogEnregistrement;
+		
+		$(lTemplate).dialog({			
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Enregistrer': function() {
+					that.enregistrer();
+					$(this).dialog('close');
+				},
+				'Annuler': function() {
+					if(that.mSuiteEdition == 1) {
+						$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+					}
+					$(this).dialog('close');
+				},
+				'Ne pas Enregistrer': function() {
+					that.mEtatEdition = false;
+					if(that.mSuiteEdition == 1) {
+						that.changementProducteur();
+					} else if (that.mSuiteEdition == 2) {
+						that.changementProducteur();
+						that.dialogExportBonDeCommande();
+					}
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+		});
+	};
+	
+	this.construct(pParam);
+};function ReservationAdherentVue(pParam) {
+	this.mAdherent = null;
+	this.infoCommande = new Object();
+	this.pdtCommande = new Array();
+	this.reservation = new Array();
+	this.reservationModif = new Array();
+	this.solde = 0;
+	this.soldeNv = 0;
+	this.mPremiereReservation = true;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {ReservationAdherentVue(pParam);}} );
+		var that = this;
+		pParam.fonction = "afficherReservation";
+		$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mAdherent = lResponse.adherent;
+							
+							that.infoCommande.comId = lResponse.marche.id;
+							that.infoCommande.comNumero = lResponse.marche.numero;
+							that.infoCommande.comNom = lResponse.marche.nom;
+							that.infoCommande.comDescription = lResponse.marche.description;
+							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
+							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
+							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
+							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
+							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
+							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
+							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
+							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
+							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
+							that.infoCommande.comArchive = lResponse.marche.archive;
+							
+							that.pdtCommande = lResponse.marche.produits;
+							$.each(that.pdtCommande,function() {
+								if(this.id) {
+									var lIdProduit = this.id;
+									$.each(this.lots, function() {
+										if(this.id) {
+											var lIdLot = this.id;
+											$(lResponse.reservation).each(function() {
+												if(this.idDetailCommande == lIdLot) {
+													this.stoQuantite = this.quantite * -1;
+													this.dcomId = this.idDetailCommande;
+													this.proId = lIdProduit;
+													that.reservation[lIdProduit] = this;
+												}											
+											});
+										}
+									});
+								}
+							});
+							if(lResponse.reservation.length > 0)  {
+								that.mPremiereReservation = false;
+								that.afficher(1);								
+							} else {
+								that.afficher(2);					
+							}
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(pType) {		
+		if(pType == 1) {
+			this.afficherDetailReservation();
+		} else {
+			this.afficherModifier();
+		}	
+	};
+	
+	this.afficherDetailReservation = function() {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.detailReservation;
+		
+		var lData = {};		
+		lData.adhId = this.mAdherent.adhId;
+		lData.adhNumero = this.mAdherent.adhNumero;
+		lData.adhCompte = this.mAdherent.cptLabel;
+		lData.adhNom = this.mAdherent.adhNom;
+		lData.adhPrenom = this.mAdherent.adhPrenom;
+		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
+		
+		lData.sigleMonetaire = gSigleMonetaire;
+		lData.comNumero = this.infoCommande.comNumero;
+		lData.dateFinReservation = this.infoCommande.dateFinReservation;
+		lData.heureFinReservation = this.infoCommande.heureFinReservation;
+		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
+		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
+		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
+		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
+		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
+		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
+		lData.categories = [];
+		
+		var lTotal = 0;
+		$.each(this.pdtCommande, function() {
+			var lInfoProduit = this;
+			if(that.reservation[this.id]) {
+				var lPdt = new Object;
+				lPdt.proId = lInfoProduit.id;
+				lPdt.nproNom = this.nom;
+				lPdt.stoQuantite = parseFloat(that.reservation[this.id].stoQuantite);
+				lPdt.proUniteMesure = this.unite;
+				lPdt.prix = 0;
+				var lDcomId = that.reservation[this.id].dcomId;
+				$.each(this.lots, function() {
+					if(this.id == lDcomId) {
+						lPdt.prix = (lPdt.stoQuantite / this.taille) * this.prix;
+					}
+				});
+				lTotal += lPdt.prix;
+				
+				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
+				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
+				
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				
+				lPdt.flagType = "";
+				if(lInfoProduit.type == 2) {
+					lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+				}
+				
+				lData.categories[this.idCategorie].produits.push(lPdt);
+			}			
+		});
+		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
+		
+		
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
+	};
+	
+	this.afficherModifier = function() {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.modifierReservation;
+		var lData = {};
+		lData.adhId = this.mAdherent.adhId;
+		lData.adhNumero = this.mAdherent.adhNumero;
+		lData.adhCompte = this.mAdherent.cptLabel;
+		lData.adhNom = this.mAdherent.adhNom;
+		lData.adhPrenom = this.mAdherent.adhPrenom;
+		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
+		lData.adhNouveauSolde = 0;
+		lData.sigleMonetaire = gSigleMonetaire;
+		lData.comNumero = this.infoCommande.comNumero;
+		lData.dateFinReservation = this.infoCommande.dateFinReservation;
+		lData.heureFinReservation = this.infoCommande.heureFinReservation;
+		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
+		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
+		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
+		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
+		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
+		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
+		lData.categories = [];
+		
+		var lTotal = 0;		
+		$.each(this.pdtCommande, function() {
+			// Test si la ligne n'est pas vide
+			if(this.id) {
+				var lPdt = {};
+				lPdt.proId = this.id;
+				lPdt.nproNom = this.nom;
+				lPdt.proUniteMesure = this.unite;
+				
+				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
+				lPdt.flagType = "";
+				
+				// Recherche de la quantité reservée pour la déduire de la quantité max
+				if(that.reservation[this.id]) {
+					lPdt.stock = parseFloat(this.stockReservation) + parseFloat(that.reservation[this.id].stoQuantite);						
+				} else {
+					lPdt.stock = parseFloat(this.stockReservation);
+				}
+				
+				/*if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
+					lPdt.max = lPdt.proMaxProduitCommande;
+				} else {
+					lPdt.max = lPdt.stock;
+				}*/
+				
+				lPdt.lot = new Array();
+				
+				var lNoStock = false;
+				if(parseFloat(this.qteMaxCommande) == -1 && parseFloat(this.stockInitial) == -1) { // Si ni stock ni qmax
+					lNoStock = true;
+				} else if(parseFloat(this.stockInitial) == -1) { // Si qmax mais pas stock
+					lPdt.max = lPdt.proMaxProduitCommande;
+				} else if(parseFloat(this.qteMaxCommande) == -1) { // Si stock mais pas qmax
+					lPdt.max = lPdt.stock;
+				} else { // Si stock et qmax
+					if(parseFloat(lPdt.proMaxProduitCommande) < parseFloat(lPdt.stock)) {
+						lPdt.max = lPdt.proMaxProduitCommande;
+					} else {
+						lPdt.max = lPdt.stock;
+					}					
+				}
+				
+				var i = 0;
+				var lLotReservation = -1;
+				var lLotInit = -1;
+				
+				lPdt.stoQuantiteReservation = 0;
+				lPdt.prixReservation = 0;
+				
+				$.each(this.lots, function() {
+					if(this.id) {
+						if(lNoStock || (!lNoStock && parseFloat(this.taille) <= lPdt.max) ) {
+							var lLot = {};
+							lLot.dcomId = this.id;
+							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
+							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
+							lLot.prixReservation = parseFloat(this.prix);
+							lLot.stoQuantiteReservation = parseFloat(this.taille);
+							
+							if(that.reservation[lPdt.proId] && (that.reservation[lPdt.proId].dcomId == this.id)) {
+									lLot.stoQuantiteReservation = parseFloat(that.reservation[lPdt.proId].stoQuantite);
+									lLot.prixReservation = (lLot.stoQuantiteReservation / this.taille) * this.prix;
+									lTotal += lLot.prixReservation;
+									
+									// Permet de cocher le lot correspondant à la résa
+									lLotReservation = this.id;
+									lLot.checked = 'checked="checked"';
+									
+									lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
+									lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+							}
+							
+							if( lPdt.prixReservation == 0) {
+								lPdt.stoQuantiteReservation = lLot.stoQuantiteReservation.nombreFormate(2,',',' ');
+								lPdt.prixReservation = lLot.prixReservation.nombreFormate(2,',',' ');
+							}
+							
+							lPdt.prixUnitaire = (lLot.prixReservation / lLot.stoQuantiteReservation).nombreFormate(2,',',' '); 						
+														
+							lPdt.lot.push(lLot);
+						}
+					}
+				});
+				
+				lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
+				
+				// Si il y a une réservation pour ce produit on le coche
+				if(lLotReservation != -1) {
+					lPdt.checked = 'checked="checked"';
+				} else {
+					lPdt.checked = '';
+				}
+				
+				/*if(lPdt.lot.length == 0) {		
+					lPdt.checked = 'rel="indisponible"';
+				}*/
+				//lData.produit.push(lPdt);
+				/*if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				lData.categories[this.idCategorie].produits.push(lPdt);*/
+				
+				if(!lData.categories[this.idCategorie]) {
+					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
+				}
+				
+				lPdt.sigleMonetaire = gSigleMonetaire;
+				var lAjoutProduit = true;
+				if(this.type == 0 ) {
+					if(lPdt.lot.length == 0) {
+						lPdt.nom = this.nom;
+						lPdt.detailProduit = lGestionCommandeTemplate.produitIndisponible.template(lPdt);
+					} else {
+						lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduit.template(lPdt);
+					}
+				} else if(this.type == 1 ) {
+					lPdt.flagType = lGestionCommandeTemplate.flagSolidaire;
+					lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduitInfo.template(lPdt);
+				} else if(this.type == 2 ) {
+					lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;					
+					if(lPdt.lot.length == 0) { // L'admin peut modifier les réservations abonnement
+						lAjoutProduit = false;
+					} else {
+						lPdt.detailProduit = lGestionCommandeTemplate.formReservationProduit.template(lPdt);
+					}		
+				}
+				
+				if(lAjoutProduit) {
+					lData.categories[this.idCategorie].produits.push(lPdt);
+				}
+			}
+		});
+		
+		// Maj des reservations temp pour modif
+		this.reservationModif = [];
+		$(this.reservation).each(function() {
+			if(this.proId) {
+					that.reservationModif[this.proId] = {
+						proId:this.proId,
+						dcomId:this.dcomId,
+						stoQuantite:this.stoQuantite
+						};
+			}
+		});
+		
+		$('#contenu').replaceWith(that.affectModifier($(lTemplate.template(lData))));
+		this.majNouveauSolde();
+	};
+	
+	this.affectDroitArchive = function(pData) {
+		pData.find(".boutons-edition").remove();
+		pData.find(".boutons-edition-modification").remove();
+		return pData;
+	};
+	
+	this.affect = function(pData) {
+		pData = this.affectModifierReservation(pData);
+		pData = this.affectAnnulerDetailReservation(pData);
+		pData = this.affectSupprimerReservation(pData);		
+		pData = this.affectInfoProduit(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+		
+	this.affectModifier = function(pData) {
+		pData = this.affectBtnQte(pData);
+		pData = this.affectChangementLot(pData);
+		pData = this.affectChangementProduit(pData);
+		pData = this.preparerAffichageModifier(pData);
+		pData = this.affectValiderReservation(pData);
+		pData = this.affectAnnulerReservation(pData);	
+		pData = this.supprimerSelect(pData);	
+		pData = this.affectNouveauSolde(pData);
+		pData = this.affectInitLot(pData);
+		pData = this.affectInfoProduit(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+			pData = this.affectDroitArchive(pData);
+		}
+		return pData;
+	};
+	
+	this.affectInfoProduit = function(pData) {
+		var that = this;
+		pData.find('.btn-info-produit')
+		.click(function() {		
+			var lId = $(this).attr('id-produit');
+			var lParam = {id:lId,fonction:"detailProduit"};
+			$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								var lGestionCommandeTemplate = new GestionCommandeTemplate();
+								var lTemplate = lGestionCommandeTemplate.dialogInfoProduit;
+								
+								lResponse.produit.sigleMonetaire = gSigleMonetaire;
+								
+								var lHtml = $(lTemplate.template(lResponse.produit));
+								
+								if(lResponse.produit.producteurs.length > 0 && lResponse.produit.producteurs[0].nPrdtIdNomProduit == null) {
+									lHtml.find('#pro-prdt').remove();
+								}
+								if(lResponse.produit.caracteristiques.length > 0 && lResponse.produit.caracteristiques[0].carProIdNomProduit == null) {
+									lHtml.find('#pro-car').remove();
+								}
+								
+								$(lHtml).dialog({			
+									autoOpen: true,
+									modal: true,
+									draggable: true,
+									resizable: false,
+									width:600,
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+								});								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+			
+		});
+		return pData;
+	};
+	
+	this.affectBtnQte = function(pData) {
+		var that = this;
+		pData.find('.btn-plus').click(function() {
+			Infobulle.init(); // Supprime les erreurs
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			that.nouvelleQuantite(	lIdPdt,
+									$(this).parent().parent().find('#lot-' + lIdPdt).val(),
+									1);
+		});	
+		pData.find('.btn-moins').click(function() {
+			Infobulle.init(); // Supprime les erreurs
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			that.nouvelleQuantite(lIdPdt,$(this).parent().parent().find('#lot-' + lIdPdt).val(),-1);
+		});
+		return pData;		
+	};
+	
+	this.affectChangementLot = function(pData) {
+		var that = this;
+		pData.find('.pdt select').change(function() {
+			Infobulle.init(); // Supprime les erreurs
+			that.changerLot($(this).parent().parent().find(".pdt-id").text(),$(this).val());
+		});
+		return pData;
+	};
+	
+	this.affectChangementProduit = function(pData) {
+		var that = this;
+		pData.find('.pdt :checkbox').click(function() {
+			Infobulle.init(); // Supprime les erreurs
+			that.changerProduit($(this).parent().parent().find(".pdt-id").text());			
+		});
+		return pData;
+	};
+	
+	this.affectValiderReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-valider').click(function() {
+			that.validerReservation();			
+		});
+		return pData;	
+	};
+	
+	this.affectAnnulerReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-annuler').click(function() {
+			if(that.mPremiereReservation) {
+				ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});	
+			} else {
+				that.afficherDetailReservation();		
+			}
+		});
+		return pData;
+	};
+	
+	this.affectModifierReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-modifier').click(function() {
+			that.afficherModifier();		
+		});
+		return pData;
+	};
+	
+	this.affectAnnulerDetailReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-annuler').click(function() {
+			ListeReservationMarcheVue({"id_marche":that.infoCommande.comId});		
+		});
+		return pData;
+	};	
+	
+	this.affectInitLot = function(pData) {
+		var that = this;
+		pData.find('.pdt select').each(function() {
+			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			var lIdLot = $(this).val();
+			
+			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
+				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
+				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
+				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				
+				$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
+			}
+		});
+		return pData;
+	};
+	
+	this.nouvelleQuantite = function(pIdPdt,pIdLot,pIncrement) {		
+		// La quantité max soit qte max soit stock
+		var lMax = parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande);
+		
+		// Recherche de la quantité reservée pour la déduire de la quantité max
+		if(this.reservation[pIdPdt]) {
+			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
+		} else {
+			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
+		}
+		
+		var lNoStock = false;
+		if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1 && parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si ni stock ni qmax
+			lNoStock = true;
+		} else if(parseFloat(this.pdtCommande[pIdPdt].stockInitial) == -1) { // Si qmax mais pas stock
+			lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
+		} else if(parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande) == -1) { // Si stock mais pas qmax
+			lMax = lStock;
+		} else { // Si stock et qmax
+			if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }				
+		}
+		
+		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
+		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
+
+		// Récupère le nombre de lot réservé
+		var lQteReservation = 0;
+		if(this.reservationModif[pIdPdt] && (this.reservationModif[pIdPdt].dcomId == pIdLot)) {
+			lQteReservation = parseFloat(this.reservationModif[pIdPdt].stoQuantite)/parseFloat(lTaille);
+		}
+		lQteReservation += pIncrement;
+		
+		var lNvQteReservation = 0;		
+		lNvQteReservation = lQteReservation * lTaille;
+		
+		// Test si la quantité est dans les limites
+		if((lNoStock && lNvQteReservation > 0) || (!lNoStock && lNvQteReservation > 0 && lNvQteReservation <= lMax)) {
+			var lNvPrix = 0;
+			lNvPrix = (lQteReservation * lPrix).toFixed(2);
+
+			// Mise à jour de la quantite reservée
+			this.reservationModif[pIdPdt].stoQuantite = lNvQteReservation;			
+			
+			$('#qte-pdt-' + pIdPdt).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
+			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
+
+			this.majTotal();
+		} else if(lNvQteReservation > lMax && lMax != -1) {			
+			var lVr = new TemplateVR();
+			lVr.valid = false;
+			lVr.commandes = [];
+			              
+			var lProduit = new ReservationCommandeVR();              
+			lProduit.valid = false;
+			lProduit.stoQuantite.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_304_CODE;
+			erreur.message = ERR_304_MSG;
+			lProduit.stoQuantite.erreurs.push(erreur);		
+			lVr.commandes[pIdPdt] = lProduit;
+			
+			Infobulle.generer(lVr,'');
+		}		
+	};
+	
+	this.changerLot = function(pIdPdt,pIdLot) {
+		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
+		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
+		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+
+		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
+		
+		if(this.reservationModif[pIdPdt]) {
+			this.reservationModif[pIdPdt].dcomId = pIdLot;
+			this.reservationModif[pIdPdt].stoQuantite = lQte;
+			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
+			$('#prix-pdt-' + pIdPdt).text(lPrix.nombreFormate(2,',',' '));
+		}
+		
+		this.majTotal();
+	};
+	
+	this.changerProduit = function(pIdPdt) {
+		if(this.reservationModif[pIdPdt] != null) {
+			$('.resa-pdt-' + pIdPdt).hide();
+			$('#qte-pdt-' + pIdPdt).text('');
+			$('#prix-pdt-' + pIdPdt).text('');
+			this.reservationModif[pIdPdt] = null;
+		} else {
+			var lIdLot = $('#lot-' + pIdPdt).val();
+			var lQte = this.pdtCommande[pIdPdt].lots[lIdLot].taille;			
+			
+			var lResa = {};
+			lResa.comId = this.infoCommande.comId;
+			lResa.proId = pIdPdt;
+			lResa.dcomId = lIdLot;
+			lResa.stoQuantite = lQte;						
+			this.reservationModif[pIdPdt] = lResa;
+			
+			$('#qte-pdt-' + pIdPdt).text(lQte.nombreFormate(2,',',' '));
+			var lPrix = this.pdtCommande[pIdPdt].lots[lIdLot].prix.nombreFormate(2,',',' ');
+			$('#prix-pdt-' + pIdPdt).text(lPrix);
+			
+			$('.resa-pdt-' + pIdPdt).show();
+		}
+		this.majTotal();
+	};
+	
+	this.majTotal = function() {
+		$('#total').text(this.calculTotal().nombreFormate(2,',',' '));
+		this.majNouveauSolde();
+	};
+	
+	this.majNouveauSolde = function() {
+		var lNvSolde = this.mAdherent.cptSolde - this.calculTotal();
+		if(lNvSolde <= 0) {
+			$("#nouveau-solde").addClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
+		} else {
+			$("#nouveau-solde").removeClass("com-nombre-negatif");
+			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
+		$("#nouveau-solde").text(lNvSolde.nombreFormate(2,',',' '));
+	};
+	
+	this.affectNouveauSolde = function(pData) {
+		var lNvSolde = this.mAdherent.cptSolde - this.calculTotal();
+		if(lNvSolde <= 0) {
+			pData.find("#nouveau-solde").addClass("com-nombre-negatif");
+			pData.find("#nouveau-solde-sigle").addClass("com-nombre-negatif");			
+		} else {
+			pData.find("#nouveau-solde").removeClass("com-nombre-negatif");
+			pData.find("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
+		}
+		pData.find("#nouveau-solde").text(lNvSolde.nombreFormate(2,',',' '));
+		return pData;		
+	};
+	
+	this.calculTotal = function() {
+		var that = this;
+		var lTotal = 0;
+		$(this.reservationModif).each(function() {
+			var lResa = this;
+			if(lResa.stoQuantite) {
+				if(that.pdtCommande[lResa.proId]) {
+					$.each(that.pdtCommande[lResa.proId].lots, function() {
+						if(lResa.dcomId == this.id) {
+							lTotal += (lResa.stoQuantite / this.taille) * this.prix;
+						}
+					});					
+				}				
+			}
+		});
+		return lTotal;
+	};
+	
+	this.preparerAffichageModifier = function(pData) {
+		var that = this;
+		
+		$(pData).find('.pdt').each(function() {
+			var lIdPdt = $(this).find('.pdt-id').text();
+			if(that.reservation[lIdPdt] != null) {
+				var lResa = that.reservation[lIdPdt];
+				var lIdLot = lResa.dcomId;
+				var lQte = lResa.stoQuantite;			
+				$(pData).find('#qte-pdt-' + lIdPdt).text(lQte.nombreFormate(2,',',' '));
+				
+				var lPrix = ((that.pdtCommande[lIdPdt].lots[lIdLot].prix * lResa.stoQuantite)/that.pdtCommande[lIdPdt].lots[lIdLot].taille).nombreFormate(2,',',' ');
+				$(pData).find('#prix-pdt-' + lIdPdt).text(lPrix);
+				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
+				
+				//$(pData).find('.resa-pdt-' + lIdPdt).show();
+				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
+			}
+		});
+		return pData;
+	};
+	
+	this.validerReservation = function() {
+		var that = this;
+		Infobulle.init(); // Supprime les erreurs
+		
+		var lVo = new ListeReservationCommandeVO();
+		var lNbPdt = 0;
+		$(this.reservationModif).each(function() {
+			if(this.stoQuantite) {
+				var lVoResa = new ReservationCommandeVO();
+				lVoResa.stoQuantite = this.stoQuantite * -1;
+				lVoResa.stoIdDetailCommande = this.dcomId;
+				lVo.detailReservation.push(lVoResa);
+				lNbPdt++;
+			}
+		});
+		
+		if(lNbPdt > 0){
+			var lValid = new ListeReservationCommandeValid();
+			var lVR = lValid.validAjout(lVo);
+			if(!lVR.valid){
+				Infobulle.generer(lVR,'');
+			} else {
+				// Maj de la reservation
+				lVo.fonction = "modifierReservation";
+				lVo.id_compte = this.mAdherent.adhIdCompte;
+				//lParam = {"reservation":lVo,"id_compte":this.mAdherent.adhIdCompte,fonction:"modifierReservation"};
+				$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lVo),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {							
+								// Maj des reservations pour le recap
+								/*that.reservation = new Array();
+								$(that.reservationModif).each(function() {
+									if(this.proId) {									
+										that.reservation[this.proId] = {comId:this.comId,proId:this.proId,dcomId:this.dcomId,stoId:this.stoId,stoQuantite:this.stoQuantite,stoType:this.stoType,stoIdCompte:this.stoIdCompte};
+									}
+								});
+								that.afficher();*/
+								// Maj des reservations pour le recap
+								that.reservation = [];
+								$(that.reservationModif).each(function() {
+									if(this.proId) {
+										that.reservation[this.proId] = {
+												proId:this.proId,
+												dcomId:this.dcomId,
+												stoQuantite:this.stoQuantite
+												};
+									}
+								});
+								
+								if(that.mPremiereReservation)  {
+									that.mPremiereReservation = false;								
+									// Message d'information du bon enregistrement
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_350_CODE;
+									erreur.message = ERR_350_MSG;
+									lVr.log.erreurs.push(erreur);	
+									Infobulle.generer(lVr,'');
+									
+								} else {								
+									// Message d'information de la bonne modification
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_337_CODE;
+									erreur.message = ERR_337_MSG;
+									lVr.log.erreurs.push(erreur);	
+									Infobulle.generer(lVr,'');
+								}
+								
+								that.afficher(1);
+								
+								
+								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+				);	
+			}			
+		} else {
+			var lVR = new TemplateVR();
+			lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_207_CODE;erreur.message = ERR_207_MSG;lVR.log.erreurs.push(erreur);
+			Infobulle.generer(lVR,'');
+		}		
+	};
+	
+	this.affectSupprimerReservation = function(pData) {
+		var that = this;
+		pData.find('#btn-supprimer').click(function() {
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			var lTemplate = lGestionCommandeTemplate.supprimerReservationDialog;
+			$(lTemplate).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Supprimer': function() {
+						var lParam = {	id_commande:that.infoCommande.comId,
+										id_compte:that.mAdherent.adhIdCompte,
+										fonction:"supprimerReservation"};
+						var lDialog = this;
+						$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lParam),
+								function(lResponse) {
+									Infobulle.init(); // Supprime les erreurs
+									if(lResponse) {
+										if(lResponse.valid) {
+											
+											var lVr = new TemplateVR();
+											lVr.valid = false;
+											lVr.log.valid = false;
+											var erreur = new VRerreur();
+											erreur.code = ERR_303_CODE;
+											erreur.message = ERR_303_MSG;
+											lVr.log.erreurs.push(erreur);							
+	
+											// Redirection vers la vue edition
+											ListeReservationMarcheVue({id_marche:that.infoCommande.comId,
+																vr:lVr});
+											
+											$(lDialog).dialog("close");
+											
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
+									}
+								},"json"
+						);
+					},
+					'Annuler': function() { $(this).dialog("close"); }
+					},
+				close: function(ev, ui) { $(this).remove(); }
+			});
+		});
+		return pData;
+	};
+	
+	this.supprimerSelect = function(pData) {
+		pData.find('.pdt select').each(function() {
+			if($(this).find('option').size() == 1) {				
+				var lGestionCommandeTemplate = new GestionCommandeTemplate();
+				var lTemplate = lGestionCommandeTemplate.lotUnique;
+				var lData = {};
+				lData.IdPdt = $(this).parent().parent().find(".pdt-id").text();
+				lData.valeur = $(this).val();
+				lData.text = $(this).text();
+				
+				$(this).replaceWith(lTemplate.template(lData));
+			}
+		});
+		
+		return pData;
+	};
+	
+	this.construct(pParam);
 };function ListeReservationMarcheVue(pParam) {
 	this.mIdMarche = null;
 	
@@ -8965,8 +8700,6 @@
 		var that = this;
 
 		// Met le bouton en actif
-		/*$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-resa").addClass("ui-state-active");*/
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 		
 		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
@@ -9032,7 +8765,7 @@
 	this.affectReservation = function(pData) {
 		var that = this;
 		pData.find('.edt-com-reservation-ligne').click(function() {
-			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
+			ReservationAdherentVue({"id_commande":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
 		});
 		return pData;
 	};
@@ -9422,7 +9155,8 @@
 	this.affectDupliquerMarche = function(pData) {
 		var that = this;
 		pData.find('#btn-dupliquer-com').click(function() {
-			DupliquerMarcheVue({"id_marche":that.mIdMarche});
+			//DupliquerMarcheVue({"id_marche":that.mIdMarche, fonction:"dupliquer"});
+			AjoutCommandeVue({"id_marche":that.mIdMarche, fonction:"dupliquer"});
 		});
 		return pData;
 	};
@@ -10210,8 +9944,6 @@
 		lVo.unite = $("#pro-lot-" + pId + "-unite").val();
 		lVo.prix = $("#pro-lot-" + pId + "-prix").val().numberFrToDb();
 	
-		/*var lValid = new ModeleLotValid();
-		var lVr = lValid.validAjout(lVo);*/
 		var lValid = new ModeleLotValid();
 		if(this.autorisationSupprimerLot(pId)) {
 			var lVr = lValid.validAjout(lVo);

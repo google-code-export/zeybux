@@ -97,7 +97,7 @@ class ModificationAdherentControleur
 				$lOperation->setMontant(0);
 				$lOperation->setLibelle("Création du compte");
 				$lOperation->setDate(StringUtils::dateAujourdhuiDb());
-				$lOperation->setType(1);
+				//$lOperation->setType(1);
 				$lOperation->setIdCommande(0);
 				$lOperation->setTypePaiement(-1);				
 				OperationManager::insert($lOperation);

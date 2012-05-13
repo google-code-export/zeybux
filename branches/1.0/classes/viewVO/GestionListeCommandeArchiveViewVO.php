@@ -22,6 +22,12 @@ class GestionListeCommandeArchiveViewVO extends DataTemplate
 	* @desc ComId de la ListeCommandeArchiveViewVO
 	*/
 	protected $mComId;
+	
+	/**
+	* @var varchar(100)
+	* @desc ComNom de la ListeCommandeArchiveViewVO
+	*/
+	protected $mComNom;
 
 	/**
 	* @var int(11)
@@ -65,6 +71,24 @@ class GestionListeCommandeArchiveViewVO extends DataTemplate
 		$this->mComId = $pComId;
 	}
 
+	/**
+	* @name getComNom()
+	* @return varchar(100)
+	* @desc Renvoie le membre ComNom de la ListeCommandeArchiveViewVO
+	*/
+	public function getComNom() {
+		return $this->mComNom;
+	}
+
+	/**
+	* @name setComNom($pComNom)
+	* @param varchar(100)
+	* @desc Remplace le membre ComNom de la ListeCommandeArchiveViewVO par $pComNom
+	*/
+	public function setComNom($pComNom) {
+		$this->mComNom = $pComNom;
+	}
+	
 	/**
 	* @name getComNumero()
 	* @return int(11)

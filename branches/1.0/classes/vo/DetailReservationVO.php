@@ -48,6 +48,18 @@ class DetailReservationVO  extends DataTemplate
 	* @desc Id du produit de la DetailReservationVO
 	*/
 	protected $mIdProduit;
+	
+	/**
+	* @var int(11)
+	* @desc Id du Nom produit de la DetailReservationVO
+	*/
+	protected $mIdNomProduit;
+	
+	/**
+	* @var varchar(20)
+	* @desc Unite de la DetailReservationVO
+	*/
+	protected $mUnite;
 
 	/**
 	* @name DetailReservationVO()
@@ -145,6 +157,42 @@ class DetailReservationVO  extends DataTemplate
 	*/
 	public function setIdProduit($pIdProduit) {
 		$this->mIdProduit = $pIdProduit;
+	}
+
+	/**
+	* @name getIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre IdNomProduit de la DetailReservationVO
+	*/
+	public function getIdNomProduit() {
+		return $this->mIdNomProduit;
+	}
+
+	/**
+	* @name setIdNomProduit($pIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre IdNomProduit de la DetailReservationVO par $pIdNomProduit
+	*/
+	public function setIdNomProduit($pIdNomProduit) {
+		$this->mIdNomProduit = $pIdNomProduit;
+	}
+
+	/**
+	* @name getUnite()
+	* @return int(11)
+	* @desc Renvoie le membre Unite de la DetailReservationVO
+	*/
+	public function getUnite() {
+		return $this->mUnite;
+	}
+
+	/**
+	* @name setUnite($pUnite)
+	* @param int(11)
+	* @desc Remplace le membre Unite de la DetailReservationVO par $pUnite
+	*/
+	public function setUnite($pUnite) {
+		$this->mUnite = $pUnite;
 	}
 }
 ?>

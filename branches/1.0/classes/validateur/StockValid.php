@@ -157,5 +157,62 @@ class StockValid
 	public function delete($pId) {
 		return $this->id($pId);
 	}
+	
+	/** Solidaire **/
+	/**
+	* @name inputSolidaire($pStockSolidaire)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function inputSolidaire($pStockSolidaire) {
+		if(is_object($pStockSolidaire)) {
+			$lInput = true;
+			$lInput &= get_class($pStockSolidaire) == "StockSolidaireVO";
+			$lIdValid = new IdValid();
+			if($pStockSolidaire->getId() != "") {
+				$lInput &= $lIdValid->estId($pStockSolidaire->getId());
+			}
+			$lInput &= $lIdValid->estId($pStockSolidaire->getIdNomProduit());					
+			$lInput &= TestFonction::checkLength($pStockSolidaire->getQuantite(),0,12);
+			$lInput &= is_float((float)$pStockSolidaire->getQuantite());			
+			$lInput &= TestFonction::checkLength($pStockSolidaire->getUnite(),0,20);
+			return $lInput;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	* @name insertSolidaire($pStock)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function insertSolidaire($pStock) {
+		$lId = $pStock->getId();
+		return empty($lId);
+	}
+	
+	/**
+	* @name updateSolidaire($pStock)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function updateSolidaire($pStock) {
+		$lId = $pStock->getId();
+		return !empty($lId);
+	}
+	
+	/**
+	* @name deleteSolidaire($pId)
+	* @return bool
+	* @desc Test la validite de l'élément
+	*/
+	public function deleteSolidaire($pId) {
+		$lIdValid = new IdValid();
+		if($pId != "") {
+			return $lIdValid->estId($pId);
+		}
+		return false;
+	}
 }
 ?>

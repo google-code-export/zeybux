@@ -11,6 +11,7 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "StockValid.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
@@ -266,7 +267,7 @@ class StockService
 			return $this->selectAll();
 		}
 	}
-	
+		
 	/**
 	* @name select($pId)
 	* @param integer
@@ -298,6 +299,132 @@ class StockService
 			array($pIdOperation),
 			array(StockManager::CHAMP_STOCK_DATE,StockManager::CHAMP_STOCK_TYPE),
 			array('DESC','ASC'));
+	}
+	
+/** Solidaire **/
+	
+	/**
+	* @name setSolidaire($pStock)
+	* @param StockSolidaireVO
+	* @return integer
+	* @desc Ajoute ou modifie le stock solidaire
+	*/
+	public function setSolidaire($pStock) {
+		$lStockValid = new StockValid();
+		if($lStockValid->inputSolidaire($pStock)) {
+			if($lStockValid->insertSolidaire($pStock)) {
+				return $this->insertSolidaire($pStock);			
+			} else if($lStockValid->updateSolidaire($pStock)) {
+				return $this->updateSolidaire($pStock);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	* @name insertSolidaire($pStock)
+	* @param StockSolidaireVO
+	* @return integer
+	* @desc Ajoute un stock solidaire
+	*/
+	private function insertSolidaire($pStock) {
+		$pStock->setDateCreation(StringUtils::dateTimeAujourdhuiDb());		
+		$lId = StockSolidaireManager::insert($pStock); // Ajout du stock
+		return $lId;
+	}
+	
+	/**
+	* @name updateSolidaire($pStock)
+	* @param StockSolidaireVO
+	* @return integer
+	* @desc Met à jour un stock solidaire
+	*/
+	private function updateSolidaire($pStock) {
+		$lStockActuel = $this->getSolidaire($pStock->getId());
+		$pStock->setDateCreation($lStockActuel->getDateCreation());
+		$pStock->setDateModification(StringUtils::dateTimeAujourdhuiDb());
+		$pStock->setEtat($lStockActuel->getEtat());
+		return StockSolidaireManager::update($pStock); // update
+	}
+	
+	/**
+	* @name deleteSolidaire($pId)
+	* @param integer
+	* @desc Supprime le stock
+	*/
+	public function deleteSolidaire($pId) {
+		$lStockValid = new StockValid();
+		if($lStockValid->deleteSolidaire($pId)){
+			$lStockSolidaire = $this->getSolidaire($pId);
+			$lStockSolidaire->setEtat(1);
+			return $this->updateSolidaire($lStock);			
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	* @name getSolidaire($pId)
+	* @param integer
+	* @return array(StockSolidaireVO) ou StockSolidaireVO
+	* @desc Retourne une liste de virement
+	*/
+	public function getSolidaire($pId = null) {
+		if($pId != null) {
+			return $this->selectSolidaire($pId);
+		} else {
+			return $this->selectSolidaireAll();
+		}
+	}
+	
+	/**
+	* @name selectSolidaire($pId)
+	* @param integer
+	* @return StockSolidaireVO
+	* @desc Retourne une Stock
+	*/
+	public function selectSolidaire($pId) {
+		return StockSolidaireManager::select($pId);
+	}
+	
+	/**
+	* @name selectSolidaireAll()
+	* @return array(StockSolidaireVO)
+	* @desc Retourne une liste de Stock
+	*/
+	public function selectSolidaireAll() {
+		return StockSolidaireManager::selectAll();
+	}
+	
+	/**
+	* @name selectSolidaireAllActif()
+	* @return array(StockSolidaireVO)
+	* @desc Retourne une liste de Stock
+	*/
+	public function selectSolidaireAllActif() {
+		return StockSolidaireManager::recherche(
+			array(StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ETAT),
+			array('='),
+			array(0),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectSolidaireByIdNomProduitUnite()
+	* @return array(StockSolidaireVO)
+	* @desc Retourne une liste de Stock
+	*/
+	public function selectSolidaireByIdNomProduitUnite($pIdNomProduit,$pUnite) {
+		return StockSolidaireManager::recherche(
+			array(StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ETAT,StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ID_NOM_PRODUIT,StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_UNITE),
+			array('=','=','='),
+			array(0,$pIdNomProduit,$pUnite),
+			array(''),
+			array(''));
 	}
 }
 ?>

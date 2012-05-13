@@ -158,7 +158,7 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
 							lProduit.lot.push(lLot);
 						}
@@ -187,8 +187,9 @@
 					lProduitSolidaire.flagType = lProduit.flagType;
 					lProduitSolidaire.prixUnitaire = lProduit.prixUnitaire;
 					
+					var lIdNomProduit = this.idNom;
 					$(pResponse.stockSolidaire).each(function() {
-						if(lProduit.proId == this.proId){
+						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
 								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 							}
@@ -310,7 +311,7 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
 							lProduit.lot.push(lLot);
 						}
@@ -343,8 +344,11 @@
 						lProduit.flagType = lCaisseTemplate.flagAbonnement;
 					}
 					
+					
+
+					var lIdNomProduit = this.idNom;
 					$(pResponse.stockSolidaire).each(function() {
-						if(lProduit.proId == this.proId){
+						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							var lPrix = 0;
 							$.each(lProduitCommande.lots, function() {
 								if(this.id) {
@@ -376,7 +380,7 @@
 										});										
 									});
 									
-									lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+									lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																			
 									lProduit.lot.push(lLot);
 								}
@@ -396,7 +400,7 @@
 			
 			lData.adhNouveauSolde = this.solde.nombreFormate(2,',',' ');
 			
-			this.solde = (this.solde + lData.total + lData.totalSolidaire).toFixed(2);;
+			this.solde = (this.solde + lData.total + lData.totalSolidaire).toFixed(2);
 
 			lData.adhSolde = this.solde;
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
@@ -517,7 +521,7 @@
 			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
 				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
 				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
-				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 				
 				$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
 			}
@@ -529,7 +533,7 @@
 			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
 				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
 				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
-				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 				
 				$(pData).find('#prix-unitaire-solidaire-' + lIdPdt).text(lprixUnitaire);
 			}
@@ -551,7 +555,7 @@
 	this.changerLot = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
 		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 		
 		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
 		$('#produits' + pIdPdt +'quantite,#produits' + pIdPdt + 'prix').val("");		
@@ -562,7 +566,7 @@
 	this.changerLotSolidaire = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
 		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 		
 		$('#prix-unitaire-solidaire-' + pIdPdt).text(lprixUnitaire);
 		$('#produitsSolidaire' + pIdPdt +'quantite,#produitsSolidaire' + pIdPdt + 'prix').val("");	
@@ -657,6 +661,10 @@
 		//var lprixUnitaire = lPrix / lQte; 
 		
 		var lNvPrix = (lPrix / lQte * lQuantite).toFixed(2);
+		
+		//var lNvPrix = (lPrix / lQte * lQuantite);
+		
+		//alert(lNvPrix);
 		if(isNaN(lNvPrix)) {lNvPrix = 0;}
 
 		if(lNvPrix != 0) {
@@ -1143,14 +1151,7 @@
 	
 	
 	this.boutonModifier = function() {
-		if(this.etapeValider == 1) {
-			/*$(".produit-prix,.produit-solidaire-prix,#rechargementmontant,.produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).textToInput();});
-			$(".lot-vente-produit, #btn-annuler, #btn-modifier").toggle();*/
-			
-			//$(".lot-vente-produit, #btn-annuler, #btn-modifier, .recap").toggle();
-			
-			//$("#btn-annuler, #btn-modifier, #achat-marche-formulaire, #achat-marche-detail, .btn-valider").toggle();
-			
+		if(this.etapeValider == 1) {			
 			$("#btn-annuler, #achat-marche-formulaire, #btn-confirmer").show();
 			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();
 			

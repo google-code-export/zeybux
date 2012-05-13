@@ -1,5 +1,4 @@
 ;function RechargerCompteVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.mTypePaiement = [];
 	this.solde = 0;
 	
@@ -76,7 +75,7 @@
 		pData.find('.compte-ligne').click(function() {
 			
 			
-			var lParam = {'id-adherent':$(this).find(".id-adherent").text(),
+			var lParam = {'id-adherent':$(this).attr("id-adherent"),
 							fonction:"infoRechargement"};
 			
 			$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
@@ -162,7 +161,7 @@
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
 		pData = this.affectNouveauSolde(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	};
 	

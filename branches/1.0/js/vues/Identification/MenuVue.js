@@ -19,7 +19,7 @@
 				  	}
 				},"json"
 		);
-	}	
+	};
 	
 	
 	/******* Nouveau Module *********/
@@ -30,15 +30,15 @@
 		if(pMenu.admin){
 			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
 		}
-	}
+	};
 	
 	this.genererLienDeconnexion = function() {
 		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererNouveauMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
@@ -56,17 +56,17 @@
 		
 		lMenu = this.affectVues(lMenu);
 		return lMenu;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.genererNouveauModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	}
+	};
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
@@ -74,15 +74,15 @@
 		});
 		pData = this.affectHover(pData);
 		return pData;
-	}
+	};
 	/******* Fin Nouveau Module *********/
-	this.afficher = function(pMenu) {
+	/*this.afficher = function(pMenu) {
 		var that = this;	
 		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
 		$('#site').append(that.mMenuTemplate.deconnexion);
-	}
+	};*/
 	
-	this.genererMenu = function(pMenu) {
+	/*this.genererMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
 		lMenu += this.genererModule(pMenu);
 		lMenu += this.mMenuTemplate.finMenu;
@@ -92,12 +92,12 @@
 		lMenu = this.affectVues(lMenu);
 		lMenu = this.affectAnimation(lMenu);
 		return lMenu;
-	}
+	};*/
 	
-	this.genererModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.module;
 		return lTemplate.template(pModule);		
-	}
+	};*/
 	
 	/*this.affectAnimation = function(pData) {
 		var that = this;
@@ -153,7 +153,7 @@
 			return pData;
 		}
 		return null;
-	}
+	};
 	
 	this.construct(pParam);
 }

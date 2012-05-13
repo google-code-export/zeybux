@@ -74,10 +74,10 @@
 		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		// La quantite doit être multiple de l'ancienne et inférieure car des réservations sont positionnées
-		if(pData.quantite > pAncienneQuantite) {
+		if(parseFloat(pData.quantite) > parseFloat(pAncienneQuantite)) {
 			lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_257_CODE;erreur.message = ERR_257_MSG;lVR.quantite.erreurs.push(erreur);
 		} else {
-			if(pAncienneQuantite % pData.quantite != 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_256_CODE;erreur.message = ERR_256_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(parseFloat(pAncienneQuantite) % parseFloat(pData.quantite) != 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_256_CODE;erreur.message = ERR_256_MSG;lVR.quantite.erreurs.push(erreur);}
 		}
 
 		return lVR;

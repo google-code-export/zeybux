@@ -6,19 +6,17 @@
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
 								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
-								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} : </td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
-								"</td>" +*/
+								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
+								"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -63,8 +61,8 @@
 					"</div>" +
 					"<table class=\"com-table\">" +
 						"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
-								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
+							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\" id-adherent=\"0\" >" +
+								"<th class=\"com-table-th com-underline-hover com-center\">Compte invité</th>" +
 							"</tr>" +
 						"</thead>" +
 					"</table>" +
@@ -80,13 +78,14 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAdherentCommande -->" +
-						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer achat-commande-ligne\" id-adherent=\"{listeAdherentCommande.adhId}\">" +							
 							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>" +
 								"{listeAdherentCommande.adhNumero}" +
 							"</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.cptIdTri}</span>" +
+								"{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
 							"<td class=\"com-table-td-fin\">" +

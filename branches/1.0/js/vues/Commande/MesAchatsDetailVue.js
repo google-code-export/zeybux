@@ -1,5 +1,4 @@
 ;function MesAchatsDetailVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.infoCommande = new Object();
 	this.pdtCommande = new Array();
 	this.achats = [];
@@ -31,7 +30,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
@@ -46,6 +45,7 @@
 		//lData.categories = [];
 		
 		lData.achatsSolidaire = [];
+		lData.totalMarche = 0;
 
 		$(pResponse.achats).each(function() {
 			var lAchat = this;
@@ -53,6 +53,7 @@
 			var lAchatClassique = false;
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
+					var lPdtAchete = false;
 					var lIdProduit = this.id;
 					
 					var lPdt = {};
@@ -71,6 +72,7 @@
 									lPdt.stoQuantite = this.quantite * -1;
 									lPdt.prix = this.montant * -1;
 									lAchatClassique = true;
+									lPdtAchete = true;
 								}
 							});
 						}
@@ -80,13 +82,13 @@
 					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 					
 
+					if(lPdtAchete) {
+						if(!lDataPdtAchat[this.idCategorie]) {
+							lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
+						}
+						lDataPdtAchat[this.idCategorie].achat.push(lPdt);
 					
-					if(!lDataPdtAchat[this.idCategorie]) {
-						lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
 					}
-					lDataPdtAchat[this.idCategorie].achat.push(lPdt);
-					
-					
 					
 					//lDataPdtAchat.push(lPdt);
 				}
@@ -98,6 +100,7 @@
 									total:(this.total * -1).nombreFormate(2,',',' ')};				
 				
 				lData.achats.push(lDataAchat);
+				lData.totalMarche += this.total * -1;
 			}
 		});
 
@@ -155,15 +158,18 @@
 									idAchat:this.id.idAchat,
 									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
 				lData.achatsSolidaire.push(lDataAchat);
+				lData.totalMarche += this.totalSolidaire * -1;
 			}
 		});
 		
+		lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-	}
+	};
 	
 	this.affect = function(pData) {
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 }

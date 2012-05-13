@@ -191,7 +191,7 @@ class CommandeManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		$lRequete =
-			"SELECT "
+			"(SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
@@ -206,7 +206,36 @@ class CommandeManager
    					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8)
    					AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pIdCompte . ")
    			AND " . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . " <= now()
-			AND " . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = 0
+   			AND " . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . " >= now()
+			AND " . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = 0)
+			
+			UNION
+			
+			(SELECT "
+			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_FIN . 
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION .
+			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . "
+			FROM " . CommandeManager::TABLE_COMMANDE . "
+			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " IN (
+   					SELECT " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+   					FROM " . OperationManager::TABLE_OPERATION . "
+   					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 0
+   					AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pIdCompte . ")
+   					
+   			AND " . CommandeManager::CHAMP_COMMANDE_ID . " NOT IN (
+   					SELECT " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+   					FROM " . OperationManager::TABLE_OPERATION . "
+   					WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8)
+   					AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pIdCompte . ")
+   					
+   			AND " . CommandeManager::CHAMP_COMMANDE_DATE_DEBUT_RESERVATION . " <= now()
+   			AND " . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . " < now()
+			AND " . CommandeManager::CHAMP_COMMANDE_ARCHIVE . " = 0)
+			
    			ORDER BY " . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . " ASC";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs

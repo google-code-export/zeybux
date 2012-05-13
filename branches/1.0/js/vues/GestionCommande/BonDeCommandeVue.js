@@ -1,5 +1,4 @@
 ;function BonDeCommandeVue(pParam) {
-	//this.mCommunVue = new CommunVue();
 	this.mIdCommande = null;
 	this.mComNumero = null;
 	this.mEtatEdition = false;

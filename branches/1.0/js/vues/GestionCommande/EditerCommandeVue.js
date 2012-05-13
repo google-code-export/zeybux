@@ -304,7 +304,8 @@
 	this.affectDupliquerMarche = function(pData) {
 		var that = this;
 		pData.find('#btn-dupliquer-com').click(function() {
-			DupliquerMarcheVue({"id_marche":that.mIdMarche});
+			//DupliquerMarcheVue({"id_marche":that.mIdMarche, fonction:"dupliquer"});
+			AjoutCommandeVue({"id_marche":that.mIdMarche, fonction:"dupliquer"});
 		});
 		return pData;
 	};
@@ -1092,8 +1093,6 @@
 		lVo.unite = $("#pro-lot-" + pId + "-unite").val();
 		lVo.prix = $("#pro-lot-" + pId + "-prix").val().numberFrToDb();
 	
-		/*var lValid = new ModeleLotValid();
-		var lVr = lValid.validAjout(lVo);*/
 		var lValid = new ModeleLotValid();
 		if(this.autorisationSupprimerLot(pId)) {
 			var lVr = lValid.validAjout(lVo);

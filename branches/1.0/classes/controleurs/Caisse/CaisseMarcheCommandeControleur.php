@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_CAISSE . "/MarcheValid.php");
 
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_CAISSE . "/InfoAchatCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
@@ -50,13 +51,17 @@ class CaisseMarcheCommandeControleur
 		if($lVr->getValid()) {
 			$lAchatService = new AchatService();
 		//	$lReservationService = new ReservationService();
-			
+			$lIdMarche = $pParam['id'];
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			$lProduitsMarche = $lMarche->getProduits();
+						
 			$lAchat = NULL;
 			$lAchatSolidaire = NULL;
 			foreach($pParam["idAchat"] as $lId) {
 				$lIdAchat = new IdAchatVO();				
 				$lIdAchat->setIdCompte($pParam['idCompte']);
-				$lIdAchat->setIdCommande($pParam['id']);
+				$lIdAchat->setIdCommande($lIdMarche);
 				$lIdAchat->setIdAchat($lId);
 				$lAchatTemp = $lAchatService->get($lIdAchat);
 				
@@ -138,13 +143,16 @@ class CaisseMarcheCommandeControleur
 					$lDetailAchat->setQuantite($lDetail["quantite"]);
 					$lDetailAchat->setMontant($lDetail["prix"]);
 					
+					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+					
 					$lNvAchatSolidaire->addDetailAchatSolidaire($lDetailAchat);
 					
 					$lTotal += $lDetail["prix"];
 				}
 				
 				$lNvAchatSolidaire->setTotalSolidaire($lTotal);
-			//	var_dump($lNvAchatSolidaire);
+			
 				$lAchatService->set($lNvAchatSolidaire);
 			} else if(is_null($lAchatSolidaire) && !is_null($lPdtNvAchatSolidaire)){ // Ajout
 				
@@ -161,6 +169,10 @@ class CaisseMarcheCommandeControleur
 					$lDetailAchat->setQuantite($lDetail["quantite"]);
 					$lDetailAchat->setMontant($lDetail["prix"]);
 					$lTotal += $lDetail["prix"];
+					
+					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+					
 					$lNvAchatSolidaire->addDetailAchatSolidaire($lDetailAchat);
 				}
 				$lAchatService->set($lNvAchatSolidaire); // Achat des produits
@@ -181,9 +193,6 @@ class CaisseMarcheCommandeControleur
 				$lOperation->setTypePaiementChampComplementaire($lRechargement['champComplementaire']);
 				$lOperation->setIdCommande(0);
 				
-			}
-			
-			if(!empty($lRechargement['montant']) && $lRechargement['montant'] != 0) {
 				$lOperationService = new OperationService();
 				$lOperationService->set($lOperation);
 			}
@@ -239,7 +248,7 @@ class CaisseMarcheCommandeControleur
 			
 		
 			//if($lReservationService->enCours($lIdReservation)) {
-			//	var_dump($lReservationService->get($lIdReservation));
+		
 				$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());			
 			//} else {
 				$lAchatService = new AchatService();
@@ -249,7 +258,10 @@ class CaisseMarcheCommandeControleur
 				$lResponse->setAchats($lAchatService->getAll($lIdAchat));	
 			//}
 			
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+		//	$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			$lStockService = new StockService();
+			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
+			
 			$lResponse->setStockSolidaire($lStockSolidaire);	
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());
 			
@@ -287,17 +299,22 @@ class CaisseMarcheCommandeControleur
 	public function enregistrerAchat($pParam) {	
 
 		$lVr = MarcheValid::validAjout($pParam);
-		if($lVr->getValid()) {			
+		if($lVr->getValid()) {		
+			$lIdMarche = $pParam['id'];	
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($pParam['idCompte']);
-			$lIdReservation->setIdCommande($pParam['id']);
+			$lIdReservation->setIdCommande($lIdMarche);
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			$lProduitsMarche = $lMarche->getProduits();
 			
 			$lReservationService = new ReservationService();
 			$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
 
 			$lAchat = new AchatVO();
 			$lAchat->getId()->setIdCompte($pParam["idCompte"]);
-			$lAchat->getId()->setIdCommande($pParam["id"]);
+			$lAchat->getId()->setIdCommande($lIdMarche);
 			if($lOperations[0]->getTypePaiement() == 0) {
 				$lAchat->getId()->setIdReservation($lOperations[0]->getId());
 			}
@@ -320,6 +337,10 @@ class CaisseMarcheCommandeControleur
 				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
+				
+					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+					
 				$lTotal += $lDetail["prix"];
 				$lAchat->addDetailAchatSolidaire($lDetailAchat);
 			}

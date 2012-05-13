@@ -1,6 +1,4 @@
-;function MesAchatsVue(pParam) {
-	this.mCommunVue = new CommunVue();
-	
+;function MesAchatsVue(pParam) {	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MesAchatsVue(pParam);}} );
 		var that = this;
@@ -14,15 +12,14 @@
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('Commande','MesAchats');
+							gCommunVue.majMenu('Commande','MesAchats');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		Infobulle.init(); // Supprime les erreurs
@@ -38,7 +35,8 @@
 					lachat.numero = this.comNumero;
 					lachat.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();					
 					lachat.idCommande = '"' + this.comId + '"';
-	
+					lachat.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
+					lachat.nom = this.comNom;
 					lListeAchats.achat.push(lachat);
 				}
 			});
@@ -49,27 +47,20 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lCommandeTemplate.listeAchatVide)));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
-		//pData = this.affectBtnCommander(pData);
 		pData = this.affectVisualiser(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
-	/*this.affectBtnCommander = function(pData) {
-		pData.find('.btn-commander').click(function() {
-			var lParam = {id_commande:$(this).attr('id')};
-			ReservationMarcheVue(lParam);
-		});
-		return pData;
-	}*/	
+	};
+	
 	this.affectVisualiser = function(pData) {
 		pData.find('.ligne-achat').click(function() {
 				MesAchatsDetailVue({id_commande:$(this).attr('id')});
 			});		
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 }

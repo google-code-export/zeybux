@@ -76,19 +76,25 @@
 						"<table class=\"com-table\">" +
 							"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header\">" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+									"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+									"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 								"</tr>" +
 							"</thead>" +
 							"<tbody>" +
 						"<!-- BEGIN listeAdherent -->" +
-								"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-									"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.cptLabel}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+								"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
+									"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>{listeAdherent.adhNumero}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.cptLabel}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+									"<td class=\"com-table-td-fin liste-adh-td-solde\">" +
+										"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+											"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+										"</span>" +
+									"</td>" +
 								"</tr>" +
 						"<!-- END listeAdherent -->" +
 							"</tbody>" +
@@ -119,10 +125,10 @@
 			"<form>" +
 				"<table class=\"com-table-100\">" +
 					"<tr>" +
-						"Destinataire : {adhNumero} {adhPrenom} {adhNom}" +
+						"<td>Destinataire : {adhNumero} {adhPrenom} {adhNom}</td>" +
 					"</tr>" +
 					"<tr>" +
-						"N° de compte : {cptLabel}" +
+						"<td>N° de compte : {cptLabel}</td>" +
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +

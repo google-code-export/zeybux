@@ -32,7 +32,7 @@
  * Plugin jquery d'édition de formulaire
  * Cache le formulaire pour afficher sa valeur dans une span
  */
-    $.fn.inputToText = function(pType) {
+   /* $.fn.inputToText = function(pType) {
     	this.hide();
 		if(this.context.nodeName == 'SELECT') {
 			this.after("<span name=\"" + this.attr('name') + "\">" + this.children('option:selected').text() + "</span>");
@@ -46,17 +46,17 @@
 			this.after("<span name=\"" + this.attr('name') + "\">" + lVal + "</span>");
 		}
 		return this;
-    };
+    };*/
     
 /*
  * Plugin jquery d'édition de formulaire
  * Cache la span suivante de l'input pour afficher l'input
  */    
-    $.fn.textToInput = function() {
+   /* $.fn.textToInput = function() {
     	this.show();
     	this.next().hide();
 		return this;
-    };    
+    };    */
 })(jQuery);
 
 //Function to get the Max value in Array
@@ -166,6 +166,12 @@ function htmlDecode(value){
   return $('<div/>').html(value).text();
 };
 
+
+function jourSem(pDate) {
+	var lDate = new Date(pDate);
+	return gJourSemaine[ lDate.getDay() ];
+};
+
 	
 /*
  * +-------------------------------------+
@@ -183,7 +189,7 @@ function htmlDecode(value){
 	 if (decimales == undefined) decimales = 2;
 	 if (signe == undefined) signe = '.';
 	 if (separateurMilliers == undefined) separateurMilliers = ' ';
-
+	 
 	 function separeMilliers (sNombre) {
 		 var sRetour = "";
 		 while (sNombre.length % 3 != 0) {
@@ -235,11 +241,9 @@ function htmlDecode(value){
 				 sNvDecimale += '0';
 			 }
 			 _sDecimales = sDecimalesTmp + sNvDecimale;
-		}	 
-		else {
+		} else {
 			_sDecimales = sDecimalesTmp;
 		}
-		 
 		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
 	 }
 	 return _sRetour;

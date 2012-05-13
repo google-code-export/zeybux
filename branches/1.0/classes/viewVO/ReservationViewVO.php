@@ -83,6 +83,12 @@ class ReservationViewVO extends DataTemplate
 	* @desc AdhPrenom de la ReservationViewVO
 	*/
 	protected $mAdhPrenom;	
+		
+	/**
+	* @var varchar(20)
+	* @desc AdhTelephonePrincipal de la ReservationViewVO
+	*/
+	protected $mAdhTelephonePrincipal;	
 	
 	/**
 	* @var varchar(30)
@@ -286,6 +292,24 @@ class ReservationViewVO extends DataTemplate
 	*/
 	public function setAdhPrenom($pAdhPrenom) {
 		$this->mAdhPrenom = $pAdhPrenom;
+	}
+	
+	/**
+	* @name getAdhTelephonePrincipal()
+	* @return varchar(20)
+	* @desc Renvoie le membre AdhTelephonePrincipal de la ReservationViewVO
+	*/
+	public function getAdhTelephonePrincipal() {
+		return $this->mAdhTelephonePrincipal;
+	}
+
+	/**
+	* @name setAdhTelephonePrincipal($pAdhTelephonePrincipal)
+	* @param varchar(20)
+	* @desc Remplace le membre AdhTelephonePrincipal de la ReservationViewVO par $pAdhTelephonePrincipal
+	*/
+	public function setAdhTelephonePrincipal($pAdhTelephonePrincipal) {
+		$this->mAdhTelephonePrincipal = $pAdhTelephonePrincipal;
 	}
 	
 	/**

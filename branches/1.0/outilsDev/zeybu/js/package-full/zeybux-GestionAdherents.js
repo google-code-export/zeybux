@@ -1,6 +1,11 @@
 ;function GestionAdherentsTemplate() {
 	this.formulaireAjoutAdherent =
-		"<div id=\"contenu\">" +
+		"<div id=\"contenu\">" +	
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +	
 			"<div id=\"formulaire_modifier_adherent_int\">" +
 				"<form>" +
 					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -140,59 +145,49 @@
 	this.listeAdherent = 
 		"<div id=\"contenu\">" +
 			"<div id=\"liste_adherent_solde_int\">" +
-			
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Les Adhérents" +
+						"{totalAdherent}" +
 						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
 							"<span class=\"ui-icon ui-icon-plusthick\">" +
 							"</span>" +
 						"</span>" +
 					"</div>" +
-						"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"<form id=\"filter-form\">" +
-								"<div>" +
-									"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-											"<span class=\"ui-icon ui-icon-search\">" +
-										"</span>" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
 									"</span>" +
-									"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-								
-									/*"<input class=\"com-input-text ui-widget-content ui-corner-left\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-									"<span class=\"ui-widget-content ui-corner-right liste-adh-span-rech-right\">" +
-										"<span class=\"ui-icon ui-icon-search\"></span>" +
-									"</span>" +*/
-								"</div>" +
-							"</form>" +
-						"</div>" +
-						//"<div id=\"widget-liste-adherent\" class=\"com-widget-content ui-widget ui-corner-all\">" +
-							"<table class=\"com-table\">" +
-								"<thead>" +
-									"<tr class=\"ui-widget ui-widget-header\">" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-										"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
-										"<th class=\"com-table-th liste-adh-th-solde\">Solde</th>" +
-									"</tr>" +
-								"</thead>" +
-								"<tbody>" +
-							"<!-- BEGIN listeAdherent -->" +
-									"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-										"<td class=\"com-table-td com-underline-hover\">" +
-											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-											"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
-											"{listeAdherent.adhNumero}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
-										"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
-									"</tr>" +
-							"<!-- END listeAdherent -->" +
-								"</tbody>" +
-							"</table>" +
-						//"</div>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
 					"</div>" +
+					"<table class=\"com-table\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
+								"<th class=\"com-table-th liste-adh-th-solde\">Solde</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+					"<!-- BEGIN listeAdherent -->" +
+							"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
+								"<td class=\"com-table-td com-underline-hover\">" +
+									"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+									"{listeAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
+								"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
+							"</tr>" +
+					"<!-- END listeAdherent -->" +
+						"</tbody>" +
+					"</table>" +
 				"</div>" +
 			"</div>" +
 		"</div>";
@@ -201,7 +196,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Les Adhérents" +
+					"Les adhérents" +
 					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
 						"<span class=\"ui-icon ui-icon-plusthick\">" +
 						"</span>" +
@@ -217,6 +212,11 @@
 	"</div>";
 	
 	this.infoCompteAdherentDebut =		
+		"<div class=\"com-barre-menu-2\">" +
+			"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
+				"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+			"</button>" +
+		"</div>" +		
 		"<div id=\"info_compte_solde_adherent_ext\">" +
 			"<div id=\"info_compte_solde_adherent_int\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -343,7 +343,6 @@
 				"</div>" +
 			"</div>";
 };function AjoutAdherentVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AjoutAdherentVue(pParam);}} );
@@ -385,10 +384,10 @@
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectControleDatepicker(pData);
 		pData = this.affectSubmit(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	
@@ -404,7 +403,7 @@
 	};
 	
 	this.affectControleDatepicker = function(pData) {
-		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData = gCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
 		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
@@ -581,6 +580,7 @@
 		pData = this.affectHover(pData);
 		pData = this.affectLienModifier(pData);
 		pData = this.affectDialogSuppAdherent(pData);
+		pData = this.affectRetour(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
@@ -672,6 +672,12 @@
 		});
 		return pData;
 	};
+	
+	this.affectRetour = function(pData) {
+		var that = this;
+		pData.find("#lien-retour").click(function() { ListeAdherentVue();});
+		return pData;
+	};
 		
 	this.construct(pParam);
 };function ListeAdherentVue(pParam) {
@@ -710,6 +716,11 @@
 				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 			
+			if(lResponse.listeAdherent.length == 1) {
+				lResponse.totalAdherent = "L'adhérent";
+			} else {
+				lResponse.totalAdherent = "Les " + lResponse.listeAdherent.length + " adhérents";
+			}
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionAdherentsTemplate.listeAdherentVide)));
@@ -750,14 +761,13 @@
 	this.affectLienCompte = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {
-			CompteAdherentVue({id_adherent: $(this).find(".id-adherent").text()});
+			CompteAdherentVue({id_adherent: $(this).attr("id-adherent")});
 		});
 		return pData;
 	};
 	
 	this.construct(pParam);
 };function ModificationAdherentVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.mIdAdherent = null;
 	
 	this.construct = function(pParam) {
@@ -779,7 +789,7 @@
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -809,18 +819,19 @@
 		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
-		//var lHtml = lTemplate.template(lResponse);
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
-		pData = this.mCommunVue.comNumeric(pData);
 		pData = this.affectControleDatepicker(pData);
 		pData = this.affectSubmit(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = this.affectRetour(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.boutonLienCompte = function(pData) {		
 		pData.find(":input[name=lien_numero_compte]").click(function() {
@@ -831,14 +842,14 @@
 			}			
 		});
 		return pData;
-	}	
+	};	
 	
 	this.affectControleDatepicker = function(pData) {
-		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData = gCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
 		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
-	}
+	};
 	
 	this.affectSubmit = function(pData) {	
 		var that = this;
@@ -847,13 +858,11 @@
 			return false;
 		});
 		return pData;
-	}
+	};
 	
 	this.modifAdherent = function() {
 		var lVo = new AdherentVO();
 		lVo.id = this.mIdAdherent;
-		/*lVo.motPasse = $(':input[name=pass]').val();
-		lVo.motPasseConfirm = $(':input[name=pass_confirm]').val();*/
 		lVo.compte = $(':input[name=numero_compte]').val();
 		lVo.nom = $(':input[name=nom]').val();
 		lVo.prenom = $(':input[name=prenom]').val();
@@ -867,8 +876,8 @@
 		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
-		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
-		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
+		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val());});
+		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val());});
 
 		var lValid = new AdherentValid();
 		var lVr = lValid.validUpdate(lVo);
@@ -893,7 +902,13 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
+	
+	this.affectRetour = function(pData) {
+		var that = this;
+		pData.find("#lien-retour").click(function() { CompteAdherentVue({id_adherent: that.mIdAdherent});});
+		return pData;
+	};
 	
 	this.construct(pParam);
 }

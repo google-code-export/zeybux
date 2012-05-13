@@ -116,8 +116,7 @@ class MarcheService
 				$lStock->setIdDetailCommande($lDcomId);
 				//$lStock->setIdOperation(0);
 				$lStockService->set($lStock);
-				
-				
+								
 				// Ajout des réservations pour abonnement
 				if($lProduit->getType() == 2) {
 					$lIdNomProduit = $lNouveauProduit->getIdNom();

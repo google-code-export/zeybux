@@ -1,5 +1,4 @@
 ;function MonMarcheVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MonMarcheVue(pParam);}} );
@@ -14,8 +13,7 @@
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('Commande','MonMarche');
+							gCommunVue.majMenu('Commande','MonMarche');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -29,40 +27,7 @@
 		
 		var lCommandeTemplate = new CommandeTemplate();
 		var lHtml = lCommandeTemplate.MonMarcheDebut;
-		
-		/*var lListeReservation = new Object;
-		lListeReservation.reservation = new Array();
-		
-		// Transforme les dates pour l'affichage
-			$(lResponse.reservations).each(function() {
-				if(this.comNumero != null) {
-					var lReservation = new Object();
-					lReservation.numero = this.comNumero;
-										
-					lReservation.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
-					lReservation.heureFinReservation = this.comDateFinReservation.extractDbHeure();
-					lReservation.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
-					
-					lReservation.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
-					lReservation.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
-					lReservation.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
-					
-					lReservation.heureMarcheFin = this.comDateMarcheFin.extractDbHeure();
-					lReservation.minuteMarcheFin = this.comDateMarcheFin.extractDbMinute();
-					
-					lReservation.idCommande = '"' + this.comId + '"';
-	
-					lListeReservation.reservation.push(lReservation);
-				}
-			});
-			
-		// Affiche la liste ou un message si celle-ci est vide
-		if(lListeReservation.reservation.length > 0) {			
-			lHtml += lCommandeTemplate.listeReservation.template(lListeReservation);			
-		} else {
-			lHtml += lCommandeTemplate.listeReservationVide;
-		}*/
-		
+				
 		// Test si la liste est vide
 		if(lResponse.marches[0] && lResponse.marches[0].dateFinReservation != null) {
 			var lMarches = new Object;
@@ -71,10 +36,17 @@
 				$(lResponse.marches).each(function() {
 					var lmarche = new Object();
 					lmarche.id = this.id;
+					lmarche.nom = this.nom;
 					lmarche.numero = this.numero;
+					
+					lmarche.jourFinReservation = jourSem(this.dateFinReservation.extractDbDate());
+					
 					lmarche.dateFinReservation = this.dateFinReservation.extractDbDate().dateDbToFr();
 					lmarche.heureFinReservation = this.dateFinReservation.extractDbHeure();
 					lmarche.minuteFinReservation = this.dateFinReservation.extractDbMinute();
+					
+
+					lmarche.jourMarcheDebut = jourSem(this.dateMarcheDebut.extractDbDate());
 					
 					lmarche.dateMarcheDebut = this.dateMarcheDebut.extractDbDate().dateDbToFr();
 					lmarche.heureMarcheDebut = this.dateMarcheDebut.extractDbHeure();
@@ -96,7 +68,7 @@
 	this.affect = function(pData) {
 		pData = this.affectBtnCommander(pData);
 		pData = this.affectVisualiser(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	

@@ -61,7 +61,7 @@ class VirementService
 			$lOperationDebit->setTypePaiement(9);
 		}		
 		$lOperationDebit->setTypePaiementChampComplementaire('');
-		$lOperationDebit->setType(1);
+//		$lOperationDebit->setType(1);
 		$lOperationDebit->setIdCommande(0);
 		$lIdDebit = $lOperationService->set($lOperationDebit);
 		
@@ -77,7 +77,7 @@ class VirementService
 			$lOperationCredit->setTypePaiement(10);
 		}				
 		$lOperationCredit->setTypePaiementChampComplementaire($lIdDebit);
-		$lOperationCredit->setType(1);
+//		$lOperationCredit->setType(1);
 		$lOperationCredit->setIdCommande(0);
 		
 		$lIdCredit = $lOperationService->set($lOperationCredit);

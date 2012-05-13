@@ -80,7 +80,7 @@
 		pData.find('.compte-ligne')
 		.click(function() {		
 			
-			var lId = $(this).closest('tr').find(".id-producteur").text();
+			var lId = $(this).attr("id-producteur");
 			var lParam = {id:lId,fonction:"detailProducteur"};
 			$.post(	"./index.php?m=GestionProducteur&v=ListeProducteur", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
@@ -204,7 +204,7 @@
 		pData.find('.btn-modifier')
 		.click(function() {
 
-			var lId = $(this).closest('tr').find(".id-producteur").text();
+			var lId = $(this).attr("id-producteur");
 			var lParam = {id:lId,fonction:"detailProducteur"};
 			$.post(	"./index.php?m=GestionProducteur&v=ListeProducteur", "pParam=" + $.toJSON(lParam),
 					function(lResponse) {
@@ -311,7 +311,7 @@
 		.click(function() {
 			var lGestionProducteurTemplate = new GestionProducteurTemplate();
 			
-			var lId = $(this).closest('tr').find(".id-producteur").text();
+			var lId = $(this).attr("id-producteur");
 			var lNumero = $(this).closest('tr').find(".numero-producteur").text();
 
 			$(lGestionProducteurTemplate.dialogSuppressionProducteur.template({prdtNumero:lNumero})).dialog({

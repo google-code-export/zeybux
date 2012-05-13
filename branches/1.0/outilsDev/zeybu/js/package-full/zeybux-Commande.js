@@ -1,57 +1,4 @@
-;function CommandeTemplate() {
-	/*this.detailReservation = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Marché n°{comNumero}" +
-				"</div>" +
-				"<div id=\"resa-info-commande\">" +
-					"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Ma Commande" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN categories -->" +
-					"<td class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-					"<td colspan=\"5\"></td>" +
-					
-					"<!-- BEGIN categories.produits -->" +
-					"<tr >" +
-						"<td class=\"detail-resa-npro\">{categories.produits.nproNom}</td>" +
-						"<td class=\"td-edt\">" +
-							"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
-								"<span class=\"ui-icon ui-icon-info\">" +
-								"</span>" +
-							"</span>" +
-						"</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\">{categories.produits.stoQuantite}</td>" +
-						"<td class=\"detail-resa-unite\">{categories.produits.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\">{categories.produits.prix}</td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END categories.produits -->" +
-					"<!-- END categories -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						"<td class=\"com-text-align-right\">{total}</td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<div class=\"boutons-edition com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center \" id=\"btn-modifier\">Modifier</button>" +	
-				"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-valider\">Valider</button>" +
-			"</div>" +
-		"</div>";*/
-	
+;function CommandeTemplate() {	
 	this.detailReservation = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -111,70 +58,6 @@
 			"<p>Voulez-vous supprimer la réservation ?</p>" +
 		"</div>";
 	
-	/*this.reservation =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Marché n°{comNumero}" +
-				"</div>" +
-				"<div id=\"resa-info-commande\">" +
-					"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Ma Commande" +
-				"</div>" +
-				"<div>" +
-					"<table>" +
-					"<!-- BEGIN categories -->" +
-						"<tr>" +
-							"<td colspan=\"4\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
-							"<td colspan=\"6\"></td>" +
-						"</tr>" +						
-						"<!-- BEGIN categories.produits -->" +
-						"<tr class=\"pdt\">" +
-							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
-							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
-							"<td id=\"commandes{categories.produits.proId}stoQuantite\" ><span class=\"nom-pro\">{categories.produits.nproNom}<span></td>" +
-							"<td class=\"td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
-									"<span class=\"ui-icon ui-icon-info\">" +
-									"</span>" +
-								"</span>" +
-							"</td>" +
-							"<td>" +
-								"<select id=\"lot-{categories.produits.proId}\">" +
-									"<!-- BEGIN categories.produits.lot -->" +
-									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
-									"<!-- END categories.produits.lot -->" +
-								"</select>" +
-							"</td>" +
-							"<td>à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-moins\">-</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><span id=\"qte-pdt-{categories.produits.proId}\"></span> {categories.produits.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-plus\">+</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId} com-text-align-right\"><span id=\"prix-pdt-{categories.produits.proId}\"></span> {sigleMonetaire}</td>" +
-						"</tr>" +
-						"<!-- END categories.produits -->" +
-						"<!-- END categories -->" +
-						"<tr>" +
-							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
-							"<td>{sigleMonetaire}</td>" +
-						"</tr>" +
-					"</table>" +
-				"</div>" +
-			"</div>" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-valider\">Valider</button>" +		
-			"</div>" +
-		"</div>";*/
 	this.produitIndisponible = 
 		"<tr><td colspan=\"12\">{nproNom} n'est plus disponible.</td></tr>";
 
@@ -215,30 +98,6 @@
 						"</tr>" +						
 						"<!-- BEGIN categories.produits -->" +
 						"{categories.produits.detailProduit}" +
-						/*"<tr class=\"pdt\">" +
-							"<td><input type=\"checkbox\" {categories.produits.checked}/></td>" +
-							"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{categories.produits.proId}</span></span></td>" +
-							"<td id=\"commandes{categories.produits.proId}stoQuantite\" >{categories.produits.nproNom}</td>" +
-							"<td class=\"td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{categories.produits.proId}\">" +
-									"<span class=\"ui-icon ui-icon-info\">" +
-									"</span>" +
-								"</span>" +
-							"</td>" +
-							"<td>" +
-								"<select id=\"lot-{categories.produits.proId}\">" +
-									"<!-- BEGIN categories.produits.lot -->" +
-									"<option value=\"{categories.produits.lot.dcomId}\">par {categories.produits.lot.dcomTaille} {categories.produits.proUniteMesure}</option>" +
-									"<!-- END categories.produits.lot -->" +
-								"</select>" +
-							"</td>" +
-							"<td>à <span id=\"prix-unitaire-{categories.produits.proId}\">{categories.produits.prixUnitaire}</span> {sigleMonetaire}/{categories.produits.proUniteMesure}</td>" +
-							"<td>{categories.produits.flagType}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-moins\">-</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><span id=\"qte-pdt-{categories.produits.proId}\"></span> {categories.produits.proUniteMesure}</td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId}\"><button class=\"btn-plus\">+</button></td>" +
-							"<td class=\"ui-helper-hidden resa-pdt-{categories.produits.proId} com-text-align-right\"><span id=\"prix-pdt-{categories.produits.proId}\"></span> {sigleMonetaire}</td>" +
-						"</tr>" +*/
 						"<!-- END categories.produits -->" +
 						"<!-- END categories -->" +
 						"<tr>" +
@@ -246,41 +105,6 @@
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span> {sigleMonetaire}</td>" +
 						"</tr>" +
 					"</table>" +
-					/*"<table>" +
-						"<!-- BEGIN produit -->" +
-						"<tr class=\"pdt\" id=\"pdt-{produit.proId}\">" +
-							"<td class=\"passer-com-radio\" ><input type=\"checkbox\" {produit.checked}/></td>" +
-							"<td class=\"passer-com-radio\" ><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span></span></td>" +
-							"<td colspan=\"5\" class=\"passer-com-npro\">{produit.nproNom}</td>" +
-							"<td>" +
-								"<span>{produit.proMaxProduitCommande}</span>" +
-								" <span>{produit.proUniteMesure}</span> Max" +
-							"</td>" +
-							"<td colspan=\"3\"></td>" +
-						"</tr>" +
-						"<!-- BEGIN produit.lot -->" +
-						"<tr class=\"lot lot-pdt-{produit.proId}\">" +
-							"<td class=\"passer-com-radio\"><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{produit.proId}</span><span class=\"lot-id\">{produit.lot.dcomId}</span></span></td>" +
-							"<td class=\"passer-com-radio\"><input type=\"radio\" name=\"lot-produit-{produit.proId}\" {produit.lot.checked}/></td>" +
-							"<td class=\"com-text-align-right detail-resa-qte\">{produit.lot.dcomTaille}</td>" +
-							"<td class=\"detail-resa-unite\">{produit.proUniteMesure}</td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\">{produit.lot.dcomPrix}</td>" +
-							"<td class=\"passer-com-sigle\" >{sigleMonetaire}</td>" +
-							"<td class=\"passer-com-btn-qte\"><button class=\"btn-moins btn-pdt-{produit.proId}\" id=\"btn-moins-lot-{produit.lot.dcomId}\">-</button></td>" +
-							"<td class=\"passer-com-qte\"><span id=\"colonne-qte-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\"><span id=\"qte-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"qte\">{produit.lot.stoQuantiteReservation}</span>" +
-								" <span>{produit.proUniteMesure}</span></span></td>" +
-							"<td class=\"passer-com-btn-qte\"><button class=\"btn-plus btn-pdt-{produit.proId}\" id=\"btn-plus-lot-{produit.lot.dcomId}\">+</button></td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"colonne-prix-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\"><span id=\"prix-pdt-{produit.proId}-lot-{produit.lot.dcomId}\">{produit.lot.prixReservation}</span></span></td>" +
-							"<td><span id=\"colonne-sigle-pdt-{produit.proId}-lot-{produit.lot.dcomId}\" class=\"colonne-pdt-{produit.proId}\">{sigleMonetaire}</span></td>" +
-						"</tr>" +
-						"<!-- END produit.lot -->" +
-						"<!-- END produit -->" +
-						"<tr>" +
-							"<td colspan=\"9\" class=\"com-text-align-right\">Total : </td>" +
-							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span></td>" +
-							"<td>{sigleMonetaire}</td>" +
-						"</tr>" +
-					"</table>" +*/
 				"</div>" +
 			"</div>" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
@@ -367,34 +191,6 @@
 			"<td class=\"com-text-align-right\">{prixReservation} {sigleMonetaire}</td>" +
 		"</tr>";
 	
-	/*this.listeCommandePage = 
-		"<div id=\"contenu\">" +
-			"<div id=\"liste_commande_int\">" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
-						"<table class=\"com-table\">" +
-							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-								"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
-								"<th class=\"com-table-th\">Marché</th>	" +
-								"<th class=\"com-table-th\"></th>" +
-							"</tr>" +
-							"<!-- BEGIN commande -->" +
-							"<tr >" +
-								"<td class=\"com-table-td com-text-align-right\">{commande.numero}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								"<td class=\"com-table-td\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-commander ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\">Commander</button>" +
-								"</td>" +
-							"</tr>" +
-							"<!-- END commande -->" +
-						"</table>" +
-					"</div>" +			
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
 	this.confirmationReservationCommande =
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<table>" +
@@ -441,81 +237,9 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
-	
-	/*this.listeCommandeVide =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
-				"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
-			"</div>" +
-		"</div>";*/
 
-	/*this.listeReservation =
-	"<div id=\"contenu\">" +
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"Mes Réservations" +
-			"</div>" +
-			"<table class=\"com-table\">" +
-				"<tr class=\"ui-widget ui-widget-header\">" +
-					"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-					"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
-					"<th class=\"com-table-th\">Marché</th>	" +
-				"</tr>" +
-				"<!-- BEGIN reservation -->" +
-				"<tr class=\"com-cursor-pointer visualiser-reservation\" id={reservation.idCommande} >" +
-					"<td class=\"com-table-td com-underline-hover com-text-align-right\">{reservation.numero}</td>" +
-					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</td>" +
-					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</td>" +
-				"</tr>" +
-				"<!-- END reservation -->" +
-			"</table>" +	
-		"</div>" +
-		"<div class=\"ui-helper-hidden com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-			"<button class=\"ui-state-default ui-corner-all com-button com-center\">Anciennes commandes</button>" +		
-		"</div>" +
-	"</div>";	
-	*/
-	/*this.listeReservationVide =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
-				"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
-			"</div>" +
-			"<div class=\"ui-helper-hidden com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button class=\"ui-state-default ui-corner-all com-button com-center\">Anciennes commandes</button>" +		
-			"</div>" +
-		"</div>";*/
-	
-	
-	
 	this.MonMarcheDebut =
 		"<div id=\"contenu\">";
-	
-	/*this.listeReservation =
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
-			"<table class=\"com-table\">" +
-				"<tr class=\"ui-widget ui-widget-header\">" +
-					"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-					"<th class=\"com-table-th\">Date de cloture des Réservations</th>" +
-					"<th class=\"com-table-th\">Marché</th>	" +
-				"</tr>" +
-				"<!-- BEGIN reservation -->" +
-				"<tr class=\"com-cursor-pointer visualiser-reservation\" id={reservation.idCommande} >" +
-					"<td class=\"com-table-td com-underline-hover com-text-align-right\">{reservation.numero}</td>" +
-					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateFinReservation} à {reservation.heureFinReservation}H{reservation.minuteFinReservation}</td>" +
-					"<td class=\"com-table-td com-underline-hover\">Le {reservation.dateMarcheDebut} de {reservation.heureMarcheDebut}H{reservation.minuteMarcheDebut} à {reservation.heureMarcheFin}H{reservation.minuteMarcheFin}</td>" +
-				"</tr>" +
-				"<!-- END reservation -->" +
-			"</table>" +
-		"</div>";
-	
-	this.listeReservationVide =
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Réservations</div>" +
-			"<p id=\"texte-liste-vide\">Aucune réservation en cours.</p>" +	
-		"</div>";*/
 	
 	this.listeMarche = 
 		"<div id=\"liste_commande_int\">" +
@@ -523,16 +247,17 @@
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
 					"<table class=\"com-table\">" +
 						"<tr class=\"ui-widget ui-widget-header\">" +
-							"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+							"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
 							"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 							"<th class=\"com-table-th-med\">Marché</th>	" +
 							"<th class=\"com-table-th-fin\"></th>" +
 						"</tr>" +
 						"<!-- BEGIN marche -->" +
 						"<tr >" +
-							"<td class=\"com-table-td-debut com-text-align-right\">{marche.numero}</td>" +
-							"<td class=\"com-table-td-med\">Le {marche.dateFinReservation} à {marche.heureFinReservation}H{marche.minuteFinReservation}</td>" +
-							"<td class=\"com-table-td-med\">Le {marche.dateMarcheDebut} de {marche.heureMarcheDebut}H{marche.minuteMarcheDebut} à {marche.heureMarcheFin}H{marche.minuteMarcheFin}</td>" +
+							"<td class=\"com-table-td-debut com-text-align-right lst-resa-th-num\">{marche.numero}</td>" +
+							"<td class=\"com-table-td-med lst-resa-td-nom\">{marche.nom}</td>" +
+							"<td class=\"com-table-td-med\">Le {marche.jourFinReservation} {marche.dateFinReservation} à {marche.heureFinReservation}H{marche.minuteFinReservation}</td>" +
+							"<td class=\"com-table-td-med\">Le {marche.jourMarcheDebut} {marche.dateMarcheDebut} de {marche.heureMarcheDebut}H{marche.minuteMarcheDebut} à {marche.heureMarcheFin}H{marche.minuteMarcheFin}</td>" +
 							"<td class=\"com-table-td-fin lst-resa-btn-commander\">" +
 								"<button class=\"btn-commander ui-state-default ui-corner-all com-button com-center\" id=\"{marche.id}\">Réservation</button>" +
 							"</td>" +
@@ -560,13 +285,20 @@
 				"</div>" +
 				"<table class=\"com-table\">" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th class=\"com-table-th lst-resa-th-num\">N°</th>" +
-						"<th class=\"com-table-th\">Marché</th>	" +
+						"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
+						"<th class=\"com-table-th-med\">Marché</th>	" +
+						"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 					"</tr>" +
 					"<!-- BEGIN achat -->" +
 					"<tr class=\"com-cursor-pointer ligne-achat\" id={achat.idCommande} >" +
-						"<td class=\"com-table-td com-underline-hover com-text-align-right\">{achat.numero}</td>" +
-						"<td class=\"com-table-td com-underline-hover\">Le {achat.dateMarcheDebut}</td>" +
+						"<td class=\"com-table-td-debut com-underline-hover lst-resa-th-num com-text-align-right\">{achat.numero}</td>" +
+						"<td class=\"com-table-td-med com-underline-hover lst-resa-td-nom\">{achat.nom}</td>" +
+						"<td class=\"com-table-td-med com-underline-hover\">Le {achat.jourMarcheDebut} {achat.dateMarcheDebut}</td>" +
+						"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+							"</span>" +
+						"</td>" +
 					"</tr>" +
 					"<!-- END achat -->" +
 				"</table>" +	
@@ -585,7 +317,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Marché n°{comNumero}" +
+					"Marché n°{comNumero} : {totalMarche} {sigleMonetaire}" +
 				"</div>" +
 			"</div>" +
 
@@ -692,9 +424,7 @@
 				"</table>" +
 			"</div>" +
 		"</div>";
-};function MesAchatsVue(pParam) {
-	this.mCommunVue = new CommunVue();
-	
+};function MesAchatsVue(pParam) {	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MesAchatsVue(pParam);}} );
 		var that = this;
@@ -708,15 +438,14 @@
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('Commande','MesAchats');
+							gCommunVue.majMenu('Commande','MesAchats');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		Infobulle.init(); // Supprime les erreurs
@@ -732,7 +461,8 @@
 					lachat.numero = this.comNumero;
 					lachat.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();					
 					lachat.idCommande = '"' + this.comId + '"';
-	
+					lachat.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
+					lachat.nom = this.comNom;
 					lListeAchats.achat.push(lachat);
 				}
 			});
@@ -743,31 +473,23 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lCommandeTemplate.listeAchatVide)));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
-		//pData = this.affectBtnCommander(pData);
 		pData = this.affectVisualiser(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
-	/*this.affectBtnCommander = function(pData) {
-		pData.find('.btn-commander').click(function() {
-			var lParam = {id_commande:$(this).attr('id')};
-			ReservationMarcheVue(lParam);
-		});
-		return pData;
-	}*/	
+	};
+	
 	this.affectVisualiser = function(pData) {
 		pData.find('.ligne-achat').click(function() {
 				MesAchatsDetailVue({id_commande:$(this).attr('id')});
 			});		
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 };function MesAchatsDetailVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.infoCommande = new Object();
 	this.pdtCommande = new Array();
 	this.achats = [];
@@ -799,7 +521,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(pResponse) {
 		var that = this;
@@ -814,6 +536,7 @@
 		//lData.categories = [];
 		
 		lData.achatsSolidaire = [];
+		lData.totalMarche = 0;
 
 		$(pResponse.achats).each(function() {
 			var lAchat = this;
@@ -821,6 +544,7 @@
 			var lAchatClassique = false;
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
+					var lPdtAchete = false;
 					var lIdProduit = this.id;
 					
 					var lPdt = {};
@@ -839,6 +563,7 @@
 									lPdt.stoQuantite = this.quantite * -1;
 									lPdt.prix = this.montant * -1;
 									lAchatClassique = true;
+									lPdtAchete = true;
 								}
 							});
 						}
@@ -848,13 +573,13 @@
 					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 					
 
+					if(lPdtAchete) {
+						if(!lDataPdtAchat[this.idCategorie]) {
+							lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
+						}
+						lDataPdtAchat[this.idCategorie].achat.push(lPdt);
 					
-					if(!lDataPdtAchat[this.idCategorie]) {
-						lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
 					}
-					lDataPdtAchat[this.idCategorie].achat.push(lPdt);
-					
-					
 					
 					//lDataPdtAchat.push(lPdt);
 				}
@@ -866,6 +591,7 @@
 									total:(this.total * -1).nombreFormate(2,',',' ')};				
 				
 				lData.achats.push(lDataAchat);
+				lData.totalMarche += this.total * -1;
 			}
 		});
 
@@ -923,15 +649,18 @@
 									idAchat:this.id.idAchat,
 									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
 				lData.achatsSolidaire.push(lDataAchat);
+				lData.totalMarche += this.totalSolidaire * -1;
 			}
 		});
 		
+		lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-	}
+	};
 	
 	this.affect = function(pData) {
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 };function ReservationMarcheVue(pParam) {
@@ -1744,7 +1473,6 @@
 		
 	this.construct(pParam);
 };function MonMarcheVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MonMarcheVue(pParam);}} );
@@ -1759,8 +1487,7 @@
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('Commande','MonMarche');
+							gCommunVue.majMenu('Commande','MonMarche');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -1774,40 +1501,7 @@
 		
 		var lCommandeTemplate = new CommandeTemplate();
 		var lHtml = lCommandeTemplate.MonMarcheDebut;
-		
-		/*var lListeReservation = new Object;
-		lListeReservation.reservation = new Array();
-		
-		// Transforme les dates pour l'affichage
-			$(lResponse.reservations).each(function() {
-				if(this.comNumero != null) {
-					var lReservation = new Object();
-					lReservation.numero = this.comNumero;
-										
-					lReservation.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
-					lReservation.heureFinReservation = this.comDateFinReservation.extractDbHeure();
-					lReservation.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
-					
-					lReservation.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
-					lReservation.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
-					lReservation.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
-					
-					lReservation.heureMarcheFin = this.comDateMarcheFin.extractDbHeure();
-					lReservation.minuteMarcheFin = this.comDateMarcheFin.extractDbMinute();
-					
-					lReservation.idCommande = '"' + this.comId + '"';
-	
-					lListeReservation.reservation.push(lReservation);
-				}
-			});
-			
-		// Affiche la liste ou un message si celle-ci est vide
-		if(lListeReservation.reservation.length > 0) {			
-			lHtml += lCommandeTemplate.listeReservation.template(lListeReservation);			
-		} else {
-			lHtml += lCommandeTemplate.listeReservationVide;
-		}*/
-		
+				
 		// Test si la liste est vide
 		if(lResponse.marches[0] && lResponse.marches[0].dateFinReservation != null) {
 			var lMarches = new Object;
@@ -1816,10 +1510,17 @@
 				$(lResponse.marches).each(function() {
 					var lmarche = new Object();
 					lmarche.id = this.id;
+					lmarche.nom = this.nom;
 					lmarche.numero = this.numero;
+					
+					lmarche.jourFinReservation = jourSem(this.dateFinReservation.extractDbDate());
+					
 					lmarche.dateFinReservation = this.dateFinReservation.extractDbDate().dateDbToFr();
 					lmarche.heureFinReservation = this.dateFinReservation.extractDbHeure();
 					lmarche.minuteFinReservation = this.dateFinReservation.extractDbMinute();
+					
+
+					lmarche.jourMarcheDebut = jourSem(this.dateMarcheDebut.extractDbDate());
 					
 					lmarche.dateMarcheDebut = this.dateMarcheDebut.extractDbDate().dateDbToFr();
 					lmarche.heureMarcheDebut = this.dateMarcheDebut.extractDbHeure();
@@ -1841,7 +1542,7 @@
 	this.affect = function(pData) {
 		pData = this.affectBtnCommander(pData);
 		pData = this.affectVisualiser(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	

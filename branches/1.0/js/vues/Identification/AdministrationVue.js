@@ -13,8 +13,7 @@
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('administration');
+							gCommunVue.majMenu('administration');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -74,6 +73,11 @@
 			
 			pData.find('#menu-CompteZeybu-ListeVirement').click(function() {
 				ListeVirementZeybuVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteZeybu-SuiviPaiement').click(function() {
+				SuiviPaiementVue();
 				return false;
 			});
 			

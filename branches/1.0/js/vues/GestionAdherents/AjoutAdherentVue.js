@@ -1,5 +1,4 @@
 ;function AjoutAdherentVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AjoutAdherentVue(pParam);}} );
@@ -41,10 +40,10 @@
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectControleDatepicker(pData);
 		pData = this.affectSubmit(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	
@@ -60,7 +59,7 @@
 	};
 	
 	this.affectControleDatepicker = function(pData) {
-		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData = gCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
 		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
 		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;

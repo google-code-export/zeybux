@@ -119,16 +119,17 @@ class ListeReservationMarcheControleur
 			$lAdh = array();
 			$lAdh['prenom'] = $lReservation->getAdhPrenom();
 			$lAdh['nom'] = $lReservation->getAdhNom();
+			$lAdh['telephonePrincipal'] = $lReservation->getAdhTelephonePrincipal();
 			
 			if(isset($lTableauReservation[$lLigne['compte']])) {				
-				//$lTableauReservation[$lLigne['compte']]['Adherent'][$lReservation->getAdhId()] = $lAdh;
+				$lTableauReservation[$lLigne['compte']]['Adherent'][$lReservation->getAdhId()] = $lAdh;
 				
 				foreach($lIdProduits as $lIdProduit) {
 					if($lReservation->getProId() == $lIdProduit) {
 						$lTableauReservation[$lLigne['compte']][$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
 					}
 				}				
-			} else {				
+			} else {
 				$lLigne['Adherent'][$lReservation->getAdhId()] = $lAdh;
 				
 				foreach($lIdProduits as $lIdProduit) {
@@ -170,11 +171,13 @@ class ListeReservationMarcheControleur
 					}
 					array_push($contenuTableau,utf8_decode($lAdh['nom']));
 					array_push($contenuTableau,utf8_decode($lAdh['prenom']));
+					array_push($contenuTableau,utf8_decode($lAdh['telephonePrincipal']));
 					
-					$j = 3;
-					foreach($lIdProduits as $lIdProduit) {
+					$j = 0;
+					while(isset($lIdProduits[$j]) && $j < 2) {
+					//foreach($lIdProduits as $lIdProduit) {
 						if($i == 0) {
-							array_push($contenuTableau,utf8_decode($lVal[$lIdProduit]),"");
+							array_push($contenuTableau,utf8_decode($lVal[$lIdProduits[$j]]),"");
 						} else {
 							array_push($contenuTableau,'',"");
 						}
@@ -185,19 +188,25 @@ class ListeReservationMarcheControleur
 			}
 					
 			// Contenu du header du tableau.	
-			$contenuHeader = array(18, 30, 30);
-			foreach($lIdProduits as $lIdProduit) {
+			$contenuHeader = array(18, 30, 30,30);
+			$j = 0;
+			while(isset($lIdProduits[$j]) && $j < 2) {
+			//foreach($lIdProduits as $lIdProduit) {
 				array_push($contenuHeader,20,20);
+				$j++;
 			}
-			array_push($contenuHeader,"Compte", "Nom", utf8_decode("Prénom"));
-			foreach($lIdProduits as $lIdProduit) {
-				$lProduit = ProduitManager::select($lIdProduit);	
+			array_push($contenuHeader,"Compte", "Nom", utf8_decode("Prénom"), "Tel.");
+			$j = 0;
+			while(isset($lIdProduits[$j]) && $j < 2) {
+			//foreach($lIdProduits as $lIdProduit) {
+				$lProduit = ProduitManager::select($lIdProduits[$j]);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
 				$lLabelNomProduit = utf8_decode($lNomProduit->getNom());
 				if($lProduit->getType() == 2) {
 					$lLabelNomProduit .= " (Abonnement)";
 				}
 				array_push($contenuHeader,$lLabelNomProduit,"");
+				$j++;
 			}
 			
 			// Préparation du PDF
@@ -270,12 +279,12 @@ class ListeReservationMarcheControleur
 			$lIdProduits = $pParam['id_produits'];
 			
 			$lTableauReservation = $this->getListeReservationExport($pParam);
-	
+	//var_dump($lTableauReservation);
 			$lCSV = new CSV();
 			$lCSV->setNom('Réservations.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Compte","Nom","Prénom");		
+			$lEntete = array("Compte","Nom","Prénom","Tel.");		
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
@@ -291,7 +300,7 @@ class ListeReservationMarcheControleur
 			$contenuTableau = array();
 			foreach($lTableauReservation as $lVal) {
 				$i = 0;
-				$lLigne = array();
+				//$lLigne = array();
 				foreach($lVal['Adherent'] as $lAdh) {
 					$lLigne = array();
 					if($i == 0) {
@@ -301,19 +310,20 @@ class ListeReservationMarcheControleur
 					}
 					array_push($lLigne,$lAdh['nom']);
 					array_push($lLigne,$lAdh['prenom']);
+					array_push($lLigne,$lAdh['telephonePrincipal']);
 					
-					$j = 3;
+					//$j = 3;
 					foreach($lIdProduits as $lIdProduit) {
 						if($i == 0) {
 							array_push($lLigne,$lVal[$lIdProduit],"");
 						} else {
 							array_push($lLigne,'',"");
 						}
-						$j++;
+						//$j++;
 					}
+					array_push($contenuTableau,$lLigne);
 					$i++;
 				}
-				array_push($contenuTableau,$lLigne);
 			} 
 			$lCSV->setData($contenuTableau);
 			

@@ -1,5 +1,4 @@
 ;function VirementZeybuVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.listeAdherent = [];
 	this.listeProducteur = [];
 	
@@ -62,7 +61,7 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectTabs(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectVirementSolidaire(pData);
 		pData = this.affectVirement(pData);
 		return pData;
@@ -144,7 +143,7 @@
 	this.affectVirement = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne-adherent").each(function() {
-			var lId = $(this).find(".id-adherent").text();
+			var lId = $(this).attr("id-adherent");
 			$(this).find(".btn-virement").click(function() {
 				var lData = {};
 				lData.type = 1;
@@ -165,7 +164,7 @@
 			});
 		});
 		pData.find(".compte-ligne-producteur").each(function() {
-			var lId = $(this).find(".id-producteur").text();	
+			var lId = $(this).attr("id-producteur");	
 			$(this).find(".btn-virement").click(function() {
 				var lData = {};
 				lData.type = 1;
@@ -217,7 +216,7 @@
 	};
 	
 	this.affectDialog = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	};
 	

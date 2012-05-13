@@ -404,7 +404,7 @@
 }
 
 #table-info-solde-zeybu {
-	margin-left:165px;
+	margin-left:15px;
 	margin-bottom:10px;
 }
 
@@ -427,6 +427,9 @@
 
 #btn-virement-solidaire-inverse {
 	margin-top:20px;
+}
+.tab-cell-compte {
+	width:80px;
 }
 
 .input-bon-livraison {
@@ -715,6 +718,10 @@ margin-right:145px;
 .lst-resa-th-num {
 	text-align:center;
 	width:35px;
+}
+
+.lst-resa-td-nom {
+	width:150px;
 }
 
 .detail-resa-npro {

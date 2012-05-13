@@ -25,10 +25,7 @@
 	
 	this.afficher = function(pResponse) {
 		var that = this;
-		// Met le bouton en actif
-	/*	$("#edt-com-nav-resa-achat span").removeClass("ui-state-active");
-		$("#btn-liste-achat-resa").addClass("ui-state-active");*/
-		
+		// Met le bouton en actif		
 		$(pResponse.listeAchatEtReservation).each(function() {
 			if(this.reservation == null) { this.reservation = '';}
 			if(this.achat == null) { this.achat = '';}
@@ -122,7 +119,7 @@
 	this.affectAchat = function(pData) {
 		var that = this;
 		pData.find('.edt-com-achat-ligne').click(function() {
-			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).find('.id-adherent').text()});
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
 		});
 		return pData;
 	};
