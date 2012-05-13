@@ -187,7 +187,7 @@ class ListeAbonneControleur
 			$lCompteAbonnementVO = new CompteAbonnementVO();
 			$lCompteAbonnementVO->setIdCompte($pParam['idCompte']);
 			$lCompteAbonnementVO->setDateDebutSuspension($pParam["dateDebutSuspension"] . " " . StringUtils::FORMAT_TIME_NULLE);
-			$lCompteAbonnementVO->setDateFinSuspension($pParam["dateFinSuspension"] . " " . StringUtils::FORMAT_TIME_NULLE);
+			$lCompteAbonnementVO->setDateFinSuspension($pParam["dateFinSuspension"] . " " . StringUtils::FORMAT_TIME_FIN_JOUR);
 			
 			$lAbonnementService = new AbonnementService();		
 			$lAbonnementService->suspendreAbonnement($lCompteAbonnementVO);

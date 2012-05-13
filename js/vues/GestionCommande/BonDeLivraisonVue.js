@@ -1,5 +1,4 @@
 ;function BonDeLivraisonVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.mIdCommande = null;
 	this.mComNumero = null;
 	this.mEtatEdition = false;
@@ -57,7 +56,7 @@
 	};
 
 	this.affect = function(pData) {
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectBtnRetourMarche(pData);
 		pData = this.affectChangementProducteur(pData);
 		pData = this.affectExportBonDeLivraison(pData);

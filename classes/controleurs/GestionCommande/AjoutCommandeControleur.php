@@ -58,6 +58,32 @@ class AjoutCommandeControleur
 
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
+			
+			
+			$lAbonnementService = new AbonnementService();
+			
+			foreach($lMarche->getProduits() as $lProduit) {
+				if($lProduit->getType() == 2) {
+					$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lProduit->getIdNom());
+					
+					$lNvLots = array();
+					foreach($lDetailAbonnement->getLots() as $lLot) {
+						$lAbonnement = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+						
+						$lLotAbonnementMarcheVO = new LotAbonnementMarcheVO();
+						$lLotAbonnementMarcheVO->setId($lLot->getId());
+						$lLotAbonnementMarcheVO->setTaille($lLot->getTaille());
+						$lLotAbonnementMarcheVO->setPrix($lLot->getPrix());
+						if(!is_null($lAbonnement[0]->getCptAboId())) {
+							$lLotAbonnementMarcheVO->setReservation(true);
+						}
+						array_push($lNvLots,$lLotAbonnementMarcheVO);
+					}
+					$lProduit->setLots($lNvLots);
+				}
+			}
+			
+			
 
 			$lResponse = new DupliquerMarcheResponse();
 			$lResponse->setMarche($lMarche);

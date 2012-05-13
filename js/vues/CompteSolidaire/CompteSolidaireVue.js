@@ -1,5 +1,4 @@
-;function CompteSolidaireVue(pParam) {	
-	this.mCommunVue = new CommunVue();
+;function CompteSolidaireVue(pParam) {
 	this.solde = 0;
 	this.modifVirement = [];
 	
@@ -15,6 +14,8 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+
+							gCommunVue.majMenu('CompteSolidaire','CompteSolidaire');
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -22,7 +23,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -71,15 +72,15 @@
 			var lTemplate = lCompteSolidaireTemplate.listeVirementVide;
 			$('#contenu').replaceWith(lTemplate.template(lResponse));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.ajoutModification(pData);
 		pData = this.affectModification(pData);
 		pData = this.affectSuppression(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -93,12 +94,12 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:20}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.ajoutModification = function(pData) {
 		var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
@@ -107,7 +108,7 @@
 			pData.find("#td-sup-" + this).html(lCompteSolidaireTemplate.btnSup);
 		});		
 		return pData;
-	}
+	};
 	
 	this.affectModification = function(pData) {
 		var that = this;
@@ -144,7 +145,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.modifierVirement = function(pDialog,pId,pMontant) {
 		var that = this;
@@ -187,12 +188,12 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.affectDialog = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectSuppression = function(pData) {
 		var that = this;
@@ -229,7 +230,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.supprimerVirement = function(pDialog,pId) {
 		var that = this;
@@ -269,7 +270,7 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

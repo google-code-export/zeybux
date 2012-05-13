@@ -28,11 +28,13 @@ class CompteZeybuControleur
 	public function getInfoCompte() {	
 		$lCompteService = new CompteService();
 		$lOperationService = new OperationService();
+		$lSoldeSolidaire = $lCompteService->get(-2)->getSolde();
 		$lSoldeTotal = $lCompteService->get(-1)->getSolde();
 		$lSoldeCaisse = $lOperationService->getSoldeCaisse();
 		$lSoldeBanque = $lOperationService->getSoldeBanque();
 		
 		$lResponse = new InfoCompteZeybuResponse();
+		$lResponse->setSoldeSolidaire($lSoldeSolidaire);
 		$lResponse->setSoldeTotal($lSoldeTotal);
 		$lResponse->setSoldeCaisse($lSoldeCaisse);
 		$lResponse->setSoldeBanque($lSoldeBanque);

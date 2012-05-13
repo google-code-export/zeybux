@@ -65,7 +65,7 @@ class ReservationService
 		$lOperation->setMontant($lTotal);
 		$lOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
 		$lOperation->setTypePaiement(0);
-		$lOperation->setType(0);
+//		$lOperation->setType(0);
 		$lOperation->setIdCommande($pReservation->getId()->getIdCommande());
 		
 		$lOperationService = new OperationService();

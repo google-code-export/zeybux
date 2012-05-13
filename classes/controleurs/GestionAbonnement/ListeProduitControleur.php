@@ -26,6 +26,7 @@ include_once(CHEMIN_CLASSES_VO . "ListeProduitVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeCategorieVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeCategorieProduitVO.php");
+include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/UniteResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/DetailProduitModifierResponse.php" );
@@ -98,7 +99,11 @@ class ListeProduitControleur
 		if($lVr->getValid()) {
 			$lAbonnementService = new AbonnementService();
 			$lResponse = new DetailProduitResponse();
-			$lResponse->setProduit($lAbonnementService->getDetailProduit($pParam["id"]));
+			
+			$lProduit = $lAbonnementService->getDetailProduit($pParam["id"]);
+			$lResponse->setProduit($lProduit);
+			
+			
 			$lResponse->setAbonnes($lAbonnementService->getAbonnesProduit($pParam["id"]));
 			return $lResponse;		
 		}
@@ -115,6 +120,23 @@ class ListeProduitControleur
 			$lAbonnementService = new AbonnementService();
 			$lResponse = new DetailProduitModifierResponse();
 			$lProduit = $lAbonnementService->getDetailProduit($pParam["id"]);
+
+			$lNvLots = array();
+			foreach($lProduit[0]->getLots() as $lLot) {
+				$lAbon = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+				
+				$lNvLot = new LotAbonnementMarcheVO();
+				$lNvLot->setId($lLot->getId());
+				$lNvLot->setIdProduitAbonnement($lLot->getIdProduitAbonnement());
+				$lNvLot->setTaille($lLot->getTaille());
+				$lNvLot->setPrix($lLot->getPrix());
+				if(!is_null($lAbon[0]->getCptAboIdProduitAbonnement())) {
+					$lNvLot->setReservation(true);
+				}
+				array_push($lNvLots,$lNvLot);
+			}
+			$lProduit[0]->setLots($lNvLots);
+			
 			$lResponse->setProduit($lProduit);
 			
 		//	$lProduit = $lAbonnementService->getProduit($pParam["id"]);

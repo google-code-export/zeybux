@@ -1,5 +1,4 @@
 ;function CaisseListeCommandeVue(pParam) {
-	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CaisseListeCommandeVue(pParam);}} );
@@ -33,10 +32,15 @@
 					var lCommande = {};
 					lCommande.id = this.id;
 					lCommande.numero = this.numero;
+					lCommande.nom = this.nom;
+
+					lCommande.jourFinReservation = jourSem(this.dateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.dateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.dateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.dateFinReservation.extractDbMinute();
 					
+
+					lCommande.jourMarcheDebut = jourSem(this.dateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.dateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.dateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.dateMarcheDebut.extractDbMinute();
@@ -61,10 +65,6 @@
 	};
 	
 	this.affectLienMarche = function(pData) {
-		/*pData.find('.btn-marche').click(function() {
-			var lparam = ;
-			CaisseMarcheCommandeVue(lparam);
-		});*/
 		pData.find(".btn-marche").click(function() {
 			CaisseMarcheCommandeVue({"id_commande":$(this).attr('id')});
 		});

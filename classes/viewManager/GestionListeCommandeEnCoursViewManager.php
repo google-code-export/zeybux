@@ -39,6 +39,7 @@ class GestionListeCommandeEnCoursViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -53,6 +54,7 @@ class GestionListeCommandeEnCoursViewManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return GestionListeCommandeEnCoursViewManager::remplir(
 				$pId,
+				$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -74,6 +76,7 @@ class GestionListeCommandeEnCoursViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -89,6 +92,7 @@ class GestionListeCommandeEnCoursViewManager
 				array_push($lListeGestionListeCommandeEnCours,
 					GestionListeCommandeEnCoursViewManager::remplir(
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -118,6 +122,7 @@ class GestionListeCommandeEnCoursViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    CommandeManager::CHAMP_COMMANDE_ID .
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
@@ -139,6 +144,7 @@ class GestionListeCommandeEnCoursViewManager
 					array_push($lListeGestionListeCommandeEnCours,
 						GestionListeCommandeEnCoursViewManager::remplir(
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -156,8 +162,9 @@ class GestionListeCommandeEnCoursViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin)
+	* @name remplir($pComId, $pComNom, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin)
 	* @param int(11)
+	* @param varchar(100)
 	* @param int(11)
 	* @param datetime
 	* @param datetime
@@ -165,9 +172,10 @@ class GestionListeCommandeEnCoursViewManager
 	* @return GestionListeCommandeEnCoursViewVO
 	* @desc Retourne une GestionListeCommandeEnCoursViewVO remplie
 	*/
-	private static function remplir($pComId, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin) {
+	private static function remplir($pComId, $pComNom, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin) {
 		$lGestionListeCommandeEnCours = new GestionListeCommandeEnCoursViewVO();
 		$lGestionListeCommandeEnCours->setComId($pComId);
+		$lGestionListeCommandeEnCours->setComNom($pComNom);
 		$lGestionListeCommandeEnCours->setComNumero($pComNumero);
 		$lGestionListeCommandeEnCours->setComDateFinReservation($pComDateFinReservation);
 		$lGestionListeCommandeEnCours->setComDateMarcheDebut($pComDateMarcheDebut);

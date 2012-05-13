@@ -27,10 +27,9 @@
 								"</thead>" +
 								"<tbody>" +
 							"<!-- BEGIN listeAdherent -->" +
-									"<tr class=\"com-cursor-pointer compte-ligne\" >" +
+									"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
 										"<td class=\"com-table-td com-underline-hover\">" +
 											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-											"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
 											"{listeAdherent.adhNumero}" +
 										"</td>" +
 										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
@@ -94,7 +93,6 @@
 		"</div>";
 
 };function RechargerCompteVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	this.mTypePaiement = [];
 	this.solde = 0;
 	
@@ -171,7 +169,7 @@
 		pData.find('.compte-ligne').click(function() {
 			
 			
-			var lParam = {'id-adherent':$(this).find(".id-adherent").text(),
+			var lParam = {'id-adherent':$(this).attr("id-adherent"),
 							fonction:"infoRechargement"};
 			
 			$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
@@ -257,7 +255,7 @@
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
 		pData = this.affectNouveauSolde(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
 	};
 	

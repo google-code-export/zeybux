@@ -7,4 +7,6 @@
 	this.frequence = '';
 	this.lots = [];
 	this.lotRemplacement = [];
+	this.quantiteReservation = -1;
+	this.tailleLotResaMax = -1;
 };

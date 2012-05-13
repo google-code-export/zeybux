@@ -102,23 +102,22 @@
 					"</thead>" +
 					"<tbody>" +
 				"<!-- BEGIN listeProducteur -->" +
-						"<tr class=\"com-cursor-pointer\" >" +
-							"<td class=\"com-table-td-debut com-underline-hover compte-ligne\">" +
+						"<tr class=\"com-cursor-pointer\">" +
+							"<td class=\"com-table-td-debut com-underline-hover compte-ligne\" id-producteur=\"{listeProducteur.prdtId}\">" +
 								"<span class=\"ui-helper-hidden\">{listeProducteur.prdtIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-producteur\">{listeProducteur.prdtId}</span>" +
 								"<span class=\"numero-producteur\">{listeProducteur.prdtNumero}</span>" +
 							"</td>" +
-							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtNom}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtPrenom}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtCourrielPrincipal}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover compte-ligne\">{listeProducteur.prdtTelephonePrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\" id-producteur=\"{listeProducteur.prdtId}\">{listeProducteur.prdtNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\" id-producteur=\"{listeProducteur.prdtId}\">{listeProducteur.prdtPrenom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\" id-producteur=\"{listeProducteur.prdtId}\">{listeProducteur.prdtCourrielPrincipal}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover compte-ligne\" id-producteur=\"{listeProducteur.prdtId}\">{listeProducteur.prdtTelephonePrincipal}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" title=\"Modifier\">" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" title=\"Modifier\" id-producteur=\"{listeProducteur.prdtId}\">" +
 									"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 								"</span>" +
 							"</td>" +
 							"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supp\" title=\"Supprimer\">" +
+								"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supp\" title=\"Supprimer\" id-producteur=\"{listeProducteur.prdtId}\">" +
 									"<span class=\"ui-icon ui-icon-trash\"></span>" +
 								"</span>" +
 							"</td>" +
@@ -203,10 +202,9 @@
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeFerme -->" +
-							"<tr class=\"com-cursor-pointer compte-ligne\" >" +
+							"<tr class=\"com-cursor-pointer compte-ligne\" id-ferme=\"{listeFerme.ferId}\">" +
 								"<td class=\"com-table-td-debut com-underline-hover\">" +
 									"<span class=\"ui-helper-hidden\">{listeFerme.ferIdTri}</span>" +
-									"<span class=\"ui-helper-hidden id-ferme\">{listeFerme.ferId}</span>" +
 									"{listeFerme.ferNumero}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.cptLabel}</td>" +
 								"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.ferNom}</td>" +

@@ -42,6 +42,7 @@ class MesAchatsViewManager
 			"SELECT "
 			    . OperationManager::CHAMP_OPERATION_ID_COMPTE . 
 			"," . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . "
 			FROM " . MesAchatsViewManager::VUE_MESACHATS . " 
@@ -59,6 +60,7 @@ class MesAchatsViewManager
 					MesAchatsViewManager::remplir(
 					$lLigne[OperationManager::CHAMP_OPERATION_ID_COMPTE],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 			}
@@ -81,6 +83,7 @@ class MesAchatsViewManager
 			"SELECT "
 			    . OperationManager::CHAMP_OPERATION_ID_COMPTE . 
 			"," . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . "
 			FROM " . MesAchatsViewManager::VUE_MESACHATS;
@@ -95,6 +98,7 @@ class MesAchatsViewManager
 					MesAchatsViewManager::remplir(
 					$lLigne[OperationManager::CHAMP_OPERATION_ID_COMPTE],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 			}
@@ -123,6 +127,7 @@ class MesAchatsViewManager
 		$lChamps = array( 
 			    OperationManager::CHAMP_OPERATION_ID_COMPTE .
 			"," . CommandeManager::CHAMP_COMMANDE_ID .
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT		);
 
@@ -144,6 +149,7 @@ class MesAchatsViewManager
 						MesAchatsViewManager::remplir(
 						$lLigne[OperationManager::CHAMP_OPERATION_ID_COMPTE],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 				}
@@ -159,18 +165,20 @@ class MesAchatsViewManager
 	}
 
 	/**
-	* @name remplir($pOpeIdCompte, $pComId, $pComNumero, $pComDateMarcheDebut)
+	* @name remplir($pOpeIdCompte, $pComId, $pComNom, $pComNumero, $pComDateMarcheDebut)
 	* @param int(11)
 	* @param int(11)
+	* @param varchar(100) 	
 	* @param int(11)
 	* @param datetime
 	* @return MesAchatsViewVO
 	* @desc Retourne une MesAchatsViewVO remplie
 	*/
-	private static function remplir($pOpeIdCompte, $pComId, $pComNumero, $pComDateMarcheDebut) {
+	private static function remplir($pOpeIdCompte, $pComId, $pComNom, $pComNumero, $pComDateMarcheDebut) {
 		$lMesAchats = new MesAchatsViewVO();
 		$lMesAchats->setOpeIdCompte($pOpeIdCompte);
 		$lMesAchats->setComId($pComId);
+		$lMesAchats->setComNom($pComNom);
 		$lMesAchats->setComNumero($pComNumero);
 		$lMesAchats->setComDateMarcheDebut($pComDateMarcheDebut);
 		return $lMesAchats;

@@ -34,6 +34,11 @@
 				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 			
+			if(lResponse.listeAdherent.length == 1) {
+				lResponse.totalAdherent = "L'adhérent";
+			} else {
+				lResponse.totalAdherent = "Les " + lResponse.listeAdherent.length + " adhérents";
+			}
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionAdherentsTemplate.listeAdherentVide)));
@@ -74,7 +79,7 @@
 	this.affectLienCompte = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {
-			CompteAdherentVue({id_adherent: $(this).find(".id-adherent").text()});
+			CompteAdherentVue({id_adherent: $(this).attr("id-adherent")});
 		});
 		return pData;
 	};

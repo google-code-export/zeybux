@@ -114,6 +114,7 @@
 		pData = this.affectHover(pData);
 		pData = this.affectLienModifier(pData);
 		pData = this.affectDialogSuppAdherent(pData);
+		pData = this.affectRetour(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
@@ -203,6 +204,12 @@
 				
 			});
 		});
+		return pData;
+	};
+	
+	this.affectRetour = function(pData) {
+		var that = this;
+		pData.find("#lien-retour").click(function() { ListeAdherentVue();});
 		return pData;
 	};
 		

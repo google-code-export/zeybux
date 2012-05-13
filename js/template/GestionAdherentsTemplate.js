@@ -1,6 +1,11 @@
 ;function GestionAdherentsTemplate() {
 	this.formulaireAjoutAdherent =
-		"<div id=\"contenu\">" +
+		"<div id=\"contenu\">" +	
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +	
 			"<div id=\"formulaire_modifier_adherent_int\">" +
 				"<form>" +
 					"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
@@ -140,59 +145,49 @@
 	this.listeAdherent = 
 		"<div id=\"contenu\">" +
 			"<div id=\"liste_adherent_solde_int\">" +
-			
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Les Adhérents" +
+						"{totalAdherent}" +
 						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
 							"<span class=\"ui-icon ui-icon-plusthick\">" +
 							"</span>" +
 						"</span>" +
 					"</div>" +
-						"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-							"<form id=\"filter-form\">" +
-								"<div>" +
-									"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-											"<span class=\"ui-icon ui-icon-search\">" +
-										"</span>" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
 									"</span>" +
-									"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-								
-									/*"<input class=\"com-input-text ui-widget-content ui-corner-left\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-									"<span class=\"ui-widget-content ui-corner-right liste-adh-span-rech-right\">" +
-										"<span class=\"ui-icon ui-icon-search\"></span>" +
-									"</span>" +*/
-								"</div>" +
-							"</form>" +
-						"</div>" +
-						//"<div id=\"widget-liste-adherent\" class=\"com-widget-content ui-widget ui-corner-all\">" +
-							"<table class=\"com-table\">" +
-								"<thead>" +
-									"<tr class=\"ui-widget ui-widget-header\">" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-										"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
-										"<th class=\"com-table-th liste-adh-th-solde\">Solde</th>" +
-									"</tr>" +
-								"</thead>" +
-								"<tbody>" +
-							"<!-- BEGIN listeAdherent -->" +
-									"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-										"<td class=\"com-table-td com-underline-hover\">" +
-											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
-											"<span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>" +
-											"{listeAdherent.adhNumero}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
-										"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
-									"</tr>" +
-							"<!-- END listeAdherent -->" +
-								"</tbody>" +
-							"</table>" +
-						//"</div>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
 					"</div>" +
+					"<table class=\"com-table\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
+								"<th class=\"com-table-th liste-adh-th-solde\">Solde</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+					"<!-- BEGIN listeAdherent -->" +
+							"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
+								"<td class=\"com-table-td com-underline-hover\">" +
+									"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
+									"{listeAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+								"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
+								"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
+							"</tr>" +
+					"<!-- END listeAdherent -->" +
+						"</tbody>" +
+					"</table>" +
 				"</div>" +
 			"</div>" +
 		"</div>";
@@ -201,7 +196,7 @@
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Les Adhérents" +
+					"Les adhérents" +
 					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
 						"<span class=\"ui-icon ui-icon-plusthick\">" +
 						"</span>" +
@@ -217,6 +212,11 @@
 	"</div>";
 	
 	this.infoCompteAdherentDebut =		
+		"<div class=\"com-barre-menu-2\">" +
+			"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
+				"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+			"</button>" +
+		"</div>" +		
 		"<div id=\"info_compte_solde_adherent_ext\">" +
 			"<div id=\"info_compte_solde_adherent_int\">" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +

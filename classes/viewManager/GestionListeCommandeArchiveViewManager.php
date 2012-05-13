@@ -39,6 +39,7 @@ class GestionListeCommandeArchiveViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -53,6 +54,7 @@ class GestionListeCommandeArchiveViewManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return GestionListeCommandeArchiveViewManager::remplir(
 				$pId,
+				$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 				$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -74,6 +76,7 @@ class GestionListeCommandeArchiveViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION . 
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT . 
@@ -89,6 +92,7 @@ class GestionListeCommandeArchiveViewManager
 				array_push($lListeGestionListeCommandeArchive,
 					GestionListeCommandeArchiveViewManager::remplir(
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+					$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -118,6 +122,7 @@ class GestionListeCommandeArchiveViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    CommandeManager::CHAMP_COMMANDE_ID .
+			"," . CommandeManager::CHAMP_COMMANDE_NOM . 
 			"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION .
 			"," . CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT .
@@ -139,6 +144,7 @@ class GestionListeCommandeArchiveViewManager
 					array_push($lListeGestionListeCommandeArchive,
 						GestionListeCommandeArchiveViewManager::remplir(
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+						$lLigne[CommandeManager::CHAMP_COMMANDE_NOM],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_FIN_RESERVATION],
 						$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT],
@@ -156,8 +162,9 @@ class GestionListeCommandeArchiveViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin)
+	* @name remplir($pComId, $pComNom, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin)
 	* @param int(11)
+	* @param varchar(100)
 	* @param int(11)
 	* @param datetime
 	* @param datetime
@@ -165,9 +172,10 @@ class GestionListeCommandeArchiveViewManager
 	* @return GestionListeCommandeArchiveViewVO
 	* @desc Retourne une GestionListeCommandeArchiveViewVO remplie
 	*/
-	private static function remplir($pComId, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin) {
+	private static function remplir($pComId, $pComNom, $pComNumero, $pComDateFinReservation, $pComDateMarcheDebut, $pComDateMarcheFin) {
 		$lGestionListeCommandeArchive = new GestionListeCommandeArchiveViewVO();
 		$lGestionListeCommandeArchive->setComId($pComId);
+		$lGestionListeCommandeArchive->setComNom($pComNom);
 		$lGestionListeCommandeArchive->setComNumero($pComNumero);
 		$lGestionListeCommandeArchive->setComDateFinReservation($pComDateFinReservation);
 		$lGestionListeCommandeArchive->setComDateMarcheDebut($pComDateMarcheDebut);

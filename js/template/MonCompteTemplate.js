@@ -165,7 +165,7 @@
 	
 	this.listeOperationAvenir = 
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat(s) Futur(s)</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">{achatFuturLabel}</div>" +
 			"<div>" +
 				"<table class=\"com-table\">" +
 					"<tr class=\"ui-widget ui-widget-header\" >" +

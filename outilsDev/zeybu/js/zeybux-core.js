@@ -272,7 +272,7 @@ function TemplateData() {
  * Plugin jquery d'édition de formulaire
  * Cache le formulaire pour afficher sa valeur dans une span
  */
-    $.fn.inputToText = function(pType) {
+   /* $.fn.inputToText = function(pType) {
     	this.hide();
 		if(this.context.nodeName == 'SELECT') {
 			this.after("<span name=\"" + this.attr('name') + "\">" + this.children('option:selected').text() + "</span>");
@@ -286,17 +286,17 @@ function TemplateData() {
 			this.after("<span name=\"" + this.attr('name') + "\">" + lVal + "</span>");
 		}
 		return this;
-    };
+    };*/
     
 /*
  * Plugin jquery d'édition de formulaire
  * Cache la span suivante de l'input pour afficher l'input
  */    
-    $.fn.textToInput = function() {
+   /* $.fn.textToInput = function() {
     	this.show();
     	this.next().hide();
 		return this;
-    };    
+    };    */
 })(jQuery);
 
 //Function to get the Max value in Array
@@ -406,6 +406,12 @@ function htmlDecode(value){
   return $('<div/>').html(value).text();
 };
 
+
+function jourSem(pDate) {
+	var lDate = new Date(pDate);
+	return gJourSemaine[ lDate.getDay() ];
+};
+
 	
 /*
  * +-------------------------------------+
@@ -423,7 +429,7 @@ function htmlDecode(value){
 	 if (decimales == undefined) decimales = 2;
 	 if (signe == undefined) signe = '.';
 	 if (separateurMilliers == undefined) separateurMilliers = ' ';
-
+	 
 	 function separeMilliers (sNombre) {
 		 var sRetour = "";
 		 while (sNombre.length % 3 != 0) {
@@ -475,11 +481,9 @@ function htmlDecode(value){
 				 sNvDecimale += '0';
 			 }
 			 _sDecimales = sDecimalesTmp + sNvDecimale;
-		}	 
-		else {
+		} else {
 			_sDecimales = sDecimalesTmp;
 		}
-		 
 		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
 	 }
 	 return _sRetour;
@@ -766,6 +770,8 @@ String.prototype.extractDbMinute = function() {
 	this.frequence = '';
 	this.lots = [];
 	this.lotRemplacement = [];
+	this.quantiteReservation = -1;
+	this.tailleLotResaMax = -1;
 };;function CaracteristiqueVO() {
 	this.id = '';
 	this.nom = '';
@@ -2029,6 +2035,10 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.max <= 0 && pData.max != -1) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.max.erreurs.push(erreur);}
 		if(pData.max != -1 && parseFloat(pData.max) > parseFloat(pData.stockInitial)) {lVR.valid = false;lVR.stockInitial.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.stockInitial.erreurs.push(erreur);lVR.max.erreurs.push(erreur);}
 		
+		if(pData.quantiteReservation != -1 && parseFloat(pData.stockInitial) < pData.quantiteReservation) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_259_CODE;erreur.message = ERR_259_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max != -1 && pData.tailleLotResaMax != -1 && parseFloat(pData.max) < pData.tailleLotResaMax) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_260_CODE;erreur.message = ERR_260_MSG;lVR.max.erreurs.push(erreur);}
+		
+		
 		//Tests des Lots
 		if(isArray(pData.lots)) {
 			if(pData.lots.length > 0) {
@@ -3038,13 +3048,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new RechargementCompteVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3070,7 +3080,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ReservationCommandeValid() { 
 	this.validAjout = function(pData) { 
@@ -3516,10 +3526,10 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		// La quantite doit être multiple de l'ancienne et inférieure car des réservations sont positionnées
-		if(pData.quantite > pAncienneQuantite) {
+		if(parseFloat(pData.quantite) > parseFloat(pAncienneQuantite)) {
 			lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_257_CODE;erreur.message = ERR_257_MSG;lVR.quantite.erreurs.push(erreur);
 		} else {
-			if(pAncienneQuantite % pData.quantite != 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_256_CODE;erreur.message = ERR_256_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(parseFloat(pAncienneQuantite) % parseFloat(pData.quantite) != 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_256_CODE;erreur.message = ERR_256_MSG;lVR.quantite.erreurs.push(erreur);}
 		}
 
 		return lVR;
@@ -4172,7 +4182,7 @@ $(document).ready(function() {
 				  	}
 				},"json"
 		);
-	}	
+	};
 	
 	
 	/******* Nouveau Module *********/
@@ -4183,15 +4193,15 @@ $(document).ready(function() {
 		if(pMenu.admin){
 			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
 		}
-	}
+	};
 	
 	this.genererLienDeconnexion = function() {
 		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererNouveauMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
@@ -4209,17 +4219,17 @@ $(document).ready(function() {
 		
 		lMenu = this.affectVues(lMenu);
 		return lMenu;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.genererNouveauModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	}
+	};
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
@@ -4227,15 +4237,15 @@ $(document).ready(function() {
 		});
 		pData = this.affectHover(pData);
 		return pData;
-	}
+	};
 	/******* Fin Nouveau Module *********/
-	this.afficher = function(pMenu) {
+	/*this.afficher = function(pMenu) {
 		var that = this;	
 		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
 		$('#site').append(that.mMenuTemplate.deconnexion);
-	}
+	};*/
 	
-	this.genererMenu = function(pMenu) {
+	/*this.genererMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
 		lMenu += this.genererModule(pMenu);
 		lMenu += this.mMenuTemplate.finMenu;
@@ -4245,12 +4255,12 @@ $(document).ready(function() {
 		lMenu = this.affectVues(lMenu);
 		lMenu = this.affectAnimation(lMenu);
 		return lMenu;
-	}
+	};*/
 	
-	this.genererModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.module;
 		return lTemplate.template(pModule);		
-	}
+	};*/
 	
 	/*this.affectAnimation = function(pData) {
 		var that = this;
@@ -4306,7 +4316,7 @@ $(document).ready(function() {
 			return pData;
 		}
 		return null;
-	}
+	};
 	
 	this.construct(pParam);
 };function AdministrationVue(pParam) {
@@ -4324,8 +4334,7 @@ $(document).ready(function() {
 							}
 							that.afficher(lResponse);
 							// Maj du Menu
-							var lCommunVue = new CommunVue();
-							lCommunVue.majMenu('administration');
+							gCommunVue.majMenu('administration');
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -4385,6 +4394,11 @@ $(document).ready(function() {
 			
 			pData.find('#menu-CompteZeybu-ListeVirement').click(function() {
 				ListeVirementZeybuVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteZeybu-SuiviPaiement').click(function() {
+				SuiviPaiementVue();
 				return false;
 			});
 			
@@ -4627,7 +4641,7 @@ $(document).ready(function() {
 		// Initialisation des objets globaux
 		TemplateData = new TemplateData();
 		Infobulle = new Infobulles();
-		gCommunVue = new CommunVue(); // TODO Renommer en CommunVue et utiliser cette classe dans toutes les vues
+		gCommunVue = new CommunVue();
 		gIdConnexion = null;
 	};
 	

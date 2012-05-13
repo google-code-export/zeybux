@@ -1,0 +1,230 @@
+<?php
+//****************************************************************
+//
+// Createur : Julien PIERRE
+// Date de creation : 13/05/2012
+// Fichier : SuiviPaiementValid.php
+//
+// Description : Classe SuiviPaiementValid
+//
+//****************************************************************
+// Inclusion des classes
+include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMPTE_ZEYBU . "/validerPaiementVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_COMPTE_ZEYBU . "/RechargementCompteVR.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
+
+/**
+ * @name SuiviPaiementValid
+ * @author Julien PIERRE
+ * @since 13/05/2012
+ * @desc Classe représentant une SuiviPaiementValid
+ */
+class SuiviPaiementValid
+{
+	/**
+	* @name validValider($pData)
+	* @return validerPaiementVR
+	* @desc Test la validite de l'élément
+	*/
+	public static function validValider($pData) {
+		$lVr = new validerPaiementVR();
+		//Tests inputs
+		if(!isset($pData['id'])) {
+			$lVr->setValid(false);
+			$lVr->getId()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId()->addErreur($lErreur);	
+		}
+
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!TestFonction::checkLength($pData['id'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			//Tests Fonctionnels
+			if(empty($pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			
+			$lOperationService = new OperationService();
+			$lOperation = $lOperationService->get($pData['id']);
+			if($lOperation->getId() != $pData['id']) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);					
+			}
+			if($lOperation->getType() != 0) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_227_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+				
+			}
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name validModifierPaiement($pData)
+	* @return RechargementCompteVR
+	* @desc Test la validite de l'élément
+	*/
+	public static function validModifierPaiement($pData) {
+		$lVr = new RechargementCompteVR();
+		//Tests inputs
+		if(!isset($pData['id'])) {
+			$lVr->setValid(false);
+			$lVr->getId()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId()->addErreur($lErreur);	
+		}
+		if(!isset($pData['montant'])) {
+			$lVr->setValid(false);
+			$lVr->getMontant()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getMontant()->addErreur($lErreur);	
+		}
+		if(!isset($pData['champComplementaire'])) {
+			$lVr->setValid(false);
+			$lVr->getChampComplementaire()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getChampComplementaire()->addErreur($lErreur);	
+		}
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!is_int((int)$pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['montant'],0,12)) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			if(!is_float((float)$pData['montant'])) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_109_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			if(!empty($pData['champComplementaire']) && !TestFonction::checkLength($pData['champComplementaire'],0,50)) {
+				$lVr->setValid(false);
+				$lVr->getChampComplementaire()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getChampComplementaire()->addErreur($lErreur);	
+			}
+	
+			//Tests Fonctionnels
+			if(empty($pData['id'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+			}			
+			if(empty($pData['montant'])) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			
+			if($pData['montant'] < 0) {
+				$lVr->setValid(false);
+				$lVr->getMontant()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_215_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
+				$lVr->getMontant()->addErreur($lErreur);	
+			}
+			
+			$lOperationService = new OperationService();
+			$lOperation = $lOperationService->get($pData['id']);
+			if($lOperation->getId() != $pData['id']) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);					
+			}
+			if($lOperation->getType() != 0) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_227_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
+				$lVr->getId()->addErreur($lErreur);	
+				
+			}
+			
+			$lTypepaiement = TypePaiementManager::select($lOperation->getTypePaiement());
+			if($lTypepaiement->getId() != $lOperation->getTypePaiement()) {
+				$lVr->setValid(false);
+				$lVr->getTypePaiement()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getTypePaiement()->addErreur($lErreur);			
+			} else {
+				if($lTypepaiement->getChampComplementaire() == 1 && empty($pData['champComplementaire'])) {
+					$lVr->setValid(false);
+					$lVr->getChampComplementaire()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+					$lVr->getChampComplementaire()->addErreur($lErreur);	
+				}
+			}
+		}
+		return $lVr;
+	}
+}
+?>

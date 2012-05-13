@@ -64,7 +64,7 @@
 	this.affectDetailFerme = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {
-			InformationFermeVue({id: $(this).find(".id-ferme").text()});
+			InformationFermeVue({id: $(this).attr("id-ferme")});
 		});
 		return pData;
 	};

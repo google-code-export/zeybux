@@ -278,6 +278,12 @@ class MessagesErreurs
 	const ERR_349_MSG = 'Suspension supprimée.';
 	const ERR_350_CODE = 350;
 	const ERR_350_MSG = 'Réservation ajoutée.';
+	const ERR_351_CODE = 351;
+	const ERR_351_MSG = 'Paiement validé.';
+	const ERR_352_CODE = 352;
+	const ERR_352_MSG = 'Paiement modifié.';
+	const ERR_353_CODE = 353;
+	const ERR_353_MSG = 'Paiement supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

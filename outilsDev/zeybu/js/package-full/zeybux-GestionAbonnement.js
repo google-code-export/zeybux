@@ -117,14 +117,6 @@
 							"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-frequence\" maxlength=\"200\" id=\"pro-frequence\"/>" +
 						"</td>" +
 					"</tr>" +
-				/*	"<tr>" +
-						"<th class=\"com-table-form-th\">" +
-							"Unité : " +
-						"</th>" +
-						"<td class=\"com-table-form-td\">" +
-							"{formUnite}" +
-						"</td>" +
-					"</tr>" +*/
 				"</table>" +
 				
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
@@ -224,18 +216,6 @@
 			"</div>" +
 		"</div>" ;
 	
-	/*this.formUniteSansUnite = 
-		"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-formUnite\" maxlength=\"20\" id=\"pro-unite\" value=\"{unite}\"/>";
-	
-	this.formUnite = "<span id=\"pro-unite\">{unite}</span><input type=\"hidden\" name=\"pro-formUnite\" value=\"{unite}\" />";
-	this.formUniteSelect = 
-		"<select id=\"pro-unite\" name=\"pro-formUnite\" >" +
-			"<option value=\"\" >== Choisir ==</option>" +
-			"<!-- BEGIN unite -->" +
-			"<option value=\"{unite.mLotUnite}\" {unite.selected}>{unite.mLotUnite}</option>" +
-			"<!-- END unite -->" +
-		"</select>";*/
-	
 	this.dialogModifierProduit =
 		"<div id=\"dialog-modif-pro\" title=\"Modifier : {nproNom}\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Détail</div>" +
@@ -249,14 +229,6 @@
 						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"pro-frequence\" maxlength=\"200\" id=\"pro-frequence\" value=\"{proAboFrequence}\"/>" +
 					"</td>" +
 				"</tr>" +
-				/*"<tr>" +
-					"<th class=\"com-table-form-th\">" +
-						"Unité : " +
-					"</th>" +
-					"<td class=\"com-table-form-td\">" +
-						"{formUnite}" +
-					"</td>" +
-				"</tr>" +*/
 			"</table>" +
 			
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Prix de vente</div>" +
@@ -284,7 +256,45 @@
 				"</tr>" +
 			"</table>" +
 			"<table class=\"com-table\" id=\"lot-liste\">" +
-		
+				"<!-- BEGIN modelesLotReservation -->" +
+				"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLotReservation.id}\">" +
+					"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLotReservation.id}</span></td>" +
+					"<td class=\"com-table-td-debut catalogue-ligne-lot-quantite td-edt\">" +
+						"<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" value=\"{modelesLotReservation.id}\" name=\"pro-lot\" id=\"pro-lot-{modelesLotReservation.id}-id\" {modelesLotReservation.checked} class=\"{modelesLotReservation.modele}\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-quantite\">" +
+						"<span class=\"champ-lot-{modelesLotReservation.id} lot-quantite\" id=\"lot-{modelesLotReservation.id}-quantite\">{modelesLotReservation.quantite}</span>"+
+						"<input class=\"champ-lot-{modelesLotReservation.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLotReservation.id}-quantite\" maxlength=\"13\" id=\"pro-lot-{modelesLotReservation.id}-quantite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med catalogue-ligne-lot-unite\">" +
+						"<span class=\"champ-lot-{modelesLotReservation.id} lot-unite\" id=\"lot-{modelesLotReservation.id}-unite\">{modelesLotReservation.unite}</span>" +
+						"<input class=\"champ-lot-{modelesLotReservation.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLotReservation.id}-unite\" maxlength=\"20\" id=\"pro-lot-{modelesLotReservation.id}-unite\"/>" +
+					"</td>" +
+					"<td class=\"com-table-td-med\">" +
+						"à " +
+						"<span class=\"champ-lot-{modelesLotReservation.id} lot-prix\" id=\"lot-{modelesLotReservation.id}-prix\">{modelesLotReservation.prix}</span>" +
+						"<input class=\"champ-lot-{modelesLotReservation.id} catalogue-input-lot com-input-text ui-widget-content ui-corner-all com-numeric ui-helper-hidden\" type=\"text\" name=\"lot-{modelesLotReservation.id}-prix\" maxlength=\"13\" id=\"pro-lot-{modelesLotReservation.id}-prix\"/>" +
+						" {modelesLotReservation.sigleMonetaire}" +
+					"</td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier-lot\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-valider-lot\" id=\"btn-valider-lot-{modelesLotReservation.id}\" title=\"Valider\">" +
+							"<span class=\"ui-icon ui-icon-check\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all ui-helper-hidden btn-annuler-lot\" id=\"btn-annuler-lot-{modelesLotReservation.id}\" title=\"Annuler\">" +
+							"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+						"</span>" +
+						"<span class=\"btn-lot com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-lot\"  id=\"btn-supprimer-lot-{modelesLotReservation.id}\" title=\"Supprimer\">" +				
+							"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+				"</tr>" +
+				"<!-- END modelesLotReservation -->" +
+			
 				"<!-- BEGIN modelesLot -->" +
 				"<tr class=\"ligne-lot\" id=\"ligne-lot-{modelesLot.id}\">" +
 					"<td class=\"ui-helper-hidden\"><span class=\"ui-helper-hidden lot-id\" id=\"id-lot\">{modelesLot.id}</span></td>" +
@@ -471,6 +481,7 @@
 				"Fréquence : {proAboFrequence}<br/>" +
 				"Stock : {proAboStockInitial} {proAboUnite}<br/>" +
 				"Quantité max par adhérent : {proAboMax}<br/>" +
+				"Total quantité d'abonnement : {proAboReservation} {proAboUnite}<br/>" +
 			"</div>" +
 			"{listeAbonnes}" +
 		"</div>";
@@ -1698,6 +1709,9 @@
 	this.mIdLot = 0;
 	this.mEditionLot = false;
 	this.mLotRemplacement = [];
+	this.mQuantiteReservation = null;
+	//this.mLotReservation = [];
+	this.mTailleLotResaMax = -1;
 
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {DetailProduitAbonnementVue(pParam);}} );
@@ -1734,9 +1748,12 @@
 		var lData= {};
 		lData.proAboId = lResponse.produit[0].proAboId;
 		lData.unite = lResponse.produit[0].proAboUnite;
+		lData.nproNom = lResponse.produit[0].nproNom;
 		lData.proAboUnite = lData.unite;
 		lData.proAboFrequence = lResponse.produit[0].proAboFrequence;
 		lData.proAboStockInitial = lResponse.produit[0].proAboStockInitial.nombreFormate(2,',',' ');
+		lData.proAboReservation = lResponse.produit[0].proAboReservation.nombreFormate(2,',',' ');
+		
 		if(lResponse.produit[0].proAboMax == -1) {
 			lData.proAboMax = "Pas de limite";
 		} else {
@@ -1753,7 +1770,12 @@
 		} else {
 			lData.listeAbonnes = lGestionAbonnementTemplate.detailProduitListeAbonnesVide;
 		}
-		
+
+		this.mQuantiteReservation = parseFloat(lResponse.produit[0].proAboReservation);
+		if(this.mQuantiteReservation <= 0) {
+			this.mQuantiteReservation = -1;
+		}
+
 		$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.detailProduit.template(lData))));
 		
 	};
@@ -1785,7 +1807,7 @@
 								
 								var lData = lResponse.produit[0];
 								
-								if(lResponse.unite.length > 0) {
+							//	if(lResponse.unite.length > 0) {
 									/*if(lResponse.unite.length == 1) {
 										if(lResponse.unite[0].mLotId == null) { // Pas d'unité
 											lData.formUnite = lGestionAbonnementTemplate.formUniteSansUnite.template({unite:lData.proAboUnite});
@@ -1816,8 +1838,10 @@
 									});	
 									lResponse.modelesLot = lResponse.unite;*/
 									
-									
-									
+
+									that.mTailleLotResaMax = -1;
+									//that.mLotReservation = [];
+									lData.modelesLotReservation  = [];
 									lData.listeModelesLot = [];
 									$(lResponse.unite).each(function() {
 										if(this.mLotId != null) {
@@ -1842,10 +1866,21 @@
 												sigleMonetaire:gSigleMonetaire,
 												modele: "",
 												checked:"checked=\"checked\""};
-										lData.modelesLot.push(lVoLot);
+										//lData.modelesLot.push(lVoLot);
+										if(this.reservation) {
+											lData.modelesLotReservation.push(lVoLot);
+											//that.mLotReservation[this.id] = {id:this.id,quantite:this.taille};
+											
+											if(this.taille > that.mTailleLotResaMax) {
+												that.mTailleLotResaMax = this.taille;
+											}
+											
+										} else {
+											lData.modelesLot.push(lVoLot);
+										}
 									});
 									lResponse.modelesLot = lResponse.unite;
-									
+																		
 									/*if(lResponse.produit.qteRestante == "" || lResponse.produit.stockInitial == -1) {
 										lData.nproStockCheckedNoLimit = "checked=\"checked\"";
 										lData.nproStockDisabled = "disabled=\"disabled\"";
@@ -1866,7 +1901,7 @@
 									
 									
 									
-								}
+							//	}
 								lData.proAboStockInitial = lData.proAboStockInitial.nombreFormate(2,',',' ');
 								if(lData.proAboMax == -1) {
 									lData.checkedNoLimit = "checked=\"checked\"";
@@ -2278,6 +2313,9 @@
 			lProduitAbonnement.max = -1;			
 		}		
 		lProduitAbonnement.frequence = pDialog.find(':input[name=pro-frequence]').val();
+
+		lProduitAbonnement.quantiteReservation = this.mQuantiteReservation;
+		lProduitAbonnement.tailleLotResaMax = this.mTailleLotResaMax;
 
 		lProduitAbonnement.lotRemplacement = this.mLotRemplacement;
 		pDialog.find('.ligne-lot :checkbox:checked').each( function () {

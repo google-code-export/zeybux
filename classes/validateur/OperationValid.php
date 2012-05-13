@@ -148,7 +148,7 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function type($pType) {
-		return $pType >= 0 && $pType <= 4;
+		return $pType >= 0 && $pType <= 7;
 	}
 	
 	/**

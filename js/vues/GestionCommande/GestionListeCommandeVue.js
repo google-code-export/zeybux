@@ -31,10 +31,16 @@
 					var lCommande = new Object();
 					lCommande.id = this.comId;
 					lCommande.numero = this.comNumero;
+					lCommande.nom = this.comNom;
+					
+
+					lCommande.jourFinReservation = jourSem(this.comDateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.comDateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.comDateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.comDateFinReservation.extractDbMinute();
 					
+
+					lCommande.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.comDateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.comDateMarcheDebut.extractDbMinute();
@@ -54,7 +60,6 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectLienEditer(pData);
-		//pData = this.affectLienMarche(pData);
 		pData = this.affectLienListeCommandeArchive(pData);
 		pData = this.affectNouveauMarche(pData);
 		pData = gCommunVue.comHoverBtn(pData);
@@ -74,15 +79,7 @@
 		});
 		return pData;
 	};
-	
-	/*this.affectLienMarche = function(pData) {
-		pData.find('.btn-marche').click(function() {
-			var lparam = {"id_commande":$(this).attr('id')};
-			MarcheCommandeVue(lparam);
-		});
-		return pData;
-	};*/
-	
+		
 	this.affectLienListeCommandeArchive = function(pData) {
 		pData.find('#lien-marche-archive').click(function() {
 			ListeCommandeArchiveVue();

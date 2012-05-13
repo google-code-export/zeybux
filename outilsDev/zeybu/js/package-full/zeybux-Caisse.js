@@ -6,19 +6,17 @@
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés en cours</div>" +
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th-debut lst-resa-th-num\">N°</th>" +
+								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
 								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
-								"<td class=\"com-table-td-debut com-text-align-right\">{commande.numero} : </td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
-								/*"<td class=\"com-table-td lst-resa-btn-commander\">" +
-									"<button class=\"btn-marche ui-state-default ui-corner-all com-button com-center\" id=\"{commande.id}\" >Vente</button>" +
-								"</td>" +*/
+								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
+								"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -63,8 +61,8 @@
 					"</div>" +
 					"<table class=\"com-table\">" +
 						"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\">" +
-								"<th class=\"com-table-th com-underline-hover com-center\"><span class=\"ui-helper-hidden id-adherent\">0</span>Compte invité</th>" +
+							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\" id-adherent=\"0\" >" +
+								"<th class=\"com-table-th com-underline-hover com-center\">Compte invité</th>" +
 							"</tr>" +
 						"</thead>" +
 					"</table>" +
@@ -80,13 +78,14 @@
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAdherentCommande -->" +
-						"<tr class=\"com-cursor-pointer achat-commande-ligne\" >" +							
+						"<tr class=\"com-cursor-pointer achat-commande-ligne\" id-adherent=\"{listeAdherentCommande.adhId}\">" +							
 							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.adhIdTri}</span>" +
-								"<span class=\"ui-helper-hidden id-adherent\">{listeAdherentCommande.adhId}</span>" +
 								"{listeAdherentCommande.adhNumero}" +
 							"</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherentCommande.cptIdTri}</span>" +
+								"{listeAdherentCommande.cptLabel}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhNom}</td>" +
 							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherentCommande.adhPrenom}</td>" +
 							"<td class=\"com-table-td-fin\">" +
@@ -464,7 +463,6 @@
 	this.flagAbonnement = 
 		"<span class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Abo</span>";
 };function CaisseListeCommandeVue(pParam) {
-	//this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CaisseListeCommandeVue(pParam);}} );
@@ -498,10 +496,15 @@
 					var lCommande = {};
 					lCommande.id = this.id;
 					lCommande.numero = this.numero;
+					lCommande.nom = this.nom;
+
+					lCommande.jourFinReservation = jourSem(this.dateFinReservation.extractDbDate());
 					lCommande.dateFinReservation = this.dateFinReservation.extractDbDate().dateDbToFr();
 					lCommande.heureFinReservation = this.dateFinReservation.extractDbHeure();
 					lCommande.minuteFinReservation = this.dateFinReservation.extractDbMinute();
 					
+
+					lCommande.jourMarcheDebut = jourSem(this.dateMarcheDebut.extractDbDate());
 					lCommande.dateMarcheDebut = this.dateMarcheDebut.extractDbDate().dateDbToFr();
 					lCommande.heureMarcheDebut = this.dateMarcheDebut.extractDbHeure();
 					lCommande.minuteMarcheDebut = this.dateMarcheDebut.extractDbMinute();
@@ -526,10 +529,6 @@
 	};
 	
 	this.affectLienMarche = function(pData) {
-		/*pData.find('.btn-marche').click(function() {
-			var lparam = ;
-			CaisseMarcheCommandeVue(lparam);
-		});*/
 		pData.find(".btn-marche").click(function() {
 			CaisseMarcheCommandeVue({"id_commande":$(this).attr('id')});
 		});
@@ -574,6 +573,7 @@
 					
 					$.each(pResponse.listeAdherentCommande,function() {
 						this.adhIdTri = this.adhNumero.replace("Z","");
+						this.cptIdTri = this.cptLabel.replace("C","");
 					});
 					
 					$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
@@ -619,7 +619,7 @@
 		var that = this;
 		pData.find(".achat-commande-ligne").click(function() {
 			var lParam = {	id_commande:that.idCommande,
-							id_adherent:$(this).find(".id-adherent").text()};
+							id_adherent:$(this).attr("id-adherent")};
 			CaisseAchatCommandeVue(lParam);
 		});
 		return pData;
@@ -786,7 +786,7 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
 							lProduit.lot.push(lLot);
 						}
@@ -815,8 +815,9 @@
 					lProduitSolidaire.flagType = lProduit.flagType;
 					lProduitSolidaire.prixUnitaire = lProduit.prixUnitaire;
 					
+					var lIdNomProduit = this.idNom;
 					$(pResponse.stockSolidaire).each(function() {
-						if(lProduit.proId == this.proId){
+						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
 								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 							}
@@ -938,7 +939,7 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
 							lProduit.lot.push(lLot);
 						}
@@ -971,8 +972,11 @@
 						lProduit.flagType = lCaisseTemplate.flagAbonnement;
 					}
 					
+					
+
+					var lIdNomProduit = this.idNom;
 					$(pResponse.stockSolidaire).each(function() {
-						if(lProduit.proId == this.proId){
+						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							var lPrix = 0;
 							$.each(lProduitCommande.lots, function() {
 								if(this.id) {
@@ -1004,7 +1008,7 @@
 										});										
 									});
 									
-									lProduit.prixUnitaire = (lPrix / lStoQuantite).nombreFormate(2,',',' '); 						
+									lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																			
 									lProduit.lot.push(lLot);
 								}
@@ -1024,7 +1028,7 @@
 			
 			lData.adhNouveauSolde = this.solde.nombreFormate(2,',',' ');
 			
-			this.solde = (this.solde + lData.total + lData.totalSolidaire).toFixed(2);;
+			this.solde = (this.solde + lData.total + lData.totalSolidaire).toFixed(2);
 
 			lData.adhSolde = this.solde;
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
@@ -1145,7 +1149,7 @@
 			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
 				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
 				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
-				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 				
 				$(pData).find('#prix-unitaire-' + lIdPdt).text(lprixUnitaire);
 			}
@@ -1157,7 +1161,7 @@
 			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
 				var lPrix = that.pdtCommande[lIdPdt].lots[lIdLot].prix;
 				var lQte = that.pdtCommande[lIdPdt].lots[lIdLot].taille;
-				var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+				var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 				
 				$(pData).find('#prix-unitaire-solidaire-' + lIdPdt).text(lprixUnitaire);
 			}
@@ -1179,7 +1183,7 @@
 	this.changerLot = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
 		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 		
 		$('#prix-unitaire-' + pIdPdt).text(lprixUnitaire);
 		$('#produits' + pIdPdt +'quantite,#produits' + pIdPdt + 'prix').val("");		
@@ -1190,7 +1194,7 @@
 	this.changerLotSolidaire = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
 		var lQte = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lprixUnitaire = (lPrix / lQte).nombreFormate(2,',',' '); 						
+		var lprixUnitaire = (lPrix / lQte).toFixed(2).nombreFormate(2,',',' '); 						
 		
 		$('#prix-unitaire-solidaire-' + pIdPdt).text(lprixUnitaire);
 		$('#produitsSolidaire' + pIdPdt +'quantite,#produitsSolidaire' + pIdPdt + 'prix').val("");	
@@ -1285,6 +1289,10 @@
 		//var lprixUnitaire = lPrix / lQte; 
 		
 		var lNvPrix = (lPrix / lQte * lQuantite).toFixed(2);
+		
+		//var lNvPrix = (lPrix / lQte * lQuantite);
+		
+		//alert(lNvPrix);
 		if(isNaN(lNvPrix)) {lNvPrix = 0;}
 
 		if(lNvPrix != 0) {
@@ -1771,14 +1779,7 @@
 	
 	
 	this.boutonModifier = function() {
-		if(this.etapeValider == 1) {
-			/*$(".produit-prix,.produit-solidaire-prix,#rechargementmontant,.produit-quantite,.produit-solidaire-quantite,#rechargementchampComplementaire,#rechargementtypePaiement").each(function() {$(this).textToInput();});
-			$(".lot-vente-produit, #btn-annuler, #btn-modifier").toggle();*/
-			
-			//$(".lot-vente-produit, #btn-annuler, #btn-modifier, .recap").toggle();
-			
-			//$("#btn-annuler, #btn-modifier, #achat-marche-formulaire, #achat-marche-detail, .btn-valider").toggle();
-			
+		if(this.etapeValider == 1) {			
 			$("#btn-annuler, #achat-marche-formulaire, #btn-confirmer").show();
 			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();
 			

@@ -31,6 +31,12 @@ class MesAchatsViewVO  extends DataTemplate
 	protected $mComId;
 
 	/**
+	* @var varchar(100)
+	* @desc ComNom de la MesAchatsViewVO
+	*/
+	protected $mComNom;
+
+	/**
 	* @var int(11)
 	* @desc ComNumero de la MesAchatsViewVO
 	*/
@@ -76,6 +82,24 @@ class MesAchatsViewVO  extends DataTemplate
 	*/
 	public function setComId($pComId) {
 		$this->mComId = $pComId;
+	}
+
+	/**
+	* @name getComNom()
+	* @return varchar(100)
+	* @desc Renvoie le membre ComNom de la MesAchatsViewVO
+	*/
+	public function getComNom() {
+		return $this->mComNom;
+	}
+
+	/**
+	* @name setComNom($pComNom)
+	* @param varchar(100)
+	* @desc Remplace le membre ComNom de la MesAchatsViewVO par $pComNom
+	*/
+	public function setComNom($pComNom) {
+		$this->mComNom = $pComNom;
 	}
 
 	/**

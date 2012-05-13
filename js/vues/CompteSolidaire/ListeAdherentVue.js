@@ -1,5 +1,4 @@
-;function CompteSolidaireListeAdherentVue(pParam) {	
-	this.mCommunVue = new CommunVue();
+;function CompteSolidaireListeAdherentVue(pParam) {
 	this.listeAdherent = [];
 	this.solde = 0;
 	
@@ -21,6 +20,9 @@
 						
 						that.solde = lResponse.solde;
 						
+
+						gCommunVue.majMenu('CompteSolidaire','ListeAdherent');
+						
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -30,30 +32,33 @@
 	);
 	};	
 	
-	this.afficher = function(lResponse) {
+	this.afficher = function(pResponse) {
 		var that = this;
 		var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
 		
-		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lCompteSolidaireTemplate.listeAdherent;		
-			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		if(pResponse.listeAdherent.length > 0 && pResponse.listeAdherent[0].adhId != null) {
+			var lTemplate = lCompteSolidaireTemplate.listeAdherent;	
+			$.each(pResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
+			$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
 		} else {
 			$('#contenu').replaceWith(lCompteSolidaireTemplate.listeAdherentVide);
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectVirement(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -63,12 +68,12 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectVirement = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {			
-			var lId = $(this).find(".id-adherent").text();
+			var lId = $(this).attr("id-adherent");
 
 			var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
 			var lTemplate = lCompteSolidaireTemplate.dialogAjoutVirement;
@@ -97,12 +102,12 @@
 			});		
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialog = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 
 	this.envoyerVirement = function(pDialog,pId) {
 		var lVo = new CompteSolidaireAjoutVirementVO();								
@@ -142,7 +147,7 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}	
+	};
 	
 	this.construct(pParam);
 }

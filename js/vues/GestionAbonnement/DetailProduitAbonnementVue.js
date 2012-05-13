@@ -3,6 +3,9 @@
 	this.mIdLot = 0;
 	this.mEditionLot = false;
 	this.mLotRemplacement = [];
+	this.mQuantiteReservation = null;
+	//this.mLotReservation = [];
+	this.mTailleLotResaMax = -1;
 
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {DetailProduitAbonnementVue(pParam);}} );
@@ -39,9 +42,12 @@
 		var lData= {};
 		lData.proAboId = lResponse.produit[0].proAboId;
 		lData.unite = lResponse.produit[0].proAboUnite;
+		lData.nproNom = lResponse.produit[0].nproNom;
 		lData.proAboUnite = lData.unite;
 		lData.proAboFrequence = lResponse.produit[0].proAboFrequence;
 		lData.proAboStockInitial = lResponse.produit[0].proAboStockInitial.nombreFormate(2,',',' ');
+		lData.proAboReservation = lResponse.produit[0].proAboReservation.nombreFormate(2,',',' ');
+		
 		if(lResponse.produit[0].proAboMax == -1) {
 			lData.proAboMax = "Pas de limite";
 		} else {
@@ -58,7 +64,12 @@
 		} else {
 			lData.listeAbonnes = lGestionAbonnementTemplate.detailProduitListeAbonnesVide;
 		}
-		
+
+		this.mQuantiteReservation = parseFloat(lResponse.produit[0].proAboReservation);
+		if(this.mQuantiteReservation <= 0) {
+			this.mQuantiteReservation = -1;
+		}
+
 		$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.detailProduit.template(lData))));
 		
 	};
@@ -90,7 +101,7 @@
 								
 								var lData = lResponse.produit[0];
 								
-								if(lResponse.unite.length > 0) {
+							//	if(lResponse.unite.length > 0) {
 									/*if(lResponse.unite.length == 1) {
 										if(lResponse.unite[0].mLotId == null) { // Pas d'unité
 											lData.formUnite = lGestionAbonnementTemplate.formUniteSansUnite.template({unite:lData.proAboUnite});
@@ -121,8 +132,10 @@
 									});	
 									lResponse.modelesLot = lResponse.unite;*/
 									
-									
-									
+
+									that.mTailleLotResaMax = -1;
+									//that.mLotReservation = [];
+									lData.modelesLotReservation  = [];
 									lData.listeModelesLot = [];
 									$(lResponse.unite).each(function() {
 										if(this.mLotId != null) {
@@ -147,10 +160,21 @@
 												sigleMonetaire:gSigleMonetaire,
 												modele: "",
 												checked:"checked=\"checked\""};
-										lData.modelesLot.push(lVoLot);
+										//lData.modelesLot.push(lVoLot);
+										if(this.reservation) {
+											lData.modelesLotReservation.push(lVoLot);
+											//that.mLotReservation[this.id] = {id:this.id,quantite:this.taille};
+											
+											if(this.taille > that.mTailleLotResaMax) {
+												that.mTailleLotResaMax = this.taille;
+											}
+											
+										} else {
+											lData.modelesLot.push(lVoLot);
+										}
 									});
 									lResponse.modelesLot = lResponse.unite;
-									
+																		
 									/*if(lResponse.produit.qteRestante == "" || lResponse.produit.stockInitial == -1) {
 										lData.nproStockCheckedNoLimit = "checked=\"checked\"";
 										lData.nproStockDisabled = "disabled=\"disabled\"";
@@ -171,7 +195,7 @@
 									
 									
 									
-								}
+							//	}
 								lData.proAboStockInitial = lData.proAboStockInitial.nombreFormate(2,',',' ');
 								if(lData.proAboMax == -1) {
 									lData.checkedNoLimit = "checked=\"checked\"";
@@ -583,6 +607,9 @@
 			lProduitAbonnement.max = -1;			
 		}		
 		lProduitAbonnement.frequence = pDialog.find(':input[name=pro-frequence]').val();
+
+		lProduitAbonnement.quantiteReservation = this.mQuantiteReservation;
+		lProduitAbonnement.tailleLotResaMax = this.mTailleLotResaMax;
 
 		lProduitAbonnement.lotRemplacement = this.mLotRemplacement;
 		pDialog.find('.ligne-lot :checkbox:checked').each( function () {

@@ -251,7 +251,8 @@ class BonDeLivraisonControleur
 				}
 			}
 			
-			// Maj des infos du stock Solidaire
+			// Maj des infos du stock Solidaire			
+			$lProduitMarche = $lMarche->getProduits();
 			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme);
 			foreach($lProduits as $lProduit) {
 				$lMaj = false;
@@ -268,6 +269,20 @@ class BonDeLivraisonControleur
 						$lStock->setIdDetailCommande($lDcom[0]->getId());
 						$lStock->setIdOperation($lIdOperation);
 						$lStockService->set($lStock);
+						
+						// Ajout du produit dans le stock solidaire
+						$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
+						$lStockSolidaire = new StockSolidaireVO();
+						$lQuantite = $lProduit["quantiteSolidaire"];
+						if(!is_null($lStockSolidaireActuel->getId())) {
+							$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+							$lQuantite = $lStockSolidaireActuel->getQuantite() + $lProduit["quantiteSolidaire"] - $lBon->getStoQuantite();
+						}					
+						$lStockSolidaire->setQuantite($lQuantite);
+						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setSolidaire($lStockSolidaire);
 					}
 				}
 				if(!$lMaj) {
@@ -280,6 +295,21 @@ class BonDeLivraisonControleur
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
+
+					// Ajout du produit dans le stock solidaire
+					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
+					$lStockSolidaire = new StockSolidaireVO();
+					$lQuantite = $lProduit["quantiteSolidaire"];
+					if(!is_null($lStockSolidaireActuel->getId())) {
+						$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+						$lQuantite += $lStockSolidaireActuel->getQuantite();
+					}					
+					$lStockSolidaire->setQuantite($lQuantite);
+					$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setSolidaire($lStockSolidaire);
+					
 				}			
 			}
 			foreach($lStockSolidaire as $lBon) {
@@ -291,6 +321,18 @@ class BonDeLivraisonControleur
 				}
 				if($lDelete) {
 					$lStockService->delete($lBon->getStoId());
+					
+					// Si le produit est dans le stck solidaire on le supprime
+					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockSolidaireActuel = $lStockSolidaireActuel[0];	
+					if(!is_null($lStockSolidaireActuel->getId())) {
+						$lStockSolidaire = new StockSolidaireVO();
+						$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+						$lStockSolidaire->setQuantite($lStockSolidaireActuel->getQuantite() - $lProduit["quantiteSolidaire"] );
+						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setSolidaire($lStockSolidaire);
+					}					
 				}
 			}
 		}

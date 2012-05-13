@@ -32,6 +32,12 @@ class InfoCompteZeybuResponse extends DataTemplate
 	
 	/**
 	 * @var decimal(33,2)
+	 * @desc Le Solde du compte solidaire
+	 */
+	protected $mSoldeSolidaire;
+	
+	/**
+	 * @var decimal(33,2)
 	 * @desc Le Solde en caisse
 	 */
 	protected $mSoldeCaisse;
@@ -91,6 +97,24 @@ class InfoCompteZeybuResponse extends DataTemplate
 	*/
 	public function setSoldeTotal($pSoldeTotal) {
 		$this->mSoldeTotal = $pSoldeTotal;
+	}
+	
+	/**
+	* @name getSoldeSolidaire()
+	* @return decimal(33,2)
+	* @desc Renvoie le SoldeSolidaire
+	*/
+	public function getSoldeSolidaire() {
+		return $this->mSoldeSolidaire;
+	}
+
+	/**
+	* @name setSoldeSolidaire($pSoldeSolidaire)
+	* @param decimal(33,2)
+	* @desc Remplace le SoldeSolidaire par $pSoldeSolidaire
+	*/
+	public function setSoldeSolidaire($pSoldeSolidaire) {
+		$this->mSoldeSolidaire = $pSoldeSolidaire;
 	}
 	
 	/**

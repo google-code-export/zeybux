@@ -10,4 +10,5 @@ const gTextValider = "Valider";
 const gDateNulle = '0000-00-00';
 const gTimeNul = '00:00:00';
 const gDateTimeNulle = gDateNulle + ' ' + gTimeNul;
+const gJourSemaine = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
 /********** Fin Variables Globales ************/

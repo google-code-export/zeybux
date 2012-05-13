@@ -19,38 +19,44 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 {
 	/**
 	* @var int(11)
-	* @desc ComId de la ListeCommandeArchiveViewVO
+	* @desc ComId de la GestionListeCommandeEnCoursViewVO
 	*/
 	protected $mComId;
+	
+	/**
+	* @var varchar(100)
+	* @desc ComNom de la GestionListeCommandeEnCoursViewVO
+	*/
+	protected $mComNom;
 
 	/**
 	* @var int(11)
-	* @desc ComNumero de la ListeCommandeArchiveViewVO
+	* @desc ComNumero de la GestionListeCommandeEnCoursViewVO
 	*/
 	protected $mComNumero;
 
 	/**
 	* @var datetime
-	* @desc ComDateFinReservation de la ListeCommandeArchiveViewVO
+	* @desc ComDateFinReservation de la GestionListeCommandeEnCoursViewVO
 	*/
 	protected $mComDateFinReservation;
 
 	/**
 	* @var datetime
-	* @desc ComDateMarcheDebut de la ListeCommandeArchiveViewVO
+	* @desc ComDateMarcheDebut de la GestionListeCommandeEnCoursViewVO
 	*/
 	protected $mComDateMarcheDebut;
 
 	/**
 	* @var datetime
-	* @desc ComDateMarcheFin de la ListeCommandeArchiveViewVO
+	* @desc ComDateMarcheFin de la GestionListeCommandeEnCoursViewVO
 	*/
 	protected $mComDateMarcheFin;
 
 	/**
 	* @name getComId()
 	* @return int(11)
-	* @desc Renvoie le membre ComId de la ListeCommandeArchiveViewVO
+	* @desc Renvoie le membre ComId de la GestionListeCommandeEnCoursViewVO
 	*/
 	public function getComId() {
 		return $this->mComId;
@@ -59,16 +65,34 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name setComId($pComId)
 	* @param int(11)
-	* @desc Remplace le membre ComId de la ListeCommandeArchiveViewVO par $pComId
+	* @desc Remplace le membre ComId de la GestionListeCommandeEnCoursViewVO par $pComId
 	*/
 	public function setComId($pComId) {
 		$this->mComId = $pComId;
 	}
 
 	/**
+	* @name getComNom()
+	* @return varchar(100)
+	* @desc Renvoie le membre ComNom de la GestionListeCommandeEnCoursViewVO
+	*/
+	public function getComNom() {
+		return $this->mComNom;
+	}
+
+	/**
+	* @name setComNom($pComNom)
+	* @param varchar(100)
+	* @desc Remplace le membre ComNom de la GestionListeCommandeEnCoursViewVO par $pComNom
+	*/
+	public function setComNom($pComNom) {
+		$this->mComNom = $pComNom;
+	}
+
+	/**
 	* @name getComNumero()
 	* @return int(11)
-	* @desc Renvoie le membre ComNumero de la ListeCommandeArchiveViewVO
+	* @desc Renvoie le membre ComNumero de la GestionListeCommandeEnCoursViewVO
 	*/
 	public function getComNumero() {
 		return $this->mComNumero;
@@ -77,7 +101,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name setComNumero($pComNumero)
 	* @param int(11)
-	* @desc Remplace le membre ComNumero de la ListeCommandeArchiveViewVO par $pComNumero
+	* @desc Remplace le membre ComNumero de la GestionListeCommandeEnCoursViewVO par $pComNumero
 	*/
 	public function setComNumero($pComNumero) {
 		$this->mComNumero = $pComNumero;
@@ -86,7 +110,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name getComDateFinReservation()
 	* @return datetime
-	* @desc Renvoie le membre ComDateFinReservation de la ListeCommandeArchiveViewVO
+	* @desc Renvoie le membre ComDateFinReservation de la GestionListeCommandeEnCoursViewVO
 	*/
 	public function getComDateFinReservation() {
 		return $this->mComDateFinReservation;
@@ -95,7 +119,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name setComDateFinReservation($pComDateFinReservation)
 	* @param datetime
-	* @desc Remplace le membre ComDateFinReservation de la ListeCommandeArchiveViewVO par $pComDateFinReservation
+	* @desc Remplace le membre ComDateFinReservation de la GestionListeCommandeEnCoursViewVO par $pComDateFinReservation
 	*/
 	public function setComDateFinReservation($pComDateFinReservation) {
 		$this->mComDateFinReservation = $pComDateFinReservation;
@@ -104,7 +128,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name getComDateMarcheDebut()
 	* @return datetime
-	* @desc Renvoie le membre ComDateMarcheDebut de la ListeCommandeArchiveViewVO
+	* @desc Renvoie le membre ComDateMarcheDebut de la GestionListeCommandeEnCoursViewVO
 	*/
 	public function getComDateMarcheDebut() {
 		return $this->mComDateMarcheDebut;
@@ -113,7 +137,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name setComDateMarcheDebut($pComDateMarcheDebut)
 	* @param datetime
-	* @desc Remplace le membre ComDateMarcheDebut de la ListeCommandeArchiveViewVO par $pComDateMarcheDebut
+	* @desc Remplace le membre ComDateMarcheDebut de la GestionListeCommandeEnCoursViewVO par $pComDateMarcheDebut
 	*/
 	public function setComDateMarcheDebut($pComDateMarcheDebut) {
 		$this->mComDateMarcheDebut = $pComDateMarcheDebut;
@@ -122,7 +146,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name getComDateMarcheFin()
 	* @return datetime
-	* @desc Renvoie le membre ComDateMarcheFin de la ListeCommandeArchiveViewVO
+	* @desc Renvoie le membre ComDateMarcheFin de la GestionListeCommandeEnCoursViewVO
 	*/
 	public function getComDateMarcheFin() {
 		return $this->mComDateMarcheFin;
@@ -131,7 +155,7 @@ class GestionListeCommandeEnCoursViewVO extends DataTemplate
 	/**
 	* @name setComDateMarcheFin($pComDateMarcheFin)
 	* @param datetime
-	* @desc Remplace le membre ComDateMarcheFin de la ListeCommandeArchiveViewVO par $pComDateMarcheFin
+	* @desc Remplace le membre ComDateMarcheFin de la GestionListeCommandeEnCoursViewVO par $pComDateMarcheFin
 	*/
 	public function setComDateMarcheFin($pComDateMarcheFin) {
 		$this->mComDateMarcheFin = $pComDateMarcheFin;

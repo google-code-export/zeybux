@@ -20,6 +20,7 @@ class StringUtils
 {
 	const FORMAT_DATE_NULLE = "0000-00-00";
 	const FORMAT_TIME_NULLE = "00:00:00";
+	const FORMAT_TIME_FIN_JOUR = "23:59:59";
 	const FORMAT_DATE_TIME_NULLE = "0000-00-00 00:00:00";
 
 	/**

@@ -76,19 +76,25 @@
 						"<table class=\"com-table\">" +
 							"<thead>" +
 								"<tr class=\"ui-widget ui-widget-header\">" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-									"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+									"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+									"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+									"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 								"</tr>" +
 							"</thead>" +
 							"<tbody>" +
 						"<!-- BEGIN listeAdherent -->" +
-								"<tr class=\"com-cursor-pointer compte-ligne\" >" +
-									"<td class=\"com-table-td com-underline-hover\"><span class=\"ui-helper-hidden id-adherent\">{listeAdherent.adhId}</span>{listeAdherent.adhNumero}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.cptLabel}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-									"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+								"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
+									"<td class=\"com-table-td-debut com-underline-hover\"><span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>{listeAdherent.adhNumero}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.cptLabel}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
+									"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+									"<td class=\"com-table-td-fin liste-adh-td-solde\">" +
+										"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+											"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+										"</span>" +
+									"</td>" +
 								"</tr>" +
 						"<!-- END listeAdherent -->" +
 							"</tbody>" +
@@ -119,10 +125,10 @@
 			"<form>" +
 				"<table class=\"com-table-100\">" +
 					"<tr>" +
-						"Destinataire : {adhNumero} {adhPrenom} {adhNom}" +
+						"<td>Destinataire : {adhNumero} {adhPrenom} {adhNom}</td>" +
 					"</tr>" +
 					"<tr>" +
-						"N° de compte : {cptLabel}" +
+						"<td>N° de compte : {cptLabel}</td>" +
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
@@ -164,8 +170,7 @@
 				"</table>" +
 			"</form>" +
 		"</div>";
-};function CompteSolidaireVue(pParam) {	
-	this.mCommunVue = new CommunVue();
+};function CompteSolidaireVue(pParam) {
 	this.solde = 0;
 	this.modifVirement = [];
 	
@@ -181,6 +186,8 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+
+							gCommunVue.majMenu('CompteSolidaire','CompteSolidaire');
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -188,7 +195,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -237,15 +244,15 @@
 			var lTemplate = lCompteSolidaireTemplate.listeVirementVide;
 			$('#contenu').replaceWith(lTemplate.template(lResponse));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.ajoutModification(pData);
 		pData = this.affectModification(pData);
 		pData = this.affectSuppression(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -259,12 +266,12 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:20}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.ajoutModification = function(pData) {
 		var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
@@ -273,7 +280,7 @@
 			pData.find("#td-sup-" + this).html(lCompteSolidaireTemplate.btnSup);
 		});		
 		return pData;
-	}
+	};
 	
 	this.affectModification = function(pData) {
 		var that = this;
@@ -310,7 +317,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.modifierVirement = function(pDialog,pId,pMontant) {
 		var that = this;
@@ -353,12 +360,12 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.affectDialog = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectSuppression = function(pData) {
 		var that = this;
@@ -395,7 +402,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 	
 	this.supprimerVirement = function(pDialog,pId) {
 		var that = this;
@@ -435,11 +442,10 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
-};function CompteSolidaireListeAdherentVue(pParam) {	
-	this.mCommunVue = new CommunVue();
+};function CompteSolidaireListeAdherentVue(pParam) {
 	this.listeAdherent = [];
 	this.solde = 0;
 	
@@ -461,6 +467,9 @@
 						
 						that.solde = lResponse.solde;
 						
+
+						gCommunVue.majMenu('CompteSolidaire','ListeAdherent');
+						
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -470,30 +479,33 @@
 	);
 	};	
 	
-	this.afficher = function(lResponse) {
+	this.afficher = function(pResponse) {
 		var that = this;
 		var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
 		
-		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lCompteSolidaireTemplate.listeAdherent;		
-			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		if(pResponse.listeAdherent.length > 0 && pResponse.listeAdherent[0].adhId != null) {
+			var lTemplate = lCompteSolidaireTemplate.listeAdherent;	
+			$.each(pResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
+			$('#contenu').replaceWith(that.affect($(lTemplate.template(pResponse))));
 		} else {
 			$('#contenu').replaceWith(lCompteSolidaireTemplate.listeAdherentVide);
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectVirement(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -503,12 +515,12 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 			
 	this.affectVirement = function(pData) {
 		var that = this;
 		pData.find(".compte-ligne").click(function() {			
-			var lId = $(this).find(".id-adherent").text();
+			var lId = $(this).attr("id-adherent");
 
 			var lCompteSolidaireTemplate = new CompteSolidaireTemplate();
 			var lTemplate = lCompteSolidaireTemplate.dialogAjoutVirement;
@@ -537,12 +549,12 @@
 			});		
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialog = function(pData) {
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 
 	this.envoyerVirement = function(pDialog,pId) {
 		var lVo = new CompteSolidaireAjoutVirementVO();								
@@ -582,7 +594,7 @@
 		}else {
 			Infobulle.generer(lVr,'');
 		}
-	}	
+	};
 	
 	this.construct(pParam);
 }
