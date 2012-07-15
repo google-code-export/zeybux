@@ -26,15 +26,29 @@ class InfoCommandeViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
+<<<<<<< .working
 	* @desc ProIdCompteProducteur de la InfoCommandeViewVO
+=======
+	* @desc ProIdCompteFerme de la InfoCommandeViewVO
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	protected $mProIdCompteProducteur;
+=======
+	protected $mProIdCompteFerme;
+>>>>>>> .merge-right.r75
 
 	/**
 	* @var int(11)
 	* @desc ProId de la InfoCommandeViewVO
 	*/
 	protected $mProId;
+
+	/**
+	* @var tinyint(4)
+	* @desc ProType de la InfoCommandeViewVO
+	*/
+	protected $mProType;
 
 	/**
 	* @var varchar(20)
@@ -121,21 +135,47 @@ class InfoCommandeViewVO  extends DataTemplate
 	}
 
 	/**
+<<<<<<< .working
 	* @name getProIdCompteProducteur()
+=======
+	* @name getProIdCompteFerme()
+>>>>>>> .merge-right.r75
 	* @return int(11)
+<<<<<<< .working
 	* @desc Renvoie le membre ProIdCompteProducteur de la InfoCommandeViewVO
+=======
+	* @desc Renvoie le membre ProIdCompteFerme de la InfoCommandeViewVO
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	public function getProIdCompteProducteur() {
 		return $this->mProIdCompteProducteur;
+=======
+	public function getProIdCompteFerme() {
+		return $this->mProIdCompteFerme;
+>>>>>>> .merge-right.r75
 	}
 
 	/**
+<<<<<<< .working
 	* @name setProIdCompteProducteur($pProIdCompteProducteur)
+=======
+	* @name setProIdCompteFerme($pProIdCompteFerme)
+>>>>>>> .merge-right.r75
 	* @param int(11)
+<<<<<<< .working
 	* @desc Remplace le membre ProIdCompteProducteur de la InfoCommandeViewVO par $pProIdCompteProducteur
+=======
+	* @desc Remplace le membre ProIdCompteFerme de la InfoCommandeViewVO par $pProIdCompteFerme
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	public function setProIdCompteProducteur($pProIdCompteProducteur) {
 		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
+=======
+	public function setProIdCompteFerme($pProIdCompteFerme) {
+		$this->mProIdCompteFerme = $pProIdCompteFerme;
+>>>>>>> .merge-right.r75
 	}
 
 	/**
@@ -154,6 +194,24 @@ class InfoCommandeViewVO  extends DataTemplate
 	*/
 	public function setProId($pProId) {
 		$this->mProId = $pProId;
+	}
+
+	/**
+	* @name getProType()
+	* @return tinyint(4)
+	* @desc Renvoie le membre ProType de la InfoCommandeViewVO
+	*/
+	public function getProType() {
+		return $this->mProType;
+	}
+
+	/**
+	* @name setProType($pProType)
+	* @param tinyint(4)
+	* @desc Remplace le membre ProType de la InfoCommandeViewVO par $pProType
+	*/
+	public function setProType($pProType) {
+		$this->mProType = $pProType;
 	}
 
 	/**

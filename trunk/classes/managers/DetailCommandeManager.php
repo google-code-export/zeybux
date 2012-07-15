@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailCommandeVO.php");
 
+define("TABLE_DETAILCOMMANDE", MYSQL_DB_PREFIXE . "dcom_detail_commande");
 /**
  * @name DetailCommandeManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "DetailCommandeVO.php");
  */
 class DetailCommandeManager
 {
-	const TABLE_DETAILCOMMANDE = "dcom_detail_commande";
+	const TABLE_DETAILCOMMANDE = TABLE_DETAILCOMMANDE;
 	const CHAMP_DETAILCOMMANDE_ID = "dcom_id";
 	const CHAMP_DETAILCOMMANDE_ID_PRODUIT = "dcom_id_produit";
 	const CHAMP_DETAILCOMMANDE_TAILLE = "dcom_taille";

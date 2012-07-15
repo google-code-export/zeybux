@@ -43,7 +43,7 @@ class AdherentVR extends DataTemplate
 	 * @var VRelement
 	 * @desc MotPasse de la AdherentVR
 	 */
-	protected $mMotPasse;
+	//protected $mMotPasse;
 
 	/**
 	 * @var VRelement
@@ -144,7 +144,7 @@ class AdherentVR extends DataTemplate
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
-		$this->mMotPasse = new VRelement();
+		//$this->mMotPasse = new VRelement();
 		$this->mNumero = new VRelement();
 		$this->mCompte = new VRelement();
 		$this->mNom = new VRelement();
@@ -221,18 +221,18 @@ class AdherentVR extends DataTemplate
 	* @return VRelement
 	* @desc Renvoie le VRelement mMotPasse
 	*/
-	public function getMotPasse() {
+	/*public function getMotPasse() {
 		return $this->mMotPasse;
-	}
+	}*/
 
 	/**
 	* @name setMotPasse($pMotPasse)
 	* @param VRelement
 	* @desc Remplace le mMotPasse par $pMotPasse
 	*/
-	public function setMotPasse($pMotPasse) {
+	/*public function setMotPasse($pMotPasse) {
 		$this->mMotPasse = $pMotPasse;
-	}
+	}*/
 
 	/**
 	* @name getNumero()

@@ -13,17 +13,43 @@
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
+<<<<<<< .working
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
+=======
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
+>>>>>>> .merge-right.r75
 include_once(CHEMIN_CLASSES_TOVO . "NomProduitToVO.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+<<<<<<< .working
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheAjoutCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
+=======
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheAjoutCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
+>>>>>>> .merge-right.r75
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
+
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ListeProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ModelesLotResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutCommandeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/DupliquerMarcheResponse.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
+include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php" );
 
 /**
  * @name AjoutCommandeControleur
@@ -34,47 +60,124 @@ include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 class AjoutCommandeControleur
 {	
 	/**
-	* @name getInfoAjoutCommande()
+	* @name getInfoDupliquerMarche($pParam)
 	* @return AfficheAjoutCommandeResponse
 	* @desc Retourne la liste des produits
 	*/
-	public function getInfoAjoutCommande() {		
-		$lResponse = new AfficheAjoutCommandeResponse();
-		$lResponse->setProduits(NomProduitManager::selectAll());
-		$lResponse->setProducteurs(ProducteurViewManager::selectAll());
+	public function getInfoDupliquerMarche($pParam) {	
+		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_marche"];
+
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			
+			
+			$lAbonnementService = new AbonnementService();
+			
+			foreach($lMarche->getProduits() as $lProduit) {
+				if($lProduit->getType() == 2) {
+					$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lProduit->getIdNom());
+					
+					$lNvLots = array();
+					foreach($lDetailAbonnement->getLots() as $lLot) {
+						$lAbonnement = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+						
+						$lLotAbonnementMarcheVO = new LotAbonnementMarcheVO();
+						$lLotAbonnementMarcheVO->setId($lLot->getId());
+						$lLotAbonnementMarcheVO->setTaille($lLot->getTaille());
+						$lLotAbonnementMarcheVO->setPrix($lLot->getPrix());
+						if(!is_null($lAbonnement[0]->getCptAboId())) {
+							$lLotAbonnementMarcheVO->setReservation(true);
+						}
+						array_push($lNvLots,$lLotAbonnementMarcheVO);
+					}
+					$lProduit->setLots($lNvLots);
+				}
+			}
+			
+			
+
+			$lResponse = new DupliquerMarcheResponse();
+			$lResponse->setMarche($lMarche);
+			$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+
+			return $lResponse;
+		}				
+		return $lVr;
+	}
+	
+	/**
+	* @name getListeFerme()
+	* @return ListeFermeResponse
+	* @desc Recherche la liste des Fermes
+	*/
+	public function getListeFerme() {		
+		// Lancement de la recherche
+		$lResponse = new ListeFermeResponse();
+		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
 		return $lResponse;
 	}
-
+	
 	/**
-	* @name AjouterProduit($lParam)
-	* @return NomProduitResponse
-	* @desc Ajoute le produit et retourne son nom et ID
+	* @name getListeProduit($pParam)
+	* @return ListeProduitResponse
+	* @desc Retourne la liste des produits
 	*/
-	public function AjouterProduit($lParam) {	
-		
-		$lNomProduit = $lParam['nomProduit'];	
-		$lNomProduit['idCategorie']	= 1; // TODO Pour le moment pas de gestion des catégories
-		
-		$lVr = NomProduitValid::validAjout($lNomProduit);
-		
+	public function getListeProduit($pParam) {
+		$lVr = FermeValid::validDelete($pParam);
 		if($lVr->getValid()) {
-			$lNomProduitVO = NomProduitToVO::convertFromArray($lNomProduit);
-			$lId = NomProduitManager::insert($lNomProduitVO);
-			
-			$lResponse = new AjoutNomProduitResponse();
-			$lResponse->setId($lId);
-			$lResponse->setNom($lNomProduitVO->getNom());
-			return $lResponse;		
+			$lResponse = new ListeProduitResponse();
+			$lResponse->setListeProduit( ListeNomProduitViewManager::select( $pParam['id'] ) );
+			return $lResponse;
 		}		
 		return $lVr;
 	}
 	
 	/**
-	* @name AjouterCommande($lParam)
+	* @name getModeleLot($pParam)
+	* @return DetailProduitResponse
+	* @desc Retourne les Modèles de lot d'un produit
+	*/
+	public function getModeleLot($pParam) {
+		$lVr = NomProduitCatalogueValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lId = $pParam['idNomProduit'];			
+			$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lId);
+			$lAbonnementService = new AbonnementService();
+			
+			$lResponse = new ModelesLotResponse();
+			$lResponse->setModelesLot( $lModelesLot );
+			
+			$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lId);
+			$lNvLots = array();
+			foreach($lDetailAbonnement->getLots() as $lLot) {
+				$lAbonnement = $lAbonnementService->getAbonnementSurLot($lLot->getId());
+				
+				$lLotAbonnementMarcheVO = new LotAbonnementMarcheVO();
+				$lLotAbonnementMarcheVO->setId($lLot->getId());
+				$lLotAbonnementMarcheVO->setIdProduitAbonnement($lLot->getIdProduitAbonnement());
+				$lLotAbonnementMarcheVO->setTaille($lLot->getTaille());
+				$lLotAbonnementMarcheVO->setPrix($lLot->getPrix());
+				if(!is_null($lAbonnement[0]->getCptAboId())) {
+					$lLotAbonnementMarcheVO->setReservation(true);
+				}
+				array_push($lNvLots,$lLotAbonnementMarcheVO);
+			}
+			$lDetailAbonnement->setLots($lNvLots);
+			
+			$lResponse->setDetailAbonnement( $lDetailAbonnement );
+			return $lResponse;
+		}		
+		return $lVr;
+	}
+	
+	/**
+	* @name ajouterMarche($lParam)
 	* @return AjoutCommandeResponse
 	* @desc Ajoute la commande
 	*/
-	public function AjouterCommande($lParam) {
+	public function ajouterMarche($lParam) {
 		$lCommande = $lParam;
 		$lVr = CommandeCompleteValid::validAjout($lCommande);
 		

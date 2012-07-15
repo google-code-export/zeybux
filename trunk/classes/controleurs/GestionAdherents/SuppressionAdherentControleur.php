@@ -14,11 +14,20 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+<<<<<<< .working
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
+=======
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
+>>>>>>> .merge-right.r75
 
 /**
  * @name SuppressionAdherentControleur
@@ -35,6 +44,7 @@ class SuppressionAdherentControleur
 	public function supprimerAdherent($pParam) {
 		$lId = $pParam['id_adherent'];		
 		$lAdherent = AdherentManager::select( $lId );
+<<<<<<< .working
 			
 		// Change l'état
 		$lAdherent->setEtat(2);
@@ -54,12 +64,52 @@ class SuppressionAdherentControleur
 				$lIdReservation->setIdCompte($lAdherent->getIdCompte());
 				$lIdReservation->setIdCommande($lReservation->getComId());
 				$lReservationService->delete($lIdReservation);
+=======
+			
+		// Change l'état
+		$lAdherent->setEtat(2);
+		AdherentManager::update( $lAdherent );
+		
+		$lIdentification = IdentificationManager::selectByIdType($lAdherent->getId(),1);
+		$lIdentification = $lIdentification[0];
+		$lIdentification->setAutorise( 0 );
+		IdentificationManager::update( $lIdentification );
+		
+		// Suppression des réservations en cours
+		$lReservationService = new ReservationService();
+		$lReservations = MarcheListeReservationViewManager::select($lAdherent->getIdCompte());
+		if(!is_null($lReservations[0]->getComId())) {
+			foreach($lReservations as $lReservation) {
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($lAdherent->getIdCompte());
+				$lIdReservation->setIdCommande($lReservation->getComId());
+				$lReservationService->delete($lIdReservation);
+>>>>>>> .merge-right.r75
 			}
+<<<<<<< .working
 		}
 		$lResponse = new ModifierAdherentResponse();
 		$lResponse->setNumero($lAdherent->getNumero());
 		
 		return $lResponse;
+=======
+		}
+		
+		//Désinscription de la mailing liste
+		$lMailingListeService = new MailingListeService();
+		if($lAdherent->getCourrielPrincipal() != "") {
+			$lMailingListeService->delete($lAdherent->getCourrielPrincipal());	
+		}
+		if($lAdherent->getCourrielSecondaire() != "") {
+			$lMailingListeService->delete($lAdherent->getCourrielSecondaire());			
+		}	
+		
+		
+		$lResponse = new ModifierAdherentResponse();
+		$lResponse->setNumero($lAdherent->getNumero());
+		
+		return $lResponse;
+>>>>>>> .merge-right.r75
 	}
 }
 ?>

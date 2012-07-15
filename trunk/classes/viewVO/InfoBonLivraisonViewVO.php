@@ -26,9 +26,17 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 
 	/**
 	* @var int(11)
+<<<<<<< .working
 	* @desc ProIdCompteProducteur de la InfoBonLivraisonViewVO
+=======
+	* @desc ProIdCompteFerme de la InfoBonLivraisonViewVO
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	protected $mProIdCompteProducteur;
+=======
+	protected $mProIdCompteFerme;
+>>>>>>> .merge-right.r75
 
 	/**
 	* @var int(11)
@@ -41,6 +49,12 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	* @desc ProUniteMesure de la InfoBonLivraisonViewVO
 	*/
 	protected $mProUniteMesure;
+
+	/**
+	* @var varchar(50)
+	* @desc NproNumero de la InfoBonLivraisonViewVO
+	*/
+	protected $mNproNumero;
 
 	/**
 	* @var varchar(50)
@@ -59,6 +73,7 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	* @desc StoQuantite de la InfoBonLivraisonViewVO
 	*/
 	protected $mStoQuantite;
+<<<<<<< .working
 	
 	/**
 	* @var varchar(50)
@@ -66,12 +81,22 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	*/
 	protected $mPrdtNom;
 	
+=======
+	
+>>>>>>> .merge-right.r75
 	/**
 	* @var varchar(50)
+<<<<<<< .working
 	* @desc PrdtPrenom de la InfoBonLivraisonViewVO
 	*/
 	protected $mPrdtPrenom;
 	
+=======
+	* @desc FerNom de la InfoBonLivraisonViewVO
+	*/
+	protected $mFerNom;
+		
+>>>>>>> .merge-right.r75
 	/**
 	* @var int(11)
 	* @desc DopeId de la InfoBonLivraisonViewVO
@@ -103,21 +128,47 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	}
 
 	/**
+<<<<<<< .working
 	* @name getProIdCompteProducteur()
+=======
+	* @name getProIdCompteFerme()
+>>>>>>> .merge-right.r75
 	* @return int(11)
+<<<<<<< .working
 	* @desc Renvoie le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO
+=======
+	* @desc Renvoie le membre ProIdCompteFerme de la InfoBonLivraisonViewVO
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	public function getProIdCompteProducteur() {
 		return $this->mProIdCompteProducteur;
+=======
+	public function getProIdCompteFerme() {
+		return $this->mProIdCompteFerme;
+>>>>>>> .merge-right.r75
 	}
 
 	/**
+<<<<<<< .working
 	* @name setProIdCompteProducteur($pProIdCompteProducteur)
+=======
+	* @name setProIdCompteFerme($pProIdCompteFerme)
+>>>>>>> .merge-right.r75
 	* @param int(11)
+<<<<<<< .working
 	* @desc Remplace le membre ProIdCompteProducteur de la InfoBonLivraisonViewVO par $pProIdCompteProducteur
+=======
+	* @desc Remplace le membre ProIdCompteFerme de la InfoBonLivraisonViewVO par $pProIdCompteFerme
+>>>>>>> .merge-right.r75
 	*/
+<<<<<<< .working
 	public function setProIdCompteProducteur($pProIdCompteProducteur) {
 		$this->mProIdCompteProducteur = $pProIdCompteProducteur;
+=======
+	public function setProIdCompteFerme($pProIdCompteFerme) {
+		$this->mProIdCompteFerme = $pProIdCompteFerme;
+>>>>>>> .merge-right.r75
 	}
 
 	/**
@@ -154,6 +205,24 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	*/
 	public function setProUniteMesure($pProUniteMesure) {
 		$this->mProUniteMesure = $pProUniteMesure;
+	}
+
+	/**
+	* @name getNproNumero()
+	* @return varchar(50)
+	* @desc Renvoie le membre NproNumero de la InfoBonLivraisonViewVO
+	*/
+	public function getNproNumero() {
+		return $this->mNproNumero;
+	}
+
+	/**
+	* @name setNproNumero($pNproNumero)
+	* @param varchar(50)
+	* @desc Remplace le membre NproNumero de la InfoBonLivraisonViewVO par $pNproNumero
+	*/
+	public function setNproNumero($pNproNumero) {
+		$this->mNproNumero = $pNproNumero;
 	}
 
 	/**
@@ -209,6 +278,7 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 	public function setStoQuantite($pStoQuantite) {
 		$this->mStoQuantite = $pStoQuantite;
 	}
+<<<<<<< .working
 	
 	/**
 	* @name getPrdtNom()
@@ -228,24 +298,36 @@ class InfoBonLivraisonViewVO  extends DataTemplate
 		$this->mPrdtNom = $pPrdtNom;
 	}
 	
+=======
+	
+>>>>>>> .merge-right.r75
 	/**
-	* @name getPrdtPrenom()
+	* @name getFerNom()
 	* @return varchar(50)
-	* @desc Renvoie le membre PrdtPrenom de la InfoBonLivraisonViewVO
+	* @desc Renvoie le membre FerNom de la InfoBonLivraisonViewVO
 	*/
-	public function getPrdtPrenom() {
-		return $this->mPrdtPrenom;
+	public function getFerNom() {
+		return $this->mFerNom;
 	}
 
 	/**
-	* @name setPrdtPrenom($pPrdtPrenom)
+	* @name setFerNom($pFerNom)
 	* @param varchar(50)
+<<<<<<< .working
 	* @desc Remplace le membre PrdtPrenom de la InfoBonLivraisonViewVO par $pPrdtPrenom
 	*/
 	public function setPrdtPrenom($pPrdtPrenom) {
 		$this->mPrdtPrenom = $pPrdtPrenom;
 	}
 	
+=======
+	* @desc Remplace le membre FerNom de la InfoBonLivraisonViewVO par $pFerNom
+	*/
+	public function setFerNom($pFerNom) {
+		$this->mFerNom = $pFerNom;
+	}
+	
+>>>>>>> .merge-right.r75
 	/**
 	* @name getDopeId()
 	* @return int(11)

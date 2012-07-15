@@ -13,6 +13,7 @@
 if( isset($_POST["pParam"]) ) {	
 	$lParam = json_decode($_POST["pParam"],true);
 	
+<<<<<<< .working
 	if(isset($lParam["fonction"])) {
 		// Inclusion des classes
 		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/IdentificationControleur.php");
@@ -54,6 +55,50 @@ if( isset($_POST["pParam"]) ) {
 				header('location:./index.php');
 				break;
 		}
+=======
+	if(isset($lParam["fonction"])) {
+		// Inclusion des classes
+		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_IDENTIFICATION . "/IdentificationControleur.php");
+		include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
+		
+		// Création du controleur
+		$lControleur = new IdentificationControleur();
+		
+		switch($lParam["fonction"]) {					
+			case "identifier":
+				// Identification
+				$lVr = $lControleur->identifier($lParam);
+				
+				echo $lVr->exportToJson();
+				
+				// Authentification Réussite -> Redirection vers la vue du compte de l'utilisateur
+				if ( $lVr->getValid() ) {
+					$lLogger->log("Réussite de l'authentification pour l'utilisateur : " .  $_SESSION[ID_CONNEXION],PEAR_LOG_INFO); // Maj des logs
+				} else {
+					$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
+				}
+				break;
+
+			case "reconnecter":
+				// Identification
+				$lVr = $lControleur->reconnecter($lParam);
+				
+				echo $lVr->exportToJson();
+				
+				// Authentification Réussite -> Redirection vers la vue du compte de l'utilisateur
+				if ( $lVr->getValid() ) {
+					$lLogger->log("Réussite de l'authentification pour l'utilisateur : " .  $_SESSION[ID_CONNEXION],PEAR_LOG_INFO); // Maj des logs
+				} else {
+					$lLogger->log("Echec de l'authentification pour l'utilisateur.",PEAR_LOG_INFO); // Maj des logs
+				}
+			break;
+
+			default:
+				$lLogger->log("Demande d'accés à MarcheCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+				header('location:./index.php');
+				break;
+		}
+>>>>>>> .merge-right.r75
 	} else {
 		$lLogger->log("Demande d'identification sans paramètre.",PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');
@@ -66,10 +111,17 @@ else {
 	
 	// Inclusion des classes
 	include_once(CHEMIN_CLASSES_UTILS . "Template.php");
+	include_once(CHEMIN_CLASSES_UTILS . "InfobullesUtils.php");
 
 	// Préparation de l'affichage
+<<<<<<< .working
 	$lTemplate = new Template(CHEMIN_TEMPLATE);	
 	$lTemplate->set_filenames( array('index' =>  './index.html') );
+=======
+	$lTemplate = new Template(CHEMIN_TEMPLATE);	
+	$lTemplate->set_filenames( array('index' =>  './index.html') );
+	InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
+>>>>>>> .merge-right.r75
 	$lTemplate->assign_vars( array( 'TITRE' => IDE_TITRE) );
 	
 	// Affichage des templates

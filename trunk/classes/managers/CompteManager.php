@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CompteVO.php");
 
+define("TABLE_COMPTE", MYSQL_DB_PREFIXE . "cpt_compte");
 /**
  * @name CompteManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "CompteVO.php");
  */
 class CompteManager
 {
-	const TABLE_COMPTE = "cpt_compte";
+	const TABLE_COMPTE = TABLE_COMPTE;
 	const CHAMP_COMPTE_ID = "cpt_id";
 	const CHAMP_COMPTE_LABEL = "cpt_label";
 	const CHAMP_COMPTE_SOLDE = "cpt_solde";

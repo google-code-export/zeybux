@@ -38,10 +38,16 @@
 #menu_int {
 	margin-left:345px;
 	padding-top:2px;
+<<<<<<< .working
 	height:20px;
+=======
+	height:20px;
+	text-align:center;
+>>>>>>> .merge-right.r75
 }
 
 #menu_liste {
+	display: inline-block;
 	margin:0;
 	padding-left: 4px;
 	list-style: none;
@@ -56,14 +62,26 @@
 	padding: 3px 5px;
 }
 
+<<<<<<< .working
 #menu_liste li a, #lien-deconnexion a {
+=======
+#lien-deconnexion a {
+>>>>>>> .merge-right.r75
 	text-decoration: none;	
 	display: block;
 	margin: 0px; 
 	padding: 3px;
 }
 
+<<<<<<< .working
 /*.sous_menu {
+=======
+#menu_liste li a {
+	text-decoration: none;
+}
+
+/*.sous_menu {
+>>>>>>> .merge-right.r75
 	position:absolute;
 	padding: 5px 6px 3px 2px ;
 	margin: 0;
@@ -133,6 +151,7 @@
 #lien_gestion_adherent_int {
 	text-align:center;
 	padding-top:3px;
+<<<<<<< .working
 }
 
 #formulaire_ajout_producteur {
@@ -144,13 +163,22 @@
 	margin-left:50px;
 	width:575px;
 }
+=======
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 #formulaire_ajout_producteur table th {
 	width:300px;
 }
 #formulaire_identification_int {
 	padding:5px;
 	width: 360px;
+=======
+#formulaire_ajout_producteur {
+	width:700px;
+	margin-left:150px;
+>>>>>>> .merge-right.r75
 	margin-left:320px;
 	margin-top:150px;
 }
@@ -164,22 +192,159 @@
 	padding:3px;	
 }
 
+<<<<<<< .working
 #formulaire_identification_int td,#formulaire_identification_ifb td {
 	border-collapse:collapse;
 	padding:3px;	
+=======
+#formulaire_ajout_producteur table {
+	margin-left:50px;
+	width:575px;
+>>>>>>> .merge-right.r75
 }
 
+#formulaire_ajout_producteur table th {
+	width:300px;
+}
+#categorie-produit {
+	width:300px;
+}
+
+<<<<<<< .working
+#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password] {
+	width:200px;
+=======
+#catalogue-produit {
+>>>>>>> .merge-right.r75
+	margin-left:5px;
+<<<<<<< .working
+=======
+	width:640px;
+}
+
+.catalogue-input-lot {
+	width:90px;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+.action-ifb {
+	color:#3A8104;
+	text-decoration:underline;
+=======
+.catalogue-ligne-lot-quantite {
+	width:110px;
+	text-align:right;
+}
+
+.catalogue-ligne-lot-unite {
+	width:180px;
+}
+
+.catalogue-entete-lot {
+	width:145px;
+}
+#menu-nav-ferme {
+	padding-top:3px;
+	margin-bottom:3px;
+	text-align:center;
+}
+#menu-nav-ferme span{
+	padding: 3px 5px;
+	font-weight: bold;
+}
+#information-detail-producteur {
+	margin-bottom:15px;
+	margin-top:10px;
+}
+
+#detail-produit {
+    clear: left;
+    margin-top: 55px;
+}
+
+.achat-commande-table-pdt {
+	margin-bottom:5px;
+	width:100%;
+	border-collapse:collapse;	
+	text-align:left;
+}
+
+.achat-commande-table-pdt .ligne-produit:hover, .achat-commande-table-pdt .ligne-produit-solidaire:hover {
+	background-color:#4eb305;
+}
+#formulaire_identification_int {
+	padding:5px;
+	width: 360px;
+	margin-left:320px;
+	margin-top:150px;
+}
+
+#formulaire_identification_html {
+	padding:5px;
+	width: 360px;
+	margin-left:320px;
+	margin-top:15px;
+}
+
+
+#formulaire_identification_ifb {
+	padding:5px;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+#liste-naviguateur {
+	margin-top: 20px;
+=======
+#formulaire_identification_int table,#formulaire_identification_ifb table {
+	padding:3px;	
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+#liste-naviguateur a{
+	text-decoration:none;
+=======
+#formulaire_identification_int td,#formulaire_identification_ifb td, #formulaire_identification_html td {
+	border-collapse:collapse;
+	padding:3px;	
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+#liste-naviguateur a:hover{
+	text-decoration:underline;
+=======
 #titre_fenetre {
 	padding:3px;
 	text-align:center;
 	margin-bottom:15px;
+>>>>>>> .merge-right.r75
 }
 
-#formulaire_identification_int input[type=text],input[type=password],#formulaire_identification_ifb input[type=text],input[type=password] {
+<<<<<<< .working
+#liste-naviguateur img{
+	border:none;
+=======
+#formulaire_identification_int input[type=text], 
+#formulaire_identification_int input[type=password],
+#formulaire_identification_ifb input[type=text],
+#formulaire_identification_ifb input[type=password],
+#formulaire_identification_html input[type=text],
+#formulaire_identification_html input[type=password] 
+.formulaire_identification input[type=text],
+.formulaire_identification input[type=password],
+.input_formulaire_identification {
 	width:200px;
 	margin-left:5px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+#naviguateur-1 {
+	margin-left: 250px;
+=======
 .action-ifb {
 	color:#3A8104;
 	text-decoration:underline;
@@ -189,10 +354,19 @@
 	margin-top: 20px;
 }
 
-#liste-naviguateur a{
-	text-decoration:none;
+.lien_mot_passe {    
+	font-size: 12px;
+    font-style: italic;
 }
 
+#liste-naviguateur a{
+	text-decoration:none;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+#maintenance{
+=======
 #liste-naviguateur a:hover{
 	text-decoration:underline;
 }
@@ -206,6 +380,7 @@
 }
 
 #maintenance{
+>>>>>>> .merge-right.r75
 	margin-left:320px;
 	margin-top:150px;
 	padding:5px;
@@ -216,8 +391,37 @@
 #formulaire_confirmation_suppression_adherent_ext {
 	width:700px;
 	margin-left:150px;
+<<<<<<< .working
+}*/
+=======
 }*/
 
+#dialog-supp-adh p {
+	margin-bottom:0;
+	padding:5px;
+}
+/*ListeAdherent*/
+/*#liste-adh-recherche {
+	left:50%;
+	margin-left:-107px;
+	margin-top:10px;
+	position:relative;
+	width:214px;
+}*/
+/*
+#liste-adh-recherche input{
+	border-right:none;
+}*/
+/*
+.liste-adh-span-rech-right {
+	height:20px;
+	padding-top:4px;
+	position:relative;
+	float:right;
+}*/
+>>>>>>> .merge-right.r75
+
+<<<<<<< .working
 #dialog-supp-adh p {
 	margin-bottom:0;
 	padding:5px;
@@ -244,6 +448,10 @@
 
 .liste-adh-th-num {
 	width:60px;
+=======
+.liste-adh-th-num {
+	width:60px;
+>>>>>>> .merge-right.r75
 }
 
 .liste-adh-th-nom {
@@ -322,21 +530,36 @@
 #formulaire-modifier-adherent-table-autorisation {
 	width:450px;
 	padding-left:150px;
+<<<<<<< .working
 }
 
 #table-info-solde-zeybu {
 	margin-left:165px;
 	margin-bottom:10px;
+=======
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #td-solde-zeybu-total {
 	width:180px;
+=======
+#table-info-solde-zeybu {
+	margin-left:15px;
+	margin-bottom:10px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #td-solde-zeybu-caisse {
 	width:230px;
+=======
+#td-solde-zeybu-total {
+	width:180px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #td-solde-zeybu-banque {
 	width:240px;
 }
@@ -344,12 +567,22 @@
 .recherche .filter {
 	height:20px;
 	width:182px;
+=======
+#td-solde-zeybu-caisse {
+	width:230px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #btn-virement-solidaire-inverse {
 	margin-top:20px;
+=======
+#td-solde-zeybu-banque {
+	width:240px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .input-bon-livraison {
 	width:60px;
 }
@@ -358,7 +591,14 @@
 	width:800px;
 	margin-left:100px;
 }
+=======
+.recherche .filter {
+	height:20px;
+	width:182px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 .lots-section {
 	border-top:1px solid #72B42D;
 	padding-left:20px;
@@ -366,47 +606,117 @@
 	padding-top:5px;
 	margin-top:5px;
 }
+=======
+#btn-virement-solidaire-inverse {
+	margin-top:20px;
+}
+.tab-cell-compte {
+	width:80px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 .form-ajout-lot-creation-commande {
 	border-bottom:1px solid #72B42D;
 	padding-bottom:5px;
 	margin-bottom:5px;
 }
+=======
+.input-bon-livraison {
+	width:60px;
+}
+/*AjoutCommande*/
+#formulaire_ajout_commande_ext {
+	width:850px;
+	margin-left:75px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 #liste_produit input {
 	width:100px;
+=======
+.lots-section {
+	border-top:1px solid #72B42D;
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:5px;
+	margin-top:5px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .produit-lot {
 	margin-bottom:9px;
+=======
+.form-ajout-lot-creation-commande {
+	border-bottom:1px solid #72B42D;
+	padding-bottom:5px;
+	margin-bottom:5px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .btn-valider {
 	padding:3px;
 }
+=======
+#liste_produit input {
+	width:100px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 .qte-reservation-ok, .qte-reservation-ko {
 	height:20px;
 	width:20px;
 }
+=======
+.produit-lot {
+	margin-bottom:9px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 .qte-reservation-ok {
 	background-color:#00FF00;
+=======
+.btn-valider {
+	padding:3px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .qte-reservation-ko {
 	background-color:#FF0000;
+=======
+#pro-idFerme, #pro-idCategorie, #pro-idProduit {
+	width:285px;
+	display:inline-block
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #resultat-marche-archive {
 	margin-bottom:15px;
 	margin-top:15px;
+=======
+#prix-stock-produit {
+	clear:left;
+	margin-top:55px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #resultat-marche-archive span{
 	font-size:11pt;
+=======
+.pro-form-input-lot {
+	width:90px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #info-marche-archive tr:hover {
 	background-color:transparent;
 }
@@ -418,28 +728,56 @@
 	left:50%;
 	margin-left:-110px;
 }
+=======
+.qte-reservation-ok, .qte-reservation-ko {
+	height:20px;
+	width:20px;
+}
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 .recherche .conteneur-icon {
 	padding-left:3px;
 	padding-top:4px;
 	border-right:none;	
 	height:20px;
 	width:18px;
+=======
+.qte-reservation-ok {
+	background-color:#00FF00;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .recherche #filter {
 	height:20px;
 	width:182px;
+=======
+.qte-reservation-ko {
+	background-color:#FF0000;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .marche-com-th-num-adh {
 	width:150px;
+=======
+#resultat-marche-archive {
+	margin-bottom:15px;
+	margin-top:15px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 .marche-com-th-nom {
 	width:300px;
+=======
+#resultat-marche-archive span{
+	font-size:11pt;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
 #achat-pdt-widget, #achat-pdt-solidaire-widget {
 	width:487px;
 	margin-right:5px;
@@ -477,6 +815,120 @@ margin-right: 255px;
 
 .edt-com-progressbar-pdt {
 	margin-top:10px;
+=======
+#info-marche-archive tr:hover {
+	background-color:transparent;
+}
+/*MarchéCommande*/
+.recherche {
+	width:220px;
+	margin-top:10px;
+	position:relative;
+	left:50%;
+	margin-left:-110px;
+>>>>>>> .merge-right.r75
+<<<<<<< .working
+	margin-bottom:10px;
+	height: 12px;
+=======
+}
+
+.recherche .conteneur-icon {
+	padding-left:3px;
+	padding-top:4px;
+	border-right:none;	
+	height:20px;
+	width:18px;
+}
+
+.recherche #filter {
+	height:20px;
+	width:182px;
+}
+
+.marche-com-th-num-adh {
+	width:150px;
+}
+
+.marche-com-th-nom {
+	width:300px;
+}
+
+/*#achat-pdt-widget, #achat-pdt-solidaire-widget {*/
+#vente-info-adherent {
+	width:487px;
+	margin-right:5px;
+	height:95px;
+}
+
+#achat-rechgt-widget {
+	width:456px;
+}
+.achat-commande-table-pdt {
+	width:100%;
+}
+
+.achat-commande-table-pdt .td-qte {
+	width:80px;
+}
+
+.achat-commande-table-pdt .td-unite {
+	width:90px;
+}
+
+#achat-info-marche {
+float: left;
+margin-left: 140px;
+margin-right: 255px;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+.edt-com-info-progressbar-pdt {
+	float:left;
+	text-align:center;
+	font-size:8pt;
+	font-weight:bold;
+	width:100%;
+=======
+#vente-achat-info-marche {
+float: left;
+margin-left: 5px;
+margin-right: 60px;
+}
+
+.table-vente-quantite {
+	width:157px;
+}
+
+.table-vente-prix {
+	width:83px;
+}
+
+.table-vente-produit {
+	width:400px;
+}
+
+.table-vente-lot {
+	width:150px;
+}
+
+.table-vente-prix-unitaire {
+	width:150px;
+}
+/*EditerCommande*/
+/*#edt-com-info {
+	font-size:11pt;
+	width:345px;
+	margin-right:5px;
+}*/
+/*
+#edt-com-liste {
+	width:630px;
+}*/
+
+.edt-com-progressbar-pdt {
+	margin-top:10px;
 	margin-bottom:10px;
 	height: 12px;
 }
@@ -494,17 +946,44 @@ margin-right: 255px;
 	padding-top:4px;
 	position:relative;
 	float:right;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+.edt-com-span-rech-right {
+	height:20px;
+	padding-top:4px;
+	position:relative;
+	float:right;
+=======
+#edt-com-nav-resa-achat {
+	text-align:center;
+	padding-top: 3px;
+	margin-bottom:3px;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
 #edt-com-nav-resa-achat {
 	text-align:center;
 	width: 670px;
 	padding-top: 3px;
-}
-
+=======
 #edt-com-nav-resa-achat span{
 	padding: 3px 5px;
 	font-weight: bold;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+#edt-com-nav-resa-achat span{
+	padding: 3px 5px;
+	font-weight: bold;
+=======
+.edt-marche-pro-unite {
+	width:200px;
+	text-align:right;
+>>>>>>> .merge-right.r75
 }
 
 /*.edt-com-btn-edt-commande {
@@ -533,6 +1012,8 @@ margin-right: 255px;
 
 #fin_moncompte {
 	clear:left;
+<<<<<<< .working
+=======
 }
 
 .td-montant {
@@ -543,67 +1024,187 @@ margin-right: 255px;
 .td-date {
 	width:90px;
 	text-align:left;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+.td-montant {
+	width:80px;
+	text-align:right;
+=======
 .td-libelle {
 	width:150px;
 	text-align:left;
+>>>>>>> .merge-right.r75
 }
+
+<<<<<<< .working
+.td-date {
+	width:90px;
+	text-align:left;
+=======
+.td-type-paiement {
+	text-align:left;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+.td-libelle {
+	width:150px;
+	text-align:left;
+=======
+.input-edt-compte {
+	width:190px;
+>>>>>>> .merge-right.r75
+}
+<<<<<<< .working
 
 .td-type-paiement {
 	text-align:left;
+=======
+/*ReservationCommande*/
+#resa-info-commande {
+float:left;
+margin-right:145px;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
 /*ListeCommande*/
 .lst-resa-btn-commander {
 	padding-bottom:4px;
 	padding-top:4px;
 	text-align:center;
-}
-/*ReservationCommande*/
-#resa-info-commande {
-float:left;
-margin-right:145px;
-}
+=======
 
 .passer-com-radio {
 	text-align:center;
 	width:25px;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
+/*ReservationCommande*/
+#resa-info-commande {
+float:left;
+margin-right:145px;
+=======
 
 .passer-com-sigle {
 	width:60px;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
+
+.passer-com-radio {
+	text-align:center;
+	width:25px;
+=======
 .passer-com-btn-qte {
 	width:30px;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
+
+.passer-com-sigle {
+	width:60px;
+=======
 .passer-com-qte {
 	text-align: center;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
+.passer-com-btn-qte {
+	width:30px;
+=======
 .passer-com-npro {
 	width:400px;
+>>>>>>> .merge-right.r75
 }
-/*ListeReservation*/
+<<<<<<< .working
+.passer-com-qte {
+	text-align: center;
+=======
+/*MesAchats*/
 #texte-liste-vide {
 	text-align:center;
+>>>>>>> .merge-right.r75
 }
+<<<<<<< .working
+.passer-com-npro {
+	width:400px;
+=======
 
 .lst-resa-th-num {
 	text-align:center;
 	width:35px;
+>>>>>>> .merge-right.r75
+}
+<<<<<<< .working
+/*ListeReservation*/
+#texte-liste-vide {
+	text-align:center;
+=======
+
+.lst-resa-td-nom {
+	width:150px;
 }
 
 .detail-resa-npro {
 	width:250px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+.lst-resa-th-num {
+	text-align:center;
+	width:35px;
+=======
 .detail-resa-qte{
 	width:80px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+.detail-resa-npro {
+	width:250px;
+=======
 .detail-resa-unite {
 	width:100px;
+>>>>>>> .merge-right.r75
 }
 
+<<<<<<< .working
+.detail-resa-qte{
+	width:80px;
+=======
 .detail-resa-prix {
 	width:90px;
 }
+.lst-resa-btn-commander {
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:center;
+>>>>>>> .merge-right.r75
+}
+
+<<<<<<< .working
+.detail-resa-unite {
+	width:100px;
+=======
+.detail-achat-npro {
+	width:500px;
+>>>>>>> .merge-right.r75
+}
+<<<<<<< .working
+
+.detail-resa-prix {
+	width:90px;
+}=======
+.detail-achat-qte{
+	width:100px;
+}
+.detail-achat-unite {
+	width:100px;
+}
+.detail-achat-prix {
+	width:90px;
+}>>>>>>> .merge-right.r75

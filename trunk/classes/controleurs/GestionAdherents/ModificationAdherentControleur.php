@@ -19,8 +19,14 @@ include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/AfficheModificationAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ModifierAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_TOVO . "AdherentToVO.php" );
+<<<<<<< .working
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+=======
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
+>>>>>>> .merge-right.r75
 
 /**
  * @name ModificationAdherentControleur
@@ -43,7 +49,32 @@ class ModificationAdherentControleur
 		$lAdherent = AdherentViewManager::select( $lIdAdherent );
 				
 		$lAdh = AdherentManager::select( $lIdAdherent );
+<<<<<<< .working
 		
+		$lResponse = new AfficheModificationAdherentResponse();			
+		$lResponse->setId($lAdherent->getAdhId());
+		$lResponse->setNumero($lAdherent->getAdhNumero());
+		$lResponse->setCompte($lAdherent->getCptLabel());
+		$lResponse->setNom($lAdherent->getAdhNom());
+		$lResponse->setPrenom($lAdherent->getAdhPrenom());
+		$lResponse->setCourrielPrincipal($lAdherent->getAdhCourrielPrincipal());
+		$lResponse->setCourrielSecondaire($lAdherent->getAdhCourrielSecondaire());
+		$lResponse->setTelephonePrincipal($lAdherent->getAdhTelephonePrincipal());
+		$lResponse->setTelephoneSecondaire($lAdherent->getAdhTelephoneSecondaire());
+		$lResponse->setAdresse($lAdherent->getAdhAdresse());
+		$lResponse->setCodePostal($lAdherent->getAdhCodePostal());
+		$lResponse->setVille($lAdherent->getAdhVille());
+		$lResponse->setDateNaissance($lAdherent->getAdhDateNaissance());
+		$lResponse->setDateAdhesion($lAdherent->getAdhDateAdhesion());
+		$lResponse->setCommentaire($lAdherent->getAdhCommentaire());
+=======
+>>>>>>> .merge-right.r75
+		
+<<<<<<< .working
+		$lResponse->setAutorisations(AutorisationManager::selectByIdAdherent( $lIdAdherent ));
+		$lResponse->setModules(ModuleManager::selectAllVisible());
+		return $lResponse;
+=======
 		$lResponse = new AfficheModificationAdherentResponse();			
 		$lResponse->setId($lAdherent->getAdhId());
 		$lResponse->setNumero($lAdherent->getAdhNumero());
@@ -64,6 +95,7 @@ class ModificationAdherentControleur
 		$lResponse->setAutorisations(AutorisationManager::selectByIdAdherent( $lIdAdherent ));
 		$lResponse->setModules(ModuleManager::selectAllVisible());
 		return $lResponse;
+>>>>>>> .merge-right.r75
 	}
 
 	/**
@@ -90,6 +122,7 @@ class ModificationAdherentControleur
 				$lCompte->setLabel('C' . $lIdCompte);
 				CompteManager::update($lCompte);
 				
+<<<<<<< .working
 				// Initialisation du compte
 				$lOperation = new OperationVO();
 				$lOperation->setIdCompte($lIdCompte);
@@ -100,6 +133,18 @@ class ModificationAdherentControleur
 				$lOperation->setIdCommande(0);
 				$lOperation->setTypePaiement(-1);				
 				OperationManager::insert($lOperation);
+=======
+				// Initialisation du compte
+				$lOperation = new OperationVO();
+				$lOperation->setIdCompte($lIdCompte);
+				$lOperation->setMontant(0);
+				$lOperation->setLibelle("Création du compte");
+				$lOperation->setDate(StringUtils::dateAujourdhuiDb());
+				//$lOperation->setType(1);
+				$lOperation->setIdCommande(0);
+				$lOperation->setTypePaiement(-1);				
+				OperationManager::insert($lOperation);
+>>>>>>> .merge-right.r75
 				
 				$lAdherent->setIdCompte($lIdCompte);
 			} else {									
@@ -158,6 +203,7 @@ class ModificationAdherentControleur
 					AutorisationManager::insert($lAutorisation);
 				}
 			}
+<<<<<<< .working
 			
 			// Update des informations de connexion
 			$lIdentification = IdentificationManager::selectByIdType($lAdherent->getId(),1);
@@ -171,6 +217,37 @@ class ModificationAdherentControleur
 			$lResponse->setNumero($lAdherent->getNumero());
 			
 			return $lResponse;		
+=======
+			
+			//Mise à jour des inscriptions de mailing liste
+			$lMailingListeService = new MailingListeService();
+			if($lAdherentActuel->getCourrielPrincipal() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielPrincipal());	
+			}
+			if($lAdherentActuel->getCourrielSecondaire() != "") {
+				$lMailingListeService->delete($lAdherentActuel->getCourrielSecondaire());			
+			}
+			if($lAdherent->getCourrielPrincipal() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielPrincipal());	
+			}
+			if($lAdherent->getCourrielSecondaire() != "") {
+				$lMailingListeService->insert($lAdherent->getCourrielSecondaire());			
+			}
+			
+			
+			// Update des informations de connexion
+		/*	$lIdentification = IdentificationManager::selectByIdType($lAdherent->getId(),1);
+			$lIdentification = $lIdentification[0];
+			if($pParam['motPasse']  != '') {
+				$lIdentification->setPass( md5( $pParam['motPasse'] ) );
+			}
+			IdentificationManager::update( $lIdentification );*/
+						
+			$lResponse = new ModifierAdherentResponse();
+			$lResponse->setNumero($lAdherent->getNumero());
+			
+			return $lResponse;		
+>>>>>>> .merge-right.r75
 		}	
 		return $lVr;										
 	}

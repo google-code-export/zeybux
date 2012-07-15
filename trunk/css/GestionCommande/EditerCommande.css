@@ -1,13 +1,14 @@
 @CHARSET "UTF-8";
 /*EditerCommande*/
-#edt-com-info {
-	width:300px;
-	margin-right:10px;
-}
-
+/*#edt-com-info {
+	font-size:11pt;
+	width:345px;
+	margin-right:5px;
+}*/
+/*
 #edt-com-liste {
-	width:670px;
-}
+	width:630px;
+}*/
 
 .edt-com-progressbar-pdt {
 	margin-top:10px;
@@ -30,6 +31,7 @@
 	float:right;
 }
 
+<<<<<<< .working
 #edt-com-nav-resa-achat {
 	text-align:center;
 	width: 670px;
@@ -41,6 +43,24 @@
 	font-weight: bold;
 }
 
+=======
+#edt-com-nav-resa-achat {
+	text-align:center;
+	padding-top: 3px;
+	margin-bottom:3px;
+}
+
+#edt-com-nav-resa-achat span{
+	padding: 3px 5px;
+	font-weight: bold;
+}
+
+.edt-marche-pro-unite {
+	width:200px;
+	text-align:right;
+}
+
+>>>>>>> .merge-right.r75
 /*.edt-com-btn-edt-commande {
 	margin-right:4px;
 }*/

@@ -8,6 +8,7 @@
 // Description : Informations de configuration pour la connexion à la base de données
 //
 //****************************************************************
+define("MYSQL_DB_PREFIXE", "");
 define("MYSQL_HOST", "sql.free.fr");
 define("MYSQL_LOGIN", "zeybux.dev");
 define("MYSQL_PASS", "zeybux");

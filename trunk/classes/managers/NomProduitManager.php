@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 06/05/2010
+// Date de creation : 06/02/2012
 // Fichier : NomProduitManager.php
 //
 // Description : Classe de gestion des NomProduit
@@ -13,20 +13,24 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "NomProduitVO.php");
 
+define("TABLE_NOMPRODUIT", MYSQL_DB_PREFIXE . "npro_nom_produit");
 /**
- * @name NomProduit
+ * @name NomProduitManager
  * @author Julien PIERRE
- * @since 06/05/2010
+ * @since 06/02/2012
  * 
  * @desc Classe permettant l'accès aux données des NomProduit
  */
 class NomProduitManager
 {
-	const TABLE_NOMPRODUIT = "npro_nom_produit";
+	const TABLE_NOMPRODUIT = TABLE_NOMPRODUIT;
 	const CHAMP_NOMPRODUIT_ID = "npro_id";
+	const CHAMP_NOMPRODUIT_NUMERO = "npro_numero";
 	const CHAMP_NOMPRODUIT_NOM = "npro_nom";
 	const CHAMP_NOMPRODUIT_DESCRIPTION = "npro_description";
 	const CHAMP_NOMPRODUIT_ID_CATEGORIE = "npro_id_categorie";
+	const CHAMP_NOMPRODUIT_ID_FERME = "npro_id_ferme";
+	const CHAMP_NOMPRODUIT_ETAT = "npro_etat";
 
 	/**
 	* @name select($pId)
@@ -42,9 +46,12 @@ class NomProduitManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
-			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . "
 			FROM " . NomProduitManager::TABLE_NOMPRODUIT . " 
 			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -55,16 +62,19 @@ class NomProduitManager
 			$lLigne = mysql_fetch_assoc($lSql);
 			return NomProduitManager::remplirNomProduit(
 				$pId,
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
-				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE]);
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ETAT]);
 		} else {
 			return new NomProduitVO();
 		}
 	}
 
 	/**
-	* @name selectAll
+	* @name selectAll()
 	* @return array(NomProduitVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de NomProduitVO
 	*/
@@ -75,11 +85,13 @@ class NomProduitManager
 		$lRequete =
 			"SELECT "
 			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
-			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
-			FROM " . NomProduitManager::TABLE_NOMPRODUIT . "
-			ORDER BY " . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " ASC";
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . "
+			FROM " . NomProduitManager::TABLE_NOMPRODUIT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
@@ -90,9 +102,57 @@ class NomProduitManager
 				array_push($lListeNomProduit,
 					NomProduitManager::remplirNomProduit(
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
-					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE]));
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ETAT]));
+			}
+		} else {
+			$lListeNomProduit[0] = new NomProduitVO();
+		}
+		return $lListeNomProduit;
+	}
+	
+	/**
+	* @name selectByIdCategorie($pIdCategorie)
+	* @param integer
+	* @return NomProduitVO
+	* @desc Récupère la ligne correspondant à l'idCategorie en paramètre, créé une collection de NomProduitVO contenant les informations et la renvoie
+	*/
+	public static function selectByIdCategorie($pIdCategorie) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+
+		$lRequete =
+			"SELECT "
+			    . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . "
+			FROM " . NomProduitManager::TABLE_NOMPRODUIT . " 
+			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = '" . StringUtils::securiser($pIdCategorie) . "'";
+
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeNomProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeNomProduit,
+					NomProduitManager::remplirNomProduit(
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ETAT]));
 			}
 		} else {
 			$lListeNomProduit[0] = new NomProduitVO();
@@ -118,9 +178,12 @@ class NomProduitManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    NomProduitManager::CHAMP_NOMPRODUIT_ID .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION .
-			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE		);
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(NomProduitManager::TABLE_NOMPRODUIT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -128,46 +191,56 @@ class NomProduitManager
 		$lListeNomProduit = array();
 
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeNomProduit,
 						NomProduitManager::remplirNomProduit(
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
-						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE]));
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ETAT]));
 				}
 			} else {
 				$lListeNomProduit[0] = new NomProduitVO();
 			}
-	
+
 			return $lListeNomProduit;
 		}
-		
+
 		$lListeNomProduit[0] = new NomProduitVO();
 		return $lListeNomProduit;
 	}
 
 	/**
-	* @name remplirNomProduit($pId, $pNom, $pDescription, $pIdCategorie)
+	* @name remplirNomProduit($pId, $pNumero, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat)
 	* @param int(11)
 	* @param varchar(50)
+	* @param varchar(50)
 	* @param text
+	* @param int(11)
+	* @param int(11)
 	* @param int(11)
 	* @return NomProduitVO
 	* @desc Retourne une NomProduitVO remplie
 	*/
-	private static function remplirNomProduit($pId, $pNom, $pDescription, $pIdCategorie) {
+	private static function remplirNomProduit($pId, $pNumero, $pNom, $pDescription, $pIdCategorie, $pIdFerme, $pEtat) {
 		$lNomProduit = new NomProduitVO();
 		$lNomProduit->setId($pId);
+		$lNomProduit->setNumero($pNumero);
 		$lNomProduit->setNom($pNom);
 		$lNomProduit->setDescription($pDescription);
 		$lNomProduit->setIdCategorie($pIdCategorie);
+		$lNomProduit->setIdFerme($pIdFerme);
+		$lNomProduit->setEtat($pEtat);
 		return $lNomProduit;
 	}
 
@@ -185,13 +258,19 @@ class NomProduitManager
 		$lRequete =
 			"INSERT INTO " . NomProduitManager::TABLE_NOMPRODUIT . "
 				(" . NomProduitManager::CHAMP_NOMPRODUIT_ID . "
+				," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . "
 				," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . "
-				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . ")
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . "
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . ")
 			VALUES (NULL
+				,'" . StringUtils::securiser( $pVo->getNumero() ) . "'
 				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDescription() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdCategorie() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getIdCategorie() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdFerme() ) . "'
+				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -210,9 +289,12 @@ class NomProduitManager
 		$lRequete = 
 			"UPDATE " . NomProduitManager::TABLE_NOMPRODUIT . "
 			 SET
-				 " . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
+				 " . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . " = '" . StringUtils::securiser( $pVo->getNumero() ) . "'
+				," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " = '" . StringUtils::securiser( $pVo->getNom() ) . "'
 				," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . " = '" . StringUtils::securiser( $pVo->getDescription() ) . "'
-				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = '" . StringUtils::securiser( $pVo->getIdCategorie() ) . "')
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = '" . StringUtils::securiser( $pVo->getIdCategorie() ) . "'
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . " = '" . StringUtils::securiser( $pVo->getIdFerme() ) . "'
+				," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'
 			 WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -229,8 +311,10 @@ class NomProduitManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
-		$lRequete = "DELETE FROM " . NomProduitManager::TABLE_NOMPRODUIT . "
-			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = '" . StringUtils::securiser($pId) . "'";
+		$lRequete = 
+			"UPDATE " . NomProduitManager::TABLE_NOMPRODUIT . "
+			 SET " . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . " = '1'
+			 WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = '" . StringUtils::securiser( $pId ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);

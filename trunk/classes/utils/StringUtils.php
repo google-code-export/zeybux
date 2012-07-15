@@ -19,6 +19,9 @@
 class StringUtils
 {
 	const FORMAT_DATE_NULLE = "0000-00-00";
+	const FORMAT_TIME_NULLE = "00:00:00";
+	const FORMAT_TIME_FIN_JOUR = "23:59:59";
+	const FORMAT_DATE_TIME_NULLE = "0000-00-00 00:00:00";
 
 	/**
 	* @name securiser($pString)
@@ -133,6 +136,16 @@ class StringUtils
 	public static function dateTimeExtractTimeDbToFr($pDateTime) {
 		return $pDateTime[11].$pDateTime[12].$pDateTime[13].$pDateTime[14].$pDateTime[15].$pDateTime[16].$pDateTime[17].$pDateTime[18];
 	}
+
+	/**
+	* @name extractDbHeure($pDateTime)
+	* @param string
+	* @return string
+	* @desc Extrait du temps de $pDateTime d'un format BDD (aaaa-mm-jj HH:mm:ss) au format (HH)
+	*/
+	public static function extractDbHeure($pDateTime) {
+		return $pDateTime[11].$pDateTime[12];
+	}
 	
 	/**
 	* @name extractHeure($pTime)
@@ -142,6 +155,16 @@ class StringUtils
 	*/
 	public static function extractHeure($pTime) {
 		return $pTime[0].$pTime[1];
+	}
+	
+	/**
+	* @name extractDbMinute($pDateTime)
+	* @param string
+	* @return string
+	* @desc Extrait du temps de $pDateTime d'un format BDD (aaaa-mm-jj HH:mm:ss) au format (mm)
+	*/
+	public static function extractDbMinute($pDateTime) {
+		return $pDateTime[14].$pDateTime[15];
 	}
 	
 	/**
@@ -212,6 +235,16 @@ class StringUtils
 	*/
 	public static function dateEstNulle($pDate) {
 		return $pDate == StringUtils::FORMAT_DATE_NULLE;
+	}
+
+	/**
+	* @name dateTimeEstNulle($pDate)
+	* @param string
+	* @return bool
+	* @desc Vérifie si une dateTime est nulle.
+	*/
+	public static function dateTimeEstNulle($pDate) {
+		return $pDate == StringUtils::FORMAT_DATE_TIME_NULLE;
 	}
 
 	/**

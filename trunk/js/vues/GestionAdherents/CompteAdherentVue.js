@@ -3,21 +3,24 @@
 	this.mAdhNumero = null;
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=CompteAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -104,16 +107,17 @@
 		}		
 
 		$('#contenu').replaceWith(that.affect(lHtml));	
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.nouveauSoldeNegatif(pData);
 		pData = this.affectHover(pData);
 		pData = this.affectLienModifier(pData);
 		pData = this.affectDialogSuppAdherent(pData);
+		pData = this.affectRetour(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -126,7 +130,7 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
 		return pData;
-	}
+	};
 	
 	this.nouveauSoldeNegatif = function(pData) {
 		pData.find('.nouveau-solde-val').each(function() {
@@ -135,22 +139,22 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.soldeNegatif = function(pData) {
 		pData.find('#solde').addClass("com-nombre-negatif");
 		return pData;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.affectLienModifier = function(pData) {
 		var that = this;
@@ -158,7 +162,7 @@
 			ModificationAdherentVue({id_adherent:that.mIdAdherent});
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogSuppAdherent = function(pData) {
 		var that = this;
@@ -179,13 +183,15 @@
 						$.post(	"./index.php?m=GestionAdherents&v=SuppressionAdherent", "pParam=" + $.toJSON(lParam),
 								function(lResponse) {
 									Infobulle.init(); // Supprime les erreurs
-									if(lResponse.valid) {
-										var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-										var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
-										$('#contenu').replaceWith(lTemplate.template(lResponse));
-										$(lDialog).dialog('close');
-									} else {
-										Infobulle.generer(lResponse,'');
+									if(lResponse) {
+										if(lResponse.valid) {
+											var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+											var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
+											$('#contenu').replaceWith(lTemplate.template(lResponse));
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
 									}
 								},"json"
 						);
@@ -199,7 +205,13 @@
 			});
 		});
 		return pData;
-	}
+	};
+	
+	this.affectRetour = function(pData) {
+		var that = this;
+		pData.find("#lien-retour").click(function() { ListeAdherentVue();});
+		return pData;
+	};
 		
 	this.construct(pParam);
 }

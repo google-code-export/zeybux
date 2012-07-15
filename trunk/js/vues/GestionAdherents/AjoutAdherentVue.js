@@ -1,26 +1,32 @@
 ;function AjoutAdherentVue(pParam) {
-	this.mCommunVue = new CommunVue();
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {AjoutAdherentVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=GestionAdherents&v=AjoutAdherent", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+<<<<<<< .working
 		var lData = {modules:[],modules_default:[]}
+=======
+		var lData = {modules:[],modules_default:[]};
+>>>>>>> .merge-right.r75
 		$(lResponse.modules).each(function() {
 			if(this.defaut == 1) {
 				lData.modules_default.push(this);
@@ -33,17 +39,22 @@
 		
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lTemplate = lGestionAdherentsTemplate.formulaireAjoutAdherent;
+<<<<<<< .working
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
 	}
+=======
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));
+	};
+>>>>>>> .merge-right.r75
 	
 	this.affect = function(pData) {
 		pData = this.boutonLienCompte(pData);
-		pData = this.mCommunVue.comNumeric(pData);
+		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectControleDatepicker(pData);
 		pData = this.affectSubmit(pData);
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.boutonLienCompte = function(pData) {		
 		pData.find(":input[name=lien_numero_compte]").click(function() {
@@ -54,12 +65,14 @@
 			}			
 		});
 		return pData;
-	}	
+	};
 	
 	this.affectControleDatepicker = function(pData) {
-		pData = this.mCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData = gCommunVue.comLienDatepicker('dateNaissance','dateAdhesion',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		pData.find('#dateAdhesion').datepicker( "option", "yearRange", '1900:c' );
 		return pData;
-	}
+	};
 	
 	this.affectSubmit = function(pData) {	
 		var that = this;
@@ -68,12 +81,12 @@
 			return false;
 		});
 		return pData;
-	}
+	};
 	
 	this.ajoutAdherent = function() {
 		var lVo = new AdherentVO();
-		lVo.motPasse = $(':input[name=pass]').val();
-		lVo.motPasseConfirm = $(':input[name=pass_confirm]').val();
+		/*lVo.motPasse = $(':input[name=pass]').val();
+		lVo.motPasseConfirm = $(':input[name=pass_confirm]').val();*/
 		lVo.compte = $(':input[name=numero_compte]').val();
 		lVo.nom = $(':input[name=nom]').val();
 		lVo.prenom = $(':input[name=prenom]').val();
@@ -87,9 +100,15 @@
 		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
+<<<<<<< .working
 		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val())});
 		$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val())});
 		
+=======
+		$(':input[name=modules[]]:checked').each(function() { lVo.modules.push($(this).val()); });
+		$(':input[name=modules_default[]]').each(function() { lVo.modules.push($(this).val()); });
+		
+>>>>>>> .merge-right.r75
 		var lValid = new AdherentValid();
 		var lVr = lValid.validAjout(lVo);
 		
@@ -99,19 +118,21 @@
 			$.post(	"./index.php?m=GestionAdherents&v=AjoutAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-						var lTemplate = lGestionAdherentsTemplate.ajoutAdherentSucces;
-						$('#contenu').replaceWith(lTemplate.template(lResponse));						
-					} else {
-						Infobulle.generer(lResponse,'');
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+							var lTemplate = lGestionAdherentsTemplate.ajoutAdherentSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
 					}
 				},"json"
 			);
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }

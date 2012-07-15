@@ -1,22 +1,24 @@
-;function CompteZeybuVue(pParam) {	
-	this.mCommunVue = new CommunVue();
+;function CompteZeybuVue(pParam) {
 	
 	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteZeybuVue(pParam);}} );
 		var that = this;
 		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", 
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficher(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -35,6 +37,11 @@
 			lResponse.soldeBanque = lResponse.soldeBanque.nombreFormate(2,',',' ');
 		} else {
 			lResponse.soldeBanque = '0'.nombreFormate(2,',',' ');
+		}
+		if(lResponse.soldeSolidaire != null) {
+			lResponse.soldeSolidaire = lResponse.soldeSolidaire.nombreFormate(2,',',' ');
+		} else {
+			lResponse.soldeSolidaire = '0'.nombreFormate(2,',',' ');
 		}
 		
 		lResponse.sigleMonetaire = gSigleMonetaire;
@@ -71,12 +78,16 @@
 			var lTemplate = lCompteZeybuTemplate.listeOperationVide;
 			$('#contenu').replaceWith(lTemplate.template(lResponse));
 		}
+<<<<<<< .working
 	}
+=======
+	};
+>>>>>>> .merge-right.r75
 	
 	this.affect = function(pData) {
-		pData = this.mCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -89,12 +100,12 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false,size:30}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 }

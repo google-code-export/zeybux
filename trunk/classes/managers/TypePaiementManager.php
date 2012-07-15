@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "TypePaiementVO.php");
 
+define("TABLE_TYPEPAIEMENT", MYSQL_DB_PREFIXE . "tpp_type_paiement");
 /**
  * @name TypePaiementManager
  * @author Julien PIERRE
@@ -22,7 +23,7 @@ include_once(CHEMIN_CLASSES_VO . "TypePaiementVO.php");
  */
 class TypePaiementManager
 {
-	const TABLE_TYPEPAIEMENT = "tpp_type_paiement";
+	const TABLE_TYPEPAIEMENT = TABLE_TYPEPAIEMENT;
 	const CHAMP_TYPEPAIEMENT_ID = "tpp_id";
 	const CHAMP_TYPEPAIEMENT_TYPE = "tpp_type";
 	const CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE = "tpp_champ_complementaire";

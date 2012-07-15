@@ -25,6 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 
 
+define("TABLE_ADHERENT", MYSQL_DB_PREFIXE . "adh_adherent");
 /**
  * @name AdherentManager
  * @author Julien PIERRE
@@ -34,7 +35,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
  */
 class AdherentManager
 {
-	const TABLE_ADHERENT = "adh_adherent";
+	const TABLE_ADHERENT = TABLE_ADHERENT;
 	const CHAMP_ADHERENT_ID = "adh_id";
 	const CHAMP_ADHERENT_NUMERO = "adh_numero";
 	const CHAMP_ADHERENT_ID_COMPTE = "adh_id_compte";
@@ -181,6 +182,7 @@ class AdherentManager
 	}
 	
 	/**
+<<<<<<< .working
 	* @name selectByIdCompte($pId)
 	* @param integer
 	* @return array(AdherentVO)
@@ -196,6 +198,38 @@ class AdherentManager
 	}
 	
 	/**
+=======
+	* @name selectByIdCompte($pId)
+	* @param integer
+	* @return array(AdherentVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId et les renvoie sous forme d'une collection de AdherentVO
+	*/
+	public static function selectByIdCompte($pId) {		
+		return AdherentManager::rechercheAdherent(
+			array(AdherentManager::CHAMP_ADHERENT_ID_COMPTE),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectByNumero($pId)
+	* @param integer
+	* @return array(AdherentVO)
+	* @desc Récupères toutes les lignes de la table ayant pour Numero $pId et les renvoie sous forme d'une collection de AdherentVO
+	*/
+	public static function selectByNumero($pId) {		
+		return AdherentManager::rechercheAdherent(
+			array(AdherentManager::CHAMP_ADHERENT_NUMERO),
+			array('='),
+			array($pId),
+			array(''),
+			array(''));
+	}
+	
+	/**
+>>>>>>> .merge-right.r75
 	* @name rechercheAdherent( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche
@@ -346,10 +380,10 @@ class AdherentManager
 			$pVo->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateAdhesion() == '') {
-			$pVo->getDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateMaj() == '') {
-			$pVo->getDateMaj(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
 		}		
 
 		$lRequete =
@@ -424,10 +458,10 @@ class AdherentManager
 			$pVo->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateAdhesion() == '') {
-			$pVo->getDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
 		}
 		if($pVo->getDateMaj() == '') {
-			$pVo->getDateMaj(StringUtils::FORMAT_DATE_NULLE);
+			$pVo->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
 		}
 
 		$lRequete = 

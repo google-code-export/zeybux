@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/12/2010
+// Date de creation : 31/10/2011
 // Fichier : ProducteurViewManager.php
 //
 // Description : Classe de gestion des Producteur
@@ -13,19 +13,18 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "ProducteurViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProducteurManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 
+define("VUE_PRODUCTEUR", MYSQL_DB_PREFIXE . "view_producteur");
 /**
  * @name ProducteurViewManager
  * @author Julien PIERRE
- * @since 22/12/2010
+ * @since 31/10/2011
  * 
  * @desc Classe permettant l'accès aux données des Producteur
  */
 class ProducteurViewManager
 {
-	const VUE_PRODUCTEUR = "view_producteur";
+	const VUE_PRODUCTEUR = VUE_PRODUCTEUR;
 
 	/**
 	* @name select($pId)
@@ -41,9 +40,8 @@ class ProducteurViewManager
 		$lRequete =
 			"SELECT "
 			    . ProducteurManager::CHAMP_PRODUCTEUR_ID . 
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . 
-			"," . CompteManager::CHAMP_COMPTE_LABEL . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . 
@@ -54,10 +52,7 @@ class ProducteurViewManager
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_VILLE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . "
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE . "
 			FROM " . ProducteurViewManager::VUE_PRODUCTEUR . " 
 			WHERE " . ProducteurManager::CHAMP_PRODUCTEUR_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -70,9 +65,8 @@ class ProducteurViewManager
 				array_push($lListeProducteur,
 					ProducteurViewManager::remplir(
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID],
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
-					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -83,10 +77,7 @@ class ProducteurViewManager
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_VILLE],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE]));
 			}
 		} else {
 			$lListeProducteur[0] = new ProducteurViewVO();
@@ -106,9 +97,8 @@ class ProducteurViewManager
 		$lRequete =
 			"SELECT "
 			    . ProducteurManager::CHAMP_PRODUCTEUR_ID . 
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE . 
-			"," . CompteManager::CHAMP_COMPTE_LABEL . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL . 
@@ -119,10 +109,7 @@ class ProducteurViewManager
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_VILLE . 
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ . 
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . "
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE . "
 			FROM " . ProducteurViewManager::VUE_PRODUCTEUR;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -134,9 +121,8 @@ class ProducteurViewManager
 				array_push($lListeProducteur,
 					ProducteurViewManager::remplir(
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID],
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
-					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -147,10 +133,7 @@ class ProducteurViewManager
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_VILLE],
 					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ],
-					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+					$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE]));
 			}
 		} else {
 			$lListeProducteur[0] = new ProducteurViewVO();
@@ -176,9 +159,8 @@ class ProducteurViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProducteurManager::CHAMP_PRODUCTEUR_ID .
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NUMERO .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE .
-			"," . CompteManager::CHAMP_COMPTE_LABEL .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_NOM .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_PRENOM .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL .
@@ -189,30 +171,27 @@ class ProducteurViewManager
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_VILLE .
 			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ .
-			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE .
-			"," . OperationManager::CHAMP_OPERATION_MONTANT		);
+			"," . ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ProducteurViewManager::VUE_PRODUCTEUR, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
 
 		$lListeProducteur = array();
-		
+
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeProducteur,
 						ProducteurViewManager::remplir(
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID],
+						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_FERME],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NUMERO],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_ID_COMPTE],
-						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_NOM],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_PRENOM],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COURRIEL_PRINCIPAL],
@@ -223,15 +202,12 @@ class ProducteurViewManager
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_CODE_POSTAL],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_VILLE],
 						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_NAISSANCE],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_CREATION],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_DATE_MAJ],
-						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE],
-						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+						$lLigne[ProducteurManager::CHAMP_PRODUCTEUR_COMMENTAIRE]));
 				}
 			} else {
 				$lListeProducteur[0] = new ProducteurViewVO();
 			}
-	
+
 			return $lListeProducteur;
 		}
 
@@ -240,11 +216,10 @@ class ProducteurViewManager
 	}
 
 	/**
-	* @name remplir($pPrdtId, $pPrdtNumero, $pPrdtIdCompte, $pCptLabel, $pPrdtNom, $pPrdtPrenom, $pPrdtCourrielPrincipal, $pPrdtCourrielSecondaire, $pPrdtTelephonePrincipal, $pPrdtTelephoneSecondaire, $pPrdtAdresse, $pPrdtCodePostal, $pPrdtVille, $pPrdtDateNaissance, $pPrdtDateCreation, $pPrdtDateMaj, $pPrdtCommentaire, $pOpeMontant)
+	* @name remplir($pPrdtId, $pPrdtIdFerme, $pPrdtNumero, $pPrdtNom, $pPrdtPrenom, $pPrdtCourrielPrincipal, $pPrdtCourrielSecondaire, $pPrdtTelephonePrincipal, $pPrdtTelephoneSecondaire, $pPrdtAdresse, $pPrdtCodePostal, $pPrdtVille, $pPrdtDateNaissance, $pPrdtCommentaire)
+	* @param int(11)
 	* @param int(11)
 	* @param varchar(20)
-	* @param int(11)
-	* @param varchar(30)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param varchar(100)
@@ -255,19 +230,15 @@ class ProducteurViewManager
 	* @param varchar(10)
 	* @param varchar(100)
 	* @param date
-	* @param date
-	* @param datetime
 	* @param text
-	* @param decimal(32,2)
 	* @return ProducteurViewVO
 	* @desc Retourne une ProducteurViewVO remplie
 	*/
-	private static function remplir($pPrdtId, $pPrdtNumero, $pPrdtIdCompte, $pCptLabel, $pPrdtNom, $pPrdtPrenom, $pPrdtCourrielPrincipal, $pPrdtCourrielSecondaire, $pPrdtTelephonePrincipal, $pPrdtTelephoneSecondaire, $pPrdtAdresse, $pPrdtCodePostal, $pPrdtVille, $pPrdtDateNaissance, $pPrdtDateCreation, $pPrdtDateMaj, $pPrdtCommentaire, $pOpeMontant) {
+	private static function remplir($pPrdtId, $pPrdtIdFerme, $pPrdtNumero, $pPrdtNom, $pPrdtPrenom, $pPrdtCourrielPrincipal, $pPrdtCourrielSecondaire, $pPrdtTelephonePrincipal, $pPrdtTelephoneSecondaire, $pPrdtAdresse, $pPrdtCodePostal, $pPrdtVille, $pPrdtDateNaissance, $pPrdtCommentaire) {
 		$lProducteur = new ProducteurViewVO();
 		$lProducteur->setPrdtId($pPrdtId);
+		$lProducteur->setPrdtIdFerme($pPrdtIdFerme);
 		$lProducteur->setPrdtNumero($pPrdtNumero);
-		$lProducteur->setPrdtIdCompte($pPrdtIdCompte);
-		$lProducteur->setCptLabel($pCptLabel);
 		$lProducteur->setPrdtNom($pPrdtNom);
 		$lProducteur->setPrdtPrenom($pPrdtPrenom);
 		$lProducteur->setPrdtCourrielPrincipal($pPrdtCourrielPrincipal);
@@ -278,10 +249,7 @@ class ProducteurViewManager
 		$lProducteur->setPrdtCodePostal($pPrdtCodePostal);
 		$lProducteur->setPrdtVille($pPrdtVille);
 		$lProducteur->setPrdtDateNaissance($pPrdtDateNaissance);
-		$lProducteur->setPrdtDateCreation($pPrdtDateCreation);
-		$lProducteur->setPrdtDateMaj($pPrdtDateMaj);
 		$lProducteur->setPrdtCommentaire($pPrdtCommentaire);
-		$lProducteur->setOpeMontant($pOpeMontant);
 		return $lProducteur;
 	}
 }

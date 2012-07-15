@@ -30,7 +30,6 @@ class ProduitCommandeToVO
 
 		$lValid = isset($lJson->id)
 			&& isset($lJson->idNom)
-			&& isset($lJson->idProducteur)
 			&& isset($lJson->nom)
 			&& isset($lJson->description)
 			&& isset($lJson->idCategorie)
@@ -39,6 +38,7 @@ class ProduitCommandeToVO
 			&& isset($lJson->unite)
 			&& isset($lJson->qteMaxCommande)
 			&& isset($lJson->qteRestante)
+			&& isset($lJson->type)
 			&& isset($lJson->lots);
 
 		if($lValid) {
@@ -47,7 +47,6 @@ class ProduitCommandeToVO
 				$lVo = new ProduitCommandeVO();
 				$lVo->setId($lJson->id);
 				$lVo->setIdNom($lJson->idNom);
-				$lVo->setIdProducteur($lJson->idProducteur);
 				$lVo->setNom($lJson->nom);
 				$lVo->setDescription($lJson->description);
 				$lVo->setIdCategorie($lJson->idCategorie);
@@ -56,6 +55,7 @@ class ProduitCommandeToVO
 				$lVo->setUnite($lJson->unite);
 				$lVo->setQteMaxCommande($lJson->qteMaxCommande);
 				$lVo->setQteRestante($lJson->qteRestante);
+				$lVo->setType($lJson->type);
 				foreach($lLots as $lLot) {
 					$lVo->addLots(DetailCommandeToVO::convertFromArray($lLot));
 				}
@@ -73,7 +73,6 @@ class ProduitCommandeToVO
 	public static function convertFromArray($pArray) {
 		$lValid = isset($pArray['id'])
 			&& isset($pArray['idNom'])
-			&& isset($pArray['idProducteur'])
 			&& isset($pArray['nom'])
 			&& isset($pArray['description'])
 			&& isset($pArray['idCategorie'])
@@ -82,6 +81,7 @@ class ProduitCommandeToVO
 			&& isset($pArray['unite'])
 			&& isset($pArray['qteMaxCommande'])
 			&& isset($pArray['qteRestante'])
+			&& isset($pArray['type'])
 			&& isset($pArray['lots'])
 			&& is_array($pArray['lots']);
 
@@ -89,7 +89,6 @@ class ProduitCommandeToVO
 			$lVo = new ProduitCommandeVO();
 			$lVo->setId($pArray['id']);
 			$lVo->setIdNom($pArray['idNom']);
-			$lVo->setIdProducteur($pArray['idProducteur']);
 			$lVo->setNom($pArray['nom']);
 			$lVo->setDescription($pArray['description']);
 			$lVo->setIdCategorie($pArray['idCategorie']);
@@ -98,6 +97,7 @@ class ProduitCommandeToVO
 			$lVo->setUnite($pArray['unite']);
 			$lVo->setQteMaxCommande($pArray['qteMaxCommande']);
 			$lVo->setQteRestante($pArray['qteRestante']);
+			$lVo->setType($pArray['type']);
 			foreach($pArray['lots'] as $lLot) {
 				$lVo->addLots(DetailCommandeToVO::convertFromArray($lLot));
 			}

@@ -2,6 +2,7 @@
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.idFerme = new VRelement();
 	this.nom = new VRelement();
 	this.prenom = new VRelement();
 	this.dateNaissance = new VRelement();

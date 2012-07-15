@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VIEW_VO . "ListeAdherentViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_LISTE_ADHERENT", MYSQL_DB_PREFIXE . "view_liste_adherent");
 /**
  * @name ListeAdherentViewManager
  * @author Julien PIERRE
@@ -24,7 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class ListeAdherentViewManager
 {
-	const VUE_LISTE_ADHERENT = "view_liste_adherent";
+	const VUE_LISTE_ADHERENT = VUE_LISTE_ADHERENT;
 	
 	/**
 	* @name select($pId)

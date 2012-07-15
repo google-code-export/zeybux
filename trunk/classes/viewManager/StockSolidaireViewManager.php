@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
+define("VUE_STOCKSOLIDAIRE", MYSQL_DB_PREFIXE . "view_stock_solidaire");
 /**
  * @name StockSolidaireViewManager
  * @author Julien PIERRE
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
  */
 class StockSolidaireViewManager
 {
-	const VUE_STOCKSOLIDAIRE = "view_stock_solidaire";
+	const VUE_STOCKSOLIDAIRE = VUE_STOCKSOLIDAIRE;
 
 	/**
 	* @name select($pId)
@@ -41,7 +42,11 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -58,7 +63,11 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+<<<<<<< .working
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -82,7 +91,11 @@ class StockSolidaireViewManager
 		$lRequete =
 			"SELECT "
 			    . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . 
@@ -98,7 +111,11 @@ class StockSolidaireViewManager
 				array_push($lListeStockSolidaire,
 					StockSolidaireViewManager::remplir(
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+<<<<<<< .working
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -133,6 +150,7 @@ class StockSolidaireViewManager
 	*/
 	public static function selectSolidaire($pIdMarche,$pIdCompteProducteur) {
 		return StockSolidaireViewManager::recherche(
+<<<<<<< .working
 			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR),
 			array('=','='),
 			array($pIdMarche,$pIdCompteProducteur),
@@ -153,6 +171,28 @@ class StockSolidaireViewManager
 			array($pIdMarche,0),
 			array(''),
 			array(''));
+=======
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME),
+			array('=','='),
+			array($pIdMarche,$pIdCompteProducteur),
+			array(''),
+			array(''));
+	}
+	
+	/**
+	* @name selectLivraisonSolidaire($pIdMarche,$pIdCompteProducteur)
+	* @param integer
+	* @return array(StockSolidaireViewVO)
+	* @desc Récupères toutes les lignes de la table ayant pour IdProducteur $pIdProducteur. Puis les renvoie sous forme d'une collection de StockSolidaireViewVO
+	*/
+	public static function selectLivraisonSolidaire($pIdMarche) {
+		return StockSolidaireViewManager::recherche(
+			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,StockManager::CHAMP_STOCK_QUANTITE),
+			array('=','>'),
+			array($pIdMarche,0),
+			array(''),
+			array(''));
+>>>>>>> .merge-right.r75
 	}
 	
 	/**
@@ -173,7 +213,11 @@ class StockSolidaireViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
 			"," . StockManager::CHAMP_STOCK_ID .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
@@ -196,7 +240,11 @@ class StockSolidaireViewManager
 					array_push($lListeStockSolidaire,
 						StockSolidaireViewManager::remplir(
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+<<<<<<< .working
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
 						$lLigne[StockManager::CHAMP_STOCK_ID],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
@@ -214,7 +262,11 @@ class StockSolidaireViewManager
 	}
 
 	/**
+<<<<<<< .working
 	* @name remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite)
+=======
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pStoId, $pDcomId, $pStoQuantite)
+>>>>>>> .merge-right.r75
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -224,10 +276,18 @@ class StockSolidaireViewManager
 	* @return StockSolidaireViewVO
 	* @desc Retourne une StockSolidaireViewVO remplie
 	*/
+<<<<<<< .working
 	private static function remplir($pProIdCommande, $pProIdCompteProducteur, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
+=======
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pStoId, $pDcomId, $pStoQuantite) {
+>>>>>>> .merge-right.r75
 		$lStockSolidaire = new StockSolidaireViewVO();
 		$lStockSolidaire->setProIdCommande($pProIdCommande);
+<<<<<<< .working
 		$lStockSolidaire->setProIdCompteProducteur($pProIdCompteProducteur);
+=======
+		$lStockSolidaire->setProIdCompteFerme($pProIdCompteFerme);
+>>>>>>> .merge-right.r75
 		$lStockSolidaire->setProId($pProId);
 		$lStockSolidaire->setStoId($pStoId);
 		$lStockSolidaire->setDcomId($pDcomId);

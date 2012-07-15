@@ -26,13 +26,13 @@
 		} else {
 			return true;
 		}
-    }
+    };
     
 /*
  * Plugin jquery d'édition de formulaire
  * Cache le formulaire pour afficher sa valeur dans une span
  */
-    $.fn.inputToText = function(pType) {
+   /* $.fn.inputToText = function(pType) {
     	this.hide();
 		if(this.context.nodeName == 'SELECT') {
 			this.after("<span name=\"" + this.attr('name') + "\">" + this.children('option:selected').text() + "</span>");
@@ -46,17 +46,17 @@
 			this.after("<span name=\"" + this.attr('name') + "\">" + lVal + "</span>");
 		}
 		return this;
-    }
+    };*/
     
 /*
  * Plugin jquery d'édition de formulaire
  * Cache la span suivante de l'input pour afficher l'input
  */    
-    $.fn.textToInput = function() {
+   /* $.fn.textToInput = function() {
     	this.show();
     	this.next().hide();
 		return this;
-    }    
+    };    */
 })(jQuery);
 
 //Function to get the Max value in Array
@@ -77,7 +77,7 @@ function getDateAujourdhuiDb() {
 	lJour = lDate.getDate();
 	if (lJour < 10) {lJour = '0' + lJour;}
 	return lAnnee + '-' + lMois + '-' + lJour;	
-}
+};
 
 function getTimeAujourdhuiDb() {
 	lDate = new Date();	
@@ -88,16 +88,17 @@ function getTimeAujourdhuiDb() {
 	lSeconde = lDate.getSeconds();
 	if (lSeconde < 10) {lSeconde = '0' + lSeconde;}	
 	return lHeure + ':' + lMinute + ':' + lSeconde;
-}
+};
 
 function getDateTimeAujourdhuiDb() {
 	return getDateAujourdhuiDb() + ' ' + getTimeAujourdhuiDb();
-}
+};
 
 String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) {
 	return parseFloat(this).nombreFormate(decimales, signe, separateurMilliers);
-}
+};
 
+<<<<<<< .working
 
 function differenceDateTime(pDate1,pDate2) {
 	var lDateTime1 = pDate1.split(' ');
@@ -158,6 +159,83 @@ function differenceDateTime(pDate1,pDate2) {
 	return parseFloat(lRetour);
 }
 
+=======
+
+function differenceDateTime(pDate1,pDate2) {
+	var lDateTime1 = pDate1.split(' ');
+	var lDate1 = lDateTime1[0].split('-');
+	var lTime1 = lDateTime1[1].split(':');
+	
+	var lDateTime2 = pDate2.split(' ');
+	var lDate2 = lDateTime2[0].split('-');
+	var lTime2 = lDateTime2[1].split(':');
+	
+	var lNegatif = false;
+	var lAnnee = lDate1[0] - lDate2[0];
+	if(lAnnee < 0) { lNegatif = true; lAnnee = lAnnee * -1; }
+	if(lAnnee < 10 && lAnnee > -10) {		
+		lAnnee = '0' + lAnnee.toString();
+	} else {
+		lAnnee = lAnnee.toString();
+	}
+	var lMois = lDate1[1] - lDate2[1];
+	if(lMois < 0) { lNegatif = true; lMois = lMois * -1; }	
+	if(lMois < 10 && lMois > -10) {		
+		lMois = '0' + lMois.toString();
+	} else {
+		lMois = lMois.toString();
+	}
+	var lJour = lDate1[2] - lDate2[2];
+	if(lJour < 0) { lNegatif = true; lJour = lJour * -1; }	
+	if(lJour < 10 && lJour > -10) {
+		lJour = '0' + lJour.toString();
+	} else {
+		lJour = lJour.toString();
+	}
+	var lHeure = lTime1[0] - lTime2[0];
+	if(lHeure < 0) { lNegatif = true; lHeure = lHeure * -1; }	
+	if(lHeure < 10 && lHeure > -10) {		
+		lHeure = '0' + lHeure.toString();
+	} else {
+		lHeure = lHeure.toString();
+	}
+	var lMinute = lTime1[1] - lTime2[1];		
+	if(lMinute < 0) { lNegatif = true; lMinute = lMinute * -1; }	
+	if(lMinute < 10 && lMinute > -10) {
+		lMinute = '0' + lMinute.toString();
+	} else {
+		lMinute = lMinute.toString();
+	}
+	var lSeconde = lTime1[2] - lTime2[2];		
+	if(lSeconde < 0) { lNegatif = true; lSeconde = lSeconde * -1; }
+	if(lSeconde < 10 && lSeconde > -10) {
+		lSeconde = '0' + lSeconde.toString();
+	} else {
+		lSeconde = lSeconde.toString();
+	}
+	
+	var lRetour = lAnnee + lMois + lJour + lHeure + lMinute + lSeconde;
+	if(lNegatif) {lRetour = '-' + lRetour;}
+	
+	return parseFloat(lRetour);
+};
+
+function htmlEncode(value){
+  return $('<div/>').text(value).html();
+};
+
+function htmlDecode(value){
+  return $('<div/>').html(value).text();
+};
+
+
+function jourSem(pDate) {
+	var lDate = new Date(pDate);
+	return gJourSemaine[ lDate.getDay() ];
+};
+
+	
+>>>>>>> .merge-right.r75
 /*
  * +-------------------------------------+
  * Number.prototype.nombreFormate
@@ -174,7 +252,7 @@ function differenceDateTime(pDate1,pDate2) {
 	 if (decimales == undefined) decimales = 2;
 	 if (signe == undefined) signe = '.';
 	 if (separateurMilliers == undefined) separateurMilliers = ' ';
-
+	 
 	 function separeMilliers (sNombre) {
 		 var sRetour = "";
 		 while (sNombre.length % 3 != 0) {
@@ -226,15 +304,13 @@ function differenceDateTime(pDate1,pDate2) {
 				 sNvDecimale += '0';
 			 }
 			 _sDecimales = sDecimalesTmp + sNvDecimale;
-		}	 
-		else {
+		} else {
 			_sDecimales = sDecimalesTmp;
 		}
-		 
 		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
 	 }
 	 return _sRetour;
-}
+};
     
     
 /** 
@@ -318,8 +394,9 @@ String.prototype.template = function(values,bname) {
  
     // suppression des tags vides 
     return string.replace(/{\w+}/g, ''); 
-} 
+}; 
 
-
-
+sortABC = function(a, b){			
+	return a[0] > b[0] ? 1 : -1;
+};
 

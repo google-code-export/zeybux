@@ -63,6 +63,7 @@ class BonDeLivraisonControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getInfoLivraison($pParam) {
+<<<<<<< .working
 		$lVr = BonDeCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
 			$lIdMarche = $pParam["id_commande"];		
@@ -82,6 +83,28 @@ class BonDeLivraisonControleur
 			return $lResponse;
 		}
 		return $lVr;
+=======
+		$lVr = BonDeCommandeValid::validGetInfoCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];		
+		
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+	
+			$lResponse = new AfficheBonDeLivraisonResponse();
+	
+			$lProducteurs = ListeProducteurMarcheViewManager::select($lIdMarche);
+			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
+			
+			$lResponse->setComNumero($lMarche->getNumero());
+			$lResponse->setArchive($lMarche->getArchive());
+			$lResponse->setProducteurs($lProducteurs);
+			$lResponse->setTypePaiement($lTypePaiement);
+			
+			return $lResponse;
+		}
+		return $lVr;
+>>>>>>> .merge-right.r75
 	}
 	
 	/**
@@ -90,12 +113,21 @@ class BonDeLivraisonControleur
 	* @desc Retourne la liste des producteurs de cette commande.
 	*/
 	public function getListeProduitLivraison($pParam) {
+<<<<<<< .working
 		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
 		if($lVr->getValid()) {
 			$lIdMarche = $pParam["id_commande"];
 			$lIdCompteProducteur = $pParam["id_compte_producteur"];
 			$lOperationService = new OperationService();
+=======
+		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
+		if($lVr->getValid()) {
+			$lIdMarche = $pParam["id_commande"];
+			$lIdCompteFerme = $pParam["id_compte_ferme"];
+			$lOperationService = new OperationService();
+>>>>>>> .merge-right.r75
 			
+<<<<<<< .working
 			$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
 			
 			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteProducteur));
@@ -106,6 +138,18 @@ class BonDeLivraisonControleur
 			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteProducteur);
 			$lOperation = $lOperations[0];			
 			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+=======
+			$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
+			
+			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsLivraison(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme));
+			
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteFerme);
+			$lOperation = $lOperations[0];			
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+>>>>>>> .merge-right.r75
 
 			if(!is_null($lOperation->getId())) {
 				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
@@ -125,10 +169,17 @@ class BonDeLivraisonControleur
 	public function enregistrerBonDeLivraison($pParam) {
 		$lVr = ProduitsBonDeLivraisonValid::validAjout($pParam);	
 		if($lVr->getValid()) {
+<<<<<<< .working
 			$lIdMarche = $pParam["id_commande"];
 			$lIdCompteProducteur = $pParam["id_compte_producteur"];
 			$lProduits = $pParam["produits"];
+=======
+			$lIdMarche = $pParam["id_commande"];
+			$lIdCompteFerme = $pParam["id_compte_ferme"];
+			$lProduits = $pParam["produits"];
+>>>>>>> .merge-right.r75
 
+<<<<<<< .working
 			
 			$lMarcheService = new MarcheService();
 			$lMarche = $lMarcheService->get($lIdMarche);
@@ -139,7 +190,20 @@ class BonDeLivraisonControleur
 			$lIdOperation = $lOperations[0]->getId();
 
 			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de Livraison				
+=======
+			
+			$lMarcheService = new MarcheService();
+			$lMarche = $lMarcheService->get($lIdMarche);
+			
+			// Récupère l'opération Bon de livraison si elle existe
+			$lOperationService = new OperationService();
+			$lOperations = $lOperationService->getBonLivraison($lIdMarche,$lIdCompteFerme);
+			$lIdOperation = $lOperations[0]->getId();
+
+			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de Livraison				
+>>>>>>> .merge-right.r75
 				$lOperation = new OperationVO();
+<<<<<<< .working
 				$lOperation->setIdCompte($lIdCompteProducteur);
 				$lOperation->setLibelle('Bon de Livraison marché n°' . $lMarche->getNumero());
 				$lOperation->setTypePaiement(6);
@@ -148,11 +212,27 @@ class BonDeLivraisonControleur
 				$lOperation = $lOperations[0];
 				
 				$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+=======
+				$lOperation->setIdCompte($lIdCompteFerme);
+				$lOperation->setLibelle('Bon de Livraison marché n°' . $lMarche->getNumero());
+				$lOperation->setTypePaiement(6);
+				$lOperation->setIdCommande($lIdMarche);				
+			} else {
+				$lOperation = $lOperations[0];
+>>>>>>> .merge-right.r75
+				
+<<<<<<< .working
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());
+=======
+				$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 				
 				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());
 				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());
+>>>>>>> .merge-right.r75
 			}
 			
+<<<<<<< .working
 			// Ajout Opération de débit sur le compte du zeybu
 			$lOperationZeybu = new OperationVO();
 			$lOperationZeybu->setIdCompte(-1);
@@ -187,6 +267,42 @@ class BonDeLivraisonControleur
 			
 			// Maj des infos du stock
 			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteProducteur);
+=======
+			// Ajout Opération de débit sur le compte du zeybu
+			$lOperationZeybu = new OperationVO();
+			$lOperationZeybu->setIdCompte(-1);
+			$lOperationZeybu->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
+			$lOperationZeybu->setTypePaiement($pParam["typePaiement"]);
+			$lOperationZeybu->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
+			$lOperationZeybu->setIdCommande($lIdMarche);
+			$lOperationZeybu->setMontant($pParam["total"] * -1);
+			$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
+			
+			// Ajout opération de crédit sur le compte du producteur
+			$lOperationPrdt = new OperationVO();
+			$lOperationPrdt->setIdCompte($lIdCompteFerme);
+			$lOperationPrdt->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
+			$lOperationPrdt->setTypePaiement($pParam["typePaiement"]);
+			$lOperationPrdt->setTypePaiementChampComplementaire($pParam["typePaiementChampComplementaire"]);
+			$lOperationPrdt->setIdCommande($lIdMarche);
+			$lOperationPrdt->setMontant($pParam["total"]);
+			$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
+			
+			
+			$lInfoOperationLivraison = new InfoOperationLivraisonVO();
+			$lInfoOperationLivraison->setIdOpeZeybu($lIdOperationZeybu);
+			$lInfoOperationLivraison->setIdOpeProducteur($lIdOperationPrdt);
+			$lIdInfoOpeLivr = InfoOperationLivraisonManager::insert($lInfoOperationLivraison);
+			
+			
+			$lOperation->setTypePaiementChampComplementaire($lIdInfoOpeLivr);
+			$lOperation->setMontant($pParam["total"]);
+			$lIdOperation = $lOperationService->set($lOperation); // Ajout ou mise à jour de l'operation de bon de livraison
+			
+			
+			// Maj des infos du stock
+			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme);
+>>>>>>> .merge-right.r75
 
 			$lDetailOperationService = new DetailOperationService();
 			$lStockService = new StockService();
@@ -201,11 +317,19 @@ class BonDeLivraisonControleur
 						$lStock->setId($lBon->getStoId());
 						$lStock->setQuantite($lProduit["quantite"]);
 						$lStock->setType(4);
+<<<<<<< .working
 						$lStock->setIdCompte($lIdCompteProducteur);
 						$lStock->setIdDetailCommande($lDcom[0]->getId());
 						$lStock->setIdOperation($lIdOperation);
 						$lStockService->set($lStock);
+=======
+						$lStock->setIdCompte($lIdCompteFerme);
+						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
+>>>>>>> .merge-right.r75
 						
+<<<<<<< .working
 						$lDetailOperation = $lDetailOperationService->get($lBon->getDopeId());
 						$lDetailOperation->setIdOperation($lIdOperation);
 						$lDetailOperation->setIdCompte($lIdCompteProducteur);
@@ -213,6 +337,15 @@ class BonDeLivraisonControleur
 						$lDetailOperation->setLibelle('Bon de Livraison');
 						$lDetailOperation->setTypePaiement(6);
 						$lDetailOperationService->set($lDetailOperation);
+=======
+						$lDetailOperation = $lDetailOperationService->get($lBon->getDopeId());
+						$lDetailOperation->setIdOperation($lIdOperation);
+						$lDetailOperation->setIdCompte($lIdCompteFerme);
+						$lDetailOperation->setMontant($lProduit["prix"]);
+						$lDetailOperation->setLibelle('Bon de Livraison');
+						$lDetailOperation->setTypePaiement(6);
+						$lDetailOperationService->set($lDetailOperation);
+>>>>>>> .merge-right.r75
 					}
 				}
 				if(!$lMaj) {
@@ -221,11 +354,16 @@ class BonDeLivraisonControleur
 					$lStock = new StockVO();
 					$lStock->setQuantite($lProduit["quantite"]);
 					$lStock->setType(4);
+<<<<<<< .working
 					$lStock->setIdCompte($lIdCompteProducteur);
+=======
+					$lStock->setIdCompte($lIdCompteFerme);
+>>>>>>> .merge-right.r75
 					$lStock->setIdDetailCommande($lDcom[0]->getId());
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
 					
+<<<<<<< .working
 					$lDetailOperation = new DetailOperationVO();
 					$lDetailOperation->setIdOperation($lIdOperation);
 					$lDetailOperation->setIdCompte($lIdCompteProducteur);
@@ -247,9 +385,33 @@ class BonDeLivraisonControleur
 				if($lDelete) {
 					$lStockService->delete($lBon->getStoId());
 					$lDetailOperationService->delete($lBon->getDopeId());
+=======
+					$lDetailOperation = new DetailOperationVO();
+					$lDetailOperation->setIdOperation($lIdOperation);
+					$lDetailOperation->setIdCompte($lIdCompteFerme);
+					$lDetailOperation->setMontant($lProduit["prix"]);
+					$lDetailOperation->setLibelle('Bon de Livraison');
+					$lDetailOperation->setTypePaiement(6);
+					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
+					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
+					$lDetailOperationService->set($lDetailOperation);
+				}			
+			}
+			foreach($lBonLivraison as $lBon) {
+				$lDelete = true;
+				foreach($lProduits as $lProduit) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lDelete = false;
+					}
+				}
+				if($lDelete) {
+					$lStockService->delete($lBon->getStoId());
+					$lDetailOperationService->delete($lBon->getDopeId());
+>>>>>>> .merge-right.r75
 				}
 			}
 			
+<<<<<<< .working
 			// Maj des infos du stock Solidaire
 			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteProducteur);
 			foreach($lProduits as $lProduit) {
@@ -292,6 +454,92 @@ class BonDeLivraisonControleur
 					$lStockService->delete($lBon->getStoId());
 				}
 			}
+=======
+			// Maj des infos du stock Solidaire			
+			$lProduitMarche = $lMarche->getProduits();
+			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme);
+			foreach($lProduits as $lProduit) {
+				$lMaj = false;
+				foreach($lStockSolidaire as $lBon) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lMaj = true;
+						
+						$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+						$lStock = new StockVO();
+						$lStock->setId($lBon->getStoId());
+						$lStock->setQuantite($lProduit["quantiteSolidaire"]);
+						$lStock->setType(2);
+						$lStock->setIdCompte($lIdCompteFerme);
+						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdOperation($lIdOperation);
+						$lStockService->set($lStock);
+						
+						// Ajout du produit dans le stock solidaire
+						$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
+						$lStockSolidaire = new StockSolidaireVO();
+						$lQuantite = $lProduit["quantiteSolidaire"];
+						if(!is_null($lStockSolidaireActuel->getId())) {
+							$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+							$lQuantite = $lStockSolidaireActuel->getQuantite() + $lProduit["quantiteSolidaire"] - $lBon->getStoQuantite();
+						}					
+						$lStockSolidaire->setQuantite($lQuantite);
+						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setSolidaire($lStockSolidaire);
+					}
+				}
+				if(!$lMaj) {
+					$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+					
+					$lStock = new StockVO();
+					$lStock->setQuantite($lProduit["quantiteSolidaire"]);
+					$lStock->setType(2);
+					$lStock->setIdCompte($lIdCompteFerme);
+					$lStock->setIdDetailCommande($lDcom[0]->getId());
+					$lStock->setIdOperation($lIdOperation);
+					$lStockService->set($lStock);
+
+					// Ajout du produit dans le stock solidaire
+					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
+					$lStockSolidaire = new StockSolidaireVO();
+					$lQuantite = $lProduit["quantiteSolidaire"];
+					if(!is_null($lStockSolidaireActuel->getId())) {
+						$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+						$lQuantite += $lStockSolidaireActuel->getQuantite();
+					}					
+					$lStockSolidaire->setQuantite($lQuantite);
+					$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setSolidaire($lStockSolidaire);
+					
+				}			
+			}
+			foreach($lStockSolidaire as $lBon) {
+				$lDelete = true;
+				foreach($lProduits as $lProduit) {
+					if($lProduit["id"] == $lBon->getProId()) {
+						$lDelete = false;
+					}
+				}
+				if($lDelete) {
+					$lStockService->delete($lBon->getStoId());
+					
+					// Si le produit est dans le stck solidaire on le supprime
+					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockSolidaireActuel = $lStockSolidaireActuel[0];	
+					if(!is_null($lStockSolidaireActuel->getId())) {
+						$lStockSolidaire = new StockSolidaireVO();
+						$lStockSolidaire->setId($lStockSolidaireActuel->getId());
+						$lStockSolidaire->setQuantite($lStockSolidaireActuel->getQuantite() - $lProduit["quantiteSolidaire"] );
+						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setSolidaire($lStockSolidaire);
+					}					
+				}
+			}
+>>>>>>> .merge-right.r75
 		}
 		return $lVr;
 	}
@@ -315,13 +563,25 @@ class BonDeLivraisonControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
+<<<<<<< .working
 				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
 					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
+=======
+				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
+>>>>>>> .merge-right.r75
 						$lNomPrdt = "";
 					} else {
+<<<<<<< .working
 						if($lIdPrdt != 0) {
 							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();
+=======
+						if($lIdPrdt != 0) {							
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdPrdt);
+							$lOperation = $lOperations[0];
+>>>>>>> .merge-right.r75
 							
+<<<<<<< .working
 							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
 							$lOperation = $lOperations[0];
 							
@@ -333,8 +593,18 @@ class BonDeLivraisonControleur
 							}
 							array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
 							array_push($lContenuTableau,"","","","","","","","");
+=======
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+							if(!is_null($lOperation->getId())) {
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+							} else {
+								$lOperation->setMontant("");
+							}
+							array_push($lContenuTableau,"","","","","Total : ",utf8_decode($lOperation->getMontant() ),SIGLE_MONETAIRE_PDF,"","");
+							array_push($lContenuTableau,"","","","","","","","","");
+>>>>>>> .merge-right.r75
 						}
-						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
+						$lNomPrdt = $lLigne->getFerNom();
 					}
 
 					$lQuantite = '';
@@ -375,6 +645,7 @@ class BonDeLivraisonControleur
 					
 					array_push($lContenuTableau,	
 											utf8_decode($lNomPrdt),
+											utf8_decode($lLigne->getNproNumero()),
 											utf8_decode($lLigne->getNproNom()),
 											utf8_decode($lQuantiteLivraison),
 											utf8_decode($lUniteQuantiteLivraison),
@@ -384,10 +655,15 @@ class BonDeLivraisonControleur
 											utf8_decode($lUniteQuantiteSolidaire)
 											);
 											
+<<<<<<< .working
 					$lIdPrdt = $lLigne->getProIdCompteProducteur();
+=======
+					$lIdPrdt = $lLigne->getProIdCompteFerme();
+>>>>>>> .merge-right.r75
 				}
 			}
 			
+<<<<<<< .working
 			// Pour la dernière ligne			
 			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
 			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
@@ -398,11 +674,27 @@ class BonDeLivraisonControleur
 			} else {
 				$lOperation->setMontant("");
 			}
+=======
+			// Pour la dernière ligne			
+			$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
+			$lOperation = $lOperations[0];		
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+			if(!is_null($lOperation->getId())) {
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			} else {
+				$lOperation->setMontant("");
+			}
+>>>>>>> .merge-right.r75
 			
+<<<<<<< .working
 			array_push($lContenuTableau,"","","","Total : ",utf8_decode($lOperation->getMontant()),SIGLE_MONETAIRE_PDF,"","");
+=======
+			array_push($lContenuTableau,"","","","","Total : ",utf8_decode($lOperation->getMontant()),SIGLE_MONETAIRE_PDF,"","");
+>>>>>>> .merge-right.r75
 								
 			// Contenu du header du tableau.	
-			$lContenuHeader = array(30, 30, 20, 15, 20, 7, 20, 10, "Producteur","Produit",utf8_decode("Qté"),"","Prix","","Solidaire","");
+			$lContenuHeader = array(30, 30, 30, 20, 15, 20, 7, 20, 10, "Producteur","Ref.", "Produit", utf8_decode("Qté"),"","Prix","","Solidaire","");
 			
 			// Préparation du PDF
 			$PDF=new phpToPDF();
@@ -475,7 +767,7 @@ class BonDeLivraisonControleur
 			$lCSV->setNom('Bon_de_Livraison.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Producteur","Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
+			$lEntete = array("Ferme","Ref.", "Produit","Commande","","Prix","","Livraison","","Prix","","Solidaire","");
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
@@ -488,11 +780,17 @@ class BonDeLivraisonControleur
 			$lContenuTableau = array();
 			$lIdPrdt = 0;
 			foreach($lLignesBonLivraison as $lLigne) {
+<<<<<<< .working
 				if($lLigne->getProIdCompteProducteur() != NULL) { // évite les lignes vides
 					if($lLigne->getProIdCompteProducteur() == $lIdPrdt) {
+=======
+				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
+					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
+>>>>>>> .merge-right.r75
 						$lNomPrdt = "";
 					} else {
 						if($lIdPrdt != 0) {
+<<<<<<< .working
 							$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();							
 							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
 							$lOperation = $lOperations[0];
@@ -504,13 +802,41 @@ class BonDeLivraisonControleur
 								$lOperation->setMontant("");
 							}
 							
+=======
+							/*$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
+							$lOperation = $lOperations[0];
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+							if(!is_null($lOperation->getId())) {
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+							} else {
+								$lOperation->setMontant("");
+							}*/					
+							$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdPrdt);
+							$lOperation = $lOperations[0];
+							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
 							
+							if(!is_null($lOperation->getId())) {
+							/*	$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
+								$lOperation = $lOperationService->get($lIds[0]);*/
+								
+								$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+							} else {
+								$lOperation->setMontant("");
+							}
+							
+>>>>>>> .merge-right.r75
+							
+<<<<<<< .working
 							$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+=======
+							$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+>>>>>>> .merge-right.r75
 							array_push($lContenuTableau,$lLignecontenu);
-							$lLignecontenu = array("","","","","","","","","","","","");
+							$lLignecontenu = array("","","","","","","","","","","","","");
 							array_push($lContenuTableau,$lLignecontenu);
 						}
-						$lNomPrdt = $lLigne->getPrdtPrenom() . " " . $lLigne->getPrdtNom();
+						$lNomPrdt = $lLigne->getFerNom();
 					}
 
 					$lQuantite = '';
@@ -570,6 +896,7 @@ class BonDeLivraisonControleur
 					}
 
 					$lLignecontenu = array(	$lNomPrdt,
+											$lLigne->getNproNumero(),
 											$lLigne->getNproNom(),
 											$lQuantite,
 											$lUniteQuantite,
@@ -584,9 +911,14 @@ class BonDeLivraisonControleur
 											);
 					
 					array_push($lContenuTableau,$lLignecontenu);
+<<<<<<< .working
 					$lIdPrdt = $lLigne->getProIdCompteProducteur();
+=======
+					$lIdPrdt = $lLigne->getProIdCompteFerme();
+>>>>>>> .merge-right.r75
 				}
 			}
+<<<<<<< .working
 
 			$lIdCompteProducteur = $lLigne->getProIdCompteProducteur();			
 			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteProducteur);
@@ -597,9 +929,25 @@ class BonDeLivraisonControleur
 			} else {
 				$lOperation->setMontant("");
 			}
+=======
+
+			$lIdCompteFerme = $lLigne->getProIdCompteFerme();			
+			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
+			$lOperation = $lOperations[0];
+			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
+			if(!is_null($lOperation->getId())) {
+				$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			} else {
+				$lOperation->setMontant("");
+			}
+>>>>>>> .merge-right.r75
 			
 			
+<<<<<<< .working
 			$lLignecontenu = array("","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+=======
+			$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
+>>>>>>> .merge-right.r75
 			array_push($lContenuTableau,$lLignecontenu);
 			
 			$lCSV->setData($lContenuTableau);

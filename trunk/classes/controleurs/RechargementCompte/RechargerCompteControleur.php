@@ -80,7 +80,11 @@ class RechargerCompteControleur
 			$lOperation->setLibelle("Rechargement");
 			$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 			$lOperation->setTypePaiement($pParam['typePaiement']);		
+<<<<<<< .working
 			$lOperation->setTypePaiementChampComplementaire($pParam['champComplementaire']);
+=======
+			$lOperation->setTypePaiementChampComplementaire($pParam['champComplementaire']);	
+>>>>>>> .merge-right.r75
 			$lOperation->setIdCommande(0);
 			$lOperationService = new OperationService();
 			$lOperationService->set($lOperation);

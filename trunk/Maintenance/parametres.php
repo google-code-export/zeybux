@@ -1,12 +1,8 @@
 <?php
-
-define("MYSQL_HOST", "localhost");
-define("MYSQL_LOGIN", "zeybu");
-define("MYSQL_PASS", "zeybu");
-define("MYSQL_DBNOM", "zeybu");
+include("./DB.php");
 
 // Dump MySQL et File
-define("MYSQL_DUMP", "./dump/");
+//define("MYSQL_DUMP", "./dump/");
 define("FILE_DUMP", "./ancien");
 
 // Upload
@@ -23,4 +19,7 @@ define("FILE_UPDATE_BDD", DOSSIER_EXTRACT . "/update.sql");
 // Configuration
 define("DOSSIER_CONFIGURATION", "./configuration");
 define("DOSSIER_SITE_CONFIGURATION", DOSSIER_SITE . "configuration");
+
+define("DOSSIER_SITE_UTILS", DOSSIER_SITE . "classes/utils/");
+define("DOSSIER_SITE_LOGS", DOSSIER_SITE . "logs/");
 ?>

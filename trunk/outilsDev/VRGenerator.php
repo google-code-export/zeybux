@@ -880,6 +880,7 @@ if(isset($_POST['nom'])) {
 	fwrite($fp,"\t}\n\n");	
 	
 	fwrite($fp,"}");
+	fwrite($fp,"?>");
 	fclose($fp);
 	
 	

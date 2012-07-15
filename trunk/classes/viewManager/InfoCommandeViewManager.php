@@ -18,6 +18,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 
+define("VUE_INFOCOMMANDE", MYSQL_DB_PREFIXE . "view_info_commande");
 /**
  * @name InfoCommandeViewManager
  * @author Julien PIERRE
@@ -27,8 +28,13 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
  */
 class InfoCommandeViewManager
 {
+<<<<<<< .working
 	const VUE_INFOCOMMANDE = "view_info_commande";
 	const CHAMP_INFO_COMMANDE_OPERATION_MONTANT = "dope_montant_livraison";
+=======
+	const VUE_INFOCOMMANDE = VUE_INFOCOMMANDE;
+	const CHAMP_INFO_COMMANDE_OPERATION_MONTANT = "dope_montant_livraison";
+>>>>>>> .merge-right.r75
 	const CHAMP_INFO_COMMANDE_STOCK_QUANTITE = "sto_quantite_livraison";
 	const CHAMP_INFO_COMMANDE_STOCK_QUANTITE_SOLIDAIRE = "sto_quantite_solidaire";
 	const CHAMP_INFO_COMMANDE_STOCK_QUANTITE_VENTE = "sto_quantite_vente";
@@ -50,8 +56,13 @@ class InfoCommandeViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
@@ -75,8 +86,13 @@ class InfoCommandeViewManager
 				array_push($lListeInfoCommande,
 					InfoCommandeViewManager::remplir(
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+<<<<<<< .working
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -107,8 +123,13 @@ class InfoCommandeViewManager
 		$lRequete =
 			"SELECT "
 			    . CommandeManager::CHAMP_COMMANDE_ID . 
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR . 
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
@@ -131,8 +152,13 @@ class InfoCommandeViewManager
 				array_push($lListeInfoCommande,
 					InfoCommandeViewManager::remplir(
 					$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+<<<<<<< .working
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+					$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 					$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+					$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 					$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -169,8 +195,13 @@ class InfoCommandeViewManager
 		// Préparation de la requète
 		$lChamps = array( 
 			    CommandeManager::CHAMP_COMMANDE_ID .
+<<<<<<< .working
 			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR .
+=======
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
+>>>>>>> .merge-right.r75
 			"," . ProduitManager::CHAMP_PRODUIT_ID .
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
 			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
@@ -200,8 +231,13 @@ class InfoCommandeViewManager
 					array_push($lListeInfoCommande,
 						InfoCommandeViewManager::remplir(
 						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+<<<<<<< .working
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_PRODUCTEUR],
+=======
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+>>>>>>> .merge-right.r75
 						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
 						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
@@ -226,10 +262,15 @@ class InfoCommandeViewManager
 	}
 
 	/**
+<<<<<<< .working
 	* @name remplir($pComId, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire)
+=======
+	* @name remplir($pComId, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire)
+>>>>>>> .merge-right.r75
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
+	* @param tinyint(4)
 	* @param varchar(20)
 	* @param varchar(50)
 	* @param decimal(10,2)
@@ -244,11 +285,20 @@ class InfoCommandeViewManager
 	* @return InfoCommandeViewVO
 	* @desc Retourne une InfoCommandeViewVO remplie
 	*/
+<<<<<<< .working
 	private static function remplir($pComId, $pProIdCompteProducteur, $pProId, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire) {
+=======
+	private static function remplir($pComId, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNom, $pOpeMontant, $pStoQuantite, $pOpeMontantLivraison, $pStoQuantiteLivraison, $pStoQuantiteSolidaire, $pStoQuantiteVente, $pStoQuantiteVenteSolidaire, $pOpeMontantVente, $pOpeMontantVenteSolidaire) {
+>>>>>>> .merge-right.r75
 		$lInfoCommande = new InfoCommandeViewVO();
 		$lInfoCommande->setComId($pComId);
+<<<<<<< .working
 		$lInfoCommande->setProIdCompteProducteur($pProIdCompteProducteur);
+=======
+		$lInfoCommande->setProIdCompteFerme($pProIdCompteFerme);
+>>>>>>> .merge-right.r75
 		$lInfoCommande->setProId($pProId);
+		$lInfoCommande->setProType($pProType);
 		$lInfoCommande->setProUniteMesure($pProUniteMesure);
 		$lInfoCommande->setNproNom($pNproNom);
 		$lInfoCommande->setOpeMontant($pOpeMontant);

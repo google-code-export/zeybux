@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
 /*AjoutCommande*/
 #formulaire_ajout_commande_ext {
-	width:800px;
-	margin-left:100px;
+	width:850px;
+	margin-left:75px;
 }
 
 .lots-section {
@@ -29,4 +29,18 @@
 
 .btn-valider {
 	padding:3px;
+}
+
+#pro-idFerme, #pro-idCategorie, #pro-idProduit {
+	width:285px;
+	display:inline-block
+}
+
+#prix-stock-produit {
+	clear:left;
+	margin-top:55px;
+}
+
+.pro-form-input-lot {
+	width:90px;
 }

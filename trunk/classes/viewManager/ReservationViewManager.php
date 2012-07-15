@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
+define("VUE_RESERVATION", MYSQL_DB_PREFIXE . "view_reservation");
 /**
  * @name ReservationViewManager
  * @author Julien PIERRE
@@ -28,7 +29,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
  */
 class ReservationViewManager
 {
-	const VUE_RESERVATION = "view_reservation";
+	const VUE_RESERVATION = VUE_RESERVATION;
 
 	/**
 	* @name select($pId)
@@ -54,6 +55,7 @@ class ReservationViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_ID .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+			"," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL .
 			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ReservationViewManager::VUE_RESERVATION . " 
 			WHERE " . CommandeManager::CHAMP_COMMANDE_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -77,6 +79,7 @@ class ReservationViewManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 			}
 		} else {
@@ -107,6 +110,7 @@ class ReservationViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_ID .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+			"," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL .
 			"," . CompteManager::CHAMP_COMPTE_LABEL . "
 			FROM " . ReservationViewManager::VUE_RESERVATION;
 
@@ -129,6 +133,7 @@ class ReservationViewManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+					$lLigne[AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 			}
 		} else {
@@ -212,6 +217,7 @@ class ReservationViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_ID .
 			"," . AdherentManager::CHAMP_ADHERENT_NOM .
 			"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+			"," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL .
 			"," . CompteManager::CHAMP_COMPTE_LABEL);
 				
 		// Préparation de la requète de recherche
@@ -240,6 +246,7 @@ class ReservationViewManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+						$lLigne[AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL],
 						$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
 				}
 			} else {
@@ -253,7 +260,7 @@ class ReservationViewManager
 	}
 
 	/**
-	* @name remplir($pComId, $pProId, $pStoId, $pStoQuantite, $pProUniteMesure, $pStoType, $pStoIdCompte, $pDcomId, $pAdhId, $pAdhNom, $pAdhPrenom, $pCptLabel)
+	* @name remplir($pComId, $pProId, $pStoId, $pStoQuantite, $pProUniteMesure, $pStoType, $pStoIdCompte, $pDcomId, $pAdhId, $pAdhNom, $pAdhPrenom, $pAdhTelephonePrincipal, $pCptLabel)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -265,11 +272,12 @@ class ReservationViewManager
 	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(50)
+	* @param varchar(20)
 	* @param varchar(30)
 	* @return ReservationViewVO
 	* @desc Retourne une ReservationViewVO remplie
 	*/
-	private static function remplir($pComId, $pProId, $pStoId, $pStoQuantite, $pProUniteMesure, $pStoType, $pStoIdCompte, $pDcomId, $pAdhId, $pAdhNom, $pAdhPrenom, $pCptLabel) {
+	private static function remplir($pComId, $pProId, $pStoId, $pStoQuantite, $pProUniteMesure, $pStoType, $pStoIdCompte, $pDcomId, $pAdhId, $pAdhNom, $pAdhPrenom, $pAdhTelephonePrincipal, $pCptLabel) {
 		$lReservation = new ReservationViewVO();
 		$lReservation->setComId($pComId);
 		$lReservation->setProId($pProId);
@@ -282,6 +290,7 @@ class ReservationViewManager
 		$lReservation->setAdhId($pAdhId);
 		$lReservation->setAdhNom($pAdhNom);
 		$lReservation->setAdhPrenom($pAdhPrenom);
+		$lReservation->setAdhTelephonePrincipal($pAdhTelephonePrincipal);
 		$lReservation->setCptLabel($pCptLabel);
 		return $lReservation;
 	}

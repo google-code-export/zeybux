@@ -1,7 +1,7 @@
 ;function AdherentVO() {
 	this.id = '';
-	this.motPasse = '';
-	this.motPasseConfirm = '';
+	/*this.motPasse = '';
+	this.motPasseConfirm = '';*/
 	this.numero = '';
 	this.compte = '';
 	this.nom = '';

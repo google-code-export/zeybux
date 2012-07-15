@@ -25,14 +25,25 @@ class CompteZeybuControleur
 	* @name getInfoCompte()
 	* @desc Donne les infos sur le compte du zeybu
 	*/
+<<<<<<< .working
 	public function getInfoCompte() {	
 		$lCompteService = new CompteService();
 		$lOperationService = new OperationService();
 		$lSoldeTotal = $lCompteService->get(-1)->getSolde();
 		$lSoldeCaisse = $lOperationService->getSoldeCaisse();
 		$lSoldeBanque = $lOperationService->getSoldeBanque();
+=======
+	public function getInfoCompte() {	
+		$lCompteService = new CompteService();
+		$lOperationService = new OperationService();
+		$lSoldeSolidaire = $lCompteService->get(-2)->getSolde();
+		$lSoldeTotal = $lCompteService->get(-1)->getSolde();
+		$lSoldeCaisse = $lOperationService->getSoldeCaisse();
+		$lSoldeBanque = $lOperationService->getSoldeBanque();
+>>>>>>> .merge-right.r75
 		
 		$lResponse = new InfoCompteZeybuResponse();
+		$lResponse->setSoldeSolidaire($lSoldeSolidaire);
 		$lResponse->setSoldeTotal($lSoldeTotal);
 		$lResponse->setSoldeCaisse($lSoldeCaisse);
 		$lResponse->setSoldeBanque($lSoldeBanque);

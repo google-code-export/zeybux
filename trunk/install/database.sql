@@ -1002,7 +1002,11 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIE
 --
 DROP TABLE IF EXISTS `view_gestion_commande_reservation_producteur`;
 
+<<<<<<< .working
 CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_gestion_commande_reservation_producteur` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id` from ((`pro_produit` join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`))) where (`sto_stock`.`sto_type` = 0);
+=======
+CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_gestion_commande_reservation_producteur` AS select `pro_produit`.`pro_id_commande` AS `pro_id_commande`,`pro_produit`.`pro_id_compte_producteur` AS `pro_id_compte_producteur`,`pro_produit`.`pro_id` AS `pro_id`,`sto_stock`.`sto_id` AS `sto_id` from ((`pro_produit` join `dcom_detail_commande` on((`dcom_detail_commande`.`dcom_id_produit` = `pro_produit`.`pro_id`))) join `sto_stock` on(((`sto_stock`.`sto_id_detail_commande` = `dcom_detail_commande`.`dcom_id`) and (`sto_stock`.`sto_id_compte` = `pro_produit`.`pro_id_compte_producteur`)))) where (`sto_stock`.`sto_type` = 0);
+>>>>>>> .merge-right.r75
 
 -- --------------------------------------------------------
 
@@ -1101,7 +1105,11 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIE
 --
 DROP TABLE IF EXISTS `view_marche_liste_reservation`;
 
+<<<<<<< .working
 CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_marche_liste_reservation` AS select `ope_operation`.`ope_id_compte` AS `ope_id_compte`,`com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from (`com_commande` left join `ope_operation` on((`ope_operation`.`ope_id_commande` = `com_commande`.`com_id`))) where ((`com_commande`.`com_date_fin_reservation` >= now()) and (`com_commande`.`com_archive` = 0) and (`ope_operation`.`ope_type_paiement` = 0));
+=======
+CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `view_marche_liste_reservation` AS select `ope_operation`.`ope_id_compte` AS `ope_id_compte`,`com_commande`.`com_id` AS `com_id`,`com_commande`.`com_numero` AS `com_numero`,`com_commande`.`com_nom` AS `com_nom`,`com_commande`.`com_date_fin_reservation` AS `com_date_fin_reservation`,`com_commande`.`com_date_marche_debut` AS `com_date_marche_debut`,`com_commande`.`com_date_marche_fin` AS `com_date_marche_fin` from (`com_commande` left join `ope_operation` on((`ope_operation`.`ope_id_commande` = `com_commande`.`com_id`))) where ((`com_commande`.`com_archive` = 0) and (`ope_operation`.`ope_type_paiement` = 0));
+>>>>>>> .merge-right.r75
 
 -- --------------------------------------------------------
 

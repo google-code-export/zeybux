@@ -7,17 +7,19 @@
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
 				  	Infobulle.init(); // Supprime les erreurs
-					if(lResponse.valid) {	
-						if(pParam && pParam.vr) {
-							Infobulle.generer(pParam.vr,'');
+				  	if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficherNouveau(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
 						}
-						that.afficherNouveau(lResponse);
-					} else {
-						Infobulle.generer(lResponse,'');
-					}
+				  	}
 				},"json"
 		);
-	}	
+	};
 	
 	
 	/******* Nouveau Module *********/
@@ -28,15 +30,15 @@
 		if(pMenu.admin){
 			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
 		}
-	}
+	};
 	
 	this.genererLienDeconnexion = function() {
 		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	}
+	};
 	
 	this.genererNouveauMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
@@ -54,17 +56,17 @@
 		
 		lMenu = this.affectVues(lMenu);
 		return lMenu;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 	
 	this.genererNouveauModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	}
+	};
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
@@ -72,15 +74,15 @@
 		});
 		pData = this.affectHover(pData);
 		return pData;
-	}
+	};
 	/******* Fin Nouveau Module *********/
-	this.afficher = function(pMenu) {
+	/*this.afficher = function(pMenu) {
 		var that = this;	
 		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
 		$('#site').append(that.mMenuTemplate.deconnexion);
-	}
+	};*/
 	
-	this.genererMenu = function(pMenu) {
+	/*this.genererMenu = function(pMenu) {
 		var lMenu = this.mMenuTemplate.debutMenu;
 		lMenu += this.genererModule(pMenu);
 		lMenu += this.mMenuTemplate.finMenu;
@@ -90,12 +92,12 @@
 		lMenu = this.affectVues(lMenu);
 		lMenu = this.affectAnimation(lMenu);
 		return lMenu;
-	}
+	};*/
 	
-	this.genererModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.module;
 		return lTemplate.template(pModule);		
-	}
+	};*/
 	
 	/*this.affectAnimation = function(pData) {
 		var that = this;
@@ -123,13 +125,28 @@
 				return false;
 			});			
 			
-			pData.find('#menu-Commande-MesCommandes').click(function() {
-				ListeReservationVue();
+			pData.find('#menu-Commande-MesAchats').click(function() {
+				MesAchatsVue();
 				return false;
 			});
 			
-			pData.find('#menu-Commande-ListeCommande').click(function() {
-				ListeCommandeVue();
+			pData.find('#menu-Commande-MonMarche').click(function() {
+				MonMarcheVue();
+				return false;
+			});
+			
+			pData.find('#menu-Caisse-CaisseListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteSolidaire-CompteSolidaire').click(function() {
+				CompteSolidaireVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteSolidaire-ListeAdherent').click(function() {
+				CompteSolidaireListeAdherentVue();
 				return false;
 			});
 			
@@ -151,7 +168,7 @@
 			return pData;
 		}
 		return null;
-	}
+	};
 	
 	this.construct(pParam);
 }
