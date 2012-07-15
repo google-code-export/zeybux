@@ -54,6 +54,7 @@ class OperationService
 	private function insert($pOperation) {
 		
 		$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+		$pOperation->setIdLogin($_SESSION[DROIT_ID]);
 		
 		$lId = OperationManager::insert($pOperation); // Ajout de l'opération
 		$pOperation->setId($lId);
@@ -78,7 +79,8 @@ class OperationService
 	*/
 	private function update($pOperation) {
 		
-		$pOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
+		$pOperation->setDateMaj(StringUtils::dateTimeAujourdhuiDb());
+		$pOperation->setIdLogin($_SESSION[DROIT_ID]);
 		
 		$this->insertHistorique($pOperation); // Ajout historique
 		

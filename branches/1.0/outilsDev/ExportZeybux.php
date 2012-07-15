@@ -617,7 +617,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				            $insertions .= "INSERT INTO {PREFIXE}cpt_compte (`cpt_id`, `cpt_label`, `cpt_solde`) VALUES
 											(-1, 'ZEYBU', '0'),
 											(-2, 'EAU', '0'),
-											(-3, 'invité', '0');\n\n";
+											(-3, 'Invité', '0'),
+											(-4, 'Zeybu Association', '0');\n\n";
 				            break;
 				            
 				        case "mod_module":    
