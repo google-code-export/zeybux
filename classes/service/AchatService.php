@@ -461,23 +461,27 @@ class AchatService
 				}
 			}
 			if(!$lTestUpdate) {
-				// Suppression du stock et du detail operation
+			// Suppression du stock et du detail operation
 				$lStockService->delete($lAchatActuelle->getId()->getIdStock());
 				$lDetailOperationService->delete($lAchatActuelle->getId()->getIdDetailOperation());
 				
-				$lDetail = DetailMarcheViewManager::selectByLot($lAchatActuelle->getId()->getIdDetailOperation());
+				// Maj de la qté produit dans le stock solidaire
+				$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lAchatActuelle->getIdNomProduit(),$lAchatActuelle->getUnite());
+				$lStockSolidaireActuel = $lStockSolidaireActuel[0];
+
+			//	$lDetail = DetailMarcheViewManager::selectByLot($lAchatActuelle->getId()->getIdDetailOperation());
 				
 				// Maj de la qté produit dans le stock solidaire				
-				$lStock = $lStockService->get($lDetail->getId()->getIdStock());
+			/*	$lStock = $lStockService->get($lDetail->getId()->getIdStock());
 				$lDetailMarche = DetailMarcheViewManager::selectByLot($lStock->getIdDetailCommande());
-				$lDetailMarche = $lDetailMarche[0];	
+				$lDetailMarche = $lDetailMarche[0];	*/
 		
 				$lStockSolidaire = new StockSolidaireVO();
 				if(!is_null($lStockSolidaireActuel->getId())) {
 					$lStockSolidaire->setId($lStockSolidaireActuel->getId());
 					$lStockSolidaire->setQuantite($lStockSolidaireActuel->getQuantite() - $lAchatActuelle->getQuantite());
-					$lStockSolidaire->setIdNomProduit($lDetail->getProIdNomProduit());
-					$lStockSolidaire->setUnite($lDetail->getProUniteMesure());
+					$lStockSolidaire->setIdNomProduit($lStockSolidaireActuel->getProIdNomProduit());
+					$lStockSolidaire->setUnite($lStockSolidaireActuel->getProUniteMesure());
 					$lStockService->setSolidaire($lStockSolidaire);
 				}
 				
