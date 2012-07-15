@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+#compte_adherent_premiere_colonne {
+	margin-right:20px;
+	width:350px;
+}
+
+#compte_adherent_seconde_colonne {
+	width:610px;
+}
+
+#formulaire_ajout_operation_adherent_int {
+	margin-top:10px;
+	margin-left:65px;
+	width:480px;
+}
+
+#fin_premiere_colonne{
+	clear:left;
+}
+
+/*.compte-adh-btn-edt-compte {
+	margin-right:4px;
+	position:relative;
+	float:right;
+	margin-top:1px;
+}*/
