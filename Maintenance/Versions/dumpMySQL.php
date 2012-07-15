@@ -149,8 +149,10 @@ function dumpMySQL($serveur, $login, $password, $base, $pDossier, $mode)
 		            $insertions .= "-- insertions dans la table ".$table[0]."\n";
 		            $insertions .= "-- -----------------------------\n";
 		            $insertions .= "INSERT INTO cpt_compte (`cpt_id`, `cpt_label`, `cpt_solde`) VALUES
-									(-1, 'ZEYBU', '0'),
-									(-2, 'EAU', '0');\n\n";
+									(-1, 'Zeybu Marché', '0'),
+									(-2, 'EAU', '0'),
+									(-3, 'Invité', '0'),
+									(-4, 'Zeybu Association', '0');\n\n";
 		            break;
 		            
 		        case "mod_module":    

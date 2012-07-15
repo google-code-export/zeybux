@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 24/05/2010
+// Date de creation : 15/07/2012
 // Fichier : OperationVO.php
 //
 // Description : Classe OperationVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name OperationVO
  * @author Julien PIERRE
- * @since 24/05/2010
+ * @since 15/07/2012
  * @desc Classe représentant une OperationVO
  */
-class OperationVO extends DataTemplate
+class OperationVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
