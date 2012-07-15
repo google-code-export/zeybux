@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+#info_compte_solde_adherent_ext {
+	float:left;
+	margin-right:10px;
+	width:350px;
+}
+
+#liste_operation_adherent_ext {
+	float:left;
+	width:620px;
+}
+
+#fin_moncompte {
+	clear:left;
+}
+
+.td-montant {
+	width:80px;
+	text-align:right;
+}
+
+.td-date {
+	width:90px;
+	text-align:left;
+}
+
+.td-libelle {
+	width:150px;
+	text-align:left;
+}
+
+.td-type-paiement {
+	text-align:left;
+}
+
+.input-edt-compte {
+	width:190px;
+}

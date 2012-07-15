@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+#formulaire_modifier_adherent_int {
+	width:700px;
+	margin-left:150px;
+}
+
+#formulaire_modifier_adherent_int table {
+	margin-left:50px;
+}
+
+#formulaire_modifier_adherent_int table th {
+	width:300px;
+}
+
+#formulaire-modifier-adherent-table-autorisation {
+	width:450px;
+	padding-left:150px;
+}
