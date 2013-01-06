@@ -18,7 +18,7 @@
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ExportBonLivraisonVR();

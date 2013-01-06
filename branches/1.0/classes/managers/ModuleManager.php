@@ -125,6 +125,33 @@ class ModuleManager
 			array('ASC'));
 	}
 	
+	/**
+	 * @name selectAllDefautVisible()
+	 * @return array(ModuleVO)
+	 * @desc Récupères toutes les lignes de la table qui ont le statut visible à 1 et défaut à 1 et les renvoie sous forme d'une collection de ModuleVO
+	 */
+	public static function selectAllDefautVisible() {
+		return ModuleManager::recherche(
+				array(ModuleManager::CHAMP_MOD_DEFAUT,ModuleManager::CHAMP_MOD_VISIBLE),
+				array('=','='),
+				array(1,1),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	 * @name selectAllNonDefautVisible()
+	 * @return array(ModuleVO)
+	 * @desc Récupères toutes les lignes de la table qui ont le statut visible à 1 et défaut à 0 et les renvoie sous forme d'une collection de ModuleVO
+	 */
+	public static function selectAllNonDefautVisible() {
+		return ModuleManager::recherche(
+				array(ModuleManager::CHAMP_MOD_DEFAUT,ModuleManager::CHAMP_MOD_VISIBLE),
+				array('=','='),
+				array(0,1),
+				array(''),
+				array(''));
+	}	
 	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

@@ -185,6 +185,42 @@ class AutorisationManager
 	}
 
 	/**
+	 * @name insertByArray($pVo)
+	 * @param array(AutorisationVO)
+	 * @desc Insère une nouvelle ligne dans la table, à partir des informations de la AutorisationVO en paramètre (l'id sera automatiquement calculé par la BDD)
+	 */
+	public static function insertByArray($pVo) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+	
+		if(is_array($pVo)) {
+			$lRequete =
+			"INSERT INTO " . AutorisationManager::TABLE_AUTORISATION . " 
+					(" . AutorisationManager::CHAMP_AUT_ID . "
+					," . AutorisationManager::CHAMP_AUT_ID_ADHERENT . "
+					," . AutorisationManager::CHAMP_AUT_ID_MODULE . ") 
+			VALUES ";
+			$lTaille = count($pVo);
+			foreach($pVo as $lAutorisation) {
+				$lTaille--;
+				if($lTaille > 0) {
+					$lRequete .= "(NULL
+					,'" . StringUtils::securiser( $lAutorisation->getIdAdherent() ) ."'
+					,'" . StringUtils::securiser( $lAutorisation->getIdModule() ) ."'),";
+				} else {
+					$lRequete .= "(NULL
+					,'" . StringUtils::securiser( $lAutorisation->getIdAdherent() ) ."'
+					,'" . StringUtils::securiser( $lAutorisation->getIdModule() ) ."');";
+				}
+			}
+	
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			return Dbutils::executerRequete($lRequete);
+		}
+	}
+	
+	/**
 	* @name update($pVo)
 	* @param AutorisationVO
 	* @desc Met à jour la ligne de la table, correspondant à l'id du AutorisationVO, avec les informations du AutorisationVO
@@ -216,6 +252,36 @@ class AutorisationManager
 				WHERE " . AutorisationManager::CHAMP_AUT_ID . " = '". StringUtils::securiser($pId) . "'";
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
+	}
+	
+	/**
+	* @name deleteByArray($pIds)
+	* @param array(integer)
+	* @desc Supprime la ligne de la table correspondant aux id en paramètre
+	*/
+	public static function deleteByArray($pIds) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		if(is_array($pIds)) {
+			$lRequete = 
+				"DELETE FROM " . AutorisationManager::TABLE_AUTORISATION . " 
+				WHERE " . AutorisationManager::CHAMP_AUT_ID . " in (";
+			
+			$lTaille = count($pIds);
+			foreach($pIds as $lId) {
+				$lTaille--;
+				if($lTaille > 0) {
+				 	$lRequete .= "'" . StringUtils::securiser( $lId ) . "',";
+				} else {			
+				 	$lRequete .= "'" . StringUtils::securiser( $lId ) . "'";
+				}
+			}
+			$lRequete .= ");";
+	
+			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+			Dbutils::executerRequete($lRequete);
+		}
 	}
 }
 ?>

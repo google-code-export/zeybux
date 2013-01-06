@@ -18,7 +18,7 @@ function CompteSolidaireVirementValid() {
 		if(parseFloat(pData.montant) > parseFloat(pData.solde) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteSolidaireModifierVirementVR();
@@ -42,7 +42,7 @@ function CompteSolidaireVirementValid() {
 		if(parseFloat(pData.montant) > (parseFloat(pData.solde) + parseFloat(pData.montantActuel)) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteSolidaireSupprimerVirementVR();
@@ -54,5 +54,5 @@ function CompteSolidaireVirementValid() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

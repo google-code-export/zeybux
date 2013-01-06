@@ -22,7 +22,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -49,9 +49,7 @@
 			}
 		});
 						
-		var lGestionProducteurTemplate = new GestionProducteurTemplate();
-		var lCommunTemplate = new CommunTemplate();
-		
+		var lGestionProducteurTemplate = new GestionProducteurTemplate();		
 		lHtml = $(lGestionProducteurTemplate.informationFerme.template(lResponse));
 				
 		// Ne pas afficher la pagination si il y a moins de 10 éléments
@@ -68,7 +66,7 @@
 		} else {
 			$('#contenu').replaceWith(that.affect(lHtml));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectHover(pData);
@@ -80,7 +78,7 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectFerme = function(pData) {
 		pData = this.affectHover(pData);
@@ -89,7 +87,7 @@
 		pData = this.affectDate(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -102,22 +100,22 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 		
 	this.affectLienRetour = function(pData) {
 		pData.find("#btn-liste-ferme").click(function() { ListeFermeVue(); });
 		return pData;
-	}
+	};
 	
 	this.affectDate = function(pData) {
 		pData.find('#fer-dateAdhesion').datepicker({
@@ -126,7 +124,7 @@
 			maxDate: "c+1"
 			});
 		return pData;
-	}
+	};
 	
 	this.affectMenu = function(pData) {
 		var that = this;
@@ -137,12 +135,12 @@
 		pData.find('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
 		pData.find('#btn-information').addClass("ui-state-active");		
 		return pData;		
-	}
+	};
 	
 	this.affectMenuFerme = function() {
 		$('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
 		$('#btn-information').addClass("ui-state-active");
-	}
+	};
 		
 	this.affectEditionFerme = function(pData) {		
 		var that = this;
@@ -169,7 +167,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	this.modifInformation = function() {
 		var that = this;
@@ -234,7 +232,7 @@
 		} else {
 			Infobulle.generer(lVr,'fer-');
 		}
-	}
+	};
 	
 	this.affectDialogSuppFerme = function(pData) {		
 		var that = this;
@@ -284,7 +282,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 }

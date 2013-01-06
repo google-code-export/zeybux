@@ -6,7 +6,7 @@
 **    $.history._cache = 'cache.html'; // REQUIRED - location to your cache response handler (static flat files prefered)
 **    $.history.stack = {<old object>}; // OPTIONAL - prefill this with previously saved history stack (i.e. saved with session)
 */
-;(function($) {
+;(function($) {		
 	// core history plugin functionality - handles singleton instantiation and history observer interval
 	$.history = function ( store ) {
 		// init the stack if not supplied
@@ -26,12 +26,12 @@
 				'?' + $.history.cursor + '#' + $.history.cursor;
 		else
 			$('.__historyFrame').contents()[0].location.hash = '#' + $.history.cursor;
-	}
+	};
 	// initialize jhistory - the iframe controller and setinterval'd listener (pseudo observer)
 	$.history.init = function () {
 		// create the hidden iframe if not on the root window.document.body on-demand
-		$("body").append('<iframe class="__historyFrame" src="' + $.history._cache +
-			'" style="border:0px; width:0px; height:0px; visibility:hidden;" />');
+		$("body").append('<iframe class="__historyFrame" src="' + $.history._cache  +
+			'" style="border:0px; width:0px; height:0px;visibility:hidden;"  />'); /* src="' + $.history._cache */
 		// setup interval function to check for changes in "history" via iframe hash and call appropriate callback function to handle it
 		$.history.intervalId = $.history.intervalId || window.setInterval(function () {
 				// fetch current cursor from the iframe document.URL or document.location depending on browser support
@@ -51,6 +51,7 @@
 					}
 				}
 			}, 150);
-	}
+	};
+	$.history._cache = 'cache.html';
 	$($.history.init);
 })(jQuery);

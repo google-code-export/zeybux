@@ -16,13 +16,13 @@
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ProduitAchatVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -45,6 +45,6 @@
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 }

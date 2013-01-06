@@ -32,4 +32,11 @@ define("CHEMIN_JS", CHEMIN_RACINE . "/js/");
 define("CHEMIN_TEMPORAIRE", CHEMIN_RACINE . "/tmp/");
 
 define("CHEMIN_FICHIER_LOGS", CHEMIN_RACINE . "/logs/" . date('Ymd') . ".log");
+
+define("NAMESPACE_CLASSE","classe");
+define("NAMESPACE_VALIDATEUR","validateur");
+
+
+
+
 ?>

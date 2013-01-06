@@ -53,6 +53,12 @@ class AdherentVR extends DataTemplate
 
 	/**
 	 * @var VRelement
+	 * @desc IdCompte de la AdherentVR
+	 */
+	protected $mIdCompte;
+
+	/**
+	 * @var VRelement
 	 * @desc Compte de la AdherentVR
 	 */
 	protected $mCompte;
@@ -146,6 +152,7 @@ class AdherentVR extends DataTemplate
 		$this->mId = new VRelement();
 		//$this->mMotPasse = new VRelement();
 		$this->mNumero = new VRelement();
+		$this->mIdCompte = new VRelement();
 		$this->mCompte = new VRelement();
 		$this->mNom = new VRelement();
 		$this->mPrenom = new VRelement();
@@ -217,24 +224,6 @@ class AdherentVR extends DataTemplate
 	}
 
 	/**
-	* @name getMotPasse()
-	* @return VRelement
-	* @desc Renvoie le VRelement mMotPasse
-	*/
-	/*public function getMotPasse() {
-		return $this->mMotPasse;
-	}*/
-
-	/**
-	* @name setMotPasse($pMotPasse)
-	* @param VRelement
-	* @desc Remplace le mMotPasse par $pMotPasse
-	*/
-	/*public function setMotPasse($pMotPasse) {
-		$this->mMotPasse = $pMotPasse;
-	}*/
-
-	/**
 	* @name getNumero()
 	* @return VRelement
 	* @desc Renvoie le VRelement mNumero
@@ -250,6 +239,24 @@ class AdherentVR extends DataTemplate
 	*/
 	public function setNumero($pNumero) {
 		$this->mNumero = $pNumero;
+	}
+
+	/**
+	* @name getIdCompte()
+	* @return VRelement
+	* @desc Renvoie le VRelement mIdCompte
+	*/
+	public function getIdCompte() {
+		return $this->mIdCompte;
+	}
+
+	/**
+	* @name setIdCompte($pIdCompte)
+	* @param VRelement
+	* @desc Remplace le mIdCompte par $pIdCompte
+	*/
+	public function setIdCompte($pIdCompte) {
+		$this->mIdCompte = $pIdCompte;
 	}
 
 	/**

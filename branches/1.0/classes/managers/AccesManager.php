@@ -230,7 +230,7 @@ class AccesManager
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
 	}
-
+	
 	/**
 	* @name update($pVo)
 	* @param AccesVO
