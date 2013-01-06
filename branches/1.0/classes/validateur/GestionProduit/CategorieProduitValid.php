@@ -28,8 +28,8 @@ class CategorieProduitValid
 	* @desc Test la validite de l'élément
 	*/
 	public static function validAjout($pData) {
-		$lVr = new CategorieProduitVR();		
-		//Tests Techniques
+		$lVr = new CategorieProduitVR();	
+		//Tests inputs	
 		if(!isset($pData['categorieProduit'])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
@@ -38,7 +38,8 @@ class CategorieProduitValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getLog()->addErreur($lErreur);	
 		}		
-		if($lVr->getValid()) {
+		if($lVr->getValid()) {	
+			//Tests inputs	
 			if(!isset($pData['categorieProduit']['nom'])) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -56,7 +57,8 @@ class CategorieProduitValid
 				$lVr->getDescription()->addErreur($lErreur);	
 			}
 			
-			if($lVr->getValid()) {			
+			if($lVr->getValid()) {		
+				//Tests Techniques	
 				if(!TestFonction::checkLength($pData['categorieProduit']['nom'],0,50)) {
 					$lVr->setValid(false);
 					$lVr->getNom()->setValid(false);
@@ -113,7 +115,7 @@ class CategorieProduitValid
 	*/
 	public static function validUpdate($pData) {
 		$lVr = new CategorieProduitVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['categorieProduit'])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
@@ -123,6 +125,7 @@ class CategorieProduitValid
 			$lVr->getLog()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests inputs
 			if(!isset($pData['categorieProduit']['id'])) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -149,6 +152,7 @@ class CategorieProduitValid
 			}
 
 			if($lVr->getValid()) {
+				//Tests Techniques
 				if(!TestFonction::checkLength($pData['categorieProduit']['id'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getId()->setValid(false);
@@ -222,7 +226,7 @@ class CategorieProduitValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new CategorieProduitVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -232,6 +236,7 @@ class CategorieProduitValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);

@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 
+.ui-widget-content-transparent { 
+	border: 1px solid #72b42d;
+	background-color: rgba(40, 92, 0, 0.6);
+	color: #ffffff;
+	background-image:none;
+	box-shadow: 0 0 20px #555;
+}
+
 h1 {
 	font-style:italic;
 	margin:0;

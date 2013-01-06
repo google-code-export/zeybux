@@ -80,7 +80,7 @@
 			}	
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdateInformation = function(pData) { 
 		var lVR = new MarcheVR();
@@ -130,5 +130,5 @@
 		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

@@ -29,7 +29,7 @@ class ProduitBonDeLivraisonValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ProduitBonDeLivraisonVR();
-		
+		//Tests inputs		
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);

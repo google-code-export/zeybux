@@ -29,6 +29,7 @@ class DetailCommandeValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new DetailCommandeVR();
+		//Tests inputs
 		if(!isset($pData['idProduit'])) {
 			$lVr->setValid(false);
 			$lVr->getIdProduit()->setValid(false);
@@ -150,6 +151,7 @@ class DetailCommandeValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new DetailCommandeVR();	
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -159,6 +161,7 @@ class DetailCommandeValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -198,6 +201,7 @@ class DetailCommandeValid
 		$lTestId = TestFonction::validDelete($pData);
 		if($lTestId->getValid()) {
 			$lVr = new DetailCommandeVR();
+			//Tests inputs
 			if(!isset($pData['idProduit'])) {
 				$lVr->setValid(false);
 				$lVr->getIdProduit()->setValid(false);

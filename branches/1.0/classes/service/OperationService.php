@@ -19,6 +19,8 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CompteZeybuOperationVO.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteAdherentViewManager.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteFermeViewManager.php" );
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
 
 /**
  * @name OperationService
@@ -522,5 +524,34 @@ class OperationService
 				array(''),
 				array(''));
 	}
+	
+	/**
+	 * @name getOperationAvenir($pIdCompte)
+	 * @param integer
+	 * @return array(OperationAvenirViewVO)
+	 * @desc Retourne les opérations avenir pour un compte
+	 */
+	public function getOperationAvenir($pIdCompte) {
+		$lCompteService = new CompteService;
+		if($lCompteService->existe($pIdCompte)) {
+			return OperationAvenirViewManager::select( $pIdCompte );
+		}
+		return false;
+	}
+	
+	/**
+	 * @name getOperationPassee($pIdCompte)
+	 * @param integer
+	 * @return array(OperationPasseeViewVO)
+	 * @desc Retourne les opérations passées d'un compte
+	 */
+	public function getOperationPassee($pIdCompte) {
+		$lCompteService = new CompteService;
+		if($lCompteService->existe($pIdCompte)) {
+			return OperationPasseeViewManager::select( $pIdCompte );
+		}
+		return false;
+	}
+	
 }
 ?>

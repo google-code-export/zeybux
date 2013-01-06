@@ -135,6 +135,7 @@ class AfficheAchatAdherentValid
 	*/
 	public static function validAjoutAchat($pData) {
 		$lVr = new ModifierAchatAdherentVR();
+		//Tests inputs
 		if(!isset($pData['idMarche'])) {
 			$lVr->setValid(false);
 			$lVr->getIdMarche()->setValid(false);
@@ -235,7 +236,7 @@ class AfficheAchatAdherentValid
 	*/
 	public static function validModifierAchat($pData) {
 		$lVr = new ModifierAchatAdherentVR();
-
+		//Tests inputs
 		if(!isset($pData["achat"])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
@@ -374,7 +375,7 @@ class AfficheAchatAdherentValid
 	*/
 	public static function validSupprimerAchat($pData) {
 		$lVr = new SupprimerAchatAdherentVR();
-
+		//Tests inputs
 		if(!isset($pData['idAchat'])) {
 			$lVr->setValid(false);
 			$lVr->getIdAchat()->setValid(false);
