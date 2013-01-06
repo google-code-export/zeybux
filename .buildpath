@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<buildpath>
-	<buildpathentry kind="src" path="Maintenance"/>
-	<buildpathentry kind="src" path="classes"/>
-	<buildpathentry kind="src" path="configuration"/>
-	<buildpathentry kind="src" path="vues"/>
-	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
-</buildpath>
