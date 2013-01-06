@@ -29,6 +29,7 @@ class IdentificationValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new IdentificationVR();
+		//Tests inputs
 		if(!isset($pData['login'])) {
 			$lVr->setValid(false);
 			$lVr->getLogin()->setValid(false);
@@ -92,6 +93,7 @@ class IdentificationValid
 	*/
 	public static function validReconnection($pData) {
 		$lVr = new IdentificationVR();
+		//Tests inputs
 		if(!isset($pData['login'])) {
 			$lVr->setValid(false);
 			$lVr->getLogin()->setValid(false);
@@ -188,7 +190,7 @@ class IdentificationValid
 	*/
 	public static function validReInitMdp($pData) {
 		$lVr = new ReInitMdpVR();
-		//Tests Techniques	
+		//Tests inputs
 		if(!isset($pData['numero'])) {
 			$lVr->setValid(false);
 			$lVr->getNumero()->setValid(false);
@@ -207,6 +209,7 @@ class IdentificationValid
 		}
 			
 		if($lVr->getValid()) {
+			//Tests Techniques	
 			if(!TestFonction::checkLength($pData['numero'],0,100)) {
 				$lVr->setValid(false);
 				$lVr->getNumero()->setValid(false);

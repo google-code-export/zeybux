@@ -296,7 +296,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 
 		/******************************************* Generation zeybux- Modules .js *************************************/
 		$lListeModule = array();
-		function parcourirDossierVues($pPath,$pListeModule) {
+		function parcourirDossierVues($pPath,&$pListeModule) {
 			if(is_dir($pPath)) {
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {
@@ -317,7 +317,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 		}
 		$Path = '../js/vues';
-		parcourirDossierVues($Path,&$lListeModule);
+		parcourirDossierVues($Path,$lListeModule);
 		
 		
 		function parcourirDossierModule($pPath,$pModule) {
@@ -553,6 +553,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		}
 				
 		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index
+		copy('../cache.html' , $lPath.'/cache.html'); // Copie du cache
 		copy('./zeybu/js/zeybux-core-min.js' , $lPath.'/js/zeybux-core-min.js'); // Copie du js
 		copy('./zeybu/js/zeybux-jquery-min.js' , $lPath.'/js/zeybux-jquery-min.js'); // Copie du js
 		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min.js'); // Copie du js
@@ -574,7 +575,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			$serveur = "127.0.0.1";
 			$login = "zeybu";
 			$password = "zeybu";
-			$base = "zeybu";
+			$base = "zeybu_maintenance";
 			$connexion = mysql_connect($serveur, $login, $password);
 		    mysql_select_db($base, $connexion);
 		    

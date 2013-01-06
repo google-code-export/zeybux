@@ -28,34 +28,8 @@ class ExportListeReservationValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ExportListeReservationVR();
-		//Tests Techniques
-		if(!TestFonction::checkLength($pData['id_commande'],0,11)) {
-			$lVr->setValid(false);
-			$lVr->getId_commande()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-			$lVr->getId_commande()->addErreur($lErreur);	
-		}
-		if(!is_int((int)$pData['id_commande'])) {
-			$lVr->setValid(false);
-			$lVr->getId_commande()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-			$lVr->getId_commande()->addErreur($lErreur);	
-		}
-		if(!is_array($pData['id_produits'])) {
-			$lVr->setValid(false);
-			$lVr->getId_produits()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
-			$lVr->getId_produits()->addErreur($lErreur);	
-		}
-
-		//Tests Fonctionnels
-		if(empty($pData['id_commande'])) {
+		//Tests inputs
+		if(!isset($pData['id_commande'])) {
 			$lVr->setValid(false);
 			$lVr->getId_commande()->setValid(false);
 			$lErreur = new VRerreur();
@@ -63,13 +37,58 @@ class ExportListeReservationValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId_commande()->addErreur($lErreur);	
 		}
-		if(empty($pData['id_produits'])) {
-			$lVr->setValid(false);
-			$lVr->getId_produits()->setValid(false);
+		if(!isset($pData['id_produits'])) {
+			$lVr->getId_produits(false);
+			$lVr->getId()->setValid(false);
 			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_233_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_233_MSG);
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId_produits()->addErreur($lErreur);	
+		}
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!TestFonction::checkLength($pData['id_commande'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId_commande()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId_commande()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['id_commande'])) {
+				$lVr->setValid(false);
+				$lVr->getId_commande()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getId_commande()->addErreur($lErreur);	
+			}
+			if(!is_array($pData['id_produits'])) {
+				$lVr->setValid(false);
+				$lVr->getId_produits()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_110_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_110_MSG);
+				$lVr->getId_produits()->addErreur($lErreur);	
+			}
+	
+			//Tests Fonctionnels
+			if(empty($pData['id_commande'])) {
+				$lVr->setValid(false);
+				$lVr->getId_commande()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId_commande()->addErreur($lErreur);	
+			}
+			if(empty($pData['id_produits'])) {
+				$lVr->setValid(false);
+				$lVr->getId_produits()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_233_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_233_MSG);
+				$lVr->getId_produits()->addErreur($lErreur);	
+			}
 		}
 		return $lVr;
 	}

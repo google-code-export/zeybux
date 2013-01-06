@@ -345,29 +345,6 @@ class AdherentManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 		
-		// Mise en forme des données
-		$pVo->setNom(StringUtils::formaterNom(trim($pVo->getNom())));
-		$pVo->setPrenom(StringUtils::formaterPrenom(trim($pVo->getPrenom())));
-		$pVo->setCourrielPrincipal(trim($pVo->getCourrielPrincipal()));
-		$pVo->setCourrielSecondaire(trim($pVo->getCourrielSecondaire()));
-		$pVo->setTelephonePrincipal(trim($pVo->getTelephonePrincipal()));
-		$pVo->setTelephoneSecondaire(trim($pVo->getTelephoneSecondaire()));
-		$pVo->setAdresse(trim($pVo->getAdresse()));
-		$pVo->setCodePostal(trim($pVo->getCodePostal()));
-		$pVo->setVille(StringUtils::formaterVille(trim($pVo->getVille())));
-		$pVo->setCommentaire(trim($pVo->getCommentaire()));
-		
-		// Protection des dates vides
-		if($pVo->getDateNaissance() == '') {
-			$pVo->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
-		}
-		if($pVo->getDateAdhesion() == '') {
-			$pVo->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
-		}
-		if($pVo->getDateMaj() == '') {
-			$pVo->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
-		}		
-
 		$lRequete =
 			"INSERT INTO " . AdherentManager::TABLE_ADHERENT . "
 				(" . AdherentManager::CHAMP_ADHERENT_ID . "
@@ -406,11 +383,7 @@ class AdherentManager
 					,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lId = Dbutils::executerRequeteInsertRetourId($lRequete); // Execution de la requete et récupération de l'Id généré par la BDD
-		$pVo->setId($lId);
-		$pVo->setNumero('Z' . $lId); // Mise à jour du numéro dans l'objet
-		AdherentManager::update($pVo); // Mise à jour de la base
-		return $lId;
+		return Dbutils::executerRequeteInsertRetourId($lRequete); // Execution de la requete et récupération de l'Id généré par la BDD
 	}
 
 	/**

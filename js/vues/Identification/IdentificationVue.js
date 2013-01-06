@@ -47,7 +47,7 @@
 					  	Infobulle.init(); // Supprime les erreurs
 					  	if(lResponse) {
 							if(lResponse.valid) {
-								that.mType = lResponse.type;
+								that.mType = parseInt(lResponse.type);
 								that.mModules = lResponse.modules;
 								gIdConnexion = lResponse.idConnexion;
 								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
@@ -93,7 +93,6 @@
 			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
 		}
 		
-		var that = this;
 		// Gestion du F5
 		// Bloque le fonctionnement du F5
 		$(document).bind('keypress keydown keyup', function(e) {
@@ -127,22 +126,22 @@
 		
 	this.lancement = function() {
 		switch(this.mType) {
-			case '1':
+			case 1:
 				MenuVue();
 				MonCompteVue();
 			break;
 			
-			case '2':
+			case 2:
 				MenuVue();
 				AdministrationVue();
 			break;
 			
-			case '3':
+			case 3:
 				MenuVue();
 				CaisseListeCommandeVue();
 			break;
 			
-			case '4':
+			case 4:
 				MenuVue();
 				CompteSolidaireVue();
 			break;

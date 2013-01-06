@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.liste_action {
+	list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin:0px;
+    margin-right:20px;
+    width:315px;
+}
+
+.liste_action li {
+	padding:10px;
+}
+
+.detail_action {
+	width:610px;
+	min-height:150px;
+}
+
+a {
+	text-decoration:none;
+}
+
+#lien_btn_fermer_acces {
+	display: inline-block;
+    margin-left: 275px;
+    margin-top: 20px;
+}
+
+#lien_btn_fermer_acces button{
+	font-size:14pt;
+}
+
+.adherent_form_div {
+	width:470px;
+	margin-left:4px;
+}

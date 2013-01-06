@@ -284,6 +284,14 @@ class MessagesErreurs
 	const ERR_352_MSG = 'Paiement modifié.';
 	const ERR_353_CODE = 353;
 	const ERR_353_MSG = 'Paiement supprimé.';
+	const ERR_354_CODE = 354;
+	const ERR_354_MSG = 'Veuillez sélectionner un compte.';
+	const ERR_355_CODE = 355;
+	const ERR_355_MSG = 'Adhérent ajouté.';
+	const ERR_356_CODE = 356;
+	const ERR_356_MSG = 'Adhérent modifié.';
+	const ERR_357_CODE = 357;
+	const ERR_357_MSG = 'Adhérent supprimé.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

@@ -5,6 +5,7 @@
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CompteAdherentVue(pParam);}} );
 		var that = this;
+		pParam.fonction = 'afficher';
 		$.post(	"./index.php?m=GestionAdherents&v=CompteAdherent", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -118,7 +119,7 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
-	
+		
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
 			.tablesorter({headers: { 
@@ -159,7 +160,7 @@
 	this.affectLienModifier = function(pData) {
 		var that = this;
 		pData.find('#btn-edt').click(function() {			
-			ModificationAdherentVue({id_adherent:that.mIdAdherent});
+			ModificationAdherentVue({id:that.mIdAdherent});
 		});
 		return pData;
 	};
@@ -178,23 +179,50 @@
 				width:600,
 				buttons: {
 					'Supprimer': function() {
-						var lParam = {id_adherent:that.mIdAdherent};
+					/*	var lParam = {id:that.mIdAdherent};*/
+						var lVo = new AdherentVO();
+						lVo.id = that.mIdAdherent;
+						lVo.fonction = 'supprimer';
+						
+						var lValid = new AdherentValid();
+						var lVr = lValid.validDelete(lVo);
+						
 						var lDialog = this;
-						$.post(	"./index.php?m=GestionAdherents&v=SuppressionAdherent", "pParam=" + $.toJSON(lParam),
-								function(lResponse) {
-									Infobulle.init(); // Supprime les erreurs
-									if(lResponse) {
-										if(lResponse.valid) {
-											var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-											var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
-											$('#contenu').replaceWith(lTemplate.template(lResponse));
-											$(lDialog).dialog('close');
-										} else {
-											Infobulle.generer(lResponse,'');
+						if(lVr.valid) {
+							Infobulle.init(); // Supprime les erreurs
+
+							$.post(	"./index.php?m=GestionAdherents&v=SuppressionAdherent", "pParam=" + $.toJSON(lVo),
+									function(lResponse) {
+										Infobulle.init(); // Supprime les erreurs
+										if(lResponse) {
+											if(lResponse.valid) {
+												/*var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+												var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
+												$('#contenu').replaceWith(lTemplate.template(lResponse));
+												$(lDialog).dialog('close');*/
+												
+												var lVR = new Object();
+												var erreur = new VRerreur();
+												erreur.code = ERR_357_CODE;
+												erreur.message = ERR_357_MSG;
+												lVR.valid = false;
+												lVR.log = new VRelement();
+												lVR.log.valid = false;
+												lVR.log.erreurs.push(erreur);
+												
+												ListeAdherentVue({vr:lVR});
+												
+												$(lDialog).dialog('close');
+											} else {
+												Infobulle.generer(lResponse,'');
+											}
 										}
-									}
-								},"json"
-						);
+									},"json"
+							);
+						
+						} else {
+							Infobulle.generer(lVr,'');
+						}
 					},
 					'Annuler': function() {
 						$(this).dialog('close');
@@ -208,7 +236,6 @@
 	};
 	
 	this.affectRetour = function(pData) {
-		var that = this;
 		pData.find("#lien-retour").click(function() { ListeAdherentVue();});
 		return pData;
 	};

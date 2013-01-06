@@ -31,7 +31,7 @@ class ProducteurValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ProducteurVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['idFerme'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -130,6 +130,7 @@ class ProducteurValid
 		}
 		
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['nom'],0,50)) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -292,6 +293,7 @@ class ProducteurValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new ProducteurVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -302,6 +304,7 @@ class ProducteurValid
 		}
 		
 		if($lVr->getValid()) {		
+			//Tests Techniques
 			if(!is_int((int)$pData['id'])) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);

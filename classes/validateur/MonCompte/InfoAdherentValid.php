@@ -32,7 +32,7 @@ class InfoAdherentValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new InfoAdherentVR();
-		//Tests Techniques	
+		//Tests inputs
 		if(!isset($pData['id_adherent'])) {
 			$lVr->setValid(false);
 			$lVr->getId_adherent()->setValid(false);
@@ -66,6 +66,7 @@ class InfoAdherentValid
 			$lVr->getMotPasseNouveau()->addErreur($lErreur);	
 		}		
 		if($lVr->getValid()) {
+			//Tests Techniques	
 			if(!is_int((int)$pData['id_adherent'])) {
 				$lVr->setValid(false);
 				$lVr->getId_adherent()->setValid(false);
@@ -205,7 +206,7 @@ class InfoAdherentValid
 	*/
 	public static function validUpdateInformation($pData) {
 		$lVr = new AdherentVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id_adherent'])) {
 			$lVr->setValid(false);
 			$lVr->getId_adherent()->setValid(false);
@@ -304,6 +305,7 @@ class InfoAdherentValid
 		}
 		
 		if($lVr->getValid()) {
+			//Tests Techniques	
 			if(!is_int((int)$pData['id_adherent'])) {
 				$lVr->setValid(false);
 				$lVr->getId_adherent()->setValid(false);

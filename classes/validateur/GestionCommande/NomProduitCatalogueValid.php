@@ -29,7 +29,7 @@ class NomProduitCatalogueValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new NomProduitCatalogueVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['idNomProduit'])) {
 			$lVr->setValid(false);
 			$lVr->getIdNomProduit()->setValid(false);
@@ -39,6 +39,7 @@ class NomProduitCatalogueValid
 			$lVr->getIdNomProduit()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['idNomProduit'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getIdNomProduit()->setValid(false);

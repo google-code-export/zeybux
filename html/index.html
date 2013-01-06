@@ -5,13 +5,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>{TITRE}</title>	
 	<script type="text/javascript" src="./js/zeybux-jquery.php"></script>
-	<script type="text/javascript" src="./js/zeybux-core.php"></script> 
+ 	<script type="text/javascript" src="./js/zeybux-core.php"></script> 
 	
 	<link rel="icon" type="image/png" href="./images/zeybu-ico.png" />
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'/>
+ 	<link href='http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'/>
 	<link href="./css/themes/le-frog/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" media="all" /> 	
 	<link href="./css/Commun/Entete.css" rel="stylesheet" type="text/css" media="all" />	
-	<link href="./css/zeybux.php" rel="stylesheet" type="text/css" media="all" />  
+	<link href="./css/zeybux.php" rel="stylesheet" type="text/css" media="all" />
 
 </head>
 <body>
@@ -26,10 +26,14 @@
 	
 		<div id="widget_message_information" class="ui-widget ui-helper-hidden" >
 			<div id="message_information" class="ui-state-highlight ui-corner-all"> 
-				<div>x</div>
 				<p>				
-				<span id="icone" class="ui-icon ui-icon-alert"></span> 
-				<span id="contenu_message_information">{MSG_INFORMATION}</span></p>
+					<span class="com-btn-header-multiples ui-corner-all com-cursor-pointer" title="Fermer">
+							<span class="ui-icon ui-icon-close"></span>
+					</span>
+					<span id="icone" class="ui-icon ui-icon-alert"></span> 
+					<span id="contenu_message_information">{MSG_INFORMATION}</span>
+					
+				</p>
 			</div>
 		</div>		
 		{MESSAGE_INFORMATION}
