@@ -11,7 +11,6 @@
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
@@ -26,5 +25,5 @@
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

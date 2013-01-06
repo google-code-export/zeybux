@@ -40,7 +40,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	// Entete
 	$lTemplate->set_filenames( array('entete' =>  COMMUN_TEMPLATE . 'Entete.html') );
 	$lTemplate->assign_vars( array( 'TITRE' => MON_COMPTE_TITRE) );
-	InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
+	InfobullesUtils::generer($lTemplate); // Messages d'erreur
 	$lTemplate->assign_var_from_handle('ENTETE', 'entete');
 	
 	// Menu

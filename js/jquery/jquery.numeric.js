@@ -17,19 +17,19 @@ jQuery.fn.numeric = function(options, callback)
 
 	function getSelectionStart(o) {
 		if (o.createTextRange) {
-			var r = document.selection.createRange().duplicate()
-			r.moveEnd('character', o.value.length)
-			if (r.text == '') return o.value.length
-			return o.value.lastIndexOf(r.text)
-		} else return o.selectionStart
+			var r = document.selection.createRange().duplicate();
+			r.moveEnd('character', o.value.length);
+			if (r.text == '') return o.value.length;
+			return o.value.lastIndexOf(r.text);
+		} else return o.selectionStart;
 	}
 
 	function getSelectionEnd(o) {
 		if (o.createTextRange) {
-			var r = document.selection.createRange().duplicate()
-			r.moveStart('character', -o.value.length)
-			return r.text.length
-		} else return o.selectionEnd
+			var r = document.selection.createRange().duplicate();
+			r.moveStart('character', -o.value.length);
+			return r.text.length;
+		} else return o.selectionEnd;
 	}
 
 	function getNewValue(o,k,e,i) {
@@ -197,4 +197,4 @@ jQuery.fn.numeric = function(options, callback)
 		}
 	);
 	return this;
-}
+};

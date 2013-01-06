@@ -21,7 +21,7 @@ function CompteZeybuVirementValid() {
 		
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteZeybuModifierVirementVR();
@@ -37,7 +37,7 @@ function CompteZeybuVirementValid() {
 		
 		if(pData.montant <= 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteZeybuSupprimerVirementVR();
@@ -49,5 +49,5 @@ function CompteZeybuVirementValid() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

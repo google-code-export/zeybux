@@ -9,8 +9,7 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/ListeAdherentResponse.php" );
 
 /**
@@ -29,7 +28,8 @@ class ListeAdherentControleur
 	public function getListeAdherent() {		
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentResponse();
-		$lResponse->setListeAdherent(ListeAdherentViewManager::selectAll());
+		$lAdherentService = new AdherentService();
+		$lResponse->setListeAdherent($lAdherentService->getAllResumeSolde());
 		return $lResponse;
 	}
 }
