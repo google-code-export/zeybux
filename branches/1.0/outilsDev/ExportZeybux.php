@@ -8,10 +8,9 @@
 <body>
 <div><a href="./index.php">Retour</a></div>
 <?php 
-if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && isset($_POST['source'])) {
+if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	$lNom = $_POST['nom'];
 	$lEnv = $_POST['env'];
-	$lVersion = $_POST['version'];
 	$lSource = $_POST['source'];
 	
 	$lPath = '../../' . $lNom;
@@ -36,6 +35,11 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 <?php 
 	} else { 
 		// Génération de l'export
+		$lDossierVersion = '/home/julien/Informatique/Dev/zeybu/www/';
+		$lDossierVersionSource = $lDossierVersion . $lSource;
+		$lVersionTechnique = date('YmdHis');
+		
+		
 		
 		/******************************************* Generation css *************************************/
 		/** CSS pour la version AJAX **/
@@ -67,7 +71,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 			$d->close();
 		}
-		$Path = '/home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/css';
+		$Path = $lDossierVersionSource . '/css';
 		$lJs = '';
 		$fp = fopen("./zeybu/css/zeybux.css", 'w');
 		fwrite($fp,'@CHARSET "UTF-8";');
@@ -77,7 +81,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		
 		$fp = fopen("./zeybu/css/zeybux-min.css", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux.css -o ./zeybu/css/zeybux-min.css');
+		$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux.css -o ./zeybu/css/zeybux-min.css');
 		echo $output;
 		
 		/** CSS pour la version HTML **/
@@ -119,7 +123,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 			$d->close();
 		}
-		$Path = '/home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/css';
+		$Path = $lDossierVersionSource . '/css';
 		$lJs = '';
 		$fp = fopen("./zeybu/css/zeybux-html.css", 'w');
 		fwrite($fp,'@CHARSET "UTF-8";');
@@ -129,19 +133,24 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		
 		$fp = fopen("./zeybu/css/zeybux-html-min.css", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/' . $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux-html.css -o ./zeybu/css/zeybux-html-min.css');
+		$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type css --charset utf-8 ./zeybu/css/zeybux-html.css -o ./zeybu/css/zeybux-html-min.css');
 		echo $output;
 		
 		/******************************************* Generation zeybux-jquery.js *************************************/
 		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
-		$filename = "../js/jquery/jquery-1.4.2.min.js";
+		//$filename = "../js/jquery/jquery-1.4.2.min.js";
+
+		$filenameJQuery = "jquery-1.8.3.min.js";
+		$filename = $lDossierVersionSource . "/js/jquery/" . $filenameJQuery;
 		fwrite($fp,file_get_contents($filename));
 		//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
-		$filename = "../js/jquery/jquery-ui-1.8.15.custom.min.js";
+		//$filename = "../js/jquery/jquery-ui-1.8.15.custom.min.js";
+		$filenameJQUI = "jquery-ui-1.9.2.custom.min.js";
+		$filename = $lDossierVersionSource . "/js/jquery/" . $filenameJQUI;
 		fwrite($fp,file_get_contents($filename));
 		fclose($fp);
 		
-		function parcourirDossierJquery($pPath) {
+		function parcourirDossierJquery($pPath, $filenameJQuery, $filenameJQUI) {
 			if(is_dir($pPath)) {
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {
@@ -150,14 +159,12 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != '.svn' 
 				   		&& $entry != '.project'
 				   		&& $entry != '.htaccess'	
-				   		&& $entry != 'jquery-1.4.2.min.js'	
-				   		&& $entry != 'jquery-ui-1.8.custom.min.js'	
-				   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'
-				   		&& $entry != 'jquery.numeric-old.js'
-				   		&& $entry != 'jquery.numeric.pack.js'  		
+		   				&& $entry != 'Old'
+		   				&& $entry != $filenameJQuery	
+		   				&& $entry != $filenameJQUI 		
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
-				   			parcourirDossierJquery($d->path.'/'.$entry);
+				   			parcourirDossierJquery($d->path.'/'.$entry, $filenameJQuery, $filenameJQUI);
 				   		} else {
 				   			$filename = $d->path.'/'.$entry;
 				   			$fp = fopen("./zeybu/js/zeybux-jquery.js", 'a');
@@ -174,19 +181,16 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 		}
 		
-		$Path = '../js/jquery';
-		parcourirDossierJquery($Path);
+		$Path = $lDossierVersionSource . '/js/jquery';
+		parcourirDossierJquery($Path, $filenameJQuery, $filenameJQUI);
 		
 		$fp = fopen("./zeybu/js/zeybux-jquery-min.js", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-jquery.js -o ./zeybu/js/zeybux-jquery-min.js');
+		$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-jquery.js -o ./zeybu/js/zeybux-jquery-min.js');
 		echo $output;
 		/******************************************* Fin Generation zeybux-jquery.js *************************************/
 	
 		/******************************************* Generation zeybux-core.js *************************************/		
-		
-		
-
 		function parcourirDossierCore($pPath) {
 			$d = dir($pPath);
 			while (false !== ($entry = $d->read())) {
@@ -219,22 +223,22 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		}
 		$fp = fopen("./zeybu/js/zeybux-core.js", 'w');
 		fclose($fp);
-		$Path = '../js';
+		$Path = $lDossierVersionSource . '/js';
 		parcourirDossierCore($Path);
 		
 		$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
-		$filename = "../js/template/CommunTemplate.js";
+		$filename = $lDossierVersionSource . "/js/template/CommunTemplate.js";
 		fwrite($fp,file_get_contents($filename));
-		$filename = "../js/vues/CommunVue.js";
+		$filename = $lDossierVersionSource . "/js/vues/CommunVue.js";
 		fwrite($fp,file_get_contents($filename));
-		$filename = "../js/template/IdentificationTemplate.js";
+		$filename = $lDossierVersionSource . "/js/template/IdentificationTemplate.js";
 		$lLigne = file_get_contents($filename);
 		$lLigne = preg_replace('/value=\\\"(Z|zeybu)\\\"/',"",$lLigne);
 		fwrite($fp,$lLigne);
 		//fwrite($fp,file_get_contents($filename));		
 		fclose($fp);
 		
-		function parcourirDossierIdentification($pPath) {
+		function parcourirDossierIdentification($pPath, $lVersionTechnique) {
 			if(is_dir($pPath)) {
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {
@@ -245,15 +249,15 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				   		&& $entry != '.htaccess'	   		
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
-				   			parcourirDossierIdentification($d->path.'/'.$entry);
+				   			parcourirDossierIdentification($d->path.'/'.$entry, $lVersionTechnique);
 				   		} else {		
 							$filename = $d->path.'/'.$entry;
 				   			$lLigne = file_get_contents($filename);
 				   			if($entry == "AccueilVue.js") {			   				
-				   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
+				   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min-" . $lVersionTechnique . ".js",$lLigne);
 				   			}
 				   			if($entry == 'IdentificationVue.js') {
-					   			$lLigne = preg_replace('/".php"/','"-min.js"',$lLigne);		
+					   			$lLigne = preg_replace('/".php"/','"-min-' . $lVersionTechnique . '.js"',$lLigne);		
 				   			}
 						    $fp = fopen("./zeybu/js/zeybux-core.js", 'a');
 						    fwrite($fp,$lLigne);
@@ -264,12 +268,12 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				$d->close();
 			}
 		}
-		$Path = '../js/vues/Identification';
-		parcourirDossierIdentification($Path);
+		$Path = $lDossierVersionSource. '/js/vues/Identification';
+		parcourirDossierIdentification($Path, $lVersionTechnique);
 		
 		$fp = fopen("./zeybu/js/zeybux-core-min.js", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-core.js -o ./zeybu/js/zeybux-core-min.js');
+		$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-core.js -o ./zeybu/js/zeybux-core-min.js');
 		echo $output;
 		/******************************************* Fin Generation zeybux-core.js *************************************/
 
@@ -278,23 +282,44 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'w');
 		fclose($fp);
 		
-		$filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/classes/utils/MessagesErreurs.js";
+		$filename = $lDossierVersionSource . "/js/classes/utils/MessagesErreurs.js";
 		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
 	    fwrite($fp,file_get_contents($filename));
 	    fclose($fp);
 	    
-	    $filename = "/home/julien/Informatique/Dev/zeybu/www/". $lSource . "/js/Commun/Configuration.js";
+	    $filename = $lDossierVersionSource . "/js/Commun/Configuration.js";
 		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
 	    fwrite($fp,file_get_contents($filename));
 	    fclose($fp);
 		
 		$fp = fopen("./zeybu/js/zeybux-configuration-min.js", 'w');
 		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-configuration.js -o ./zeybu/js/zeybux-configuration-min.js');
+		$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/zeybux-configuration.js -o ./zeybu/js/zeybux-configuration-min.js');
 		echo $output;
 		/******************************************* Fin Generation zeybux-configuration.js *************************************/
 
 		/******************************************* Generation zeybux- Modules .js *************************************/
+		
+		// RAZ des dossiers de génération
+		function viderDossier($pPath) {
+			if(is_dir($pPath)) {
+				$d = dir($pPath);
+				while (false !== ($entry = $d->read())) {
+					if(		$entry != '.'
+							&& $entry != '..'
+							&& $entry != '.svn'
+							&& $entry != '.project'
+							&& $entry != '.htaccess'
+					) {
+						unlink( $d->path.'/'.$entry );
+					}
+				}
+				$d->close();
+			}
+		}		
+		viderDossier("./zeybu/js/package-full/");
+		viderDossier("./zeybu/js/package/");
+
 		$lListeModule = array();
 		function parcourirDossierVues($pPath,&$pListeModule) {
 			if(is_dir($pPath)) {
@@ -316,10 +341,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				$d->close();
 			}
 		}
-		$Path = '../js/vues';
+		$Path = $lDossierVersionSource . '/js/vues';
 		parcourirDossierVues($Path,$lListeModule);
-		
-		
+
 		function parcourirDossierModule($pPath,$pModule) {
 			if(is_dir($pPath)) {
 				$d = dir($pPath);
@@ -347,99 +371,22 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			    fclose($fp);
 			}
 		}
-		
+			
 		foreach($lListeModule as $lModule) {
 			$fp = fopen("./zeybu/js/package-full/zeybux-".$lModule.".js", 'w');
-			$filename = "../js/template/".$lModule."Template.js";
+			$filename = $lDossierVersionSource . "/js/template/".$lModule."Template.js";
 			fwrite($fp,file_get_contents($filename));	
 			fclose($fp);
 
-			$Path = '../js/vues/'.$lModule;
+			$Path = $lDossierVersionSource . '/js/vues/'.$lModule;
 			parcourirDossierModule($Path,$lModule);
 			
-			$fp = fopen("./zeybu/js/package/zeybux-".$lModule."-min.js", 'w');
-			fclose($fp);
-			$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/package-full/zeybux-'.$lModule.'.js -o ./zeybu/js/package/zeybux-'.$lModule.'-min.js');
+			$output = shell_exec('cd ' . $lDossierVersionSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/package-full/zeybux-'.$lModule.'.js -o ./zeybu/js/package/zeybux-'.$lModule.'-min-' . $lVersionTechnique . '.js');
 			echo $output;
 		}
 		
 		/******************************************* Fin Generation zeybux- Modules .js *************************************/
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/*function parcourirDossier($pPath) {
-			$d = dir($pPath);
-			while (false !== ($entry = $d->read())) {	   
-			   if(	$entry != '.' 
-			   		&& $entry != '..' 
-			   		&& $entry != '.svn' 
-			   		&& $entry != '.project'
-			   		&& $entry != '.htaccess' 
-			   		&& $entry != 'template.js' 
-			   		&& $entry != 'jsDev.js' 
-			   		&& $entry != 'jsDev.php' 
-			   		&& $entry != 'zeybux-min.js' 
-			   		&& $entry != 'package' 
-			   		&& $entry != 'jquery'  
-			   		&& $entry != 'jsCompil.php' 
-			   		&& $entry != 'jquery.numeric.js'
-			   		&& $entry != 'jquery.numeric.pack.js'
-			   		&& $entry != 'jquery.ui.datepicker-fr.js'
-			   		&& $entry != 'jquery-ui-1.8.custom.min.js'
-			   		&& $entry != 'jquery-1.4.2.min.js'
-			   		&& $entry != 'jquery.selectboxes.pack.js'
-			   		&& $entry != 'MessagesErreurs.js'
-			   		&& $entry != 'Configuration.js'
-			   		&& $entry != 'zeybux-configuration.php'
-			   		) {
-			   		if(is_dir($d->path.'/'.$entry)) {
-			   			parcourirDossier($d->path.'/'.$entry);
-			   		} else {
-			   			$filename = $d->path.'/'.$entry;
-						/*$handle = fopen($filename, "r");
-			   		 	while (!feof($handle)) {
-					     	$fp = fopen("./zeybu/js/jsDev.js", 'a');
-				   			fwrite($fp,fgets($handle));
-				   			fclose($fp);
-					    }*/
-			   		/*	$lLigne = file_get_contents($filename);
-			   			if($entry == "AccueilVue.js") {			   				
-			   				$lLigne = preg_replace("/.\/js\/zeybux-configuration.php/","./js/zeybux-configuration-min.js",$lLigne);
-			   			}
-			   			if($entry == "IdentificationTemplate.js") {
-			   				$lLigne = preg_replace('#value=\\\"(Z|zeybu)\\\"#',"",$lLigne);	
-			   			}
-					    $fp = fopen("./zeybu/js/jsDev.js", 'a');
-					    fwrite($fp,$lLigne);
-					    fclose($fp);				    
-						//fclose($handle);
-			   		}
-			   }
-			}
-			$d->close();
-		}
-		$Path = '/home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/js';
-		$lJs = '';
-		$fp = fopen("./zeybu/js/jsDev.js", 'w');
-		fclose($fp);	
-		parcourirDossier($Path);
-		
-		$fp = fopen("./zeybu/js/zeybux-min.js", 'w');
-		fclose($fp);
-		$output = shell_exec('cd /home/julien/Informatique/Dev/zeybu/www/'. $lSource . '/outilsDev/ && java -jar yuicompressor-2.4.2.jar --type js --charset utf-8 ./zeybu/js/jsDev.js -o ./zeybu/js/zeybux-min.js');
-		echo $output;*/
-		
-		
+			
 		
 		/************** Création des dossier **************/
 		mkdir($lPath);
@@ -463,43 +410,74 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 
 		
 		/************** Copie des fichiers **************/	
-		function parcourirDossierCopie($pPath,$pDest) {			
+		function parcourirDossierCopie($pPath,$pDest, $lVersionTechnique) {			
 			$d = dir($pPath);
 			while (false !== ($entry = $d->read())) {	   
 			   	if(	$entry != '.' 
 			   		&& $entry != '..' 
 			   		&& $entry != '.svn' 
 			   		&& $entry != '.project'
+			   		&& $entry != 'Old'
 			   		) {
 			   		if(is_dir($d->path.'/'.$entry)) {
 				   		if(!is_dir($pDest.'/'.$entry)) {
 							mkdir($pDest.'/'.$entry);
 						}
-			   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
+			   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry, $lVersionTechnique);
 			   		} else {
-			   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+			   			if(	$entry == 'index.html' ) {
+			   					
+			   				$filename = $d->path.'/'.$entry;
+			   				$lLigne = file_get_contents($filename);
+			   				$lLigne = str_replace("./js/zeybux-jquery.php","./js/zeybux-jquery-min-" . $lVersionTechnique . ".js", $lLigne);
+			   				$lLigne = str_replace('./js/zeybux-core.php','./js/zeybux-core-min-' . $lVersionTechnique . '.js',$lLigne);
+			   				$lLigne = str_replace('./css/zeybux.php','./css/zeybux-min-' . $lVersionTechnique . '.css',$lLigne);
+			   				
+			   				$lLigne = str_replace('value="Z"','',$lLigne);
+			   				$lLigne = str_replace('value="zeybu"','',$lLigne);
+			   				$fp = fopen($pDest.'/'.$entry, 'w');
+			   				fwrite($fp,$lLigne);
+			   				fclose($fp);
+			   				
+			   			} else if ($entry == 'Entete.html') {
+			   				$filename = $d->path.'/'.$entry;
+			   				$lLigne = file_get_contents($filename);
+			   				$lLigne = str_replace('./css/zeybux.php','./css/zeybux-min-' . $lVersionTechnique . '.css',$lLigne);
+			   				$lLigne = str_replace('./css/zeybux-html.php','./css/zeybux-html-min-'. $lVersionTechnique .'.css',$lLigne);
+			   				$fp = fopen($pDest.'/'.$entry, 'w');
+			   				fwrite($fp,$lLigne);
+			   				fclose($fp);
+			   			} else if($entry == 'Version.php') {
+				   				$filename = $d->path.'/'.$entry;
+				   				$lLigne = file_get_contents($filename);
+				   				$lLigne = str_replace('?>','define("ZEYBUX_VERSION_TECHNIQUE","' . $lVersionTechnique . '");
+?>',$lLigne);
+				   				$fp = fopen($pDest.'/'.$entry, 'w');
+				   				fwrite($fp,$lLigne);
+				   				fclose($fp);
+				   		} else {			   			
+			   				copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+			   			}
 			   		}
 			   	}
 			}	
 			$d->close();
 		}
 		
-		parcourirDossierCopie('../classes',$lPath . '/classes');
-		parcourirDossierCopie('../css/themes',$lPath . '/css/themes');
-		parcourirDossierCopie('../html',$lPath . '/html');
-		parcourirDossierCopie('../images',$lPath . '/images');
-		parcourirDossierCopie('../vues',$lPath . '/vues');
+		parcourirDossierCopie($lDossierVersionSource . '/classes',$lPath . '/classes', $lVersionTechnique);
+		parcourirDossierCopie($lDossierVersionSource . '/css/themes',$lPath . '/css/themes', $lVersionTechnique);
+		parcourirDossierCopie($lDossierVersionSource . '/html',$lPath . '/html', $lVersionTechnique);
+		parcourirDossierCopie($lDossierVersionSource . '/images',$lPath . '/images', $lVersionTechnique);
+		parcourirDossierCopie($lDossierVersionSource . '/vues',$lPath . '/vues', $lVersionTechnique);
 		
 		if($lEnv == 'install') {
-			function parcourirDossierCopieInstall($pPath,$pDest) {			
+			function parcourirDossierCopieInstall($pPath,$pDest, $lVersionTechnique) {			
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {	   
 				   	if(	$entry != '.' 
 				   		&& $entry != '..' 
 				   		&& $entry != '.svn' 
 				   		&& $entry != '.project'
-				   		&& $entry != 'install.php'
-				   		&& $entry != 'update.sql'
 				   		&& $entry != 'DB.php'
 				   		&& $entry != 'Mail.php'
 				   		) {
@@ -512,7 +490,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 								&& $entry != "deploiement"
 								&& $entry != "logs"
 								&& $entry != "nouveau") {
-				   				parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
+				   				parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry, $lVersionTechnique);
 							}
 				   		} else {
 				   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
@@ -521,10 +499,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 				}	
 				$d->close();
 			}
-			parcourirDossierCopieInstall('../Maintenance',$lPath . '/Maintenance');
-			parcourirDossierCopie('../configuration',$lPath . '/configuration');	
+			parcourirDossierCopieInstall($lDossierVersionSource . '/Maintenance',$lPath . '/Maintenance', $lVersionTechnique);
+			parcourirDossierCopie($lDossierVersionSource . '/configuration',$lPath . '/configuration', $lVersionTechnique);	
 		} else if($lEnv == 'maintenance') {
-			function parcourirDossierCopieMaintenance($pPath,$pDest) {			
+			function parcourirDossierCopieMaintenance($pPath,$pDest, $lVersionTechnique) {			
 				$d = dir($pPath);
 				while (false !== ($entry = $d->read())) {	   
 				   	if(	$entry != '.' 
@@ -538,35 +516,51 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 					   		if(!is_dir($pDest.'/'.$entry)) {
 								mkdir($pDest.'/'.$entry);
 							}
-				   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry);
+				   			parcourirDossierCopie($d->path.'/'.$entry,$pDest.'/'.$entry, $lVersionTechnique);
 				   		} else {
-				   			copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+				   			if($entry == 'Version.php') {
+				   				$filename = $d->path.'/'.$entry;
+				   				$lLigne = file_get_contents($filename);
+				   				$lLigne = str_replace('?>','define("ZEYBUX_VERSION_TECHNIQUE","' . $lVersionTechnique . '");
+?>',$lLigne);
+				   				$fp = fopen($pDest.'/'.$entry, 'w');
+				   				fwrite($fp,$lLigne);
+				   				fclose($fp);
+				   			} else {
+				   				copy( $d->path.'/'.$entry , $pDest.'/'.$entry);
+				   			}
 				   		}
 				   	}
 				}	
 				$d->close();
 			}
-			parcourirDossierCopieMaintenance('../configuration',$lPath . '/configuration');
+			parcourirDossierCopieMaintenance($lDossierVersionSource . '/configuration',$lPath . '/configuration', $lVersionTechnique);
 			
 		} else {
-			parcourirDossierCopie('../configuration',$lPath . '/configuration');			
+			parcourirDossierCopie($lDossierVersionSource . '/configuration',$lPath . '/configuration', $lVersionTechnique);			
 		}
 				
-		copy('../index.php' , $lPath.'/index.php'); // Copie de l'index
-		copy('../cache.html' , $lPath.'/cache.html'); // Copie du cache
-		copy('./zeybu/js/zeybux-core-min.js' , $lPath.'/js/zeybux-core-min.js'); // Copie du js
-		copy('./zeybu/js/zeybux-jquery-min.js' , $lPath.'/js/zeybux-jquery-min.js'); // Copie du js
-		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min.js'); // Copie du js
-		parcourirDossierCopie('./zeybu/js/package',$lPath . '/js/package');
-		copy('./zeybu/css/zeybux-min.css' , $lPath.'/css/zeybux-min.css'); // Copie du css
-		copy('../css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
+		copy($lDossierVersionSource . '/index.php' , $lPath.'/index.php'); // Copie de l'index
+		copy($lDossierVersionSource . '/index.html' , $lPath.'/index.html'); // Copie de l'index de maintenance
+		copy($lDossierVersionSource . '/cache.html' , $lPath.'/cache.html'); // Copie du cache
+		copy($lDossierVersionSource . '/.htaccess' , $lPath.'/.htaccess'); // Copie du cache
+		copy('./zeybu/js/zeybux-core-min.js' , $lPath.'/js/zeybux-core-min-' . $lVersionTechnique . '.js'); // Copie du js
+		copy('./zeybu/js/zeybux-jquery-min.js' , $lPath.'/js/zeybux-jquery-min-' . $lVersionTechnique . '.js'); // Copie du js
+		copy('./zeybu/js/zeybux-configuration-min.js' , $lPath.'/js/zeybux-configuration-min-' . $lVersionTechnique . '.js'); // Copie du js
+		parcourirDossierCopie('./zeybu/js/package',$lPath . '/js/package', $lVersionTechnique);
+		copy('./zeybu/css/zeybux-min.css' , $lPath.'/css/zeybux-min-' . $lVersionTechnique . '.css'); // Copie du css
+		copy('./zeybu/css/zeybux-html-min.css' , $lPath.'/css/zeybux-html-min-' . $lVersionTechnique . '.css'); // Copie du css
+		copy($lDossierVersionSource . '/css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		
 		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.
-		copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
-		copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
+	//	copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
+	//	copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
 
 		if($lEnv != 'install') {
-			copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
+
+			mkdir($lPath . '/bdd');
+			parcourirDossierCopie($lDossierVersionSource . '/install/bdd',$lPath . '/bdd', $lVersionTechnique);
+			//copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
 		} else {
 			unlink($lPath.'/configuration/DB.php');
 			unlink($lPath.'/configuration/Mail.php');
@@ -722,11 +716,15 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 			}
 		}
 		$d->close();
-		$output = shell_exec('cd ' . $lPath . ' && tar -czvf zeybux-' . $lEnv . '-' . $lVersion . '.tar.gz' . $lListeArchive . ' && chmod -R 777 .');
+		
+		include($lPath . "/configuration/Version.php");
+		
+		$output = shell_exec('cd ' . $lPath . ' && tar -czvf zeybux-' . $lEnv . '-' . ZEYBUX_VERSION . '.tar.gz' . $lListeArchive . ' && chmod -R 777 .');
 		//echo $output;
 		
 		if($lEnv == 'install') {
-			copy('../Maintenance/install.php' , $lPath.'/install.php'); // Le script d'installation
+			copy($lDossierVersionSource . '/install/install.php' , $lPath.'/install.php'); // Le script d'installation
+			$output = shell_exec('cd ' . $lPath . ' && chmod -R 777 .');
 		}
 		
 		/************** Fin Copie des fichiers **************/
@@ -738,7 +736,6 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['version']) && i
 	<form action="./ExportZeybux.php" method="post">
 		<span>Nom du dossier Source</span><input type="text" name="source" /><br/>
 		<span>Nom du dossier d'export</span><input type="text" name="nom" /><br/>
-		<span>Version</span><input type="text" name="version" /><br/>
 		<span>Environnement de destination
 			<select name="env">
 				<option value="free">Free</option>
