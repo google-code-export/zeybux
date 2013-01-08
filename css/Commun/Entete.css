@@ -1,11 +1,16 @@
 @CHARSET "UTF-8";
-
+/*** Ecrasement du Thème Jquery ***/
 .ui-widget-content-transparent { 
 	border: 1px solid #72b42d;
 	background-color: rgba(40, 92, 0, 0.6);
 	color: #ffffff;
 	background-image:none;
 }
+
+/* Progressbar */
+.ui-progressbar { height:10px; text-align: left; }
+
+/*** Le Site ***/
 
 h1 {
 	font-style:italic;

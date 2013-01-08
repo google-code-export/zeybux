@@ -1,10 +1,37 @@
 <?php
+function parcourirDossier($pPath,&$pUpdateSql) {
+	if(is_dir($pPath)) {
+		$d = dir($pPath);
+		while (false !== ($entry = $d->read())) {
+			if(		$entry != '.'
+					&& $entry != '..'
+					&& $entry != '.svn'
+					&& $entry != '.project'
+					&& $entry != '.htaccess'
+			) {
+								
+				// enleve l'extention, tout ce qui se trouve apres le '.'
+				$lNomFichier = substr($entry, 0, strpos($entry,"."));
+				// Si la version de la modification est supérieure à celle du site on l'ajoute.
+				if($lNomFichier > ZEYBUX_VERSION_TECHNIQUE) {
+					$pUpdateSql .= file_get_contents($d->path.'/'.$entry) . "\n";
+				}
+			}
+		}
+		$d->close();
+	}
+}
+
+$lUpdateSql = "";
+// Recherche l'ensemble des évolution de la base à partir de la version du site
+parcourirDossier(DOSSIER_UPDATE_BDD, $lUpdateSql);
+
 $connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 mysql_select_db(MYSQL_DBNOM, $connexion);
-$lRequete = file_get_contents(FILE_UPDATE_BDD);
+//$lRequete = file_get_contents(FILE_UPDATE_BDD);
 // Ajout du préfixe
-$lRequete=str_replace('{PREFIXE}', MYSQL_DB_PREFIXE, $lRequete);
-$lRequetes = explode(";\n", $lRequete);	
+$lUpdateSql=str_replace('{PREFIXE}', MYSQL_DB_PREFIXE, $lUpdateSql);
+$lRequetes = explode(";\n", $lUpdateSql);	
 $lNbErreur = 0;
 $lNbRequetes = 0;
 mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD

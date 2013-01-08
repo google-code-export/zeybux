@@ -14,7 +14,7 @@ define("LOG_EXTRACT", "./logs/");
 
 // Déploiement
 define("DOSSIER_SITE", "../");
-define("FILE_UPDATE_BDD", DOSSIER_EXTRACT . "/update.sql");
+define("DOSSIER_UPDATE_BDD", DOSSIER_EXTRACT . "/bdd");
 
 // Configuration
 define("DOSSIER_CONFIGURATION", "./configuration");
@@ -22,4 +22,7 @@ define("DOSSIER_SITE_CONFIGURATION", DOSSIER_SITE . "configuration");
 
 define("DOSSIER_SITE_UTILS", DOSSIER_SITE . "classes/utils/");
 define("DOSSIER_SITE_LOGS", DOSSIER_SITE . "logs/");
+
+// La version actuelle du site
+include(DOSSIER_SITE_CONFIGURATION . "/Version.php");
 ?>

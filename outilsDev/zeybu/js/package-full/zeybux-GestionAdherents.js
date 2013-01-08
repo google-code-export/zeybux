@@ -33,8 +33,10 @@
 								"</tr>" +
 								"<tr>" +
 									"<th class=\"ui-widget-content ui-widget-content-transparent ui-corner-all\" id=\"compte\">Compte</th>" +
-									"<td class=\"com-table-form-td\">" +
+									"<td id=\"btn-radio-compte\" class=\"com-table-form-td\">" +
 										"{formCompte}" +
+										"<span class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\" id=\"choix_compte_liaison\">Choisir</span>" +
+									"</td>" +
 										/*"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"numero_compte\" value=\"{compte}\" maxlength=\"5\" disabled=\"disabled\" id=\"compte\"/></td>" +*/
 								"</tr>" +
 								"<tr>" +
@@ -115,15 +117,13 @@
 		"</div>";
 	
 	this.formulaireCompteAjoutAdherent =
-		"<input type=\"radio\" name=\"choix_compte\" value=\"auto\" checked=\"checked\"/> Automatique <br/>" +
-		"<input type=\"radio\" name=\"choix_compte\" value=\"lier\" /> Lier <span class=\"ui-helper-hidden\" id=\"label_compte_lier\"></span> " +
-		"<span class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\" id=\"choix_compte_liaison\">Choisir</span>";
+		"<input type=\"radio\" name=\"choix_compte\" value=\"auto\" id=\"btn-auto\" checked=\"checked\"/><label for=\"btn-auto\">Automatique</label> <br/>" +
+		"<input type=\"radio\" name=\"choix_compte\" value=\"lier\" id=\"btn-lier\"/><label for=\"btn-lier\">Lier</label>  <span class=\"ui-helper-hidden\" id=\"label_compte_lier\"></span> ";
 	
 	this.formulaireCompteModificationAdherent =
 		"<input type=\"radio\" name=\"choix_compte\" value=\"actuel\" checked=\"checked\"/> Actuel {cptLabel} <br/>" +
 		"<input type=\"radio\" name=\"choix_compte\" value=\"auto\"/> Nouveau" +
-		"<input type=\"radio\" name=\"choix_compte\" value=\"lier\" /> Lier <span class=\"ui-helper-hidden\" id=\"label_compte_lier\"></span> " +
-		"<span class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\" id=\"choix_compte_liaison\">Choisir</span>";
+		"<input type=\"radio\" name=\"choix_compte\" value=\"lier\" /> Lier <span class=\"ui-helper-hidden\" id=\"label_compte_lier\"></span>";
 	
 	this.formulaireAutorisationAdherent =
 		"<div class=\"com-clear-float-left com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
