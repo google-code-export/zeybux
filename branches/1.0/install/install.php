@@ -4638,7 +4638,7 @@ color:#FFFFFF;
 		</div>
 <?php 
 	}
-?>
-		</div>
+	echo "</div>";
+?>		
 	</body>
 </html>
