@@ -93,9 +93,9 @@ if($lTraitementOK) {
 						<button class="com-btn-edt ui-state-default ui-corner-all com-button com-center">Ouvrir</button>
 					</a>
 				</div>
-<?php } else { ?>
-			</div>
-<?php }
+<?php } else { 
+		echo "</div>";
+	 }
 		break;
 
 		case 5 :	

@@ -1,5 +1,5 @@
 <?php
-function parcourirDossier($pPath,&$pUpdateSql) {
+function parcourirDossierSQL($pPath,&$pUpdateSql) {
 	if(is_dir($pPath)) {
 		$d = dir($pPath);
 		while (false !== ($entry = $d->read())) {
@@ -24,7 +24,7 @@ function parcourirDossier($pPath,&$pUpdateSql) {
 
 $lUpdateSql = "";
 // Recherche l'ensemble des évolution de la base à partir de la version du site
-parcourirDossier(DOSSIER_UPDATE_BDD, $lUpdateSql);
+parcourirDossierSQL(DOSSIER_UPDATE_BDD, $lUpdateSql);
 
 $connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 mysql_select_db(MYSQL_DBNOM, $connexion);

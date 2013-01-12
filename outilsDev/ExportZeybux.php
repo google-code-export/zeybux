@@ -8,35 +8,25 @@
 <body>
 <div><a href="./index.php">Retour</a></div>
 <?php 
+// Répertoire du site
+$lDossierVersion = '/home/julien/Informatique/Dev/zeybu/www/';
+
 if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	$lNom = $_POST['nom'];
 	$lEnv = $_POST['env'];
 	$lSource = $_POST['source'];
 	
-	$lPath = '../../' . $lNom;
+	// Dossier Source
+	$lDossierVersionSource = $lDossierVersion . $lSource;
+	// Dossier cible de génération sur zeybux
+	$lPath = $lDossierVersion . $lNom;
+	
 	if(is_dir($lPath)) {
 ?>
-	<form action="./ExportZeybux.php" method="post">
 	<span>Le dossier d'export existe déjà !!</span><br/>
-	<span>Nom du dossier Source</span><input type="text" name="source" /><br/>
-	<span>Nom du dossier d'export</span><input type="text" name="nom" /><br/>
-	<span>Version</span><input type="text" name="version" /><br/>
-	<span>Environnement de destination
-		<select name="env">
-			<option value="free">Free</option>
-			<option value="install">Installation</option>
-			<option value="local">Local</option>
-			<option value="localr7">Local R7</option>
-			<option value="maintenance">Maintenance</option>
-		</select>		
-	</span><br/>
-	<input type="submit" value="Exporter"/>
-	</form>
 <?php 
 	} else { 
 		// Génération de l'export
-		$lDossierVersion = '/home/julien/Informatique/Dev/zeybu/www/';
-		$lDossierVersionSource = $lDossierVersion . $lSource;
 		$lVersionTechnique = date('YmdHis');
 		
 		
@@ -734,15 +724,42 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 } else {
 ?>
 	<form action="./ExportZeybux.php" method="post">
-		<span>Nom du dossier Source</span><input type="text" name="source" /><br/>
+		<span>Nom du dossier Source</span>
+			<select name="source">
+			<?php 
+			$lDossiers = array();
+			if(is_dir($lDossierVersion)) {
+				$d = dir($lDossierVersion);
+				while (false !== ($entry = $d->read())) {
+					if( $entry != '.' 
+						&& $entry != '..'
+						&& $entry != '.metadata'
+						&& $entry != '.svn'
+						&& $entry != 'RemoteSystemsTempFiles'
+						&& is_dir($d->path.'/'.$entry)) {
+						array_push($lDossiers,$entry);
+					}
+				}
+				$d->close();
+			}
+			sort($lDossiers);
+			foreach($lDossiers as $lDossier) {
+?>
+				<option value="<?php echo $lDossier; ?>"><?php echo $lDossier; ?></option>
+<?php 
+			}
+		
+		?>
+			</select>	
+			<br/>
 		<span>Nom du dossier d'export</span><input type="text" name="nom" /><br/>
 		<span>Environnement de destination
 			<select name="env">
-				<option value="free">Free</option>
+				<option value="maintenance">Maintenance</option>
 				<option value="install">Installation</option>
 				<option value="local">Local</option>
 				<option value="localr7">Local R7</option>
-				<option value="maintenance">Maintenance</option>
+				<option value="free">Free</option>
 			</select>		
 		</span><br/>
 		<input type="submit" value="Exporter"/>

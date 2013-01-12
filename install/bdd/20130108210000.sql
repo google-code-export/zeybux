@@ -1,5 +1,5 @@
 ALTER TABLE `ope_operation` ADD `ope_id_banque` INT NOT NULL, ADD `ope_date_maj` DATETIME NOT NULL, ADD `ope_id_login` INT NOT NULL;
-INSERT INTO `zeybu_maintenance`.`tpp_type_paiement` (`tpp_id`, `tpp_type`, `tpp_champ_complementaire`, `tpp_label_champ_complementaire`, `tpp_visible`) VALUES (-1, '', '0', '', '0');
+INSERT INTO `tpp_type_paiement` (`tpp_id`, `tpp_type`, `tpp_champ_complementaire`, `tpp_label_champ_complementaire`, `tpp_visible`) VALUES (-1, '', '0', '', '0');
 
 -- -----------------------------------------------------
 -- Table `ads_adhesion`
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `adad_adhesion_adherent` (
   `adad_id_operation` int(11) DEFAULT NULL,
   `adad_etat` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`adad_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 --
@@ -41,4 +41,4 @@ CREATE TABLE IF NOT EXISTS `tpa_type_adhesion` (
   `tpa_montant` decimal(10,2) DEFAULT NULL,
   `tpa_etat` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`tpa_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
