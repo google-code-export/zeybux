@@ -23,7 +23,7 @@ class RechargementCompteVR extends DataTemplate
 {
 	/**
 	 * @var bool
-	 * @desc Donne la validité de l'objet
+	 * @desc Donne la validté de l'objet
 	 */
 	protected $mValid;
 
@@ -35,9 +35,9 @@ class RechargementCompteVR extends DataTemplate
 
 	/**
 	 * @var VRelement
-	 * @desc L'Id de l'objet
+	 * @desc L'IdBanque de l'objet
 	 */
-	protected $mId;
+	protected $mIdBanque;
 
 	/**
 	 * @var VRelement
@@ -71,7 +71,7 @@ class RechargementCompteVR extends DataTemplate
 	function RechargementCompteVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
-		$this->mId = new VRelement();
+		$this->mIdBanque = new VRelement();
 		$this->mMontant = new VRelement();
 		$this->mTypePaiement = new VRelement();
 		$this->mChampComplementaireObligatoire = new VRelement();
@@ -81,7 +81,7 @@ class RechargementCompteVR extends DataTemplate
 	/**
 	* @name getValid()
 	* @return bool
-	* @desc Renvoie la validite de l'élément
+	* @desc Renvoie la Validite de l'élément
 	*/
 	public function getValid() {
 		return $this->mValid;
@@ -90,7 +90,7 @@ class RechargementCompteVR extends DataTemplate
 	/**
 	* @name setValid($pValid)
 	* @param bool
-	* @desc Remplace la validite de l'élément par $pValid
+	* @desc Remplace la Validite de l'élément par $pValid
 	*/
 	public function setValid($pValid) {
 		$this->mValid = $pValid;
@@ -115,21 +115,21 @@ class RechargementCompteVR extends DataTemplate
 	}
 
 	/**
-	* @name getId()
+	* @name getIdBanque()
 	* @return VRelement
-	* @desc Renvoie le VRelement Id
+	* @desc Renvoie le VRelement IdBanque
 	*/
-	public function getId() {
-		return $this->mId;
+	public function getIdBanque() {
+		return $this->mIdBanque;
 	}
 
 	/**
-	* @name setId($pId)
+	* @name setIdBanque($pIdBanque)
 	* @param VRelement
-	* @desc Remplace le VRelement Id par $pId
+	* @desc Remplace le VRelement IdBanque par $pIdBanque
 	*/
-	public function setId($pId) {
-		$this->mId = $pId;
+	public function setIdBanque($pIdBanque) {
+		$this->mIdBanque = $pIdBanque;
 	}
 
 	/**

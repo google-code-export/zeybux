@@ -285,9 +285,9 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Les adhérents" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-widget-content-transparent ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
-						"<span class=\"ui-icon ui-icon-plusthick\">" +
-						"</span>" +
+					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
+						"</span>Ajouter" +
 					"</span>" +
 				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	

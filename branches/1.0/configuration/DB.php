@@ -13,10 +13,4 @@ define("MYSQL_HOST", "localhost");
 define("MYSQL_LOGIN", "zeybu");
 define("MYSQL_PASS", "zeybu");
 define("MYSQL_DBNOM", "zeybu_maintenance");
-/*
-define("MYSQL_LOGIN", "zeybu_install");
-define("MYSQL_HOST", "localhost");
-define("MYSQL_PASS", "zeybu");
-define("MYSQL_DBNOM", "zeybu_install");
-define("MYSQL_DB_PREFIXE", "b21_");*/
 ?>
