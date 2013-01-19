@@ -15,7 +15,7 @@
 			"</form>" +
 		"</div>";
 
-	this.debutMenu = "<div id=\"menu_int\" ><ul id=\"menu_liste\" >";
+	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
 	this.finMenu = "</ul></div>";
 		
 	this.deconnexion =	

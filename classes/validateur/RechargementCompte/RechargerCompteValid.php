@@ -12,7 +12,8 @@
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_RECHARGEMENT_COMPTE . "/RechargerCompteVR.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 
 /**
  * @name RechargerCompteValid
@@ -30,7 +31,7 @@ class RechargerCompteValid
 	public static function validInfo($pData) {
 		$lVr = new RechargerCompteVR();
 		//Tests inputs
-		if(!isset($pData['id-adherent'])) {
+		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getLog()->setValid(false);
 			$lErreur = new VRerreur();
@@ -40,7 +41,7 @@ class RechargerCompteValid
 		}
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!is_int((int)$pData['id-adherent'])) {
+			if(!is_int((int)$pData['id'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
@@ -50,7 +51,7 @@ class RechargerCompteValid
 			}
 			
 			//Tests Fonctionnels
-			if(empty($pData['id-adherent'])) {
+			if(empty($pData['id'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
@@ -59,8 +60,10 @@ class RechargerCompteValid
 				$lVr->getLog()->addErreur($lErreur);	
 			}		
 			
-			$lAdherent = ListeAdherentViewManager::select($pData['id-adherent']);
-			if($lAdherent->getAdhId() != $pData['id-adherent']) {
+			$lAdherentService = new AdherentService();
+			//$lAdherentService->estActif($pData['id'])
+			//$lAdherent = ListeAdherentViewManager::select($pData['id']);
+			if(!$lAdherentService->estActif($pData['id']) ) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();

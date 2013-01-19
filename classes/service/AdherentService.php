@@ -456,6 +456,19 @@ class AdherentService
 	}
 	
 	/**
+	 * @name estActif($pId)
+	 * @return bool
+	 * @desc Retourne si l'adherent est actif
+	 */
+	public function estActif($pId) {
+		$lAdherent = $this->get($pId);
+		if($lAdherent !== FALSE) {
+			return $lAdherent->getAdhEtat() == 1;
+		}
+		return false;
+	}
+	
+	/**
 	 * @name select($pId)
 	 * @param IdAchatVO
 	 * @return AchatVO
