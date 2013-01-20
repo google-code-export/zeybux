@@ -126,24 +126,21 @@
 		
 	this.lancement = function() {
 		switch(this.mType) {
+			// Adherent
 			case 1:
-				MenuVue();
-				MonCompteVue();
+				MenuVue({homePage:function() {MonCompteVue();}});				
 			break;
-			
+			// Administrateur
 			case 2:
-				MenuVue();
-				AdministrationVue();
+				MenuVue({homePage:function() {AdministrationVue();}});
 			break;
-			
+			// Caisse
 			case 3:
-				MenuVue();
-				CaisseListeCommandeVue();
+				MenuVue({homePage:function() {CaisseListeCommandeVue();}});
 			break;
-			
+			// Compte Solidaire
 			case 4:
-				MenuVue();
-				CompteSolidaireVue();
+				MenuVue({homePage:function() {CompteSolidaireVue();}});
 			break;
 			
 			default :

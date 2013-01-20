@@ -556,12 +556,16 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			unlink($lPath.'/configuration/Mail.php');
 			
 			// le install.sql
-			$serveur = "127.0.0.1";
+			/*$serveur = "127.0.0.1";
 			$login = "zeybu";
 			$password = "zeybu";
-			$base = "zeybu_maintenance";
-			$connexion = mysql_connect($serveur, $login, $password);
-		    mysql_select_db($base, $connexion);
+			$base = "zeybu_maintenance";*/
+			
+			// Export de la base du dossier source
+			include($lDossierVersionSource. '/configuration/DB.php');
+			
+			$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
+		    mysql_select_db(MYSQL_DBNOM, $connexion);
 		    
 		    $entete = "-- ----------------------\n";
 		    $entete .= "-- Zeybux base ".$base." au ".date("d-M-Y")."\n";
