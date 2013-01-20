@@ -31,25 +31,8 @@
 				"<span class=\"com-float-left ui-icon ui-icon-gear\"></span>" +
 				"Administration" +
 		"</span>";
-	
+		
 	this.module =	
-		"<!-- BEGIN modules -->" +
-		"<li>" +
-			//"<span class=\"ui-widget-header ui-corner-top\">{modules.MODULE_LABEL}</span>" +
-			"<a class=\"ui-widget-header {modules.CLASS}\" id=\"menu-{modules.MODULE_NOM}-{modules.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.NOM}\">{modules.MODULE_LABEL}</a>" +
-			
-			"<ul class=\"sous_menu ui-widget-content ui-corner-bottom\">" +
-			"<!-- BEGIN vues -->" +
-				"<li class=\"ui-corner-all\">" +
-					"<a id=\"menu-{modules.MODULE_NOM}-{modules.vues.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.vues.NOM}\">{modules.vues.LABEL}</a>" +
-				"</li>" +
-				"<br/>" +
-			"<!-- END vues -->" +
-			"</ul>" +
-		"</li>" +
-		"<!-- END modules -->";
-	
-	this.nouveauModule =	
 		"<!-- BEGIN modules -->" +
 		"<li>" +
 			"<span class=\"com-cursor-pointer ui-widget-header menu-lien btn-menu\" id=\"menu-{modules.moduleNom}-{modules.nom}\">{modules.label}</span>" +
