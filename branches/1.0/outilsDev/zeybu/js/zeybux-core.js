@@ -840,6 +840,7 @@ String.prototype.extractDbMinute = function() {
 	this.typePaiement = '';
 	this.champComplementaireObligatoire = '';
 	this.champComplementaire = '';
+	this.idBanque = '';
 }
 ;function ProduitCommandeVO() {
 	this.id = '';
@@ -907,7 +908,13 @@ function CompteZeybuSupprimerVirementVO() {
 };function ListeReservationCommandeVO() {
 	this.detailReservation = new Array();
 }
-function CompteZeybuAjoutVirementVO() {
+;function BanqueVO() {
+	this.id = '';
+	this.nomCourt = '';
+	this.nom = '';
+	this.description = '';
+	this.etat = '';
+}function CompteZeybuAjoutVirementVO() {
 	this.idCptDebit = '';
 	this.idCptCredit = '';
 	this.montant = '';
@@ -1207,6 +1214,7 @@ function CompteZeybuAjoutVirementVR() {
 	this.typePaiement = new VRelement();
 	this.champComplementaireObligatoire = new VRelement();
 	this.champComplementaire = new VRelement();
+	this.idBanque = new VRelement();
 }
 ;function CategorieProduitVR() {
 	this.valid = true;
@@ -1303,7 +1311,15 @@ function CompteZeybuModifierVirementVR() {
 	this.archive = new VRelement();
 	this.produits = new Array();
 }
-;function ModeleLotVR() {
+;function BanqueVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.nomCourt = new VRelement();
+	this.nom = new VRelement();
+	this.description = new VRelement();
+	this.etat = new VRelement();
+};function ModeleLotVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -2464,7 +2480,51 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	};
 }
-;function ProducteurValid() { 
+;function BanqueValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new BanqueVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.id != '' && !pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+		if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+		return lVR;
+	};
+
+	this.validDelete = function(pData) {
+		var lVR = new BanqueVR();
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new BanqueVR();
+			//Tests Techniques
+			if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+			if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+			if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+			if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};
+
+};;function ProducteurValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProducteurVR();
 		//Tests Techniques
@@ -2982,13 +3042,15 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+		if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+		
 		//Tests Fonctionnels
 		if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.typePaiement.isEmpty() || pData.typePaiement == 0) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.typePaiement.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+		if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 		return lVR;
 	};
@@ -3012,13 +3074,15 @@ function CompteZeybuModifierVirementVR() {
 			if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+			if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+			
 			//Tests Fonctionnels
 			if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.typePaiement.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+			if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 			return lVR;
 		}
@@ -3770,7 +3834,7 @@ $(document).ready(function() {
 	this.comDelete = function(pData) {	
 		pData.find(".com-delete").click( function () { $(this).parent().parent().remove(); });
 		return pData;	
-	}
+	};
 	
 	this.comNumeric = function(pData) {
 		if($(pData).length != 0)
@@ -3778,7 +3842,7 @@ $(document).ready(function() {
 		else
 			$("body").find('.com-numeric').numeric();
 		return pData;
-	}
+	};
 	
 	this.comLienDatepicker = function(pDatePetite,pDateGrande,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -3793,7 +3857,7 @@ $(document).ready(function() {
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.lienDatepickerMarche = function(pDebutReservation, pFinReservation, pDebutMarche, pData) {
 		pData.find('#' + pDebutReservation).datepicker({
@@ -3825,7 +3889,7 @@ $(document).ready(function() {
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.comDatepicker = function(pIdDate,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -3833,7 +3897,7 @@ $(document).ready(function() {
 			changeMonth: true,
 			changeYear: true});
 		return pData;		
-	}
+	};
 	
 	this.majMenu = function(pModule,pVue) {
 		var lId = '#menu-' + pModule + '-' + pVue;
@@ -3842,7 +3906,7 @@ $(document).ready(function() {
 		}
 		$('.btn-menu').removeClass("ui-state-active");
 		$(lId).addClass("ui-state-active");		
-	}
+	};
 	
 	this.comHoverBtn = function(pData) {
 		pData.find(	".com-button:not(.ui-state-disabled)," +
@@ -3865,7 +3929,7 @@ $(document).ready(function() {
 		});
 		
 		return pData;
-	}
+	};
 };function IdentificationTemplate() {
 	this.connexion =
 		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
@@ -3883,7 +3947,7 @@ $(document).ready(function() {
 			"</form>" +
 		"</div>";
 
-	this.debutMenu = "<div id=\"menu_int\" ><ul id=\"menu_liste\" >";
+	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
 	this.finMenu = "</ul></div>";
 		
 	this.deconnexion =	
@@ -3899,25 +3963,8 @@ $(document).ready(function() {
 				"<span class=\"com-float-left ui-icon ui-icon-gear\"></span>" +
 				"Administration" +
 		"</span>";
-	
+		
 	this.module =	
-		"<!-- BEGIN modules -->" +
-		"<li>" +
-			//"<span class=\"ui-widget-header ui-corner-top\">{modules.MODULE_LABEL}</span>" +
-			"<a class=\"ui-widget-header {modules.CLASS}\" id=\"menu-{modules.MODULE_NOM}-{modules.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.NOM}\">{modules.MODULE_LABEL}</a>" +
-			
-			"<ul class=\"sous_menu ui-widget-content ui-corner-bottom\">" +
-			"<!-- BEGIN vues -->" +
-				"<li class=\"ui-corner-all\">" +
-					"<a id=\"menu-{modules.MODULE_NOM}-{modules.vues.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.vues.NOM}\">{modules.vues.LABEL}</a>" +
-				"</li>" +
-				"<br/>" +
-			"<!-- END vues -->" +
-			"</ul>" +
-		"</li>" +
-		"<!-- END modules -->";
-	
-	this.nouveauModule =	
 		"<!-- BEGIN modules -->" +
 		"<li>" +
 			"<span class=\"com-cursor-pointer ui-widget-header menu-lien btn-menu\" id=\"menu-{modules.moduleNom}-{modules.nom}\">{modules.label}</span>" +
@@ -4066,10 +4113,9 @@ $(document).ready(function() {
 			"</div>" +
 		"</div>";
 };function MenuVue(pParam) {
-	this.mMenuTemplate = new IdentificationTemplate();
+	//this.mMenuTemplate = new IdentificationTemplate();
 
-	this.construct = function(pParam) {
-		
+	this.construct = function(pParam) {		
 		var that = this;	
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
@@ -4079,7 +4125,7 @@ $(document).ready(function() {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							that.afficherNouveau(lResponse);
+							that.afficher(lResponse, pParam);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -4088,29 +4134,36 @@ $(document).ready(function() {
 		);
 	};
 	
-	
-	/******* Nouveau Module *********/
-	this.afficherNouveau = function(pMenu) {
+	this.afficher = function(pMenu, pParam) {
 		var that = this;
-		$('#menu_int').replaceWith(that.genererNouveauMenu(pMenu.menu));
-		$('#site').append(that.genererLienDeconnexion());
+		var lIdentificationTemplate = new IdentificationTemplate();
+				
+		$('#menu_int').replaceWith($(that.genererMenu(pMenu.menu)));
+		$('#site').append(that.affectButton($(lIdentificationTemplate.deconnexion)));
 		if(pMenu.admin){
-			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
+			$('#site').append(that.affectAdministration($(lIdentificationTemplate.administration)));
 		}
+		
+		pParam.homePage();
 	};
 	
-	this.genererLienDeconnexion = function() {
-		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+	this.affectButton = function(pData) {
+
+		/*pData = gCommunVue.comHoverBtn(pData);
+		return pData;*/
+		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
 	
-	this.genererLienAdmin = function() {
+	/*this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	};
+	};*/
 	
-	this.genererNouveauMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererNouveauModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
+	this.genererMenu = function(pMenu) {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		
+		var lMenu = lIdentificationTemplate.debutMenu;
+		lMenu += lIdentificationTemplate.module.template(pMenu); //this.genererModule(pMenu);
+		lMenu += lIdentificationTemplate.finMenu;
 		
 		lMenu = $(lMenu);
 		
@@ -4125,65 +4178,24 @@ $(document).ready(function() {
 		return lMenu;
 	};
 	
-	this.affectHover = function(pData) {
+	/*this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	};
+	};*/
 	
-	this.genererNouveauModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	};
+	};*/
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();
 		});
-		pData = this.affectHover(pData);
+		pData = this.affectButton(pData);
 		return pData;
 	};
-	/******* Fin Nouveau Module *********/
-	/*this.afficher = function(pMenu) {
-		var that = this;	
-		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
-		$('#site').append(that.mMenuTemplate.deconnexion);
-	};*/
-	
-	/*this.genererMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
 		
-		lMenu = $(lMenu);
-		
-		lMenu = this.affectVues(lMenu);
-		lMenu = this.affectAnimation(lMenu);
-		return lMenu;
-	};*/
-	
-	/*this.genererModule = function(pModule) {
-		var lTemplate = this.mMenuTemplate.module;
-		return lTemplate.template(pModule);		
-	};*/
-	
-	/*this.affectAnimation = function(pData) {
-		var that = this;
-		pData.find('#menu_liste > li').hover(function() {that.deroulerMenu(this)},function() {that.cacherMenu(this)});
-		pData.find('.sous_menu > li').hover( function() {$(this).addClass("ui-state-focus")} , function() {$(this).removeClass("ui-state-focus")});
-		return pData;
-	}*/
-	
-/*	this.deroulerMenu = function(obj) {
-		$('#menu_liste > li > ul').hide();
-		if($(obj).find('ul').css('display') == 'none') {
-			$(obj).find('ul').fadeIn('fast');
-		}
-	}
-	
-	this.cacherMenu = function(obj) {
-		$(obj).find('ul').stop().fadeTo(0,1).fadeOut('fast');
-	}*/
-	
 	this.affectVues = function(pData) {
 		if(pData) {
 			
@@ -4345,6 +4357,11 @@ $(document).ready(function() {
 				CaisseListeCommandeVue();
 				return false;
 			});
+			
+			pData.find('#menu-Parametrage-Banque').click(function() {
+				ListeBanqueVue();
+				return false;
+			});
 				
 			return pData;
 		}
@@ -4431,11 +4448,11 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130112214304.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130112214304.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -4480,24 +4497,21 @@ $(document).ready(function() {
 		
 	this.lancement = function() {
 		switch(this.mType) {
+			// Adherent
 			case 1:
-				MenuVue();
-				MonCompteVue();
+				MenuVue({homePage:function() {MonCompteVue();}});				
 			break;
-			
+			// Administrateur
 			case 2:
-				MenuVue();
-				AdministrationVue();
+				MenuVue({homePage:function() {AdministrationVue();}});
 			break;
-			
+			// Caisse
 			case 3:
-				MenuVue();
-				CaisseListeCommandeVue();
+				MenuVue({homePage:function() {CaisseListeCommandeVue();}});
 			break;
-			
+			// Compte Solidaire
 			case 4:
-				MenuVue();
-				CompteSolidaireVue();
+				MenuVue({homePage:function() {CompteSolidaireVue();}});
 			break;
 			
 			default :
@@ -4529,7 +4543,7 @@ $(document).ready(function() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130112214304.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20130127170547.js",function() {
 				that.init();
 				IdentificationVue();
 			});

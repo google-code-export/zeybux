@@ -11,6 +11,7 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "CompteValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
@@ -179,6 +180,21 @@ class CompteService
 	*/
 	public function selectAll() {
 		return CompteManager::selectAll();
+	}
+	
+	/**
+	 * @name getNombreAdherentSurCompte($pId)
+	 * @param integer
+	 * @return integer
+	 * @desc Retourne le nombre d'adhérent sur le compte
+	 */
+	public function getNombreAdherentSurCompte($pId) {
+		$lTabAdherent = AdherentManager::selectActifByIdCompte($pId);
+		if($lTabAdherent[0]->getId() == "" ) {
+			return 0;
+		} else {
+			return count($lTabAdherent);
+		}		
 	}
 }
 ?>

@@ -12,9 +12,10 @@ function parcourirDossierSQL($pPath,&$pUpdateSql) {
 								
 				// enleve l'extention, tout ce qui se trouve apres le '.'
 				$lNomFichier = substr($entry, 0, strpos($entry,"."));
-				// Si la version de la modification est supérieure à celle du site on l'ajoute.
+				// Si la version de la modification est supérieure à celle du site on l'ajoute au début
+				// Bien l'ajouter au début pour que les requêtes soient exécutées dans l'ordre chronologique.
 				if($lNomFichier > ZEYBUX_VERSION_TECHNIQUE) {
-					$pUpdateSql .= file_get_contents($d->path.'/'.$entry) . "\n";
+					$pUpdateSql = file_get_contents($d->path.'/'.$entry) . "\n" . $pUpdateSql;
 				}
 			}
 		}
