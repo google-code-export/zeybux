@@ -420,7 +420,8 @@ class AbonnementService
 				$lPoursuivre = false;
 			}
 			
-			if($lPoursuivre) {				
+			if($lPoursuivre) {
+				// Recherche de l'Id du lot dans le marché pour le produit correspondant.				
 				$lIdLot = 0;
 				foreach($lProduitMarche["lots"] as $lLot) {
 					if(	fmod($pCompteAbonnement->getQuantite(), $lLot->getDcomTaille()) == 0) {
@@ -430,6 +431,7 @@ class AbonnementService
 					}
 				}
 
+				// Si un lot correspond
 				$lPoursuivre = $lIdLot != 0;
 				if($lPoursuivre) {
 					$lReservation = new ReservationVO();
@@ -439,8 +441,7 @@ class AbonnementService
 					
 					
 					$lTestDetailReservation = $lReservationsActuelle->getDetailReservation();
-					if(empty($lTestDetailReservation) && !$lSuspendu) { // Ajoute une réservation
-
+					if(empty($lTestDetailReservation) && !$lSuspendu && $pCompteAbonnement->getEtat() == 0) { // Ajoute une réservation
 						$lQuantite = $pCompteAbonnement->getQuantite();
 						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
 							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
@@ -518,7 +519,6 @@ class AbonnementService
 			}
 			
 		}
-		
 		return CompteAbonnementManager::update($pCompteAbonnement);
 	}
 	

@@ -285,9 +285,9 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Les adhérents" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-widget-content-transparent ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
-						"<span class=\"ui-icon ui-icon-plusthick\">" +
-						"</span>" +
+					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-adherent\" title=\"Ajouter un adhérent\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
+						"</span>Ajouter" +
 					"</span>" +
 				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun adhérent dans la base.</p>" +	
@@ -991,16 +991,6 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		//var lData = lResponse;
-		//var lModules = [];
-		/*$(lResponse.modules).each(function() {
-			if(this.defaut == 1) {
-				lModules_default.push(this);
-			} else {
-				lModules.push(this);
-			}
-		});*/
-		//lData.modules_default = lModules_default;
 		var lData = lResponse.adherent;		
 		lData.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		lData.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
@@ -1154,7 +1144,6 @@
 	this.modifAdherent = function() {
 		var lVo = new AdherentVO();
 		lVo.id = this.mIdAdherent;
-		/*lVo.compte = $(':input[name=numero_compte]').val();*/
 		var lChoixCompte = $(':input[name=choix_compte]:checked').val();
 		if(lChoixCompte == 'actuel' ) {
 			lVo.idCompte = this.mIdCompte;
@@ -1176,8 +1165,7 @@
 		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
 		lVo.dateAdhesion = $(':input[name=date_adhesion]').val().dateFrToDb();
 		lVo.commentaire = $(':input[name=commentaire]').val();
-		$(':input[name=modules[]]:checked').each(function() {lVo.modules.push($(this).val());});
-		//$(':input[name=modules_default[]]').each(function() {lVo.modules.push($(this).val());});
+		$(':input[name="modules[]"]:checked').each(function() {lVo.modules.push($(this).val());});
 
 		var lValid = new AdherentValid();
 		var lVr = lValid.validUpdate(lVo);

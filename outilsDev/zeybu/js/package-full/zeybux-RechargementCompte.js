@@ -2,7 +2,7 @@
 	this.listeAdherent = 
 		"<div id=\"contenu\">" +
 			"<div id=\"liste_adherent_solde_int\">" +			
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Adhérents</div>" +
 						"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 							"<form id=\"filter-form\">" +
@@ -18,24 +18,24 @@
 							"<table class=\"com-table\">" +
 								"<thead>" +
 									"<tr class=\"ui-widget ui-widget-header\">" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-										"<th class=\"com-table-th com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-										"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
-										"<th class=\"com-table-th liste-adh-th-solde\">Solde</th>" +
+										"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+										"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+										"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+										"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Courriel</th>" +
+										"<th class=\"com-table-th-fin liste-adh-th-solde\">Solde</th>" +
 									"</tr>" +
 								"</thead>" +
 								"<tbody>" +
 							"<!-- BEGIN listeAdherent -->" +
 									"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
-										"<td class=\"com-table-td com-underline-hover\">" +
+										"<td class=\"com-table-td-debut com-underline-hover\">" +
 											"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
 											"{listeAdherent.adhNumero}" +
 										"</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhNom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
-										"<td class=\"com-table-td com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
-										"<td class=\"com-table-td com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
+										"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
+										"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+										"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhCourrielPrincipal}</td>" +
+										"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\"><span class=\"{listeAdherent.classSolde}\">{listeAdherent.cptSolde} {sigleMonetaire}</span></td>" +
 									"</tr>" +
 							"<!-- END listeAdherent -->" +
 								"</tbody>" +
@@ -72,6 +72,7 @@
 							"<th>Montant</th>" +
 							"<th>Type de Paiement</th>" +
 							"<th id=\"label-champ-complementaire\"></th>" +
+							"<th id=\"label-champ-complementaire-banque\">Banque</th>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
@@ -86,6 +87,7 @@
 								"</select>" +
 							"</td>" +
 							"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
+							"<td id=\"td-champ-complementaire-banque\"><input type=\"text\" name=\"champ-complementaire-banque\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"idBanque\" maxlength=\"50\" size=\"15\"/></td>" +
 						"</tr>" +
 					"</tbody>" +
 				"</table>" +
@@ -95,6 +97,7 @@
 };function RechargerCompteVue(pParam) {
 	this.mTypePaiement = [];
 	this.solde = 0;
+	this.mBanques = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {RechargerCompteVue(pParam);}} );
@@ -169,7 +172,7 @@
 		pData.find('.compte-ligne').click(function() {
 			
 			
-			var lParam = {'id-adherent':$(this).attr("id-adherent"),
+			var lParam = {'id':$(this).attr("id-adherent"),
 							fonction:"infoRechargement"};
 			
 			$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
@@ -177,6 +180,13 @@
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
+							
+							/*$(lResponse.banques).each(function() {
+								that.mBanques.push({});
+							});*/
+							
+							that.mBanques = lResponse.banques;
+							
 							that.solde = parseFloat(lResponse.solde);
 							
 							lResponse.sigleMonetaire = gSigleMonetaire;
@@ -255,7 +265,75 @@
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
 		pData = this.affectNouveauSolde(pData);
+		pData = this.affectListeBanque(pData);
 		pData = gCommunVue.comNumeric(pData);
+		return pData;
+	};
+	
+	this.affectListeBanque = function(pData) {
+		var that = this;
+		
+		function removeIfInvalid(element) {
+			// Vide le champ si la banque n'existe pas
+			var value = $( element ).val(),
+			matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
+			valid = false;
+			$( that.mBanques ).each(function() {
+				if ( $( this ).text().match( matcher ) ) {
+					this.selected = valid = true;
+					return false;
+				}
+			});
+			if ( !valid ) {
+				$( element ).attr( 'id-banque','' ); 
+				
+				// Message d'information
+				var lVr = new RechargementCompteVR();
+				lVr.valid = false;
+				lVr.idBanque.valid = false;
+				var erreur = new VRerreur();
+				erreur.code = ERR_261_CODE;
+				erreur.message = ERR_261_MSG;
+				lVr.idBanque.erreurs.push(erreur);
+				
+				Infobulle.generer(lVr,'');
+				return false;
+			}
+		};
+		
+		pData.find('#idBanque').autocomplete({
+			minLength: 0,			 
+			source: function( request, response ) {
+				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+					response( $.grep( that.mBanques, 
+						function( item ){
+							return matcher.test( item.nom ) || matcher.test( item.nomCourt );
+						}
+					));
+			},	 
+			focus: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
+				return false;
+			},
+			select: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
+				$( "#idBanque" ).attr('id-banque', ui.item.id );
+				return false;
+			},
+			change: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				if ( !ui.item )
+					return removeIfInvalid( this );
+			}
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
+			.appendTo( ul );
+		};
+		
 		return pData;
 	};
 	
@@ -272,11 +350,14 @@
 		var lLabel = this.getLabelChamComplementaire(lId);
 		if(lLabel != null) {
 			$("#label-champ-complementaire").text(lLabel).show();
-			$("#td-champ-complementaire").show();
+			$("#label-champ-complementaire-banque").show();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque").show();
 		} else {
 			$("#label-champ-complementaire").text('').hide();
-			$(":input[name=champ-complementaire]").val('');
-			$("#td-champ-complementaire").hide();
+			$("#label-champ-complementaire-banque").hide();
+			$(':input[name="champ-complementaire"], :input[name="champ-complementaire-banque"]').val('');
+			$("#td-champ-complementaire, #td-champ-complementaire-banque").hide();
+			$('#idBanque').attr('id-banque','');
 		}
 	};
 	
@@ -330,6 +411,8 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
+		
+		lVo.idBanque = $('#idBanque').attr('id-banque');
 		return lVo;
 	};
 	

@@ -220,6 +220,29 @@ class AdherentService
 		// L'adherent n'est pas supprimé
 		$pAdherent->setEtat(1);
 		
+		// Mise en forme des données
+		$pAdherent->setNom(StringUtils::formaterNom(trim($pAdherent->getNom())));
+		$pAdherent->setPrenom(StringUtils::formaterPrenom(trim($pAdherent->getPrenom())));
+		$pAdherent->setCourrielPrincipal(trim($pAdherent->getCourrielPrincipal()));
+		$pAdherent->setCourrielSecondaire(trim($pAdherent->getCourrielSecondaire()));
+		$pAdherent->setTelephonePrincipal(trim($pAdherent->getTelephonePrincipal()));
+		$pAdherent->setTelephoneSecondaire(trim($pAdherent->getTelephoneSecondaire()));
+		$pAdherent->setAdresse(trim($pAdherent->getAdresse()));
+		$pAdherent->setCodePostal(trim($pAdherent->getCodePostal()));
+		$pAdherent->setVille(StringUtils::formaterVille(trim($pAdherent->getVille())));
+		$pAdherent->setCommentaire(trim($pAdherent->getCommentaire()));
+		
+		// Protection des dates vides
+		if($pAdherent->getDateNaissance() == '') {
+			$pAdherent->setDateNaissance(StringUtils::FORMAT_DATE_NULLE);
+		}
+		if($pAdherent->getDateAdhesion() == '') {
+			$pAdherent->setDateAdhesion(StringUtils::FORMAT_DATE_NULLE);
+		}
+		if($pAdherent->getDateMaj() == '') {
+			$pAdherent->setDateMaj(StringUtils::FORMAT_DATE_NULLE);
+		}
+		
 		// Maj de l'adherent dans la BDD
 		$lRetour = AdherentManager::update( $pAdherent );
 			
@@ -307,6 +330,9 @@ class AdherentService
 		if($lAdherentValid->delete($pIdAdherent)) {
 			$lAdherent = AdherentManager::select( $pIdAdherent );
 				
+			$lCompteService = new CompteService();
+			$lNbAdherentSurCompte = $lCompteService->getNombreAdherentSurCompte($lAdherent->getIdCompte());
+			
 			// Change l'état à supprimé
 			$lAdherent->setEtat(2);
 			AdherentManager::update( $lAdherent );
@@ -316,19 +342,7 @@ class AdherentService
 			$lIdentification = $lIdentification[0];
 			$lIdentification->setAutorise( 0 );
 			IdentificationManager::update( $lIdentification );
-			
-			// Suppression des réservations en cours
-			$lReservationService = new ReservationService();
-			$lReservations = MarcheListeReservationViewManager::select($lAdherent->getIdCompte());
-			if(!is_null($lReservations[0]->getComId())) {
-				foreach($lReservations as $lReservation) {
-					$lIdReservation = new IdReservationVO();
-					$lIdReservation->setIdCompte($lAdherent->getIdCompte());
-					$lIdReservation->setIdCommande($lReservation->getComId());
-					$lReservationService->delete($lIdReservation);
-				}
-			}
-			
+						
 			//Désinscription de la mailing liste
 			$lMailingListeService = new MailingListeService();
 			if($lAdherent->getCourrielPrincipal() != "") {
@@ -338,11 +352,26 @@ class AdherentService
 				$lMailingListeService->delete($lAdherent->getCourrielSecondaire());
 			}
 			
-			// Suppression des abonnements
-			$lAbonnementService = new AbonnementService();
-			$lProduits = $lAbonnementService->getProduitsAbonne($lAdherent->getIdCompte());
-			foreach($lProduits as $lProduit) {
-				$lAbonnementService->deleteAbonnement($lProduit->getCptAboId());
+			// Si c'est le dernier adhérent du compte : suppression des réservations et abonnements
+			if( $lNbAdherentSurCompte < 2 ) {
+				// Suppression des réservations en cours
+				$lReservationService = new ReservationService();
+				$lReservations = MarcheListeReservationViewManager::select($lAdherent->getIdCompte());
+				if(!is_null($lReservations[0]->getComId())) {
+					foreach($lReservations as $lReservation) {
+						$lIdReservation = new IdReservationVO();
+						$lIdReservation->setIdCompte($lAdherent->getIdCompte());
+						$lIdReservation->setIdCommande($lReservation->getComId());
+						$lReservationService->delete($lIdReservation);
+					}
+				}
+				
+				// Suppression des abonnements
+				$lAbonnementService = new AbonnementService();
+				$lProduits = $lAbonnementService->getProduitsAbonne($lAdherent->getIdCompte());
+				foreach($lProduits as $lProduit) {
+					$lAbonnementService->deleteAbonnement($lProduit->getCptAboId());
+				}
 			}
 			
 			return true;
@@ -368,8 +397,7 @@ class AdherentService
 			return false;
 		}
 	}
-	
-	
+		
 	/**
 	 * @name select($pId)
 	 * @param integer
