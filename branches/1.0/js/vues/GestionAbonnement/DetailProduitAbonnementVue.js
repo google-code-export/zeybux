@@ -456,10 +456,11 @@
 		lVo.prix = $("#pro-lot-" + pId + "-prix").val().numberFrToDb();
 	
 		var lValid = new ModeleLotValid();
+		var lVr = new TemplateVR();
 		if(this.autorisationSupprimerLot(pId)) {
-			var lVr = lValid.validAjout(lVo);
+			lVr = lValid.validAjout(lVo);
 		} else {
-			var lVr = lValid.validUpdateAvecReservation(lVo,this.mLotAbonnes[pId].quantite);
+			lVr = lValid.validUpdateAvecReservation(lVo,this.mLotAbonnes[pId].quantite);
 		}
 
 		if(lVr.valid) {
@@ -656,7 +657,6 @@
 	};
 	
 	this.affectDialogSuppProduit = function(pData) {
-		var that = this;
 		pData.find("#btn-supp").click(function() {
 			var lGestionAbonnementTemplate = new GestionAbonnementTemplate();
 			var lTemplate = lGestionAbonnementTemplate.dialogSuppressionProduit;

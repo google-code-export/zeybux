@@ -217,9 +217,9 @@
 						}					
 					}
 					
-					var i = 0;
+				//	var i = 0;
 					var lLotReservation = -1;
-					var lLotInit = -1;
+				//	var lLotInit = -1;
 
 					lPdt.stoQuantiteReservation = 0;
 					lPdt.prixReservation = 0;
@@ -334,7 +334,7 @@
 	};
 	
 	this.affectInfoProduit = function(pData) {
-		var that = this;
+//		var that = this;
 		pData.find('.btn-info-produit')
 		.click(function() {		
 			var lId = $(this).attr('id-produit');
@@ -496,10 +496,11 @@
 		var lMax = parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande);
 		
 		// Recherche de la quantité reservée pour la déduire de la quantité max
+		var lStock = 0;
 		if(this.reservation[pIdPdt]) {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
+			lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
 		} else {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
+			lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
 		}	
 		
 		var lNoStock = false;

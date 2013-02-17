@@ -63,7 +63,6 @@
 	};
 			
 	this.affectLienProduit = function(pData) {
-		var that = this;
 		pData.find(".ligne-produit").click(function() {
 			DetailProduitAbonnementVue({id: $(this).attr("idProduit")});
 		});
