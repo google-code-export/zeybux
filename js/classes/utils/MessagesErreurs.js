@@ -157,6 +157,8 @@ const ERR_259_CODE = 259;
 const ERR_259_MSG = 'La limite de stock doit être supérieure à la quantité déjà réservée.';
 const ERR_260_CODE = 260;
 const ERR_260_MSG = 'La limite par adhérent doit être supérieure au plus grand des prix de vente avec réservation.';
+const ERR_261_CODE = 261;
+const ERR_261_MSG = 'La banque n\'existe pas.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -265,3 +267,17 @@ const ERR_352_CODE = 352;
 const ERR_352_MSG = 'Paiement modifié.';
 const ERR_353_CODE = 353;
 const ERR_353_MSG = 'Paiement supprimé.';
+const ERR_354_CODE = 354;
+const ERR_354_MSG = 'Veuillez sélectionner un compte.';
+const ERR_355_CODE = 355;
+const ERR_355_MSG = 'Adhérent ajouté.';
+const ERR_356_CODE = 356;
+const ERR_356_MSG = 'Adhérent modifié.';
+const ERR_357_CODE = 357;
+const ERR_357_MSG = 'Adhérent supprimé.';
+const ERR_358_CODE = 358;
+const ERR_358_MSG = 'Banque ajoutée.';
+const ERR_359_CODE = 359;
+const ERR_359_MSG = 'Banque modifiée.';
+const ERR_360_CODE = 360;
+const ERR_360_MSG = 'Banque supprimée.';

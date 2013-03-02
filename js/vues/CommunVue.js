@@ -3,7 +3,7 @@
 	this.comDelete = function(pData) {	
 		pData.find(".com-delete").click( function () { $(this).parent().parent().remove(); });
 		return pData;	
-	}
+	};
 	
 	this.comNumeric = function(pData) {
 		if($(pData).length != 0)
@@ -11,7 +11,7 @@
 		else
 			$("body").find('.com-numeric').numeric();
 		return pData;
-	}
+	};
 	
 	this.comLienDatepicker = function(pDatePetite,pDateGrande,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -26,7 +26,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.lienDatepickerMarche = function(pDebutReservation, pFinReservation, pDebutMarche, pData) {
 		pData.find('#' + pDebutReservation).datepicker({
@@ -58,7 +58,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.comDatepicker = function(pIdDate,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -66,7 +66,7 @@
 			changeMonth: true,
 			changeYear: true});
 		return pData;		
-	}
+	};
 	
 	this.majMenu = function(pModule,pVue) {
 		var lId = '#menu-' + pModule + '-' + pVue;
@@ -75,7 +75,7 @@
 		}
 		$('.btn-menu').removeClass("ui-state-active");
 		$(lId).addClass("ui-state-active");		
-	}
+	};
 	
 	this.comHoverBtn = function(pData) {
 		pData.find(	".com-button:not(.ui-state-disabled)," +
@@ -98,5 +98,5 @@
 		});
 		
 		return pData;
-	}
+	};
 }

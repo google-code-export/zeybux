@@ -4,4 +4,5 @@
 	this.typePaiement = '';
 	this.champComplementaireObligatoire = '';
 	this.champComplementaire = '';
+	this.idBanque = '';
 }

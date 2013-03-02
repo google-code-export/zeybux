@@ -26,15 +26,9 @@ class AjoutAdherentResponse extends DataTemplate
 
 	/**
 	 * @var integer
-	 * @desc L'Id de la commande
+	 * @desc L'Id de l'adhérent
 	 */
 	protected $mId;
-	
-	/**
-	 * @var integer
-	 * @desc Le numero de l'adhérent
-	 */
-	protected $mNumero;
 	
 	/**
 	* @name AjoutAdherentResponse()
@@ -78,24 +72,6 @@ class AjoutAdherentResponse extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
-	}
-	
-	/**
-	* @name getNumero()
-	* @return integer
-	* @desc Renvoie le Numero
-	*/
-	public function getNumero() {
-		return $this->mNumero;
-	}
-
-	/**
-	* @name setNumero($pNumero)
-	* @param integer
-	* @desc Remplace le Numero par $pNumero
-	*/
-	public function setNumero($pNumero) {
-		$this->mNumero = $pNumero;
 	}
 }
 ?>

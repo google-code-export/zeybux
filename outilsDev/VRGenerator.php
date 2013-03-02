@@ -102,8 +102,8 @@ if(isset($_POST['nom'])) {
 					<option value="objet" <?php if($lTypeVariable[$i] == "objet") echo "selected=\"selected\"";?>>Objet</option>
 				</select>
 				<span>Champ Obligatoire : </span>	
-						Insert <input type="checkbox" name="obligatoireVariableInsert[<?php echo $i;?>]" value="1" <?php if($lObligatoireVariableInsert[$i] == 1) {echo "checked=\"checked\"";} ?> />
-					|| Update <input type="checkbox" name="obligatoireVariableUpdate[<?php echo $i;?>]" value="1" <?php if($lObligatoireVariableUpdate[$i] == 1) {echo "checked=\"checked\"";} ?> />
+						Insert <input type="checkbox" name="obligatoireVariableInsert[<?php echo $i;?>]" value="1" <?php if(isset($lObligatoireVariableInsert[$i]) && $lObligatoireVariableInsert[$i] == 1) {echo "checked=\"checked\"";} ?> />
+					|| Update <input type="checkbox" name="obligatoireVariableUpdate[<?php echo $i;?>]" value="1" <?php if(isset($lObligatoireVariableUpdate[$i]) && $lObligatoireVariableUpdate[$i] == 1) {echo "checked=\"checked\"";} ?> />
 					<br/>
 			<?php
 			

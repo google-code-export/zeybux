@@ -28,7 +28,7 @@ class CompteSpecialValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new CompteSpecialVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['login'])) {
 			$lVr->setValid(false);
 			$lVr->getLogin()->setValid(false);
@@ -63,6 +63,7 @@ class CompteSpecialValid
 		}
 		
 		if($lVr->getValid()) {		
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['login'],0,100)) {
 				$lVr->setValid(false);
 				$lVr->getLogin()->setValid(false);
@@ -160,6 +161,7 @@ class CompteSpecialValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new CompteSpecialVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -169,6 +171,7 @@ class CompteSpecialValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -205,7 +208,7 @@ class CompteSpecialValid
 	public static function validUpdate($pData) {
 		$lVr = CompteSpecialValid::validDelete($pData);
 		if($lVr->getValid()) {	
-			//Tests Techniques
+			//Tests inputs
 			if(!isset($pData['login'])) {
 				$lVr->setValid(false);
 				$lVr->getLogin()->setValid(false);
@@ -215,7 +218,8 @@ class CompteSpecialValid
 				$lVr->getLogin()->addErreur($lErreur);	
 			}
 			
-			if($lVr->getValid()) {		
+			if($lVr->getValid()) {	
+				//Tests Techniques	
 				if(!TestFonction::checkLength($pData['login'],0,100)) {
 					$lVr->setValid(false);
 					$lVr->getLogin()->setValid(false);
@@ -247,7 +251,7 @@ class CompteSpecialValid
 	public static function validUpdatePass($pData) {
 		$lVr = CompteSpecialValid::validDelete($pData);
 		if($lVr->getValid()) {	
-			//Tests Techniques
+			//Tests inputs
 			if(!isset($pData['motPasse'])) {
 				$lVr->setValid(false);
 				$lVr->getMotPasse()->setValid(false);
@@ -266,6 +270,7 @@ class CompteSpecialValid
 			}
 			
 			if($lVr->getValid()) {
+				//Tests Techniques
 				if(!TestFonction::checkLength($pData['motPasse'],0,100)) {
 					$lVr->setValid(false);
 					$lVr->getMotPasse()->setValid(false);

@@ -10,8 +10,9 @@
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
 			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
-		} else {			
+		} else {	
 			var that = this;
+
 			$.getScript("./js/zeybux-configuration.php",function() {
 				that.init();
 				IdentificationVue();
@@ -37,9 +38,7 @@
 		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
 		/*$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );	*/	
-		
-		
-		
+
 		$.history.callback = function ( pReinstate, pCursor ) {
 			var lDefault = {
 				vue: function() { return false; }

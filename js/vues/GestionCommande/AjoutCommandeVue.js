@@ -72,13 +72,13 @@
 				
 				var lStock = -1;
 				var lStockAffichage = "";
-				if(parseFloat(this.stockInitial) != -1) {
+				if(parseFloat(this.stockInitial) != -1 && lTypeProduit == 2) {
 					lStock = this.stockInitial;
 					lStockAffichage = this.stockInitial.nombreFormate(2,',',' ');
 				}
 				var lQteMax = -1;
 				var lQteMaxAffichage = "";
-				if(parseFloat(this.qteMaxCommande) != -1) {
+				if(parseFloat(this.qteMaxCommande) != -1 && lTypeProduit == 2) {
 					lQteMax = this.qteMaxCommande;
 					lQteMaxAffichage = this.qteMaxCommande.nombreFormate(2,',',' ');
 				}

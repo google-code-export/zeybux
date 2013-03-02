@@ -28,8 +28,8 @@ class CaracteristiqueValid
 	* @desc Test la validite de l'élément
 	*/
 	public static function validAjout($pData) {
-		$lVr = new CaracteristiqueVR();		
-		//Tests Techniques
+		$lVr = new CaracteristiqueVR();	
+		//Tests inputs
 		if(!isset($pData['nom'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -47,7 +47,8 @@ class CaracteristiqueValid
 			$lVr->getDescription()->addErreur($lErreur);	
 		}
 		
-		if($lVr->getValid()) {			
+		if($lVr->getValid()) {		
+			//Tests Techniques		
 			if(!TestFonction::checkLength($pData['nom'],0,50)) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -99,7 +100,7 @@ class CaracteristiqueValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new CaracteristiqueVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -109,6 +110,7 @@ class CaracteristiqueValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);

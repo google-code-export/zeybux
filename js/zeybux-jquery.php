@@ -1,11 +1,13 @@
 <?php
 header("content-type: application/x-javascript; charset=UTF-8");
-$filename = "./jquery/jquery-1.4.2.min.js";
+$filenameJQuery = "jquery-1.8.3.min.js";
+$filename = "./jquery/" . $filenameJQuery;
 echo file_get_contents($filename);
-//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
-$filename = "./jquery/jquery-ui-1.8.15.custom.min.js";
+$filenameJQUI = "jquery-ui-1.9.2.custom.min.js";
+$filename = "./jquery/" . $filenameJQUI;
 echo file_get_contents($filename);
-function parcourirDossierJquery($pPath) {
+
+function parcourirDossierJquery($pPath, $filenameJQuery, $filenameJQUI) {
 	if(is_dir($pPath)) {
 		$d = dir($pPath);
 		while (false !== ($entry = $d->read())) {
@@ -14,14 +16,12 @@ function parcourirDossierJquery($pPath) {
 		   		&& $entry != '.svn' 
 		   		&& $entry != '.project'
 		   		&& $entry != '.htaccess'	
-		   		&& $entry != 'jquery-1.4.2.min.js'	
-		   		&& $entry != 'jquery-ui-1.8.custom.min.js'	
-		   		&& $entry != 'jquery-ui-1.8.15.custom.min.js'
-		   		&& $entry != 'jquery.numeric-old.js'
-		   		&& $entry != 'jquery.numeric.pack.js'
+		   		&& $entry != 'Old'
+		   		&& $entry != $filenameJQuery	
+		   		&& $entry != $filenameJQUI
 		   		) {
 		   		if(is_dir($d->path.'/'.$entry)) {
-		   			parcourirDossierJquery($d->path.'/'.$entry);
+		   			parcourirDossierJquery($d->path.'/'.$entry, $filenameJQuery, $filenameJQUI);
 		   		} else {
 		   			$filename = $d->path.'/'.$entry;
 				    echo file_get_contents($filename);
@@ -34,5 +34,5 @@ function parcourirDossierJquery($pPath) {
 	}
 }
 $Path = './jquery';
-parcourirDossierJquery($Path);
+parcourirDossierJquery($Path, $filenameJQuery, $filenameJQUI);
 ?>

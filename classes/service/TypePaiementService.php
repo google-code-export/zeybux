@@ -128,7 +128,7 @@ class TypePaiementService
 	* @return TypePaiementVO
 	* @desc Retourne une Operation
 	*/
-	public function select($pTypePaiement) {
+	private function select($pTypePaiement) {
 		return TypePaiementManager::select($pTypePaiement);
 	}
 	
@@ -137,7 +137,7 @@ class TypePaiementService
 	* @return array(TypePaiementVO)
 	* @desc Retourne une liste d'Operation
 	*/
-	public function selectAll() {
+	private function selectAll() {
 		return TypePaiementManager::selectAll();
 	}
 }

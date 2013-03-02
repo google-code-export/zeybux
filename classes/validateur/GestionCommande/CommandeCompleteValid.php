@@ -33,7 +33,7 @@ class CommandeCompleteValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new CommandeCompleteVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['nom'])) {
 			$lVr->setValid(false);
 			$lVr->getNom()->setValid(false);
@@ -140,7 +140,7 @@ class CommandeCompleteValid
 		}
 		
 		if($lVr->getValid()) {
-		
+			//Tests Techniques		
 			if(!TestFonction::checkLength($pData['nom'],0,100)) {
 				$lVr->setValid(false);
 				$lVr->getNom()->setValid(false);
@@ -535,6 +535,7 @@ class CommandeCompleteValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new CommandeCompleteVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -592,7 +593,7 @@ class CommandeCompleteValid
 		$lTestId = CommandeCompleteValid::validDelete($pData);
 		if($lTestId->getValid()) {
 			$lVr = new CommandeCompleteVR();
-			//Tests Techniques
+			//Tests inputs
 			if(!isset($pData['numero'])) {
 				$lVr->setValid(false);
 				$lVr->getNumero()->setValid(false);
@@ -696,9 +697,9 @@ class CommandeCompleteValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getDescription()->addErreur($lErreur);	
-			}
-			
+			}			
 			if($lVr->getValid()) {
+				//Tests Techniques
 				if(!TestFonction::checkLength($pData['numero'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getNumero()->setValid(false);

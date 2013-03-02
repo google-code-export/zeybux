@@ -30,7 +30,7 @@ class ModeleLotValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ModeleLotVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['quantite'])) {
 			$lVr->setValid(false);
 			$lVr->getQuantite()->setValid(false);
@@ -56,6 +56,7 @@ class ModeleLotValid
 			$lVr->getPrix()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['quantite'],0,12)) {
 					$lVr->setValid(false);
 					$lVr->getQuantite()->setValid(false);
@@ -167,7 +168,7 @@ class ModeleLotValid
 	*/
 	public static function validSet($pData) {
 		$lVr = new ModeleLotVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -177,6 +178,7 @@ class ModeleLotValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getId()->setValid(false);

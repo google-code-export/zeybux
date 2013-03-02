@@ -62,20 +62,28 @@
 
 ;String.prototype.checkDate = function(type) {
 	if(type === "")	type = 'db';
+	var regexp = '';
 	if(type == 'db') {
-		var regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;
+		/*regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;*/
+		regexp = /^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])$/;
 	} else if(type == 'fr') {
-		var regexp =  /^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$/g;
+		/*regexp =  /^[0-9]{2}['/']{1}[0-9]{2}['/']{1}[0-9]{4}$/g;*/
+		regexp = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 	} else return false;	
 	return this.toString().checkRegexp(regexp);
 }
 
 ;String.prototype.checkDateExist = function(type) {
 	if(type === "")	type = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(type == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; 
+		lIndexAnnee = 0; 
+		lIndexDate = 2;
 	} else if(type == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; 
+		lIndexAnnee = 2; 
+		lIndexDate = 0;
 	} else return false;	
 	var ladate = this.toString().split(lSplit);
 	if ((ladate.length != 3) || isNaN(parseInt(ladate[0])) || isNaN(parseInt(ladate[1])) || isNaN(parseInt(ladate[2]))) return false;
@@ -103,10 +111,11 @@
 
 ;function dateTimeEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "")	pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDateTime(pType) && pDatePetite.checkDateTime(pType) && pDateGrande.checkDateTimeExist(pType) && pDatePetite.checkDateTimeExist(pType)) {
 		var lDateTimeGrande = pDateGrande.split(' ');
@@ -126,10 +135,11 @@
 
 ;function dateEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "") pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDate(pType) && pDatePetite.checkDate(pType) && pDateGrande.checkDateExist(pType) && pDatePetite.checkDateExist(pType)) {
 		var lDateGrande = pDateGrande.split(lSplit);

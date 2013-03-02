@@ -152,20 +152,28 @@ function TemplateData() {
 
 ;String.prototype.checkDate = function(type) {
 	if(type === "")	type = 'db';
+	var regexp = '';
 	if(type == 'db') {
-		var regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;
+		/*regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;*/
+		regexp = /^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])$/;
 	} else if(type == 'fr') {
-		var regexp =  /^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$/g;
+		/*regexp =  /^[0-9]{2}['/']{1}[0-9]{2}['/']{1}[0-9]{4}$/g;*/
+		regexp = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 	} else return false;	
 	return this.toString().checkRegexp(regexp);
 }
 
 ;String.prototype.checkDateExist = function(type) {
 	if(type === "")	type = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(type == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; 
+		lIndexAnnee = 0; 
+		lIndexDate = 2;
 	} else if(type == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; 
+		lIndexAnnee = 2; 
+		lIndexDate = 0;
 	} else return false;	
 	var ladate = this.toString().split(lSplit);
 	if ((ladate.length != 3) || isNaN(parseInt(ladate[0])) || isNaN(parseInt(ladate[1])) || isNaN(parseInt(ladate[2]))) return false;
@@ -193,10 +201,11 @@ function TemplateData() {
 
 ;function dateTimeEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "")	pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDateTime(pType) && pDatePetite.checkDateTime(pType) && pDateGrande.checkDateTimeExist(pType) && pDatePetite.checkDateTimeExist(pType)) {
 		var lDateTimeGrande = pDateGrande.split(' ');
@@ -216,10 +225,11 @@ function TemplateData() {
 
 ;function dateEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "") pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDate(pType) && pDatePetite.checkDate(pType) && pDateGrande.checkDateExist(pType) && pDatePetite.checkDateExist(pType)) {
 		var lDateGrande = pDateGrande.split(lSplit);
@@ -653,7 +663,7 @@ sortABC = function(a, b){
 	};
 	
 	this.afficher = function(pInput) {
-		var infobulle;				
+		var infobulle = {};				
 		function apparition() {
 			var div = '#ifb-'+pInput.attr('id');
 			infobulle = $(div);
@@ -830,6 +840,7 @@ String.prototype.extractDbMinute = function() {
 	this.typePaiement = '';
 	this.champComplementaireObligatoire = '';
 	this.champComplementaire = '';
+	this.idBanque = '';
 }
 ;function ProduitCommandeVO() {
 	this.id = '';
@@ -897,7 +908,13 @@ function CompteZeybuSupprimerVirementVO() {
 };function ListeReservationCommandeVO() {
 	this.detailReservation = new Array();
 }
-function CompteZeybuAjoutVirementVO() {
+;function BanqueVO() {
+	this.id = '';
+	this.nomCourt = '';
+	this.nom = '';
+	this.description = '';
+	this.etat = '';
+}function CompteZeybuAjoutVirementVO() {
 	this.idCptDebit = '';
 	this.idCptCredit = '';
 	this.montant = '';
@@ -972,10 +989,9 @@ function CompteZeybuModifierVirementVO() {
 	this.id = '';
 };function AdherentVO() {
 	this.id = '';
-	/*this.motPasse = '';
-	this.motPasseConfirm = '';*/
 	this.numero = '';
 	this.compte = '';
+	this.idCompte = '';
 	this.nom = '';
 	this.prenom = '';
 	this.courrielPrincipal = '';
@@ -1150,9 +1166,8 @@ function CompteZeybuModifierVirementVO() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
-	/*this.motPasse = new VRelement();
-	this.motPasseConfirm = new VRelement();*/
 	this.numero = new VRelement();
+	this.idCompte = new VRelement();
 	this.compte = new VRelement();
 	this.nom = new VRelement();
 	this.prenom = new VRelement();
@@ -1199,6 +1214,7 @@ function CompteZeybuAjoutVirementVR() {
 	this.typePaiement = new VRelement();
 	this.champComplementaireObligatoire = new VRelement();
 	this.champComplementaire = new VRelement();
+	this.idBanque = new VRelement();
 }
 ;function CategorieProduitVR() {
 	this.valid = true;
@@ -1295,7 +1311,15 @@ function CompteZeybuModifierVirementVR() {
 	this.archive = new VRelement();
 	this.produits = new Array();
 }
-;function ModeleLotVR() {
+;function BanqueVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.nomCourt = new VRelement();
+	this.nom = new VRelement();
+	this.description = new VRelement();
+	this.etat = new VRelement();
+};function ModeleLotVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -1380,7 +1404,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) {
 		var lVR = new NomProduitVR();
@@ -1395,7 +1419,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 };function CaracteristiqueValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CaracteristiqueVR();
@@ -1449,13 +1473,13 @@ function CompteZeybuModifierVirementVR() {
 			lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);
 		}
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ListeReservationCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1486,7 +1510,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitAchatValid() { 
 	this.validAjout = function(pData) { 
@@ -1506,13 +1530,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ProduitAchatVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1535,7 +1559,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitMarcheValid() { 
 	this.validAjout = function(pData) { 
@@ -1876,13 +1900,13 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new DetailCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1908,7 +1932,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitBonDeCommandeValid() { 
 	this.validAjout = function(pData) { 
@@ -1927,7 +1951,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix != '' && pData.prix < 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ProduitBonDeCommandeVR();
@@ -2218,7 +2242,7 @@ function CompteZeybuModifierVirementVR() {
 			}
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new NomProduitCatalogueVR();
@@ -2281,7 +2305,7 @@ function CompteZeybuModifierVirementVR() {
 			}
 		}
 		return lVR;
-	}
+	};
 };function FermeValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new FermeVR();
@@ -2326,7 +2350,7 @@ function CompteZeybuModifierVirementVR() {
 		if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new FermeVR();
@@ -2339,7 +2363,7 @@ function CompteZeybuModifierVirementVR() {
 			return this.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 };function ProduitsBonDeCommandeValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitsBonDeCommandeVR();
@@ -2369,37 +2393,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);};
 		
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ProduitsBonDeCommandeVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ProduitsBonDeCommandeVR();
-			//Tests Techniques
-			if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_producteur.checkLength(0,11)) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(!pData.id_producteur.isInt()) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!isArray(pData.produits)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(pData.id_producteur.isEmpty()) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function ReservationAdherentValid() { 
 	this.validUpdate = function(pData) { 
 		var lVR = new AchatAdherentVR();
@@ -2413,7 +2407,6 @@ function CompteZeybuModifierVirementVR() {
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
@@ -2428,7 +2421,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }function CompteSolidaireVirementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteSolidaireAjoutVirementVR();
@@ -2449,7 +2442,7 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.montant) > parseFloat(pData.solde) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteSolidaireModifierVirementVR();
@@ -2473,7 +2466,7 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.montant) > (parseFloat(pData.solde) + parseFloat(pData.montantActuel)) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteSolidaireSupprimerVirementVR();
@@ -2485,9 +2478,53 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }
-;function ProducteurValid() { 
+;function BanqueValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new BanqueVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.id != '' && !pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+		if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+		return lVR;
+	};
+
+	this.validDelete = function(pData) {
+		var lVR = new BanqueVR();
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new BanqueVR();
+			//Tests Techniques
+			if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+			if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+			if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+			if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};
+
+};;function ProducteurValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProducteurVR();
 		//Tests Techniques
@@ -2517,7 +2554,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lVR = new ProducteurVR();
@@ -2531,7 +2568,7 @@ function CompteZeybuModifierVirementVR() {
 			return this.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 
 };function ProduitsBonDeLivraisonValid() { 
 	this.validAjout = function(pData) { 
@@ -2684,7 +2721,7 @@ function CompteZeybuModifierVirementVR() {
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
+				
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
@@ -2720,33 +2757,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix != '' && pData.prix < 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 		
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ProduitBonDeLivraisonVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ProduitBonDeLivraisonVR();
-			//Tests Techniques
-			if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
-			if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function AdherentValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new AdherentVR();
@@ -2755,6 +2766,7 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
 		*/
 		if(!pData.numero.checkLength(0,5)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.numero.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_354_CODE;erreur.message = ERR_354_MSG;lVR.compte.erreurs.push(erreur);}
 		if(!pData.compte.checkLength(0,30)) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.compte.erreurs.push(erreur);}
 		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
 		if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
@@ -2775,6 +2787,7 @@ function CompteZeybuModifierVirementVR() {
 		/*if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
 		if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
 		*/
+		
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 		if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
 		if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
@@ -2792,9 +2805,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 	
-		if(isArray(pData.modules)) {
-			if(pData.modules.length <= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_226_CODE;erreur.message = ERR_226_MSG;lVR.log.erreurs.push(erreur);}
-		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+		if(!isArray(pData.modules)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
 	};
@@ -2810,11 +2821,8 @@ function CompteZeybuModifierVirementVR() {
 		if(lTestId.valid) {
 			var lVR = new AdherentVR();
 			//Tests Techniques
-			/*if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
-			if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
-			*/
 			if(!pData.numero.checkLength(0,5)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.numero.erreurs.push(erreur);}
-			if(!pData.compte.checkLength(0,30)) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.compte.erreurs.push(erreur);}
+			if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_354_CODE;erreur.message = ERR_354_MSG;lVR.compte.erreurs.push(erreur);}
 			if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
 			if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
 			if(!pData.courrielPrincipal.checkLength(0,100)) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
@@ -2834,10 +2842,7 @@ function CompteZeybuModifierVirementVR() {
 			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 			if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
 			if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
-			if(pData.compte.isEmpty()) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.compte.erreurs.push(erreur);}
-			
-			// Les mots de passe ne sont pas identique si ils sont transmit
-			//if((pData.motPasse != '' || pData.motPasseConfirm != '') && pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}
+			if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.compte.erreurs.push(erreur);}
 			
 			// Les mails sont au bon format
 			if(pData.courrielPrincipal != '' && !pData.courrielPrincipal.checkCourriel()) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_224_CODE;erreur.message = ERR_224_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
@@ -2849,9 +2854,7 @@ function CompteZeybuModifierVirementVR() {
 			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 			
-			if(isArray(pData.modules)) {
-				if(pData.modules.length <= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_226_CODE;erreur.message = ERR_226_MSG;lVR.log.erreurs.push(erreur);}
-			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+			if(!isArray(pData.modules)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
 
 			return lVR;
 		}
@@ -2976,7 +2979,7 @@ function CompteZeybuModifierVirementVR() {
 			}	
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdateInformation = function(pData) { 
 		var lVR = new MarcheVR();
@@ -3026,7 +3029,7 @@ function CompteZeybuModifierVirementVR() {
 		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 };function RechargementCompteValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new RechargementCompteVR();
@@ -3039,13 +3042,15 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+		if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+		
 		//Tests Fonctionnels
 		if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.typePaiement.isEmpty() || pData.typePaiement == 0) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.typePaiement.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+		if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 		return lVR;
 	};
@@ -3069,13 +3074,15 @@ function CompteZeybuModifierVirementVR() {
 			if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+			if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+			
 			//Tests Fonctionnels
 			if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.typePaiement.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+			if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 			return lVR;
 		}
@@ -3096,13 +3103,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.stoIdDetailCommande.isEmpty()) {lVR.valid = false;lVR.stoIdDetailCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.stoIdDetailCommande.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ReservationCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3121,8 +3128,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
-
+	};
 }function CompteZeybuVirementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteZeybuAjoutVirementVR();
@@ -3146,7 +3152,7 @@ function CompteZeybuModifierVirementVR() {
 		
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteZeybuModifierVirementVR();
@@ -3162,7 +3168,7 @@ function CompteZeybuModifierVirementVR() {
 		
 		if(pData.montant <= 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteZeybuSupprimerVirementVR();
@@ -3174,61 +3180,23 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }
 ;function ExportBonReservationValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ExportBonReservationVR();
 		//Tests Techniques
-		//if(!pData.pParam.checkLength(0,1)) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(!pData.pParam.isInt()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-		//if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
 		if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
 		if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
-		//if(pData.pParam.isEmpty()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
 		if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ExportBonReservationVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ExportBonReservationVR();
-			//Tests Techniques
-			if(!pData.pParam.checkLength(0,1)) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(!pData.pParam.isInt()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
-			if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.pParam.isEmpty()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function ProduitAchatAdherentValid() { 
 	this.validUpdate = function(pData) { 
 		var lVR = new ProduitAchatAdherentVR();
@@ -3247,7 +3215,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 };function ExportBonLivraisonValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ExportBonLivraisonVR();
@@ -3268,7 +3236,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ExportBonLivraisonVR();
@@ -3363,7 +3331,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validAjoutProduit = function(pData) {
 		var lVR = this.validDelete(pData);
@@ -3372,7 +3340,7 @@ function CompteZeybuModifierVirementVR() {
 			return lProduitMarcheValid.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) {
 		var lVR = new CommandeCompleteVR();
@@ -3380,7 +3348,7 @@ function CompteZeybuModifierVirementVR() {
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3447,7 +3415,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 }
 ;function ModeleLotValid() { 
@@ -3556,7 +3524,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ExportListeReservationVR();
@@ -3604,13 +3572,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.idCategorie.isEmpty()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new NomProduitVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3629,7 +3597,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function IdentificationValid() { 
 	this.validAjout = function(pData) { 
@@ -3643,13 +3611,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.pass.isEmpty()) {lVR.valid = false;lVR.pass.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pass.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new IdentificationVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3666,7 +3634,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitCommandeValid() { 
 	this.validAjout = function(pData,pMode) { 
@@ -3725,13 +3693,13 @@ function CompteZeybuModifierVirementVR() {
 			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
 		}
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ProduitCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3785,7 +3753,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function CompteSpecialValid() { 
 	this.validAjout = function(pData) { 
@@ -3808,7 +3776,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.type < 2 || pData.type > 4) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_246_CODE;erreur.message = ERR_246_MSG;lVR.type.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteSpecialVR();
@@ -3820,7 +3788,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = this.validDelete(pData);
@@ -3833,7 +3801,7 @@ function CompteZeybuModifierVirementVR() {
 	
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdatePass = function(pData) { 
 		var lVR = this.validDelete(pData);
@@ -3850,13 +3818,13 @@ function CompteZeybuModifierVirementVR() {
 			if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}			
 		}
 		return lVR;
-	}
+	};
 }/********** Début Variables Globales ************/
 var TemplateData;
 var Infobulle = {};
 var gCommunVue = {};
 /********** Fin Variables Globales ************/
-$(document).ready(function() {	
+$(document).ready(function() {
 	AccueilVue(); // Lancement de l'accueil
 });;function CommunTemplate() {
 	this.debutContenu = "<div id=\"contenu\">";
@@ -3866,7 +3834,7 @@ $(document).ready(function() {
 	this.comDelete = function(pData) {	
 		pData.find(".com-delete").click( function () { $(this).parent().parent().remove(); });
 		return pData;	
-	}
+	};
 	
 	this.comNumeric = function(pData) {
 		if($(pData).length != 0)
@@ -3874,7 +3842,7 @@ $(document).ready(function() {
 		else
 			$("body").find('.com-numeric').numeric();
 		return pData;
-	}
+	};
 	
 	this.comLienDatepicker = function(pDatePetite,pDateGrande,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -3889,7 +3857,7 @@ $(document).ready(function() {
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.lienDatepickerMarche = function(pDebutReservation, pFinReservation, pDebutMarche, pData) {
 		pData.find('#' + pDebutReservation).datepicker({
@@ -3921,7 +3889,7 @@ $(document).ready(function() {
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.comDatepicker = function(pIdDate,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
@@ -3929,7 +3897,7 @@ $(document).ready(function() {
 			changeMonth: true,
 			changeYear: true});
 		return pData;		
-	}
+	};
 	
 	this.majMenu = function(pModule,pVue) {
 		var lId = '#menu-' + pModule + '-' + pVue;
@@ -3938,7 +3906,7 @@ $(document).ready(function() {
 		}
 		$('.btn-menu').removeClass("ui-state-active");
 		$(lId).addClass("ui-state-active");		
-	}
+	};
 	
 	this.comHoverBtn = function(pData) {
 		pData.find(	".com-button:not(.ui-state-disabled)," +
@@ -3961,7 +3929,7 @@ $(document).ready(function() {
 		});
 		
 		return pData;
-	}
+	};
 };function IdentificationTemplate() {
 	this.connexion =
 		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
@@ -3979,7 +3947,7 @@ $(document).ready(function() {
 			"</form>" +
 		"</div>";
 
-	this.debutMenu = "<div id=\"menu_int\" ><ul id=\"menu_liste\" >";
+	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
 	this.finMenu = "</ul></div>";
 		
 	this.deconnexion =	
@@ -3995,25 +3963,8 @@ $(document).ready(function() {
 				"<span class=\"com-float-left ui-icon ui-icon-gear\"></span>" +
 				"Administration" +
 		"</span>";
-	
+		
 	this.module =	
-		"<!-- BEGIN modules -->" +
-		"<li>" +
-			//"<span class=\"ui-widget-header ui-corner-top\">{modules.MODULE_LABEL}</span>" +
-			"<a class=\"ui-widget-header {modules.CLASS}\" id=\"menu-{modules.MODULE_NOM}-{modules.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.NOM}\">{modules.MODULE_LABEL}</a>" +
-			
-			"<ul class=\"sous_menu ui-widget-content ui-corner-bottom\">" +
-			"<!-- BEGIN vues -->" +
-				"<li class=\"ui-corner-all\">" +
-					"<a id=\"menu-{modules.MODULE_NOM}-{modules.vues.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.vues.NOM}\">{modules.vues.LABEL}</a>" +
-				"</li>" +
-				"<br/>" +
-			"<!-- END vues -->" +
-			"</ul>" +
-		"</li>" +
-		"<!-- END modules -->";
-	
-	this.nouveauModule =	
 		"<!-- BEGIN modules -->" +
 		"<li>" +
 			"<span class=\"com-cursor-pointer ui-widget-header menu-lien btn-menu\" id=\"menu-{modules.moduleNom}-{modules.nom}\">{modules.label}</span>" +
@@ -4048,7 +3999,7 @@ $(document).ready(function() {
 	
 	this.naviguateurIncompatible =
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
 					"Naviguateur Incompatible" +
 				"</div>" +
@@ -4096,17 +4047,17 @@ $(document).ready(function() {
 					"</div>" +
 				"</div>" +
 			"</div>" +
-			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
 							"<td>N° d'adhérent</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td>Mot de Passe</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
@@ -4122,17 +4073,17 @@ $(document).ready(function() {
 	
 	this.formulaireIdentification = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent  ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
 							"<td>N° d'adhérent</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td>Mot de Passe</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
@@ -4148,7 +4099,7 @@ $(document).ready(function() {
 	
 	this.chargementModule = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
 				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
@@ -4156,16 +4107,15 @@ $(document).ready(function() {
 	
 	this.chargementIdentification = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<div class=\"com-center\">Identification ...</div>" +
 			"</div>" +
 		"</div>";
 };function MenuVue(pParam) {
-	this.mMenuTemplate = new IdentificationTemplate();
+	//this.mMenuTemplate = new IdentificationTemplate();
 
-	this.construct = function(pParam) {
-		
+	this.construct = function(pParam) {		
 		var that = this;	
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
@@ -4175,7 +4125,7 @@ $(document).ready(function() {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							that.afficherNouveau(lResponse);
+							that.afficher(lResponse, pParam);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -4184,29 +4134,36 @@ $(document).ready(function() {
 		);
 	};
 	
-	
-	/******* Nouveau Module *********/
-	this.afficherNouveau = function(pMenu) {
+	this.afficher = function(pMenu, pParam) {
 		var that = this;
-		$('#menu_int').replaceWith(that.genererNouveauMenu(pMenu.menu));
-		$('#site').append(that.genererLienDeconnexion());
+		var lIdentificationTemplate = new IdentificationTemplate();
+				
+		$('#menu_int').replaceWith($(that.genererMenu(pMenu.menu)));
+		$('#site').append(that.affectButton($(lIdentificationTemplate.deconnexion)));
 		if(pMenu.admin){
-			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
+			$('#site').append(that.affectAdministration($(lIdentificationTemplate.administration)));
 		}
+		
+		pParam.homePage();
 	};
 	
-	this.genererLienDeconnexion = function() {
-		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+	this.affectButton = function(pData) {
+
+		/*pData = gCommunVue.comHoverBtn(pData);
+		return pData;*/
+		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
 	
-	this.genererLienAdmin = function() {
+	/*this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	};
+	};*/
 	
-	this.genererNouveauMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererNouveauModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
+	this.genererMenu = function(pMenu) {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		
+		var lMenu = lIdentificationTemplate.debutMenu;
+		lMenu += lIdentificationTemplate.module.template(pMenu); //this.genererModule(pMenu);
+		lMenu += lIdentificationTemplate.finMenu;
 		
 		lMenu = $(lMenu);
 		
@@ -4221,65 +4178,24 @@ $(document).ready(function() {
 		return lMenu;
 	};
 	
-	this.affectHover = function(pData) {
+	/*this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	};
+	};*/
 	
-	this.genererNouveauModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	};
+	};*/
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();
 		});
-		pData = this.affectHover(pData);
+		pData = this.affectButton(pData);
 		return pData;
 	};
-	/******* Fin Nouveau Module *********/
-	/*this.afficher = function(pMenu) {
-		var that = this;	
-		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
-		$('#site').append(that.mMenuTemplate.deconnexion);
-	};*/
-	
-	/*this.genererMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
 		
-		lMenu = $(lMenu);
-		
-		lMenu = this.affectVues(lMenu);
-		lMenu = this.affectAnimation(lMenu);
-		return lMenu;
-	};*/
-	
-	/*this.genererModule = function(pModule) {
-		var lTemplate = this.mMenuTemplate.module;
-		return lTemplate.template(pModule);		
-	};*/
-	
-	/*this.affectAnimation = function(pData) {
-		var that = this;
-		pData.find('#menu_liste > li').hover(function() {that.deroulerMenu(this)},function() {that.cacherMenu(this)});
-		pData.find('.sous_menu > li').hover( function() {$(this).addClass("ui-state-focus")} , function() {$(this).removeClass("ui-state-focus")});
-		return pData;
-	}*/
-	
-/*	this.deroulerMenu = function(obj) {
-		$('#menu_liste > li > ul').hide();
-		if($(obj).find('ul').css('display') == 'none') {
-			$(obj).find('ul').fadeIn('fast');
-		}
-	}
-	
-	this.cacherMenu = function(obj) {
-		$(obj).find('ul').stop().fadeTo(0,1).fadeOut('fast');
-	}*/
-	
 	this.affectVues = function(pData) {
 		if(pData) {
 			
@@ -4441,6 +4357,11 @@ $(document).ready(function() {
 				CaisseListeCommandeVue();
 				return false;
 			});
+			
+			pData.find('#menu-Parametrage-Banque').click(function() {
+				ListeBanqueVue();
+				return false;
+			});
 				
 			return pData;
 		}
@@ -4497,7 +4418,7 @@ $(document).ready(function() {
 					  	Infobulle.init(); // Supprime les erreurs
 					  	if(lResponse) {
 							if(lResponse.valid) {
-								that.mType = lResponse.type;
+								that.mType = parseInt(lResponse.type);
 								that.mModules = lResponse.modules;
 								gIdConnexion = lResponse.idConnexion;
 								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
@@ -4527,11 +4448,11 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -4543,7 +4464,6 @@ $(document).ready(function() {
 			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
 		}
 		
-		var that = this;
 		// Gestion du F5
 		// Bloque le fonctionnement du F5
 		$(document).bind('keypress keydown keyup', function(e) {
@@ -4577,24 +4497,21 @@ $(document).ready(function() {
 		
 	this.lancement = function() {
 		switch(this.mType) {
-			case '1':
-				MenuVue();
-				MonCompteVue();
+			// Adherent
+			case 1:
+				MenuVue({homePage:function() {MonCompteVue();}});				
 			break;
-			
-			case '2':
-				MenuVue();
-				AdministrationVue();
+			// Administrateur
+			case 2:
+				MenuVue({homePage:function() {AdministrationVue();}});
 			break;
-			
-			case '3':
-				MenuVue();
-				CaisseListeCommandeVue();
+			// Caisse
+			case 3:
+				MenuVue({homePage:function() {CaisseListeCommandeVue();}});
 			break;
-			
-			case '4':
-				MenuVue();
-				CompteSolidaireVue();
+			// Compte Solidaire
+			case 4:
+				MenuVue({homePage:function() {CompteSolidaireVue();}});
 			break;
 			
 			default :
@@ -4623,9 +4540,10 @@ $(document).ready(function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
 			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
-		} else {			
+		} else {	
 			var that = this;
-			$.getScript("./js/zeybux-configuration-min.js",function() {
+
+			$.getScript("./js/zeybux-configuration-min-20130127170547.js",function() {
 				that.init();
 				IdentificationVue();
 			});
@@ -4650,9 +4568,7 @@ $(document).ready(function() {
 		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
 		/*$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );	*/	
-		
-		
-		
+
 		$.history.callback = function ( pReinstate, pCursor ) {
 			var lDefault = {
 				vue: function() { return false; }

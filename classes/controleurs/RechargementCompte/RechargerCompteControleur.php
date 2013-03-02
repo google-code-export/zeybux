@@ -10,7 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/ListeAdherentRechargementResponse.php" );
@@ -18,6 +18,8 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/InfoRechargem
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/RechargerCompteValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/RechargementCompteValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 
 /**
  * @name RechargerCompteControleur
@@ -35,7 +37,12 @@ class RechargerCompteControleur
 	public function getListeAdherent() {		
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentRechargementResponse();
-		$lResponse->setListeAdherent(ListeAdherentViewManager::selectAll());
+		
+
+		$lAdherentService = new AdherentService();
+		
+		//$lResponse->setListeAdherent(ListeAdherentViewManager::selectAll());
+		$lResponse->setListeAdherent($lAdherentService->getAllResumeSolde());
 		$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
 		$lResponse->setTypePaiement($lTypePaiement);
 		
@@ -52,7 +59,8 @@ class RechargerCompteControleur
 		if($lVr->getValid()) {
 			$lResponse = new InfoRechargementResponse();
 			
-			$lAdherent = AdherentViewManager::select($pParam['id-adherent']);		
+			$lAdherentService = new AdherentService();
+			$lAdherent = $lAdherentService->get($pParam['id']); //AdherentViewManager::select($pParam['id']);
 	
 			$lResponse->setNumero($lAdherent->getAdhNumero());
 			$lResponse->setIdCompte($lAdherent->getAdhIdCompte());
@@ -60,6 +68,9 @@ class RechargerCompteControleur
 			$lResponse->setPrenom($lAdherent->getAdhPrenom());
 			$lResponse->setNom($lAdherent->getAdhNom());
 			$lResponse->setSolde($lAdherent->getCptSolde());
+			
+			$lBanqueService = new BanqueService();
+			$lResponse->setBanques($lBanqueService->getAllActif());
 			
 			return $lResponse;
 		}				
@@ -78,10 +89,9 @@ class RechargerCompteControleur
 			$lOperation->setIdCompte($pParam['id']);
 			$lOperation->setMontant($pParam['montant']);
 			$lOperation->setLibelle("Rechargement");
-			$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 			$lOperation->setTypePaiement($pParam['typePaiement']);		
 			$lOperation->setTypePaiementChampComplementaire($pParam['champComplementaire']);	
-			$lOperation->setIdCommande(0);
+			$lOperation->setIdBanque($pParam['idBanque']);
 			$lOperationService = new OperationService();
 			$lOperationService->set($lOperation);
 		}				

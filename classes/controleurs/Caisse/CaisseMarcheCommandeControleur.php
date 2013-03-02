@@ -283,7 +283,11 @@ class CaisseMarcheCommandeControleur
 			$lMarcheService = new MarcheService();
 			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
 						
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			//$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
+			
+			$lStockService = new StockService();
+			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
+			
 			$lResponse->setStockSolidaire($lStockSolidaire);	
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());			
 			return $lResponse;

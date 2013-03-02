@@ -512,16 +512,49 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 	        	}
 	        	fwrite($fp,")\n");		
 	
-	        	fwrite($fp,"\t\t\tVALUES (NULL");
+	        	fwrite($fp,"\t\t\tVALUES \";\n\n");
 	        	
-	        	$j = 0;
+		       	fwrite($fp,"\t\tif(is_array(\$pVo)) {\n");
+				fwrite($fp,"\t\t\t\$lNbVO = count(\$pVo);\n");
+				fwrite($fp,"\t\t\t\$lI = 1;\n");
+				fwrite($fp,"\t\t\tforeach(\$pVo as \$lVo) {\n");
+				fwrite($fp,"\t\t\t\t\$lRequete .= \"(NULL");						
+				$j = 0;
+	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
+	        		if($j != 0) {
+	        			fwrite($fp,"\n\t\t\t\t,'\" . StringUtils::securiser( \$pVo->get" . $lNomAttribut . "() ) . \"'");
+	        		}
+	        		$j++;
+				}	
+				fwrite($fp,")\";\n");	
+				fwrite($fp,"\n\t\t\t\tif(\$lNbVO == \$lI) {\n");
+				fwrite($fp,"\t\t\t\t\t\$lRequete .= \";\";\n");
+				fwrite($fp,"\t\t\t\t} else {\n");
+				fwrite($fp,"\t\t\t\t\t\$lRequete .= \",\";\n");
+				fwrite($fp,"\t\t\t\t}\n");
+				fwrite($fp,"\t\t\t\t\$lI++;\n");
+				fwrite($fp,"\t\t\t}\n");
+				fwrite($fp,"\t\t} else{\n");				
+				fwrite($fp,"\t\t\t\$lRequete .= \"(NULL");
+				$j = 0;
 	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
 	        		if($j != 0) {
 	        			fwrite($fp,"\n\t\t\t\t,'\" . StringUtils::securiser( \$pVo->get" . $lNomAttribut . "() ) . \"'");
 	        		}
 	        		$j++;
 				}
-	        	fwrite($fp,")\";\n\n");		
+	        	fwrite($fp,");\";\n");	
+				fwrite($fp,"\t\t}\n\n");
+	        	
+	        	
+	        	/*$j = 0;
+	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
+	        		if($j != 0) {
+	        			fwrite($fp,"\n\t\t\t\t,'\" . StringUtils::securiser( \$pVo->get" . $lNomAttribut . "() ) . \"'");
+	        		}
+	        		$j++;
+				}
+	        	fwrite($fp,")\";\n\n");		*/
 			
 				fwrite($fp,"\t\t\$lLogger->log(\"Execution de la requete : \" . \$lRequete,PEAR_LOG_DEBUG); // Maj des logs\n");
 				fwrite($fp,"\t\treturn Dbutils::executerRequeteInsertRetourId(\$lRequete);\n");
@@ -559,7 +592,7 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				fwrite($fp,"\t\t\t WHERE \" . " . $lNomTable[1] . "Manager::CHAMP_" . strtoupper($lNomTable[1]) . "_" . strtoupper($lNomAttribut2) . " . \" = '\" . StringUtils::securiser( \$pVo->get" . $lListeNomAttribut[1][0] . "() ) . \"'\";\n\n");
 			
 				fwrite($fp,"\t\t\$lLogger->log(\"Execution de la requete : \" . \$lRequete,PEAR_LOG_DEBUG); // Maj des logs\n");
-				fwrite($fp,"\t\tDbutils::executerRequete(\$lRequete);\n");
+				fwrite($fp,"\t\treturn Dbutils::executerRequete(\$lRequete);\n");
 				fwrite($fp,"\t}\n");
 	        	
 	        	
@@ -581,7 +614,7 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				fwrite($fp,"\t\t\tWHERE \" . " . $lNomTable[1] . "Manager::CHAMP_" . strtoupper($lNomTable[1]) . "_" . strtoupper($lNomAttribut2) . " . \" = '\" . StringUtils::securiser(\$pId) . \"'\";\n\n");
 			
 				fwrite($fp,"\t\t\$lLogger->log(\"Execution de la requete : \" . \$lRequete,PEAR_LOG_DEBUG); // Maj des logs\n");
-				fwrite($fp,"\t\tDbutils::executerRequete(\$lRequete);\n");
+				fwrite($fp,"\t\treturn Dbutils::executerRequete(\$lRequete);\n");
 				fwrite($fp,"\t}\n");
 	
 	        	fwrite($fp,"}\n");

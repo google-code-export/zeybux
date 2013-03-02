@@ -35,6 +35,9 @@ class OperationManager
 	const CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE = "ope_type_paiement_champ_complementaire";
 	const CHAMP_OPERATION_TYPE = "ope_type";
 	const CHAMP_OPERATION_ID_COMMANDE = "ope_id_commande";
+	const CHAMP_OPERATION_ID_BANQUE = "ope_id_banque";
+	const CHAMP_OPERATION_DATE_MAJ = "ope_date_maj";
+	const CHAMP_OPERATION_ID_LOGIN = "ope_id_login";
 
 	/**
 	* @name select($pId)
@@ -57,7 +60,10 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE . 
-			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . 
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE . 
+			"," . OperationManager::CHAMP_OPERATION_DATE_MAJ . 
+			"," . OperationManager::CHAMP_OPERATION_ID_LOGIN . "
 			FROM " . OperationManager::TABLE_OPERATION . " 
 			WHERE " . OperationManager::CHAMP_OPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -75,7 +81,10 @@ class OperationManager
 				$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 				$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 				$lLigne[OperationManager::CHAMP_OPERATION_TYPE],
-				$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE]);
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
+				$lLigne[OperationManager::CHAMP_OPERATION_DATE_MAJ],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_LOGIN]);
 		} else {
 			return new OperationVO();
 		}
@@ -100,7 +109,10 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE . 
-			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . 
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE . 
+			"," . OperationManager::CHAMP_OPERATION_DATE_MAJ . 
+			"," . OperationManager::CHAMP_OPERATION_ID_LOGIN . "
 			FROM " . OperationManager::TABLE_OPERATION;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -119,14 +131,17 @@ class OperationManager
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE],
-					$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE]));
+					$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE],
+					$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
+					$lLigne[OperationManager::CHAMP_OPERATION_DATE_MAJ],
+					$lLigne[OperationManager::CHAMP_OPERATION_ID_LOGIN]));
 			}
 		} else {
 			$lListeOperation[0] = new OperationVO();
 		}
 		return $lListeOperation;
 	}
-	
+
 	/**
 	* @name selectByIdCompte($pId)
 	* @param integer
@@ -183,7 +198,10 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .
 			"," . OperationManager::CHAMP_OPERATION_TYPE .
-			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE		);
+			"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE .
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE .
+			"," . OperationManager::CHAMP_OPERATION_DATE_MAJ .
+			"," . OperationManager::CHAMP_OPERATION_ID_LOGIN		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(OperationManager::TABLE_OPERATION, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -191,13 +209,14 @@ class OperationManager
 		$lListeOperation = array();
 
 		if($lRequete !== false) {
+
 			$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 			$lSql = Dbutils::executerRequete($lRequete);
-	
+
 			if( mysql_num_rows($lSql) > 0 ) {
-	
+
 				while ( $lLigne = mysql_fetch_assoc($lSql) ) {
-	
+
 					array_push($lListeOperation,
 						OperationManager::remplirOperation(
 						$lLigne[OperationManager::CHAMP_OPERATION_ID],
@@ -208,21 +227,24 @@ class OperationManager
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE],
-						$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE]));
+						$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE],
+						$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
+						$lLigne[OperationManager::CHAMP_OPERATION_DATE_MAJ],
+						$lLigne[OperationManager::CHAMP_OPERATION_ID_LOGIN]));
 				}
 			} else {
 				$lListeOperation[0] = new OperationVO();
 			}
-	
+
 			return $lListeOperation;
 		}
-		
+
 		$lListeOperation[0] = new OperationVO();
 		return $lListeOperation;
 	}
 
 	/**
-	* @name remplirOperation($pId, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande)
+	* @name remplirOperation($pId, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande, $pIdBanque, $pDateMaj, $pIdLogin)
 	* @param int(11)
 	* @param int(11)
 	* @param decimal(10,2)
@@ -232,20 +254,26 @@ class OperationManager
 	* @param varchar(50)
 	* @param int(11)
 	* @param int(11)
+	* @param int(11)
+	* @param datetime
+	* @param int(11)
 	* @return OperationVO
 	* @desc Retourne une OperationVO remplie
 	*/
-	private static function remplirOperation($pId, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande) {
+	private static function remplirOperation($pId, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande, $pIdBanque, $pDateMaj, $pIdLogin) {
 		$lOperation = new OperationVO();
 		$lOperation->setId($pId);
 		$lOperation->setIdCompte($pIdCompte);
 		$lOperation->setMontant($pMontant);
 		$lOperation->setLibelle($pLibelle);
 		$lOperation->setDate($pDate);
-		$lOperation->setTypePaiement($pTypePaiement);		
+		$lOperation->setTypePaiement($pTypePaiement);
 		$lOperation->setTypePaiementChampComplementaire($pTypePaiementChampComplementaire);
 		$lOperation->setType($pType);
 		$lOperation->setIdCommande($pIdCommande);
+		$lOperation->setIdBanque($pIdBanque);
+		$lOperation->setDateMaj($pDateMaj);
+		$lOperation->setIdLogin($pIdLogin);
 		return $lOperation;
 	}
 	
@@ -255,7 +283,7 @@ class OperationManager
 	* @return decimal
 	* @desc Calcule le solde de l'adhérent $pId
 	*/
-	public static function soldeAdherent($pId) {
+/*	public static function soldeAdherent($pId) {
 		$lRequete = "SELECT sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ") 
 					FROM " . OperationManager::TABLE_OPERATION . "
 					WHERE " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . $pId;
@@ -264,7 +292,7 @@ class OperationManager
 		$lLigne = mysql_fetch_assoc($lSql);
 		
 		return $lLigne["sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ")"];
-	}
+	}*/
 	
 	/**
 	* @name insertHistorique($pVo)
@@ -308,7 +336,10 @@ class OperationManager
 				," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . "
 				," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
 				," . OperationManager::CHAMP_OPERATION_TYPE . "
-				," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . ")
+				," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . "
+				," . OperationManager::CHAMP_OPERATION_ID_BANQUE . "
+				," . OperationManager::CHAMP_OPERATION_DATE_MAJ . "
+				," . OperationManager::CHAMP_OPERATION_ID_LOGIN . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
@@ -317,7 +348,10 @@ class OperationManager
 				,'" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
 				,'" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				,'" . StringUtils::securiser( $pVo->getType() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdCommande() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getIdCommande() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdBanque() ) . "'
+				,'" . StringUtils::securiser( $pVo->getDateMaj() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdLogin() ) . "')";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lId = Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -346,6 +380,9 @@ class OperationManager
 				," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . " = '" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				," . OperationManager::CHAMP_OPERATION_TYPE . " = '" . StringUtils::securiser( $pVo->getType() ) . "'
 				," . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = '" . StringUtils::securiser( $pVo->getIdCommande() ) . "'
+				," . OperationManager::CHAMP_OPERATION_ID_BANQUE . " = '" . StringUtils::securiser( $pVo->getIdBanque() ) . "'
+				," . OperationManager::CHAMP_OPERATION_DATE_MAJ . " = '" . StringUtils::securiser( $pVo->getDateMaj() ) . "'
+				," . OperationManager::CHAMP_OPERATION_ID_LOGIN . " = '" . StringUtils::securiser( $pVo->getIdLogin() ) . "'
 			 WHERE " . OperationManager::CHAMP_OPERATION_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
