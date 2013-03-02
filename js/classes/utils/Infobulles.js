@@ -74,7 +74,7 @@
 	};
 	
 	this.afficher = function(pInput) {
-		var infobulle;				
+		var infobulle = {};				
 		function apparition() {
 			var div = '#ifb-'+pInput.attr('id');
 			infobulle = $(div);

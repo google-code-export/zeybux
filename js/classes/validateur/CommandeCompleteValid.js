@@ -60,7 +60,7 @@
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validAjoutProduit = function(pData) {
 		var lVR = this.validDelete(pData);
@@ -69,7 +69,7 @@
 			return lProduitMarcheValid.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) {
 		var lVR = new CommandeCompleteVR();
@@ -77,7 +77,7 @@
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -144,6 +144,6 @@
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 }

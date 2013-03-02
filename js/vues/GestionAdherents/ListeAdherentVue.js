@@ -2,7 +2,8 @@
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeAdherentVue(pParam);}} );
 		var that = this;
-		$.post(	"./index.php?m=GestionAdherents&v=ListeAdherent", 
+		var lVo = {fonction:"afficher"};
+		$.post(	"./index.php?m=GestionAdherents&v=ListeAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
@@ -32,6 +33,7 @@
 				if(this.cptSolde < 0){this.classSolde = "com-nombre-negatif";}
 				this.cptSolde = this.cptSolde.nombreFormate(2,',',' ');
 				this.adhIdTri = this.adhNumero.replace("Z","");
+				this.cptIdTri = this.cptLabel.replace("C","");
 			});
 			
 			if(lResponse.listeAdherent.length == 1) {
@@ -62,7 +64,7 @@
 	};
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
+		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 5: {sorter: false} }});
 		return pData;
 	};
 	
@@ -77,9 +79,8 @@
 	};
 			
 	this.affectLienCompte = function(pData) {
-		var that = this;
 		pData.find(".compte-ligne").click(function() {
-			CompteAdherentVue({id_adherent: $(this).attr("id-adherent")});
+			CompteAdherentVue({id: $(this).attr("id-adherent")});
 		});
 		return pData;
 	};

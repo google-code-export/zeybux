@@ -15,7 +15,7 @@
 			"</form>" +
 		"</div>";
 
-	this.debutMenu = "<div id=\"menu_int\" ><ul id=\"menu_liste\" >";
+	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
 	this.finMenu = "</ul></div>";
 		
 	this.deconnexion =	
@@ -31,25 +31,8 @@
 				"<span class=\"com-float-left ui-icon ui-icon-gear\"></span>" +
 				"Administration" +
 		"</span>";
-	
+		
 	this.module =	
-		"<!-- BEGIN modules -->" +
-		"<li>" +
-			//"<span class=\"ui-widget-header ui-corner-top\">{modules.MODULE_LABEL}</span>" +
-			"<a class=\"ui-widget-header {modules.CLASS}\" id=\"menu-{modules.MODULE_NOM}-{modules.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.NOM}\">{modules.MODULE_LABEL}</a>" +
-			
-			"<ul class=\"sous_menu ui-widget-content ui-corner-bottom\">" +
-			"<!-- BEGIN vues -->" +
-				"<li class=\"ui-corner-all\">" +
-					"<a id=\"menu-{modules.MODULE_NOM}-{modules.vues.NOM}\" href=\"./index.php?m={modules.MODULE_NOM}&amp;v={modules.vues.NOM}\">{modules.vues.LABEL}</a>" +
-				"</li>" +
-				"<br/>" +
-			"<!-- END vues -->" +
-			"</ul>" +
-		"</li>" +
-		"<!-- END modules -->";
-	
-	this.nouveauModule =	
 		"<!-- BEGIN modules -->" +
 		"<li>" +
 			"<span class=\"com-cursor-pointer ui-widget-header menu-lien btn-menu\" id=\"menu-{modules.moduleNom}-{modules.nom}\">{modules.label}</span>" +
@@ -84,7 +67,7 @@
 	
 	this.naviguateurIncompatible =
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
 					"Naviguateur Incompatible" +
 				"</div>" +
@@ -132,17 +115,17 @@
 					"</div>" +
 				"</div>" +
 			"</div>" +
-			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
 							"<td>N° d'adhérent</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td>Mot de Passe</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
@@ -158,17 +141,17 @@
 	
 	this.formulaireIdentification = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent  ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
 							"<td>N° d'adhérent</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" value=\"Z\"/></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td>Mot de Passe</td>" +
-							"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\" value=\"zeybu\" /></td>" +
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
@@ -184,7 +167,7 @@
 	
 	this.chargementModule = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
 				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
@@ -192,7 +175,7 @@
 	
 	this.chargementIdentification = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<div class=\"com-center\">Identification ...</div>" +
 			"</div>" +

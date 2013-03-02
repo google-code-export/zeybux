@@ -28,7 +28,7 @@
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lVR = new ProducteurVR();
@@ -42,6 +42,6 @@
 			return this.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 
 }
