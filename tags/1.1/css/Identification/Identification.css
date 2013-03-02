@@ -1,0 +1,78 @@
+@CHARSET "UTF-8";
+#formulaire_identification_int {
+	padding:5px;
+	width: 360px;
+	margin-left:320px;
+	margin-top:150px;
+	box-shadow: 0 0 20px #555;
+}
+
+#formulaire_identification_html {
+	padding:5px;
+	width: 360px;
+	margin-left:320px;
+	margin-top:15px;
+}
+
+
+#formulaire_identification_ifb {
+	padding:5px;
+}
+
+#formulaire_identification_int table,#formulaire_identification_ifb table {
+	padding:3px;	
+}
+
+#formulaire_identification_int td,#formulaire_identification_ifb td, #formulaire_identification_html td {
+	border-collapse:collapse;
+	padding:3px;	
+}
+
+#titre_fenetre {
+	padding:3px;
+	text-align:center;
+	margin-bottom:15px;
+}
+
+#formulaire_identification_int input[type=text], 
+#formulaire_identification_int input[type=password],
+#formulaire_identification_ifb input[type=text],
+#formulaire_identification_ifb input[type=password],
+#formulaire_identification_html input[type=text],
+#formulaire_identification_html input[type=password] 
+.formulaire_identification input[type=text],
+.formulaire_identification input[type=password],
+.input_formulaire_identification {
+	width:200px;
+	margin-left:5px;
+}
+
+.action-ifb {
+	color:#3A8104;
+	text-decoration:underline;
+}
+
+#liste-naviguateur {
+	margin-top: 20px;
+}
+
+.lien_mot_passe {    
+	font-size: 12px;
+    font-style: italic;
+}
+
+#liste-naviguateur a{
+	text-decoration:none;
+}
+
+#liste-naviguateur a:hover{
+	text-decoration:underline;
+}
+
+#liste-naviguateur img{
+	border:none;
+}
+
+#naviguateur-1 {
+	margin-left: 250px;
+}

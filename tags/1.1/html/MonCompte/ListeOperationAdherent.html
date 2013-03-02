@@ -1,0 +1,31 @@
+<div id="liste_operation_adherent_int">
+	<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+		<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">Solde : <span id="solde">{cptSolde} {sigleMonetaire}</span></div>		
+		<div>
+			{BARRE_NAVIGUATION_OPERATION}
+			<table id="table-operation" class="com-table">
+				<thead>
+				<tr class="ui-widget ui-widget-header" >
+					<th class="com-table-th">Date</th>
+					<th class="com-table-th">Libellé</th>
+					<th class="com-table-th">Type de paiement</th>
+					<th class="com-table-th">Débit</th>
+					<th class="com-table-th">Crédit</th>
+				</tr>
+				</thead>
+				<tbody>
+			<!-- BEGIN operationPassee -->
+				<tr>
+					<td class="com-table-td td-date ">{operationPassee.opeDate}</td>
+					<td class="com-table-td td-libelle">{operationPassee.opeLibelle}</td>
+					<td class="com-table-td td-type-paiement">{operationPassee.tppType}</td>
+					<td class="com-table-td td-montant">{operationPassee.debit}</td>
+					<td class="com-table-td td-montant">{operationPassee.credit}</td>
+				</tr>
+			<!-- END operationPassee -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{LISTE_OPERATION_FUTURE}
+</div>
