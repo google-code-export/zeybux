@@ -495,10 +495,11 @@
 		var lMax = parseFloat(this.produit.proAboMax);
 		
 		// Recherche de la quantité reservée pour la déduire de la quantité max
+		var lStock = 0;
 		if(this.reservation && this.reservation.stoQuantite) {
-			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation) + parseFloat(this.reservation.stoQuantite);						
+			lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation) + parseFloat(this.reservation.stoQuantite);						
 		} else {
-			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation);
+			lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation);
 		}
 
 		
@@ -745,7 +746,7 @@
 		var that = this;
 		var lGestionAbonnementTemplate = new GestionAbonnementTemplate();
 		var lTemplate = lGestionAbonnementTemplate.dialogSuppressionAbonnement;
-		var lButton = this;
+		//var lButton = this;
 		$(lTemplate).dialog({
 			autoOpen: true,
 			modal: true,
@@ -790,7 +791,7 @@
 	};
 
 	this.affectRetour = function(pData) {
-		var that = this;
+	//	var that = this;
 		pData.find("#lien-retour").click(function() { ListeAbonneVue();});
 		return pData;
 	};

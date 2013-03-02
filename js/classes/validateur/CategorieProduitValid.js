@@ -9,7 +9,7 @@
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) {
 		var lVR = new NomProduitVR();
@@ -24,5 +24,5 @@
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }

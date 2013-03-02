@@ -898,7 +898,6 @@
 	};
 			
 	this.affectLienCompte = function(pData) {
-		var that = this;
 		pData.find(".compte-ligne").click(function() {
 			DetailAbonneAbonnementVue({id: $(this).attr("id-adherent")});
 		});
@@ -1403,10 +1402,11 @@
 		var lMax = parseFloat(this.produit.proAboMax);
 		
 		// Recherche de la quantité reservée pour la déduire de la quantité max
+		var lStock = 0;
 		if(this.reservation && this.reservation.stoQuantite) {
-			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation) + parseFloat(this.reservation.stoQuantite);						
+			lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation) + parseFloat(this.reservation.stoQuantite);						
 		} else {
-			var lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation);
+			lStock = parseFloat(this.produit.proAboStockInitial) - parseFloat(this.produit.proAboReservation);
 		}
 
 		
@@ -1653,7 +1653,7 @@
 		var that = this;
 		var lGestionAbonnementTemplate = new GestionAbonnementTemplate();
 		var lTemplate = lGestionAbonnementTemplate.dialogSuppressionAbonnement;
-		var lButton = this;
+		//var lButton = this;
 		$(lTemplate).dialog({
 			autoOpen: true,
 			modal: true,
@@ -1698,7 +1698,7 @@
 	};
 
 	this.affectRetour = function(pData) {
-		var that = this;
+	//	var that = this;
 		pData.find("#lien-retour").click(function() { ListeAbonneVue();});
 		return pData;
 	};
@@ -2162,10 +2162,11 @@
 		lVo.prix = $("#pro-lot-" + pId + "-prix").val().numberFrToDb();
 	
 		var lValid = new ModeleLotValid();
+		var lVr = new TemplateVR();
 		if(this.autorisationSupprimerLot(pId)) {
-			var lVr = lValid.validAjout(lVo);
+			lVr = lValid.validAjout(lVo);
 		} else {
-			var lVr = lValid.validUpdateAvecReservation(lVo,this.mLotAbonnes[pId].quantite);
+			lVr = lValid.validUpdateAvecReservation(lVo,this.mLotAbonnes[pId].quantite);
 		}
 
 		if(lVr.valid) {
@@ -2362,7 +2363,6 @@
 	};
 	
 	this.affectDialogSuppProduit = function(pData) {
-		var that = this;
 		pData.find("#btn-supp").click(function() {
 			var lGestionAbonnementTemplate = new GestionAbonnementTemplate();
 			var lTemplate = lGestionAbonnementTemplate.dialogSuppressionProduit;
@@ -2478,7 +2478,6 @@
 	};
 			
 	this.affectLienProduit = function(pData) {
-		var that = this;
 		pData.find(".ligne-produit").click(function() {
 			DetailProduitAbonnementVue({id: $(this).attr("idProduit")});
 		});
