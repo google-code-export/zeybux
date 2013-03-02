@@ -14,24 +14,34 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 	// Test qu'un identifiant d'un compte est bien demandé
 	if( isset( $_POST['pParam'] ) ) {
 		$lParam = json_decode($_POST['pParam'],true);
-		if($lParam['id_adherent']) {
-			// Inclusion des classes
+		
+		if(isset($lParam["fonction"])) {
 			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_ADHERENTS . "/SuppressionAdherentControleur.php");
-
 			$lControleur = new SuppressionAdherentControleur();
-			$lResponse = $lControleur->supprimerAdherent($lParam);
 			
-			echo $lResponse->exportToJson();
 			
-			if($lResponse->getValid()) {
-				$lLogger->log("Suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-			} else {
-				$lLogger->log("Echec de la suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+			switch($lParam["fonction"]) {
+				case "supprimer":
+					$lResponse = $lControleur->supprimerAdherent($lParam);
+					echo $lResponse->exportToJson();
+						
+					if($lResponse->getValid()) {
+						$lLogger->log("Suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					} else {
+						$lLogger->log("Echec de la suppression de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					}
+					break;
+						
+				default:
+					$lLogger->log("Demande d'accés à supprimer Adherent sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					header('location:./index.php');
+					break;
 			}
+			
 		} else {
-			$lLogger->log("Demande d'accés sans id d'adherent à la suppression des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-			header('location:./index.php');
-		}		
+			$lLogger->log("Demande d'accés sans fonction à supprimer adhérent",PEAR_LOG_INFO);	// Maj des logs
+			header('location:./index.php?cx=1');
+		}
 	} else {
 		$lLogger->log("Demande d'accés sans paramètre d'adherent à la suppression des adhérents par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');

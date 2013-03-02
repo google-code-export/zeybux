@@ -72,7 +72,7 @@ else {
 	// Préparation de l'affichage
 	$lTemplate = new Template(CHEMIN_TEMPLATE);	
 	$lTemplate->set_filenames( array('index' =>  './index.html') );
-	InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
+	InfobullesUtils::generer($lTemplate); // Messages d'erreur
 	$lTemplate->assign_vars( array( 'TITRE' => IDE_TITRE) );
 	
 	// Affichage des templates
