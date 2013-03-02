@@ -120,6 +120,11 @@
 				CaisseListeCommandeVue();
 				return false;
 			});
+			
+			pData.find('#menu-Parametrage-Banque').click(function() {
+				ListeBanqueVue();
+				return false;
+			});
 				
 			return pData;
 		}

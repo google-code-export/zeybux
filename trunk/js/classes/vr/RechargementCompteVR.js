@@ -6,4 +6,5 @@
 	this.typePaiement = new VRelement();
 	this.champComplementaireObligatoire = new VRelement();
 	this.champComplementaire = new VRelement();
+	this.idBanque = new VRelement();
 }

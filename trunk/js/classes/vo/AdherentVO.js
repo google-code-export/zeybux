@@ -1,9 +1,8 @@
 ;function AdherentVO() {
 	this.id = '';
-	/*this.motPasse = '';
-	this.motPasseConfirm = '';*/
 	this.numero = '';
 	this.compte = '';
+	this.idCompte = '';
 	this.nom = '';
 	this.prenom = '';
 	this.courrielPrincipal = '';

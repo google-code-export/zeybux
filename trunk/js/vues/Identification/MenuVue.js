@@ -1,8 +1,7 @@
 ;function MenuVue(pParam) {
-	this.mMenuTemplate = new IdentificationTemplate();
+	//this.mMenuTemplate = new IdentificationTemplate();
 
-	this.construct = function(pParam) {
-		
+	this.construct = function(pParam) {		
 		var that = this;	
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
@@ -12,7 +11,7 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							that.afficherNouveau(lResponse);
+							that.afficher(lResponse, pParam);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -21,29 +20,36 @@
 		);
 	};
 	
-	
-	/******* Nouveau Module *********/
-	this.afficherNouveau = function(pMenu) {
+	this.afficher = function(pMenu, pParam) {
 		var that = this;
-		$('#menu_int').replaceWith(that.genererNouveauMenu(pMenu.menu));
-		$('#site').append(that.genererLienDeconnexion());
+		var lIdentificationTemplate = new IdentificationTemplate();
+				
+		$('#menu_int').replaceWith($(that.genererMenu(pMenu.menu)));
+		$('#site').append(that.affectButton($(lIdentificationTemplate.deconnexion)));
 		if(pMenu.admin){
-			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
+			$('#site').append(that.affectAdministration($(lIdentificationTemplate.administration)));
 		}
+		
+		pParam.homePage();
 	};
 	
-	this.genererLienDeconnexion = function() {
-		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+	this.affectButton = function(pData) {
+
+		/*pData = gCommunVue.comHoverBtn(pData);
+		return pData;*/
+		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
 	
-	this.genererLienAdmin = function() {
+	/*this.genererLienAdmin = function() {
 		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	};
+	};*/
 	
-	this.genererNouveauMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererNouveauModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
+	this.genererMenu = function(pMenu) {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		
+		var lMenu = lIdentificationTemplate.debutMenu;
+		lMenu += lIdentificationTemplate.module.template(pMenu); //this.genererModule(pMenu);
+		lMenu += lIdentificationTemplate.finMenu;
 		
 		lMenu = $(lMenu);
 		
@@ -58,65 +64,24 @@
 		return lMenu;
 	};
 	
-	this.affectHover = function(pData) {
+	/*this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	};
+	};*/
 	
-	this.genererNouveauModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
-	};
+	};*/
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();
 		});
-		pData = this.affectHover(pData);
+		pData = this.affectButton(pData);
 		return pData;
 	};
-	/******* Fin Nouveau Module *********/
-	/*this.afficher = function(pMenu) {
-		var that = this;	
-		$('#menu_int').replaceWith(that.genererMenu(pMenu));	
-		$('#site').append(that.mMenuTemplate.deconnexion);
-	};*/
-	
-	/*this.genererMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
 		
-		lMenu = $(lMenu);
-		
-		lMenu = this.affectVues(lMenu);
-		lMenu = this.affectAnimation(lMenu);
-		return lMenu;
-	};*/
-	
-	/*this.genererModule = function(pModule) {
-		var lTemplate = this.mMenuTemplate.module;
-		return lTemplate.template(pModule);		
-	};*/
-	
-	/*this.affectAnimation = function(pData) {
-		var that = this;
-		pData.find('#menu_liste > li').hover(function() {that.deroulerMenu(this)},function() {that.cacherMenu(this)});
-		pData.find('.sous_menu > li').hover( function() {$(this).addClass("ui-state-focus")} , function() {$(this).removeClass("ui-state-focus")});
-		return pData;
-	}*/
-	
-/*	this.deroulerMenu = function(obj) {
-		$('#menu_liste > li > ul').hide();
-		if($(obj).find('ul').css('display') == 'none') {
-			$(obj).find('ul').fadeIn('fast');
-		}
-	}
-	
-	this.cacherMenu = function(obj) {
-		$(obj).find('ul').stop().fadeTo(0,1).fadeOut('fast');
-	}*/
-	
 	this.affectVues = function(pData) {
 		if(pData) {
 			

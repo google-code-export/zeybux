@@ -23,7 +23,7 @@
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
+				
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
