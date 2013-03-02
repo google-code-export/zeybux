@@ -1,7 +1,0 @@
-AuthUserFile /home/www-zeybu/zeybuwww/.htpasswd
-AuthName "Protection"
-AuthType Basic
-
-<limit GET POST>
-	Require valid-user
-</limit>
