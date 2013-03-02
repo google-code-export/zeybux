@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+/* ModifierMonCompteHTML */
+a {
+	text-decoration:none;
+}
+
+#widget_message_information {
+	left:0;
+	position:relative;
+	margin-left:300px;	
+	font-style:normal;
+	font-weight:normal;
+	text-align:left;
+}
+
+.message-erreur-champ {
+	margin:5px;
+	padding:3px;
+}
+
+#dialog-edt-info-cpt {
+	margin-left:268px;
+	width:454px;
+}
+
+#edt-info-compte-form {
+	width:400px;
+	text-align:center;
+	margin-left:295px;
+}
+
+#edt-info-compte-form .btn-annuler {
+	margin-right:75px;
+}
+
+#detail-produit {
+    clear: left;
+    margin-top: 55px;
+}
