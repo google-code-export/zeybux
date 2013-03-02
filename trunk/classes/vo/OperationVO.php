@@ -73,6 +73,24 @@ class OperationVO extends DataTemplate
 	protected $mIdCommande;
 
 	/**
+	* @var int(11)
+	* @desc IdBanque de la OperationVO
+	*/
+	protected $mIdBanque;
+
+	/**
+	* @var datetime
+	* @desc DateMaj de la OperationVO
+	*/
+	protected $mDateMaj;
+
+	/**
+	* @var int(11)
+	* @desc IdLogin de la OperationVO
+	*/
+	protected $mIdLogin;
+
+	/**
 	* @name getId()
 	* @return int(11)
 	* @desc Renvoie le membre Id de la OperationVO
@@ -190,7 +208,7 @@ class OperationVO extends DataTemplate
 	}
 
 	/**
-	* @name setTypePaiementChampComplémentaire($pTypePaiementChampComplémentaire)
+	* @name setTypePaiementChampComplementaire($pTypePaiementChampComplementaire)
 	* @param varchar(50)
 	* @desc Remplace le membre TypePaiementChampComplementaire de la OperationVO par $pTypePaiementChampComplementaire
 	*/
@@ -232,6 +250,60 @@ class OperationVO extends DataTemplate
 	*/
 	public function setIdCommande($pIdCommande) {
 		$this->mIdCommande = $pIdCommande;
+	}
+
+	/**
+	* @name getIdBanque()
+	* @return int(11)
+	* @desc Renvoie le membre IdBanque de la OperationVO
+	*/
+	public function getIdBanque() {
+		return $this->mIdBanque;
+	}
+
+	/**
+	* @name setIdBanque($pIdBanque)
+	* @param int(11)
+	* @desc Remplace le membre IdBanque de la OperationVO par $pIdBanque
+	*/
+	public function setIdBanque($pIdBanque) {
+		$this->mIdBanque = $pIdBanque;
+	}
+
+	/**
+	* @name getDateMaj()
+	* @return datetime
+	* @desc Renvoie le membre DateMaj de la OperationVO
+	*/
+	public function getDateMaj() {
+		return $this->mDateMaj;
+	}
+
+	/**
+	* @name setDateMaj($pDateMaj)
+	* @param datetime
+	* @desc Remplace le membre DateMaj de la OperationVO par $pDateMaj
+	*/
+	public function setDateMaj($pDateMaj) {
+		$this->mDateMaj = $pDateMaj;
+	}
+
+	/**
+	* @name getIdLogin()
+	* @return int(11)
+	* @desc Renvoie le membre IdLogin de la OperationVO
+	*/
+	public function getIdLogin() {
+		return $this->mIdLogin;
+	}
+
+	/**
+	* @name setIdLogin($pIdLogin)
+	* @param int(11)
+	* @desc Remplace le membre IdLogin de la OperationVO par $pIdLogin
+	*/
+	public function setIdLogin($pIdLogin) {
+		$this->mIdLogin = $pIdLogin;
 	}
 
 }

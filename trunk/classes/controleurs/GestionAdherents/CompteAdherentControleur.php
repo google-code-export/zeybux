@@ -9,13 +9,19 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
+/*include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/InfoCompteAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
-include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );*/
+
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/InfoCompteAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "ModuleService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
 
 /**
  * @name CompteAdherentControleur
@@ -31,8 +37,28 @@ class CompteAdherentControleur
 	* @desc Renvoie le Compte du controleur après avoir récupérer les informations dans la BDD en fonction de l'ID.
 	*/
 	public function afficher($pParam) {
+		$lVr = AdherentValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lIdAdherent = $pParam['id'];
+			$lAdherentService = new AdherentService();				
+			$lResponse = new InfoCompteAdherentResponse();
+			
+			$lResponse->setAdherent($lAdherentService->get($lIdAdherent));			
+			$lResponse->setAutorisations( $lAdherentService->getAutorisation($lIdAdherent) );
+			$lResponse->setOperationAvenir( $lAdherentService->getOperationAvenir($lIdAdherent));
+			$lResponse->setOperationPassee( $lAdherentService->getOperationPassee($lIdAdherent));
+			
+			$lModuleService = new ModuleService();
+			$lResponse->setModules( $lModuleService->selectAllNonDefautVisible());
+			
+			$lTypePaiementService = new TypePaiementService();
+			$lResponse->setTypePaiement( $lTypePaiementService->get() );
+			
+			return $lResponse;
+		}
+		return $lVr;
 		
-		$lResponse = new InfoCompteAdherentResponse();
+		/*$lResponse = new InfoCompteAdherentResponse();
 		$lIdAdherent = $pParam['id_adherent'];
 		$lAdherent = AdherentViewManager::select( $lIdAdherent );
 		$lResponse->setAdherent( $lAdherent );
@@ -56,7 +82,7 @@ class CompteAdherentControleur
 			$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 			$lVr->getLog()->addErreur($lErreur);
 			return $lVr;			
-		}
+		}*/
 	}
 }
 ?>

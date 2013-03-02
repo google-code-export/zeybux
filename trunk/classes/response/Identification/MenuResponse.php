@@ -84,7 +84,7 @@ class MenuResponse extends DataTemplate
 	/**
 	* @name getAdmin()
 	* @return bool
-	* @desc Renvoie mMenu
+	* @desc Renvoie mAdmin
 	*/
 	public function getAdmin() {
 		return $this->mAdmin;

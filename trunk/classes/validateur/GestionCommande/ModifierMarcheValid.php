@@ -32,6 +32,7 @@ class ModifierMarcheValid
 	*/
 	public static function validUpdate($pData) {
 		$lVr = new ModifierMarcheVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -428,6 +429,7 @@ class ModifierMarcheValid
 	*/
 	public static function validUpdateInformation($pData) {
 		$lVr = new ModifierMarcheVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);

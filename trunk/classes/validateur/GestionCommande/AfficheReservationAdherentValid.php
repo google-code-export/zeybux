@@ -267,6 +267,7 @@ class AfficheReservationAdherentValid
 	*/
 	public static function validGetDetailProduit($pData) {
 		$lVr = new ProduitMarcheVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);

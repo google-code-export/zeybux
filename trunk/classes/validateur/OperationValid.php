@@ -170,6 +170,7 @@ class OperationValid
 		if($this->estOperation($pOperation)) {
 			$lIdValid = new IdValid();
 			$lId = $pOperation->getId();
+						
 			return $lIdValid->estId($lId)
 				&& empty($lId)
 				&& $this->compte($pOperation->getIdCompte())

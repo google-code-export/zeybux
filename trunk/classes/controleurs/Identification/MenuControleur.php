@@ -63,7 +63,7 @@ class MenuControleur
 		foreach($lListeModule as $lModule) {	
 			// N'affiche que les modules non admin		
 			if($lModule->getModAdmin() == 1) {
-				$lAdmin = true;
+				$lAdmin = true;				
 			} else {
 				// Si c'est le module non admin -> traitement spécial
 				if($lModule->getModId() == 1 || $lModule->getModId() == 3) {

@@ -65,6 +65,10 @@ class AjoutCommandeControleur
 			foreach($lMarche->getProduits() as $lProduit) {
 				if($lProduit->getType() == 2) {
 					$lDetailAbonnement = $lAbonnementService->getProduitByIdNom($lProduit->getIdNom());
+
+					// Gestion des limites de stock et max adhérent pour les abonnements
+					$lProduit->setStockInitial($lDetailAbonnement->getStockInitial());
+					$lProduit->setQteMaxCommande($lDetailAbonnement->getMax());
 					
 					$lNvLots = array();
 					foreach($lDetailAbonnement->getLots() as $lLot) {

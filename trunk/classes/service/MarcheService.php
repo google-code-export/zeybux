@@ -64,7 +64,7 @@ class MarcheService
 			
 			$lStockService = new StockService();
 			foreach($pMarche->getProduits() as $lNouveauProduit) {
-				//$lProducteur = ProducteurManager::select($lNouveauProduit->getIdProducteur());
+				
 				$lComptes = CompteNomProduitViewManager::select($lNouveauProduit->getIdNom());
 				$lComptes = $lComptes[0];
 				$lIdCompteFerme = $lComptes->getFerIdCompte();				
@@ -72,8 +72,17 @@ class MarcheService
 				// Insertion du produit
 				$lProduit = new ProduitVO();
 				$lProduit->setIdCommande($lIdMarche);
-				$lProduit->setIdNomProduit($lNouveauProduit->getIdNom());
+				$lIdNomProduit = $lNouveauProduit->getIdNom();
+				$lProduit->setIdNomProduit($lIdNomProduit);
 				$lProduit->setUniteMesure($lNouveauProduit->getUnite());
+				
+				// Gestion des limites de stock et max adhérent pour les abonnements
+				if($lProduit->getType() == 2) {
+					$lAbonnement = $lAbonnementService->getProduitByIdNom($lIdNomProduit);
+					$lNouveauProduit->getQteMaxCommande($lAbonnement->$lDetailAbonnement->getMax());
+					$lNouveauProduit->getQteRestante($lAbonnement->$lDetailAbonnement->getStockInitial());
+				}
+				
 				if($lNouveauProduit->getQteMaxCommande() == "" || $lNouveauProduit->getQteMaxCommande() == -1) {
 					$lProduit->setMaxProduitCommande(-1);
 				} else {
@@ -119,7 +128,6 @@ class MarcheService
 								
 				// Ajout des réservations pour abonnement
 				if($lProduit->getType() == 2) {
-					$lIdNomProduit = $lNouveauProduit->getIdNom();
 					$lAbonnes = $lAbonnementService->getAbonnesByIdNomProduit($lIdNomProduit);
 					if(!is_null($lAbonnes[0]->getCptAboIdProduitAbonnement())) { // Si il y a des abonnés
 						foreach($lAbonnes as $lAbonne) {

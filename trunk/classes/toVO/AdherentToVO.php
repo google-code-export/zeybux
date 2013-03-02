@@ -75,7 +75,7 @@ class AdherentToVO
 	public static function convertFromArray($pArray) {
 		$lValid = isset($pArray['id'])
 			&& isset($pArray['numero'])
-			&& isset($pArray['compte'])
+			&& isset($pArray['idCompte'])
 			&& isset($pArray['nom'])
 			&& isset($pArray['prenom'])
 			&& isset($pArray['courrielPrincipal'])
@@ -94,7 +94,7 @@ class AdherentToVO
 			$lVo = new AdherentVO();
 			$lVo->setId($pArray['id']);
 			$lVo->setNumero($pArray['numero']);
-			$lVo->setIdCompte($pArray['compte']);
+			$lVo->setIdCompte($pArray['idCompte']);
 			$lVo->setNom($pArray['nom']);
 			$lVo->setPrenom($pArray['prenom']);
 			$lVo->setCourrielPrincipal($pArray['courrielPrincipal']);

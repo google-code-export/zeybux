@@ -32,7 +32,7 @@ class ProduitCommandeValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ProduitCommandeVR();
-		
+		//Tests inputs		
 		if(!isset($pData['idNom'])) {
 			$lVr->setValid(false);
 			$lVr->getIdNom()->setValid(false);

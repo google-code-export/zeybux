@@ -11,7 +11,10 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "CompteValid.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 
 /**
  * @name CompteService
@@ -41,11 +44,29 @@ class CompteService
 	/**
 	* @name insert($pCompte)
 	* @param CompteVO
-	* @return integer
+	* @return CompteVO
 	* @desc Ajoute un compte
 	*/
 	private function insert($pCompte) {		
-		return CompteManager::insert($pCompte);
+		$lId = CompteManager::insert($pCompte);
+		// Le label est l'id du compte par défaut
+		$pCompte->setId($lId);
+		$pCompte->setLabel('C' . $lId);
+		$this->update($pCompte);
+		
+		// Initialisation du compte
+		$lOperation = new OperationVO();
+		$lOperation->setIdCompte($lId);
+		$lOperation->setMontant(0);
+		$lOperation->setLibelle("Création du compte");
+		$lOperation->setDate(StringUtils::dateAujourdhuiDb());
+		$lOperation->setIdCommande(0);
+		$lOperation->setTypePaiement(-1);
+		
+		$lOperationService = new OperationService();
+		$lTest = $lOperationService->set($lOperation);
+		
+		return $pCompte;
 	}
 	
 	/**
@@ -159,6 +180,21 @@ class CompteService
 	*/
 	public function selectAll() {
 		return CompteManager::selectAll();
+	}
+	
+	/**
+	 * @name getNombreAdherentSurCompte($pId)
+	 * @param integer
+	 * @return integer
+	 * @desc Retourne le nombre d'adhérent sur le compte
+	 */
+	public function getNombreAdherentSurCompte($pId) {
+		$lTabAdherent = AdherentManager::selectActifByIdCompte($pId);
+		if($lTabAdherent[0]->getId() == "" ) {
+			return 0;
+		} else {
+			return count($lTabAdherent);
+		}		
 	}
 }
 ?>

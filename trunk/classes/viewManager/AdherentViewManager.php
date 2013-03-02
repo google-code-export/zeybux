@@ -173,6 +173,20 @@ class AdherentViewManager
 			array(AdherentManager::CHAMP_ADHERENT_ID),
 			array('ASC'));
 	}
+	
+	/**
+	 * @name selectAllActif()
+	 * @return array(AdherentViewVO)
+	 * @desc Récupères toutes les lignes de la table ayant pour état 1 et les renvoie sous forme d'une collection de AdherentViewVO
+	 */
+	public static function selectAllActif() {
+		return AdherentViewManager::recherche(
+				array(AdherentManager::CHAMP_ADHERENT_ETAT),
+				array('='),
+				array(1),
+				array(''),
+				array(''));
+	}
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
