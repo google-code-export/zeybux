@@ -152,20 +152,28 @@ function TemplateData() {
 
 ;String.prototype.checkDate = function(type) {
 	if(type === "")	type = 'db';
+	var regexp = '';
 	if(type == 'db') {
-		var regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;
+		/*regexp =  /^[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}$/g;*/
+		regexp = /^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])$/;
 	} else if(type == 'fr') {
-		var regexp =  /^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$/g;
+		/*regexp =  /^[0-9]{2}['/']{1}[0-9]{2}['/']{1}[0-9]{4}$/g;*/
+		regexp = /^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/;
 	} else return false;	
 	return this.toString().checkRegexp(regexp);
 }
 
 ;String.prototype.checkDateExist = function(type) {
 	if(type === "")	type = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(type == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; 
+		lIndexAnnee = 0; 
+		lIndexDate = 2;
 	} else if(type == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; 
+		lIndexAnnee = 2; 
+		lIndexDate = 0;
 	} else return false;	
 	var ladate = this.toString().split(lSplit);
 	if ((ladate.length != 3) || isNaN(parseInt(ladate[0])) || isNaN(parseInt(ladate[1])) || isNaN(parseInt(ladate[2]))) return false;
@@ -193,10 +201,11 @@ function TemplateData() {
 
 ;function dateTimeEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "")	pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDateTime(pType) && pDatePetite.checkDateTime(pType) && pDateGrande.checkDateTimeExist(pType) && pDatePetite.checkDateTimeExist(pType)) {
 		var lDateTimeGrande = pDateGrande.split(' ');
@@ -216,10 +225,11 @@ function TemplateData() {
 
 ;function dateEstPLusGrandeEgale(pDateGrande,pDatePetite,pType) {
 	if(pType === "") pType = 'db';
+	var lSplit = '', lIndexAnnee = 0, lIndexDate = 0;
 	if(pType == 'db') {
-		var lSplit = '-'; var lIndexAnnee = 0; var lIndexDate = 2;
+		lSplit = '-'; lIndexAnnee = 0; lIndexDate = 2;
 	} else if(pType == 'fr') {
-		var lSplit = '/'; var lIndexAnnee = 2; var lIndexDate = 0;
+		lSplit = '/'; lIndexAnnee = 2; lIndexDate = 0;
 	} else return false;	
 	if(pDateGrande.checkDate(pType) && pDatePetite.checkDate(pType) && pDateGrande.checkDateExist(pType) && pDatePetite.checkDateExist(pType)) {
 		var lDateGrande = pDateGrande.split(lSplit);
@@ -653,7 +663,7 @@ sortABC = function(a, b){
 	};
 	
 	this.afficher = function(pInput) {
-		var infobulle;				
+		var infobulle = {};				
 		function apparition() {
 			var div = '#ifb-'+pInput.attr('id');
 			infobulle = $(div);
@@ -782,7 +792,37 @@ String.prototype.extractDbMinute = function() {
 	this.description = '';
 	this.idCategorie = '';
 }
+<<<<<<< .working
 ;function FermeVO() {
+	this.id = '';
+	this.numero = '';
+	this.compte = '';
+	this.nom = '';
+	this.siren = '';
+	this.adresse = '';
+	this.codePostal = '';
+	this.ville = '';
+	this.dateAdhesion = '';
+	this.description = '';
+};function NomProduitCatalogueVO() {
+	this.id = '';
+	this.numero = '';
+	this.idNomProduit = '';
+	this.idCategorie = '';
+	this.nom = '';
+	this.description = '';
+	this.producteurs = [];
+	this.caracteristiques = [];
+	this.modelesLot = [];
+}function CompteSolidaireModifierVirementVO() {
+	this.id = '';
+	this.montantActuel = '';
+	this.montant = '';
+	this.solde = '';
+};function CommandeCompleteVO() {
+=======
+;function FermeVO() {
+>>>>>>> .merge-right.r95
 	this.id = '';
 	this.numero = '';
 	this.compte = '';
@@ -830,6 +870,7 @@ String.prototype.extractDbMinute = function() {
 	this.typePaiement = '';
 	this.champComplementaireObligatoire = '';
 	this.champComplementaire = '';
+	this.idBanque = '';
 }
 ;function ProduitCommandeVO() {
 	this.id = '';
@@ -897,7 +938,13 @@ function CompteZeybuSupprimerVirementVO() {
 };function ListeReservationCommandeVO() {
 	this.detailReservation = new Array();
 }
-function CompteZeybuAjoutVirementVO() {
+;function BanqueVO() {
+	this.id = '';
+	this.nomCourt = '';
+	this.nom = '';
+	this.description = '';
+	this.etat = '';
+}function CompteZeybuAjoutVirementVO() {
 	this.idCptDebit = '';
 	this.idCptCredit = '';
 	this.montant = '';
@@ -972,10 +1019,14 @@ function CompteZeybuModifierVirementVO() {
 	this.id = '';
 };function AdherentVO() {
 	this.id = '';
+<<<<<<< .working
 	/*this.motPasse = '';
 	this.motPasseConfirm = '';*/
+=======
+>>>>>>> .merge-right.r95
 	this.numero = '';
 	this.compte = '';
+	this.idCompte = '';
 	this.nom = '';
 	this.prenom = '';
 	this.courrielPrincipal = '';
@@ -1145,6 +1196,7 @@ function CompteZeybuModifierVirementVO() {
 	this.login = new VRelement();
 	this.motPasse = new VRelement();
 	this.motPasseConfirm = new VRelement();
+<<<<<<< .working
 	this.type = new VRelement();
 };function AdherentVR() {
 	this.valid = true;
@@ -1152,7 +1204,15 @@ function CompteZeybuModifierVirementVO() {
 	this.id = new VRelement();
 	/*this.motPasse = new VRelement();
 	this.motPasseConfirm = new VRelement();*/
+=======
+	this.type = new VRelement();
+};function AdherentVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+>>>>>>> .merge-right.r95
 	this.numero = new VRelement();
+	this.idCompte = new VRelement();
 	this.compte = new VRelement();
 	this.nom = new VRelement();
 	this.prenom = new VRelement();
@@ -1199,6 +1259,7 @@ function CompteZeybuAjoutVirementVR() {
 	this.typePaiement = new VRelement();
 	this.champComplementaireObligatoire = new VRelement();
 	this.champComplementaire = new VRelement();
+	this.idBanque = new VRelement();
 }
 ;function CategorieProduitVR() {
 	this.valid = true;
@@ -1295,6 +1356,7 @@ function CompteZeybuModifierVirementVR() {
 	this.archive = new VRelement();
 	this.produits = new Array();
 }
+<<<<<<< .working
 ;function ModeleLotVR() {
 	this.valid = true;
 	this.log = new VRelement();
@@ -1304,6 +1366,25 @@ function CompteZeybuModifierVirementVR() {
 	this.unite = new VRelement();	
 	this.prix = new VRelement();
 };function ProduitsBonDeLivraisonVR() {
+=======
+;function BanqueVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.nomCourt = new VRelement();
+	this.nom = new VRelement();
+	this.description = new VRelement();
+	this.etat = new VRelement();
+};function ModeleLotVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.idNomProduit = new VRelement();
+	this.quantite = new VRelement();
+	this.unite = new VRelement();	
+	this.prix = new VRelement();
+};function ProduitsBonDeLivraisonVR() {
+>>>>>>> .merge-right.r95
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -1369,6 +1450,7 @@ function CompteZeybuModifierVirementVR() {
 	this.total = new VRelement();
 	this.produits = new Array();
 }
+<<<<<<< .working
 ;function CategorieProduitValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new NomProduitVR();
@@ -1424,6 +1506,63 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	};
 };function ListeReservationCommandeValid() { 
+=======
+;function CategorieProduitValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new NomProduitVR();
+		//Tests Techniques
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) {
+		var lVR = new NomProduitVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+
+		return lVR;
+	};
+};function CaracteristiqueValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new CaracteristiqueVR();
+		//Tests Techniques
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) {
+		var lVR = new CaracteristiqueVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+
+		if(lVR.valid) {
+			return this.validAjout(pData);
+		}
+		return lVR;
+	};
+};function ListeReservationCommandeValid() { 
+>>>>>>> .merge-right.r95
 	this.validAjout = function(pData) { 
 		var lVR = new ListeReservationCommandeVR();
 		//Tests Techniques
@@ -1449,13 +1588,13 @@ function CompteZeybuModifierVirementVR() {
 			lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);
 		}
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ListeReservationCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1486,7 +1625,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitAchatValid() { 
 	this.validAjout = function(pData) { 
@@ -1506,13 +1645,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ProduitAchatVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1535,8 +1674,85 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
+};function ProduitMarcheValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new ProduitMarcheVR();
+		//Tests Techniques
+		if(!pData.idNom.checkLength(0,11)) {lVR.valid = false;lVR.idNom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNom.erreurs.push(erreur);}
+		if(!pData.idNom.isInt()) {lVR.valid = false;lVR.idNom.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idNom.erreurs.push(erreur);}
+		if(!pData.type.checkLength(0,11)) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.type.erreurs.push(erreur);}
+		if(!pData.type.isInt()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.type.erreurs.push(erreur);}
+		
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != "" && !pData.qteMaxCommande.checkLength(0,12)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != "" && !pData.qteMaxCommande.isFloat()) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(pData.qteRestante != "" && !pData.qteRestante.checkLength(0,12)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		if(pData.qteRestante != "" && !pData.qteRestante.isFloat()) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		
+		//Tests Fonctionnels
+		if(pData.idNom.isEmpty()) {lVR.valid = false;lVR.idNom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNom.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.type.isEmpty()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.type.erreurs.push(erreur);}
+
+		if(parseFloat(pData.qteMaxCommande) > 9999999999.99) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(parseFloat(pData.qteRestante) > 9999999999.99) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		
+		if(parseFloat(pData.qteMaxCommande) <= 0 && parseFloat(pData.qteMaxCommande) != -1) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(parseFloat(pData.qteRestante) <= 0 && parseFloat(pData.qteRestante) != -1) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.qteRestante.erreurs.push(erreur);}
+
+		if(pData.qteRestante != -1 && pData.qteMaxCommande != -1 && parseFloat(pData.qteMaxCommande) > parseFloat(pData.qteRestante) ) {lVR.valid = false;lVR.qteRestante.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.qteRestante.erreurs.push(erreur);lVR.qteMaxCommande.erreurs.push(erreur);}
+
+		//Tests des Lots
+		if(isArray(pData.lots)) {
+			if(pData.lots.length > 0) {
+				var lValidLot = new DetailCommandeValid();
+				var i = 0, lPetitLotTaille = pData.lots[0].taille;
+				while(pData.lots[i]) {
+					var lVrLot = lValidLot.validAjout(pData.lots[i]);				
+					if(!lVrLot.valid){lVR.valid = false;}
+					//if(parseFloat(pData.lots[i].taille) > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVrLot.valid = false;lVrLot.taille.valid = false;var erreur = new VRerreur();erreur.code = ERR_206_CODE;erreur.message = ERR_206_MSG;lVrLot.taille.erreurs.push(erreur);}
+					if(parseFloat(pData.lots[i].taille) < lPetitLotTaille) { lPetitLotTaille = parseFloat(pData.lots[i].taille); }
+					lVR.lots.push(lVrLot);
+					i++;
+				}
+				if(pData.qteMaxCommande != -1 && lPetitLotTaille > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+				if(pData.qteRestante != -1 && lPetitLotTaille > parseFloat(pData.qteRestante)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteRestante.erreurs.push(erreur);}
+				
+			} else  {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_243_CODE;erreur.message = ERR_243_MSG;lVR.log.erreurs.push(erreur);}
+			
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = new ProduitMarcheVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.type.checkLength(0,11)) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.type.erreurs.push(erreur);}
+		if(!pData.type.isInt()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.type.erreurs.push(erreur);}
+		
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != "" && !pData.qteMaxCommande.checkLength(0,12)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != "" && !pData.qteMaxCommande.isFloat()) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(pData.qteRestante != "" && !pData.qteRestante.checkLength(0,12)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		if(pData.qteRestante != "" && !pData.qteRestante.isFloat()) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.type.isEmpty()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.type.erreurs.push(erreur);}
+
+		if(parseFloat(pData.qteMaxCommande) > 9999999999.99) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(parseFloat(pData.qteRestante) > 9999999999.99) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		
+		if(parseFloat(pData.qteMaxCommande) <= 0 && parseFloat(pData.qteMaxCommande) != -1) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		if(parseFloat(pData.qteRestante) <= 0 && parseFloat(pData.qteRestante) != -1) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.qteRestante.erreurs.push(erreur);}
+
+<<<<<<< .working
 };function ProduitMarcheValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitMarcheVR();
@@ -1643,6 +1859,38 @@ function CompteZeybuModifierVirementVR() {
 		
 		return lVR;
 	};
+=======
+		if(pData.qteRestante != -1 && pData.qteMaxCommande != -1 && parseFloat(pData.qteMaxCommande) > parseFloat(pData.qteRestante)){lVR.valid = false;lVR.qteRestante.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.qteRestante.erreurs.push(erreur);lVR.qteMaxCommande.erreurs.push(erreur);}
+		
+		if(pData.qteRestante != -1 && pData.quantiteReservation != -1 && parseFloat(pData.qteRestante) < pData.quantiteReservation) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_259_CODE;erreur.message = ERR_259_MSG;lVR.qteRestante.erreurs.push(erreur);}
+		if(pData.qteMaxCommande != -1 && pData.tailleLotResaMax != -1 && parseFloat(pData.qteMaxCommande) < pData.tailleLotResaMax) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_260_CODE;erreur.message = ERR_260_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+		
+		//Tests des Lots
+		if(isArray(pData.lots)) {
+			if(pData.lots.length > 0) {
+				var lValidLot = new DetailCommandeValid();
+				var i = 0, lPetitLotTaille = pData.lots[0].taille;
+				while(pData.lots[i]) {
+					var lVrLot = lValidLot.validAjout(pData.lots[i]);				
+					if(!lVrLot.valid){lVR.valid = false;}
+					//if(parseFloat(pData.lots[i].taille) > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVrLot.valid = false;lVrLot.taille.valid = false;var erreur = new VRerreur();erreur.code = ERR_206_CODE;erreur.message = ERR_206_MSG;lVrLot.taille.erreurs.push(erreur);}
+					if(parseFloat(pData.lots[i].taille) < lPetitLotTaille) { lPetitLotTaille = parseFloat(pData.lots[i].taille); }
+					lVR.lots.push(lVrLot);
+					i++;
+				}				
+				if(pData.qteMaxCommande != -1 && lPetitLotTaille > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+				if(pData.qteRestante != -1 && lPetitLotTaille > parseFloat(pData.qteRestante)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteRestante.erreurs.push(erreur);}
+				
+			} else  {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_243_CODE;erreur.message = ERR_243_MSG;lVR.log.erreurs.push(erreur);}
+			
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		if(!isArray(pData.lotRemplacement)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		
+		return lVR;
+	};
+>>>>>>> .merge-right.r95
 };function AchatCommandeValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new AchatCommandeVR();
@@ -1719,6 +1967,11 @@ function CompteZeybuModifierVirementVR() {
 		}		
 		
 		return lVR;
+<<<<<<< .working
+	};
+	
+	this.validAjoutInvite = function(pData) { 
+=======
 	};
 	
 	this.validAjoutInvite = function(pData) { 
@@ -1802,10 +2055,97 @@ function CompteZeybuModifierVirementVR() {
 	};
 
 	this.validDelete = function(pData) {
+>>>>>>> .merge-right.r95
+		var lVR = new AchatCommandeVR();
+<<<<<<< .working
+		//Tests Techniques
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.solde.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(!pData.solde.isFloat()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+		
+		var lNbPdt = false;
+		//if(pData.NbProduits > 0) {
+			if(isArray(pData.produits)) {		
+				if(pData.produits.length > 0 && pData.produits[0] != '') {
+					lNbPdt = true;
+					var lValidProduit = new ProduitAchatValid();
+					var i = 0;
+					var lNbProduit = 0;
+					while(pData.produits[i]) {
+						var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
+						if(!lVrProduit.valid){lVR.valid = false;}
+						if(!pData.produits[i].id.isEmpty()) {
+							lVR.produits[pData.produits[i].id] = lVrProduit;
+						} else {
+							lVR.produits.push(lVrProduit);
+						}
+						
+						if(!isNaN(pData.produits[i].quantite) && pData.produits[i].quantite != 0) {lNbProduit++;}					
+						i++;
+					}				
+				}
+			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
+		//}
+		
+		//if(pData.NbProduitsSolidaire > 0) {
+			if(isArray(pData.produitsSolidaire)) {		
+				if(pData.produitsSolidaire.length > 0 && pData.produitsSolidaire[0] != '') {
+					lNbPdt = true;
+					var lValidProduit = new ProduitAchatValid();
+					var i = 0;
+					var lNbProduitSolidaire = 0;
+					while(pData.produitsSolidaire[i]) {
+						var lVrProduit = lValidProduit.validAjout(pData.produitsSolidaire[i]);	
+						if(!lVrProduit.valid){lVR.valid = false;}
+						if(!pData.produitsSolidaire[i].id.isEmpty()) {
+							lVR.produitsSolidaire[pData.produitsSolidaire[i].id] = lVrProduit;
+						} else {
+							lVR.produitsSolidaire.push(lVrProduit);
+						}
+						if(!isNaN(pData.produitsSolidaire[i].quantite) && pData.produitsSolidaire[i].quantite != 0) {lNbProduitSolidaire++;}
+						i++;
+					}
+				}
+			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}		
+		//}
+		
+		// Il faut au moins 1 produit sur la commande
+		if(!lNbPdt) {
+			lVR.valid = false;
+			lVR.log.valid = false;
+			var erreur = new VRerreur();
+			erreur.code = ERR_207_CODE;
+			erreur.message = ERR_207_MSG;
+			lVR.log.erreurs.push(erreur);					
+		}	
+		
+		// Si il y a rechargement du compte on le test
+		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
+				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
+			var lValidRechargement = new RechargementCompteValid();
+			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
+			if(!lVR.rechargement.valid){lVR.valid = false;}
+		}
+		
+		if(pData.solde != 0 ) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_244_CODE;erreur.message = ERR_244_MSG;lVR.log.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validDelete = function(pData) {
 		var lVR = new AchatCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
 	};
+=======
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+>>>>>>> .merge-right.r95
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1876,13 +2216,13 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new DetailCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -1908,7 +2248,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitBonDeCommandeValid() { 
 	this.validAjout = function(pData) { 
@@ -1927,7 +2267,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix != '' && pData.prix < 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ProduitBonDeCommandeVR();
@@ -1954,6 +2294,7 @@ function CompteZeybuModifierVirementVR() {
 		return lTestId;
 	}*/
 
+<<<<<<< .working
 };function ProduitAbonnementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitAbonnementVR();
@@ -2341,6 +2682,411 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	}
 };function ProduitsBonDeCommandeValid() { 
+=======
+};function ProduitAbonnementValid() { 
+>>>>>>> .merge-right.r95
+	this.validAjout = function(pData) { 
+		var lVR = new ProduitAbonnementVR();
+		//Tests Techniques
+<<<<<<< .working
+		if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
+		if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
+		if(!pData.id_compte_ferme.checkLength(0,11)) {lVR.valid = false;lVR.id_compte_ferme.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_compte_ferme.erreurs.push(erreur);}
+		if(!pData.id_compte_ferme.isInt()) {lVR.valid = false;lVR.id_compte_ferme.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_compte_ferme.erreurs.push(erreur);}
+		if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
+		if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
+		if(!isArray(pData.produits)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+=======
+		if(!pData.idNomProduit.checkLength(0,11)) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idNomProduit))) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.unite.erreurs.push(erreur);}
+		if(!pData.stockInitial.checkLength(0,12)) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(!pData.stockInitial.isFloat()) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(!pData.max.checkLength(0,12)) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.max.erreurs.push(erreur);}
+		if(!pData.max.isFloat()) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.max.erreurs.push(erreur);}
+		if(!pData.frequence.checkLength(0,200)) {lVR.valid = false;lVR.frequence.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.frequence.erreurs.push(erreur);}
+		
+		//Tests Fonctionnels
+		if(pData.idNomProduit.isEmpty()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.stockInitial.isEmpty()) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max.isEmpty()) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.max.erreurs.push(erreur);}
+		if(pData.frequence.isEmpty()) {lVR.valid = false;lVR.frequence.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.frequence.erreurs.push(erreur);}
+>>>>>>> .merge-right.r95
+
+		if(pData.stockInitial <= 0 ) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max <= 0 && pData.max != -1) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.max.erreurs.push(erreur);}
+		if(pData.max != -1 && parseFloat(pData.max) > parseFloat(pData.stockInitial)) {lVR.valid = false;lVR.stockInitial.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.stockInitial.erreurs.push(erreur);lVR.max.erreurs.push(erreur);}
+		
+		//Tests des Lots
+		if(isArray(pData.lots)) {
+			if(pData.lots.length > 0) {
+				var lValidLot = new DetailCommandeValid();
+				var i = 0, lPetitLotTaille = pData.lots[0].taille;
+				while(pData.lots[i]) {
+					var lVrLot = lValidLot.validAjout(pData.lots[i]);				
+					if(!lVrLot.valid){lVR.valid = false;}
+					//if(parseFloat(pData.lots[i].taille) > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVrLot.valid = false;lVrLot.taille.valid = false;var erreur = new VRerreur();erreur.code = ERR_206_CODE;erreur.message = ERR_206_MSG;lVrLot.taille.erreurs.push(erreur);}
+					if(parseFloat(pData.lots[i].taille) < lPetitLotTaille) { lPetitLotTaille = parseFloat(pData.lots[i].taille); }
+					lVR.lots.push(lVrLot);
+					i++;
+				}
+				if(pData.qteMaxCommande != -1 && lPetitLotTaille > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+				if(pData.qteRestante != -1 && lPetitLotTaille > parseFloat(pData.qteRestante)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteRestante.erreurs.push(erreur);}
+				
+			} else  {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_243_CODE;erreur.message = ERR_243_MSG;lVR.log.erreurs.push(erreur);}
+			
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validDelete = function(pData) { 
+		var lVR = new ProduitAbonnementVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		
+		//Tests Fonctionnels
+<<<<<<< .working
+		if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
+		if(pData.id_compte_ferme.isEmpty()) {lVR.valid = false;lVR.id_compte_ferme.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_compte_ferme.erreurs.push(erreur);}
+		if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
+=======
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = new ProduitAbonnementVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.unite.erreurs.push(erreur);}
+		if(!pData.stockInitial.checkLength(0,12)) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(!pData.stockInitial.isFloat()) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(!pData.max.checkLength(0,12)) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.max.erreurs.push(erreur);}
+		if(!pData.max.isFloat()) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.max.erreurs.push(erreur);}
+		if(!pData.frequence.checkLength(0,200)) {lVR.valid = false;lVR.frequence.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.frequence.erreurs.push(erreur);}
+		
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.stockInitial.isEmpty()) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max.isEmpty()) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.max.erreurs.push(erreur);}
+		if(pData.frequence.isEmpty()) {lVR.valid = false;lVR.frequence.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.frequence.erreurs.push(erreur);}
+>>>>>>> .merge-right.r95
+
+		if(pData.stockInitial <= 0 ) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max <= 0 && pData.max != -1) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.max.erreurs.push(erreur);}
+		if(pData.max != -1 && parseFloat(pData.max) > parseFloat(pData.stockInitial)) {lVR.valid = false;lVR.stockInitial.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.stockInitial.erreurs.push(erreur);lVR.max.erreurs.push(erreur);}
+		
+		if(pData.quantiteReservation != -1 && parseFloat(pData.stockInitial) < pData.quantiteReservation) {lVR.valid = false;lVR.stockInitial.valid = false;var erreur = new VRerreur();erreur.code = ERR_259_CODE;erreur.message = ERR_259_MSG;lVR.stockInitial.erreurs.push(erreur);}
+		if(pData.max != -1 && pData.tailleLotResaMax != -1 && parseFloat(pData.max) < pData.tailleLotResaMax) {lVR.valid = false;lVR.max.valid = false;var erreur = new VRerreur();erreur.code = ERR_260_CODE;erreur.message = ERR_260_MSG;lVR.max.erreurs.push(erreur);}
+		
+		
+		//Tests des Lots
+		if(isArray(pData.lots)) {
+			if(pData.lots.length > 0) {
+				var lValidLot = new DetailCommandeValid();
+				var i = 0, lPetitLotTaille = pData.lots[0].taille;
+				while(pData.lots[i]) {
+					var lVrLot = lValidLot.validAjout(pData.lots[i]);				
+					if(!lVrLot.valid){lVR.valid = false;}
+					//if(parseFloat(pData.lots[i].taille) > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVrLot.valid = false;lVrLot.taille.valid = false;var erreur = new VRerreur();erreur.code = ERR_206_CODE;erreur.message = ERR_206_MSG;lVrLot.taille.erreurs.push(erreur);}
+					if(parseFloat(pData.lots[i].taille) < lPetitLotTaille) { lPetitLotTaille = parseFloat(pData.lots[i].taille); }
+					lVR.lots.push(lVrLot);
+					i++;
+				}
+				if(pData.qteMaxCommande != -1 && lPetitLotTaille > parseFloat(pData.qteMaxCommande)) {lVR.valid = false;lVR.qteMaxCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteMaxCommande.erreurs.push(erreur);}
+				if(pData.qteRestante != -1 && lPetitLotTaille > parseFloat(pData.qteRestante)) {lVR.valid = false;lVR.qteRestante.valid = false;var erreur = new VRerreur();erreur.code = ERR_241_CODE;erreur.message = ERR_241_MSG;lVR.qteRestante.erreurs.push(erreur);}
+				
+			} else  {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_243_CODE;erreur.message = ERR_243_MSG;lVR.log.erreurs.push(erreur);}
+			
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		if(!isArray(pData.lotRemplacement)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+
+};function CompteAbonnementValid() { 
+	this.validAjout = function(pData,pDetailProduit) { 
+		var lVR = new CompteAbonnementVR();
+
+		//Tests Techniques
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(!pData.idProduitAbonnement.checkLength(0,11)) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idProduitAbonnement))) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(!pData.idLotAbonnement.checkLength(0,11)) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idLotAbonnement))) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(pData.idProduitAbonnement.isEmpty()) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(pData.idLotAbonnement.isEmpty()) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+
+		if(pData.quantite <= 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		
+		var lQteRestante = parseFloat(pDetailProduit.proAboStockInitial) - parseFloat(pDetailProduit.proAboReservation);
+		if(parseFloat(pDetailProduit.proAboMax) < lQteRestante && parseFloat(pDetailProduit.proAboMax) != -1) { 
+			lQteRestante = pDetailProduit.proAboMax;
+		}
+		
+		if(parseFloat(pData.quantite) > parseFloat(lQteRestante) ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.quantite.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+
+	this.validUpdate = function(pData,pDetailProduit,pAbonnement) { 
+		var lVR = new CompteAbonnementVR();
+
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(!pData.idProduitAbonnement.checkLength(0,11)) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idProduitAbonnement))) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(!pData.idLotAbonnement.checkLength(0,11)) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idLotAbonnement))) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(pData.idProduitAbonnement.isEmpty()) {lVR.valid = false;lVR.idProduitAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idProduitAbonnement.erreurs.push(erreur);}
+		if(pData.idLotAbonnement.isEmpty()) {lVR.valid = false;lVR.idLotAbonnement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idLotAbonnement.erreurs.push(erreur);}
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+
+		if(pData.quantite <= 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		
+		var lQteRestante = parseFloat(pDetailProduit.proAboStockInitial) - parseFloat(pDetailProduit.proAboReservation) + parseFloat(pAbonnement.cptAboQuantite);
+		if(parseFloat(pDetailProduit.proAboMax) < lQteRestante && parseFloat(pDetailProduit.proAboMax) != -1) { 
+			lQteRestante = pDetailProduit.proAboMax;
+		}
+		
+		if(parseFloat(pData.quantite) > parseFloat(lQteRestante) ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_205_CODE;erreur.message = ERR_205_MSG;lVR.quantite.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validAjoutSuspension = function(pData) { 
+		var lVR = new CompteAbonnementVR();
+
+		//Tests Techniques
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(!pData.dateDebutSuspension.checkDate('db')) {lVR.valid = false;lVR.dateDebutSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebutSuspension.erreurs.push(erreur);}
+		if(!pData.dateDebutSuspension.checkDateExist('db')) {lVR.valid = false;lVR.dateDebutSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebutSuspension.erreurs.push(erreur);}
+		if(!pData.dateFinSuspension.checkDate('db')) {lVR.valid = false;lVR.dateFinSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFinSuspension.erreurs.push(erreur);}
+		if(!pData.dateFinSuspension.checkDateExist('db')) {lVR.valid = false;lVR.dateFinSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFinSuspension.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(pData.dateDebutSuspension.isEmpty()) {lVR.valid = false;lVR.dateDebutSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebutSuspension.erreurs.push(erreur);}
+		if(pData.dateFinSuspension.isEmpty()) {lVR.valid = false;lVR.dateFinSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFinSuspension.erreurs.push(erreur);}
+
+		if(!dateEstPLusGrandeEgale(pData.dateFinSuspension,pData.dateDebutSuspension,'db')) {lVR.valid = false;lVR.dateFinSuspension.valid = false;lVR.dateDebutSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_252_CODE;erreur.message = ERR_252_MSG;lVR.dateFinSuspension.erreurs.push(erreur);lVR.dateDebutSuspension.erreurs.push(erreur);}
+
+		var lAujourdhui = getDateAujourdhuiDb();
+		if(!dateEstPLusGrandeEgale(pData.dateFinSuspension,lAujourdhui,'db')) {lVR.valid = false;lVR.dateFinSuspension.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinSuspension.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validDeleteSuspension = function(pData) { 
+		var lVR = new CompteAbonnementVR();
+
+		//Tests Techniques
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idCompte.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+		return lVR;
+	};
+};function NomProduitCatalogueValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new NomProduitCatalogueVR();
+		//Tests Techniques
+		if(!pData.numero.checkLength(0,50)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.numero.erreurs.push(erreur);}
+		if(!pData.idCategorie.checkLength(0,11)) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCategorie.erreurs.push(erreur);}
+		if(!pData.idCategorie.isInt()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCategorie.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+		
+		if(!isArray(pData.producteurs)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}	
+		if(!isArray(pData.caracteristiques)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}	
+		if(!isArray(pData.modelesLot)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
+		
+		if(lVR.valid) {
+			//Tests Fonctionnels
+			if(pData.idCategorie.isEmpty()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
+			if(pData.idCategorie == 0) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+			
+			// Les producteurs
+			if(pData.producteurs.length > 0 && pData.producteurs[0] != '') {
+				var i = 0;
+				while(pData.producteurs[i]) {
+					if(!pData.producteurs[i].checkLength(0,11)) {lVR.valid = false;lVR.producteurs.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.producteurs.erreurs.push(erreur);}
+					if(!pData.producteurs[i].isInt()) {lVR.valid = false;lVR.producteurs.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.producteurs.erreurs.push(erreur);}			
+					i++;
+				}				
+			}
+			
+			// Les caractéristiques
+			if(pData.caracteristiques.length > 0 && pData.caracteristiques[0] != '') {
+				var i = 0;
+				while(pData.caracteristiques[i]) {
+					if(!pData.caracteristiques[i].checkLength(0,11)) {lVR.valid = false;lVR.caracteristiques.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.caracteristiques.erreurs.push(erreur);}
+					if(!pData.caracteristiques[i].isInt()) {lVR.valid = false;lVR.caracteristiques.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.caracteristiques.erreurs.push(erreur);}			
+					i++;
+				}				
+			}
+			
+			// Les modèles de lot
+			if(pData.modelesLot.length > 0 && pData.modelesLot[0] != '') {
+				var lModeleLotValid = new ModeleLotValid();
+				var i = 0;
+				while(pData.modelesLot[i]) {
+					var lVrlModeleLot = lModeleLotValid.validAjout(pData.modelesLot[i]);	
+					if(!lVrlModeleLot.valid){lVrlModeleLot.valid = false;}
+					lVR.modelesLot.push(lVrlModeleLot);	
+					i++;
+				}				
+			}
+		}
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = new NomProduitCatalogueVR();
+		//Tests Techniques
+		if(!pData.numero.checkLength(0,50)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.numero.erreurs.push(erreur);}
+		if(!pData.idNomProduit.checkLength(0,11)) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(!pData.idNomProduit.isInt()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(!pData.idCategorie.checkLength(0,11)) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCategorie.erreurs.push(erreur);}
+		if(!pData.idCategorie.isInt()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCategorie.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+		
+		if(!isArray(pData.producteurs)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}	
+		if(!isArray(pData.caracteristiques)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}	
+		if(!isArray(pData.modelesLot)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
+		
+		if(lVR.valid) {
+			//Tests Fonctionnels
+			if(pData.numero.isEmpty()) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.numero.erreurs.push(erreur);}
+			if(pData.idNomProduit.isEmpty()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+			if(pData.idCategorie.isEmpty()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
+			if(pData.idCategorie == 0) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+			
+			// Les producteurs
+			if(pData.producteurs.length > 0 && pData.producteurs[0] != '') {
+				var i = 0;
+				while(pData.producteurs[i]) {
+					if(!pData.producteurs[i].checkLength(0,11)) {lVR.valid = false;lVR.producteurs.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.producteurs.erreurs.push(erreur);}
+					if(!pData.producteurs[i].isInt()) {lVR.valid = false;lVR.producteurs.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.producteurs.erreurs.push(erreur);}			
+					i++;
+				}				
+			}
+			
+			// Les caractéristiques
+			if(pData.caracteristiques.length > 0 && pData.caracteristiques[0] != '') {
+				var i = 0;
+				while(pData.caracteristiques[i]) {
+					if(!pData.caracteristiques[i].checkLength(0,11)) {lVR.valid = false;lVR.caracteristiques.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.caracteristiques.erreurs.push(erreur);}
+					if(!pData.caracteristiques[i].isInt()) {lVR.valid = false;lVR.caracteristiques.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.caracteristiques.erreurs.push(erreur);}			
+					i++;
+				}
+			}
+			
+			// Les modèles de lot
+			if(pData.modelesLot.length > 0 && pData.modelesLot[0] != '') {
+				var lModeleLotValid = new ModeleLotValid();
+				var i = 0;
+				while(pData.modelesLot[i]) {
+					var lVrlModeleLot;
+					if(pData.modelesLot[i].id.isEmpty()) {
+						lVrlModeleLot = lModeleLotValid.validAjout(pData.modelesLot[i]);
+					} else {
+						lVrlModeleLot = lModeleLotValid.validUpdate(pData.modelesLot[i]);
+					}
+					if(!lVrlModeleLot.valid){lVrlModeleLot.valid = false;}
+					lVR.modelesLot.push(lVrlModeleLot);	
+					i++;
+				}				
+			}
+		}
+		return lVR;
+	};
+};function FermeValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new FermeVR();
+		//Tests Techniques
+		if(!pData.nom.checkLength(0,300)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.siren.checkLength(0,9)) {lVR.valid = false;lVR.siren.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.siren.erreurs.push(erreur);}
+		if(!pData.adresse.checkLength(0,300)) {lVR.valid = false;lVR.adresse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.adresse.erreurs.push(erreur);}
+		if(!pData.codePostal.checkLength(0,10)) {lVR.valid = false;lVR.codePostal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.codePostal.erreurs.push(erreur);}
+		if(!pData.ville.checkLength(0,100)) {lVR.valid = false;lVR.ville.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.ville.erreurs.push(erreur);}
+		if(!pData.dateAdhesion.checkDate('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		if(!pData.dateAdhesion.checkDateExist('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		if(!pData.description.checkLength(0,500)) {lVR.valid = false;lVR.description.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.description.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+		if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+
+		// Test SIREN
+		if(pData.siren != '') {
+			var lImpair = true;
+			var lSomme = 0;
+			var lPosition = pData.siren.length -1;
+			while( lPosition >= 0) {
+				var lIncrement = 0;
+				if(lImpair) {
+					lIncrement = pData.siren[lPosition] * 1;
+				} else {
+					lIncrement = pData.siren[lPosition] * 2;
+				}
+				if(lIncrement > 9) {
+					lIncrement -= 9;
+				}
+				lSomme += lIncrement;
+				lImpair = !lImpair;
+				lPosition--;
+			}
+			if(lSomme % 10 != 0 || !pData.siren.checkLength(0,9)) {lVR.valid = false;lVR.siren.valid = false;var erreur = new VRerreur();erreur.code = ERR_242_CODE;erreur.message = ERR_242_MSG;lVR.siren.erreurs.push(erreur);}
+		}
+		
+		// Date Adhésion <= Date Actuelle
+		var lAujourdhui = getDateAujourdhuiDb();		
+		if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = new FermeVR();
+		//Tests Techniques
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		
+		if(lVR.valid) {
+			return this.validAjout(pData);
+		}
+		return lVR;
+	};
+};function ProduitsBonDeCommandeValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitsBonDeCommandeVR();
 		//Tests Techniques
@@ -2369,37 +3115,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);};
 		
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ProduitsBonDeCommandeVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ProduitsBonDeCommandeVR();
-			//Tests Techniques
-			if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_producteur.checkLength(0,11)) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(!pData.id_producteur.isInt()) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!isArray(pData.produits)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(pData.id_producteur.isEmpty()) {lVR.valid = false;lVR.id_producteur.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_producteur.erreurs.push(erreur);}
-			if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function ReservationAdherentValid() { 
 	this.validUpdate = function(pData) { 
 		var lVR = new AchatAdherentVR();
@@ -2413,7 +3129,6 @@ function CompteZeybuModifierVirementVR() {
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
@@ -2428,7 +3143,7 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }function CompteSolidaireVirementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteSolidaireAjoutVirementVR();
@@ -2449,7 +3164,7 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.montant) > parseFloat(pData.solde) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteSolidaireModifierVirementVR();
@@ -2473,7 +3188,7 @@ function CompteZeybuModifierVirementVR() {
 		if(parseFloat(pData.montant) > (parseFloat(pData.solde) + parseFloat(pData.montantActuel)) ) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_237_CODE;erreur.message = ERR_237_MSG;lVR.montant.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteSolidaireSupprimerVirementVR();
@@ -2485,9 +3200,53 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }
-;function ProducteurValid() { 
+;function BanqueValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new BanqueVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.id != '' && !pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+		if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+		return lVR;
+	};
+
+	this.validDelete = function(pData) {
+		var lVR = new BanqueVR();
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new BanqueVR();
+			//Tests Techniques
+			if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+			if(!pData.nomCourt.checkLength(0,50)) {lVR.valid = false;lVR.nomCourt.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nomCourt.erreurs.push(erreur);}
+			if(!pData.nom.checkLength(0,200)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+			if(!pData.etat.checkLength(0,4)) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.etat.erreurs.push(erreur);}
+			if(pData.etat != '' && !pData.etat.isInt()) {lVR.valid = false;lVR.etat.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.etat.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};
+
+};;function ProducteurValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ProducteurVR();
 		//Tests Techniques
@@ -2517,7 +3276,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lVR = new ProducteurVR();
@@ -2530,8 +3289,13 @@ function CompteZeybuModifierVirementVR() {
 		if(lVR.valid) {
 			return this.validAjout(pData);
 		}
+<<<<<<< .working
 		return lVR;
 	}
+=======
+		return lVR;
+	};
+>>>>>>> .merge-right.r95
 
 };function ProduitsBonDeLivraisonValid() { 
 	this.validAjout = function(pData) { 
@@ -2684,7 +3448,7 @@ function CompteZeybuModifierVirementVR() {
 				lNbPdt = true;
 				var lValidProduit = new ProduitAchatAdherentValid();
 				var i = 0;
-				var lNbProduit = 0;
+				
 				while(pData.produits[i]) {
 					var lVrProduit = lValidProduit.validUpdate(pData.produits[i]);	
 					if(!lVrProduit.valid){lVR.valid = false;}
@@ -2720,33 +3484,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix != '' && pData.prix < 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 		
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ProduitBonDeLivraisonVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ProduitBonDeLivraisonVR();
-			//Tests Techniques
-			if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
-			if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
-			if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function AdherentValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new AdherentVR();
@@ -2755,6 +3493,7 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
 		*/
 		if(!pData.numero.checkLength(0,5)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.numero.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_354_CODE;erreur.message = ERR_354_MSG;lVR.compte.erreurs.push(erreur);}
 		if(!pData.compte.checkLength(0,30)) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.compte.erreurs.push(erreur);}
 		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
 		if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
@@ -2775,6 +3514,7 @@ function CompteZeybuModifierVirementVR() {
 		/*if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
 		if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
 		*/
+		
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 		if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
 		if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
@@ -2792,16 +3532,219 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 	
-		if(isArray(pData.modules)) {
-			if(pData.modules.length <= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_226_CODE;erreur.message = ERR_226_MSG;lVR.log.erreurs.push(erreur);}
-		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+		if(!isArray(pData.modules)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
 	};
 
-	this.validDelete = function(pData) {
+	/*this.validDelete = function(pData) {
 		var lVR = new AdherentVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new AdherentVR();
+			//Tests Techniques
+			if(!pData.numero.checkLength(0,5)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.numero.erreurs.push(erreur);}
+			if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_354_CODE;erreur.message = ERR_354_MSG;lVR.compte.erreurs.push(erreur);}
+			if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+			if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
+			if(!pData.courrielPrincipal.checkLength(0,100)) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
+			if(!pData.courrielSecondaire.checkLength(0,100)) {lVR.valid = false;lVR.courrielSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielSecondaire.erreurs.push(erreur);}
+			if(!pData.telephonePrincipal.checkLength(0,20)) {lVR.valid = false;lVR.telephonePrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.telephonePrincipal.erreurs.push(erreur);}
+			if(!pData.telephoneSecondaire.checkLength(0,20)) {lVR.valid = false;lVR.telephoneSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.telephoneSecondaire.erreurs.push(erreur);}
+			if(!pData.adresse.checkLength(0,300)) {lVR.valid = false;lVR.adresse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.adresse.erreurs.push(erreur);}
+			if(!pData.codePostal.checkLength(0,10)) {lVR.valid = false;lVR.codePostal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.codePostal.erreurs.push(erreur);}
+			if(!pData.ville.checkLength(0,100)) {lVR.valid = false;lVR.ville.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.ville.erreurs.push(erreur);}
+			if(pData.dateNaissance != '' && !pData.dateNaissance.checkDate('db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+			if(pData.dateNaissance != '' && !pData.dateNaissance.checkDateExist('db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+			if(!pData.dateAdhesion.checkDate('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+			if(!pData.dateAdhesion.checkDateExist('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+			if(!pData.commentaire.checkLength(0,500)) {lVR.valid = false;lVR.commentaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.commentaire.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+			if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
+			if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+			if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.compte.erreurs.push(erreur);}
+			
+			// Les mails sont au bon format
+			if(pData.courrielPrincipal != '' && !pData.courrielPrincipal.checkCourriel()) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_224_CODE;erreur.message = ERR_224_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
+			if(pData.courrielSecondaire != '' && !pData.courrielSecondaire.checkCourriel()) {lVR.valid = false;lVR.courrielSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_224_CODE;erreur.message = ERR_224_MSG;lVR.courrielSecondaire.erreurs.push(erreur);}
+			
+			// Date Naissance <= Date Adhésion <= Date Actuelle
+			var lAujourdhui = getDateAujourdhuiDb();		
+			if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+			
+			if(!isArray(pData.modules)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+<<<<<<< .working
+	}*/
+
+};function AdherentValid() { 
+	this.validAjout = function(pData) { 
+=======
+	};
+	
+	this.validUpdateInformation = function(pData) {
+>>>>>>> .merge-right.r95
+		var lVR = new AdherentVR();
+		//Tests Techniques
+<<<<<<< .working
+		/*if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+		*/
+		if(!pData.numero.checkLength(0,5)) {lVR.valid = false;lVR.numero.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.numero.erreurs.push(erreur);}
+		if(!pData.compte.checkLength(0,30)) {lVR.valid = false;lVR.compte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.compte.erreurs.push(erreur);}
+=======
+>>>>>>> .merge-right.r95
+		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
+		if(!pData.courrielPrincipal.checkLength(0,100)) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
+		if(!pData.courrielSecondaire.checkLength(0,100)) {lVR.valid = false;lVR.courrielSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielSecondaire.erreurs.push(erreur);}
+		if(!pData.telephonePrincipal.checkLength(0,20)) {lVR.valid = false;lVR.telephonePrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.telephonePrincipal.erreurs.push(erreur);}
+		if(!pData.telephoneSecondaire.checkLength(0,20)) {lVR.valid = false;lVR.telephoneSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.telephoneSecondaire.erreurs.push(erreur);}
+		if(!pData.adresse.checkLength(0,300)) {lVR.valid = false;lVR.adresse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.adresse.erreurs.push(erreur);}
+		if(!pData.codePostal.checkLength(0,10)) {lVR.valid = false;lVR.codePostal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.codePostal.erreurs.push(erreur);}
+		if(!pData.ville.checkLength(0,100)) {lVR.valid = false;lVR.ville.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.ville.erreurs.push(erreur);}
+		if(pData.dateNaissance != '' && !pData.dateNaissance.checkDate('db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+		if(pData.dateNaissance != '' && !pData.dateNaissance.checkDateExist('db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+		if(!pData.dateAdhesion.checkDate('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		if(!pData.dateAdhesion.checkDateExist('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		if(!pData.commentaire.checkLength(0,500)) {lVR.valid = false;lVR.commentaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.commentaire.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+<<<<<<< .working
+		/*if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+=======
+>>>>>>> .merge-right.r95
+		*/
+		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
+		if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
+		if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+<<<<<<< .working
+
+		// Les mots de passe ne sont pas identique
+		//if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}
+=======
+>>>>>>> .merge-right.r95
+		
+		// Les mails sont au bon format
+		if(pData.courrielPrincipal != '' && !pData.courrielPrincipal.checkCourriel()) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_224_CODE;erreur.message = ERR_224_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
+		if(pData.courrielSecondaire != '' && !pData.courrielSecondaire.checkCourriel()) {lVR.valid = false;lVR.courrielSecondaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_224_CODE;erreur.message = ERR_224_MSG;lVR.courrielSecondaire.erreurs.push(erreur);}
+		
+		// Date Naissance <= Date Adhésion <= Date Actuelle
+		var lAujourdhui = getDateAujourdhuiDb();		
+		if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
+		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+		if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+
+		return lVR;
+	};
+
+};function MarcheValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new MarcheVR();
+
+		//Tests Techniques
+		if(!pData.nom.checkLength(0,100)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.dateMarcheDebut.checkDate('db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(!pData.dateMarcheDebut.checkDateExist('db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(!pData.timeMarcheDebut.checkTime()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		if(!pData.timeMarcheDebut.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		//if(!pData.dateMarcheFin.checkDate('db')) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
+		//if(!pData.dateMarcheFin.checkDateExist('db')) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
+		if(!pData.timeMarcheFin.checkTime()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}		
+		if(!pData.timeMarcheFin.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDate('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTime()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTimeExist()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateFinReservation.checkDate('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(!pData.dateFinReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(!pData.timeFinReservation.checkTime()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+		if(!pData.timeFinReservation.checkTimeExist()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+		if(!pData.archive.checkLength(0,1)) {lVR.valid = false;lVR.archive.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.archive.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.dateMarcheDebut.isEmpty()) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(pData.timeMarcheDebut.isEmpty()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		//if(pData.dateMarcheFin.isEmpty()) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
+		if(pData.timeMarcheFin.isEmpty()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(pData.dateDebutReservation.isEmpty()) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(pData.timeDebutReservation.isEmpty()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(pData.dateFinReservation.isEmpty()) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(pData.timeFinReservation.isEmpty()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+		if(pData.archive.isEmpty()) {lVR.valid = false;lVR.archive.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.archive.erreurs.push(erreur);}
+
+		if(!dateTimeEstPLusGrandeEgale(pData.dateFinReservation + ' ' + pData.timeFinReservation,pData.dateDebutReservation + ' ' + pData.timeDebutReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateFinReservation,pData.dateDebutReservation,'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_247_CODE;erreur.message = ERR_247_MSG;lVR.dateFinReservation.erreurs.push(erreur);lVR.dateDebutReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeDebutReservation,pData.timeFinReservation)) {lVR.valid = false;lVR.timeFinReservation.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_248_CODE;erreur.message = ERR_248_MSG;lVR.timeFinReservation.erreurs.push(erreur);lVR.timeDebutReservation.erreurs.push(erreur);}
+		}
+				
+		if(!dateTimeEstPLusGrandeEgale(pData.dateMarcheDebut + ' ' + pData.timeMarcheDebut,pData.dateFinReservation + ' ' + pData.timeFinReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,pData.dateFinReservation,'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_202_CODE;erreur.message = ERR_202_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);lVR.dateFinReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeFinReservation,pData.timeMarcheDebut)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_203_CODE;erreur.message = ERR_203_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeFinReservation.erreurs.push(erreur);}
+		}		
+		if(timeEstPLusGrandeEgale(pData.timeMarcheDebut,pData.timeMarcheFin)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_204_CODE;erreur.message = ERR_204_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeMarcheFin.erreurs.push(erreur);}
+
+		// Les dates ne sont pas avant ajourd'hui
+		if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		//if(!dateEstPLusGrandeEgale(pData.dateMarcheFin,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateMarcheFin.erreurs.push(erreur);}
+		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+	
+		if(!isArray(pData.produits)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
+		if(!isArray(pData.produitsAbonnement)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
+		if(lVR.valid) {
+			if(pData.produits.length + pData.produitsAbonnement.length > 0) {
+				var lValidProduit = new ProduitMarcheValid();
+				var i = 0;
+				while(pData.produits[i]) {
+					var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
+					if(!lVrProduit.valid){lVR.valid = false;}
+					lVR.produits[pData.produits[i].idNom] = lVrProduit;
+					i++;
+				}
+				
+				var i = 0;
+				while(pData.produitsAbonnement[i]) {
+					var lVrProduit = lValidProduit.validAjout(pData.produitsAbonnement[i]);	
+					if(!lVrProduit.valid){lVR.valid = false;}
+					lVR.produitsAbonnement[pData.produitsAbonnement[i].idNom] = lVrProduit;
+					i++;
+				}
+			} else {
+				// Erreur il faut au moins un produit
+				lVR.valid = false;
+				lVR.log.valid = false;
+				var erreur = new VRerreur();
+				erreur.code = ERR_207_CODE;
+				erreur.message = ERR_207_MSG;
+				lVR.log.erreurs.push(erreur);
+			}	
+		}
+		return lVR;
+<<<<<<< .working
+	};
+=======
+	};
+	
+	this.validUpdateInformation = function(pData) { 
+		var lVR = new MarcheVR();
+>>>>>>> .merge-right.r95
+
+		//Tests Techniques
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+<<<<<<< .working
 		return lVR;
 	};
 
@@ -2829,7 +3772,26 @@ function CompteZeybuModifierVirementVR() {
 			if(!pData.dateAdhesion.checkDate('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
 			if(!pData.dateAdhesion.checkDateExist('db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
 			if(!pData.commentaire.checkLength(0,500)) {lVR.valid = false;lVR.commentaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.commentaire.erreurs.push(erreur);}
+=======
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.nom.checkLength(0,100)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
+		if(!pData.dateMarcheDebut.checkDate('db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(!pData.dateMarcheDebut.checkDateExist('db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(!pData.timeMarcheDebut.checkTime()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		if(!pData.timeMarcheDebut.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		if(!pData.timeMarcheFin.checkTime()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}		
+		if(!pData.timeMarcheFin.checkTimeExist()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDate('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateDebutReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTime()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.timeDebutReservation.checkTimeExist()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(!pData.dateFinReservation.checkDate('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(!pData.dateFinReservation.checkDateExist('db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(!pData.timeFinReservation.checkTime()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_106_CODE;erreur.message = ERR_106_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+		if(!pData.timeFinReservation.checkTimeExist()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_107_CODE;erreur.message = ERR_107_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+>>>>>>> .merge-right.r95
 
+<<<<<<< .working
 			//Tests Fonctionnels
 			if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 			if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
@@ -2848,11 +3810,30 @@ function CompteZeybuModifierVirementVR() {
 			if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
 			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(pData.dateAdhesion,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_225_CODE;erreur.message = ERR_225_MSG;lVR.dateNaissance.erreurs.push(erreur);}
 			if(pData.dateNaissance != '' && !dateEstPLusGrandeEgale(lAujourdhui,pData.dateNaissance,'db')) {lVR.valid = false;lVR.dateNaissance.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateNaissance.erreurs.push(erreur);}
+=======
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.dateMarcheDebut.isEmpty()) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(pData.timeMarcheDebut.isEmpty()) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);}
+		if(pData.timeMarcheFin.isEmpty()) {lVR.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeMarcheFin.erreurs.push(erreur);}
+		if(pData.dateDebutReservation.isEmpty()) {lVR.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebutReservation.erreurs.push(erreur);}
+		if(pData.timeDebutReservation.isEmpty()) {lVR.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeDebutReservation.erreurs.push(erreur);}
+		if(pData.dateFinReservation.isEmpty()) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+		if(pData.timeFinReservation.isEmpty()) {lVR.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.timeFinReservation.erreurs.push(erreur);}
+	
+		if(!dateTimeEstPLusGrandeEgale(pData.dateFinReservation + ' ' + pData.timeFinReservation,pData.dateDebutReservation + ' ' + pData.timeDebutReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateFinReservation,pData.dateDebutReservation,'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;lVR.dateDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_247_CODE;erreur.message = ERR_247_MSG;lVR.dateFinReservation.erreurs.push(erreur);lVR.dateDebutReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeDebutReservation,pData.timeFinReservation)) {lVR.valid = false;lVR.timeFinReservation.valid = false;lVR.timeDebutReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_248_CODE;erreur.message = ERR_248_MSG;lVR.timeFinReservation.erreurs.push(erreur);lVR.timeDebutReservation.erreurs.push(erreur);}
+		}
+>>>>>>> .merge-right.r95
 			
-			if(isArray(pData.modules)) {
-				if(pData.modules.length <= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_226_CODE;erreur.message = ERR_226_MSG;lVR.log.erreurs.push(erreur);}
-			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}
+		if(!dateTimeEstPLusGrandeEgale(pData.dateMarcheDebut + ' ' + pData.timeMarcheDebut,pData.dateFinReservation + ' ' + pData.timeFinReservation,'db')) {
+			if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,pData.dateFinReservation,'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_202_CODE;erreur.message = ERR_202_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);lVR.dateFinReservation.erreurs.push(erreur);}
+			else if(timeEstPLusGrandeEgale(pData.timeFinReservation,pData.timeMarcheDebut)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_203_CODE;erreur.message = ERR_203_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeFinReservation.erreurs.push(erreur);}
+		}		
+		if(timeEstPLusGrandeEgale(pData.timeMarcheDebut,pData.timeMarcheFin)) {lVR.valid = false;lVR.timeMarcheDebut.valid = false;lVR.timeMarcheFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_204_CODE;erreur.message = ERR_204_MSG;lVR.timeMarcheDebut.erreurs.push(erreur);lVR.timeMarcheFin.erreurs.push(erreur);}
 
+<<<<<<< .working
 			return lVR;
 		}
 		return lTestId;
@@ -3024,9 +4005,19 @@ function CompteZeybuModifierVirementVR() {
 		// Les dates ne sont pas avant ajourd'hui
 		if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
 		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+=======
+		// Les dates ne sont pas avant ajourd'hui
+		if(!dateEstPLusGrandeEgale(pData.dateMarcheDebut,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateMarcheDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateMarcheDebut.erreurs.push(erreur);}
+		if(!dateEstPLusGrandeEgale(pData.dateFinReservation,getDateAujourdhuiDb(),'db')) {lVR.valid = false;lVR.dateFinReservation.valid = false;var erreur = new VRerreur();erreur.code = ERR_209_CODE;erreur.message = ERR_209_MSG;lVR.dateFinReservation.erreurs.push(erreur);}
+>>>>>>> .merge-right.r95
 
+<<<<<<< .working
 		return lVR;
 	}
+=======
+		return lVR;
+	};
+>>>>>>> .merge-right.r95
 };function RechargementCompteValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new RechargementCompteVR();
@@ -3039,13 +4030,15 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+		if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+		
 		//Tests Fonctionnels
 		if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.typePaiement.isEmpty() || pData.typePaiement == 0) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.typePaiement.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 		if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+		if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 		return lVR;
 	};
@@ -3069,13 +4062,15 @@ function CompteZeybuModifierVirementVR() {
 			if(!pData.champComplementaireObligatoire.checkLength(0,1)) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(!pData.champComplementaireObligatoire.isInt()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaire != '' && !pData.champComplementaire.checkLength(0,50)) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.champComplementaire.erreurs.push(erreur);}
-
+			if(pData.idBanque != '' && isNaN(parseInt(pData.idBanque))) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idBanque.erreurs.push(erreur);}
+			
 			//Tests Fonctionnels
 			if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.typePaiement.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire.isEmpty()) {lVR.valid = false;lVR.champComplementaireObligatoire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaireObligatoire.erreurs.push(erreur);}
 			if(pData.champComplementaireObligatoire == 1 && pData.champComplementaire.isEmpty()) {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+			if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 
 			return lVR;
 		}
@@ -3096,13 +4091,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.stoIdDetailCommande.isEmpty()) {lVR.valid = false;lVR.stoIdDetailCommande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.stoIdDetailCommande.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ReservationCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3121,8 +4116,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
-
+	};
 }function CompteZeybuVirementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteZeybuAjoutVirementVR();
@@ -3146,7 +4140,7 @@ function CompteZeybuModifierVirementVR() {
 		
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new CompteZeybuModifierVirementVR();
@@ -3162,7 +4156,7 @@ function CompteZeybuModifierVirementVR() {
 		
 		if(pData.montant <= 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteZeybuSupprimerVirementVR();
@@ -3174,61 +4168,23 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 }
 ;function ExportBonReservationValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ExportBonReservationVR();
 		//Tests Techniques
-		//if(!pData.pParam.checkLength(0,1)) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(!pData.pParam.isInt()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-		//if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
 		if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
 		if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
-		//if(pData.pParam.isEmpty()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pParam.erreurs.push(erreur);}
-		//if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
 		if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
-
-	/*this.validDelete = function(pData) {
-		var lVR = new ExportBonReservationVR();
-		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
-		return lVR;
-	}
-
-	this.validUpdate = function(pData) {
-		var lTestId = this.validDelete(pData);
-		if(lTestId.valid) {
-			var lVR = new ExportBonReservationVR();
-			//Tests Techniques
-			if(!pData.pParam.checkLength(0,1)) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(!pData.pParam.isInt()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(!pData.export_type.checkLength(0,1)) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.export_type.isInt()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(!pData.id_commande.checkLength(0,11)) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
-			if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
-
-			//Tests Fonctionnels
-			if(pData.pParam.isEmpty()) {lVR.valid = false;lVR.pParam.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pParam.erreurs.push(erreur);}
-			if(pData.export_type.isEmpty()) {lVR.valid = false;lVR.export_type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.export_type.erreurs.push(erreur);}
-			if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
-			if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
-
-			return lVR;
-		}
-		return lTestId;
-	}*/
-
+	};
 };function ProduitAchatAdherentValid() { 
 	this.validUpdate = function(pData) { 
 		var lVR = new ProduitAchatAdherentVR();
@@ -3247,7 +4203,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 };function ExportBonLivraisonValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ExportBonLivraisonVR();
@@ -3268,7 +4224,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ExportBonLivraisonVR();
@@ -3363,8 +4319,9 @@ function CompteZeybuModifierVirementVR() {
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
+<<<<<<< .working
 	this.validAjoutProduit = function(pData) {
 		var lVR = this.validDelete(pData);
 		if(lVR.valid) {
@@ -3374,13 +4331,24 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	}
 	
+=======
+	this.validAjoutProduit = function(pData) {
+		var lVR = this.validDelete(pData);
+		if(lVR.valid) {
+			var lProduitMarcheValid = new ProduitMarcheValid();
+			return lProduitMarcheValid.validAjout(pData);
+		}
+		return lVR;
+	};
+	
+>>>>>>> .merge-right.r95
 	this.validDelete = function(pData) {
 		var lVR = new CommandeCompleteVR();
 		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3447,8 +4415,92 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
+}
+;function ModeleLotValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new ModeleLotVR();
+		//Tests Techniques
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.unite.erreurs.push(erreur);}
+		if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+		if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
+		if(parseFloat(pData.quantite) > 9999999999.99) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) > 9999999999.99) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+
+		// Quantite et prix sont positifs
+		if(parseFloat(pData.quantite) <= 0) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
+
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = new ModeleLotVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.unite.erreurs.push(erreur);}
+		if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+		if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
+		if(parseFloat(pData.quantite) > 9999999999.99) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) > 9999999999.99) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+
+		// Quantite et prix sont positifs
+		if(parseInt(pData.id) <= 0) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.id.erreurs.push(erreur);}
+		if(parseFloat(pData.quantite) <= 0) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
+
+		return lVR;
+	};
+	
+	this.validUpdateAvecReservation = function(pData,pAncienneQuantite) { 
+		var lVR = new ModeleLotVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.unite.checkLength(0,20)) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.unite.erreurs.push(erreur);}
+		if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+		if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.unite.isEmpty()) {lVR.valid = false;lVR.unite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.unite.erreurs.push(erreur);}
+		if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
+		if(parseFloat(pData.quantite) > 9999999999.99) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) > 9999999999.99) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+
+		// Quantite et prix sont positifs
+		if(parseInt(pData.id) <= 0) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.id.erreurs.push(erreur);}
+		if(parseFloat(pData.quantite) <= 0) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(parseFloat(pData.prix) <= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
+
+		// La quantite doit être multiple de l'ancienne et inférieure car des réservations sont positionnées
+		if(parseFloat(pData.quantite) > parseFloat(pAncienneQuantite)) {
+			lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_257_CODE;erreur.message = ERR_257_MSG;lVR.quantite.erreurs.push(erreur);
+		} else {
+			if(parseFloat(pAncienneQuantite) % parseFloat(pData.quantite) != 0 ) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_256_CODE;erreur.message = ERR_256_MSG;lVR.quantite.erreurs.push(erreur);}
+		}
+
+<<<<<<< .working
 }
 ;function ModeleLotValid() { 
 	this.validAjout = function(pData) { 
@@ -3535,6 +4587,11 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	};
 };function ExportListeReservationValid() { 
+=======
+		return lVR;
+	};
+};function ExportListeReservationValid() { 
+>>>>>>> .merge-right.r95
 	this.validAjout = function(pData) { 
 		var lVR = new ExportListeReservationVR();
 		//Tests Techniques
@@ -3556,7 +4613,7 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	/*this.validDelete = function(pData) {
 		var lVR = new ExportListeReservationVR();
@@ -3604,13 +4661,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.idCategorie.isEmpty()) {lVR.valid = false;lVR.idCategorie.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCategorie.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new NomProduitVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3629,7 +4686,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function IdentificationValid() { 
 	this.validAjout = function(pData) { 
@@ -3643,13 +4700,13 @@ function CompteZeybuModifierVirementVR() {
 		if(pData.pass.isEmpty()) {lVR.valid = false;lVR.pass.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.pass.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new IdentificationVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3666,7 +4723,7 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
 };function ProduitCommandeValid() { 
 	this.validAjout = function(pData,pMode) { 
@@ -3725,13 +4782,13 @@ function CompteZeybuModifierVirementVR() {
 			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_110_CODE;erreur.message = ERR_110_MSG;lVR.log.erreurs.push(erreur);}
 		}
 		return lVR;
-	}
+	};
 
 	this.validDelete = function(pData) {
 		var lVR = new ProduitCommandeVR();
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
 		return lVR;
-	}
+	};
 
 	this.validUpdate = function(pData) {
 		var lTestId = this.validDelete(pData);
@@ -3785,8 +4842,41 @@ function CompteZeybuModifierVirementVR() {
 			return lVR;
 		}
 		return lTestId;
-	}
+	};
 
+};function CompteSpecialValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new CompteSpecialVR();
+		//Tests Techniques
+		if(!pData.login.checkLength(0,20)) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.login.erreurs.push(erreur);}
+		if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+		if(!pData.type.checkLength(0,1)) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.type.erreurs.push(erreur);}
+		if(!pData.type.isInt()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.type.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.login.isEmpty()) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.login.erreurs.push(erreur);}
+		if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+		if(pData.type.isEmpty()) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.type.erreurs.push(erreur);}
+
+		// Les mots de passe ne sont pas identique
+		if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}
+		if(pData.type < 2 || pData.type > 4) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_246_CODE;erreur.message = ERR_246_MSG;lVR.type.erreurs.push(erreur);}
+		
+		return lVR;
+	};
+	
+	this.validDelete = function(pData) { 
+		var lVR = new CompteSpecialVR();
+		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+
+<<<<<<< .working
 };function CompteSpecialValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteSpecialVR();
@@ -3851,13 +4941,48 @@ function CompteZeybuModifierVirementVR() {
 		}
 		return lVR;
 	}
+=======
+		return lVR;
+	};
+	
+	this.validUpdate = function(pData) { 
+		var lVR = this.validDelete(pData);
+		if(lVR.valid) {
+			//Tests Techniques
+			if(!pData.login.checkLength(0,20)) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.login.erreurs.push(erreur);}
+	
+			//Tests Fonctionnels
+			if(pData.login.isEmpty()) {lVR.valid = false;lVR.login.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.login.erreurs.push(erreur);}
+	
+		}
+		return lVR;
+	};
+	
+	this.validUpdatePass = function(pData) { 
+		var lVR = this.validDelete(pData);
+		if(lVR.valid) {
+			//Tests Techniques
+			if(!pData.motPasse.checkLength(0,100)) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasse.erreurs.push(erreur);}
+			if(!pData.motPasseConfirm.checkLength(0,100)) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+	
+			//Tests Fonctionnels
+			if(pData.motPasse.isEmpty()) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasse.erreurs.push(erreur);}
+			if(pData.motPasseConfirm.isEmpty()) {lVR.valid = false;lVR.motPasseConfirm.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.motPasseConfirm.erreurs.push(erreur);}
+	
+			// Les mots de passe ne sont pas identique
+			if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}			
+		}
+		return lVR;
+	};
+>>>>>>> .merge-right.r95
 }/********** Début Variables Globales ************/
 var TemplateData;
 var Infobulle = {};
 var gCommunVue = {};
 /********** Fin Variables Globales ************/
-$(document).ready(function() {	
+$(document).ready(function() {
 	AccueilVue(); // Lancement de l'accueil
+<<<<<<< .working
 });;function CommunTemplate() {
 	this.debutContenu = "<div id=\"contenu\">";
 	this.finContenu = "</div>";
@@ -4163,13 +5288,303 @@ $(document).ready(function() {
 		"</div>";
 };function MenuVue(pParam) {
 	this.mMenuTemplate = new IdentificationTemplate();
-
-	this.construct = function(pParam) {
+=======
+});;function CommunTemplate() {
+	this.debutContenu = "<div id=\"contenu\">";
+	this.finContenu = "</div>";
+};function CommunVue() {
+	
+	this.comDelete = function(pData) {	
+		pData.find(".com-delete").click( function () { $(this).parent().parent().remove(); });
+		return pData;	
+	};
+	
+	this.comNumeric = function(pData) {
+		if($(pData).length != 0)
+			pData.find('.com-numeric').numeric();
+		else
+			$("body").find('.com-numeric').numeric();
+		return pData;
+	};
+	
+	this.comLienDatepicker = function(pDatePetite,pDateGrande,pData) {
+		$.datepicker.setDefaults($.datepicker.regional['fr']);
+		var dates = pData.find('#' + pDatePetite + ',#' + pDateGrande).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function(selectedDate) {
+				var option = this.id == pDatePetite ? "minDate" : "maxDate";
+				var instance = $(this).data("datepicker");
+				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+				dates.not(this).datepicker("option", option, date);
+			}
+		});
+		return pData;
+	};
+	
+	this.lienDatepickerMarche = function(pDebutReservation, pFinReservation, pDebutMarche, pData) {
+		pData.find('#' + pDebutReservation).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function(selectedDate) {
+				var instance = $(this).data("datepicker");
+				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+				$('#' + pFinReservation).datepicker("option", "minDate", date);		
+			}
+		});
+		pData.find('#' + pFinReservation).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function(selectedDate) {
+				var instance = $(this).data("datepicker");
+				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+				$('#' + pDebutReservation).datepicker("option", "maxDate", date);		
+				$('#' + pDebutMarche).datepicker("option", "minDate", date);		
+			}
+		});
+		pData.find('#' + pDebutMarche).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function(selectedDate) {
+				var instance = $(this).data("datepicker");
+				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+				$('#' + pFinReservation).datepicker("option", "maxDate", date);		
+			}
+		});
+		return pData;
+	};
+	
+	this.comDatepicker = function(pIdDate,pData) {
+		$.datepicker.setDefaults($.datepicker.regional['fr']);
+		pData.find('#' + pIdDate).datepicker({
+			changeMonth: true,
+			changeYear: true});
+		return pData;		
+	};
+	
+	this.majMenu = function(pModule,pVue) {
+		var lId = '#menu-' + pModule + '-' + pVue;
+		if(pModule == 'administration') {
+			lId = '#lien-administration';
+		}
+		$('.btn-menu').removeClass("ui-state-active");
+		$(lId).addClass("ui-state-active");		
+	};
+	
+	this.comHoverBtn = function(pData) {
+		pData.find(	".com-button:not(.ui-state-disabled)," +
+					".com-btn-header:not(.ui-state-disabled)," +
+					".com-btn-hover:not(.ui-state-disabled)," +
+					".com-btn-header-multiples:not(.ui-state-disabled)")
+		.hover(
+			function(){ 
+				$(this).addClass("ui-state-hover"); 
+			},
+			function(){ 
+				$(this).removeClass("ui-state-hover"); 
+			}
+		)
+		.mousedown(function(){
+				$(this).addClass("ui-state-active");	
+		})
+		.mouseup(function(){
+				$(this).removeClass("ui-state-active");
+		});
 		
+		return pData;
+	};
+};function IdentificationTemplate() {
+	this.connexion =
+		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
+			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+				"<table>" +
+					"<tr>" +
+						"<td>N° d'adhérent</td>" +
+						"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" id=\"login\"/></td>" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Mot de Passe</td>" +
+						"<td><input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"/></td>" +
+					"</tr>" +
+				"</table>" +
+			"</form>" +
+		"</div>";
+
+	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
+	this.finMenu = "</ul></div>";
+		
+	this.deconnexion =	
+		"<span id=\"lien-deconnexion\" class=\"ui-widget-header ui-corner-bl\">" +
+			"<a href=\"./index.php?m=Identification&amp;v=Deconnexion\" >" +
+				"<span class=\"com-float-left ui-icon ui-icon-power\"></span>" +
+				"Déconnexion" +
+			"</a>" +
+		"</span>";
+	
+	this.administration =	
+		"<span id=\"lien-administration\" class=\"btn-menu com-cursor-pointer ui-widget-header ui-corner-tl\">" +
+				"<span class=\"com-float-left ui-icon ui-icon-gear\"></span>" +
+				"Administration" +
+		"</span>";
+		
+	this.module =	
+		"<!-- BEGIN modules -->" +
+		"<li>" +
+			"<span class=\"com-cursor-pointer ui-widget-header menu-lien btn-menu\" id=\"menu-{modules.moduleNom}-{modules.nom}\">{modules.label}</span>" +
+		"</li>" +
+		"<!-- END modules -->";
+	
+	this.admin = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Administration" +
+				"</div>" +
+				"<div>" +
+					"<ul>" +
+						"<!-- BEGIN modules -->" +
+						"<li>" +
+							"<span id=\"menu-{modules.moduleNom}-{modules.nom}\" >{modules.label}</span>" +			
+							"<ul>" +
+							"<!-- BEGIN vues -->" +
+								"<li>" +
+									"<a id=\"menu-{modules.moduleNom}-{modules.vues.nom}\" href=\"./index.php?m={modules.moduleNom}&amp;v={modules.vues.nom}\">{modules.vues.label}</a>" +
+								"</li>" +
+								"<br/>" +
+							"<!-- END vues -->" +
+							"</ul>" +
+						"</li>" +
+						"<!-- END modules -->" +
+					"</ul>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.naviguateurIncompatible =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
+					"Naviguateur Incompatible" +
+				"</div>" +
+				"<div>" +
+					"Votre naviguateur n'est pas compatible avec zeybux.<br/>" +
+					"Vous pouvez utiliser l'un des naviguateur suivants pour profiter du site : <br/>" +
+					"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+						
+						"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+							"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+								"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+								"Mozilla Firefox" +
+							"</a>" +
+						"</div>" +
+						"<div>" +	
+							"<a href=\"http://www.google.com/chrome/\">" +
+								"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+								"Google Chrome" +
+							"</a>" +
+						"</div>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+		"</div>";
+	
+	this.formulaireIdentificationHTML = 
+		"<div id=\"contenu\">" +
+			"<div class=\"ui-widget ui-widget-content ui-state-highlight com-center\" >" +
+				"Votre naviguateur n'est pas compatible avec la version complète du zeybux.<br/>" +
+				"Ceci est la version minimale du zeybux.<br/>" +
+				"Vous pouvez utiliser l'un des naviguateur suivants pour profiter de l'ensemble du site : <br/>" +
+				"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+					
+					"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+						"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+							"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+							"Mozilla Firefox" +
+						"</a>" +
+					"</div>" +
+					"<div>" +	
+						"<a href=\"http://www.google.com/chrome/\">" +
+							"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+							"Google Chrome" +
+						"</a>" +
+					"</div>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
+					"<table>" +
+						"<tr>" +
+							"<td>N° d'adhérent</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td>Mot de Passe</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
+						"</tr>" +
+						"<tr>" +						
+							"<td></td>" +
+							"<td class=\"com-text-align-right\" ><a class=\"lien_mot_passe\" href=\"./index.php?m=IdentificationHTML&amp;v=MotDePasse\">Mot de passe oublié</a></td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
+			"</div>" +
+		"</div>";
+	
+	this.formulaireIdentification = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent  ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+					"<table>" +
+						"<tr>" +
+							"<td>N° d'adhérent</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"text\" name=\"login\" id=\"login\" /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td>Mot de Passe</td>" +
+							"<td><input class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" type=\"password\" name=\"pass\" id=\"pass\"  /></td>" +
+						"</tr>" +
+						"<tr>" +
+							"<td colspan=\"2\" class=\"com-center com-ligne-submit\" ><input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Connexion\"/></td>" +
+						"</tr>" +
+						"<tr>" +						
+							"<td></td>" +
+							"<td class=\"com-text-align-right\" ><a class=\"lien_mot_passe\" href=\"./index.php?m=IdentificationHTML&amp;v=MotDePasse\">Mot de passe oublié</a></td>" +
+						"</tr>" +
+					"</table>" +
+				"</form>" +
+			"</div>" +
+		"</div>";
+	
+	this.chargementModule = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
+				"<div id=\"chargement-module-progressbar\"></div>" +
+			"</div>" +
+		"</div>";
+	
+	this.chargementIdentification = 
+		"<div id=\"contenu\">" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
+				"<div class=\"com-center\">Identification ...</div>" +
+			"</div>" +
+		"</div>";
+};function MenuVue(pParam) {
+	//this.mMenuTemplate = new IdentificationTemplate();
+>>>>>>> .merge-right.r95
+
+	this.construct = function(pParam) {		
 		var that = this;	
 		$.post(	"./index.php?m=Identification&v=Menu", 
 				function(lResponse) {
 				  	Infobulle.init(); // Supprime les erreurs
+<<<<<<< .working
 				  	if(lResponse) {
 						if(lResponse.valid) {	
 							if(pParam && pParam.vr) {
@@ -4178,35 +5593,71 @@ $(document).ready(function() {
 							that.afficherNouveau(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
+=======
+				  	if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse, pParam);
+						} else {
+							Infobulle.generer(lResponse,'');
+>>>>>>> .merge-right.r95
 						}
 				  	}
 				},"json"
 		);
+<<<<<<< .working
 	};
 	
+=======
+	};
+>>>>>>> .merge-right.r95
 	
-	/******* Nouveau Module *********/
-	this.afficherNouveau = function(pMenu) {
+	this.afficher = function(pMenu, pParam) {
 		var that = this;
-		$('#menu_int').replaceWith(that.genererNouveauMenu(pMenu.menu));
-		$('#site').append(that.genererLienDeconnexion());
+		var lIdentificationTemplate = new IdentificationTemplate();
+				
+		$('#menu_int').replaceWith($(that.genererMenu(pMenu.menu)));
+		$('#site').append(that.affectButton($(lIdentificationTemplate.deconnexion)));
 		if(pMenu.admin){
-			$('#site').append(that.affectAdministration(that.genererLienAdmin()));
+			$('#site').append(that.affectAdministration($(lIdentificationTemplate.administration)));
 		}
+<<<<<<< .working
 	};
+=======
+		
+		pParam.homePage();
+	};
+>>>>>>> .merge-right.r95
 	
+<<<<<<< .working
 	this.genererLienDeconnexion = function() {
 		return $(this.mMenuTemplate.deconnexion).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
-	
-	this.genererLienAdmin = function() {
-		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+=======
+	this.affectButton = function(pData) {
+
+		/*pData = gCommunVue.comHoverBtn(pData);
+		return pData;*/
+		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
+>>>>>>> .merge-right.r95
 	
-	this.genererNouveauMenu = function(pMenu) {
-		var lMenu = this.mMenuTemplate.debutMenu;
-		lMenu += this.genererNouveauModule(pMenu);
-		lMenu += this.mMenuTemplate.finMenu;
+	/*this.genererLienAdmin = function() {
+		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+<<<<<<< .working
+	};
+=======
+	};*/
+>>>>>>> .merge-right.r95
+	
+	this.genererMenu = function(pMenu) {
+		var lIdentificationTemplate = new IdentificationTemplate();
+		
+		var lMenu = lIdentificationTemplate.debutMenu;
+		lMenu += lIdentificationTemplate.module.template(pMenu); //this.genererModule(pMenu);
+		lMenu += lIdentificationTemplate.finMenu;
 		
 		lMenu = $(lMenu);
 		
@@ -4221,22 +5672,31 @@ $(document).ready(function() {
 		return lMenu;
 	};
 	
-	this.affectHover = function(pData) {
+	/*this.affectHover = function(pData) {
 		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
+<<<<<<< .working
 	};
+=======
+	};*/
+>>>>>>> .merge-right.r95
 	
-	this.genererNouveauModule = function(pModule) {
+	/*this.genererModule = function(pModule) {
 		var lTemplate = this.mMenuTemplate.nouveauModule;
 		return lTemplate.template(pModule);		
+<<<<<<< .working
 	};
+=======
+	};*/
+>>>>>>> .merge-right.r95
 	
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();
 		});
-		pData = this.affectHover(pData);
+		pData = this.affectButton(pData);
 		return pData;
+<<<<<<< .working
 	};
 	/******* Fin Nouveau Module *********/
 	/*this.afficher = function(pMenu) {
@@ -4251,7 +5711,11 @@ $(document).ready(function() {
 		lMenu += this.mMenuTemplate.finMenu;
 		
 		lMenu = $(lMenu);
+=======
+	};
+>>>>>>> .merge-right.r95
 		
+<<<<<<< .working
 		lMenu = this.affectVues(lMenu);
 		lMenu = this.affectAnimation(lMenu);
 		return lMenu;
@@ -4280,6 +5744,8 @@ $(document).ready(function() {
 		$(obj).find('ul').stop().fadeTo(0,1).fadeOut('fast');
 	}*/
 	
+=======
+>>>>>>> .merge-right.r95
 	this.affectVues = function(pData) {
 		if(pData) {
 			
@@ -4411,6 +5877,7 @@ $(document).ready(function() {
 				GestionCaisseVue();
 				return false;
 			});
+<<<<<<< .working
 			
 			pData.find('#menu-GestionProduit-GestionCategorie').click(function() {
 				GestionCategorieVue();
@@ -4441,6 +5908,43 @@ $(document).ready(function() {
 				CaisseListeCommandeVue();
 				return false;
 			});
+=======
+			
+			pData.find('#menu-GestionProduit-GestionCategorie').click(function() {
+				GestionCategorieVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionProduit-GestionCaracteristique').click(function() {
+				GestionCaracteristiqueVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionComptesSpeciaux-ListeCompte').click(function() {
+				ListeComptesSpeciauxVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionAbonnement-ListeProduit').click(function() {
+				ListeProduitVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionAbonnement-ListeAbonne').click(function() {
+				ListeAbonneVue();
+				return false;
+			});
+			
+			pData.find('#menu-Caisse-ListeMarche').click(function() {
+				CaisseListeCommandeVue();
+				return false;
+			});
+			
+			pData.find('#menu-Parametrage-Banque').click(function() {
+				ListeBanqueVue();
+				return false;
+			});
+>>>>>>> .merge-right.r95
 				
 			return pData;
 		}
@@ -4495,6 +5999,7 @@ $(document).ready(function() {
 			$.post(	"./index.php?m=Identification&v=Identification", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
+<<<<<<< .working
 					  	if(lResponse) {
 							if(lResponse.valid) {
 								that.mType = lResponse.type;
@@ -4507,6 +6012,20 @@ $(document).ready(function() {
 								Infobulle.generer(lResponse,'');
 							}
 					  	}
+=======
+					  	if(lResponse) {
+							if(lResponse.valid) {
+								that.mType = parseInt(lResponse.type);
+								that.mModules = lResponse.modules;
+								gIdConnexion = lResponse.idConnexion;
+								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
+								that.chargerModule(0);
+							} else {
+								$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+								Infobulle.generer(lResponse,'');
+							}
+					  	}
+>>>>>>> .merge-right.r95
 					},"json"
 			);
 		} else {
@@ -4527,17 +6046,18 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130127170547.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
+<<<<<<< .working
 		if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
 			$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
@@ -4572,29 +6092,61 @@ $(document).ready(function() {
 		    return "";
 		});
 
+=======
+		if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
+			$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
+			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
+		}
+		
+		// Gestion du F5
+		// Bloque le fonctionnement du F5
+		$(document).bind('keypress keydown keyup', function(e) {
+		    if(e.charCode === 0 && (e.keyCode === 116 || (e.which === 82 && e.ctrlKey))) {
+		       return false;
+		    }
+		});
+		// Recharge la page
+		$(document).keyup(function(e) {
+		    if(e.charCode === 0 && (e.which === 116 || (e.which === 82 && e.ctrlKey))) {
+		    	var cursor = $(".__historyFrame").contents().attr( $.browser.msie ? 'URL' : 'location' ).toString().split('#')[1];
+				// set the history cursor to the current cursor
+				$.history.cursor = parseFloat(cursor) || 0;
+				// reinstate the current cursor data through the callback
+				if ( typeof($.history.callback) == 'function' ) {
+					// prevent the callback from re-inserting same history element
+					$.history._locked = true;
+					$.history.callback( $.history.stack[ cursor ], cursor );
+					$.history._locked = false;
+				}
+			}
+		});
+
+		// Confirmation de sortie du zeybux
+		$(window).bind('beforeunload', function() {
+		    return "";
+		});
+
+>>>>>>> .merge-right.r95
 		this.lancement();
 	};
 		
 	this.lancement = function() {
 		switch(this.mType) {
-			case '1':
-				MenuVue();
-				MonCompteVue();
+			// Adherent
+			case 1:
+				MenuVue({homePage:function() {MonCompteVue();}});				
 			break;
-			
-			case '2':
-				MenuVue();
-				AdministrationVue();
+			// Administrateur
+			case 2:
+				MenuVue({homePage:function() {AdministrationVue();}});
 			break;
-			
-			case '3':
-				MenuVue();
-				CaisseListeCommandeVue();
+			// Caisse
+			case 3:
+				MenuVue({homePage:function() {CaisseListeCommandeVue();}});
 			break;
-			
-			case '4':
-				MenuVue();
-				CompteSolidaireVue();
+			// Compte Solidaire
+			case 4:
+				MenuVue({homePage:function() {CompteSolidaireVue();}});
 			break;
 			
 			default :
@@ -4622,10 +6174,16 @@ $(document).ready(function() {
 	this.afficher = function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
+<<<<<<< .working
 			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
 		} else {			
+=======
+			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
+		} else {	
+>>>>>>> .merge-right.r95
 			var that = this;
-			$.getScript("./js/zeybux-configuration-min.js",function() {
+
+			$.getScript("./js/zeybux-configuration-min-20130127170547.js",function() {
 				that.init();
 				IdentificationVue();
 			});
@@ -4650,6 +6208,7 @@ $(document).ready(function() {
 		$("#widget_message_information").click(function() {$(this).delay(gTempsTransition).fadeOut(gTempsTransitionUnique);});		
 		/*$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
 		$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );	*/	
+<<<<<<< .working
 		
 		
 		
@@ -4666,6 +6225,22 @@ $(document).ready(function() {
 		
 		
 	};
+=======
+
+		$.history.callback = function ( pReinstate, pCursor ) {
+			var lDefault = {
+				vue: function() { return false; }
+			};
+			lDefault = $.extend(lDefault,pReinstate);
+			// check to see if were back to the beginning without any stored data
+			if (typeof(pReinstate) == 'undefined') { return false; }
+			else { $(".ui-dialog").remove(); lDefault.vue(); }
+		};
+		
+		
+		
+	};
+>>>>>>> .merge-right.r95
 	
 	this.construct(pParam);
 }

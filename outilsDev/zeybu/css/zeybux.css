@@ -44,8 +44,9 @@
 #menu_liste {
 	display: inline-block;
 	margin:0;
-	padding-left: 4px;
+	padding-left: 0px;
 	list-style: none;
+	box-shadow: 0 0 10px #555;
 }
 
 #menu_liste li {
@@ -212,6 +213,7 @@
 	width: 360px;
 	margin-left:320px;
 	margin-top:150px;
+	box-shadow: 0 0 20px #555;
 }
 
 #formulaire_identification_html {
@@ -325,6 +327,10 @@
 	width:60px;
 }
 
+.liste-adh-th-cpt {
+	width:80px;
+}
+
 .liste-adh-th-nom {
 	width:225px;
 }
@@ -368,7 +374,7 @@
 	margin-left:150px;
 }
 
-#formulaire_modifier_adherent_int {
+/*#formulaire_modifier_adherent_int {
 	width:700px;
 }
 
@@ -383,24 +389,44 @@
 #formulaire-modifier-adherent-table-autorisation {
 	width:450px;
 	padding-left:150px;
-}
+}*/
 
 #formulaire_modifier_adherent_int {
-	width:700px;
-	margin-left:150px;
+/*	width:700px;
+	margin-left:150px;*/
 }
 
 #formulaire_modifier_adherent_int table {
-	margin-left:50px;
+/*	margin-left:50px; */
 }
 
 #formulaire_modifier_adherent_int table th {
-	width:300px;
+	font-size: 12pt;
+    padding-right: 5px;
+    text-align: right;
+    width: 150px;
 }
 
-#formulaire-modifier-adherent-table-autorisation {
+/*#formulaire-modifier-adherent-table-autorisation {
 	width:450px;
 	padding-left:150px;
+}*/
+
+#div-info-adherent {
+	float:left;
+	width:469px;
+	height: 285px;
+}
+
+#div-coord-adherent {
+	float:left;
+	width:469px;
+	height: 285px;
+	margin-left:10px;
+}
+
+#div-submit-ajout-adherent {
+	clear:left;
 }
 
 #table-info-solde-zeybu {
