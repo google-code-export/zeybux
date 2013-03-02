@@ -1,3 +1,0 @@
-function CompteZeybuSupprimerVirementVO() {
-	this.id = '';
-}
