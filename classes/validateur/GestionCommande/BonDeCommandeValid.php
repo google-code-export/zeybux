@@ -31,6 +31,7 @@ class BonDeCommandeValid
 	*/
 	public static function validGetInfoCommande($pData) {
 		$lVr = new InfoCommandeVR();
+		//Tests inputs
 		if(!isset($pData['id_commande'])) {
 			$lVr->setValid(false);
 			$lVr->getIdCommande()->setValid(false);
@@ -89,7 +90,7 @@ class BonDeCommandeValid
 	*/
 	public static function validGetListeProduitCommande($pData) {
 		$lVr = new GetListeProduitCommandeVR();
-
+		//Tests inputs
 		if(!isset($pData['id_commande'])) {
 			$lVr->setValid(false);
 			$lVr->getId_commande()->setValid(false);

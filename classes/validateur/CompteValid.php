@@ -81,11 +81,8 @@ class CompteValid
 		if($this->estCompte($pCompte)) {
 			$lIdValid = new IdValid();
 			$lId = $pCompte->getId();
-						
 			return $lIdValid->estId($lId)
-			&& empty($lId)
-			&& $this->label($pCompte->getLabel())
-			&& $this->solde($pCompte->getSolde());
+			&& empty($lId);
 		} else {
 			return false;
 		}
