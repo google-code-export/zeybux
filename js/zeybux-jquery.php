@@ -15,9 +15,9 @@ function parcourirDossierJquery($pPath, $filenameJQuery, $filenameJQUI) {
 		   		&& $entry != '..' 
 		   		&& $entry != '.svn' 
 		   		&& $entry != '.project'
-		   		&& $entry != '.htaccess'
+		   		&& $entry != '.htaccess'	
 		   		&& $entry != 'Old'
-		   		&& $entry != $filenameJQuery
+		   		&& $entry != $filenameJQuery	
 		   		&& $entry != $filenameJQUI
 		   		) {
 		   		if(is_dir($d->path.'/'.$entry)) {

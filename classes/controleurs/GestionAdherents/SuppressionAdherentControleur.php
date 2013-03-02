@@ -12,7 +12,6 @@
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/AjoutAdherentResponse.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 
 /**
  * @name SuppressionAdherentControleur
