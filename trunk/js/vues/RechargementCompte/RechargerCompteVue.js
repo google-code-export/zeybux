@@ -81,7 +81,7 @@
 			
 			$.post(	"./index.php?m=RechargementCompte&v=RechargerCompte", "pParam=" + $.toJSON(lParam),
 				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs					
+					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
 							
@@ -168,7 +168,7 @@
 	
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
-		pData = this.affectNouveauSolde(pData);		
+		pData = this.affectNouveauSolde(pData);
 		pData = this.affectListeBanque(pData);
 		pData = gCommunVue.comNumeric(pData);
 		return pData;

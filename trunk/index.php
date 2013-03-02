@@ -16,7 +16,6 @@ $lTempsDepart = microtime(true);
 // Inclusion de la config
 include_once("./configuration/Maintenance.php"); // Etat de maintenance du zeybux
 if(MAINTENANCE == 1) {
-
 	include_once("./configuration/Chemin.php"); // Les constantes de chemin
 	include_once(CHEMIN_CONFIGURATION . "Localisation.php"); // Les informations de localisation
 	include_once(CHEMIN_CONFIGURATION . "Identification.php"); // Définition des constantes pour les droits

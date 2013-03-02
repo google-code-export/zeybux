@@ -60,38 +60,6 @@
 		return pData;
 	};
 	
-	this.lienDatepickerMarche = function(pDebutReservation, pFinReservation, pDebutMarche, pData) {
-		pData.find('#' + pDebutReservation).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			onSelect: function(selectedDate) {
-				var instance = $(this).data("datepicker");
-				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-				$('#' + pFinReservation).datepicker("option", "minDate", date);		
-			}
-		});
-		pData.find('#' + pFinReservation).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			onSelect: function(selectedDate) {
-				var instance = $(this).data("datepicker");
-				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-				$('#' + pDebutReservation).datepicker("option", "maxDate", date);		
-				$('#' + pDebutMarche).datepicker("option", "minDate", date);		
-			}
-		});
-		pData.find('#' + pDebutMarche).datepicker({
-			changeMonth: true,
-			changeYear: true,
-			onSelect: function(selectedDate) {
-				var instance = $(this).data("datepicker");
-				var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-				$('#' + pFinReservation).datepicker("option", "maxDate", date);		
-			}
-		});
-		return pData;
-	}
-	
 	this.comDatepicker = function(pIdDate,pData) {
 		$.datepicker.setDefaults($.datepicker.regional['fr']);
 		pData.find('#' + pIdDate).datepicker({

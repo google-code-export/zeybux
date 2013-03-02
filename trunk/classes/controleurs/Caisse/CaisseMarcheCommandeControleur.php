@@ -272,28 +272,6 @@ class CaisseMarcheCommandeControleur
 	}
 	
 	/**
-<<<<<<< .working
-	* @name getInfoMarche($pParam)
-	* @return InfoAchatCommandeResponse
-	* @desc Retourne les infos de réservation d'un adhérent
-	*/
-	public function getInfoMarche($pParam) {
-		$lVr = MarcheValid::validGetInfoMarche($pParam);
-		if($lVr->getValid()) {
-			$lResponse = new InfoAchatCommandeResponse();
-			$lMarcheService = new MarcheService();
-			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
-						
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
-			$lResponse->setStockSolidaire($lStockSolidaire);	
-			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());			
-			return $lResponse;
-		}				
-		return $lVr;
-	}
-	
-	/**
-=======
 	* @name getInfoMarche($pParam)
 	* @return InfoAchatCommandeResponse
 	* @desc Retourne les infos de réservation d'un adhérent
@@ -318,7 +296,6 @@ class CaisseMarcheCommandeControleur
 	}
 	
 	/**
->>>>>>> .merge-right.r95
 	* @name enregistrerAchat($pParam)
 	* @return VR
 	* @desc Enregistre la commande d'un adhérent
