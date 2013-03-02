@@ -1285,6 +1285,151 @@
 	};
 	
 	this.construct(pParam);
+};function CompteProducteurVue(pParam) {
+	this.mIdProducteur = null;
+	this.mPrdtNumero = null;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {CompteProducteurVue(pParam);}} );
+		var that = this;
+		$.post(	"./index.php?m=GestionProducteur&v=CompteProducteur", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	}	
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		
+		this.mIdProducteur = lResponse.producteur.prdtId;
+		this.mPrdtNumero = lResponse.producteur.prdtNumero;
+		lResponse.producteur.prdtDateNaissance = lResponse.producteur.prdtDateNaissance.extractDbDate().dateDbToFr();
+		
+		$(lResponse.operationPassee).each(function() {
+			this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+			if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
+			if(this.opeMontant < 0) {
+				this.credit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+				this.debit = '';
+			} else {
+				this.credit = '';
+				this.debit = this.opeMontant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+			}
+		});
+						
+		var lGestionProducteurTemplate = new GestionProducteurTemplate();
+		var lCommunTemplate = new CommunTemplate();
+		
+		var lHtml = lCommunTemplate.debutContenu;		
+		lHtml += lGestionProducteurTemplate.infoCompteProducteur.template(lResponse.producteur);
+		lHtml += lGestionProducteurTemplate.listeOperationProducteur.template(lResponse);
+		lHtml += lCommunTemplate.finContenu;		
+		lHtml = $(lHtml);
+				
+		// Ne pas afficher la pagination si il y a moins de 10 éléments
+		if(lResponse.operationPassee.length < 11) {
+			lHtml = this.masquerPagination(lHtml);
+		} else {
+			lHtml = this.paginnation(lHtml);
+		}		
+
+		$('#contenu').replaceWith(that.affect(lHtml));	
+	}
+	
+	this.affect = function(pData) {
+		pData = this.affectHover(pData);
+		pData = this.affectLienModifier(pData);
+		pData = this.affectDialogSuppProducteur(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.paginnation = function(pData) {
+		pData.find("#table-operation")
+			.tablesorter({headers: { 
+				0: {sorter: false},
+	            1: {sorter: false},
+	            2: {sorter: false},
+	            3: {sorter: false},
+	            4: {sorter: false} 
+	        } })
+			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
+		return pData;
+	}
+	
+	this.masquerPagination = function(pData) {
+		pData.find('#content-nav-liste-operation').hide();
+		return pData;
+	}
+	
+	this.affectHover = function(pData) {
+		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
+		return pData;
+	}
+		
+	this.affectLienModifier = function(pData) {
+		var that = this;
+		pData.find('#btn-edt').click(function() {			
+			ModificationProducteurVue({id_producteur:that.mIdProducteur});
+		});
+		return pData;
+	}
+	
+	this.affectDialogSuppProducteur = function(pData) {		
+		var that = this;
+		pData.find('#btn-supp')
+		.click(function() {
+			var lGestionProducteurTemplate = new GestionProducteurTemplate();
+			var lTemplate = lGestionProducteurTemplate.dialogSuppressionProducteur;
+			
+			$(lTemplate.template({prdtNumero:that.mPrdtNumero})).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Supprimer': function() {
+						var lParam = {id_producteur:that.mIdProducteur};
+						var lDialog = this;
+						$.post(	"./index.php?m=GestionProducteur&v=SuppressionProducteur", "pParam=" + $.toJSON(lParam),
+								function(lResponse) {
+									Infobulle.init(); // Supprime les erreurs
+									if(lResponse) {
+										if(lResponse.valid) {
+											var lGestionProducteurTemplate = new GestionProducteurTemplate();
+											var lTemplate = lGestionProducteurTemplate.supprimerProducteurSucces;
+											$('#contenu').replaceWith(lTemplate.template(lResponse));
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
+									}
+								},"json"
+						);
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); }
+			});
+		});
+		return pData;
+	}
+		
+	this.construct(pParam);
 };function ListeFermeVue(pParam) {
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeFermeVue(pParam);}} );
@@ -1447,6 +1592,119 @@
 	};
 	
 	this.construct(pParam);
+};function ModificationProducteurVue(pParam) {
+	this.mCommunVue = new CommunVue();
+	this.mIdProducteur = null;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {ModificationProducteurVue(pParam);}} );
+		var that = this;
+		$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mIdProducteur = pParam.id_producteur;
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	}
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		lResponse.dateNaissance = lResponse.dateNaissance.extractDbDate().dateDbToFr();	
+		
+		var lGestionProducteurTemplate = new GestionProducteurTemplate();
+		var lTemplate = lGestionProducteurTemplate.formulaireAjoutProducteur;
+		var lHtml = lTemplate.template(lResponse);
+		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+	}
+	
+	this.affect = function(pData) {
+		pData = this.boutonLienCompte(pData);
+		pData = this.mCommunVue.comNumeric(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.affectSubmit(pData);
+		pData = this.mCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.boutonLienCompte = function(pData) {		
+		pData.find(":input[name=lien_numero_compte]").click(function() {
+			if(pData.find(":input[name=numero_compte]").attr("disabled")) {
+				pData.find(":input[name=numero_compte]").removeAttr("disabled");
+			} else {
+				pData.find(":input[name=numero_compte]").attr("disabled","disabled");				
+			}			
+		});
+		return pData;
+	}	
+	
+	this.affectControleDatepicker = function(pData) {
+		pData = this.mCommunVue.comDatepicker('dateNaissance',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		return pData;
+	}
+	
+	this.affectSubmit = function(pData) {	
+		var that = this;
+		pData.find('form').submit(function() {
+			that.modifProducteur();
+			return false;
+		});
+		return pData;
+	}
+	
+	this.modifProducteur = function() {
+		var lVo = new ProducteurVO();
+		lVo.id = this.mIdProducteur;
+		lVo.nom = $(':input[name=nom]').val();
+		lVo.prenom = $(':input[name=prenom]').val();
+		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
+		lVo.compte = $(':input[name=numero_compte]').val();
+		lVo.commentaire = $(':input[name=commentaire]').val();
+		
+		lVo.courrielPrincipal = $(':input[name=courriel_principal]').val();
+		lVo.courrielSecondaire = $(':input[name=courriel_secondaire]').val();
+		lVo.telephonePrincipal = $(':input[name=telephone_principal]').val();
+		lVo.telephoneSecondaire = $(':input[name=telephone_secondaire]').val();
+		lVo.adresse = $(':input[name=adresse]').val();
+		lVo.codePostal = $(':input[name=code_postal]').val();
+		lVo.ville = $(':input[name=ville]').val();
+		
+		var lValid = new ProducteurValid();
+		var lVr = lValid.validUpdate(lVo);
+		
+		if(lVr.valid) {
+			Infobulle.init(); // Supprime les erreurs
+			// Ajout de l'Producteur
+			$.post(	"./index.php?m=GestionProducteur&v=ModificationProducteur", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionProducteurTemplate = new GestionProducteurTemplate();
+							var lTemplate = lGestionProducteurTemplate.modifierProducteurSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	}
+	
+	this.construct(pParam);
 };function InformationFermeVue(pParam) {
 	/*this.mIdFerm = null;
 	this.mFerNumero = null;*/
@@ -1471,7 +1729,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -1498,9 +1756,7 @@
 			}
 		});
 						
-		var lGestionProducteurTemplate = new GestionProducteurTemplate();
-		var lCommunTemplate = new CommunTemplate();
-		
+		var lGestionProducteurTemplate = new GestionProducteurTemplate();		
 		lHtml = $(lGestionProducteurTemplate.informationFerme.template(lResponse));
 				
 		// Ne pas afficher la pagination si il y a moins de 10 éléments
@@ -1517,7 +1773,7 @@
 		} else {
 			$('#contenu').replaceWith(that.affect(lHtml));
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectHover(pData);
@@ -1529,7 +1785,7 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
 		return pData;
-	}
+	};
 	
 	this.affectFerme = function(pData) {
 		pData = this.affectHover(pData);
@@ -1538,7 +1794,7 @@
 		pData = this.affectDate(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.paginnation = function(pData) {
 		pData.find("#table-operation")
@@ -1551,22 +1807,22 @@
 	        } })
 			.tablesorterPager({container: pData.find("#content-nav-liste-operation"),positionFixed:false}); 
 		return pData;
-	}
+	};
 	
 	this.masquerPagination = function(pData) {
 		pData.find('#content-nav-liste-operation').hide();
 		return pData;
-	}
+	};
 	
 	this.affectHover = function(pData) {
 		pData.find('#icone-nav-liste-operation-w,#icone-nav-liste-operation-e').hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 		return pData;
-	}
+	};
 		
 	this.affectLienRetour = function(pData) {
 		pData.find("#btn-liste-ferme").click(function() { ListeFermeVue(); });
 		return pData;
-	}
+	};
 	
 	this.affectDate = function(pData) {
 		pData.find('#fer-dateAdhesion').datepicker({
@@ -1575,7 +1831,7 @@
 			maxDate: "c+1"
 			});
 		return pData;
-	}
+	};
 	
 	this.affectMenu = function(pData) {
 		var that = this;
@@ -1586,12 +1842,12 @@
 		pData.find('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
 		pData.find('#btn-information').addClass("ui-state-active");		
 		return pData;		
-	}
+	};
 	
 	this.affectMenuFerme = function() {
 		$('#btn-liste-producteur,#btn-catalogue').removeClass("ui-state-active");
 		$('#btn-information').addClass("ui-state-active");
-	}
+	};
 		
 	this.affectEditionFerme = function(pData) {		
 		var that = this;
@@ -1618,7 +1874,7 @@
 		});
 		
 		return pData;
-	}
+	};
 	
 	this.modifInformation = function() {
 		var that = this;
@@ -1683,7 +1939,7 @@
 		} else {
 			Infobulle.generer(lVr,'fer-');
 		}
-	}
+	};
 	
 	this.affectDialogSuppFerme = function(pData) {		
 		var that = this;
@@ -1733,7 +1989,7 @@
 			});
 		});
 		return pData;
-	}
+	};
 		
 	this.construct(pParam);
 };function CatalogueFermeVue(pParam) {
@@ -2824,6 +3080,102 @@
 			Infobulle.generer(lVr,'pro-');
 		}
 	};
+	
+	this.construct(pParam);
+};function AjoutProducteurVue(pParam) {
+	this.mCommunVue = new CommunVue();
+	
+	this.construct = function(pParam) {	
+		$.history( {'vue':function() {AjoutProducteurVue(pParam);}} );
+		if(pParam && pParam.vr) {
+			Infobulle.generer(pParam.vr,'');
+		}
+		this.afficher();
+	}
+	
+	this.afficher = function() {
+		var that = this;			
+		var lGestionProducteurTemplate = new GestionProducteurTemplate();
+		var lTemplate = lGestionProducteurTemplate.formulaireAjoutProducteur;
+		$('#contenu').replaceWith(that.affect($(lTemplate.template())));
+	}
+	
+	this.affect = function(pData) {
+		pData = this.boutonLienCompte(pData);
+		pData = this.mCommunVue.comNumeric(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.affectSubmit(pData);
+		pData = this.mCommunVue.comHoverBtn(pData);
+		return pData;
+	}
+	
+	this.boutonLienCompte = function(pData) {		
+		pData.find(":input[name=lien_numero_compte]").click(function() {
+			if(pData.find(":input[name=numero_compte]").attr("disabled")) {
+				pData.find(":input[name=numero_compte]").removeAttr("disabled");
+			} else {
+				pData.find(":input[name=numero_compte]").attr("disabled","disabled").val("");				
+			}			
+		});
+		return pData;
+	}	
+	
+	this.affectControleDatepicker = function(pData) {
+		pData = this.mCommunVue.comDatepicker('dateNaissance',pData);
+		pData.find('#dateNaissance').datepicker( "option", "yearRange", '1900:c' );
+		return pData;
+	}
+	
+	this.affectSubmit = function(pData) {	
+		var that = this;
+		pData.find('form').submit(function() {
+			that.ajoutProducteur();
+			return false;
+		});
+		return pData;
+	}
+	
+	this.ajoutProducteur = function() {
+		var lVo = new ProducteurVO();
+		
+		lVo.nom = $(':input[name=nom]').val();
+		lVo.prenom = $(':input[name=prenom]').val();
+		lVo.dateNaissance = $(':input[name=date_naissance]').val().dateFrToDb();
+		lVo.compte = $(':input[name=numero_compte]').val();
+		lVo.commentaire = $(':input[name=commentaire]').val();
+		
+		lVo.courrielPrincipal = $(':input[name=courriel_principal]').val();
+		lVo.courrielSecondaire = $(':input[name=courriel_secondaire]').val();
+		lVo.telephonePrincipal = $(':input[name=telephone_principal]').val();
+		lVo.telephoneSecondaire = $(':input[name=telephone_secondaire]').val();
+		lVo.adresse = $(':input[name=adresse]').val();
+		lVo.codePostal = $(':input[name=code_postal]').val();
+		lVo.ville = $(':input[name=ville]').val();
+		
+		var lValid = new ProducteurValid();
+		var lVr = lValid.validAjout(lVo);
+		
+		if(lVr.valid) {
+			Infobulle.init(); // Supprime les erreurs
+			// Ajout du Producteur
+			$.post(	"./index.php?m=GestionProducteur&v=AjoutProducteur", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionProducteurTemplate = new GestionProducteurTemplate();
+							var lTemplate = lGestionProducteurTemplate.ajoutProducteurSucces;
+							$('#contenu').replaceWith(lTemplate.template(lResponse));						
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	}
 	
 	this.construct(pParam);
 }
