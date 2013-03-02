@@ -1,4 +1,16 @@
 @CHARSET "UTF-8";
+/*** Ecrasement du Thème Jquery ***/
+.ui-widget-content-transparent { 
+	border: 1px solid #72b42d;
+	background-color: rgba(40, 92, 0, 0.6);
+	color: #ffffff;
+	background-image:none;
+}
+
+/* Progressbar */
+.ui-progressbar { height:10px; text-align: left; }
+
+/*** Le Site ***/
 
 h1 {
 	font-style:italic;
@@ -39,6 +51,7 @@ body {
 #message_information {
 	padding: 0 .7em;
 	font-size:10.5pt;
+	box-shadow: 0 0 20px #555;
 }
 
 #icone {
@@ -204,7 +217,7 @@ body {
 }
 
 .com-infobulle {
-	width: 310px;
+	width: 310px;	
 }
 
 .com-nombre-negatif{color:red;}
@@ -231,15 +244,26 @@ body {
 	margin-right:100px;
 }
 
-.com-btn-header, .com-btn-header-multiples {
+.com-btn-header, .com-btn-header-multiples, .com-btn-header-text {
 	position:relative;
 	float:right;
-	margin-top:1px;
 	cursor: pointer;
 }
 
-.com-btn-header-multiples {
+.com-btn-header-multiples, .com-btn-header-text {
 	margin-right:4px;
+}
+
+.com-btn-header, .com-btn-header-multiples {
+	margin-top:1px;
+}
+
+.com-btn-header-text {
+	font-size: 10pt;
+    padding-bottom: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 1px;
 }
 
 .com-barre-menu-2 {

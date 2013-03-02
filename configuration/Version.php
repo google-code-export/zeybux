@@ -8,5 +8,5 @@
 // Description : Informations sur la version
 //
 //****************************************************************
-define("ZEYBUX_VERSION","1.0");
+define("ZEYBUX_VERSION","1.1");
 ?>
