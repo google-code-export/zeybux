@@ -42,7 +42,7 @@
 		if(!dateEstPLusGrandeEgale(lAujourdhui,pData.dateAdhesion,'db')) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new FermeVR();
@@ -55,5 +55,5 @@
 			return this.validAjout(pData);
 		}
 		return lVR;
-	}
+	};
 }

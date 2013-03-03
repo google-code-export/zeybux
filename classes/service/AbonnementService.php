@@ -85,19 +85,17 @@ class AbonnementService
 	*/
 	private function updateProduit($pProduitAbonnement, $pLotRemplacement = array()) {		
 		$lProduitActuel = $this->selectProduit($pProduitAbonnement->getId());
-		/*var_dump($lProduitActuel);
-		var_dump($pProduitAbonnement);*/
+		
 		//Les lots
-	//	$lLotModif = array();
 		$lLotSupp = array();
 		foreach($lProduitActuel->getLots() as $lLotActuel) {
-			$lMajLot = true;
-			foreach($pProduitAbonnement->getLots() as $lLotNv) {								
+			$lSuppLot = true;
+			foreach($pProduitAbonnement->getLots() as $lLotNv) {					
 				// Maj Lot
 				if($lLotActuel->getId() == $lLotNv->getId()) {
+
 					$lDcomId = $lLotActuel->getId();
-					
-					$lMajLot = false;
+					$lSuppLot = false;
 					$lLotAbonnement = new LotAbonnementVO();
 					$lLotAbonnement->setId($lLotActuel->getId());
 					$lLotAbonnement->setIdProduitAbonnement($lProduitActuel->getId());
@@ -110,11 +108,12 @@ class AbonnementService
 			}
 			
 			// Supprimer Lot
-			if($lMajLot) {
+			if($lSuppLot) {				
+				// Suppression du lot
 				$lDeleteLot = LotAbonnementManager::select($lLotActuel->getId());
 				$lDeleteLot->setEtat(1);
 				LotAbonnementManager::update($lDeleteLot);
-				
+												
 				array_push($lLotSupp,$lLotActuel->getId());
 			}
 		}
@@ -139,13 +138,19 @@ class AbonnementService
 			}
 		}
 		
-		foreach($lLotSupp as $lIdLot) { // Chaque lot supprimé => La réservation est positionnée sur un autre lot				
+		// Chaque lot supprimé => La réservation est positionnée sur un autre lot
+		foreach($lLotSupp as $lIdLot) { 				
 			if(isset($pLotRemplacement[$lIdLot]) ) {
 				$lIdLotRemplacement = $pLotRemplacement[$lIdLot];
+				
+				// Si le lot de remplacement est un nouveau lot on récupère le vrai id de base et non celui donné par le JS
 				if($lIdLotRemplacement < 0) {
 					$lIdLotRemplacement = $lLotAdd[$lIdLotRemplacement]; 
 				}
+				
+				// Récupération des abonnements
 				$lListeAbonnement = $this->getAbonnementSurLot($lIdLot);
+				// Modification si il y a des abonnements
 				if(!is_null($lListeAbonnement[0]->getCptAboId())) {
 					foreach($lListeAbonnement as $lAbonnement) {
 						$lAncienAbonnement = CompteAbonnementManager::select($lAbonnement->getCptAboId());
@@ -153,11 +158,14 @@ class AbonnementService
 						$this->updateAbonnement($lAncienAbonnement);
 					}
 				}
+			} else { // Si pas de lot de remplacement suppression des abonnements du lot
+				// Suppression des abonnements du lot
+				$lListeAbonnement = $this->getAbonnementSurLot($lLotActuel->getId());
+				foreach($lListeAbonnement as $lAbonnement) {
+					$this->deleteAbonnement($lAbonnement->getCptAboId());
+				}
 			}
 		}
-		
-		
-		
 		
 		return ProduitAbonnementManager::update($pProduitAbonnement);
 	}
@@ -420,7 +428,8 @@ class AbonnementService
 				$lPoursuivre = false;
 			}
 			
-			if($lPoursuivre) {				
+			if($lPoursuivre) {
+				// Recherche de l'Id du lot dans le marché pour le produit correspondant.				
 				$lIdLot = 0;
 				foreach($lProduitMarche["lots"] as $lLot) {
 					if(	fmod($pCompteAbonnement->getQuantite(), $lLot->getDcomTaille()) == 0) {
@@ -430,6 +439,7 @@ class AbonnementService
 					}
 				}
 
+				// Si un lot correspond
 				$lPoursuivre = $lIdLot != 0;
 				if($lPoursuivre) {
 					$lReservation = new ReservationVO();
@@ -439,8 +449,7 @@ class AbonnementService
 					
 					
 					$lTestDetailReservation = $lReservationsActuelle->getDetailReservation();
-					if(empty($lTestDetailReservation) && !$lSuspendu) { // Ajoute une réservation
-
+					if(empty($lTestDetailReservation) && !$lSuspendu && $pCompteAbonnement->getEtat() == 0) { // Ajoute une réservation
 						$lQuantite = $pCompteAbonnement->getQuantite();
 						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
 							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
@@ -518,7 +527,6 @@ class AbonnementService
 			}
 			
 		}
-		
 		return CompteAbonnementManager::update($pCompteAbonnement);
 	}
 	

@@ -698,6 +698,7 @@ class ListeAbonneValid
 	*/
 	public static function validGetDetailAbonne($pData) {
 		$lVr = new ListeAbonneVR();
+		//Tests inputs		
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getIdAdherent()->setValid(false);

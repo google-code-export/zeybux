@@ -26,7 +26,7 @@ $lTemplate->set_filenames( array('page' => 'Page.html') );
 // Entete
 $lTemplate->set_filenames( array('entete' =>  COMMUN_TEMPLATE . 'Entete.html') );
 $lTemplate->assign_vars( array( 'TITRE' => TITRE) );
-InfobullesUtils::generer(&$lTemplate); // Messages d'erreur
+InfobullesUtils::generer($lTemplate); // Messages d'erreur
 $lTemplate->assign_var_from_handle('ENTETE', 'entete');	
 
 if(isset($_POST['numero']) && isset($_POST['mail'])) {

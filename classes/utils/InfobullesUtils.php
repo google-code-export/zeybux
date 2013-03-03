@@ -24,17 +24,17 @@ class InfobullesUtils
 	* @name generer($pTemplate)
 	* @desc 
 	*/
-	public static function generer($pTemplate) {
+	public static function generer(&$pTemplate) {
 		InfobullesUtils::genererMessage($pTemplate); // Message d'erreur
 		InfobullesUtils::genererValeur($pTemplate); // Valeur des champs du formulaire
 		InfobullesUtils::init();
 	}
 	
 	/**
-	* @name genererMessage($pTemplate)
+	* @name compilerMessage($pTemplate)
 	* @desc 
 	*/
-	public static function compilerMessage($pMsg, $pLignesErr, $pPrefixe = "") {
+	public static function compilerMessage($pMsg, &$pLignesErr, $pPrefixe = "") {
 		foreach($pMsg as $lCle => $lMsg) {
 			if(isset($lMsg['valid']) && $lMsg['valid'] === false && isset($lMsg['erreurs']) && is_array($lMsg['erreurs']) ) {
 				foreach($lMsg['erreurs'] as $lErr) {
@@ -45,7 +45,7 @@ class InfobullesUtils
 					}
 				}
 			} else if(is_array($lMsg)) {
-				InfobullesUtils::compilerMessage($lMsg,&$pLignesErr, $pPrefixe . $lCle);
+				InfobullesUtils::compilerMessage($lMsg, $pLignesErr, $pPrefixe . $lCle);
 			}
 		}
 	}
@@ -60,7 +60,7 @@ class InfobullesUtils
 			
 			$lLignesErr = array();
 			if(!$_SESSION['msg']['valid']) {
-				InfobullesUtils::compilerMessage($_SESSION['msg'],&$lLignesErr);
+				InfobullesUtils::compilerMessage($_SESSION['msg'], $lLignesErr);
 			}
 			
 			if(isset($lLignesErr["log"]) && !empty($lLignesErr["log"])) {

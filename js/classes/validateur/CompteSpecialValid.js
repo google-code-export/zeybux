@@ -19,7 +19,7 @@
 		if(pData.type < 2 || pData.type > 4) {lVR.valid = false;lVR.type.valid = false;var erreur = new VRerreur();erreur.code = ERR_246_CODE;erreur.message = ERR_246_MSG;lVR.type.erreurs.push(erreur);}
 		
 		return lVR;
-	}
+	};
 	
 	this.validDelete = function(pData) { 
 		var lVR = new CompteSpecialVR();
@@ -31,7 +31,7 @@
 		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
 
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = this.validDelete(pData);
@@ -44,7 +44,7 @@
 	
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdatePass = function(pData) { 
 		var lVR = this.validDelete(pData);
@@ -61,5 +61,5 @@
 			if(pData.motPasse !== pData.motPasseConfirm) {lVR.valid = false;lVR.motPasse.valid = false;var erreur = new VRerreur();erreur.code = ERR_223_CODE;erreur.message = ERR_223_MSG;lVR.motPasse.erreurs.push(erreur);}			
 		}
 		return lVR;
-	}
+	};
 }
