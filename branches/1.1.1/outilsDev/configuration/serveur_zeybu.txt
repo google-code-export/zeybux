@@ -1,0 +1,17 @@
+svn : 
+http://guillaumeporte.no-ip.fr/zeybusvn/zeybu
+demander la création de comptes
+
+www : 
+http://guillaumeporte.no-ip.fr/zeybuwww
+
+ftp : 
+login/pass : www-zeybu/zeybu
+=> le repertoire zeybuwww/ est la racine du site web
+
+
+BDD : 
+serveur : localhost
+dbname : zeybu
+dbuser : zeybu
+dbpassword : zeybu
