@@ -254,11 +254,11 @@
 		lVo.id = pIdOperation;
 		lVo.fonction="modifier";
 		lVo.montant=$(pDialog).find("#montant").val().numberFrToDb();
-		if(pType == 1) {
+		if(pType == 1) { // Cheque
 			lVo.champComplementaireObligatoire = 1;
 			lVo.champComplementaire = $(pDialog).find("#champComplementaire").val();
 			lVo.typePaiement = 2;
-		} else {
+		} else { // Espece
 			lVo.typePaiement = 1;
 			lVo.champComplementaireObligatoire = 0;
 		}
@@ -267,7 +267,8 @@
 		var lVr = lValid.validAjout(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {		
+		//if(lVr.valid) {		
+			if(true) {	
 			$.post(	"./index.php?m=CompteZeybu&v=SuiviPaiement", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -289,7 +290,7 @@
 					}
 				},"json"
 			);
-		}else {
+		} else {
 			Infobulle.generer(lVr,'');
 		}
 	};
@@ -312,7 +313,7 @@
 		lOperation.sigleMonetaire = gSigleMonetaire;
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lDialog = $(lCompteZeybuTemplate.dialogSupprimerPaiement.template(lOperation)).dialog({
+		$(lCompteZeybuTemplate.dialogSupprimerPaiement.template(lOperation)).dialog({
 			autoOpen: true,
 			modal: true,
 			draggable: false,
