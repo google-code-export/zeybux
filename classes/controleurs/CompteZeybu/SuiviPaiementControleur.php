@@ -96,7 +96,7 @@ class SuiviPaiementControleur
 				$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());								
 				
 				// Ajout Opération de débit sur le compte du zeybu
-				$lOperationZeybu = $lOperationService->get($lInfoOperationLivraison->getIdOpeZeybu());
+			/*	$lOperationZeybu = $lOperationService->get($lInfoOperationLivraison->getIdOpeZeybu());
 				$lOperationZeybu->setId("");
 				//$lOperationZeybu->setIdCompte(-1);
 				//$lOperationZeybu->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
@@ -107,10 +107,17 @@ class SuiviPaiementControleur
 				$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
 				
 				// Suppression de l'ancienne opération
-				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeZeybu());*/
+				
+				// Mise à jour de l'opération de débit sur le compte du zeybu
+				$lOperationZeybu = $lOperationService->get($lInfoOperationLivraison->getIdOpeZeybu());
+				$lOperationZeybu->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
+				$lOperationZeybu->setMontant($pParam["montant"] * -1);
+				$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
+				
 				
 				// Ajout opération de crédit sur le compte du producteur
-				$lOperationPrdt = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+			/*	$lOperationPrdt = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 				$lOperationPrdt->setId("");
 				//$lOperationPrdt->setIdCompte($lIdCompteFerme);
 				//$lOperationPrdt->setLibelle('Livraison Marché n°' . $lMarche->getNumero());
@@ -121,19 +128,31 @@ class SuiviPaiementControleur
 				$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
 				
 				// Suppression de l'ancienne opération
-				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());
+				$lOperationService->delete($lInfoOperationLivraison->getIdOpeProducteur());*/
 				
-				$lInfoOperationLivraison = new InfoOperationLivraisonVO();
+				// Mise à jour de l'opération de débit sur le compte du producteur
+				$lOperationPrdt = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
+				$lOperationPrdt->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
+				$lOperationPrdt->setMontant($pParam["montant"]);
+				$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
+				
+			/*	$lInfoOperationLivraison = new InfoOperationLivraisonVO();
 				$lInfoOperationLivraison->setIdOpeZeybu($lIdOperationZeybu);
 				$lInfoOperationLivraison->setIdOpeProducteur($lIdOperationPrdt);
-				$lIdInfoOpeLivr = InfoOperationLivraisonManager::insert($lInfoOperationLivraison);
+				$lIdInfoOpeLivr = InfoOperationLivraisonManager::insert($lInfoOperationLivraison); */
 				
 				
-				$lOperation->setTypePaiementChampComplementaire($lIdInfoOpeLivr);
+			//	$lOperation->setTypePaiementChampComplementaire($lIdInfoOpeLivr);
+			// Mise à jour de l'operation de bon de livraison
 				$lOperation->setMontant($pParam["montant"]);
-				$lOperationService->set($lOperation); // Ajout ou mise à jour de l'operation de bon de livraison
+				$lOperationService->set($lOperation);
 
 			} else { // Pour Un adhérent ou producteur sans bon de livraison
+				// Si l'opération originale est de type débit : elle doit le rester
+				if($lOperationMaj->getMontant() < 0) {
+					$pParam["montant"] = -1 * $pParam["montant"];
+				}				
+				
 				$lOperationMaj->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
 				$lOperationMaj->setMontant($pParam["montant"]);
 				$lOperationService->set($lOperationMaj);
