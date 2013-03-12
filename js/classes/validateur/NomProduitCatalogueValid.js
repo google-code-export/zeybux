@@ -51,7 +51,7 @@
 			}
 		}
 		return lVR;
-	}
+	};
 	
 	this.validUpdate = function(pData) { 
 		var lVR = new NomProduitCatalogueVR();
@@ -114,5 +114,5 @@
 			}
 		}
 		return lVR;
-	}
+	};
 }

@@ -233,7 +233,7 @@ class FermeValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new FermeVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -243,6 +243,7 @@ class FermeValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getId()->setValid(false);

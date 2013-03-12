@@ -318,9 +318,9 @@
 	
 	this.affectAjoutCompte = function(pData) {
 		var that = this;
-		pData.find('#btn-nv-administrateur').click(function() {that.dialogAjoutCompte(2)});
-		pData.find('#btn-nv-caisse').click(function() {that.dialogAjoutCompte(3)});
-		pData.find('#btn-nv-solidaire').click(function() {that.dialogAjoutCompte(4)});
+		pData.find('#btn-nv-administrateur').click(function() {that.dialogAjoutCompte(2);});
+		pData.find('#btn-nv-caisse').click(function() {that.dialogAjoutCompte(3);});
+		pData.find('#btn-nv-solidaire').click(function() {that.dialogAjoutCompte(4);});
 		return pData;		
 	}
 	
@@ -334,7 +334,7 @@
 			case 3:
 				lData.typeCompte = "caisse";
 				break;
-			case 3:
+			case 4:
 				lData.typeCompte = "solidaire";
 				break;
 		

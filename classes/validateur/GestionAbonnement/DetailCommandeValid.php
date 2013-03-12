@@ -29,6 +29,7 @@ class DetailCommandeValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new DetailCommandeVR();
+		//Tests inputs
 		if(!isset($pData['idProduit'])) {
 			$lVr->setValid(false);
 			$lVr->getIdProduit()->setValid(false);
@@ -150,6 +151,7 @@ class DetailCommandeValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new DetailCommandeVR();	
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -198,6 +200,7 @@ class DetailCommandeValid
 		$lTestId = TestFonction::validDelete($pData);
 		if($lTestId->getValid()) {
 			$lVr = new DetailCommandeVR();
+			//Tests inputs
 			if(!isset($pData['idProduit'])) {
 				$lVr->setValid(false);
 				$lVr->getIdProduit()->setValid(false);

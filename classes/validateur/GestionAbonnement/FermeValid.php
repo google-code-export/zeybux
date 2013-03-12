@@ -30,16 +30,17 @@ class FermeValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new FermeVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
 			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 					$lVr->setValid(false);
 					$lVr->getId()->setValid(false);

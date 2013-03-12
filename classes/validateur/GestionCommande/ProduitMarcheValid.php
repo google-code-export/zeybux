@@ -32,7 +32,7 @@ class ProduitMarcheValid
 	*/
 	public static function validAjout($pData) {
 		$lVr = new ProduitMarcheVR();
-		//Tests Techniques
+		//Tests inputs
 		if(!isset($pData['idNom'])) {
 			$lVr->setValid(false);
 			$lVr->getIdNom()->setValid(false);
@@ -82,7 +82,8 @@ class ProduitMarcheValid
 			$lVr->getType()->addErreur($lErreur);	
 		}
 		
-		if($lVr->getValid()) {		
+		if($lVr->getValid()) {	
+			//Tests Techniques	
 			if(!TestFonction::checkLength($pData['idNom'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getIdNom()->setValid(false);
@@ -276,6 +277,7 @@ class ProduitMarcheValid
 	*/
 	public static function validDelete($pData) {
 		$lVr = new ProduitMarcheVR();
+		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
@@ -285,6 +287,7 @@ class ProduitMarcheValid
 			$lVr->getId()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
+			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -333,7 +336,7 @@ class ProduitMarcheValid
 		$lTestId = ProduitMarcheValid::validDelete($pData);
 		if($lTestId->getValid()) {
 			$lVr = new ProduitMarcheVR();
-			//Tests Techniques
+			//Tests inputs
 			if(!isset($pData['unite'])) {
 				$lVr->setValid(false);
 				$lVr->getUnite()->setValid(false);
@@ -384,6 +387,7 @@ class ProduitMarcheValid
 			}
 			
 			if($lVr->getValid()) {
+				//Tests Techniques
 				if(!TestFonction::checkLength($pData['unite'],0,20)) {
 					$lVr->setValid(false);
 					$lVr->getUnite()->setValid(false);
