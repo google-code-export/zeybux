@@ -1,0 +1,3 @@
+function FermeVO() {
+	this.id = '';
+}
