@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VIEW_VO . "StockProduitReservationViewVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 
 define("VUE_STOCKPRODUITRESERVATION", MYSQL_DB_PREFIXE . "view_stock_produit_reservation");
@@ -130,13 +131,91 @@ class StockProduitReservationViewManager
 	* @return array(StockProduitReservationViewVO)
 	* @desc Récupères toutes les lignes de la table ayant pour IdCommande $pIdCommande et IdCompteProducteur $pIdCompteProducteur . Puis les renvoie sous forme d'une collection de StockProduitReservationViewVO
 	*/
-	public static function selectInfoBonCommande($pIdCommande, $pIdCompteProducteur) {
+	/*public static function selectInfoBonCommande($pIdCommande, $pIdCompteProducteur) {
 		return StockProduitReservationViewManager::recherche(
 			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE,ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME),
 			array('=','='),
 			array($pIdCommande, $pIdCompteProducteur),
 			array(ProduitManager::CHAMP_PRODUIT_ID_COMMANDE),
 			array('ASC'));
+	}*/
+	public static function selectInfoBonCommande($pIdCommande, $pIdCompteProducteur) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete = 
+			"(SELECT " 
+					. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
+				"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
+				"," . ProduitManager::CHAMP_PRODUIT_ID .
+				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+				"," . ProduitManager::CHAMP_PRODUIT_TYPE .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
+				", (" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT
+			. " FROM (((" 
+					. ProduitManager::TABLE_PRODUIT	.
+				" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
+				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
+				 LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " ON (((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE .") and (" . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0))))
+			WHERE "
+				 	. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande
+				. " AND " . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . " = " . $pIdCompteProducteur
+				. " AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = 0 "
+				. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " <> -(1) "		
+				. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
+				. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
+					. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
+			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ")
+			UNION
+			(SELECT "
+				. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
+				"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
+				"," . ProduitManager::CHAMP_PRODUIT_ID .
+				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+				"," . ProduitManager::CHAMP_PRODUIT_TYPE .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
+				", ((" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") + 1) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT
+			. " FROM (((" 
+					. ProduitManager::TABLE_PRODUIT	.
+				" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
+				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
+				 LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " ON (((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE .") and (" . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0))))
+			WHERE "
+					. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande
+				. " AND " . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . " = " . $pIdCompteProducteur
+				. " AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = 0 "
+				. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " = -(1) "		
+				. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
+				. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
+					. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
+			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ");";
+			
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeStockProduitReservation = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeStockProduitReservation,
+				StockProduitReservationViewManager::remplir(
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+				$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
+			}
+		} else {
+			$lListeStockProduitReservation[0] = new StockProduitReservationViewVO();
+		}
+		return $lListeStockProduitReservation;
 	}
 	
 	
