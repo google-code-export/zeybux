@@ -48,10 +48,16 @@
 				"</table>" +
 			"</div>" +
 			"<div class=\"boutons-edition com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +
-				"<button class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +	
-				"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-supprimer\">Supprimer</button>" +
-			"</div>" +
+				"{boutonsEdition}" +
+			"</div>";			
 		"</div>";
+	
+	this.boutonModifier = 
+		"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>";
+		
+	this.boutonsModifierSupprimer = 
+		"<button class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\" id=\"btn-modifier\">Modifier</button>" +	
+		"<button class=\"ui-state-default ui-corner-all com-button com-center\" id=\"btn-supprimer\">Supprimer</button>";
 	
 	this.supprimerReservationDialog =
 		"<div id=\"dialog-supprimer-reservation\" title=\"Supprimer la réservation\">" +

@@ -254,13 +254,13 @@
 		var lLabel = this.getLabelChamComplementaire(lId);
 		if(lLabel != null) {
 			$("#label-champ-complementaire").text(lLabel).show();
-			$("#label-champ-complementaire-banque").show();
-			$("#td-champ-complementaire, #td-champ-complementaire-banque").show();
+			//$("#label-champ-complementaire-banque").show();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").show();
 		} else {
 			$("#label-champ-complementaire").text('').hide();
-			$("#label-champ-complementaire-banque").hide();
+			//$("#label-champ-complementaire-banque").hide();
 			$(':input[name="champ-complementaire"], :input[name="champ-complementaire-banque"]').val('');
-			$("#td-champ-complementaire, #td-champ-complementaire-banque").hide();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").hide();
 			$('#idBanque').attr('id-banque','');
 		}
 	};
