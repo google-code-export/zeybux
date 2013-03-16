@@ -123,6 +123,14 @@ class SuiviPaiementValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getChampComplementaire()->addErreur($lErreur);	
 		}
+		if(!isset($pData['idBanque'])) {
+			$lVr->setValid(false);
+			$lVr->getIdBanque()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getIdBanque()->addErreur($lErreur);
+		}
 		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!is_int((int)$pData['id'])) {
@@ -214,13 +222,36 @@ class SuiviPaiementValid
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);			
 			} else {
-				if($lTypepaiement->getChampComplementaire() == 1 && empty($pData['champComplementaire'])) {
-					$lVr->setValid(false);
-					$lVr->getChampComplementaire()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-					$lVr->getChampComplementaire()->addErreur($lErreur);	
+				if($lTypepaiement->getChampComplementaire() == 1) {
+					if( empty($pData['champComplementaire'])) {					
+						$lVr->setValid(false);
+						$lVr->getChampComplementaire()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+						$lVr->getChampComplementaire()->addErreur($lErreur);
+					}
+					
+					if(empty($pData['idBanque'])) {
+						$lVr->setValid(false);
+						$lVr->getIdBanque()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+						$lVr->getIdBanque()->addErreur($lErreur);
+					}
+						
+					if($lVr->getValid()) {
+						$lBanqueService = new BanqueService();
+						if(!$lBanqueService->existe($pData['idBanque'])) {
+							$lVr->setValid(false);
+							$lVr->getIdBanque()->setValid(false);
+							$lErreur = new VRerreur();
+							$lErreur->setCode(MessagesErreurs::ERR_261_CODE);
+							$lErreur->setMessage(MessagesErreurs::ERR_261_MSG);
+							$lVr->getIdBanque()->addErreur($lErreur);
+						}
+					}
 				}
 			}
 		}

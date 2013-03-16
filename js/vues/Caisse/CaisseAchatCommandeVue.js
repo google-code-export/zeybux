@@ -774,7 +774,7 @@
 	this.controlerAchat = function() {
 		Infobulle.init(); // Supprime les erreurs
 		var lValid = new AchatCommandeValid();
-		var lVr = {};
+		var lVr = new AchatCommandeVR();
 		if(this.idCompte == -3) {
 			lVr = lValid.validAjoutInvite(this.getAchatCommandeVO());
 		} else {
@@ -973,7 +973,11 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
-		lVo.idBanque = $('#rechargementidBanque').attr('id-banque');
+		// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
+		// il ne faut pas prendre en compte le id-banque
+		if($('#idBanque').val() != "") {
+			lVo.idBanque = $('#rechargementidBanque').attr('id-banque');
+		}
 		return lVo;
 	};
 	

@@ -1,6 +1,8 @@
 ;function SuiviPaiementVue(pParam) {
 	this.mListeOperation = [];
 	this.mSelectedTabs = 0;
+	this.mBanques = [];
+	this.mBanquesTriId = [];
 	
 	
 	this.construct = function(pParam) {
@@ -18,7 +20,10 @@
 						if(pParam && pParam.vr) {
 							Infobulle.generer(pParam.vr,'');
 						}
-						
+						$(lResponse.banques).each(function() {
+							that.mBanquesTriId[this.id] = this;
+						});
+						that.mBanques = lResponse.banques;
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -164,7 +169,8 @@
 		lOperation.sigleMonetaire = gSigleMonetaire;
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lDialog = $(lCompteZeybuTemplate.dialogValiderPaiement.template(lOperation)).dialog({
+		//var lDialog =
+		$(lCompteZeybuTemplate.dialogValiderPaiement.template(lOperation)).dialog({
 			autoOpen: true,
 			modal: true,
 			draggable: false,
@@ -219,18 +225,26 @@
 		var that = this;
 		var lOperation = this.mListeOperation[pIdOperation];
 		lOperation.sigleMonetaire = gSigleMonetaire;
+		var lBanque = {nom:""};
+		if(this.mBanquesTriId[lOperation.opeIdBanque]) {
+			lBanque = this.mBanquesTriId[lOperation.opeIdBanque];
+			
+		}
+		lOperation.opeBanque = lBanque.nom;
+		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		var lTemplate = "";
 		if(pType == 1) {
-			var lTemplate = lCompteZeybuTemplate.dialogModifierPaiementCheque;
+			lTemplate = lCompteZeybuTemplate.dialogModifierPaiementCheque;
 		} else {
-			var lTemplate = lCompteZeybuTemplate.dialogModifierPaiementEspece;
+			lTemplate = lCompteZeybuTemplate.dialogModifierPaiementEspece;
 		}
 		var lDialog = $(that.affectDialog($(lTemplate.template(lOperation)))).dialog({
 			autoOpen: true,
 			modal: true,
 			draggable: false,
 			resizable: false,
-			width:450,
+			width:700,
 			buttons: {
 				'Valider': function() {
 					that.modifierPaiement(pIdOperation,pType,this);
@@ -246,7 +260,7 @@
 			return false;
 		});
 	};
-	
+		
 	this.modifierPaiement = function(pIdOperation,pType,pDialog) {
 		var that = this;
 
@@ -257,6 +271,11 @@
 		if(pType == 1) { // Cheque
 			lVo.champComplementaireObligatoire = 1;
 			lVo.champComplementaire = $(pDialog).find("#champComplementaire").val();
+			// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
+			// il ne faut pas prendre en compte le id-banque
+			if($('#idBanque').val() != "") {
+				lVo.idBanque = $('#idBanque').attr('id-banque');
+			}
 			lVo.typePaiement = 2;
 		} else { // Espece
 			lVo.typePaiement = 1;
@@ -267,8 +286,7 @@
 		var lVr = lValid.validAjout(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs
-		//if(lVr.valid) {		
-			if(true) {	
+		if(lVr.valid) {
 			$.post(	"./index.php?m=CompteZeybu&v=SuiviPaiement", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -298,6 +316,75 @@
 
 	this.affectDialog = function(pData) {
 		pData = gCommunVue.comNumeric(pData);
+		pData = this.affectListeBanque(pData);
+		return pData;
+	};
+	
+	this.affectListeBanque = function(pData) {
+		var that = this;
+
+		if(pData.find('#idBanque').length == 1) {
+			function removeIfInvalid(element) {
+				// Vide le champ si la banque n'existe pas
+				var value = $( element ).val(),
+				matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
+				valid = false;
+				$( that.mBanques ).each(function() {
+					if ( $( this ).text().match( matcher ) ) {
+						this.selected = valid = true;
+						return false;
+					}
+				});
+				if ( !valid ) {
+					$( element ).attr( 'id-banque','' ); 
+					
+					// Message d'information
+					var lVr = new RechargementCompteVR();
+					lVr.valid = false;
+					lVr.idBanque.valid = false;
+					var erreur = new VRerreur();
+					erreur.code = ERR_261_CODE;
+					erreur.message = ERR_261_MSG;
+					lVr.idBanque.erreurs.push(erreur);
+					
+					Infobulle.generer(lVr,'');
+					return false;
+				}
+			};
+			
+			pData.find('#idBanque').autocomplete({
+				minLength: 0,			 
+				source: function( request, response ) {
+					var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+						response( $.grep( that.mBanques, 
+							function( item ){
+								return matcher.test( item.nom ) || matcher.test( item.nomCourt );
+							}
+						));
+				},	 
+				focus: function( event, ui ) {
+					Infobulle.init(); // Supprime les erreurs
+					$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
+					return false;
+				},
+				select: function( event, ui ) {
+					Infobulle.init(); // Supprime les erreurs
+					$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
+					$( "#idBanque" ).attr('id-banque', ui.item.id );
+					return false;
+				},
+				change: function( event, ui ) {
+					Infobulle.init(); // Supprime les erreurs
+					if ( !ui.item )
+						return removeIfInvalid( this );
+				}
+			}).data( "autocomplete" )._renderItem = function( ul, item ) {
+				return $( "<li>" )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
+				.appendTo( ul );
+			};
+		}
 		return pData;
 	};
 	
