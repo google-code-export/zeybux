@@ -50,6 +50,7 @@ class OperationAttenteAdherentViewManager
 			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE . 
 			"," . OperationManager::CHAMP_OPERATION_DATE . 
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE . 
 			"," . OperationManager::CHAMP_OPERATION_ID . "
@@ -73,6 +74,7 @@ class OperationAttenteAdherentViewManager
 					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+					$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
 					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 					$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 					$lLigne[OperationManager::CHAMP_OPERATION_ID]));
@@ -102,7 +104,8 @@ class OperationAttenteAdherentViewManager
 			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
 			"," . OperationManager::CHAMP_OPERATION_MONTANT . 
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . 
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .  
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE . 
 			"," . OperationManager::CHAMP_OPERATION_DATE . 
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE . 
 			"," . OperationManager::CHAMP_OPERATION_ID . "
@@ -125,6 +128,7 @@ class OperationAttenteAdherentViewManager
 					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+					$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
 					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 					$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 					$lLigne[OperationManager::CHAMP_OPERATION_ID]));
@@ -160,7 +164,8 @@ class OperationAttenteAdherentViewManager
 			"," . CompteManager::CHAMP_COMPTE_SOLDE .
 			"," . OperationManager::CHAMP_OPERATION_MONTANT .
 			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
+			"," . OperationManager::CHAMP_OPERATION_ID_BANQUE . 
 			"," . OperationManager::CHAMP_OPERATION_DATE .
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 			"," . OperationManager::CHAMP_OPERATION_ID		);
@@ -190,6 +195,7 @@ class OperationAttenteAdherentViewManager
 						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+						$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
 						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
 						$lLigne[OperationManager::CHAMP_OPERATION_ID]));
@@ -206,7 +212,7 @@ class OperationAttenteAdherentViewManager
 	}
 
 	/**
-	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeTypePaiementChampComplementaire, $pOpeDate, $pOpeLibelle, $pOpeId)
+	* @name remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeTypePaiementChampComplementaire, $pOpeIdBanque, $pOpeDate, $pOpeLibelle, $pOpeId)
 	* @param int(11)
 	* @param varchar(20)
 	* @param varchar(50)
@@ -216,13 +222,14 @@ class OperationAttenteAdherentViewManager
 	* @param decimal(10,2)
 	* @param int(11)
 	* @param varchar(50)
+	* @param int(11)
 	* @param datetime
 	* @param varchar(100)
 	* @param int(11)
 	* @return OperationAttenteAdherentViewVO
 	* @desc Retourne une OperationAttenteAdherentViewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeTypePaiementChampComplementaire, $pOpeDate, $pOpeLibelle, $pOpeId) {
+	private static function remplir($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeTypePaiementChampComplementaire, $pOpeIdBanque, $pOpeDate, $pOpeLibelle, $pOpeId) {
 		$lOperationAttente = new OperationAttenteAdherentViewVO();
 		$lOperationAttente->setAdhId($pAdhId);
 		$lOperationAttente->setAdhNumero($pAdhNumero);
@@ -233,6 +240,7 @@ class OperationAttenteAdherentViewManager
 		$lOperationAttente->setOpeMontant($pOpeMontant);
 		$lOperationAttente->setOpeTypePaiement($pOpeTypePaiement);
 		$lOperationAttente->setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire);
+		$lOperationAttente->setOpeIdBanque($pOpeIdBanque);
 		$lOperationAttente->setOpeDate($pOpeDate);
 		$lOperationAttente->setOpeLibelle($pOpeLibelle);
 		$lOperationAttente->setOpeId($pOpeId);

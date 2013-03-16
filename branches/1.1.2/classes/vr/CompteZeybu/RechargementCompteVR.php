@@ -64,6 +64,12 @@ class RechargementCompteVR extends DataTemplate
 	protected $mChampComplementaire;
 
 	/**
+	 * @var VRelement
+	 * @desc L'IdBanque de l'objet
+	 */
+	protected $mIdBanque;
+
+	/**
 	* @name RechargementCompteVR()
 	* @return bool
 	* @desc Constructeur
@@ -76,6 +82,7 @@ class RechargementCompteVR extends DataTemplate
 		$this->mTypePaiement = new VRelement();
 		$this->mChampComplementaireObligatoire = new VRelement();
 		$this->mChampComplementaire = new VRelement();
+		$this->mIdBanque = new VRelement();
 	}
 
 	/**
@@ -202,6 +209,24 @@ class RechargementCompteVR extends DataTemplate
 	*/
 	public function setChampComplementaire($pChampComplementaire) {
 		$this->mChampComplementaire = $pChampComplementaire;
+	}
+
+	/**
+	* @name getIdBanque()
+	* @return VRelement
+	* @desc Renvoie le VRelement IdBanque
+	*/
+	public function getIdBanque() {
+		return $this->mIdBanque;
+	}
+
+	/**
+	* @name setIdBanque($pIdBanque)
+	* @param VRelement
+	* @desc Remplace le VRelement IdBanque par $pIdBanque
+	*/
+	public function setIdBanque($pIdBanque) {
+		$this->mIdBanque = $pIdBanque;
 	}
 }
 ?>

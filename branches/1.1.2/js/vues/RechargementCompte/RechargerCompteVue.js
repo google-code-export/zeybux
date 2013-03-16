@@ -315,8 +315,11 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
-		
-		lVo.idBanque = $('#idBanque').attr('id-banque');
+		// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
+		// il ne faut pas prendre en compte le id-banque
+		if($('#idBanque').val() != "") {
+			lVo.idBanque = $('#idBanque').attr('id-banque');
+		}
 		return lVo;
 	};
 	
