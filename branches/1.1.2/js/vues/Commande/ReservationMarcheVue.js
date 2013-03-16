@@ -131,6 +131,7 @@
 				if(lInfoProduit.type == 2) {
 					lPdt.flagType = lCommandeTemplate.flagAbonnement;
 					that.mAbonnementSurReservation = true;
+					
 				}
 				
 				lData.categories[this.idCategorie].produits.push(lPdt);
@@ -138,6 +139,11 @@
 		});
 		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
 		
+		if(that.mAbonnementSurReservation) {
+			lData.boutonsEdition = lCommandeTemplate.boutonModifier;
+		} else {
+			lData.boutonsEdition = lCommandeTemplate.boutonsModifierSupprimer;
+		}
 		
 		// Maj du nouveau solde
 		this.soldeNv = this.solde - lTotal;
@@ -382,9 +388,9 @@
 		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
 			pData.find('.boutons-edition').hide();
 		}
-		if(this.mAbonnementSurReservation) {
+		/*if(this.mAbonnementSurReservation) {
 			pData.find("#btn-supprimer").remove();
-		}
+		}*/
 		return pData;
 	};
 	
