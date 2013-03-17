@@ -277,6 +277,7 @@
 					lProduit.proUniteMesureReservation = '';
 					
 					var lPrix = 0;
+					var lPrixProduit = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
 							var lLot = {};
@@ -284,6 +285,7 @@
 							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
 							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
 							lPrix = parseFloat(this.prix);
+							lPrixProduit = parseFloat(this.prix);
 							lStoQuantite = parseFloat(this.taille);
 
 							$(that.mAchatOuReservation).each(function() {
@@ -304,7 +306,7 @@
 
 										lData.total += lPrix;
 									}
-								});										
+								});
 							});
 							$(that.mReservation).each(function() {
 								if(this.idDetailCommande == lLot.dcomId) {
@@ -313,9 +315,9 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrixProduit / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
-							lProduit.lot.push(lLot);
+							lProduit.lot.push(lLot);						
 						}
 					});
 					
@@ -352,6 +354,7 @@
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							var lPrix = 0;
+							var lPrixProduit = 0;
 							$.each(lProduitCommande.lots, function() {
 								if(this.id) {
 									var lLot = {};
@@ -359,6 +362,7 @@
 									lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
 									lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
 									lPrix = parseFloat(this.prix);
+									lPrixProduit = parseFloat(this.prix);
 									lStoQuantite = parseFloat(this.taille);
 
 									$(that.mAchatOuReservation).each(function() {
@@ -382,7 +386,7 @@
 										});										
 									});
 									
-									lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
+									lProduit.prixUnitaire = (lPrixProduit / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																			
 									lProduit.lot.push(lLot);
 								}
@@ -799,7 +803,7 @@
 	};
 	
 	this.majTotalGlobal = function() {
-		var lTotal = this.totalSolidaire + this.total;
+		var lTotal = (parseFloat(this.totalSolidaire) + parseFloat(this.total)).toFixed(2);
 		$("#total-global").text(lTotal.nombreFormate(2,',',' '));
 	};
 	
@@ -810,7 +814,7 @@
 			if(isNaN(lMontant)) {lMontant = 0;}
 			lTotal += lMontant;
 		});
-		return lTotal;		
+		return lTotal.toFixed(2);		
 	};
 	
 	this.calculerTotalSolidaire = function() {
@@ -820,7 +824,7 @@
 			if(isNaN(lMontant)) {lMontant = 0;}
 			lTotal += lMontant;
 		});
-		return lTotal;		
+		return lTotal.toFixed(2);		
 	};
 	
 	this.majNouveauSolde = function() {
@@ -856,7 +860,7 @@
 		if(isNaN(lAchatsSolidaire)) {lAchatsSolidaire = 0;}
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
 		if(isNaN(lRechargement)) {lRechargement = 0;}		
-		return this.solde - lAchats - lAchatsSolidaire + lRechargement;
+		return (parseFloat(this.solde) - parseFloat(lAchats) - parseFloat(lAchatsSolidaire) + parseFloat(lRechargement)).toFixed(2);
 	};
 		
 	this.changerTypePaiement = function(pObj) {
@@ -1239,8 +1243,7 @@
 	this.boutonModifier = function() {
 		if(this.etapeValider == 1) {			
 			$("#btn-annuler, #achat-marche-formulaire, #btn-confirmer").show();
-			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();
-			
+			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();	
 			
 			this.etapeValider = 0;
 		}
