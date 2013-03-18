@@ -67,7 +67,7 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectBtnCommander(pData);
-		pData = this.affectVisualiser(pData);
+		//pData = this.affectVisualiser(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
@@ -80,12 +80,12 @@
 		return pData;
 	};
 	
-	this.affectVisualiser = function(pData) {
+	/*this.affectVisualiser = function(pData) {
 		pData.find('.visualiser-reservation').click(function() {
 				AfficherReservationVue({id_commande:$(this).attr('id')});
 			});		
 		return pData;
-	};
+	};*/
 		
 	this.construct(pParam);
 }

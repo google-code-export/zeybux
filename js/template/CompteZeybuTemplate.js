@@ -332,13 +332,13 @@
 					"<table class=\"com-table table-cheque-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
@@ -396,12 +396,12 @@
 					"<table class=\"com-table table-espece-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
@@ -457,12 +457,12 @@
 					"<table class=\"com-table table-cheque-ferme\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
@@ -513,11 +513,11 @@
 					"<table class=\"com-table table-espece-ferme\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
-								"<th class=\"com-table-th com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-								"<th class=\"com-table-th com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
-								"<th class=\"com-table-th com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
 								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
 								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
@@ -599,9 +599,12 @@
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/> {sigleMonetaire}" +
+							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/>" +
+						"</td>" +
+						"<td class=\"com-table-form-td montant-virement\">" +
+							"Banque <input type=\"text\" value=\"{opeBanque}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champ-complementaire-banque\" id=\"idBanque\" id-banque=\"{opeIdBanque}\" maxlength=\"50\" size=\"15\"/>" +
 						"</td>" +
 					"</tr>" +
 				"</table>" +

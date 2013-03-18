@@ -77,7 +77,7 @@
 					"</thead>" +
 					"<tbody>" +
 						"<tr>" +
-							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"3\"/> <span>{sigleMonetaire}</span></td>" +
+							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
 							"<td class=\"com-center\">" +
 								"<select name=\"typepaiement\" id=\"typePaiement\">" +
 									"<option value=\"0\">== Choisir ==</option>" +

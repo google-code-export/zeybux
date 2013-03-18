@@ -24,10 +24,10 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsNonAbonneViewManager.ph
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsAbonneViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAbonnesProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeLotAbonnementViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 
 /**
  * @name AbonnementService
@@ -309,6 +309,7 @@ class AbonnementService
 		}
 		
 		$lReservationService = new ReservationService();
+		$lStockService = new StockService();
 		foreach($lListeProduitsMarche as $lProduitMarche) {
 			$lPoursuivre = true;
 			// Si il n'y a pas de suspension à la date du marché
@@ -353,7 +354,7 @@ class AbonnementService
 					if($lPoursuivre) {
 						$lQuantite = $pCompteAbonnement->getQuantite();
 						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
-							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+							$lStockProduit = $lStockService->selectByIdProduitStockProduitReservation($lProduitMarche["produit"]->getProId());
 							$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite();
 							if($lStockDispo > 0) {
 								if($lStockDispo < $lQuantite) {
@@ -414,6 +415,7 @@ class AbonnementService
 		}
 		
 		$lReservationService = new ReservationService();
+		$lStockService = new StockService();
 		foreach($lListeProduitsMarche as $lProduitMarche) {
 			$lSuspendu = false;
 			// Si il n'y a pas de suspension à la date du marché
@@ -452,7 +454,7 @@ class AbonnementService
 					if(empty($lTestDetailReservation) && !$lSuspendu && $pCompteAbonnement->getEtat() == 0) { // Ajoute une réservation
 						$lQuantite = $pCompteAbonnement->getQuantite();
 						if($lProduitMarche["produit"]->getProStockInitial() != -1) {
-							$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+							$lStockProduit = $lStockService->selectByIdProduitStockProduitReservation($lProduitMarche["produit"]->getProId());
 							$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite();
 							if($lStockDispo > 0) {
 								if($lStockDispo < $lQuantite) {
@@ -494,7 +496,7 @@ class AbonnementService
 						if($lMaj || (!$lMaj && !$lSuspendu && $pCompteAbonnement->getEtat() == 0) ) {
 							$lQuantite = $pCompteAbonnement->getQuantite();
 							if($lProduitMarche["produit"]->getProStockInitial() != -1) {
-								$lStockProduit = StockProduitReservationViewManager::selectByIdProduit($lProduitMarche["produit"]->getProId());
+								$lStockProduit = $lStockService->selectByIdProduitStockProduitReservation($lProduitMarche["produit"]->getProId());
 								$lStockDispo = $lProduitMarche["produit"]->getProStockInitial() - $lStockProduit[0]->getStoQuantite() - $lQuantiteActuelle;
 								
 								if($lStockDispo > 0) {

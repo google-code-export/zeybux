@@ -22,12 +22,12 @@ include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheBonDeCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheListeProduitBonDeCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonCommandeViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonCommandeValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 
 /**
  * @name BonDeCommandeControleur
@@ -65,16 +65,18 @@ class BonDeCommandeControleur
 	/**
 	* @name getListeProduitCommande($pParam)
 	* @return AfficheListeProduitBonDeCommandeResponse
-	* @desc Retourne la liste des producteurs de cette commande.
+	* @desc Retourne la liste des produits de cette commande.
 	*/
 	public function getListeProduitCommande($pParam) {
 		$lVr = BonDeCommandeValid::validGetListeProduitCommande($pParam);
 		if($lVr->getValid()) {
 			$lIdCommande = $pParam["id_commande"];
 			$lIdCompteFerme = $pParam["id_compte_ferme"];
+			
+			$lStockService = new StockService();
 						
 			$lResponse = new AfficheListeProduitBonDeCommandeResponse();
-			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdCommande,$lIdCompteFerme));
+			$lResponse->setProduits($lStockService->selectInfoBonCommandeStockProduitReservation($lIdCommande,$lIdCompteFerme));
 			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdCommande,$lIdCompteFerme));
 			return $lResponse;
 		}
