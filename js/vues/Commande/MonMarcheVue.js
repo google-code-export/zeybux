@@ -67,7 +67,7 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectBtnCommander(pData);
-		pData = this.affectVisualiser(pData);
+		//pData = this.affectVisualiser(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
