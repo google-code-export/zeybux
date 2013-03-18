@@ -15,6 +15,7 @@
 	this.mReservation = [];
 	
 	this.pdtCommande = [];
+	this.mBanques = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CaisseAchatCommandeVue(pParam);}} );
@@ -39,7 +40,7 @@
 								$(lResponse.typePaiement).each(function() {
 									that.mTypePaiement[this.tppId] = this;
 								});
-								
+								that.mBanques = lResponse.banques;
 								that.solde = 0;
 								that.afficher(lResponse);
 							} else {
@@ -66,6 +67,7 @@
 								$(lResponse.typePaiement).each(function() {
 									that.mTypePaiement[this.tppId] = this;
 								});
+								that.mBanques = lResponse.banques;
 								that.mAdherent = lResponse.adherent;
 								that.solde = parseFloat(lResponse.adherent.cptSolde);
 
@@ -214,12 +216,12 @@
 			lData.detailMarcheVisible = "ui-helper-hidden";
 
 			lData.totalSolidaire = "0".nombreFormate(2,',',' ');
-			var lData = { formulaire : lCaisseTemplate.achatMarcheFormulaire.template(lData),
+			var lHtml = { formulaire : lCaisseTemplate.achatMarcheFormulaire.template(lData),
 							detail : lCaisseTemplate.achatMarcheDetail.template(lData) };
 
 			
 			
-			$('#contenu').replaceWith( that.affect($(lCaisseTemplate.achatMarchePage.template(lData))) );
+			$('#contenu').replaceWith( that.affect($(lCaisseTemplate.achatMarchePage.template(lHtml))) );
 			
 			that.changerTypePaiement($(":input[name=typepaiement]"));
 			that.majNouveauSolde();
@@ -275,6 +277,7 @@
 					lProduit.proUniteMesureReservation = '';
 					
 					var lPrix = 0;
+					var lPrixProduit = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
 							var lLot = {};
@@ -282,6 +285,7 @@
 							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
 							lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
 							lPrix = parseFloat(this.prix);
+							lPrixProduit = parseFloat(this.prix);
 							lStoQuantite = parseFloat(this.taille);
 
 							$(that.mAchatOuReservation).each(function() {
@@ -302,7 +306,7 @@
 
 										lData.total += lPrix;
 									}
-								});										
+								});
 							});
 							$(that.mReservation).each(function() {
 								if(this.idDetailCommande == lLot.dcomId) {
@@ -311,9 +315,9 @@
 								}											
 							});
 							
-							lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
+							lProduit.prixUnitaire = (lPrixProduit / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																	
-							lProduit.lot.push(lLot);
+							lProduit.lot.push(lLot);						
 						}
 					});
 					
@@ -350,6 +354,7 @@
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
 							var lPrix = 0;
+							var lPrixProduit = 0;
 							$.each(lProduitCommande.lots, function() {
 								if(this.id) {
 									var lLot = {};
@@ -357,6 +362,7 @@
 									lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
 									lLot.dcomPrix = parseFloat(this.prix).nombreFormate(2,',',' ');
 									lPrix = parseFloat(this.prix);
+									lPrixProduit = parseFloat(this.prix);
 									lStoQuantite = parseFloat(this.taille);
 
 									$(that.mAchatOuReservation).each(function() {
@@ -380,7 +386,7 @@
 										});										
 									});
 									
-									lProduit.prixUnitaire = (lPrix / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
+									lProduit.prixUnitaire = (lPrixProduit / lStoQuantite).toFixed(2).nombreFormate(2,',',' '); 						
 																			
 									lProduit.lot.push(lLot);
 								}
@@ -423,11 +429,11 @@
 			lData.formMarcheVisible = "ui-helper-hidden";
 			lData.rechargementVisible = "ui-helper-hidden";
 			
-			var lData = { 	formulaire : lCaisseTemplate.achatMarcheFormulaire.template(lData),
+			var lHtml = { 	formulaire : lCaisseTemplate.achatMarcheFormulaire.template(lData),
 							detail : lCaisseTemplate.achatMarcheDetail.template(lData)	};
 			
 			
-			$('#contenu').replaceWith( that.affectDetailAchat($(lCaisseTemplate.achatMarchePage.template(lData))) );
+			$('#contenu').replaceWith( that.affectDetailAchat($(lCaisseTemplate.achatMarchePage.template(lHtml))) );
 			
 			that.changerTypePaiement($(":input[name=typepaiement]"));
 			that.majNouveauSolde();
@@ -439,6 +445,7 @@
 	
 	this.affect = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
+		pData = this.affectListeBanque(pData);
 		pData = this.affectNouveauSolde(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectNouveauPrixProduit(pData);
@@ -457,6 +464,7 @@
 	
 	this.affectDetailAchat = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
+		pData = this.affectListeBanque(pData);
 		pData = this.affectNouveauSolde(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = this.affectNouveauPrixProduit(pData);
@@ -583,6 +591,73 @@
 		return pData;
 	};
 	
+	this.affectListeBanque = function(pData) {
+		var that = this;
+		
+		function removeIfInvalid(element) {
+			// Vide le champ si la banque n'existe pas
+			var value = $( element ).val(),
+			matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
+			valid = false;
+			$( that.mBanques ).each(function() {
+				if ( $( this ).text().match( matcher ) ) {
+					this.selected = valid = true;
+					return false;
+				}
+			});
+			if ( !valid ) {
+				$( element ).attr( 'id-banque','' ); 
+				
+				// Message d'information
+				var lVr = new RechargementCompteVR();
+				lVr.valid = false;
+				lVr.idBanque.valid = false;
+				var erreur = new VRerreur();
+				erreur.code = ERR_261_CODE;
+				erreur.message = ERR_261_MSG;
+				lVr.idBanque.erreurs.push(erreur);
+				
+				Infobulle.generer(lVr,'');
+				return false;
+			}
+		};
+		
+		pData.find('#rechargementidBanque').autocomplete({
+			minLength: 0,			 
+			source: function( request, response ) {
+				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+					response( $.grep( that.mBanques, 
+						function( item ){
+							return matcher.test( item.nom ) || matcher.test( item.nomCourt );
+						}
+					));
+			},	 
+			focus: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
+				return false;
+			},
+			select: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
+				$( "#rechargementidBanque" ).attr('id-banque', ui.item.id );
+				return false;
+			},
+			change: function( event, ui ) {
+				Infobulle.init(); // Supprime les erreurs
+				if ( !ui.item )
+					return removeIfInvalid( this );
+			}
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( "<li>" )
+			.data( "item.autocomplete", item )
+			.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
+			.appendTo( ul );
+		};
+		
+		return pData;
+	};
+	
 	this.affectNouveauSolde = function(pData) {
 		var that = this;
 		pData.find(":input[name=montant-rechargement], .produit-prix").keyup(function() {
@@ -703,10 +778,11 @@
 	this.controlerAchat = function() {
 		Infobulle.init(); // Supprime les erreurs
 		var lValid = new AchatCommandeValid();
+		var lVr = new AchatCommandeVR();
 		if(this.idCompte == -3) {
-			var lVr = lValid.validAjoutInvite(this.getAchatCommandeVO());
+			lVr = lValid.validAjoutInvite(this.getAchatCommandeVO());
 		} else {
-			var lVr = lValid.validAjout(this.getAchatCommandeVO());
+			lVr = lValid.validAjout(this.getAchatCommandeVO());
 		}
 		Infobulle.generer(lVr,'');
 		return lVr;
@@ -727,7 +803,7 @@
 	};
 	
 	this.majTotalGlobal = function() {
-		var lTotal = this.totalSolidaire + this.total;
+		var lTotal = (parseFloat(this.totalSolidaire) + parseFloat(this.total)).toFixed(2);
 		$("#total-global").text(lTotal.nombreFormate(2,',',' '));
 	};
 	
@@ -738,7 +814,7 @@
 			if(isNaN(lMontant)) {lMontant = 0;}
 			lTotal += lMontant;
 		});
-		return lTotal;		
+		return lTotal.toFixed(2);		
 	};
 	
 	this.calculerTotalSolidaire = function() {
@@ -748,7 +824,7 @@
 			if(isNaN(lMontant)) {lMontant = 0;}
 			lTotal += lMontant;
 		});
-		return lTotal;		
+		return lTotal.toFixed(2);		
 	};
 	
 	this.majNouveauSolde = function() {
@@ -784,7 +860,7 @@
 		if(isNaN(lAchatsSolidaire)) {lAchatsSolidaire = 0;}
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
 		if(isNaN(lRechargement)) {lRechargement = 0;}		
-		return this.solde - lAchats - lAchatsSolidaire + lRechargement;
+		return (parseFloat(this.solde) - parseFloat(lAchats) - parseFloat(lAchatsSolidaire) + parseFloat(lRechargement)).toFixed(2);
 	};
 		
 	this.changerTypePaiement = function(pObj) {
@@ -792,11 +868,15 @@
 		var lLabel = this.getLabelChamComplementaire(lId);
 		if(lLabel != null) {
 			$("#label-champ-complementaire").text(lLabel).show();
-			$("#td-champ-complementaire").show();
+			//$("#td-champ-complementaire").show();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").show();
 		} else {
 			$("#label-champ-complementaire").text('').hide();
-			$(":input[name=champ-complementaire]").val('');
-			$("#td-champ-complementaire").hide();
+			/*$(":input[name=champ-complementaire]").val('');
+			$("#td-champ-complementaire").hide();*/
+			$(':input[name="champ-complementaire"], :input[name="champ-complementaire-banque"]').val('');
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").hide();
+			$('#rechargementidBanque').attr('id-banque','');
 		}
 	};
 		
@@ -897,12 +977,17 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
+		// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
+		// il ne faut pas prendre en compte le id-banque
+		if($('#idBanque').val() != "") {
+			lVo.idBanque = $('#rechargementidBanque').attr('id-banque');
+		}
 		return lVo;
 	};
 	
 	this.creerRecapitulatif = function(pType) {
 
-		var that = this;
+		//var that = this;
 		var lVr = this.controlerAchat();
 		if(lVr.valid) {
 			if(this.etapeValider == 0) {				
@@ -979,7 +1064,7 @@
 				
 				$.each(this.pdtCommande,function() {
 					if(this.id) {
-						var lProduitCommande = this;
+						//var lProduitCommande = this;
 												
 						var lProduit = {};
 						lProduit.proId = this.id;
@@ -1071,7 +1156,12 @@
 				}
 				
 				lData.rechargementChampComplementaire = $("#rechargementchampComplementaire").val();
-
+				lData.rechargementNomBanque = $("#rechargementidBanque").val(); 
+				
+				if(lData.rechargementNomBanque.isEmpty() ) {
+					lData.classHideBanque = "ui-helper-hidden";
+				}
+				
 				if(lTotal > 0) {
 					lData.produit = lCaisseTemplate.achatMarcheDetailProduit.template(lData);
 				} else {
@@ -1153,8 +1243,7 @@
 	this.boutonModifier = function() {
 		if(this.etapeValider == 1) {			
 			$("#btn-annuler, #achat-marche-formulaire, #btn-confirmer").show();
-			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();
-			
+			$("#btn-modifier, #achat-marche-detail, #btn-enregistrer").hide();	
 			
 			this.etapeValider = 0;
 		}

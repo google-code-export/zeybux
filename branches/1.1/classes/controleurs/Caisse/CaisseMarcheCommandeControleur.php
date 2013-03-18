@@ -32,6 +32,7 @@ include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 
 //include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/AfficheAchatAdherentValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 
 /**
  * @name CaisseMarcheCommandeControleur
@@ -191,6 +192,7 @@ class CaisseMarcheCommandeControleur
 				$lOperation->setLibelle("Rechargement");
 				$lOperation->setTypePaiement($lRechargement['typePaiement']);		
 				$lOperation->setTypePaiementChampComplementaire($lRechargement['champComplementaire']);
+				$lOperation->setIdBanque($lRechargement['idBanque']);
 				$lOperation->setIdCommande(0);
 				
 				$lOperationService = new OperationService();
@@ -266,6 +268,10 @@ class CaisseMarcheCommandeControleur
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());
 			
 			$lResponse->setAdherent($lAdherent);				
+			
+			$lBanqueService = new BanqueService();
+			$lResponse->setBanques($lBanqueService->getAllActif());
+			
 			return $lResponse;
 		}				
 		return $lVr;
@@ -289,7 +295,11 @@ class CaisseMarcheCommandeControleur
 			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
 			
 			$lResponse->setStockSolidaire($lStockSolidaire);	
-			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());			
+			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());	
+			
+			$lBanqueService = new BanqueService();
+			$lResponse->setBanques($lBanqueService->getAllActif());
+					
 			return $lResponse;
 		}				
 		return $lVr;
@@ -358,6 +368,7 @@ class CaisseMarcheCommandeControleur
 				$lOperation->setLibelle("Rechargement");
 				$lOperation->setTypePaiement($lRechargement['typePaiement']);		
 				$lOperation->setTypePaiementChampComplementaire($lRechargement['champComplementaire']);
+				$lOperation->setIdBanque($lRechargement['idBanque']);
 				$lOperation->setIdCommande(0);
 				
 				$lTotal += $lRechargement['montant'];

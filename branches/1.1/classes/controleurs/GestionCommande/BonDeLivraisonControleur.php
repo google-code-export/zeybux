@@ -10,7 +10,6 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonLivraisonViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
@@ -96,10 +95,11 @@ class BonDeLivraisonControleur
 			$lIdMarche = $pParam["id_commande"];
 			$lIdCompteFerme = $pParam["id_compte_ferme"];
 			$lOperationService = new OperationService();
+			$lStockService = new StockService();
 			
 			$lResponse = new AfficheListeProduitBonDeLivraisonResponse();
 			
-			$lResponse->setProduits(StockProduitReservationViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
+			$lResponse->setProduits($lStockService->selectInfoBonCommandeStockProduitReservation($lIdMarche,$lIdCompteFerme));
 			$lResponse->setProduitsCommande(InfoBonCommandeViewManager::selectInfoBonCommande($lIdMarche,$lIdCompteFerme));
 			$lResponse->setProduitsLivraison(InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme));
 			$lResponse->setProduitsSolidaire(StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme));

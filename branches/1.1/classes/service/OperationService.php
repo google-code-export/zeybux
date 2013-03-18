@@ -88,9 +88,15 @@ class OperationService
 		
 		$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
-			$lOperationActuelle = $this->get($pOperation->getId());
+			$lOperationActuelle = $this->get($pOperation->getId());			
 			
-			$lCompteService = new CompteService(); // Mise à jour du solde
+			// Dans le cas la réservation devient achat. La date de création doit être mise à jour.
+			if($lOperationActuelle->getTypePaiement() == 0 && $pOperation->getTypePaiement() == 7) {
+				$pOperation->setDate($pOperation->getDateMaj());
+			}
+			
+			// Mise à jour du solde
+			$lCompteService = new CompteService(); 
 			$lCompte = $lCompteService->get($pOperation->getIdCompte());
 			// Si l'operation actuelle impacte le solde
 			if(in_array($lOperationActuelle->getTypePaiement(), $lTypeModificationSolde)) {

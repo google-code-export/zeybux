@@ -65,6 +65,12 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @desc Les Achats
 	 */
 	protected $mAchats;
+	
+	/**
+	 * @var array(BanqueVO)
+	 * @desc Les Banques
+	 */
+	protected $mBanques;
 
 	/**
 	* @name InfoAchatCommandeResponse()
@@ -78,6 +84,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 		$this->mReservation = array();
 		$this->mTypePaiement = array();
 		$this->mAchats = array();
+		$this->mBanques = array();
 	}
 	
 	/**
@@ -276,6 +283,33 @@ class InfoAchatCommandeResponse extends DataTemplate
 	*/
 	public function addAchats($pAchats) {
 		array_push($this->mAchats, $pAchats);
+	}
+	
+	/**
+	* @name getBanques()
+	* @return array(BanqueVO)
+	* @desc Renvoie les Banques
+	*/
+	public function getBanques() {
+		return $this->mBanques;
+	}
+
+	/**
+	* @name setBanques($pBanques)
+	* @param array(BanqueVO)
+	* @desc Remplace les Banques par $pBanques
+	*/
+	public function setBanques($pBanques) {
+		$this->mBanques = $pBanques;
+	}
+	
+	/**
+	 * @name addBanques($pBanque)
+	 * @param BanqueVO
+	 * @desc Ajoute la Banque à Banques
+	 */
+	public function addBanques($pBanque) {
+		array_push($this->mBanques,$pBanque);
 	}
 }
 ?>

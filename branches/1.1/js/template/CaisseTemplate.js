@@ -278,6 +278,11 @@
 									"<input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"recap com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire\" maxlength=\"50\" size=\"15\"/>" +
 									"<span class=\"recap ui-helper-hidden\" id=\"rechargementchampComplementaire-label\"></span>" +
 								"</td>" +
+							"</tr>" +	
+							"<tr>" +
+								"<td></td>" +
+								"<td id=\"label-champ-complementaire-banque\">Banque </td>" +
+								"<td id=\"td-champ-complementaire-banque\"><input type=\"text\" name=\"champ-complementaire-banque\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementidBanque\" maxlength=\"50\" size=\"15\"/></td>" +
 							"</tr>" +
 						"</tbody>" +
 					"</table>" +
@@ -325,6 +330,11 @@
 								"<td>" +
 									"{rechargementChampComplementaire}" +
 								"</td>" +
+							"</tr>" +
+							"<tr class=\"{classHideBanque}\">" +
+								"<td></td>" +
+								"<td class=\"com-center\">Banque </td>" +
+								"<td>{rechargementNomBanque}</td>" +
 							"</tr>" +
 						"</tbody>" +
 					"</table>" +

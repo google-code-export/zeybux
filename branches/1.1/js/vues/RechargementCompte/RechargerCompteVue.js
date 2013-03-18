@@ -254,13 +254,13 @@
 		var lLabel = this.getLabelChamComplementaire(lId);
 		if(lLabel != null) {
 			$("#label-champ-complementaire").text(lLabel).show();
-			$("#label-champ-complementaire-banque").show();
-			$("#td-champ-complementaire, #td-champ-complementaire-banque").show();
+			//$("#label-champ-complementaire-banque").show();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").show();
 		} else {
 			$("#label-champ-complementaire").text('').hide();
-			$("#label-champ-complementaire-banque").hide();
+			//$("#label-champ-complementaire-banque").hide();
 			$(':input[name="champ-complementaire"], :input[name="champ-complementaire-banque"]').val('');
-			$("#td-champ-complementaire, #td-champ-complementaire-banque").hide();
+			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").hide();
 			$('#idBanque').attr('id-banque','');
 		}
 	};
@@ -315,8 +315,11 @@
 		} else {
 			lVo.champComplementaireObligatoire = 0;
 		}
-		
-		lVo.idBanque = $('#idBanque').attr('id-banque');
+		// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
+		// il ne faut pas prendre en compte le id-banque
+		if($('#idBanque').val() != "") {
+			lVo.idBanque = $('#idBanque').attr('id-banque');
+		}
 		return lVo;
 	};
 	

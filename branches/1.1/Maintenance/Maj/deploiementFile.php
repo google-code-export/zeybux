@@ -5,8 +5,11 @@
 function supprimerDossier($pPath) {
 	$d = dir($pPath);
 	while (false !== ($entry = $d->read())) {	   
-	   if(	$entry != '.' && $entry != '..' && $d->path.'/'.$entry != '../index.html' && $entry != 'Maintenance.php' && $entry != 'Maintenance' && $entry != 'logs' && $entry != "DB.php" && $entry != "Mail.php"
-	    && $entry != ".htaccess") {
+	   if(	$entry != '.' && $entry != '..' && $d->path.'/'.$entry != '../index.html' 
+	   		&& $entry != 'SOAP.php' && $entry != 'Maintenance.php' 
+	   		&& $entry != 'Maintenance' && $entry != 'logs' 
+	   		&& $entry != "DB.php" && $entry != "Mail.php"
+	    	&& $entry != ".htaccess" && $entry != "LogLevel.php") {
    		if(is_dir($d->path.'/'.$entry)) {
    			supprimerDossier($d->path.'/'.$entry);
 			if($entry != 'configuration' && $entry != 'classes' && $entry != 'html' && $entry != 'vues') {

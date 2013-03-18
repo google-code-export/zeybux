@@ -3,79 +3,79 @@
 //
 // Createur : Julien PIERRE
 // Date de creation : 09/01/2011
-// Fichier : StockProduitReservationViewVO.php
+// Fichier : StockProduitReservationVO.php
 //
-// Description : Classe StockProduitReservationViewVO
+// Description : Classe StockProduitReservationVO
 //
 //****************************************************************
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
- * @name StockProduitReservationViewVO
+ * @name StockProduitReservationVO
  * @author Julien PIERRE
  * @since 09/01/2011
- * @desc Classe représentant une StockProduitReservationViewVO
+ * @desc Classe représentant une StockProduitReservationVO
  */
-class StockProduitReservationViewVO  extends DataTemplate	
+class StockProduitReservationVO  extends DataTemplate	
 {
 	/**
 	* @var int(11)
-	* @desc ProIdCommande de la StockProduitReservationViewVO
+	* @desc ProIdCommande de la StockProduitReservationVO
 	*/
 	protected $mProIdCommande;
 
 	/**
 	* @var int(11)
-	* @desc ProIdCompteFerme de la StockProduitReservationViewVO
+	* @desc ProIdCompteFerme de la StockProduitReservationVO
 	*/
 	protected $mProIdCompteFerme;
 
 	/**
 	* @var int(11)
-	* @desc ProId de la StockProduitReservationViewVO
+	* @desc ProId de la StockProduitReservationVO
 	*/
 	protected $mProId;
 
 	/**
 	* @var varchar(20)
-	* @desc ProUniteMesure de la StockProduitReservationViewVO
+	* @desc ProUniteMesure de la StockProduitReservationVO
 	*/
 	protected $mProUniteMesure;
 
 	/**
 	* @var tinyint(4)
-	* @desc ProType de la StockProduitReservationViewVO
+	* @desc ProType de la StockProduitReservationVO
 	*/
 	protected $mProType;
 
 	/**
 	* @var varchar(50)
-	* @desc NproNumero de la StockProduitReservationViewVO
+	* @desc NproNumero de la StockProduitReservationVO
 	*/
 	protected $mNproNumero;
 
 	/**
 	* @var varchar(50)
-	* @desc NproNom de la StockProduitReservationViewVO
+	* @desc NproNom de la StockProduitReservationVO
 	*/
 	protected $mNproNom;
 
 	/**
 	* @var decimal(33,2)
-	* @desc StoQuantite de la StockProduitReservationViewVO
+	* @desc StoQuantite de la StockProduitReservationVO
 	*/
 	protected $mStoQuantite;
 
 	/**
 	* @var decimal(32,2)
-	* @desc DopeMontant de la DopeMontantViewVO
+	* @desc DopeMontant de la DopeMontantVO
 	*/
 	protected $mDopeMontant;
 
 	/**
 	* @name getProIdCommande()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdCommande de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProIdCommande de la StockProduitReservationVO
 	*/
 	public function getProIdCommande() {
 		return $this->mProIdCommande;
@@ -84,7 +84,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setProIdCommande($pProIdCommande)
 	* @param int(11)
-	* @desc Remplace le membre ProIdCommande de la StockProduitReservationViewVO par $pProIdCommande
+	* @desc Remplace le membre ProIdCommande de la StockProduitReservationVO par $pProIdCommande
 	*/
 	public function setProIdCommande($pProIdCommande) {
 		$this->mProIdCommande = $pProIdCommande;
@@ -93,7 +93,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getProIdCompteFerme()
 	* @return int(11)
-	* @desc Renvoie le membre ProIdCompteFerme de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProIdCompteFerme de la StockProduitReservationVO
 	*/
 	public function getProIdCompteFerme() {
 		return $this->mProIdCompteFerme;
@@ -102,7 +102,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setProIdCompteFerme($pProIdCompteFerme)
 	* @param int(11)
-	* @desc Remplace le membre ProIdCompteFerme de la StockProduitReservationViewVO par $pProIdCompteFerme
+	* @desc Remplace le membre ProIdCompteFerme de la StockProduitReservationVO par $pProIdCompteFerme
 	*/
 	public function setProIdCompteFerme($pProIdCompteFerme) {
 		$this->mProIdCompteFerme = $pProIdCompteFerme;
@@ -111,7 +111,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getProId()
 	* @return int(11)
-	* @desc Renvoie le membre ProId de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProId de la StockProduitReservationVO
 	*/
 	public function getProId() {
 		return $this->mProId;
@@ -120,7 +120,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setProId($pProId)
 	* @param int(11)
-	* @desc Remplace le membre ProId de la StockProduitReservationViewVO par $pProId
+	* @desc Remplace le membre ProId de la StockProduitReservationVO par $pProId
 	*/
 	public function setProId($pProId) {
 		$this->mProId = $pProId;
@@ -129,7 +129,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getProUniteMesure()
 	* @return varchar(20)
-	* @desc Renvoie le membre ProUniteMesure de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProUniteMesure de la StockProduitReservationVO
 	*/
 	public function getProUniteMesure() {
 		return $this->mProUniteMesure;
@@ -138,7 +138,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setProUniteMesure($pProUniteMesure)
 	* @param varchar(20)
-	* @desc Remplace le membre ProUniteMesure de la StockProduitReservationViewVO par $pProUniteMesure
+	* @desc Remplace le membre ProUniteMesure de la StockProduitReservationVO par $pProUniteMesure
 	*/
 	public function setProUniteMesure($pProUniteMesure) {
 		$this->mProUniteMesure = $pProUniteMesure;
@@ -147,7 +147,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getProType()
 	* @return tinyint(4)
-	* @desc Renvoie le membre ProType de la StockProduitReservationViewVO
+	* @desc Renvoie le membre ProType de la StockProduitReservationVO
 	*/
 	public function getProType() {
 		return $this->mProType;
@@ -156,7 +156,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setProType($pProType)
 	* @param tinyint(4)
-	* @desc Remplace le membre ProType de la StockProduitReservationViewVO par $pProType
+	* @desc Remplace le membre ProType de la StockProduitReservationVO par $pProType
 	*/
 	public function setProType($pProType) {
 		$this->mProType = $pProType;
@@ -165,7 +165,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getNproNumero()
 	* @return varchar(50)
-	* @desc Renvoie le membre NproNumero de la StockProduitReservationViewVO
+	* @desc Renvoie le membre NproNumero de la StockProduitReservationVO
 	*/
 	public function getNproNumero() {
 		return $this->mNproNumero;
@@ -174,7 +174,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setNproNumero($pNproNumero)
 	* @param varchar(50)
-	* @desc Remplace le membre NproNumero de la StockProduitReservationViewVO par $pNproNumero
+	* @desc Remplace le membre NproNumero de la StockProduitReservationVO par $pNproNumero
 	*/
 	public function setNproNumero($pNproNumero) {
 		$this->mNproNumero = $pNproNumero;
@@ -183,7 +183,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getNproNom()
 	* @return varchar(50)
-	* @desc Renvoie le membre NproNom de la StockProduitReservationViewVO
+	* @desc Renvoie le membre NproNom de la StockProduitReservationVO
 	*/
 	public function getNproNom() {
 		return $this->mNproNom;
@@ -192,7 +192,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setNproNom($pNproNom)
 	* @param varchar(50)
-	* @desc Remplace le membre NproNom de la StockProduitReservationViewVO par $pNproNom
+	* @desc Remplace le membre NproNom de la StockProduitReservationVO par $pNproNom
 	*/
 	public function setNproNom($pNproNom) {
 		$this->mNproNom = $pNproNom;
@@ -201,7 +201,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getStoQuantite()
 	* @return decimal(33,2)
-	* @desc Renvoie le membre StoQuantite de la StockProduitReservationViewVO
+	* @desc Renvoie le membre StoQuantite de la StockProduitReservationVO
 	*/
 	public function getStoQuantite() {
 		return $this->mStoQuantite;
@@ -210,7 +210,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setStoQuantite($pStoQuantite)
 	* @param decimal(33,2)
-	* @desc Remplace le membre StoQuantite de la StockProduitReservationViewVO par $pStoQuantite
+	* @desc Remplace le membre StoQuantite de la StockProduitReservationVO par $pStoQuantite
 	*/
 	public function setStoQuantite($pStoQuantite) {
 		$this->mStoQuantite = $pStoQuantite;
@@ -219,7 +219,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name getDopeMontant()
 	* @return decimal(33,2)
-	* @desc Renvoie le membre DopeMontant de la StockProduitReservationViewVO
+	* @desc Renvoie le membre DopeMontant de la StockProduitReservationVO
 	*/
 	public function getDopeMontant() {
 		return $this->mDopeMontant;
@@ -228,7 +228,7 @@ class StockProduitReservationViewVO  extends DataTemplate
 	/**
 	* @name setDopeMontant($pDopeMontant)
 	* @param decimal(33,2)
-	* @desc Remplace le membre DopeMontant de la StockProduitReservationViewVO par $pDopeMontant
+	* @desc Remplace le membre DopeMontant de la StockProduitReservationVO par $pDopeMontant
 	*/
 	public function setDopeMontant($pDopeMontant) {
 		$this->mDopeMontant = $pDopeMontant;

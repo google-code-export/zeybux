@@ -49,6 +49,12 @@ class ListePaiementResponse extends DataTemplate
 	protected $mListeEspeceFerme;	
 	
 	/**
+	 * @var array(BanqueVO)
+	 * @desc Les Banques
+	 */
+	protected $mBanques;
+	
+	/**
 	* @name ListePaiementResponse()
 	* @desc Le constructeur de ListePaiementResponse
 	*/	
@@ -58,6 +64,7 @@ class ListePaiementResponse extends DataTemplate
 		$this->mListeEspeceAdherent = array();
 		$this->mListeChequeFerme = array();
 		$this->mListeEspeceFerme = array();
+		$this->mBanques = array();
 	}
 	
 	/**
@@ -184,6 +191,33 @@ class ListePaiementResponse extends DataTemplate
 	*/
 	public function addListeEspeceFerme($pListeEspeceFerme){
 		array_push($this->mListeEspeceFerme,$pListeEspeceFerme);
+	}
+	
+	/**
+	* @name getBanques()
+	* @return array(BanqueVO)
+	* @desc Renvoie les Banques
+	*/
+	public function getBanques() {
+		return $this->mBanques;
+	}
+
+	/**
+	* @name setBanques($pBanques)
+	* @param array(BanqueVO)
+	* @desc Remplace les Banques par $pBanques
+	*/
+	public function setBanques($pBanques) {
+		$this->mBanques = $pBanques;
+	}
+	
+	/**
+	 * @name addBanques($pBanque)
+	 * @param BanqueVO
+	 * @desc Ajoute la Banque à Banques
+	 */
+	public function addBanques($pBanque) {
+		array_push($this->mBanques,$pBanque);
 	}
 }
 ?>

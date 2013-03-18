@@ -215,7 +215,7 @@ function jourSem(pDate) {
 		 for (i = 0; i < decimales; i++) {
 			 _sDecimales += "0";
 		 }
-		 _sRetour = separeMilliers(_sNombre)+signe+_sDecimales;
+		 _sRetour = separeMilliers(_sNombre)+ String(signe) +_sDecimales;
 	 } else {
 		 var sDecimalesTmp = (_sNombre.substr(_sNombre.indexOf('.')+1));
 		 
@@ -244,7 +244,14 @@ function jourSem(pDate) {
 		} else {
 			_sDecimales = sDecimalesTmp;
 		}
-		 _sRetour = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')))+String(signe)+_sDecimales;
+		
+		 var lParEnt = "";
+		if(parseFloat(_sNombre) < 1 && parseFloat(_sNombre) > 0) {
+			lParEnt = "0";
+		} else {
+			lParEnt = separeMilliers(_sNombre.substr(0, _sNombre.indexOf('.')));
+		}
+		 _sRetour = lParEnt + String(signe) + _sDecimales;
 	 }
 	 return _sRetour;
 };

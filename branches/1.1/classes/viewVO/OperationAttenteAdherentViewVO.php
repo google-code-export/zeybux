@@ -73,6 +73,12 @@ class OperationAttenteAdherentViewVO  extends DataTemplate
 	protected $mOpeTypePaiementChampComplementaire;
 
 	/**
+	 * @var int(11)
+	 * @desc Banque de la OperationAttenteFermeViewVO
+	 */
+	protected $mOpeIdBanque;
+
+	/**
 	* @var datetime
 	* @desc OpeDate de la OperationAttenteAdherentViewVO
 	*/
@@ -252,6 +258,24 @@ class OperationAttenteAdherentViewVO  extends DataTemplate
 		$this->mOpeTypePaiementChampComplementaire = $pOpeTypePaiementChampComplementaire;
 	}
 
+	/**
+	 * @name getOpeIdBanque()
+	 * @return int(11)
+	 * @desc Renvoie le membre OpeIdBanque de la OperationAttenteFermeViewVO
+	 */
+	public function getOpeIdBanque() {
+		return $this->mOpeIdBanque;
+	}
+	
+	/**
+	 * @name setOpeIdBanque($pOpeIdBanque)
+	 * @param int(11)
+	 * @desc Remplace le membre OpeIdBanque de la OperationAttenteFermeViewVO par $pOpeIdBanque
+	 */
+	public function setOpeIdBanque($pOpeIdBanque) {
+		$this->mOpeIdBanque = $pOpeIdBanque;
+	}
+	
 	/**
 	* @name getOpeDate()
 	* @return datetime

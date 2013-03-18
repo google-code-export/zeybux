@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListePaiementResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMPTE_ZEYBU . "/SuiviPaiementValid.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 
 /**
  * @name SuiviPaiementControleur
@@ -33,6 +34,8 @@ class SuiviPaiementControleur
 		$lResponse->setListeEspeceAdherent($lOperationService->getListeEspeceAdherentNonEnregistre());
 		$lResponse->setListeChequeFerme($lOperationService->getListeChequeFermeNonEnregistre());
 		$lResponse->setListeEspeceFerme($lOperationService->getListeEspeceFermeNonEnregistre());
+		$lBanqueService = new BanqueService();
+		$lResponse->setBanques($lBanqueService->getAllActif());
 		
 		return $lResponse;		
 	}
@@ -113,6 +116,7 @@ class SuiviPaiementControleur
 				$lOperationZeybu = $lOperationService->get($lInfoOperationLivraison->getIdOpeZeybu());
 				$lOperationZeybu->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
 				$lOperationZeybu->setMontant($pParam["montant"] * -1);
+				$lOperationZeybu->setIdBanque($pParam["idBanque"]);
 				$lIdOperationZeybu = $lOperationService->set($lOperationZeybu);
 				
 				
@@ -134,6 +138,7 @@ class SuiviPaiementControleur
 				$lOperationPrdt = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
 				$lOperationPrdt->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
 				$lOperationPrdt->setMontant($pParam["montant"]);
+				$lOperationPrdt->setIdBanque($pParam["idBanque"]);
 				$lIdOperationPrdt = $lOperationService->set($lOperationPrdt);
 				
 			/*	$lInfoOperationLivraison = new InfoOperationLivraisonVO();
@@ -155,6 +160,7 @@ class SuiviPaiementControleur
 				
 				$lOperationMaj->setTypePaiementChampComplementaire($pParam["champComplementaire"]);
 				$lOperationMaj->setMontant($pParam["montant"]);
+				$lOperationMaj->setIdBanque($pParam["idBanque"]);
 				$lOperationService->set($lOperationMaj);
 			}
 			
