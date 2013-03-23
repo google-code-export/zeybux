@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+/*AjoutCommande*/
+#formulaire_ajout_commande_ext {
+	width:850px;
+	margin-left:75px;
+}
+
+.lots-section {
+	border-top:1px solid #72B42D;
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:5px;
+	margin-top:5px;
+}
+
+.form-ajout-lot-creation-commande {
+	border-bottom:1px solid #72B42D;
+	padding-bottom:5px;
+	margin-bottom:5px;
+}
+
+#liste_produit input {
+	width:100px;
+}
+
+.produit-lot {
+	margin-bottom:9px;
+}
+
+.btn-valider {
+	padding:3px;
+}
+
+#pro-idFerme, #pro-idCategorie, #pro-idProduit {
+	width:285px;
+	display:inline-block
+}
+
+#prix-stock-produit {
+	clear:left;
+	margin-top:55px;
+}
+
+.pro-form-input-lot {
+	width:90px;
+}

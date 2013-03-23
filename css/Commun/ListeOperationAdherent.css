@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+#icone-nav-liste-operation-w{
+	float:left;
+	margin-left:-15px;
+}
+
+#icone-nav-liste-operation-e {
+	float:right;
+	margin-right:-15px;
+}
+
+#content-nav-liste-operation {
+	padding-top:1px;
+	padding-bottom:1px;	
+	padding-left:20px;
+	padding-right:20px;
+	margin-top:10px;	
+	margin-bottom:10px;
+	margin-left:-150px;
+	position:relative;
+	left:50%;
+	width:300px;
+	text-align:center;
+}
+
+#page-compteur {
+	left:50%;
+	margin-left:-100px;
+	position:absolute;
+	width:200px;
+}
