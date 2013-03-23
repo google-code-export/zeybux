@@ -1,3 +1,0 @@
-function FermeVO() {
-	this.id = '';
-}
