@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+/*MesAchats*/
+#texte-liste-vide {
+	text-align:center;
+}
+
+.lst-resa-th-num {
+	text-align:center;
+	width:35px;
+}
+
+.lst-resa-td-nom {
+	width:150px;
+}
+
+.detail-resa-npro {
+	width:250px;
+}
+
+.detail-resa-qte{
+	width:80px;
+}
+
+.detail-resa-unite {
+	width:100px;
+}
+
+.detail-resa-prix {
+	width:90px;
+}
+.lst-resa-btn-commander {
+	padding-bottom:4px;
+	padding-top:4px;
+	text-align:center;
+}
+
+.detail-achat-npro {
+	width:500px;
+}
+.detail-achat-qte{
+	width:100px;
+}
+.detail-achat-unite {
+	width:100px;
+}
+.detail-achat-prix {
+	width:90px;
+}

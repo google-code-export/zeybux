@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+.achat-commande-table-pdt {
+	margin-bottom:5px;
+	width:100%;
+	border-collapse:collapse;	
+	text-align:left;
+}
+
+.achat-commande-table-pdt .ligne-produit:hover, .achat-commande-table-pdt .ligne-produit-solidaire:hover {
+	background-color:#4eb305;
+}
