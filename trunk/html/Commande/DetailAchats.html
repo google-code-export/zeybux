@@ -1,7 +1,37 @@
-<div class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+<div class="achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all">
 	<div class="com-widget-header ui-widget ui-widget-header ui-corner-all">
-		Marché n°{comNumero}
+		Achat du {dateAchat} : {totalMarche} {sigleMonetaire}
 	</div>
+	<table class="com-table-100">
+		<tr>
+			<td></td>
+			<td colspan="3"><div class="ui-widget-header ui-corner-all com-center">Achat</div></td>
+			<td colspan="3"><div class="ui-widget-header ui-corner-all com-center">Achat Solidaire</div></td>
+		</tr>
+	<!-- BEGIN categories -->
+		<tr>
+			<td><div class="ui-widget-header ui-corner-all com-center">{categories.nom}</div></td>
+			<td colspan="6"></td>
+		</tr>
+		<!-- BEGIN achat -->
+		<tr class="com-ligne-hover">
+			<td class="detail-achat-npro">{categories.achat.nproNom}</td>
+			
+			<td class="com-text-align-right detail-achat-qte">{categories.achat.stoQuantite}</td>						
+			<td class="detail-achat-unite">{categories.achat.proUniteMesure}</td>
+			<td class="com-text-align-right detail-achat-prix">{categories.achat.prix} {categories.achat.sigleMonetaire}</td>
+			
+			<td class="com-text-align-right detail-achat-qte">{categories.achat.stoQuantiteSolidaire}</td>						
+			<td class="detail-achat-unite">{categories.achat.proUniteMesureSolidaire}</td>
+			<td class="com-text-align-right detail-achat-prix">{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}</td>
+		</tr>
+		<!-- END achat -->
+	<!-- END categories -->
+		<tr>
+			<td class="com-text-align-right" colspan="3">Total : </td>
+			<td class="com-text-align-right detail-achat-prix">{total} {sigleMonetaire}</td>
+			<td class="com-text-align-right" colspan="2">Total Solidaire : </td>
+			<td class="com-text-align-right detail-achat-prix">{totalSolidaire} {sigleMonetaire}</td>
+		</tr>
+	</table>
 </div>
-{DETAIL_ACHAT}
-{DETAIL_ACHAT_SOLIDAIRE}

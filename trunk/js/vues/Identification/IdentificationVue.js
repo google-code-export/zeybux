@@ -9,25 +9,21 @@
 	};
 	
 	this.afficher = function() {
-		var that = this;
-		var lIdentificationTemplate = new IdentificationTemplate();
-		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
-		$('#login').focus();
+		this.affect();
 	};
 	
-	this.affect = function(pData) {		
-		pData = this.affectIdentifier(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		return pData;
+	this.affect = function() {		
+		this.affectIdentifier();
+		gCommunVue.comHoverBtn();
+		$('#login').focus();
 	};
 	
 	this.affectIdentifier = function(pData) {
 		var that = this;
-		pData.find('#identification-form').submit(function() {
+		$('#identification-form').submit(function() {
 			that.identifier($(this));
 			return false;
 		});
-		return pData;
 	};
 	
 	this.identifier = function(pObj) {

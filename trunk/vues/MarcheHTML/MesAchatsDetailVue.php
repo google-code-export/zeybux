@@ -46,9 +46,62 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 		
 		// Body		
 		$lTemplate->set_filenames( array('body' => MOD_COMMANDE . '/' . 'DetailAchats.html') );
-		$lTemplate->assign_vars( array( 'sigleMonetaire' => SIGLE_MONETAIRE , 'comNumero' => $lPage->getMarche()->getNumero() ) );
+		
 	
-		$lData = array("achats" => array(), "achatsSolidaire" =>array());
+		$lAchat = array("detailAchat" => array(), "detailAchatSolidaire" => array(), "dateAchat" => "");
+		foreach($lPage->getAchats() as $lAchatTemp) {
+			if(count($lAchatTemp->getDetailAchat()) > 0) {
+				$lAchat["detailAchat"] = $lAchatTemp->getDetailAchat();
+			}
+			if(count($lAchatTemp->getDetailAchatSolidaire()) > 0) {
+				$lAchat["detailAchatSolidaire"] = $lAchatTemp->getDetailAchatSolidaire();
+			}
+			$lAchat["dateAchat"] = $lAchatTemp->getDateAchat();
+		}
+				
+		$lData = array("categories" => array(),"total" => 0, "totalSolidaire" => 0);
+		foreach($lPage->getDetailProduit() as $lProduit) {
+			$lLigneAchat = array("nproNom"=> $lProduit->getNproNom(), 
+								"stoQuantite" => "", "prix" => "", "proUniteMesure" => "", "sigleMonetaire" => "",
+								"stoQuantiteSolidaire" => "", "prixSolidaire" => "", "proUniteMesureSolidaire" => "", "sigleMonetaireSolidaire" => "");
+						
+			foreach($lAchat["detailAchat"] as $lDetailAchat) {
+				if($lDetailAchat->getIdProduit() == $lProduit->getProId()) {
+					$lLigneAchat["stoQuantite"] = StringUtils::affichageMonetaireFr($lDetailAchat->getQuantite() * -1);
+					$lLigneAchat["prix"] = StringUtils::affichageMonetaireFr($lDetailAchat->getMontant() * -1);
+					$lLigneAchat["proUniteMesure"] = $lProduit->getProUniteMesure();
+					$lLigneAchat["sigleMonetaire"] = SIGLE_MONETAIRE;
+				
+					$lData["total"] += $lDetailAchat->getMontant() * -1;
+				}
+			}
+			foreach($lAchat["detailAchatSolidaire"] as $lDetailAchatSolidaire) {
+				if($lDetailAchatSolidaire->getIdProduit() == $lProduit->getProId()) {
+					$lLigneAchat["stoQuantiteSolidaire"] = StringUtils::affichageMonetaireFr($lDetailAchatSolidaire->getQuantite() * -1);
+					$lLigneAchat["prixSolidaire"] = StringUtils::affichageMonetaireFr($lDetailAchatSolidaire->getMontant() * -1);
+					$lLigneAchat["proUniteMesureSolidaire"] = $lProduit->getProUniteMesure();
+					$lLigneAchat["sigleMonetaireSolidaire"] = SIGLE_MONETAIRE;
+				
+					$lData["totalSolidaire"] += $lDetailAchatSolidaire->getMontant() * -1;
+				}
+			}
+			
+			if(!isset($lData["categories"][$lProduit->getCproNom()])) {
+				$lData["categories"][$lProduit->getCproNom()] = array("nom" => $lProduit->getCproNom(), "achat" => array());
+			}
+			array_push($lData["categories"][$lProduit->getCproNom()]["achat"], $lLigneAchat);
+		}
+		
+		$lData["dateAchat"] = StringUtils::dateDbToFr($lAchat["dateAchat"]);
+		$lData["totalMarche"] = $lData["total"] + $lData["totalSolidaire"];
+		
+		$lData["total"] = StringUtils::affichageMonetaireFr($lData["total"]);
+		$lData["totalSolidaire"] = StringUtils::affichageMonetaireFr($lData["totalSolidaire"]);
+		$lData["totalMarche"] = StringUtils::affichageMonetaireFr($lData["totalMarche"]);
+		
+		$lTemplate->assign_vars( array( 'sigleMonetaire' => SIGLE_MONETAIRE, "dateAchat" => $lData["dateAchat"], "totalMarche" =>  $lData["totalMarche"],
+				"total" => $lData["total"], "totalSolidaire" => $lData["totalSolidaire"]) );
+		/*$lData = array("achats" => array(), "achatsSolidaire" =>array());
 		foreach($lPage->getAchats() as $lAchat) {		
 			$lDataPdtAchat = array();
 			$lDataPdtAchatSolidaire = array();
@@ -124,27 +177,27 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 									"totalSolidaire" => $lAchat->getTotalSolidaire() * -1);
 				array_push($lData["achatsSolidaire"],$lDataAchatSolidaire);
 			}
-		}
+		}*/
 
-		if(!empty($lData["achats"])) {
-			$lTemplate->set_filenames( array('detailAchat' => MOD_COMMANDE . '/' . 'DetailAchat.html') );
-			foreach($lData["achats"] as $lAchats) {
-				$lTemplate->assign_block_vars('achats', array(
+		//if(!empty($lData["achats"])) {
+		//$lTemplate->set_filenames( array('detailAchat' => MOD_COMMANDE . '/' . 'DetailAchat.html') );
+		foreach($lData["categories"] as $lCategorie) {
+				/*$lTemplate->assign_block_vars('categories', array(
 							"idAchat" => $lAchats['idAchat'],
-							"total" => StringUtils::affichageMonetaireFr($lAchats['total']) ));
+							"total" => StringUtils::affichageMonetaireFr($lAchats['total']) ));*/
 				
-				foreach($lAchats["categories"] as $lCategorie) {
-					$lTemplate->assign_block_vars('achats.categories', array(
+				//foreach($lAchats["categories"] as $lCategorie) {
+					$lTemplate->assign_block_vars('categories', array(
 							'nom' => $lCategorie["nom"] ));
 					foreach($lCategorie["achat"] as $lAchat) {
-						$lTemplate->assign_block_vars('achats.categories.achat', $lAchat);
+						$lTemplate->assign_block_vars('categories.achat', $lAchat);
 					}
-				}
+				//}
 			}		
-			$lTemplate->assign_var_from_handle('DETAIL_ACHAT', 'detailAchat');
-		}
+			//$lTemplate->assign_var_from_handle('DETAIL_ACHAT', 'detailAchat');
+	//	}
 		
-		if(!empty($lData["achatsSolidaire"])) {
+	/*	if(!empty($lData["achatsSolidaire"])) {
 			$lTemplate->set_filenames( array('detailAchatSolidaire' => MOD_COMMANDE . '/' . 'DetailAchatSolidaire.html') );
 			foreach($lData["achatsSolidaire"] as $lAchats) {
 				$lTemplate->assign_block_vars('achatsSolidaire', array(
@@ -161,7 +214,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 				}
 			}		
 			$lTemplate->assign_var_from_handle('DETAIL_ACHAT_SOLIDAIRE', 'detailAchatSolidaire');
-		}
+		}*/
 		// Pied de Page
 		$lTemplate->set_filenames( array('piedPage' => COMMUN_TEMPLATE . 'PiedPage.html') );
 		$lTemplate->assign_var_from_handle('PIED_PAGE', 'piedPage');

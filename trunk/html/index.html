@@ -43,21 +43,23 @@
 		<div id="menu_ext"><div id="menu_int"></div></div>
 		
 		<noscript>		
-			<div class="ui-widget ui-widget-content ui-state-highlight com-center" >
-				Attention le javascript est désactivé. Vous n'aurez pas accès à la version complète du zeybux.<br/>
+			<div class="info-identification ui-widget ui-widget-content ui-state-highlight com-center ui-corner-all" >
+				Attention le javascript est désactivé.<br/>Vous n'aurez pas accès à la version complète du zeybux.<br/>
 				Ceci est la version minimale du zeybux.
 			</div>		
-			<div id="formulaire_identification_int" class="ui-widget ui-widget-content ui-corner-all" >
+		</noscript>
+		<div id="contenu">
+			<div id="formulaire_identification_int" class="ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all" >
 				<div id="titre_fenetre" class="ui-widget ui-widget-header ui-corner-all">Connexion à Zeybux</div>
 				<form id="identification-form" action="./index.php?m=IdentificationHTML&v=Identification" method="post">
 					<table>
 						<tr>
 							<td>N° d'adhérent</td>
-							<td><input class="com-input-text ui-widget-content ui-corner-all" type="text" name="login" id="login" value="Z"/></td>
+							<td><input class="com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all" type="text" name="login" id="login" value="Z"/></td>
 						</tr>
 						<tr>
 							<td>Mot de Passe</td>
-							<td><input class="com-input-text ui-widget-content ui-corner-all" type="password" name="pass" id="pass" value="zeybu" /></td>
+							<td><input class="com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all" type="password" name="pass" id="pass" value="zeybu" /></td>
 						</tr>
 						<tr>
 							<td colspan="2" class="com-center com-ligne-submit" ><input class="ui-state-default ui-corner-all com-button com-center" type="submit" value="Connexion"/></td>
@@ -69,8 +71,6 @@
 					</table>
 				</form>
 			</div>
-		</noscript>
-		<div id="contenu">
 		</div>		
 		<div id="piedpage">
 			Les amis du Zeybu - 25 allée du gerbier, EYBENS -  <a href="mailto:lesamisduzeybu@gmail.com">lesamisduzeybu@gmail.com</a> - 04 56 45 64 54

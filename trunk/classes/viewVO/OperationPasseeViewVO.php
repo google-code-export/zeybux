@@ -71,6 +71,12 @@ class OperationPasseeViewVO extends DataTemplate
 	* @desc OpeTypePaiementChampComplementaire de la OperationPasseeViewVO
 	*/
 	protected $mOpeTypePaiementChampComplementaire;
+	
+	/**
+	 * @var int(11)
+	 * @desc TppId de la OperationPasseeViewVO
+	 */
+	protected $mTppId;
 
 	/**
 	* @name getOpeIdCompte()
@@ -232,6 +238,24 @@ class OperationPasseeViewVO extends DataTemplate
 	*/
 	public function setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire) {
 		$this->mOpeTypePaiementChampComplementaire = $pOpeTypePaiementChampComplementaire;
+	}
+	
+	/**
+	 * @name getTppId()
+	 * @return int(11)
+	 * @desc Renvoie le membre TppId de la OperationPasseeViewVO
+	 */
+	public function getTppId() {
+		return $this->mTppId;
+	}
+	
+	/**
+	 * @name setTppId($pTppId)
+	 * @param int(11)
+	 * @desc Remplace le membre TppId de la OperationPasseeViewVO par $pTppId
+	 */
+	public function setTppId($pTppId) {
+		$this->mTppId = $pTppId;
 	}
 }
 ?>

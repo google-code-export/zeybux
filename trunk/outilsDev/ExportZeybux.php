@@ -22,9 +22,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	$lPath = $lDossierVersion . $lNom;
 	
 	if(is_dir($lPath)) {
-?>
-	<span>Le dossier d'export existe déjà !!</span><br/>
-<?php 
+
+	echo "<span>Le dossier d'export existe déjà !!</span><br/>";
+
 	} else { 
 		// Génération de l'export
 		$lVersionTechnique = date('YmdHis');
@@ -440,7 +440,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			   			} else if($entry == 'Version.php') {
 				   				$filename = $d->path.'/'.$entry;
 				   				$lLigne = file_get_contents($filename);
-				   				$lLigne = str_replace('?>','define("ZEYBUX_VERSION_TECHNIQUE","' . $lVersionTechnique . '");
+				   				$lLigne = str_replace('?>','define("ZEYBUX_VERSION_TECHNIQUE",' . $lVersionTechnique . ');
 ?>',$lLigne);
 				   				$fp = fopen($pDest.'/'.$entry, 'w');
 				   				fwrite($fp,$lLigne);
@@ -568,7 +568,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		    mysql_select_db(MYSQL_DBNOM, $connexion);
 		    
 		    $entete = "-- ----------------------\n";
-		    $entete .= "-- Zeybux base ".$base." au ".date("d-M-Y")."\n";
+		    $entete .= "-- Zeybux base " . MYSQL_DBNOM . " au " . date("d-M-Y") . "\n";
 		    $entete .= "-- ----------------------\n\n\n";
 		    $creations = "";
 		    $insertions = "\n\n";
@@ -726,11 +726,11 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		echo "<h1>Export Terminé !!</h1>";
 	}	
 } else {
-?>
-	<form action="./ExportZeybux.php" method="post">
+echo "
+	<form action=\"./ExportZeybux.php\" method=\"post\">
 		<span>Nom du dossier Source</span>
-			<select name="source">
-			<?php 
+			<select name=\"source\">";
+			
 			$lDossiers = array();
 			if(is_dir($lDossierVersion)) {
 				$d = dir($lDossierVersion);
@@ -748,27 +748,26 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			}
 			sort($lDossiers);
 			foreach($lDossiers as $lDossier) {
-?>
-				<option value="<?php echo $lDossier; ?>"><?php echo $lDossier; ?></option>
-<?php 
+
+echo "				<option value=\"<?php echo $lDossier; ?>\"><?php echo $lDossier; ?></option>";
+
 			}
 		
-		?>
+		echo "
 			</select>	
 			<br/>
-		<span>Nom du dossier d'export</span><input type="text" name="nom" /><br/>
+		<span>Nom du dossier d'export</span><input type=\"text\" name=\"nom\" /><br/>
 		<span>Environnement de destination
-			<select name="env">
-				<option value="maintenance">Maintenance</option>
-				<option value="install">Installation</option>
-				<option value="local">Local</option>
-				<option value="localr7">Local R7</option>
-				<option value="free">Free</option>
+			<select name=\"env\">
+				<option value=\"maintenance\">Maintenance</option>
+				<option value=\"install\">Installation</option>
+				<option value=\"local\">Local</option>
+				<option value=\"localr7\">Local R7</option>
+				<option value=\"free\">Free</option>
 			</select>		
 		</span><br/>
-		<input type="submit" value="Exporter"/>
-	</form>
-<?php 
+		<input type=\"submit\" value=\"Exporter\"/>
+	</form>";
 }
 ?>
 </body>

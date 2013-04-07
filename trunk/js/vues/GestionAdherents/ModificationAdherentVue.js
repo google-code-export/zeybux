@@ -180,13 +180,17 @@
 	this.modifAdherent = function() {
 		var lVo = new AdherentVO();
 		lVo.id = this.mIdAdherent;
+		lVo.idCompte = "";
 		var lChoixCompte = $(':input[name=choix_compte]:checked').val();
 		if(lChoixCompte == 'actuel' ) {
 			lVo.idCompte = this.mIdCompte;
 		} else if ( lChoixCompte == 'auto') {
 			lVo.idCompte = 0;
 		} else {
-			lVo.idCompte = $('#label_compte_lier').attr("data-id-compte");
+			var lIdCompte = $('#label_compte_lier').attr("data-id-compte");
+			if(lIdCompte != undefined ) {
+				lVo.idCompte = $('#label_compte_lier').attr("data-id-compte");
+			}			
 		}
 				
 		lVo.nom = $(':input[name=nom]').val();

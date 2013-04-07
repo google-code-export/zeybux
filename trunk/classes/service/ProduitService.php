@@ -21,6 +21,8 @@ include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ProduitValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProduitDetailSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProduitDetailViewManager.php");*/
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_SERVICE . "/ProduitValid.php");
 
 /**
  * @name ProduitService
@@ -31,17 +33,17 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProduitDetailViewManager.php");*/
 class ProduitService
 {
 	/**
-	* @name selectInfoBonCommande($pIdCommande,$pIdProducteur)
-	* @param integer
-	* @return array(ProduitVO)
-	* @desc Récupères toutes les lignes de la table ayant pour IdProduit $pIdProduit. Puis les renvoie sous forme d'une collection de DetailCommandeVO
+	* @name selectDetailProduits($pIdProduits)
+	 * @param array(integer idProduit)
+	 * @return array(DetailProduitVO)
+	 * @desc Récupères le détail des produits et les renvoie sous forme d'une collection de DetailProduitVO
 	*/
-	public static function selectInfoBonCommande($pIdCommande,$pIdProducteur) {
-		/*return DetailCommandeManager::recherche(
-			array(DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT),
-			array('='),
-			array($pIdProduit),
-			array(DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT),
-			array('ASC'));*/
+	public static function selectDetailProduits($pIdProduits) {
+		$lProduitValid = new NAMESPACE_CLASSE\NAMESPACE_VALIDATEUR\MOD_SERVICE\ProduitValid();
+		if($lProduitValid->selectDetailProduits($pIdProduits)) {
+			return ProduitManager::selectDetailProduits($pIdProduits);
+		} else {
+			return false;
+		}
 	}
 }

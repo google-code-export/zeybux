@@ -2853,7 +2853,7 @@ color:#FFFFFF;
 			              gzclose($v_tar);
 			
 			            // ----- Error log
-			            PclErrorLog(-7, "Extracted file '$v_header[filename]' does not have the correct file size '".filesize($v_filename)."' ('$v_header[size]' expected). Archive may be corrupted.");
+			            PclErrorLog(-7, "Extracted file '" . $v_header['filename'] . "' does not have the correct file size '".filesize($v_filename)."' ('$v_header[size]' expected). Archive may be corrupted.");
 			
 			            // ----- Return
 			            TrFctEnd(__FILE__, __LINE__, PclErrorCode(), PclErrorString());
@@ -4008,8 +4008,8 @@ color:#FFFFFF;
 			    // ----- Look for no more block
 			    if (strlen($v_binary_data)==0)
 			    {
-			      $v_header[filename] = "";
-			      $v_header[status] = "empty";
+			      $v_header['filename'] = "";
+			      $v_header['status'] = "empty";
 			
 			      // ----- Return
 			      TrFctEnd(__FILE__, __LINE__, $v_result, "End of archive found");
@@ -4521,6 +4521,21 @@ color:#FFFFFF;
 						<td>Domaine des mailing liste</td>
 						<td><input type="text" name="mailingListeDomain" id="mailingListeDomain"/></td>						
 					</tr>
+					<tr>
+						<td colspan="2" class="ui-widget-header">Compte OVH : Accès WebServices</td>		
+					</tr>
+					<tr>
+						<td>Adresse du WebService</td>
+						<td><input type="text" name="adresseWSDL" id="adresseWSDL"/></td>						
+					</tr>
+					<tr>
+						<td>Login</td>
+						<td><input type="text" name="soapLogin" id="soapLogin"/></td>						
+					</tr>
+					<tr>
+						<td>Mot de passe</td>
+						<td><input type="text" name="soapPass" id="soapPass"/></td>						
+					</tr>
 										
 					<tr>
 						<td colspan="2" class="center">
@@ -4536,10 +4551,12 @@ color:#FFFFFF;
 	} else if($_GET["page"] == 4) {
 		if(	isset($_POST['admin-login']) && isset($_POST['admin-pass']) && isset($_POST['admin-confirm-pass'])
 			&& isset($_POST['mailSupport']) && isset($_POST['mailingListe']) && isset($_POST['mailingListeDomain'])
+			&& isset($_POST['adresseWSDL']) && isset($_POST['soapLogin']) && isset($_POST['soapPass'])
 			&& isset($_POST['rep']) && isset($_POST['prefixe'])) {
 		
 			if(	empty($_POST['admin-login']) || empty($_POST['admin-pass']) || empty($_POST['admin-confirm-pass']) 
-				&& empty($_POST['mailSupport']) || empty($_POST['mailingListe']) || empty($_POST['mailingListeDomain'])			
+				&& empty($_POST['mailSupport']) || empty($_POST['mailingListe']) || empty($_POST['mailingListeDomain'])		
+				|| empty($_POST['adresseWSDL'])|| empty($_POST['soapLogin'])|| empty($_POST['soapPass'])	
 			) {	
 				header('location:./install.php?page=3&rep=' . $_POST['rep'] . '&prefixe=' . $_POST["prefixe"]);
 			} else {
@@ -4567,42 +4584,7 @@ color:#FFFFFF;
 						,'" . md5($_POST['admin-pass']) . "'
 						,'2'
 						,'1')";
-					mysql_query($lRequete, $connexion);
-					
-					// Création du compte solidaire
-					/*$lRequete =
-					"INSERT INTO " . $_POST['prefixe'] . "ide_identification
-						(ide_id
-						,ide_id_login
-						,ide_login
-						,ide_pass
-						,ide_type
-						,ide_autorise)
-					VALUES (NULL
-						,'0'
-						,'" . $_POST['solidaire-login'] . "'
-						,'" . md5($_POST['solidaire-pass']) . "'
-						,'4'
-						,'1')";
-					mysql_query($lRequete, $connexion);*/
-					
-					// Création du compte caisse
-					/*$lRequete =
-					"INSERT INTO " . $_POST['prefixe'] . "ide_identification
-						(ide_id
-						,ide_id_login
-						,ide_login
-						,ide_pass
-						,ide_type
-						,ide_autorise)
-					VALUES (NULL
-						,'0'
-						,'" . $_POST['caisse-login'] . "'
-						,'" . md5($_POST['caisse-pass']) . "'
-						,'3'
-						,'1')";
-					mysql_query($lRequete, $connexion);*/
-					
+					mysql_query($lRequete, $connexion);					
 					mysql_close($connexion);
 					
 					// Ajout du fichier de config des Mails
@@ -4621,6 +4603,41 @@ color:#FFFFFF;
 					fwrite($fp,"define(\"MAIL_MAILING_LISTE\", \"" . $_POST["mailingListe"] . "\");\n");
 					fwrite($fp,"define(\"MAIL_MAILING_LISTE_DOMAIN\", \"" . $_POST["mailingListeDomain"] . "\");\n");
 					fwrite($fp,"?>\n");			
+					fclose($fp);
+					
+					// Ajout du fichier de config des WebServices
+					$fp = fopen($_POST["rep"] . '/configuration/SOAP.php', 'w');
+					fwrite($fp,"<?php\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Createur : Julien PIERRE\n");
+					fwrite($fp,"// Date de creation : 23/01/2012\n");
+					fwrite($fp,"// Fichier : SOAP.php\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Description : Les constantes de WebServices\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"define(\"ADRESSE_WSDL\", \"" . $_POST["adresseWSDL"] . "\");\n");
+					fwrite($fp,"define(\"SOAP_LOGIN\", \"" . $_POST["soapLogin"] . "\");\n");
+					fwrite($fp,"define(\"SOAP_PASS\", \"" . $_POST["soapPass"] . "\");\n");
+					fwrite($fp,"?>\n");
+					fclose($fp);
+					
+					// Ajout du fichier de config du niveau de Log
+					$fp = fopen($_POST["rep"] . '/configuration/LogLevel.php', 'w');
+					fwrite($fp,"<?php\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Createur : Julien PIERRE\n");
+					fwrite($fp,"// Date de creation : 22/04/2012\n");
+					fwrite($fp,"// Fichier : LogLevel.php\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Description : Le niveau de debug du site\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"// Définition du level de log\n");
+					fwrite($fp,"define(\"LOG_LEVEL\",PEAR_LOG_INFO);\n");
+					fwrite($fp,"?>\n");
 					fclose($fp);
 				}
 			}				

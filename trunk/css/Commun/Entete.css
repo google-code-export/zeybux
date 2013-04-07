@@ -220,6 +220,10 @@ body {
 	width: 310px;	
 }
 
+.com-ligne-hover:hover {
+	background-color:#4eb305;
+}
+
 .com-nombre-negatif{color:red;}
 
 .com-cursor-pointer {cursor: pointer;}

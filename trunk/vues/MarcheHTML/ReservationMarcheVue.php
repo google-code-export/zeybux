@@ -173,7 +173,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						// Body		
 						$lTemplate->set_filenames( array('body' => MOD_COMMANDE . '/' . 'ReservationFormulaire.html') );
 						
-						$lData = array("categories" => array());						
+						$lData = array("categories" => array());
 						
 						$lTotal = 0;
 						foreach($lPage->getMarche()->getProduits() as $lProduit) {
@@ -319,7 +319,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						if(isset($_SESSION['msg']) && !empty($_SESSION['msg'])) { // Message d'erreur							
 							$lLignesErr = array();
 							if(!$_SESSION['msg']['valid']) {
-								InfobullesUtils::compilerMessage($_SESSION['msg'],&$lLignesErr);
+								InfobullesUtils::compilerMessage($_SESSION['msg'],$lLignesErr);
 							}
 							$lErreur = true;
 						}
@@ -411,7 +411,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 						$lTemplate->assign_vars( array( 'TITRE' => TITRE) );
 						InfobullesUtils::generer($lTemplate); // Messages d'erreur
 						$lTemplate->assign_var_from_handle('ENTETE', 'entete');	
-						
 
 						// Affichage
 						$lTemplate->pparse('page');

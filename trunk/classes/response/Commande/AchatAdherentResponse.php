@@ -25,31 +25,25 @@ class AchatAdherentResponse extends DataTemplate
 	protected $mValid = true;
 	
 	/**
-	 * @var MarcheVO
-	 * @desc Le Marché
+	 * @var array(DetailProduitVO)
+	 * @desc Le détail des produits
 	 */
-	protected $mMarche;
+	protected $mDetailProduit;
 	
 	/**
 	 * @var array(AchatVO)
 	 * @desc Les achats
 	 */
 	protected $mAchats;
-	
-	/**
-	 * @var array(StockProduitViewVO)
-	 * @desc Les Stocks solidaire
-	 */
-	protected $mStockSolidaire;
-	
+		
 	/**
 	* @name InfoAchatCommandeResponse()
 	* @desc Le constructeur de InfoAchatCommandeResponse
 	*/	
 	public function InfoAchatCommandeResponse() {
 		$this->mValid = true;
+		$this->mDetailProduit = array();
 		$this->mAchats = array();
-		$this->mStockSolidaire = array();
 	}
 	
 	/**
@@ -71,21 +65,30 @@ class AchatAdherentResponse extends DataTemplate
 	}
 
 	/**
-	* @name getMarche()
-	* @return MarcheVO
-	* @desc Renvoie le Marche
+	* @name getDetailProduit()
+	* @return array(DetailProduitVO)
+	* @desc Renvoie le DetailProduit
 	*/
-	public function getMarche() {
-		return $this->mMarche;
+	public function getDetailProduit() {
+		return $this->mDetailProduit;
 	}
 
 	/**
-	* @name setMarche($pMarche)
-	* @param MarcheVO
-	* @desc Remplace le Marche par $pMarche
+	* @name setDetailProduit($pDetailProduit)
+	* @param array(DetailProduitVO)
+	* @desc Remplace le DetailProduit par $pDetailProduit
 	*/
-	public function setMarche($pMarche) {
-		$this->mMarche = $pMarche;
+	public function setDetailProduit($pDetailProduit) {
+		$this->mDetailProduit = $pDetailProduit;
+	}
+	
+	/**
+	* @name addDetailProduit($pDetailProduit)
+	* @param DetailProduitVO
+	* @desc Ajoute DetailProduit à $pDetailProduit
+	*/
+	public function addDetailProduit($pDetailProduit) {
+		array_push($this->mDetailProduit,$pDetailProduit);
 	}
 	
 	/**
@@ -113,33 +116,6 @@ class AchatAdherentResponse extends DataTemplate
 	*/
 	public function addAchats($pAchat) {
 		array_push($this->mAchats,$pAchat);
-	}
-	
-	/**
-	* @name getStockSolidaire()
-	* @return array(StockProduitViewVO)
-	* @desc Renvoie le StockSolidaire
-	*/
-	public function getStockSolidaire() {
-		return $this->mStockSolidaire;
-	}
-
-	/**
-	* @name setStockSolidaire($pStockSolidaire)
-	* @param array(StockProduitViewVO)
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function setStockSolidaire($pStockSolidaire) {
-		$this->mStockSolidaire = $pStockSolidaire;
-	}
-	
-	/**
-	* @name addStockSolidaire($pStockSolidaire)
-	* @param StockProduitViewVO
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function addStockSolidaire($pStockSolidaire) {
-		array_push($this->mStockSolidaire, $pStockSolidaire);
 	}
 }
 ?>

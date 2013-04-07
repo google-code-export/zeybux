@@ -49,7 +49,8 @@ class OperationPasseeViewManager
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
+			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
 			FROM " . OperationPasseeViewManager::VUE_OPERATIONPASSEE . " 
 			WHERE " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -69,7 +70,8 @@ class OperationPasseeViewManager
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID]));
 			}
 		} else {
 			$lListeOperationPassee[0] = new OperationPasseeViewVO();
@@ -96,7 +98,8 @@ class OperationPasseeViewManager
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .  
+			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID ."
 			FROM " . OperationPasseeViewManager::VUE_OPERATIONPASSEE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -115,7 +118,8 @@ class OperationPasseeViewManager
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+					$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID]));
 			}
 		} else {
 			$lListeOperationPassee[0] = new OperationPasseeViewVO();
@@ -148,7 +152,8 @@ class OperationPasseeViewManager
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE .
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE .
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE .
-			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE		);
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE	.
+			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID 	);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(OperationPasseeViewManager::VUE_OPERATIONPASSEE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -173,7 +178,8 @@ class OperationPasseeViewManager
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
-						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE]));
+						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID]));
 				}
 			} else {
 				$lListeOperationPassee[0] = new OperationPasseeViewVO();
@@ -187,7 +193,7 @@ class OperationPasseeViewManager
 	}
 
 	/**
-	* @name remplir($pOpeIdCompte, $pCptLabel, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire)
+	* @name remplir($pOpeIdCompte, $pCptLabel, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire, $pTppId)
 	* @param int(11)
 	* @param varchar(30)
 	* @param decimal(10,2)
@@ -197,10 +203,11 @@ class OperationPasseeViewManager
 	* @param tinyint(4)
 	* @param varchar(30)
 	* @param varchar(50)
+	* @param int(11)
 	* @return OperationPasseeViewVO
 	* @desc Retourne une OperationPasseeViewVO remplie
 	*/
-	private static function remplir($pOpeIdCompte, $pCptLabel, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire) {
+	private static function remplir($pOpeIdCompte, $pCptLabel, $pOpeMontant, $pOpeLibelle, $pOpeDate, $pTppType, $pTppChampComplementaire, $pTppLabelChampComplementaire, $pOpeTypePaiementChampComplementaire, $pTppId) {
 		$lOperationPassee = new OperationPasseeViewVO();
 		$lOperationPassee->setOpeIdCompte($pOpeIdCompte);
 		$lOperationPassee->setCptLabel($pCptLabel);
@@ -211,6 +218,7 @@ class OperationPasseeViewManager
 		$lOperationPassee->setTppChampComplementaire($pTppChampComplementaire);
 		$lOperationPassee->setTppLabelChampComplementaire($pTppLabelChampComplementaire);
 		$lOperationPassee->setOpeTypePaiementChampComplementaire($pOpeTypePaiementChampComplementaire);
+		$lOperationPassee->setTppId($pTppId);
 		return $lOperationPassee;
 	}
 }

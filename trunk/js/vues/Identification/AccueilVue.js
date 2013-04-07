@@ -9,7 +9,7 @@
 	this.afficher = function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
+			$('noscript').replaceWith(lIdentificationTemplate.infoNavIncompatible);
 		} else {	
 			var that = this;
 
