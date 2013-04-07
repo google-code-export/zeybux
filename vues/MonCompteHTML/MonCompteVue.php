@@ -142,23 +142,26 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	while( isset($lListeOperation[$i]) && $i <  ($lPremiereEntree + NB_OPE_PAGE) ) {
 		$lOperation = $lListeOperation[$i];
 
+		$lType = '';
+		if($lOperation->getTppId() == 2) {
+			$lType = $lOperation->getTppType() . " N° " . $lOperation->getOpeTypePaiementChampComplementaire();
+		}
+		
 		if( $lOperation->getOpeMontant() > 0 ) {
 			$lTemplate->assign_block_vars('operationPassee', array(
 						'opeLibelle' => $lOperation->getOpeLibelle(),
 						'opeDate' => StringUtils::dateDbToFr($lOperation->getOpeDate()),
-						'tppType' => $lOperation->getTppType(),
-						'credit'  => StringUtils::affichageMonetaireFr($lOperation->getOpeMontant() )));
+						'tppType' => $lType,
+						'credit'  => StringUtils::affichageMonetaireFr($lOperation->getOpeMontant() )  . " " . SIGLE_MONETAIRE));
 		} else {
 			$lTemplate->assign_block_vars('operationPassee', array(
 					'opeLibelle' => $lOperation->getOpeLibelle(),
 					'opeDate' => StringUtils::dateDbToFr($lOperation->getOpeDate()),
-					'tppType' => $lOperation->getTppType(),
-					'debit' => StringUtils::affichageMonetaireFr( $lOperation->getOpeMontant() * -1 )));
+					'tppType' => $lType,
+					'debit' => StringUtils::affichageMonetaireFr( $lOperation->getOpeMontant() * -1 )  . " " . SIGLE_MONETAIRE));
 		}
 		$i++;
 	}
-	
-	
 	
 	$lListeOperationAvenir = $lCompte->getOperationAvenir();
 	if(!is_null($lListeOperationAvenir[0]->getOpeIdCompte())) {

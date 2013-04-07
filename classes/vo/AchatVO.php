@@ -49,6 +49,12 @@ class AchatVO extends DataTemplate
 	* @desc TotalSolidaire de la AchatVO
 	*/
 	protected $mTotalSolidaire;
+	
+	/**
+	* @var datetime
+	* @desc La date d'achat de la AchatVO
+	*/
+	protected $mDateAchat;
 		
 	/**
 	* @name AchatVO()
@@ -166,6 +172,24 @@ class AchatVO extends DataTemplate
 	*/
 	public function setTotalSolidaire($pTotalSolidaire) {
 		$this->mTotalSolidaire = $pTotalSolidaire;
+	}
+	
+	/**
+	* @name getDateAchat()
+	* @return datetime
+	* @desc Renvoie le membre DateAchat de la AchatVO
+	*/
+	public function getDateAchat() {
+		return $this->mDateAchat;
+	}
+
+	/**
+	* @name setDateAchat($pDateAchat)
+	* @param datetime
+	* @desc Remplace le membre DateAchat de la AchatVO par $pDateAchat
+	*/
+	public function setDateAchat($pDateAchat) {
+		$this->mDateAchat = $pDateAchat;
 	}
 }
 ?>

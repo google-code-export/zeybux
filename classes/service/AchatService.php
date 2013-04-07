@@ -739,6 +739,7 @@ class AchatService
 		$lAchat->getId()->setIdCompte($pId->getIdCompte());
 		$lAchat->getId()->setIdCommande($pId->getIdCommande());
 		$lAchat->getId()->setIdAchat($pId->getIdAchat());
+		$lAchat->setDateAchat($lOperation->getDate());
 		
 		// Recherche du détail de la reservation
 		switch($lOperation->getTypePaiement()) {

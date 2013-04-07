@@ -1,7 +1,7 @@
 ;function CommandeTemplate() {	
 	this.detailReservation = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero}" +
 				"</div>" +
@@ -14,7 +14,7 @@
 					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Ma réservation" +
 				"</div>" +
@@ -78,7 +78,7 @@
 	
 	this.modifierReservation =
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero}" +
 				"</div>" +
@@ -91,7 +91,7 @@
 					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Ma réservation" +
 				"</div>" +
@@ -198,7 +198,7 @@
 		"</tr>";
 	
 	this.confirmationReservationCommande =
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 			"<table>" +
 				"<!-- BEGIN produit -->" +
 				"<tr>" +
@@ -236,7 +236,7 @@
 	
 	this.reservationOk = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Réservation</div>" +
 				"<div class=\"com-widget-content\">" +
 					"<p class=\"com-msg-confirm-icon\"><span class=\"com-float-left ui-icon ui-icon-check\"></span>Réservation effectuée avec succés.</p>" +
@@ -249,7 +249,7 @@
 	
 	this.listeMarche = 
 		"<div id=\"liste_commande_int\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
 					"<table class=\"com-table\">" +
 						"<tr class=\"ui-widget ui-widget-header\">" +
@@ -275,7 +275,7 @@
 		"</div>";
 	
 	this.listeMarcheVide =
-		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les Marchés</div>" +
 			"<p id=\"texte-liste-vide\">Aucun Marché en cours.</p>" +	
 		"</div>";
@@ -285,7 +285,7 @@
 	
 	this.listeAchats = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Mes Achats" +
 				"</div>" +
@@ -313,7 +313,7 @@
 	
 	this.listeAchatVide =
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Mes Achats</div>" +
 				"<p id=\"texte-liste-vide\">Aucun achat effectué.</p>" +		
 			"</div>" +
@@ -321,40 +321,56 @@
 	
 	this.detailAchat = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Marché n°{comNumero} : {totalMarche} {sigleMonetaire}" +
 				"</div>" +
-			"</div>" +
+			"</div>" +*/
 
-			"<!-- BEGIN achats -->" +
-			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+			//"<!-- BEGIN achats -->" +
+			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			/*	"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
+				"</div>" +*/
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Achat du {dateAchat} : {totalMarche} {sigleMonetaire}" +
 				"</div>" +
-				"<table>" +
-				"<!-- BEGIN achats.categories -->" +
+				"<table class=\"com-table-100\">" +
 					"<tr>" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{achats.categories.nom}</td>" +
+						"<td></td>" +
+						"<td colspan=\"3\"><div class=\"ui-widget-header ui-corner-all com-center\">Achat</div></td>" +
+						"<td colspan=\"3\"><div class=\"ui-widget-header ui-corner-all com-center\">Achat Solidaire</div></td>" +
 					"</tr>" +
-					"<!-- BEGIN achats.categories.achat -->" +
+				"<!-- BEGIN categories -->" +
 					"<tr>" +
-						"<td class=\"detail-achat-npro\">{achats.categories.achat.nproNom}</td>" +
-						"<td class=\"com-text-align-right detail-achat-qte\">{achats.categories.achat.stoQuantite}</td>" +						
-						"<td class=\"detail-achat-unite\">{achats.categories.achat.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{achats.categories.achat.prix} {sigleMonetaire}</td>" +
+						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</div></td>" +
+						"<td colspan=\"6\"></td>" +
 					"</tr>" +
-					"<!-- END achats.categories.achat -->" +
-				"<!-- END achats.categories -->" +
+					"<!-- BEGIN categories.achat -->" +
+					"<tr class=\"com-ligne-hover\">" +
+						"<td class=\"detail-achat-npro\">{categories.achat.nproNom}</td>" +
+						
+						"<td class=\"com-text-align-right detail-achat-qte\">{categories.achat.stoQuantite}</td>" +						
+						"<td class=\"detail-achat-unite\">{categories.achat.proUniteMesure}</td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{categories.achat.prix} {categories.achat.sigleMonetaire}</td>" +
+						
+						"<td class=\"com-text-align-right detail-achat-qte\">{categories.achat.stoQuantiteSolidaire}</td>" +						
+						"<td class=\"detail-achat-unite\">{categories.achat.proUniteMesureSolidaire}</td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}</td>" +
+					"</tr>" +
+					"<!-- END categories.achat -->" +
+				"<!-- END categories -->" +
 					"<tr>" +
 						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{achats.total} {sigleMonetaire}</td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{total} {sigleMonetaire}</td>" +
+						"<td class=\"com-text-align-right\" colspan=\"2\">Total Solidaire : </td>" +
+						"<td class=\"com-text-align-right detail-achat-prix\">{totalSolidaire} {sigleMonetaire}</td>" +
 					"</tr>" +
 				"</table>" +
 			"</div>" +
-			"<!-- END achats -->" +
+		//	"<!-- END achats -->" +
 			
-			"<!-- BEGIN achatsSolidaire -->" +
+		/*	"<!-- BEGIN achatsSolidaire -->" +
 			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
@@ -379,7 +395,7 @@
 					"</tr>" +
 				"</table>" +
 			"</div>" +
-			"<!-- END achatsSolidaire -->" +
+			"<!-- END achatsSolidaire -->" +*/
 		"</div>";
 	
 	this.dialogInfoProduit = 

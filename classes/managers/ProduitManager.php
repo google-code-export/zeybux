@@ -12,6 +12,10 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "ProduitVO.php");
+include_once(CHEMIN_CLASSES_VO . "DetailProduitVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
 
 define("TABLE_PRODUIT", MYSQL_DB_PREFIXE . "pro_produit");
 /**
@@ -412,6 +416,133 @@ class ProduitManager
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
+	}
+	
+	/**
+	 * @name selectDetailProduits($pProduits)
+	 * @param array(integer idProduit)
+	 * @return array(DetailProduitVO)
+	 * @desc Récupères le détail des produits et les renvoie sous forme d'une collection de DetailProduitVO
+	 */
+	public static function selectDetailProduits($pProduits) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+			    . ProduitManager::CHAMP_PRODUIT_ID . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
+			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . 
+			"," . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . 
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE . 
+			"," . ProduitManager::CHAMP_PRODUIT_ETAT . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT . "
+ 			FROM " . ProduitManager::TABLE_PRODUIT . " 
+			JOIN " . NomProduitManager::TABLE_NOMPRODUIT. " on " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . "
+			JOIN " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . " on " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pProduits) ) ) . "')
+			ORDER BY " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . " ASC," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " ASC;";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeProduit = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeProduit,
+				ProduitManager::remplirDetailProduit(
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMMANDE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_MAX_PRODUIT_COMMANDE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ETAT],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_DESCRIPTION],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ETAT],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_DESCRIPTION],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ETAT]));
+			}
+		} else {
+			$lListeProduit[0] = new DetailProduitVO();
+		}
+		return $lListeProduit;
+	}
+	
+	/**
+	* @name remplirDetailProduit($pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStocktInitial, $pProType, $pProEtat, $pNproId, $pNproNumero, $pNproNom, $pNproDescription, $pNproIdCategorie, $pNproIdFerme, $pNproEtat, $pCproId, $pCproNom, $pCproDescription, $pCproEtat)
+	* @param int(11)
+	* @param int(11)
+	* @param int(11)
+	* @param varchar(20)
+	* @param decimal(10,2) 	
+	* @param int(11)
+	* @param decimal(10,2)
+	* @param decimal(10,2) 	
+	* @param tinyint(4)
+	* @param int(11)
+	* @param int(11)
+	* @param varchar(50)
+	* @param varchar(50)
+	* @param text
+	* @param int(11)
+	* @param int(11)
+	* @param int(11)
+	* @param int(11)
+	* @param varchar(50)
+	* @param text
+	* @param tinyint(4)
+	* @return DetailProduitViewVO
+	* @desc Retourne une DetailProduitViewVO remplie
+	*/
+	private static function remplirDetailProduit($pProId, $pProIdCommande, $pProIdNomProduit, $pProUniteMesure, $pProMaxProduitCommande, $pProIdCompteFerme, $pProStockReservation, $pProStocktInitial, $pProType, $pProEtat, $pNproId, $pNproNumero, $pNproNom, $pNproDescription, $pNproIdCategorie, $pNproIdFerme, $pNproEtat, $pCproId, $pCproNom, $pCproDescription, $pCproEtat) {
+		$lDetailProduit = new DetailProduitVO();
+		$lDetailProduit->setProId($pProId);
+		$lDetailProduit->setProIdCommande($pProIdCommande);
+		$lDetailProduit->setProIdNomProduit($pProIdNomProduit);
+		$lDetailProduit->setProUniteMesure($pProUniteMesure);
+		$lDetailProduit->setProMaxProduitCommande($pProMaxProduitCommande);
+		$lDetailProduit->setProIdCompteFerme($pProIdCompteFerme);
+		$lDetailProduit->setProStockReservation($pProStockReservation);
+		$lDetailProduit->setProStocktInitial($pProStocktInitial);
+		$lDetailProduit->setProType($pProType);
+		$lDetailProduit->setProEtat($pProEtat);
+		$lDetailProduit->setNproId($pNproId);
+		$lDetailProduit->setNproNumero($pNproNumero);
+		$lDetailProduit->setNproNom($pNproNom);
+		$lDetailProduit->setNproDescription($pNproDescription);
+		$lDetailProduit->setNproIdCategorie($pNproIdCategorie);
+		$lDetailProduit->setNproIdFerme($pNproIdFerme);
+		$lDetailProduit->setNproEtat($pNproEtat);
+		$lDetailProduit->setCproId($pCproId);
+		$lDetailProduit->setCproNom($pCproNom);
+		$lDetailProduit->setCproDescription($pCproDescription);
+		$lDetailProduit->setCproEtat($pCproEtat);
+		return $lDetailProduit;
 	}
 }
 ?>

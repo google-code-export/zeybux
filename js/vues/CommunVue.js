@@ -78,25 +78,46 @@
 	};
 	
 	this.comHoverBtn = function(pData) {
-		pData.find(	".com-button:not(.ui-state-disabled)," +
+		if(pData) {
+			pData.find(	".com-button:not(.ui-state-disabled)," +
+						".com-btn-header:not(.ui-state-disabled)," +
+						".com-btn-hover:not(.ui-state-disabled)," +
+						".com-btn-header-multiples:not(.ui-state-disabled)")
+			.hover(
+				function(){ 
+					$(this).addClass("ui-state-hover"); 
+				},
+				function(){ 
+					$(this).removeClass("ui-state-hover"); 
+				}
+			)
+			.mousedown(function(){
+					$(this).addClass("ui-state-active");	
+			})
+			.mouseup(function(){
+					$(this).removeClass("ui-state-active");
+			});
+			
+			return pData;
+		} else {
+			$(".com-button:not(.ui-state-disabled)," +
 					".com-btn-header:not(.ui-state-disabled)," +
 					".com-btn-hover:not(.ui-state-disabled)," +
 					".com-btn-header-multiples:not(.ui-state-disabled)")
-		.hover(
-			function(){ 
-				$(this).addClass("ui-state-hover"); 
-			},
-			function(){ 
-				$(this).removeClass("ui-state-hover"); 
-			}
-		)
-		.mousedown(function(){
-				$(this).addClass("ui-state-active");	
-		})
-		.mouseup(function(){
-				$(this).removeClass("ui-state-active");
-		});
-		
-		return pData;
+			.hover(
+				function(){ 
+					$(this).addClass("ui-state-hover"); 
+				},
+				function(){ 
+					$(this).removeClass("ui-state-hover"); 
+				}
+			)
+			.mousedown(function(){
+					$(this).addClass("ui-state-active");	
+			})
+			.mouseup(function(){
+					$(this).removeClass("ui-state-active");
+			});
+		}
 	};
 }
