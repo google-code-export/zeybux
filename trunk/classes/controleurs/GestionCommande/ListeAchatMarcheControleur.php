@@ -47,7 +47,10 @@ include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
+
+
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAchatEtReservationResponse.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php" );
 
 
 /**
@@ -211,13 +214,15 @@ class ListeAchatMarcheControleur
 	/**
 	* @name getListeAchatEtReservation($pParam)
 	* @param Id du marché
-	* @desc Cloture le marché
+	* @desc Retourne la liste des adhérents un flag achat et réservation sur le marché
 	*/
 	public function getListeAchatEtReservation($pParam) {		
 		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
 		if($lVr->getValid()) {
-		$lResponse = new ListeAchatEtReservationResponse();
-			$lAchatService = new AchatService();			
+			$lResponse = new ListeAchatEtReservationResponse();
+			AdherentManager::selectListeAdherentAchatMarche($pParam["id_marche"], $lResponse);
+			
+			/*$lAchatService = new AchatService();			
 			
 			$lAdherents = AdherentViewManager::selectAll();
 			$lReservationService = new ReservationService();
@@ -260,7 +265,7 @@ class ListeAchatMarcheControleur
 						$lResponse->addListeAchatEtReservation($lListeAchat);
 					}
 				}
-			}
+			}*/
 			return $lResponse;
 		}
 		return $lVr;

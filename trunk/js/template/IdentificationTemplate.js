@@ -1,5 +1,5 @@
 ;function IdentificationTemplate() {
-	/*this.connexion =
+	this.connexion =
 		"<div id=\"formulaire_identification_ifb\" title=\"Connexion à Zeybux\" >" +
 			"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
 				"<table>" +
@@ -13,7 +13,7 @@
 					"</tr>" +
 				"</table>" +
 			"</form>" +
-		"</div>";*/
+		"</div>";
 
 	this.debutMenu = "<div id=\"menu_int\"><ul id=\"menu_liste\" class=\"ui-corner-tl ui-corner-br\">";
 	this.finMenu = "</ul></div>";
@@ -168,17 +168,17 @@
 	
 	this.chargementModule = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget formulaire_identification ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
 				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
 		"</div>";
 	
-	this.chargementIdentification = 
+	/*this.chargementIdentification = 
 		"<div id=\"contenu\">" +
 			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<div class=\"com-center\">Identification ...</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 }

@@ -1,8 +1,4 @@
 ;function MesAchatsDetailVue(pParam) {
-//	this.infoCommande = {};
-//	this.achats = [];
-//	this.achatsSolidaire = [];
-//	this.stockSolidaire = [];
 	this.pParam = {};
 	this.produit = [];
 	this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
@@ -21,8 +17,6 @@
 								Infobulle.generer(pParam.vr,'');
 							}
 							that.produit = lResponse.detailProduit;
-						//	that.infoCommande.comNumero = lResponse.marche.numero;
-						//	that.stockSolidaire = lResponse.stockSolidaire;
 							$(lResponse.achats).each(function() {
 								if(this.detailAchat.length > 0) {
 									that.mAchat.detailAchat = this.detailAchat;
@@ -49,7 +43,6 @@
 		
 		var lData = {};
 		lData.categories = [];
-	//	lData.comNumero = this.infoCommande.comNumero;
 		lData.sigleMonetaire = gSigleMonetaire;
 		lData.total = 0;
 		lData.totalSolidaire = 0;
@@ -98,161 +91,7 @@
 		lData.total = lData.total.nombreFormate(2,',',' ');
 		lData.totalSolidaire = lData.totalSolidaire.nombreFormate(2,',',' ');
 		lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
-		
-		//lData.achats = [];
-		//lData.categories = [];
-		
-		//lData.achatsSolidaire = [];
-		//lData.totalMarche = 0;
-
-		/*$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatClassique = false;
-			var lAchatSolidaire = false;
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lPdtAchete = false;
-					var lAchatPdtSolidaire = false;
-					//var lIdProduit = this.id;
-					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-					
-					$.each(this.lots, function() {
-						if(this.id) {
-							var lIdLot = this.id;
-							$(lAchat.detailAchat).each(function() {
-								if(this.idDetailCommande == lIdLot) {
-									lPdt.stoQuantite = this.quantite * -1;
-									lPdt.prix = this.montant * -1;
-									lAchatClassique = true;
-									lPdtAchete = true;
-								}
-							});
-														
-							$(lAchat.detailAchatSolidaire).each(function() {
-								if(this.idDetailCommande == lIdLot) {
-									lPdt.stoQuantiteSolidaire = this.quantite * -1;
-									lPdt.prixSolidaire = this.montant * -1;
-									lAchatSolidaire = true;
-									lAchatPdtSolidaire = true;
-								}
-							});
-							
-						}
-					});
-
-					lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
-					
-
-					if(lPdtAchete) {
-						if(!lDataPdtAchat[this.idCategorie]) {
-							lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
-						}
-						lDataPdtAchat[this.idCategorie].achat.push(lPdt);
-					
-					}
-					
-					if(lAchatPdtSolidaire) {
-						lPdt.stoQuantite = lPdt.stoQuantiteSolidaire.nombreFormate(2,',',' ');		
-						lPdt.prix = lPdt.prixSolidaire.nombreFormate(2,',',' ');		
-						
-						if(!lDataPdtAchat[this.idCategorie]) {
-							lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
-						}
-						lDataPdtAchat[this.idCategorie].achat.push(lPdt);
-						
-						//lDataPdtAchat.push(lPdt);
-					}
-					
-					//lDataPdtAchat.push(lPdt);
-				}
-			});
-			
-			if(lAchatClassique) {
-				var lDataAchat = {	categories:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									total:(this.total * -1).nombreFormate(2,',',' ')};				
 				
-				lData.achats.push(lDataAchat);
-				lData.totalMarche += this.total * -1;
-			}
-			if(lAchatSolidaire) {
-				var lDataAchat = {	categories:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
-				lData.achatsSolidaire.push(lDataAchat);
-				lData.totalMarche += this.totalSolidaire * -1;
-			}
-		});
-
-	/*	$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatSolidaire = false;
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lAchatPdtSolidaire = false;
-					var lProduit = this;
-					//var lIdProduit = this.id;
-					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-
-					$(pResponse.stockSolidaire).each(function() {
-						if(lPdt.id == this.proId){
-							$.each(lProduit.lots, function() {
-								if(this.id) {
-									var lIdLot = this.id;
-									$(lAchat.detailAchatSolidaire).each(function() {
-										if(this.idDetailCommande == lIdLot) {
-											lPdt.stoQuantite = this.quantite * -1;
-											lPdt.prix = this.montant * -1;
-											lAchatSolidaire = true;
-											lAchatPdtSolidaire = true;
-										}
-									});
-								}
-							});
-						}
-					});
-
-					if(lAchatPdtSolidaire) {
-						lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-						lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');		
-						
-						if(!lDataPdtAchat[this.idCategorie]) {
-							lDataPdtAchat[this.idCategorie] = {nom:this.cproNom,achat:[]};
-						}
-						lDataPdtAchat[this.idCategorie].achat.push(lPdt);
-						
-						//lDataPdtAchat.push(lPdt);
-					}
-				}
-			});
-			if(lAchatSolidaire) {
-				var lDataAchat = {	categories:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
-				lData.achatsSolidaire.push(lDataAchat);
-				lData.totalMarche += this.totalSolidaire * -1;
-			}
-		});*/
-		
-	//	lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
-		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
 	};
 	

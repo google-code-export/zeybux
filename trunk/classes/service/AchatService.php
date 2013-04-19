@@ -24,6 +24,7 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailSolidaireViewManager.php"
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 
 /**
  * @name AchatService
@@ -70,7 +71,12 @@ class AchatService
 			$lOperation = new OperationVO();
 			$lOperation->setIdCompte($pAchat->getId()->getIdCompte());
 			$lOperation->setMontant($lTotal);
-			$lOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			// Si achat hors marché n'affiche que la date
+			if($pAchat->getId()->getIdCommande() != '') {
+				$lOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			} else {
+				$lOperation->setLibelle("Achat du " . StringUtils::dateAujourdhuiFr());
+			}
 			$lOperation->setTypePaiement(7);
 			$lOperation->setIdCommande($pAchat->getId()->getIdCommande());
 			$lIdOperation = $lOperationService->set($lOperation);
@@ -79,7 +85,12 @@ class AchatService
 			$lOperationZeybu = new OperationVO();
 			$lOperationZeybu->setIdCompte(-1);
 			$lOperationZeybu->setMontant($lTotal * -1);
-			$lOperationZeybu->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			// Si achat hors marché n'affiche que la date
+			if($pAchat->getId()->getIdCommande() != '') {
+				$lOperationZeybu->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+			} else {
+				$lOperationZeybu->setLibelle("Achat du " . StringUtils::dateAujourdhuiFr());
+			}
 			$lOperationZeybu->setTypePaiement(7);
 			$lOperationZeybu->setTypePaiementChampComplementaire($lIdOperation);
 			$lOperationZeybu->setIdCommande($pAchat->getId()->getIdCommande());
@@ -106,7 +117,12 @@ class AchatService
 				$lDetailOperation->setIdOperation($lIdOperation);
 				$lDetailOperation->setIdCompte($pAchat->getId()->getIdCompte());
 				$lDetailOperation->setMontant($lProduit->getMontant());
-				$lDetailOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+				// Si achat hors marché n'affiche que la date
+				if($pAchat->getId()->getIdCommande() != '') {
+					$lDetailOperation->setLibelle("Marché N°" . $pAchat->getId()->getIdCommande());
+				} else {
+					$lDetailOperation->setLibelle("Achat du " . StringUtils::dateAujourdhuiFr());
+				}
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
 				$lDetailOperationService->set($lDetailOperation);
@@ -881,5 +897,48 @@ class AchatService
 		$lListeAchatReservation->setOpeMontantAchat($pOpeMontantAchat);
 		return $lListeAchatReservation;
 	}*/
+	
+	public function ajoutProduitAchat($pProduitAchat) {
+		$lIdAchat = new IdAchatVO();
+		$lIdAchat->setIdCompte($pProduitAchat->getIdCompte());	
+		
+		
+		
+		
+		$lDetailAchat = new DetailReservationVO();
+		
+		
+		
+		$lDetailAchat->setQuantite($pProduitAchat->getQuantite());
+		$lDetailAchat->setMontant($pProduitAchat->getPrix());
+		
+		if($pProduitAchat->getSolidaire() == 0) {
+			$lAchat->addDetailAchat($lDetailAchat);
+		} else if($pProduitAchat->getSolidaire() == 1) {
+			$lAchat->addDetailAchatSolidaire($lDetailAchat);
+		}
+		
+		
+		
+		
+		// Si il y a un marché vérifier si le produit est dans le marché et l'ajouter au besoin
+		if($pProduitAchat->getIdMarche() != '') {
+			$lIdAchat->setIdCommande($pProduitAchat->getIdMarche());
+			// TODO rechercher dans le marché si le produit existe.
+			// L'ajouter si besoin avec les lots modèles !!! Annuler si pas de lot
+			// mettre l'id du lot dans l'achat.
+			$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
+			$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
+		} 
+				
+		// Si il n'y a pas d'opération c'est un nouvel achat
+		if($pProduitAchat->getIdOperation() == '') {
+			
+		} else { // Mise à jour de l'achat
+			$lIdAchat->setIdAchat($pProduitAchat->getIdOperation());
+			
+		}
+		
+	}	
 }
 ?>

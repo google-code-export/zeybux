@@ -24,7 +24,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						$lLogger->log("Affichage de la vue AchatAdherent par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
-				case "modifierAchat":
+			/*	case "modifierAchat":
 						echo $lControleur->modifierAchat($pParam)->exportToJson();					
 						$lLogger->log("Modification d'un achat par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs		
 					break;
@@ -32,6 +32,26 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 				case "supprimerAchat":
 						echo $lControleur->supprimerAchat($pParam)->exportToJson();
 						$lLogger->log("Suppression de l'Achat par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;*/
+					
+				case "listeFerme":
+						echo $lControleur->getListeFerme()->exportToJson();
+						$lLogger->log("Affichage de la liste des fermes dans la vue AchatAdherent par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						break;
+
+				case "listeProduit":
+						echo $lControleur->getListeProduit($pParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des produits dans la vue AchatAdherent par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+				
+				case "listeUnite":
+						echo $lControleur->getUnite($pParam)->exportToJson();
+						$lLogger->log("Affichage de la liste des unites dans la vue AchatAdherent par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+				
+				case "ajoutProduitAchat":
+						echo $lControleur->ajoutProduitAchat($pParam)->exportToJson();
+						$lLogger->log("Ajout d'un produit dans un achat dans la vue AchatAdherent par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
 				default:

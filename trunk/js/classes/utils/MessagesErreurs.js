@@ -159,6 +159,10 @@ const ERR_260_CODE = 260;
 const ERR_260_MSG = 'La limite par adhérent doit être supérieure au plus grand des prix de vente avec réservation.';
 const ERR_261_CODE = 261;
 const ERR_261_MSG = 'La banque n\'existe pas.';
+const ERR_262_CODE = 262;
+const ERR_262_MSG = 'Le produit est déjà dans l\'achat.';
+const ERR_263_CODE = 263;
+const ERR_263_MSG = 'Cet adhérent a déjà un achat sur le marché.';
 
 //Message d'Information
 const ERR_301_CODE = 301;

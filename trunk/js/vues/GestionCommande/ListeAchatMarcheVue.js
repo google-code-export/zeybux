@@ -27,8 +27,12 @@
 		var that = this;
 		// Met le bouton en actif		
 		$(pResponse.listeAchatEtReservation).each(function() {
-			if(this.reservation == null) { this.reservation = '';}
-			if(this.achat == null) { this.achat = '';}
+			if(this.idOperation == null) { 
+				this.achat = 'ui-helper-hidden';
+			} else {
+				this.achat = '';
+			}
+			//if(this.achat == null) { this.achat = '';}
 			this.adhIdTri = this.adhNumero.replace("Z","");
 		});
 
@@ -75,13 +79,13 @@
 	};
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		pData.find('#edt-com-liste-resa').tablesorter({sortList: [[2,0]],headers: { 4: {sorter: false} }});
 		return pData;
 	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
-		    $.uiTableFilter( $('.com-table'), this.value );
+		    $.uiTableFilter( $('#edt-com-liste-resa'), this.value );
 		  });
 		pData.find("#filter-form").submit(function () {return false;});
 		return pData;
@@ -119,7 +123,7 @@
 	this.affectAchat = function(pData) {
 		var that = this;
 		pData.find('.edt-com-achat-ligne').click(function() {
-			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent'), "idOperation" : ''});
 		});
 		return pData;
 	};

@@ -91,8 +91,8 @@
 	};
 	
 	this.afficher = function(pResponse) {
-		Infobulle.init(); // Supprime les erreurs
-		if(pResponse.valid) {
+	/*	Infobulle.init(); // Supprime les erreurs
+		if(pResponse.valid) {*/
 			var that = this;
 			var lCaisseTemplate = new CaisseTemplate();
 			
@@ -225,14 +225,14 @@
 			
 			that.changerTypePaiement($(":input[name=typepaiement]"));
 			that.majNouveauSolde();
-		} else {
+	/*	} else {
 			Infobulle.generer(pResponse,'');
-		}
+		}*/
 	};
 	
 	this.afficherDetailAchat = function(pResponse) {
-		Infobulle.init(); // Supprime les erreurs
-		if(pResponse.valid) {
+	/*	Infobulle.init(); // Supprime les erreurs
+		if(pResponse.valid) {*/
 			this.etapeValider = 1;
 			
 			var that = this;
@@ -438,9 +438,9 @@
 			that.changerTypePaiement($(":input[name=typepaiement]"));
 			that.majNouveauSolde();
 			$("#btn-modifier,#btn-confirmer").toggle();
-		} else {
+/*		} else {
 			Infobulle.generer(pResponse,'');
-		}
+		}*/
 	};
 	
 	this.affect = function(pData) {
@@ -1195,6 +1195,7 @@
 		var that = this;
 		var lVo = this.getAchatCommandeVO();
 		lVo.fonction = "acheter";
+		
 		$.post(	"./index.php?m=Caisse&v=CaisseMarcheCommande","pParam=" + $.toJSON(lVo),
 				function(lVoRetour) {
 					if(lVoRetour) {
@@ -1203,8 +1204,17 @@
 							var lTemplate = lCaisseTemplate.achatCommandeSucces;
 							$('#contenu').replaceWith(that.affectAnnuler($(lTemplate)));
 						} else {
-							that.boutonModifier();
-							Infobulle.generer(lVoRetour,"");
+							var lAchatExiste = false;
+							$(lVoRetour.log.erreurs).each(function() {
+								if(this.code == 263) { lAchatExiste = true; }
+							});
+							// Erreur 263 : il y a déjà un achat sur le marché : on affiche le détail de cet achat en modification pour éviter un doublon d'achat.
+							if(lAchatExiste) {
+								CaisseAchatCommandeVue({id_commande:that.idCommande, id_adherent:that.idAdherent, vr:lVoRetour});
+							} else {
+								that.boutonModifier();
+								Infobulle.generer(lVoRetour,"");
+							}
 						}
 						that.etapeValider = 0;
 					}

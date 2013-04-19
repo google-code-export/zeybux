@@ -212,6 +212,14 @@ body {
 	clear:left;
 }
 
+.com-float-right {
+	float:right;
+}
+
+.com-clear-float-right {
+	clear:right;
+}
+
 .com-td-lien-bouton {
 	padding:10px 0;
 }

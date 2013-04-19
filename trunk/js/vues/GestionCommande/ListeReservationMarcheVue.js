@@ -29,14 +29,14 @@
 
 		// Met le bouton en actif
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		
+		var lTemplate = '';
 		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lGestionCommandeTemplate.listeReservation;
+			lTemplate = lGestionCommandeTemplate.listeReservation;
 			$.each(pResponse.listeAdherent,function() {
 				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 		} else {
-			var lTemplate = lGestionCommandeTemplate.listeReservationVide;
+			lTemplate = lGestionCommandeTemplate.listeReservationVide;
 		}
 		
 		pResponse.infoMarcheSelected = '';
@@ -78,7 +78,7 @@
 	};
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		pData.find('.com-table').tablesorter({sortList: [[2,0]],headers: { 4: {sorter: false} } });
 		return pData;
 	};
 	

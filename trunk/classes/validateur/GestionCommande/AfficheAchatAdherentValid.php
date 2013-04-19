@@ -18,6 +18,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/MarcheDetailAc
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 
 /**
  * @name AfficheReservationAdherentVR
@@ -51,6 +52,14 @@ class AfficheAchatAdherentValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getIdMarche()->addErreur($lErreur);	
 		}
+		if(!isset($pData['idOperation'])) {
+			$lVr->setValid(false);
+			$lVr->getIdOperation()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getIdOperation()->addErreur($lErreur);	
+		}
 
 		if($lVr->getValid()) {
 			//Tests Techniques
@@ -78,13 +87,29 @@ class AfficheAchatAdherentValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
-			if(!is_int((int)$pData['id_marche'])) {
+			if($pData['id_marche'] != '' && !is_int((int)$pData['id_marche'])) {
 				$lVr->setValid(false);
 				$lVr->getIdMarche()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getIdMarche()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['idOperation'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getIdOperation()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getIdOperation()->addErreur($lErreur);	
+			}
+			if($pData['idOperation'] != '' && !is_int((int)$pData['idOperation'])) {
+				$lVr->setValid(false);
+				$lVr->getIdOperation()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getIdOperation()->addErreur($lErreur);	
 			}
 
 			//Tests Fonctionnels
@@ -95,14 +120,6 @@ class AfficheAchatAdherentValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getId_adherent()->addErreur($lErreur);	
-			}
-			if(empty($pData['id_marche'])) {
-				$lVr->setValid(false);
-				$lVr->getIdMarche()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getIdMarche()->addErreur($lErreur);	
 			}
 			
 			$lAdherent = AdherentManager::select($pData['id_adherent']);
@@ -115,14 +132,26 @@ class AfficheAchatAdherentValid
 				$lVr->getId_adherent()->addErreur($lErreur);	
 			}
 			
-			$lCommande = CommandeManager::select($pData['id_marche']);
-			if($lCommande->getId() != $pData['id_marche']) {
+			if($pData['id_marche'] != '') {
+				$lCommande = CommandeManager::select($pData['id_marche']);
+				if($lCommande->getId() != $pData['id_marche']) {
+					$lVr->setValid(false);
+					$lVr->getIdMarche()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+					$lVr->getIdMarche()->addErreur($lErreur);
+				}
+			}
+			
+			$lOperationService = new OperationService();
+			if($pData['idOperation'] != '' && !$lOperationService->existe($pData['idOperation'])) {
 				$lVr->setValid(false);
-				$lVr->getIdMarche()->setValid(false);
+				$lVr->getIdOperation()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getIdMarche()->addErreur($lErreur);
+				$lVr->getIdOperation()->addErreur($lErreur);				
 			}
 		}
 		return $lVr;

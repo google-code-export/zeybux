@@ -103,10 +103,11 @@ class StockService
 	private function update($pStock) {
 		// TODO les test : on update que les types 0/1/2/3/4/5/6
 		
-		$this->insertHistorique($pStock); // Ajout historique
+		
 		//var_dump($pStock);
 		$lStockActuel = $this->get($pStock->getId());
 		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
+		$this->insertHistorique($pStock); // Ajout historique
 		// TODO Mise à jour du stock selon le type
 		switch($pStock->getType()) {
 			case 0 : // Reservation

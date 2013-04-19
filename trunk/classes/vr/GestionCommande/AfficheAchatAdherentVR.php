@@ -52,6 +52,12 @@ class AfficheAchatAdherentVR extends DataTemplate
 	protected $mIdMarche;
 
 	/**
+	 * @var VRelement
+	 * @desc IdOperation de la AfficheAchatAdherentVR
+	 */
+	protected $mIdOperation;
+
+	/**
 	* @name AfficheAchatAdherentVR()
 	* @return bool
 	* @desc Constructeur
@@ -62,6 +68,7 @@ class AfficheAchatAdherentVR extends DataTemplate
 		$this->mId = new VRelement();
 		$this->mId_adherent = new VRelement();
 		$this->mIdMarche = new VRelement();
+		$this->mIdOperation = new VRelement();
 	}
 
 	/**
@@ -152,6 +159,24 @@ class AfficheAchatAdherentVR extends DataTemplate
 	*/
 	public function setIdMarche($pIdMarche) {
 		$this->mIdMarche = $pIdMarche;
+	}
+
+	/**
+	* @name getIdOperation()
+	* @return VRelement
+	* @desc Renvoie le VRelement mIdOperation
+	*/
+	public function getIdOperation() {
+		return $this->mIdOperation;
+	}
+
+	/**
+	* @name setIdOperation($pIdOperation)
+	* @param VRelement
+	* @desc Remplace le mIdOperation par $pIdOperation
+	*/
+	public function setIdOperation($pIdOperation) {
+		$this->mIdOperation = $pIdOperation;
 	}
 
 }

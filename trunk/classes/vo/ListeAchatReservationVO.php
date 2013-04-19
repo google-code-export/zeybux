@@ -67,6 +67,12 @@ class ListeAchatReservationVO  extends DataTemplate
 	protected $mAchat;
 
 	/**
+	* @var int(11)
+	* @desc IdOperation de la ListeAchatReservationVO
+	*/
+	protected $mIdOperation;
+
+	/**
 	* @name getAdhId()
 	* @return int(11)
 	* @desc Renvoie le membre AdhId de la ListeAchatReservationVO
@@ -208,6 +214,24 @@ class ListeAchatReservationVO  extends DataTemplate
 	*/
 	public function setAchat($pAchat) {
 		$this->mAchat = $pAchat;
+	}
+
+	/**
+	* @name getIdOperation()
+	* @return int(11)
+	* @desc Renvoie le membre IdOperation de la ListeAchatReservationVO
+	*/
+	public function getIdOperation() {
+		return $this->mIdOperation;
+	}
+
+	/**
+	* @name setIdOperation($pIdOperation)
+	* @param int(11)
+	* @desc Remplace le membre IdOperation de la ListeAchatReservationVO par $pIdOperation
+	*/
+	public function setIdOperation($pIdOperation) {
+		$this->mIdOperation = $pIdOperation;
 	}
 }
 ?>

@@ -14,10 +14,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/MesAchatsResponse.php" )
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MesAchatsViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMMANDE . "/AfficheAchatAdherentValid.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMMANDE . "/AchatAdherentResponse.php" );
-//include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
-//include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
-//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ProduitService.php");
 
@@ -48,28 +45,16 @@ class MesAchatsControleur
 	public function getDetail($pParam) {
 		$lVr = AfficheAchatAdherentValid::validGetAchatEtReservation($pParam);
 		if($lVr->getValid()) {
-			//$lIdAdherent = $_SESSION[ID_COMPTE];
-			$lIdCommande = $pParam["id_commande"];
+			$lIdCompteAdherent = $_SESSION[ID_COMPTE];
+			$lIdMarche = $pParam["id_commande"];
 			
 			$lResponse = new AchatAdherentResponse();
-			
-			/*$lAdherent = AdherentViewManager::select($lIdAdherent);
-			$lResponse->setAdherent($lAdherent);*/
-			
-		/*	$lMarcheService = new MarcheService();
-			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
-
-			/*$lReservationService = new ReservationService();
-			$lIdReservation = new IdReservationVO();
-			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdReservation->setIdCommande($pParam["id_commande"]);
-			$lResponse->setReservation($lReservationService->get($lIdReservation));	*/
 
 			// Récupère les achats
 			$lAchatService = new AchatService();
 			$lIdAchat = new IdAchatVO();
-			$lIdAchat->setIdCompte($_SESSION[ID_COMPTE]);
-			$lIdAchat->setIdCommande($pParam["id_commande"]);
+			$lIdAchat->setIdCompte($lIdCompteAdherent);
+			$lIdAchat->setIdCommande($lIdMarche);
 			$lAchats = $lAchatService->getAll($lIdAchat);
 			$lResponse->setAchats($lAchats);	
 			
@@ -87,11 +72,6 @@ class MesAchatsControleur
 			
 			$lProduitService = new ProduitService();
 			$lResponse->setDetailProduit($lProduitService->selectDetailProduits($lIdProduits));
-			//$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
-			
-		/*	$lStockService = new StockService();
-			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
-			$lResponse->setStockSolidaire($lStockSolidaire);	*/
 			return $lResponse;
 		}
 		return $lVr;

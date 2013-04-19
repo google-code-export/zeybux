@@ -24,8 +24,8 @@
 	};	
 	
 	this.afficher = function(pResponse) {
-		Infobulle.init(); // Supprime les erreurs
-		if(pResponse.valid) {
+		/*Infobulle.init(); // Supprime les erreurs
+		if(pResponse.valid) {*/
 			if(pResponse.listeAdherentCommande) {
 				var that = this;
 				var lCaisseTemplate = new CaisseTemplate();
@@ -53,9 +53,9 @@
 				lVr.log.push(erreur);
 				Infobulle.generer(lVr,'');
 			}
-		} else {
+	/*	} else {
 			Infobulle.generer(pResponse,'');
-		}
+		}*/
 	};
 	
 	this.affect = function(pData) {

@@ -762,17 +762,17 @@
 	
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-stock-choix]').change(function() {
-			if($(':input[name=pro-stock-choix]:checked').val() == 1) {				
-				$(":input[name=pro-stock]").attr("disabled","").val("");
+			if($(':input[name=pro-stock-choix]:checked').val() == 1) {	
+				$(":input[name=pro-stock]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-stock]").attr("disabled","disabled").val("");
+				$(":input[name=pro-stock]").prop("disabled", true).val("");
 			}
 		});
 		pData.find(':input[name=pro-qte-max-choix]').change(function() {
 			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
-				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", true).val("");
 			}
 		});
 		return pData;

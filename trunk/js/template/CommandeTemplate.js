@@ -321,17 +321,7 @@
 	
 	this.detailAchat = 
 		"<div id=\"contenu\">" +
-			/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Marché n°{comNumero} : {totalMarche} {sigleMonetaire}" +
-				"</div>" +
-			"</div>" +*/
-
-			//"<!-- BEGIN achats -->" +
 			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
-			/*	"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
-				"</div>" +*/
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Achat du {dateAchat} : {totalMarche} {sigleMonetaire}" +
 				"</div>" +
@@ -368,34 +358,6 @@
 					"</tr>" +
 				"</table>" +
 			"</div>" +
-		//	"<!-- END achats -->" +
-			
-		/*	"<!-- BEGIN achatsSolidaire -->" +
-			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
-				"</div>" +
-				"<table>" +
-				"<!-- BEGIN achatsSolidaire.categories -->" +
-					"<tr>" +
-						"<td class=\"ui-widget-header ui-corner-all com-center\">{achatsSolidaire.categories.nom}</td>" +
-					"</tr>" +
-					"<!-- BEGIN achatsSolidaire.categories.achat -->" +
-					"<tr>" +
-						"<td class=\"detail-achat-npro\">{achatsSolidaire.categories.achat.nproNom}</td>" +
-						"<td class=\"com-text-align-right detail-achat-qte\">{achatsSolidaire.categories.achat.stoQuantite}</td>" +						
-						"<td class=\"detail-achat-unite\">{achatsSolidaire.categories.achat.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{achatsSolidaire.categories.achat.prix} {sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END achatsSolidaire.categories.achat -->" +
-				"<!-- END achatsSolidaire.categories -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"3\">Total : </td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{achatsSolidaire.totalSolidaire} {sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<!-- END achatsSolidaire -->" +*/
 		"</div>";
 	
 	this.dialogInfoProduit = 
