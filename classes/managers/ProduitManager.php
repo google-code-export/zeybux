@@ -455,7 +455,7 @@ class ProduitManager
 			JOIN " . NomProduitManager::TABLE_NOMPRODUIT. " on " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . "
 			JOIN " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . " on " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
 			WHERE " . ProduitManager::CHAMP_PRODUIT_ID . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pProduits) ) ) . "')
-			ORDER BY " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . " ASC," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " ASC;";
+			ORDER BY " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . " ASC," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . " ASC;";
 	
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);

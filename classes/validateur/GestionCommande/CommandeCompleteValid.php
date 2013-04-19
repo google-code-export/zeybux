@@ -515,6 +515,7 @@ class CommandeCompleteValid
 				// Test si produit déjà dans le marché
 				$lProduit = ProduitManager::selectbyIdNomProduitIdMarche($pData['idNom'],$pData['id']);
 				$lType = $lProduit[0]->getType();
+				$lId = $lProduit[0]->getId();
 				if(!empty($lId) && $lType == $pData['type'] ) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);

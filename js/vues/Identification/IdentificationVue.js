@@ -18,7 +18,7 @@
 		$('#login').focus();
 	};
 	
-	this.affectIdentifier = function(pData) {
+	this.affectIdentifier = function() {
 		var that = this;
 		$('#identification-form').submit(function() {
 			that.identifier($(this));
@@ -37,7 +37,9 @@
 		if (lVr.valid) {
 			var that = this;
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.chargementIdentification);
+			//$('#formulaire_identification_int').hide().after(lIdentificationTemplate.chargementIdentification);
+			//$('#contenu').replaceWith(lIdentificationTemplate.chargementIdentification);
+			$('.formulaire_identification').toggle();
 			$.post(	"./index.php?m=Identification&v=Identification", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
@@ -49,7 +51,9 @@
 								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
 								that.chargerModule(0);
 							} else {
-								$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+								//alert(lContenu);
+								//$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+								$('.formulaire_identification').toggle();
 								Infobulle.generer(lResponse,'');
 							}
 					  	}

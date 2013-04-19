@@ -31,12 +31,6 @@ class AchatAdherentResponse extends DataTemplate
 	protected $mAdherent;
 	
 	/**
-	 * @var MarcheVO
-	 * @desc Le Marché
-	 */
-	protected $mMarche;
-	
-	/**
 	 * @var ReservationVO
 	 * @desc Les reservations
 	 */
@@ -49,10 +43,10 @@ class AchatAdherentResponse extends DataTemplate
 	protected $mAchats;
 	
 	/**
-	 * @var array(StockProduitViewVO)
-	 * @desc Les Stocks solidaire
+	 * @var array(DetailProduitVO)
+	 * @desc Le détail des produits
 	 */
-	protected $mStockSolidaire;
+	protected $mDetailProduit;
 	
 	/**
 	* @name InfoAchatCommandeResponse()
@@ -60,8 +54,8 @@ class AchatAdherentResponse extends DataTemplate
 	*/	
 	public function InfoAchatCommandeResponse() {
 		$this->mValid = true;
+		$this->mDetailProduit = array();
 		$this->mAchats = array();
-		$this->mStockSolidaire = array();
 	}
 	
 	/**
@@ -98,24 +92,6 @@ class AchatAdherentResponse extends DataTemplate
 	*/
 	public function setAdherent($pAdherent) {
 		$this->mAdherent = $pAdherent;
-	}
-
-	/**
-	* @name getMarche()
-	* @return MarcheVO
-	* @desc Renvoie le Marche
-	*/
-	public function getMarche() {
-		return $this->mMarche;
-	}
-
-	/**
-	* @name setMarche($pMarche)
-	* @param MarcheVO
-	* @desc Remplace le Marche par $pMarche
-	*/
-	public function setMarche($pMarche) {
-		$this->mMarche = $pMarche;
 	}
 	
 	/**
@@ -162,32 +138,32 @@ class AchatAdherentResponse extends DataTemplate
 	public function addAchats($pAchat) {
 		array_push($this->mAchats,$pAchat);
 	}
-	
-	/**
-	* @name getStockSolidaire()
-	* @return array(StockProduitViewVO)
-	* @desc Renvoie le StockSolidaire
-	*/
-	public function getStockSolidaire() {
-		return $this->mStockSolidaire;
-	}
 
 	/**
-	* @name setStockSolidaire($pStockSolidaire)
-	* @param array(StockProduitViewVO)
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function setStockSolidaire($pStockSolidaire) {
-		$this->mStockSolidaire = $pStockSolidaire;
+	 * @name getDetailProduit()
+	 * @return array(DetailProduitVO)
+	 * @desc Renvoie le DetailProduit
+	 */
+	public function getDetailProduit() {
+		return $this->mDetailProduit;
 	}
 	
 	/**
-	* @name addStockSolidaire($pStockSolidaire)
-	* @param StockProduitViewVO
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function addStockSolidaire($pStockSolidaire) {
-		array_push($this->mStockSolidaire, $pStockSolidaire);
+	 * @name setDetailProduit($pDetailProduit)
+	 * @param array(DetailProduitVO)
+	 * @desc Remplace le DetailProduit par $pDetailProduit
+	 */
+	public function setDetailProduit($pDetailProduit) {
+		$this->mDetailProduit = $pDetailProduit;
+	}
+	
+	/**
+	 * @name addDetailProduit($pDetailProduit)
+	 * @param DetailProduitVO
+	 * @desc Ajoute DetailProduit à $pDetailProduit
+	 */
+	public function addDetailProduit($pDetailProduit) {
+		array_push($this->mDetailProduit,$pDetailProduit);
 	}
 }
 ?>

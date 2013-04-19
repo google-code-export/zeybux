@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationDetailViewManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 
 /**
  * @name ReservationService
@@ -301,8 +302,13 @@ class ReservationService
 				case 7: // Un achat
 					foreach($lOperations as $lOperation) {
 						if($lOperation->getTypePaiement() == 7) {
-							$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),0,0);
-							if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
+							//$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),0,0);
+							
+							// Mise à jour du détail de réservation à partir de l'historique du stock
+							HistoriqueStockManager::selectReservation($lOperation->getId(), $lReservation);
+							$lReservation->setTotal($lOperation->getMontant());
+														
+						/*	if(!is_null($lDetailsReservation[0]->getStoIdOperation())) {
 								foreach($lDetailsReservation as $lDetail) {
 									$lDetailReservation = new DetailReservationVO();
 									$lDetailReservation->getId()->setIdStock($lDetail->getStoId());
@@ -315,7 +321,7 @@ class ReservationService
 									$lReservation->addDetailReservation($lDetailReservation);
 								}
 								$lReservation->setTotal($lOperation->getMontant());
-							}			
+							}		*/	
 						}		
 					}	
 					break;

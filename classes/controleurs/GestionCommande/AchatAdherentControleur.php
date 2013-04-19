@@ -11,14 +11,25 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/AfficheAchatAdherentValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ListeProduitValid.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitAjoutAchatValid.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AchatAdherentResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeProduitResponse.php" );
+include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/UniteResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ProduitService.php");
 include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
+include_once(CHEMIN_CLASSES_TOVO . "ProduitAjoutAchatToVO.php");
 
 /**
  * @name AchatAdherentControleur
@@ -37,31 +48,95 @@ class AchatAdherentControleur
 		$lVr = AfficheAchatAdherentValid::validGetAchatEtReservation($pParam);
 		if($lVr->getValid()) {
 			$lIdAdherent = $pParam["id_adherent"];
-			$lIdCommande = $pParam["id_marche"];
+			$lIdMarche = $pParam["id_marche"];
+			$lIdOperation = $pParam["idOperation"];
 			
 			$lResponse = new AchatAdherentResponse();
 			
 			$lAdherent = AdherentViewManager::select($lIdAdherent);
 			$lResponse->setAdherent($lAdherent);
 			
-			$lMarcheService = new MarcheService();
-			$lResponse->setMarche($lMarcheService->get($pParam["id_marche"]));
+	//		$lMarcheService = new MarcheService();
+	//		$lResponse->setMarche($lMarcheService->get($lIdMarche));
 
-			$lReservationService = new ReservationService();
-			$lIdReservation = new IdReservationVO();
-			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdReservation->setIdCommande($pParam["id_marche"]);
-			$lResponse->setReservation($lReservationService->get($lIdReservation));	
-
-			$lAchatService = new AchatService();
+			// Tableau pour rechercher le détail des produits achetés
+			$lIdProduits = array();
+			
+			// Si achat sur marché recherche si il y a une réservation et le détail des achats
+			if(!empty($lIdMarche)) {
+				$lReservationService = new ReservationService();
+				$lIdReservation = new IdReservationVO();
+				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdReservation->setIdCommande($lIdMarche);
+				$lReservation = $lReservationService->get($lIdReservation);
+				$lResponse->setReservation($lReservation);	
+	
+				// Récupère les informations sur les produits achetés				
+				foreach( $lReservation->getDetailReservation() as $lDetailReservation) {
+					array_push($lIdProduits, $lDetailReservation->getIdProduit());
+				}
+				
+				$lAchatService = new AchatService();
+				$lIdAchat = new IdAchatVO();
+				$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
+				$lIdAchat->setIdCommande($lIdMarche);
+				$lAchats = $lAchatService->getAll($lIdAchat);
+				$lResponse->setAchats($lAchats);
+					
+				foreach( $lAchats as $lAchat) {
+					foreach($lAchat->getDetailAchat() as $lDetailAchat) {
+						array_push($lIdProduits, $lDetailAchat->getIdProduit());
+					}
+					foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
+						array_push($lIdProduits, $lDetailAchat->getIdProduit());
+					}
+				}
+			}
+			/*$lAchatService = new AchatService();
 			$lIdAchat = new IdAchatVO();
 			$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdAchat->setIdCommande($pParam["id_marche"]);
+			$lIdAchat->setIdCommande($lIdMarche);
 			$lResponse->setAchats($lAchatService->getAll($lIdAchat));	
 			
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_marche"]);
-			$lResponse->setStockSolidaire($lStockSolidaire);	
+			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdMarche);
+			$lResponse->setStockSolidaire($lStockSolidaire);	*/
+			
+			// Récupère l'achat si il il y une operation
+			if(!empty($lIdOperation)) {
+				$lAchatService = new AchatService();
+				$lIdAchat = new IdAchatVO();
+				$lIdAchat->getIdAchat($lIdOperation);
+				$lAchats = $lAchatService->get($lIdAchat);
+				$lResponse->setAchats($lAchats);
+					
+				//foreach( $lAchats as $lAchat) {
+					foreach($lAchat->getDetailAchat() as $lDetailAchat) {
+						array_push($lIdProduits, $lDetailAchat->getIdProduit());
+					}
+					foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
+						array_push($lIdProduits, $lDetailAchat->getIdProduit());
+					}
+				//}
+			}
+				
+			$lProduitService = new ProduitService();
+			$lResponse->setDetailProduit($lProduitService->selectDetailProduits($lIdProduits));
+			
 			return $lResponse;
+		}
+		return $lVr;
+	}
+	
+	/**
+	* @name ajoutProduitAchat($pParam)
+	* @return ProduitAjoutAchatVR
+	* @desc Ajoute un produit à un achat
+	*/
+	public function ajoutProduitAchat($pParam) {
+		$lVr = ProduitAjoutAchatValid::validAjout($pParam);
+		if($lVr->getValid()) {
+			$lAchatService = new AchatService();
+			$lAchatService->ajoutProduitAchat(ProduitAjoutAchatValidToVO::convertFromArray($pParam));
 		}
 		return $lVr;
 	}
@@ -71,7 +146,7 @@ class AchatAdherentControleur
 	* @return ListeReservationCommandeVR
 	* @desc Met à jour une réservation
 	*/
-	public function modifierAchat($pParam) {
+/*	public function modifierAchat($pParam) {
 		$lVr = AfficheAchatAdherentValid::validModifierAchat($pParam);
 		if($lVr->getValid()) {
 			$lAchatData = $pParam["achat"];
@@ -127,14 +202,14 @@ class AchatAdherentControleur
 			$lIdOperation = $lAchatService->set($lAchat);
 		}				
 		return $lVr;
-	}
+	}*/
 	
 	/**
 	* @name supprimerAchat($pParam)
 	* @return ListeReservationCommandeVR
 	* @desc Met à jour une réservation
 	*/
-	public function supprimerAchat($pParam) {		
+	/*public function supprimerAchat($pParam) {		
 		$lVr = AfficheAchatAdherentValid::validSupprimerAchat($pParam);
 		if($lVr->getValid()) {
 			$lOperationService = new OperationService();
@@ -147,6 +222,50 @@ class AchatAdherentControleur
 			
 			$lAchatService = new AchatService();
 			$lAchatService->delete($lIdAchatVO);
+		}
+		return $lVr;
+	}*/
+	
+	/**
+	 * @name getListeFerme()
+	 * @return ListeFermeResponse
+	 * @desc Recherche la liste des Fermes
+	 */
+	public function getListeFerme() {
+		// Lancement de la recherche
+		$lResponse = new ListeFermeResponse();
+		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		return $lResponse;
+	}
+	
+	/**
+	 * @name getListeProduit($pParam)
+	 * @return ListeProduitResponse
+	 * @desc Retourne la liste des produits
+	 */
+	public function getListeProduit($pParam) {
+		$lVr = FermeValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lResponse = new ListeProduitResponse();
+			$lResponse->setListeProduit( ListeNomProduitViewManager::select( $pParam['id'] ) );
+			return $lResponse;
+		}
+		return $lVr;
+	}
+	
+	/**
+	 * @name getUnite($pParam)
+	 * @return UniteResponse
+	 * @desc Retourne les Unités du produit
+	 */
+	public function getUnite($pParam) {
+		$lVr = ListeProduitValid::validIdNomProduit($pParam);
+		if($lVr->getValid()) {
+			$lId = $pParam['id'];
+			$lUnite = ModeleLotViewManager::selectByIdNomProduit($lId);
+			$lResponse = new UniteResponse();
+			$lResponse->setUnite( $lUnite );
+			return $lResponse;
 		}
 		return $lVr;
 	}

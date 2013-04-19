@@ -307,6 +307,15 @@ class StringUtils
 	}
 	
 	/**
+	 * @name dateAujourdhuiFr()
+	 * @return string
+	 * @desc Retourne la date actuelle au format 'JJ/MM/AAA'
+	 */
+	public static function dateAujourdhuiFr() {
+		return date('d/m/Y');
+	}
+	
+	/**
 	* @name dateTimeAujourdhuiDb()
 	* @return string
 	* @desc Retourne la date actuelle au format 'AAAA-MM-JJ HH:MM:SS'

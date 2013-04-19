@@ -12,6 +12,8 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "HistoriqueStockVO.php");
+include_once(CHEMIN_CLASSES_VO . "DetailReservationVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 define("TABLE_HISTORIQUESTOCK", MYSQL_DB_PREFIXE . "hsto_historique_stock");
 /**
@@ -123,6 +125,54 @@ class HistoriqueStockManager
 			$lListeHistoriqueStock[0] = new HistoriqueStockVO();
 		}
 		return $lListeHistoriqueStock;
+	}
+	
+	/**
+	 * @name selectReservation($pIdOperation, &$pReservation)
+	 * @param integer
+	 * @param ReservationVO
+	 * @desc Récupère le détail d'une réservation (achetée) à partir de l'historique du stock
+	 */
+	public static function selectReservation($pIdOperation, &$pReservation) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+			"SELECT 
+				   hStock." .HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_STO_ID .
+				", hStock." . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+				", hStock." . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_QUANTITE .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+				
+			" FROM " . HistoriqueStockManager::TABLE_HISTORIQUESTOCK . " as hStock " .
+			"INNER JOIN (" .
+				"SELECT max(" . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_DATE . ") as date" .
+				"," . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+				" FROM " . HistoriqueStockManager::TABLE_HISTORIQUESTOCK .
+				" WHERE " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . " = " . $pIdOperation .
+				" AND " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . " = 0 " .
+				" GROUP BY " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+			") gp " .
+			" ON gp.date = hStock.hsto_date AND gp." . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE . " = hStock." .HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+			" INNER JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE .  
+			" ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " =  hStock." . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE .
+			" WHERE " . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_OPERATION . " = " . $pIdOperation .
+			" AND "  . HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_TYPE . " = 0;";
+		
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				$lDetailReservation = new DetailReservationVO();
+				$lDetailReservation->getId()->setIdStock($lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_STO_ID]);
+				$lDetailReservation->setIdDetailCommande($lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_ID_DETAIL_COMMANDE]);
+				$lDetailReservation->setQuantite($lLigne[HistoriqueStockManager::CHAMP_HISTORIQUESTOCK_QUANTITE]);
+				$lDetailReservation->setIdProduit($lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]);
+					
+				$pReservation->addDetailReservation($lDetailReservation);
+			}
+		}
 	}
 
 	/**
