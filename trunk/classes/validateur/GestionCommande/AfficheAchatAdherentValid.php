@@ -122,14 +122,17 @@ class AfficheAchatAdherentValid
 				$lVr->getId_adherent()->addErreur($lErreur);	
 			}
 			
-			$lAdherent = AdherentManager::select($pData['id_adherent']);
-			if($lAdherent->getId() != $pData['id_adherent']) {
-				$lVr->setValid(false);
-				$lVr->getId_adherent()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getId_adherent()->addErreur($lErreur);	
+			// Si ce n'est pas le compte invite : vérification que l'achérent existe
+			if($pData['id_adherent'] != -3) {
+				$lAdherent = AdherentManager::select($pData['id_adherent']);
+				if($lAdherent->getId() != $pData['id_adherent']) {
+					$lVr->setValid(false);
+					$lVr->getId_adherent()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+					$lVr->getId_adherent()->addErreur($lErreur);	
+				}
 			}
 			
 			if($pData['id_marche'] != '') {
@@ -284,14 +287,14 @@ class AfficheAchatAdherentValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getIdAchat()->addErreur($lErreur);	
 			}
-			if(!isset($pData['total'])) {
+		/*	if(!isset($pData['total'])) {
 				$lVr->setValid(false);
 				$lVr->getTotal()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getTotal()->addErreur($lErreur);	
-			}
+			}*/
 			if(!isset($pData['produits'])) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
@@ -327,14 +330,14 @@ class AfficheAchatAdherentValid
 					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 					$lVr->getTotal()->addErreur($lErreur);	
 				}
-				if(!is_float((float)$pData['total'])) {
+			/*	if(!is_float((float)$pData['total'])) {
 					$lVr->setValid(false);
 					$lVr->getTotal()->setValid(false);
 					$lErreur = new VRerreur();
 					$lErreur->setCode(MessagesErreurs::ERR_109_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 					$lVr->getTotal()->addErreur($lErreur);	
-				}
+				}*/
 				if(!is_array($pData['produits'])) {
 					$lVr->setValid(false);
 					$lVr->getProduits()->setValid(false);
@@ -353,14 +356,14 @@ class AfficheAchatAdherentValid
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getIdAchat()->addErreur($lErreur);	
 				}
-				if(empty($pData['total'])) {
+		/*		if(empty($pData['total'])) {
 					$lVr->setValid(false);
 					$lVr->getTotal()->setValid(false);
 					$lErreur = new VRerreur();
 					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getTotal()->addErreur($lErreur);	
-				}
+				}*/
 				if(empty($pData['produits'])) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
@@ -371,14 +374,14 @@ class AfficheAchatAdherentValid
 				}
 				
 				if($lVr->getValid()) {
-					if($pData['total'] > 0) {
+				/*	if($pData['total'] > 0) {
 						$lVr->setValid(false);
 						$lVr->getTotal()->setValid(false);
 						$lErreur = new VRerreur();
 						$lErreur->setCode(MessagesErreurs::ERR_215_CODE);
 						$lErreur->setMessage(MessagesErreurs::ERR_215_MSG);
 						$lVr->getTotal()->addErreur($lErreur);
-					}
+					}*/
 
 					$lOperationService = new OperationService();
 					$lOperation = $lOperationService->get($pData['idAchat']);
@@ -446,7 +449,8 @@ class AfficheAchatAdherentValid
 			if($lVr->getValid()) {
 				$lOperationService = new OperationService();
 				$lOperation = $lOperationService->get($pData['idAchat']);
-				if(is_null($lOperation->getId())) {
+				//var_dump($lOperation);
+				if(is_null($lOperation->getId()) || ($lOperation->getTypePaiement() != 7 && $lOperation->getTypePaiement() != 8)) {
 					$lVr->setValid(false);
 					$lVr->getIdAchat()->setValid(false);
 					$lErreur = new VRerreur();

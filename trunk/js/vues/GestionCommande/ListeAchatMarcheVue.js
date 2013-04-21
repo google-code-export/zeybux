@@ -37,7 +37,26 @@
 		});
 
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-
+		
+		// Affiche les achats invite uniquement si il y en a
+		pResponse.achatInvite = "";
+		if(pResponse.listeAchatInvite && pResponse.listeAchatInvite[0] && pResponse.listeAchatInvite[0].id != null) {
+			$(pResponse.listeAchatInvite).each(function() {
+				if(this.typePaiement == 7){
+					this.achatSolidaire = 'ui-helper-hidden';
+					this.achat = '';
+				} else {
+					this.achatSolidaire = '';
+					this.achat = 'ui-helper-hidden';
+				}
+				this.montant = (this.montant * -1).nombreFormate(2,',',' ');
+			});
+	
+			pResponse.sigleMonetaire = gSigleMonetaire;
+			
+			pResponse.achatInvite = lGestionCommandeTemplate.listeAchatInvite.template(pResponse);
+		}
+		
 		pResponse.infoMarcheSelected = '';
 		pResponse.listeReservationSelected = '';
 		pResponse.listeAchatSelected = 'ui-state-active';
@@ -58,6 +77,7 @@
 		pData = this.affectAchat(pData);
 		pData = this.affectExportDataEtReservation(pData);
 		pData = this.affectMenu(pData);
+		pData = this.affectToggleAchatInvite(pData);
 		return pData;
 	};
 	
@@ -124,6 +144,18 @@
 		var that = this;
 		pData.find('.edt-com-achat-ligne').click(function() {
 			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent'), "idOperation" : ''});
+		});
+		
+		pData.find('.edt-com-achat-ligne-invite').click(function() {
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":-3, "idOperation" : $(this).data("id-operation")});
+		});
+		return pData;
+	};
+	
+	this.affectToggleAchatInvite = function(pData) {
+		pData.find('#entete-achat-invite').click(function() {
+			$('#icon-achat-invite').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-n');
+			$('.detail-achat-invite').toggle();
 		});
 		return pData;
 	};

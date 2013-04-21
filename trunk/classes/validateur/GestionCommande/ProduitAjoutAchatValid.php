@@ -238,7 +238,7 @@ class ProduitAjoutAchatValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getPrix()->addErreur($lErreur);	
 			}
-			if(empty($pData['solidaire'])) {
+			if($pData['solidaire'] != 0 && empty($pData['solidaire'])) {
 				$lVr->setValid(false);
 				$lVr->getSolidaire()->setValid(false);
 				$lErreur = new VRerreur();

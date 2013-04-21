@@ -11,6 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/InfoCommandeVR.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
 /**
  * @name EditerCommandeValid
@@ -56,6 +57,16 @@ class EditerCommandeValid
 				$lErreur->setCode(MessagesErreurs::ERR_207_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
 				$lVr->getIdMarche()->addErreur($lErreur);	
+			}
+			
+			$lCommande = CommandeManager::select($pData['id_marche']);
+			if($lCommande->getId() != $pData['id_marche']) {
+				$lVr->setValid(false);
+				$lVr->getIdMarche()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getIdMarche()->addErreur($lErreur);
 			}
 		}
 		return $lVr;

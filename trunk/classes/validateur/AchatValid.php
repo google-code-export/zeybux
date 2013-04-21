@@ -184,7 +184,7 @@ class AchatValid
 		$lIdValid = new IdValid();
 		if(!empty($pIdAchat)){
 			$lIdAchatValid = new IdAchatValid();
-			return $lIdAchatValid->estAchat($pIdAchat);
+			return $lIdAchatValid->estSelect($pIdAchat);
 		}
 		return false;
 	}
