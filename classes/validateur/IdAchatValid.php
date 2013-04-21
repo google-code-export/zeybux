@@ -83,6 +83,19 @@ class IdAchatValid extends IdValid
 	}
 	
 	/**
+	 * @name estSelect($pIdAchat)
+	 * @return bool
+	 * @desc Test si le paramètre est bien un IdAchatVO et si il est vide
+	 */
+	public function estSelect($pIdAchat) {
+		if($this->format($pIdAchat)) {
+			return $pIdAchat->getIdAchat() != '';
+		} else {
+			return NULL;
+		}
+	}
+	
+	/**
 	* @name format($pIdAchat)
 	* @return bool
 	* @desc Test le format du paramètre

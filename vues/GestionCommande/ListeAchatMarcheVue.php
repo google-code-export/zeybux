@@ -20,8 +20,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			
 			switch($lParam["fonction"]) {
 				case "afficher":
-						echo $lControleur->getListeAchatEtReservation($lParam)->exportToJson();
-						$lLogger->log("Affichage de la liste des réservation et achats : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					echo $lControleur->getListeAchatEtReservation($lParam)->exportToJson();
+					$lLogger->log("Affichage de la liste des réservation et achats : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 
 				default:

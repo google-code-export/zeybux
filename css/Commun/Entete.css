@@ -252,6 +252,11 @@ body {
 	margin-right:4px;
 }
 
+.com-flag {
+	position:relative;
+	float:left;
+}
+
 .com-btn-edt-multiples {
 	margin-right:100px;
 }
@@ -266,7 +271,7 @@ body {
 	margin-right:4px;
 }
 
-.com-btn-header, .com-btn-header-multiples {
+.com-btn-header, .com-btn-header-multiples, .com-flag{
 	margin-top:1px;
 }
 

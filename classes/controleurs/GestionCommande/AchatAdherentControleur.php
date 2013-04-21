@@ -63,7 +63,7 @@ class AchatAdherentControleur
 			$lIdProduits = array();
 			
 			// Si achat sur marché recherche si il y a une réservation et le détail des achats
-			if(!empty($lIdMarche)) {
+			if(!empty($lIdMarche) && empty($lIdOperation)) {
 				$lReservationService = new ReservationService();
 				$lIdReservation = new IdReservationVO();
 				$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
@@ -71,9 +71,12 @@ class AchatAdherentControleur
 				$lReservation = $lReservationService->get($lIdReservation);
 				$lResponse->setReservation($lReservation);	
 	
-				// Récupère les informations sur les produits achetés				
-				foreach( $lReservation->getDetailReservation() as $lDetailReservation) {
-					array_push($lIdProduits, $lDetailReservation->getIdProduit());
+				//$lDetailResa = $lReservation->getDetailReservation();
+				if(!empty($lReservation)) {
+					// Récupère les informations sur les produits achetés				
+					foreach( $lReservation->getDetailReservation() as $lDetailReservation) {
+						array_push($lIdProduits, $lDetailReservation->getIdProduit());
+					}
 				}
 				
 				$lAchatService = new AchatService();
@@ -83,12 +86,14 @@ class AchatAdherentControleur
 				$lAchats = $lAchatService->getAll($lIdAchat);
 				$lResponse->setAchats($lAchats);
 					
-				foreach( $lAchats as $lAchat) {
-					foreach($lAchat->getDetailAchat() as $lDetailAchat) {
-						array_push($lIdProduits, $lDetailAchat->getIdProduit());
-					}
-					foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
-						array_push($lIdProduits, $lDetailAchat->getIdProduit());
+				if(is_array($lAchats)) {
+					foreach( $lAchats as $lAchat) {
+						foreach($lAchat->getDetailAchat() as $lDetailAchat) {
+							array_push($lIdProduits, $lDetailAchat->getIdProduit());
+						}
+						foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
+							array_push($lIdProduits, $lDetailAchat->getIdProduit());
+						}
 					}
 				}
 			}
@@ -105,9 +110,9 @@ class AchatAdherentControleur
 			if(!empty($lIdOperation)) {
 				$lAchatService = new AchatService();
 				$lIdAchat = new IdAchatVO();
-				$lIdAchat->getIdAchat($lIdOperation);
-				$lAchats = $lAchatService->get($lIdAchat);
-				$lResponse->setAchats($lAchats);
+				$lIdAchat->setIdAchat($lIdOperation);
+				$lAchat = $lAchatService->get($lIdAchat);
+				$lResponse->setAchats($lAchat);
 					
 				//foreach( $lAchats as $lAchat) {
 					foreach($lAchat->getDetailAchat() as $lDetailAchat) {
@@ -136,7 +141,7 @@ class AchatAdherentControleur
 		$lVr = ProduitAjoutAchatValid::validAjout($pParam);
 		if($lVr->getValid()) {
 			$lAchatService = new AchatService();
-			$lAchatService->ajoutProduitAchat(ProduitAjoutAchatValidToVO::convertFromArray($pParam));
+			$lAchatService->ajoutProduitAchat(ProduitAjoutAchatToVO::convertFromArray($pParam));
 		}
 		return $lVr;
 	}
@@ -146,18 +151,30 @@ class AchatAdherentControleur
 	* @return ListeReservationCommandeVR
 	* @desc Met à jour une réservation
 	*/
-/*	public function modifierAchat($pParam) {
+	public function modifierAchat($pParam) {
 		$lVr = AfficheAchatAdherentValid::validModifierAchat($pParam);
 		if($lVr->getValid()) {
 			$lAchatData = $pParam["achat"];
 			$lAchat = new AchatVO();
+			
 			if($lAchatData['idAchat'] < 0) { // Si c'est un ajout
 				$lVr = AfficheAchatAdherentValid::validAjoutAchat($lAchatData);
 				if($lVr->getValid()) {
+					// Recherche si il y a une réservation
+					$lIdReservation = new IdReservationVO();
+					$lIdReservation->setIdCompte($lAchatData["idCompte"]);
+					$lIdReservation->setIdCommande($lAchatData["idMarche"]);
+					
+					$lReservationService = new ReservationService();
+					$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
+					
+					if($lOperations[0]->getTypePaiement() == 0) {
+						$lAchat->getId()->setIdReservation($lOperations[0]->getId());
+					}
 					$lAchat->getId()->setIdCompte($lAchatData["idCompte"]);
 					$lAchat->getId()->setIdCommande($lAchatData["idMarche"]);
 					
-					$lAchat->setTotal($lAchatData["total"]);
+			//		$lAchat->setTotal($lAchatData["total"]);
 					foreach($lAchatData["produits"] as $lDetail) {
 						$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 						
@@ -182,7 +199,7 @@ class AchatAdherentControleur
 				$lAchat->getId()->setIdCommande($lOperation->getIdCommande());
 				$lAchat->getId()->setIdAchat($lOperation->getId());
 				
-				$lAchat->setTotal($lAchatData["total"]);
+			//	$lAchat->setTotal($lAchatData["total"]);
 				foreach($lAchatData["produits"] as $lDetail) {
 					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 					
@@ -202,14 +219,14 @@ class AchatAdherentControleur
 			$lIdOperation = $lAchatService->set($lAchat);
 		}				
 		return $lVr;
-	}*/
+	}
 	
 	/**
 	* @name supprimerAchat($pParam)
 	* @return ListeReservationCommandeVR
 	* @desc Met à jour une réservation
 	*/
-	/*public function supprimerAchat($pParam) {		
+	public function supprimerAchat($pParam) {		
 		$lVr = AfficheAchatAdherentValid::validSupprimerAchat($pParam);
 		if($lVr->getValid()) {
 			$lOperationService = new OperationService();
@@ -221,10 +238,10 @@ class AchatAdherentControleur
 			$lIdAchatVO->setIdAchat($lOperation->getId());
 			
 			$lAchatService = new AchatService();
-			$lAchatService->delete($lIdAchatVO);
+			$lSupressionAchat = $lAchatService->delete($lIdAchatVO);
 		}
 		return $lVr;
-	}*/
+	}
 	
 	/**
 	 * @name getListeFerme()

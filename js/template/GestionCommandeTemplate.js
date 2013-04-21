@@ -17,7 +17,7 @@
 						"<option value=\"0\" >== Choisir une catégorie ==</option>" +
 					"</select>" +
 				"</div>" +
-				"<div id=\"pro-idProduit\" class=\"com-float-left\">" +
+				"<div id=\"pro-idProduit\">" +
 					"<select name=\"produit\" disabled=\"disabled\">" +
 						"<option value=\"0\" >== Choisir un produit ==</option>" +
 					"</select>" +
@@ -47,23 +47,53 @@
 			"</select>" +
 		"</div>";
 	
+	this.dialogAjoutAchatProduit =
+		"<div id=\"dialog-ajout-pro\" title=\"Produit\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Produit</div>" +
+
+				"<div id=\"pro-idFerme\" class=\"com-float-left\">" +
+					"<select name=\"ferme\">" +
+						"<option value=\"0\" >== Choisir une ferme ==</option>" +
+						"<!-- BEGIN listeFerme -->" +
+						"<option value=\"{listeFerme.ferId}\" >{listeFerme.ferNom}</option>" +
+						"<!-- END listeFerme -->" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idCategorie\" class=\"com-float-left\">" +
+					"<select name=\"categorie\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir une catégorie ==</option>" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idProduit\">" +
+					"<select name=\"produit\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir un produit ==</option>" +
+					"</select>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"detail-achat\">" +
+			"</div>" +
+		"</div>";
+	
 	this.detailProduitAjoutAchatProduit = 
-		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
-		"<input type=\"hidden\" id=\"pro-id\" value=\"{idProduit}\"/>" +
-		"<div>" +
-			"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitNormal\" value=\"0\" checked=\"checked\"/> Achat" +
-			"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitSolidaire\" value=\"1\" /> Achat Solidaire" +
-		"</div>" +
-		"<table class=\"com-table-form\">" +
-			"<tr>" +
-				"<td>" +
-					"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-quantite\"/> {unite}" +
-				"</td>" +
-				"<td>" +
-					"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-prix\"/> {sigleMonetaire}" +
-				"</td>" +
-			"</tr>" +
-		"</table>";
+		"<div id=\"detail-achat\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+			"<input type=\"hidden\" id=\"pro-id\" value=\"{idProduit}\"/>" +
+			"<div id=\"choixTypeAchat\">" +
+				"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitNormal\" value=\"0\" checked=\"checked\"/> Achat" +
+				"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitSolidaire\" value=\"1\" /> Achat Solidaire" +
+			"</div>" +
+			"<table class=\"com-table-form\">" +
+				"<tr>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-quantite\"/> {unite}" +
+					"</td>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-prix\"/> {sigleMonetaire}" +
+					"</td>" +
+				"</tr>" +
+			"</table>" +
+		"</div>";
 	
 	this.prixAjoutProduit =
 		"<div id=\"div-lot\">" +
@@ -1332,13 +1362,7 @@
 							
 						"</form>" +
 					"</div>" +
-					"<table class=\"com-table\">" +
-						"<thead>" +
-							"<tr class=\"ui-widget ui-widget-header com-cursor-pointer achat-commande-ligne\" id-adherent=\"0\" >" +
-								"<th class=\"com-table-th com-underline-hover com-center\">Compte invité</th>" +
-							"</tr>" +
-						"</thead>" +
-					"</table>" +
+					"{achatInvite}" +
 					"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
 						"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
@@ -1376,6 +1400,47 @@
 			"</div>" +
 		"</div>";
 	
+	this.listeAchatInvite =
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\" id=\"entete-achat-invite\" >" +
+					"<th colspan=\"4\" class=\"com-table-th com-underline-hover com-center\">" +
+						"Compte invité" +
+						"<span class=\"com-btn-header-multiples ui-widget-content ui-widget-content-transparent ui-corner-all com-cursor-pointer\">" +
+							"<span id=\"icon-achat-invite\" class=\"ui-icon ui-icon-triangle-1-s\">" +
+						"</span>" +
+					"</th>" +
+				"</tr>" +
+				"<tr class=\"ui-widget ui-widget-header com-cursor-pointer ui-helper-hidden detail-achat-invite\">" +
+					"<th class=\"com-table-th-debut\"></span>Achat</th>" +
+					"<th class=\"com-table-th-med\"></span>Achat Solidaire</th>" +
+					"<th colspan=\"2\" class=\"com-table-th-fin\"></span>Montant</th>" +
+				"</tr>" +
+				"<tbody class=\"ui-helper-hidden detail-achat-invite\">" +
+					"<!-- BEGIN listeAchatInvite -->" +
+					"<tr class=\"com-cursor-pointer edt-com-achat-ligne-invite\" data-id-operation=\"{listeAchatInvite.id}\">" +							
+						"<td class=\"com-table-td-debut\">" +
+							"<span class=\"{listeAchatInvite.achat} com-flag ui-state-hover com-cursor-pointer ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+							"</span>" +							
+						"</td>" +
+						"<td class=\"com-table-td-med\">" +
+							"<span class=\"{listeAchatInvite.achatSolidaire} com-flag ui-state-hover com-cursor-pointer ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+							"</span>" +							
+						"</td>" +
+						"<td class=\"com-table-td-med\">{listeAchatInvite.montant} {sigleMonetaire}</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END listeAchatInvite -->" +
+				"</tbody>" +
+			"</thead>" +
+		"</table>";
+	
 	this.listeAchatEtReservationVide = 
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
@@ -1388,23 +1453,41 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
+	
 	this.dateAchat = "Achat du {dateAchat} :";
-	this.detailAchatEtReservation = 
+	
+	this.boutonSupprimerAchat = 
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat\" id=\"btn-supp-achat\" title=\"Supprimer\" data-id-achat=\"{idAchat}\">" +
+			"<span class=\"ui-icon ui-icon-trash\"></span>" +
+		"</span>";
+	
+	this.boutonSupprimerAchatSolidaire = 
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat-solidaire\" id=\"btn-supp-achat-solidaire\" title=\"Supprimer\" data-id-achat=\"{idAchat}\">" +
+			"<span class=\"ui-icon ui-icon-trash\"></span>" +
+		"</span>";
+	
+	this.detailAchatEtReservationEnteteInvite =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-barre-menu-2\">" +
 				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-annuler\">" +
-					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour au Marché" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des achats" +
 				"</button>" +
 			"</div>" +
-		/*	"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"Marché n°{comNumero}" +
-			"</div>" +
-			"<div>" +
-				"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-				"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Compte Invité" +
 				"</div>" +
-			"</div>" +*/
+			"</div>" +
+			"{detailAchat}" +
+		"</div>";
+		
+	this.detailAchatEtReservationEntete = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-annuler\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des achats" +
+				"</button>" +
+			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Adhérent" +
@@ -1420,53 +1503,123 @@
 					"<div class=\"com-clear-float-left\"></div>" +
 				"</div>" +
 			"</div>" +
-			
-			
-			
-			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"{dateAchat} {totalMarche} {sigleMonetaire}" +
-						"<span id=\"btn-nv-produit\" class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" title=\"Ajouter un produit\">" +
-							"<span class=\"ui-icon ui-icon-plusthick\"></span>" +
-						"</span>" +
-				"</div>" +
-				"<table class=\"com-table-100\">" +
-					"<tr>" +
-						"<td></td>" +
-						"<td colspan=\"2\"><div class=\"ui-widget-header ui-corner-all com-center\">Réservation</div></td>" +
-						"<td colspan=\"3\"><div class=\"ui-widget-header ui-corner-all com-center\">Achat</div></td>" +
-						"<td colspan=\"3\"><div class=\"ui-widget-header ui-corner-all com-center\">Achat Solidaire</div></td>" +
-					"</tr>" +
-				"<!-- BEGIN categories -->" +
-					"<tr>" +
-						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</div></td>" +
-						"<td colspan=\"6\"></td>" +
-					"</tr>" +
-					"<!-- BEGIN categories.achat -->" +
-					"<tr class=\"com-ligne-hover\">" +
-						"<td class=\"detail-achat-npro\">{categories.achat.nproNom}</td>" +						
-
-						"<td class=\"com-text-align-right detail-achat-qte\">{categories.achat.stoQuantiteReservation}</td>" +						
-						"<td class=\"detail-achat-unite\">{categories.achat.proUniteMesureReservation}</td>" +
-						
-						"<td class=\"com-text-align-right detail-achat-qte\">{categories.achat.stoQuantite}</td>" +						
-						"<td class=\"detail-achat-unite\">{categories.achat.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{categories.achat.prix} {categories.achat.sigleMonetaire}</td>" +
-						
-						"<td class=\"com-text-align-right detail-achat-qte\">{categories.achat.stoQuantiteSolidaire}</td>" +						
-						"<td class=\"detail-achat-unite\">{categories.achat.proUniteMesureSolidaire}</td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}</td>" +
-					"</tr>" +
-					"<!-- END categories.achat -->" +
-				"<!-- END categories -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"5\">Total : </td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{total} {sigleMonetaire}</td>" +
-						"<td class=\"com-text-align-right\" colspan=\"2\">Total Solidaire : </td>" +
-						"<td class=\"com-text-align-right detail-achat-prix\">{totalSolidaire} {sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
+			"{detailAchat}" +
+		"</div>";
+	
+	this.detailAchatVide =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +			
+			"<button type=\"button\" id=\"btn-nv-produit\" class=\"com-btn-edt ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+		"</div>";
+	
+	this.detailAchatEtReservation =		
+		"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"{dateAchat} {totalMarche} {sigleMonetaire}" +
+					"<span id=\"btn-nv-produit\" class=\"com-cursor-pointer com-btn-header-text ui-widget-content ui-corner-all\" title=\"Ajouter un produit\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\"></span>Ajouter un produit" +
+					"</span>" +
 			"</div>" +
+			"<table class=\"com-table-100\">" +
+				"<tr>" +
+					"<td></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"><div class=\"ui-widget-header ui-corner-all com-center\">Réservation</div></td>" +
+					"<td colspan=\"3\" class=\"col-achat\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Achat" +
+							"{boutonSupprimerAchat}" +								
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat\" id=\"btn-modif-achat\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +	
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat\" id=\"btn-annuler-achat\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat\" id=\"btn-check-achat\" title=\"Valider\" data-id-achat=\"{idAchat}\" data-type=\"\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</div>" +
+					"</td>" +
+					"<td colspan=\"3\" class=\"col-achat-solidaire\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Achat Solidaire" +
+							"{boutonSupprimerAchatSolidaire}" +								
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat-solidaire\" id=\"btn-modif-achat-solidaire\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +	
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat-solidaire\" id=\"btn-annuler-achat-solidaire\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat-solidaire\" id=\"btn-check-achat-solidaire\" title=\"Valider\" data-id-achat=\"{idAchatSolidaire}\" data-type=\"solidaire\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</div>" +
+					"</td>" +
+				"</tr>" +
+			"<!-- BEGIN categories -->" +
+				"<tr>" +
+					"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</div></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
+					"<td colspan=\"3\" class=\"col-achat\"></td>" +
+					"<td colspan=\"3\" class=\"col-achat-solidaire\"></td>" +
+				"</tr>" +
+				"<!-- BEGIN categories.achat -->" +
+				"<tr class=\"com-ligne-hover ligne-produit-achat\" data-id-produit=\"{categories.achat.proId}\">" +
+					"<td>{categories.achat.nproNom}</td>" +						
+
+					"<td class=\"col-reservation com-text-align-right detail-achat-unite\">{categories.achat.stoQuantiteReservation}</td>" +						
+					"<td class=\"col-reservation detail-achat-unite\">{categories.achat.proUniteMesureReservation}</td>" +
+					
+					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-qte\">{categories.achat.stoQuantite}</span>" +
+						"<span class=\"detail-achat-qte ui-helper-hidden \">" +
+							"<input type=\"text\" value=\"{categories.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+						"</span>" +
+					"</td>" +
+					
+					"<td class=\"detail-achat-unite detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-qte\">{categories.achat.proUniteMesure}</span>" +
+						"<span class=\"detail-achat-qte ui-helper-hidden\">{categories.achat.unite}</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-prix\">" +
+							"{categories.achat.prix} {categories.achat.sigleMonetaire}" +
+						"</span>" +
+						"<span class=\"detail-achat-prix ui-helper-hidden\">" +
+							"<input type=\"text\" value=\"{categories.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							" {sigleMonetaire}" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.stoQuantiteSolidaire}</span>" +
+						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden \">" +
+							"<input type=\"text\" value=\"{categories.achat.stoQuantiteSolidaire}\" class=\"com-numeric produit-quantite-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+						"</span>" +
+					"</td>" +			
+					"<td class=\"detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.proUniteMesureSolidaire}</span>" +
+						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden\">{categories.achat.unite}</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-prix-solidaire\">" +
+							"{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}" +
+						"</span>" +
+						"<span class=\"detail-achat-prix-solidaire ui-helper-hidden\">" +
+							"<input type=\"text\" value=\"{categories.achat.prixSolidaire}\" class=\"com-numeric produit-prix-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							" {sigleMonetaire}" +
+						"</span>" +
+					"</td>" +		
+				"</tr>" +
+				"<!-- END categories.achat -->" +
+			"<!-- END categories -->" +
+				"<tr>" +
+					"<td></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
+					"<td class=\"com-text-align-right col-achat\" colspan=\"2\">Total : </td>" +
+					"<td class=\"com-text-align-right col-achat\">{total} {sigleMonetaire}</td>" +						
+					"<td class=\"com-text-align-right col-achat-solidaire\" colspan=\"2\">Total Solidaire : </td>" +
+					"<td class=\"com-text-align-right col-achat-solidaire\">{totalSolidaire} {sigleMonetaire}</td>" +
+				"</tr>" +
+			"</table>" +
+		"</div>" ;
 			
 			
 			/*
@@ -1606,7 +1759,6 @@
 				"</table>" +
 			"</div>" +
 			"<!-- END achatsSolidaire -->" +*/
-		"</div>";
 	
 	this.supprimerReservationDialog =
 		"<div id=\"dialog-supprimer-reservation\" title=\"Supprimer la réservation\">" +

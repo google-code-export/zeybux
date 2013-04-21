@@ -31,6 +31,12 @@ class ListeAchatEtReservationResponse extends DataTemplate
 	protected $mListeAchatEtReservation;
 	
 	/**
+	* @var array(OperationVO)
+	* @desc ListeAchatInvite de la ListeAchatEtReservationResponse
+	*/
+	protected $mListeAchatInvite;
+	
+	/**
 	* @name getValid()
 	* @return bool
 	* @desc Renvoie la validite de l'élément
@@ -55,6 +61,7 @@ class ListeAchatEtReservationResponse extends DataTemplate
 	public function ListeAchatEtReservationResponse() {
 		$this->mValid = true;
 		$this->mListeAchatEtReservation = array();
+		$this->mListeAchatInvite = array();
 	}
 	
 	/**
@@ -82,6 +89,33 @@ class ListeAchatEtReservationResponse extends DataTemplate
 	*/
 	public function addListeAchatEtReservation($pListeAchatEtReservation){
 		array_push($this->mListeAchatEtReservation,$pListeAchatEtReservation);
+	}
+	
+	/**
+	 * @name getListeAchatInvite()
+	 * @return array(OperationVO)
+	 * @desc Renvoie le membre ListeAchatInvite de la ListeAchatEtReservationResponse
+	 */
+	public function getListeAchatInvite(){
+		return $this->mListeAchatInvite;
+	}
+	
+	/**
+	 * @name setListeAchatInvite($pListeAchatInvite)
+	 * @param array(OperationVO)
+	 * @desc Remplace le membre ListeAchatInvite de la ListeAchatEtReservationResponse par $pListeAchatInvite
+	 */
+	public function setListeAchatInvite($pListeAchatInvite) {
+		$this->mListeAchatInvite = $pListeAchatInvite;
+	}
+	
+	/**
+	 * @name addListeAchatInvite($pListeAchatInvite)
+	 * @param OperationVO
+	 * @desc Ajoute $pListeAchatInvite à ListeAchatEtReservation
+	 */
+	public function addListeAchatInvite($pListeAchatInvite){
+		array_push($this->mListeAchatInvite,$pListeAchatInvite);
 	}
 }
 ?>

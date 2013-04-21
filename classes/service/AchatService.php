@@ -15,16 +15,28 @@ include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueReservationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );*/
 include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
+include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
+include_once(CHEMIN_CLASSES_VO . "ProduitCommandeVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeAchatReservationVO.php");
+include_once(CHEMIN_CLASSES_VO . "DetailReservationVO.php");
+include_once(CHEMIN_CLASSES_VO . "DetailCommandeVO.php");
+include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "AchatValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AchatDetailViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
+include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 
 /**
  * @name AchatService
@@ -676,6 +688,7 @@ class AchatService
 					$lStockService->setSolidaire($lStockSolidaire);
 				}
 			}
+			return true;
 		}
 		return false;
 	}
@@ -714,7 +727,7 @@ class AchatService
 	* @return array(OperationVO)
 	* @desc Retourne une liste d'operation
 	*/
-	private function selectOperationAchat($pId) {
+	public function selectOperationAchat($pId) {
 		// ORDER BY date -> récupère la dernière operation en lien avec la commande
 		return OperationManager::recherche(
 			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE),
@@ -901,16 +914,103 @@ class AchatService
 	public function ajoutProduitAchat($pProduitAchat) {
 		$lIdAchat = new IdAchatVO();
 		$lIdAchat->setIdCompte($pProduitAchat->getIdCompte());	
+
+		$lIdLotProduitMarche = 0;
+
+		// Si il y a un marché vérifier si le produit est dans le marché et l'ajouter au besoin
+		if($pProduitAchat->getIdMarche() != '') {
+			$lIdAchat->setIdCommande($pProduitAchat->getIdMarche());
+
+			// Test si produit déjà dans le marché
+			$lProduits = ProduitManager::selectbyIdNomProduitIdMarche($pProduitAchat->getIdNomProduit(), $pProduitAchat->getIdMarche());
+			$lIdProduit = $lProduits[0]->getId();
+			// Si il n'est pas dans le marche l'ajouter
+			if(empty($lId)) {							
+				$lProduit = new ProduitCommandeVO();
+				$lProduit->setId($pProduitAchat->getIdMarche());
+				$lProduit->setIdNom($pProduitAchat->getIdNomProduit());
+				
+				// On ajout un produit classique uniquement
+				$lProduit->setQteMaxCommande(-1);
+				$lProduit->setQteRestante(-1);
+				$lProduit->setType(0);
+				
+				// Récupère les modèles de lot
+				$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($pProduitAchat->getIdNomProduit());
+				$lIdLotPremier = $lModelesLot[0]->getMLotId();
+				if(!empty($lIdLotPremier)) {
+					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+					foreach($lModelesLot as $lLot) {
+						$lDetailCommande = new DetailCommandeVO();
+						$lDetailCommande->setId($lLot->getMLotId());
+						$lDetailCommande->setTaille($lLot->getMLotQuantite());
+						$lDetailCommande->setPrix($lLot->getMLotPrix());
+						$lProduit->addLots($lDetailCommande);
+					}
+					
+					// Ajout du produit dans le marché
+					$lMarcheService = new MarcheService();
+					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
+				}
+			}
+			
+			// Id du produit existe (soit présent soit bien ajouté)
+			if(!empty($lIdProduit)) {
+				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
+				$lIdLotProduitMarche = $lDetailCommande[0]->getId();			
+			} else { // Sinon on arrête avec une erreur
+				$lVr = new TemplateVR();
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_210_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_210_MSG);
+				$lVr->getLog()->addErreur($lErreur);
+				return $lVr;
+			}
+		} 
+				
+		// On vérifie pour un compte != d'invité si il n'y a pas un achat ou une réservation à mettre à jour
+		if($pProduitAchat->getIdMarche() != '' && $pProduitAchat->getIdOperation() == '' && $pProduitAchat->getIdCompte() != -3) {
+			$lOperations = $this->selectOperationAchat($lIdAchat);
+			// Si il y a un achat il ne faut pas en ajouter et faire maj
+			if(!is_null($lOperations[0]->getId())) {
+				foreach($lOperations as $lOperation) {
+					// Recherche de la bonne opération normal ou solidaire
+					if($lOperation->getTypePaiement() - $pProduitAchat->getSolidaire() == 7) {
+						$pProduitAchat->setIdOperation($lOperation->getId());
+					}
+				}
+			}
+			
+			// Recherche si il y a une réservation
+			$lIdReservation = new IdReservationVO();
+			$lIdReservation->setIdCompte($pProduitAchat->getIdCompte());
+			$lIdReservation->setIdCommande($pProduitAchat->getIdMarche());
+			
+			$lReservationService = new ReservationService();
+			$lOperations = $lReservationService->selectOperationReservation($lIdReservation);
+			
+			if($lOperations[0]->getTypePaiement() == 0) {
+				$lIdAchat->setIdReservation($lOperations[0]->getId());				
+			}
+		} 
 		
+		$lAchat = new AchatVO();
+		$lAchat->setId($lIdAchat);
 		
+		// Récupération de l'achat pour mise à jour
+		if($pProduitAchat->getIdOperation() != '') { 
+			$lIdAchat->setIdAchat($pProduitAchat->getIdOperation());
+			$lAchat->setId($lIdAchat);			
+			$lAchat = $this->select($lIdAchat);
+		} 
 		
-		
+		// Ajout du nouvel achat sur le produit
 		$lDetailAchat = new DetailReservationVO();
-		
-		
-		
 		$lDetailAchat->setQuantite($pProduitAchat->getQuantite());
 		$lDetailAchat->setMontant($pProduitAchat->getPrix());
+		$lDetailAchat->setIdDetailCommande($lIdLotProduitMarche);
 		
 		if($pProduitAchat->getSolidaire() == 0) {
 			$lAchat->addDetailAchat($lDetailAchat);
@@ -918,27 +1018,8 @@ class AchatService
 			$lAchat->addDetailAchatSolidaire($lDetailAchat);
 		}
 		
-		
-		
-		
-		// Si il y a un marché vérifier si le produit est dans le marché et l'ajouter au besoin
-		if($pProduitAchat->getIdMarche() != '') {
-			$lIdAchat->setIdCommande($pProduitAchat->getIdMarche());
-			// TODO rechercher dans le marché si le produit existe.
-			// L'ajouter si besoin avec les lots modèles !!! Annuler si pas de lot
-			// mettre l'id du lot dans l'achat.
-			$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
-			$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-		} 
-				
-		// Si il n'y a pas d'opération c'est un nouvel achat
-		if($pProduitAchat->getIdOperation() == '') {
-			
-		} else { // Mise à jour de l'achat
-			$lIdAchat->setIdAchat($pProduitAchat->getIdOperation());
-			
-		}
-		
+		// Ajout ou mise à jour de l'achat
+		return $this->set($lAchat);		
 	}	
 }
 ?>

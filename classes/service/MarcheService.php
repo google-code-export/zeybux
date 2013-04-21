@@ -284,6 +284,7 @@ class MarcheService
 				}	
 			}
 		}
+		return $lIdProduit;
 	}
 
 	/**

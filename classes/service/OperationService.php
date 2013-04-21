@@ -156,7 +156,7 @@ class OperationService
 					$lOperation->setDate(StringUtils::dateTimeAujourdhuiDb());
 					$lOperation->setlibelle("Supression");
 					$this->insertHistorique($lOperation); // Ajout historique
-					$this->insertHistorique($lDetailOperation); // Ajout historique
+					//$this->insertHistorique($lDetailOperation); // Ajout historique
 					return OperationManager::delete($pId); // delete de l'opération	
 					break;
 			}
