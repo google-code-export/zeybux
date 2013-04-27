@@ -453,9 +453,16 @@ class StockService
 				"," . ProduitManager::CHAMP_PRODUIT_TYPE .
 				"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
-				", (" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") AS " . StockManager::CHAMP_STOCK_QUANTITE .
-				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT
-				. " FROM ((("
+				//", (" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				
+				", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				
+				
+				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+				" FROM ((("
 						. ProduitManager::TABLE_PRODUIT	.
 						" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
 				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
@@ -464,11 +471,11 @@ class StockService
 					 		. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande
 					 		. " AND " . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . " = " . $pIdCompteProducteur
 					 		. " AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = 0 "
-					 				. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " <> -(1) "
-					 						. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
-					 								. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
-					 										. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
-			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ")
+					 		. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " <> -(1) "
+					 		. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
+					 		. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
+					 		. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
+			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . ")
 			UNION
 			(SELECT "
 						. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE .
@@ -478,9 +485,14 @@ class StockService
 						"," . ProduitManager::CHAMP_PRODUIT_TYPE .
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
-						", ((" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") + 1) AS " . StockManager::CHAMP_STOCK_QUANTITE .
-						", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT
-						. " FROM ((("
+						//", ((" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") + 1) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+						", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+						
+						", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
+						"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+						"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+						"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+						" FROM ((("
 								. ProduitManager::TABLE_PRODUIT	.
 								" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
 				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
@@ -489,11 +501,12 @@ class StockService
 					 		. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande
 					 		. " AND " . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . " = " . $pIdCompteProducteur
 					 		. " AND " . ProduitManager::CHAMP_PRODUIT_ETAT . " = 0 "
-					 				. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " = -(1) "
-					 						. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
-					 								. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
-					 										. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
-			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ");";
+					 		. " AND " . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " = -(1) "
+					 		. " AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0 "
+					 		. " AND ( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0 "
+					 		. " OR ISNULL( " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "))
+			GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . ")
+			ORDER BY " . NomProduitManager::CHAMP_NOMPRODUIT_NOM . "," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . ";";
 			
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
@@ -511,7 +524,10 @@ class StockService
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 				$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
+				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
 			}
 		} else {
 			$lListeStockProduitReservation[0] = new StockProduitReservationVO();
@@ -603,7 +619,7 @@ class StockService
 	}
 	
 	/**
-	 * @name remplirStockProduitReservation($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant)
+	 * @name remplirStockProduitReservation($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant, $pDcomId, $pDcomTaille, $pDcomPrix)
 	 * @param int(11)
 	 * @param int(11)
 	 * @param int(11)
@@ -613,10 +629,13 @@ class StockService
 	 * @param varchar(50)
 	 * @param decimal(33,2)
 	 * @param decimal(32,2)
+	 * @param int(11)
+	 * @param decimal(10,2)
+	 * @param decimal(10,2)
 	 * @return StockProduitReservationVO
 	 * @desc Retourne une StockProduitReservationVO remplie
 	 */
-	private function remplirStockProduitReservation($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant) {
+	private function remplirStockProduitReservation($pProIdCommande, $pProIdCompteFerme, $pProId, $pProUniteMesure, $pProType, $pNproNumero, $pNproNom, $pStoQuantite, $pDopeMontant, $pDcomId, $pDcomTaille, $pDcomPrix) {
 		$lStockProduitReservation = new StockProduitReservationVO();
 		$lStockProduitReservation->setProIdCommande($pProIdCommande);
 		$lStockProduitReservation->setProIdCompteFerme($pProIdCompteFerme);
@@ -627,6 +646,9 @@ class StockService
 		$lStockProduitReservation->setNproNom($pNproNom);
 		$lStockProduitReservation->setStoQuantite($pStoQuantite);
 		$lStockProduitReservation->setDopeMontant($pDopeMontant);
+		$lStockProduitReservation->setDcomId($pDcomId);
+		$lStockProduitReservation->setDcomTaille($pDcomTaille);
+		$lStockProduitReservation->setDcomPrix($pDcomPrix);
 		return $lStockProduitReservation;
 	}
 }

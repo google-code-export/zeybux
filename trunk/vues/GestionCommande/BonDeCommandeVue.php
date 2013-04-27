@@ -44,7 +44,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			header('location:./index.php');
 		}
 	} else if(isset($_POST['fonction'])) {
-		if(isset($_POST['id_commande']) && isset($_POST['format'])) {
+		if(isset($_POST['id_commande']) && isset($_POST['format']) && isset($_POST['idCompteFerme'])) {
 			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/BonDeCommandeControleur.php");						
 			$lControleur = new BonDeCommandeControleur();
 			
@@ -52,6 +52,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 				case "export":
 						$lParam = array();
 						$lParam['id_commande'] = $_POST['id_commande'];
+						$lParam['idCompteFerme'] = $_POST['idCompteFerme'];
 						
 						if($_POST['format'] == 0) {					
 							echo $lControleur->getBComPdf($lParam);

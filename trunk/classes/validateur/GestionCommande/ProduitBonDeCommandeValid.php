@@ -37,6 +37,14 @@ class ProduitBonDeCommandeValid
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getId()->addErreur($lErreur);	
+		}	
+		if(!isset($pData['dcomId'])) {
+			$lVr->setValid(false);
+			$lVr->getDcomId()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getDcomId()->addErreur($lErreur);	
 		}
 		if(!isset($pData['quantite'])) {
 			$lVr->setValid(false);
@@ -57,6 +65,14 @@ class ProduitBonDeCommandeValid
 		
 		if($lVr->getValid()) {
 			//Tests Techniques
+			if(!TestFonction::checkLength($pData['id'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
 			if(!is_int((int)$pData['id'])) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -64,6 +80,22 @@ class ProduitBonDeCommandeValid
 				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getId()->addErreur($lErreur);	
+			}
+			if(!TestFonction::checkLength($pData['dcomId'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getDcomId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getDcomId()->addErreur($lErreur);
+			}
+			if(!is_int((int)$pData['dcomId'])) {
+				$lVr->setValid(false);
+				$lVr->getDcomId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+				$lVr->getDcomId()->addErreur($lErreur);	
 			}
 			if($pData['quantite'] != '' && !TestFonction::checkLength($pData['quantite'],0,12)) {
 				$lVr->setValid(false);
@@ -107,6 +139,14 @@ class ProduitBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getId()->addErreur($lErreur);	
 			}
+			if(empty($pData['dcomId'])) {
+				$lVr->setValid(false);
+				$lVr->getDcomId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getDcomId()->addErreur($lErreur);	
+			}
 			if($pData['prix'] != '' && empty($pData['quantite'])) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
@@ -143,6 +183,16 @@ class ProduitBonDeCommandeValid
 			
 			$lDcom = DetailCommandeManager::selectByIdProduit($pData["id"]);
 			if($lDcom[0]->getIdProduit() != $pData["id"]) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getLog()->addErreur($lErreur);
+			}
+			
+			$lDcom = DetailCommandeManager::select($pData["dcomId"]);
+			if($lDcom->getId() != $pData["dcomId"]) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();

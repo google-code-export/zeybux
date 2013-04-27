@@ -12,6 +12,7 @@ define("CHEMIN_RACINE", ".");
 // Définition des constantes de chemin
 define("CHEMIN_CLASSES", CHEMIN_RACINE . "/classes/");
 define("CHEMIN_CLASSES_UTILS", CHEMIN_CLASSES . "utils/");
+define("CHEMIN_CLASSES_PDF", CHEMIN_CLASSES_UTILS . "PDF/");
 define("CHEMIN_CLASSES_PO", CHEMIN_CLASSES . "po/");
 define("CHEMIN_CLASSES_VO", CHEMIN_CLASSES . "vo/");
 define("CHEMIN_CLASSES_VIEW_VO", CHEMIN_CLASSES . "viewVO/");

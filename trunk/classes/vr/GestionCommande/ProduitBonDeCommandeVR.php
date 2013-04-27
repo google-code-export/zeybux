@@ -41,6 +41,12 @@ class ProduitBonDeCommandeVR extends DataTemplate
 
 	/**
 	 * @var VRelement
+	 * @desc DcomId de l'objet
+	 */
+	protected $mDcomId;
+
+	/**
+	 * @var VRelement
 	 * @desc Quantite de la ProduitBonDeCommandeVR
 	 */
 	protected $mQuantite;
@@ -98,6 +104,24 @@ class ProduitBonDeCommandeVR extends DataTemplate
 	*/
 	public function setLog($pLog) {
 		$this->mLog = $pLog;
+	}
+	
+	/**
+	 * @name getDcomId()
+	 * @return VRelement
+	 * @desc Renvoie le VRelement DcomId
+	 */
+	public function getDcomId() {
+		return $this->mDcomId;
+	}
+	
+	/**
+	 * @name setDcomId($pDcomId)
+	 * @param VRelement
+	 * @desc Remplace le VRelement DcomId par $pDcomId
+	 */
+	public function setDcomId($pDcomId) {
+		$this->mDcomId = $pDcomId;
 	}
 
 	/**

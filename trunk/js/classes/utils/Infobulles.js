@@ -13,7 +13,7 @@
 		if(!pData.valid) {
 			for( i in pData) {
 				if(i != 'valid') {
-					if(pData[i].valid === false && pData[i].erreurs) {						
+					if(pData[i] && pData[i].valid === false && pData[i].erreurs) {						
 						var membre = new Array();
 						membre['nom'] = pNomObj + i;
 						
@@ -58,7 +58,7 @@
 							$("#" + pNomObj + i ).addClass('ui-state-error');
 							Infobulle.afficher($("#" + pNomObj + i ));	
 						}
-					} else if (!(pData[i].valid === true) || (pData[i].valid === false && !pData[i].erreurs)) {
+					} else if (pData[i] && ( !(pData[i].valid === true) || (pData[i].valid === false && !pData[i].erreurs) )) {
 						this.generation(pData[i],pNomObj+i);
 					}
 				}

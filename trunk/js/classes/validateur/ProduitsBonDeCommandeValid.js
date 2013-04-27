@@ -21,7 +21,9 @@
 			while(pData.produits[i]) {
 				var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
 				if(!lVrProduit.valid){lVR.valid = false;}
-				lVR.produits[pData.produits[i].id] = lVrProduit;
+				if(pData.produits[i].dcomId) {
+					lVR.produits[pData.produits[i].dcomId] = lVrProduit;
+				}
 				i++;
 			}
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);};
