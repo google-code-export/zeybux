@@ -119,7 +119,6 @@ class OperationService
 		if($lOperationValid->delete($pId)){			
 		
 			$lOperation = $this->get($pId);
-			
 			// Maj du solde du compte
 			$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 			if(in_array($lOperation->getTypePaiement(), $lTypeModificationSolde)) {

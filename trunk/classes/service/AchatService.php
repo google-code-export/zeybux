@@ -209,9 +209,8 @@ class AchatService
 					$lOperationService->set($lOperation);
 				} else {
 					// Mise à jour de l'opération de réservation en annulation
-					//$lOperation->setTypePaiement(16);
-					$lOperationService->delete($lOperation);					
-				}			
+					$lOperationService->delete($lOperation->getId());				
+				}		
 				break;
 				
 			case 7: // Achat
