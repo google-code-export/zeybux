@@ -54,7 +54,10 @@ class InfoBonCommandeViewManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . FermeManager::CHAMP_FERME_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-			"," . StockManager::CHAMP_STOCK_ID . "
+			"," . StockManager::CHAMP_STOCK_ID . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "
 			FROM " . InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE . " 
 			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -77,7 +80,10 @@ class InfoBonCommandeViewManager
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[FermeManager::CHAMP_FERME_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
-					$lLigne[StockManager::CHAMP_STOCK_ID]));
+					$lLigne[StockManager::CHAMP_STOCK_ID],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
 			}
 		} else {
 			$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -107,7 +113,10 @@ class InfoBonCommandeViewManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . FermeManager::CHAMP_FERME_NOM . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-			"," . StockManager::CHAMP_STOCK_ID . "
+			"," . StockManager::CHAMP_STOCK_ID . 
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX ."
 			FROM " . InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -129,7 +138,10 @@ class InfoBonCommandeViewManager
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[FermeManager::CHAMP_FERME_NOM],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
-					$lLigne[StockManager::CHAMP_STOCK_ID]));
+					$lLigne[StockManager::CHAMP_STOCK_ID],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
 			}
 		} else {
 			$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -196,7 +208,10 @@ class InfoBonCommandeViewManager
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . FermeManager::CHAMP_FERME_NOM .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-			"," . StockManager::CHAMP_STOCK_ID);
+			"," . StockManager::CHAMP_STOCK_ID .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX );
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(InfoBonCommandeViewManager::VUE_INFOBONCOMMANDE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -225,7 +240,10 @@ class InfoBonCommandeViewManager
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 						$lLigne[FermeManager::CHAMP_FERME_NOM],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
-						$lLigne[StockManager::CHAMP_STOCK_ID]));
+						$lLigne[StockManager::CHAMP_STOCK_ID],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX]));
 				}
 			} else {
 				$lListeInfoBonCommande[0] = new InfoBonCommandeViewVO();
@@ -239,7 +257,7 @@ class InfoBonCommandeViewManager
 	}
 
 	/**
-	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId)
+	* @name remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId, $pDcomId, $pDcomTaille, $pDcomPrix)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -252,10 +270,13 @@ class InfoBonCommandeViewManager
 	* @param varchar(50)
 	* @param int(11)
 	* @param int(11)
+	* @param int(11)
+	* @param int(11)
+	* @param int(11)
 	* @return InfoBonCommandeViewVO
 	* @desc Retourne une InfoBonCommandeViewVO remplie
 	*/
-	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId) {
+	private static function remplir($pProIdCommande, $pProIdCompteFerme, $pProId, $pProType, $pProUniteMesure, $pNproNumero, $pNproNom, $pDopeMontant, $pStoQuantite, $pFerNom, $pDopeId, $pStoId, $pDcomId, $pDcomTaille, $pDcomPrix) {
 		$lInfoBonCommande = new InfoBonCommandeViewVO();
 		$lInfoBonCommande->setProIdCommande($pProIdCommande);
 		$lInfoBonCommande->setProIdCompteFerme($pProIdCompteFerme);
@@ -269,6 +290,9 @@ class InfoBonCommandeViewManager
 		$lInfoBonCommande->setFerNom($pFerNom);
 		$lInfoBonCommande->setDopeId($pDopeId);
 		$lInfoBonCommande->setStoId($pStoId);
+		$lInfoBonCommande->setDcomId($pDcomId);
+		$lInfoBonCommande->setDcomTaille($pDcomTaille);
+		$lInfoBonCommande->setDcomPrix($pDcomPrix);
 		return $lInfoBonCommande;
 	}
 }

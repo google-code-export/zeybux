@@ -10,10 +10,10 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
+//include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
-
-
+include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
+require_once(CHEMIN_CLASSES_PDF . 'html2pdf.class.php');
 
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
@@ -27,6 +27,8 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeV
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonCommandeValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 
 /**
@@ -95,9 +97,14 @@ class BonDeCommandeControleur
 			$lIdCompteFerme = $pParam["id_compte_ferme"];
 			$lProduits = $pParam["produits"];
 		
+			// On enregistre uniquement les produits avec à minima quantité (même si prix à 0)
 			// Calcul du total
 			$lTotal = 0;
+			$lProduitsValide = array();
 			foreach($lProduits as $lProduit) {
+				if($lProduit["quantite"] > 0) {
+					array_push($lProduitsValide,$lProduit);
+				}
 				$lTotal += $lProduit["prix"];
 			}
 			
@@ -122,19 +129,19 @@ class BonDeCommandeControleur
 
 			$lDetailOperationService = new DetailOperationService();
 			$lStockService = new StockService();
-			foreach($lProduits as $lProduit) {
+			foreach($lProduitsValide as $lProduit) {
 				$lMaj = false;
 				foreach($lBonCommande as $lBon) {
-					if($lProduit["id"] == $lBon->getProId()) {
+					if($lProduit["dcomId"] == $lBon->getDcomId()) {
 						$lMaj = true;
 						
-						$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+						//$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
 						$lStock = new StockVO();
 						$lStock->setId($lBon->getStoId());
 						$lStock->setQuantite($lProduit["quantite"]);
 						$lStock->setType(3);
 						$lStock->setIdCompte($lIdCompteFerme);
-						$lStock->setIdDetailCommande($lDcom[0]->getId());
+						$lStock->setIdDetailCommande($lProduit["dcomId"]);
 						$lStock->setIdOperation($lIdOperation);
 						$lStockService->set($lStock);
 						
@@ -148,13 +155,13 @@ class BonDeCommandeControleur
 					}
 				}
 				if(!$lMaj) {
-					$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
+					//$lDcom = DetailCommandeManager::selectByIdProduit($lProduit["id"]);
 					
 					$lStock = new StockVO();
 					$lStock->setQuantite($lProduit["quantite"]);
 					$lStock->setType(3);
 					$lStock->setIdCompte($lIdCompteFerme);
-					$lStock->setIdDetailCommande($lDcom[0]->getId());
+					$lStock->setIdDetailCommande($lProduit["dcomId"]);
 					$lStock->setIdOperation($lIdOperation);
 					$lStockService->set($lStock);
 					
@@ -165,14 +172,14 @@ class BonDeCommandeControleur
 					$lDetailOperation->setLibelle('Bon de Commande');
 					$lDetailOperation->setTypePaiement(5);
 					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
-					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
+					$lDetailOperation->setIdDetailCommande($lProduit["dcomId"]);
 					$lDetailOperationService->set($lDetailOperation);
 				}			
 			}
 			foreach($lBonCommande as $lBon) {
 				$lDelete = true;
-				foreach($lProduits as $lProduit) {
-					if($lProduit["id"] == $lBon->getProId()) {
+				foreach($lProduitsValide as $lProduit) {
+					if($lProduit["dcomId"] == $lBon->getDcomId()) {
 						$lDelete = false;
 					}
 				}
@@ -191,7 +198,9 @@ class BonDeCommandeControleur
 	*/
 	private function getBonCommandeExport($pParam) {
 		$lIdCommande = $pParam["id_commande"];
-		return InfoBonCommandeViewManager::selectByIdCommande($lIdCommande);
+		$lIdCompteFerme =  $pParam["idCompteFerme"];
+	//	return InfoBonCommandeViewManager::selectByIdCommande($lIdCommande);
+		return InfoBonCommandeViewManager::selectInfoBonCommande($lIdCommande,$lIdCompteFerme);
 	}
 	
 	/**
@@ -204,91 +213,43 @@ class BonDeCommandeControleur
 		$lVr = ExportBonCommandeValid::validAjout($pParam);
 		
 		if($lVr->getValid()) {
-			
+			// Récupération es informations
 			$lLignesBonCommande = $this->getBonCommandeExport($pParam);
+			$lFerme = FermeManager::selectByIdCompte($pParam['idCompteFerme']);
+			$lFerme = $lFerme[0];
+			$lMarche = CommandeManager::select($pParam['id_commande']);
 			
-			// Préparation du Tableau pour l'export PDF		
-			$lContenuTableau = array();
-			$lIdPrdt = 0;
+			$lProduit = array();
 			foreach($lLignesBonCommande as $lLigne) {
-				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
-						$lNomPrdt = "";
-					} else {
-						$lNomPrdt = utf8_decode($lLigne->getFerNom());
-					}				
-					
-					array_push($lContenuTableau,
-											$lNomPrdt,
-											utf8_decode($lLigne->getNproNumero()),
-											utf8_decode($lLigne->getNproNom()),
-											$lLigne->getStoQuantite(),
-											utf8_decode($lLigne->getProUniteMesure()),
-											$lLigne->getDopeMontant(),
-											SIGLE_MONETAIRE_PDF);
-											
-					$lIdPrdt = $lLigne->getProIdCompteFerme();
+				if(isset($lProduit[$lLigne->getProId()])) {
+					$lProduit[$lLigne->getProId()] = 2;
+				} else {
+					$lProduit[$lLigne->getProId()] = 1;
 				}
 			}
-					
-			// Contenu du header du tableau.	
-			$lContenuHeader = array(30, 30, 30, 30, 10, 30, 10, "Producteur","Ref.", "Produit","Commande","","Prix","");
 			
-			// Préparation du PDF
-			$PDF=new phpToPDF();
-			$PDF->AddPage();
-			$PDF->SetFont('Arial','B',16);
 			
-			// Définition des propriétés du tableau.
-			$lProprietesTableau = array(
-				'TB_ALIGN' => 'L',
-				'L_MARGIN' => 5,
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => '0.3',
-				);
+			// get the HTML
+			ob_start();
+			include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/BonDeCommande.php');
+			$content = ob_get_clean();
 			
-			// Définition des propriétés du header du tableau.	
-			$lProprieteHeader = array(
-				'T_COLOR' => array(255,255,255),
-				'T_SIZE' => 12,
-				'T_FONT' => 'Arial',
-				'T_ALIGN' => 'C',
-				'V_ALIGN' => 'T',
-				'T_TYPE' => 'B',
-				'LN_SIZE' => 7,
-				'BG_COLOR_COL0' => array(58,129,4),
-				'BG_COLOR' => array(58,129,4),
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => 0.2,
-				'BRD_TYPE' => '1',
-				'BRD_TYPE_NEW_PAGE' => '',
-				);
-			
-			// Définition des propriétés du reste du contenu du tableau.	
-			$lProprieteContenu = array(
-				'T_COLOR' => array(0,0,0),
-				'T_SIZE' => 10,
-				'T_FONT' => 'Arial',
-				'T_ALIGN_COL0' => 'L',
-				'T_ALIGN' => 'R',
-				'V_ALIGN' => 'M',
-				'T_TYPE' => '',
-				'LN_SIZE' => 6,
-				'BG_COLOR_COL0' => array(220, 220, 220),
-				'BG_COLOR' => array(255,255,255),
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => 0.2,
-				'BRD_TYPE' => '1',
-				'BRD_TYPE_NEW_PAGE' => '',
-				);
-			
-			// Ajout du Tableau au PDF
-			$PDF->drawTableau($PDF, $lProprietesTableau, $lProprieteHeader, $lContenuHeader, $lProprieteContenu, $lContenuTableau);
-			
-			// Export du PDF
-			$PDF->Output('Bon de Commande.pdf','D');
+			// convert to PDF
+			try
+			{
+				$html2pdf = new HTML2PDF('P', 'A4', 'fr');
+				$html2pdf->pdf->SetDisplayMode('fullpage');
+				$html2pdf->writeHTML($content, 0);
+				$html2pdf->Output('Bon de Commande.pdf','D');
+			}
+			catch(HTML2PDF_exception $e) {
+				// Initialisation du Logger
+				$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+				$lLogger->setMask(Log::MAX(LOG_LEVEL));
+				$lLogger->log("Erreur de génération du PDF bon de Commande : " .  $e,PEAR_LOG_DEBUG); // Maj des logs
+			}
 		} else {
-			return $lVr;
+			return $lVr->exportToJson();
 		}
 	}	
 	
@@ -307,19 +268,25 @@ class BonDeCommandeControleur
 			$lCSV->setNom('Bon_de_Commande.csv'); // Le Nom
 	
 			// L'entete
-			$lEntete = array("Ferme","Ref.","Produit","Commande","","Prix","");
+			$lEntete = array("Ferme",$lLignesBonCommande[0]->getFerNom());
 			$lCSV->setEntete($lEntete);
+			
+			// Préparation pour afficher le lot sir 2 fois le produit
+			$lProduit = array();
+			foreach($lLignesBonCommande as $lLigne) {
+				if(isset($lProduit[$lLigne->getProId()])) {
+					$lProduit[$lLigne->getProId()] = 2;
+				} else {
+					$lProduit[$lLigne->getProId()] = 1;
+				}
+			}
 			
 			// Les données
 			$lContenuTableau = array();
+			array_push($lContenuTableau,array("Ref.","Produit","Commande","","Prix",""));
 			$lIdPrdt = 0;
 			foreach($lLignesBonCommande as $lLigne) {
-				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
-						$lNomPrdt = "";
-					} else {
-						$lNomPrdt = $lLigne->getFerNom();
-					}
+			//	if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
 					
 					if($lLigne->getProType() == 1) {
 						$lNomProduit = $lLigne->getNproNom() . " (Solidaire)";
@@ -329,8 +296,11 @@ class BonDeCommandeControleur
 						$lNomProduit = $lLigne->getNproNom();
 					}
 					
-					$lLignecontenu = array(	$lNomPrdt,
-											$lLigne->getNproNumero(),
+					if(isset($lProduit[$lLigne->getProId()]) && $lProduit[$lLigne->getProId()] == 2) {
+						$lNomProduit .= " (" . number_format($lLigne->getDcomTaille(), 2, ',', ' ') . " " . $lLigne->getProUniteMesure() .")";
+					}
+					
+					$lLignecontenu = array(	$lLigne->getNproNumero(),
 											$lNomProduit,
 											$lLigne->getStoQuantite(),
 											$lLigne->getProUniteMesure(),
@@ -340,7 +310,7 @@ class BonDeCommandeControleur
 					
 					array_push($lContenuTableau,$lLignecontenu);
 					$lIdPrdt = $lLigne->getProIdCompteFerme();
-				}
+			//	}
 			} 
 			$lCSV->setData($lContenuTableau);
 			

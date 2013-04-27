@@ -46,6 +46,12 @@ class ExportBonCommandeVR extends DataTemplate
 	protected $mId_commande;
 
 	/**
+	 * @var VRelement
+	 * @desc IdCompteFerme de la ExportBonCommandeVR
+	 */
+	protected $mIdCompteFerme;
+
+	/**
 	* @name ExportBonCommandeVR()
 	* @return bool
 	* @desc Constructeur
@@ -55,6 +61,7 @@ class ExportBonCommandeVR extends DataTemplate
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
 		$this->mId_commande = new VRelement();
+		$this->mIdCompteFerme = new VRelement();
 	}
 
 	/**
@@ -127,6 +134,24 @@ class ExportBonCommandeVR extends DataTemplate
 	*/
 	public function setId_commande($pId_commande) {
 		$this->mId_commande = $pId_commande;
+	}
+
+	/**
+	 * @name getIdCompteFerme()
+	 * @return VRelement
+	 * @desc Renvoie le VRelement IdCompteFerme
+	 */
+	public function getIdCompteFerme() {
+		return $this->mIdCompteFerme;
+	}
+	
+	/**
+	 * @name setIdCompteFerme($pIdCompteFerme)
+	 * @param VRelement
+	 * @desc Remplace le VRelement IdCompteFerme par $pIdCompteFerme
+	 */
+	public function setIdCompteFerme($pIdCompteFerme) {
+		$this->mIdCompteFerme = $pIdCompteFerme;
 	}
 }
 ?>

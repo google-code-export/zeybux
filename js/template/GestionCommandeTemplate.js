@@ -2057,7 +2057,7 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Bon de commande du Marché n°{comNumero}" +
-					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-bcom\" title=\"Exporter le bon de commande\">" +
+					"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-bcom\" title=\"Exporter le bon de commande\">" +
 						"<span class=\"ui-icon ui-icon-print\">" +
 					"</span>" +
 				"</span>" +
@@ -2104,22 +2104,22 @@
 							" {produits.proUniteMesure}" +
 						"</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"<span class=\"pro-id ui-helper-hidden\">{produits.proId}</span>" +
-							"<input class=\"formulaire qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"qte-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.proId}quantite\"/>" +
+							//"<span class=\"pro-id ui-helper-hidden\"  data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\"></span>" +
+							"<input class=\"formulaire qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"qte-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.dcomId}quantite\" data-taille=\"{produits.dcomTaille}\" data-prix=\"{produits.dcomPrix}\" data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\" />" +
 							"<span class=\"detail\">{produits.stoQuantiteCommande}</span>" +
 						"</td>" +
 						"<td>" +
 							" {produits.proUniteMesure}" +
 						"</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"<input class=\"formulaire prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"prix-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.proId}prix\" />" +
+							"<input class=\"formulaire prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"prix-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.dcomId}prix\" />" +
 							"<span class=\"detail\">{produits.dopeMontant}</span>" +
 						"</td>" +
 						"<td>" +
 							" {sigleMonetaire}" +
 						"</td>" +
 						"<td>" +
-							"<div id=\"etat-commande-{produits.proId}\" class=\"{produits.classEtat} ui-corner-all\"></div>" +
+							"<div id=\"etat-commande-{produits.dcomId}\" class=\"{produits.classEtat} ui-corner-all\"></div>" +
 						"</td>" +
 					"</tr>" +
 					"<!-- END produits -->" +

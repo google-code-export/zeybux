@@ -4,4 +4,5 @@
 	this.id = new VRelement();
 	this.id_commande = new VRelement();
 	this.format = new VRelement();
+	this.idCompteFerme = new VRelement();
 }

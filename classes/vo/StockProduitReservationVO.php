@@ -71,6 +71,23 @@ class StockProduitReservationVO  extends DataTemplate
 	* @desc DopeMontant de la DopeMontantVO
 	*/
 	protected $mDopeMontant;
+	/**
+	* @var int(11)
+	* @desc DcomId de la StockProduitReservationVO
+	*/
+	protected $mDcomId;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc DcomTaille de la DopeMontantVO
+	*/
+	protected $mDcomTaille;
+	
+	/**
+	* @var decimal(10,2)
+	* @desc DcomPrix de la DopeMontantVO
+	*/
+	protected $mDcomPrix;
 
 	/**
 	* @name getProIdCommande()
@@ -232,6 +249,60 @@ class StockProduitReservationVO  extends DataTemplate
 	*/
 	public function setDopeMontant($pDopeMontant) {
 		$this->mDopeMontant = $pDopeMontant;
+	}
+
+	/**
+	* @name getDcomId()
+	* @return int(11)
+	* @desc Renvoie le membre DcomId de la StockProduitReservationVO
+	*/
+	public function getDcomId() {
+		return $this->mDcomId;
+	}
+
+	/**
+	* @name setDcomId($pDcomId)
+	* @param int(11)
+	* @desc Remplace le membre DcomId de la StockProduitReservationVO par $pDcomId
+	*/
+	public function setDcomId($pDcomId) {
+		$this->mDcomId = $pDcomId;
+	}
+
+	/**
+	* @name getDcomTaille()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre DcomTaille de la StockProduitReservationVO
+	*/
+	public function getDcomTaille() {
+		return $this->mDcomTaille;
+	}
+
+	/**
+	* @name setDcomTaille($pDcomTaille)
+	* @param decimal(10,2)
+	* @desc Remplace le membre DcomTaille de la StockProduitReservationVO par $pDcomTaille
+	*/
+	public function setDcomTaille($pDcomTaille) {
+		$this->mDcomTaille = $pDcomTaille;
+	}
+
+	/**
+	* @name getDcomPrix()
+	* @return decimal(10,2)
+	* @desc Renvoie le membre DcomPrix de la StockProduitReservationVO
+	*/
+	public function getDcomPrix() {
+		return $this->mDcomPrix;
+	}
+
+	/**
+	* @name setDcomPrix($pDcomPrix)
+	* @param decimal(10,2)
+	* @desc Remplace le membre DcomPrix de la StockProduitReservationVO par $pDcomPrix
+	*/
+	public function setDcomPrix($pDcomPrix) {
+		$this->mDcomPrix = $pDcomPrix;
 	}
 
 }
