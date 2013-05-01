@@ -99,6 +99,9 @@ class CaisseMarcheCommandeControleur
 					$lDetailAchat->setQuantite($lDetail["quantite"]);
 					$lDetailAchat->setMontant($lDetail["prix"]);
 					
+					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+					
 					$lNvAchat->addDetailAchat($lDetailAchat);
 					
 					$lTotal += $lDetail["prix"];
@@ -120,6 +123,10 @@ class CaisseMarcheCommandeControleur
 					$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
 					$lDetailAchat->setQuantite($lDetail["quantite"]);
 					$lDetailAchat->setMontant($lDetail["prix"]);
+					
+					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+					
 					$lTotal += $lDetail["prix"];
 					$lNvAchat->addDetailAchat($lDetailAchat);
 				}
@@ -262,7 +269,7 @@ class CaisseMarcheCommandeControleur
 			
 		//	$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			$lStockService = new StockService();
-			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
+			$lStockSolidaire = $lStockService->selectQuantiteAllActif();
 			
 			$lResponse->setStockSolidaire($lStockSolidaire);	
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());
@@ -292,7 +299,7 @@ class CaisseMarcheCommandeControleur
 			//$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($pParam["id_commande"]);
 			
 			$lStockService = new StockService();
-			$lStockSolidaire = $lStockService->selectSolidaireAllActif();
+			$lStockSolidaire = $lStockService->selectQuantiteAllActif();
 			
 			$lResponse->setStockSolidaire($lStockSolidaire);	
 			$lResponse->setTypePaiement(TypePaiementVisibleViewManager::selectAll());	
@@ -341,6 +348,10 @@ class CaisseMarcheCommandeControleur
 				$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
+				
+				$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+				$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+				
 				$lTotal += $lDetail["prix"];
 				$lAchat->addDetailAchat($lDetailAchat);
 			}
@@ -352,8 +363,8 @@ class CaisseMarcheCommandeControleur
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
 				
-					$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
-					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+				$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
+				$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
 					
 				$lTotal += $lDetail["prix"];
 				$lAchat->addDetailAchatSolidaire($lDetailAchat);

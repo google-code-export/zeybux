@@ -284,5 +284,64 @@ class FermeValid
 		}
 		return $lVr;
 	}
+	
+	/**
+	 * @name validGetByIdCompte($pData)
+	 * @return FermeVR
+	 * @desc Test la validite de l'élément
+	 */
+	public static function validGetByIdCompte($pData) {
+		$lVr = new FermeVR();
+		//Tests inputs
+		if(!isset($pData['idCompte'])) {
+			$lVr->setValid(false);
+			$lVr->getCompte()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getCompte()->addErreur($lErreur);
+		}
+	
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!TestFonction::checkLength($pData['idCompte'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getCompte()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getCompte()->addErreur($lErreur);
+			}
+			if(!is_int((int)$pData['idCompte'])) {
+				$lVr->setValid(false);
+				$lVr->getId_producteur()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getCompte()->addErreur($lErreur);
+			}
+	
+			//Tests Fonctionnels
+			if(empty($pData['idCompte'])) {
+				$lVr->setValid(false);
+				$lVr->getCompte()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getCompte()->addErreur($lErreur);
+			}
+				
+			$lFerme = FermeManager::selectByIdCompte($pData['idCompte']);
+			if($lFerme[0]->getIdCompte() != $pData['idCompte']) {
+				$lVr->setValid(false);
+				$lVr->getCompte()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getCompte()->addErreur($lErreur);
+			}
+		}
+		return $lVr;
+	}
 }
 ?>

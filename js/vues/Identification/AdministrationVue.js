@@ -56,6 +56,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-GestionCommande-StockProduitListeFerme').click(function() {
+				StockProduitListeFermeVue();
+				return false;
+			});
+			
 			pData.find('#menu-GestionProducteur-ListeFerme').click(function() {
 				ListeFermeVue();
 				return false;

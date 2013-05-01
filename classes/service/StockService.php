@@ -10,18 +10,19 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "StockValid.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_VO . "StockProduitReservationVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockQuantiteManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 
 /**
  * @name StockService
@@ -80,7 +81,7 @@ class StockService
 				}
 				break;
 				
-			case 4 : // Reservation				
+			case 4 : // Livraison				
 				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
@@ -125,7 +126,7 @@ class StockService
 				}
 				break;
 			
-			case 4 : // Reservation				
+			case 4 : // Livraison				
 				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
@@ -352,7 +353,7 @@ class StockService
 		$lStockActuel = $this->getSolidaire($pStock->getId());
 		$pStock->setDateCreation($lStockActuel->getDateCreation());
 		$pStock->setDateModification(StringUtils::dateTimeAujourdhuiDb());
-		$pStock->setEtat($lStockActuel->getEtat());
+		//$pStock->setEtat($lStockActuel->getEtat());
 		return StockSolidaireManager::update($pStock); // update
 	}
 	
@@ -366,7 +367,7 @@ class StockService
 		if($lStockValid->deleteSolidaire($pId)){
 			$lStockSolidaire = $this->getSolidaire($pId);
 			$lStockSolidaire->setEtat(1);
-			return $this->updateSolidaire($lStock);			
+			return $this->updateSolidaire($lStockSolidaire);			
 		} else {
 			return false;
 		}
@@ -410,28 +411,28 @@ class StockService
 	* @return array(StockSolidaireVO)
 	* @desc Retourne une liste de Stock
 	*/
-	public function selectSolidaireAllActif() {
+/*	public function selectSolidaireAllActif() {
 		return StockSolidaireManager::recherche(
 			array(StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ETAT),
 			array('='),
 			array(0),
 			array(''),
 			array(''));
-	}
+	}*/
 	
 	/**
 	* @name selectSolidaireByIdNomProduitUnite()
 	* @return array(StockSolidaireVO)
 	* @desc Retourne une liste de Stock
 	*/
-	public function selectSolidaireByIdNomProduitUnite($pIdNomProduit,$pUnite) {
+	/*public function selectSolidaireByIdNomProduitUnite($pIdNomProduit,$pUnite) {
 		return StockSolidaireManager::recherche(
 			array(StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ETAT,StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_ID_NOM_PRODUIT,StockSolidaireManager::CHAMP_STOCKSOLIDAIRE_UNITE),
 			array('=','=','='),
 			array(0,$pIdNomProduit,$pUnite),
 			array(''),
 			array(''));
-	}
+	}*/
 		
 	/**
 	 * @name selectInfoBonCommandeStockProduitReservation($pIdCommande, $pIdCompteProducteur)
@@ -650,6 +651,146 @@ class StockService
 		$lStockProduitReservation->setDcomTaille($pDcomTaille);
 		$lStockProduitReservation->setDcomPrix($pDcomPrix);
 		return $lStockProduitReservation;
+	}
+	
+	/**
+	 * @name getStockProduitFerme($pIdCompteFerme)
+	 * @param integer
+	 * @return array(StockProduitFermeVO)
+	 * @desc Retourne le stock des produits d'une ferme
+	 */
+	public function getStockProduitFerme($pIdCompteFerme) {	
+		return NomProduitManager::selectStockProduitFerme($pIdCompteFerme);
+	}
+	
+	/**
+	 * @name setStockQuantite($pStockQuantite)
+	 * @param StockSolidaireVO
+	 * @return bool
+	 * @desc Ajoute ou modifie le stock quantite
+	 */
+	public function setStockQuantite($pStockQuantite) {
+		$lStockValid = new StockValid();
+		if($lStockValid->inputStockQuantite($pStockQuantite)) {
+			if($lStockValid->insertStockQuantite($pStockQuantite)) {
+				return $this->insertStockQuantite($pStockQuantite);
+			} else if($lStockValid->updateStockQuantite($pStockQuantite)) {
+				return $this->updateStockQuantite($pStockQuantite);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * @name insertStockQuantite($pStockQuantite)
+	 * @param StockQuantiteVO
+	 * @return integer
+	 * @desc Ajoute un stock quantite
+	 */
+	private function insertStockQuantite($pStockQuantite) {
+		$pStockQuantite->setDateCreation(StringUtils::dateTimeAujourdhuiDb());
+		$pStockQuantite->setIdLogin($_SESSION[DROIT_ID]);
+		$pStockQuantite->setEtat(0);
+		return StockQuantiteManager::insert($pStockQuantite); // Ajout du stock quantite retour l'Id
+	}
+	
+	/**
+	 * @name updateStockQuantite($pStockQuantite)
+	 * @param StockQuantiteVO
+	 * @return integer
+	 * @desc Met à jour un stock quantite
+	 */
+	private function updateStockQuantite($pStockQuantite) {
+		
+		$lStockActuel = $this->getStockQuantite($pStockQuantite->getId());
+		$pStockQuantite->setIdNomProduit($lStockActuel->getIdNomProduit());
+		$pStockQuantite->setUnite($lStockActuel->getUnite());
+		$pStockQuantite->setDateCreation($lStockActuel->getDateCreation());
+		$pStockQuantite->setDateModification(StringUtils::dateTimeAujourdhuiDb());
+		$pStockQuantite->setIdLogin($_SESSION[DROIT_ID]);
+		//$pStock->setEtat($lStockActuel->getEtat());
+		
+		return StockQuantiteManager::update($pStockQuantite); // update
+	}
+	
+	/**
+	 * @name deleteStockQuantite($pId)
+	 * @param integer
+	 * @desc Supprime le stock quantite
+	 */
+	public function deleteStockQuantite($pId) {
+		$lStockValid = new StockValid();
+		if($lStockValid->deleteStockQuantite($pId)){
+			$lStockQuantite = $this->getStockQuantite($pId);
+			$lStockQuantite->setEtat(1);
+			return $this->updateStockQuantite($lStockQuantite);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * @name getStockQuantite($pId)
+	 * @param integer
+	 * @return array(StockQuantiteVO) ou StockQuantiteVO
+	 * @desc Retourne une liste de StockQuantite
+	 */
+	public function getStockQuantite($pId = null) {
+		if($pId != null) {
+			return $this->selectQuantite($pId);
+		} else {
+			return $this->selectQuantiteAll();
+		}
+	}
+	
+	/**
+	 * @name selectQuantite($pId)
+	 * @param integer
+	 * @return StockQuantiteVO
+	 * @desc Retourne une ligne de Stock Quantite
+	 */
+	public function selectQuantite($pId) {
+		return StockQuantiteManager::select($pId);
+	}
+	
+	/**
+	 * @name selectQuantiteAll()
+	 * @return array(StockQuantiteVO)
+	 * @desc Retourne une liste de Stock Quantite
+	 */
+	public function selectQuantiteAll() {
+		return StockQuantiteManager::selectAll();
+	}
+	
+	/**
+	 * @name selectQuantiteByIdNomProduitUnite($pIdNomProduit,$pUnite)
+	 * @return array(StockQuantiteVO)
+	 * @desc Retourne une liste de Stock Quantite
+	 */
+	public function selectQuantiteByIdNomProduitUnite($pIdNomProduit,$pUnite) {
+		return StockQuantiteManager::recherche(
+				array(StockQuantiteManager::CHAMP_STOCKQUANTITE_ETAT, StockQuantiteManager::CHAMP_STOCKQUANTITE_ID_NOM_PRODUIT, StockQuantiteManager::CHAMP_STOCKQUANTITE_UNITE),
+				array('=','=','='),
+				array(0,$pIdNomProduit,$pUnite),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	 * @name selectQuantiteAllActif()
+	 * @return array(StockQuantiteVO)
+	 * @desc Retourne une liste de Stock Quantite
+	 */
+	public function selectQuantiteAllActif() {
+		return StockQuantiteManager::recherche(
+				array(StockQuantiteManager::CHAMP_STOCKQUANTITE_ETAT),
+				array('='),
+				array(0),
+				array(''),
+				array(''));
 	}
 }
 ?>

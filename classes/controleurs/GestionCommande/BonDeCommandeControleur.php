@@ -29,7 +29,6 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonComma
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
-include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 
 /**
  * @name BonDeCommandeControleur

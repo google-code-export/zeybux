@@ -23,3 +23,30 @@ where ((`dope_detail_operation`.`dope_type_paiement` = 5) and (`sto_stock`.`sto_
 
 group by `pro_produit`.`pro_id_commande`,`pro_produit`.`pro_id`,`pro_produit`.`pro_id_compte_ferme`, dcom_id
 order by `pro_produit`.`pro_id_compte_ferme`,`npro_nom_produit`.`npro_nom`,dcom_taille;
+
+CREATE TABLE IF NOT EXISTS `stoqte_stock_quantite` (
+  `stoqte_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stoqte_id_nom_produit` int(11) NOT NULL,
+  `stoqte_quantite` decimal(10,2) NOT NULL,
+  `stoqte_quantite_solidaire` decimal(10,2) NOT NULL,
+  `stoqte_unite` varchar(20) NOT NULL,
+  `stoqte_date_creation` datetime NOT NULL,
+  `stoqte_date_modification` datetime NOT NULL,
+  `stoqte_id_login` int(11) NOT NULL,
+  `stoqte_etat` tinyint(1) NOT NULL,
+  PRIMARY KEY (`stoqte_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+insert into stoqte_stock_quantite 
+(stoqte_id_nom_produit, stoqte_quantite, stoqte_unite, stoqte_date_creation , stoqte_date_modification , stoqte_etat)
+SELECT  
+`stosol_id_nom_produit`,
+`stosol_quantite`,
+`stosol_unite`,
+`stosol_date_creation`,
+`stosol_date_modification`,
+`stosol_etat`
+FROM `stosol_stock_solidaire`;
+
+INSERT INTO `zeybu_maintenance`.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '4', 'StockProduitListeFerme', 'Les Stocks', '2', '4');
+

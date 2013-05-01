@@ -5,11 +5,11 @@
 		return pData;	
 	};
 	
-	this.comNumeric = function(pData) {
+	this.comNumeric = function(pData, pOption) {
 		if($(pData).length != 0)
-			pData.find('.com-numeric').numeric();
+			pData.find('.com-numeric').numeric(pOption);
 		else
-			$("body").find('.com-numeric').numeric();
+			$("body").find('.com-numeric').numeric(pOption);
 		return pData;
 	};
 	

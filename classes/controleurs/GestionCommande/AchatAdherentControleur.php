@@ -30,6 +30,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "ProduitService.php");
 include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 include_once(CHEMIN_CLASSES_VO . "IdReservationVO.php");
 include_once(CHEMIN_CLASSES_TOVO . "ProduitAjoutAchatToVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 
 /**
  * @name AchatAdherentControleur
@@ -183,6 +184,10 @@ class AchatAdherentControleur
 						$lDetailAchat->setQuantite($lDetail["quantite"]);
 						$lDetailAchat->setMontant($lDetail["prix"]);
 						
+						$lProduit = ProduitManager::select($lDetail["id"]);
+						$lDetailAchat->setIdNomProduit($lProduit->getIdNomProduit());
+						$lDetailAchat->setUnite($lProduit->getUniteMesure());
+						
 						if($lAchatData["idAchat"] == -1) {
 							$lAchat->addDetailAchat($lDetailAchat);
 						} else if($lAchatData["idAchat"] == -2) {
@@ -207,6 +212,10 @@ class AchatAdherentControleur
 					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
 					$lDetailAchat->setQuantite($lDetail["quantite"]);
 					$lDetailAchat->setMontant($lDetail["prix"]);
+
+					$lProduit = ProduitManager::select($lDetail["id"]);
+					$lDetailAchat->setIdNomProduit($lProduit->getIdNomProduit());
+					$lDetailAchat->setUnite($lProduit->getUniteMesure());
 					
 					if($lOperation->getTypePaiement() == 7) {
 						$lAchat->addDetailAchat($lDetailAchat);
