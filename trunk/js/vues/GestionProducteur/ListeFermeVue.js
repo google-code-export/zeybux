@@ -28,7 +28,7 @@
 			var lTemplate = lGestionProducteurTemplate.listeFerme;
 			$.each(lResponse.listeFerme,function() {
 				this.ferIdTri = this.ferNumero.replace("F","");
-			})
+			});
 			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionProducteurTemplate.listeFermeVide)));
@@ -62,7 +62,7 @@
 	};
 			
 	this.affectDetailFerme = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find(".compte-ligne").click(function() {
 			InformationFermeVue({id: $(this).attr("id-ferme")});
 		});
@@ -110,7 +110,7 @@
 	};
 	
 	this.CreerFerme = function(pForm) {
-		var that = this;
+	//	var that = this;
 		var lVo = new FermeVO();
 		
 		lVo.nom = pForm.find(':input[name=nom]').val();

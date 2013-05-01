@@ -1620,146 +1620,7 @@
 				"</tr>" +
 			"</table>" +
 		"</div>" ;
-			
-			
-			/*
-			
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"La réservation : " +
-					
-					"<span class=\"resa-etat\" id=\"reservation-etat-label\">{etatReservation}</span>" +
-					"<span class=\"resa-etat ui-helper-hidden\">" +
-						"<select id=\"reservation-etat\">" +
-							"<!-- BEGIN typeEtatReservation -->" +
-							"<option value=\"{typeEtatReservation.value}\" {typeEtatReservation.selected}>{typeEtatReservation.label}</option>" +
-							"<!-- END typeEtatReservation -->" +
-						"</select>" +							
-					"</span>" +
-					
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-resa ui-helper-hidden\" id=\"btn-modif-resa\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-resa\" id=\"btn-check-resa\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN reservation -->" +
-					"<tr class=\"ligne-produit-reservation\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{reservation.id}</span>{reservation.nproNom}</td>" +
-						"<td>{reservation.flagType}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\" id=\"reservation-{reservation.id}-quantite\">{reservation.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte ui-helper-hidden\"><input type=\"text\" value=\"{reservation.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\" id=\"reservation-{reservation.id}-prix\">{reservation.prix}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix ui-helper-hidden\"><input type=\"text\" value=\"{reservation.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END reservation -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						"<td class=\"com-text-align-right resa-total\" id=\"reservation-total-label\">{totalReservation}</td>" +
-						"<td class=\"com-text-align-right resa-total ui-helper-hidden\"><input type=\"text\" value=\"{totalReservation}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"reservation-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
 
-
-			"<!-- BEGIN achats -->" +
-			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achats.idAchat}\" id=\"btn-supp-achat-{achats.idAchat}\" title=\"Supprimer\">" +
-						"<span class=\"ui-icon ui-icon-trash\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achats.idAchat}\" id=\"btn-modif-achat-{achats.idAchat}\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achats.idAchat}\" id=\"btn-annuler-achat-{achats.idAchat}\" title=\"Annuler\">" +
-						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-					"</span>" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achats.idAchat}\" id=\"btn-check-achat-{achats.idAchat}\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN achats.achat -->" +
-					"<tr class=\"ligne-produit-achat-{achats.idAchat}\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achats.achat.id}</span>{achats.achat.nproNom}</td>" +
-						"<td>{achats.achat.flagType}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-qte\">{achats.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte\" id=\"achat-{achats.idAchat}-{achats.achat.id}-quantite\">{achats.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td class=\"detail-resa-unite\">{achats.achat.proUniteMesure}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-prix\">{achats.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix\" id=\"achat-{achats.idAchat}-{achats.achat.id}-prix\">{achats.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END achats.achat -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						"<td class=\"com-text-align-right achat-{achats.idAchat}-total\" id=\"achat-{achats.idAchat}-total-label\">{achats.total}</td>" +
-						"<td class=\"com-text-align-right achat-{achats.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achats.total}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<!-- END achats -->" +
-			
-			"<!-- BEGIN achatsSolidaire -->" +
-			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-supp-achat-{achatsSolidaire.idAchat}\" title=\"Supprimer\">" +
-						"<span class=\"ui-icon ui-icon-trash\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-modif-achat-{achatsSolidaire.idAchat}\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-annuler-achat-{achatsSolidaire.idAchat}\" title=\"Annuler\">" +
-						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-					"</span>" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-check-achat-{achatsSolidaire.idAchat}\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN achatsSolidaire.achat -->" +
-					"<tr class=\"ligne-produit-achat-{achatsSolidaire.idAchat}\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achatsSolidaire.achat.id}</span>{achatsSolidaire.achat.nproNom}</td>" +
-						"<td>{achatsSolidaire.achat.flagType}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-qte\">{achatsSolidaire.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-quantite\">{achatsSolidaire.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td class=\"detail-resa-unite\">{achatsSolidaire.achat.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-prix\">{achatsSolidaire.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						//"<td class=\"com-text-align-right detail-resa-prix\">{achatsSolidaire.achat.prix}</td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END achatsSolidaire.achat -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						//"<td class=\"com-text-align-right\">{total}</td>" +
-						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total\" id=\"achat-{achatsSolidaire.idAchat}-total-label\">{achatsSolidaire.totalSolidaire}</td>" +
-						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.totalSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<!-- END achatsSolidaire -->" +*/
-	
 	this.supprimerReservationDialog =
 		"<div id=\"dialog-supprimer-reservation\" title=\"Supprimer la réservation\">" +
 			"<p>Voulez-vous supprimer la réservation ?</p>" +
@@ -2688,5 +2549,164 @@
 					"<!-- END caracteristiques -->" +
 				"</table>" +
 			"</div>" +
+		"</div>";
+	
+	this.listeFerme = 
+		"<div id=\"contenu\">" +	
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+				"</div>" +
+				"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<form id=\"filter-form\">" +
+						"<div>" +
+							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+								"</span>" +
+							"</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						"</div>" +
+					"</form>" +
+				"</div>" +
+				"<table class=\"com-table\">" +
+					"<thead>" +
+						"<tr class=\"ui-widget ui-widget-header\">" +
+							"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+				"<!-- BEGIN listeFerme -->" +
+						"<tr class=\"com-cursor-pointer compte-ligne\" data-id-compte-ferme=\"{listeFerme.ferIdCompte}\">" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeFerme.ferIdTri}</span>" +
+								"{listeFerme.ferNumero}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.ferNom}</td>" +
+							"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
+								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+								"</span>" +
+							"</td>" +
+						"</tr>" +
+				"<!-- END listeFerme -->" +
+					"</tbody>" +
+				"</table>" +
+				//"</div>" +
+			"</div>" +
+		"</div>";
+			
+	this.listeFermeVide =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+				"</div>" +
+				"<p id=\"texte-liste-vide\">Aucune ferme dans la base.</p>" +	
+			"</div>" +
+		"</div>";
+	
+	this.listeStockProduitFermeEntete =		
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des fermes" +
+				"</button>" +
+			"</div>" +
+			"{detail}" +
+		"</div>" ;
+	
+	this.listeStockProduitFermeDetail =	
+			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Produits : {ferNom}" +
+				"</div>" +
+				"<table class=\"com-table-100\">" +
+					"<tr>" +
+						"<td>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+								"Stock" +
+							"</div>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+								"Stock Solidaire" +
+							"</div>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Stock Total" +
+						"</div>" +
+					"</td>" +
+						"<td></td>" +
+					"</tr>" +
+				"<!-- BEGIN listeProduit -->" +
+					"<tr>" +
+						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{listeProduit.cproNom}</div></td>" +
+						"<td colspan=\"7\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN listeProduit.produits -->" +
+					"<tr class=\"com-ligne-hover\">" +
+						"<td>{listeProduit.produits.nproNom}</td>" +						
+				
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantite}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
+								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantite}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantite\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-solidaire-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteSolidaire}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
+								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantiteSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantiteSolidaire\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\"id=\"label-quantite-total-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteTotal}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-total-edit-{listeProduit.produits.stoQteId}\">" +
+								"{listeProduit.produits.stoQteQuantiteTotal}" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						"<td>" +
+							"{listeProduit.produits.btnEdition}" +
+						"</td>" +	
+					"</tr>" +
+					"<!-- END listeProduit.produits -->" +
+				"<!-- END listeProduit -->" +
+				"</table>" +
+			"</div>";
+	
+	this.listeStockProduitFermeDetailBtnEdition =
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-modif\" id=\"btn-modif-{stoQteId}\" title=\"Modifier\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+		"</span>" +	
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-annuler\" id=\"btn-annuler-{stoQteId}\" title=\"Annuler\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+		"</span>" +
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-check\" id=\"btn-check-{stoQteId}\" title=\"Valider\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-check\"></span>" +
+		"</span>";
+	
+	this.listeStockProduitFermeDetailVide =
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Les Produits" +
+			"</div>" +
+			"<p id=\"texte-liste-vide\">Aucun produit pour cette ferme dans la base.</p>" +	
 		"</div>";
 }

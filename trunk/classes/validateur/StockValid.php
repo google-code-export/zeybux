@@ -214,5 +214,68 @@ class StockValid
 		}
 		return false;
 	}
+	
+	/* Stockquantite */
+	
+	/**
+	 * @name inputStockQuantite($pStockQuantite)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function inputStockQuantite($pStockQuantite) {
+		if(is_object($pStockQuantite)) {
+			$lInput = true;
+			$lInput &= get_class($pStockQuantite) == "StockQuantiteVO";
+			$lIdValid = new IdValid();
+			if($pStockQuantite->getId() != "") {
+				$lInput &= $lIdValid->estId($pStockQuantite->getId());
+			}
+			if($pStockQuantite->getIdNomProduit() != "") {
+				$lInput &= $lIdValid->estId($pStockQuantite->getIdNomProduit());	
+			}
+			$lInput &= TestFonction::checkLength($pStockQuantite->getQuantite(),0,12);
+			$lInput &= is_float((float)$pStockQuantite->getQuantite());
+			$lInput &= TestFonction::checkLength($pStockQuantite->getQuantiteSolidaire(),0,12);
+			$lInput &= is_float((float)$pStockQuantite->getQuantiteSolidaire());
+			$lInput &= TestFonction::checkLength($pStockQuantite->getUnite(),0,20);
+			return $lInput;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * @name insertStockQuantite($pStockQuantite)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function insertStockQuantite($pStockQuantite) {
+		$lId = $pStockQuantite->getId();
+		$lIdNomProduit = $pStockQuantite->getIdNomProduit();
+		return empty($lId) && !empty($lIdNomProduit);
+	}
+	
+	/**
+	 * @name updateStockQuantite($pStockQuantite)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function updateStockQuantite($pStockQuantite) {
+		$lId = $pStockQuantite->getId();
+		return !empty($lId);
+	}
+	
+	/**
+	 * @name deleteStockQuantite($pId)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function deleteStockQuantite($pId) {
+		$lIdValid = new IdValid();
+		if($pId != "") {
+			return $lIdValid->estId($pId);
+		}
+		return false;
+	}
 }
 ?>

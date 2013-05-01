@@ -179,8 +179,12 @@
 			} else {
 				this.classEtat = 'qte-reservation-ok';
 			}
-				
+
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
 			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
 			this.masquerNormal = '';
 			if(this.proType == 1) {
 				this.masquerNormal = "ui-helper-hidden";
@@ -252,15 +256,15 @@
 			
 			$(pResponse.produitsCommande).each(function() {
 				if(this.proId == lProId) {
-					var lMontant = 0;										
+					//var lMontant = 0;										
 					if(this.stoQuantite != null) {
 						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
 					}
 					if(this.dopeMontant != null) {
 						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
+						//lMontant = parseFloat(this.dopeMontant).toFixed(2);
+						lTotal += parseFloat(this.dopeMontant).toFixed(2);
 					}
-					lTotal += lMontant;
 				}
 			});
 			
@@ -290,7 +294,10 @@
 			} else {
 				this.classEtat = 'qte-reservation-ok';
 			}
-				
+			
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
 			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
 			
 			this.masquerNormal = '';

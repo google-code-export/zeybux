@@ -191,7 +191,7 @@
 					
 					var lIdNomProduit = this.idNom;
 					$(pResponse.stockSolidaire).each(function() {
-						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit){
+						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit && this.quantiteSolidaire > 0){
 							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
 								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 							}

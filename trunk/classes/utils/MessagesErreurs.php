@@ -304,6 +304,8 @@ class MessagesErreurs
 	const ERR_359_MSG = 'Banque modifiée.';
 	const ERR_360_CODE = 360;
 	const ERR_360_MSG = 'Banque supprimée.';
+	const ERR_361_CODE = 361;
+	const ERR_361_MSG = 'Stock modifié.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

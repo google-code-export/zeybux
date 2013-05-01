@@ -189,6 +189,9 @@ class BonDeLivraisonControleur
 			// Maj des infos du stock
 			$lBonLivraison = InfoBonLivraisonViewManager::selectInfoBonLivraison($lIdMarche,$lIdCompteFerme);
 
+
+			$lProduitMarche = $lMarche->getProduits();
+			
 			$lDetailOperationService = new DetailOperationService();
 			$lStockService = new StockService();
 			foreach($lProduits as $lProduit) {
@@ -214,6 +217,20 @@ class BonDeLivraisonControleur
 						$lDetailOperation->setLibelle('Bon de Livraison');
 						$lDetailOperation->setTypePaiement(6);
 						$lDetailOperationService->set($lDetailOperation);
+						
+						// Ajout ou Maj de la qté produit dans le stock
+						$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+						
+						$lStockQuantite = new StockQuantiteVO();
+						if(!is_null($lStockQuantiteActuel->getId())) {
+							$lStockQuantite->setId($lStockQuantiteActuel->getId());
+							$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+						}
+						$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $lProduit["quantite"] - $lBon->getStoQuantite());
+						$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setStockQuantite($lStockQuantite);
 					}
 				}
 				if(!$lMaj) {
@@ -236,6 +253,20 @@ class BonDeLivraisonControleur
 					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
 					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
 					$lDetailOperationService->set($lDetailOperation);
+					
+					// Ajout ou Maj de la qté produit dans le stock
+					$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+					$lStockQuantite = new StockQuantiteVO();
+					if(!is_null($lStockQuantiteActuel->getId())) {
+						$lStockQuantite->setId($lStockQuantiteActuel->getId());
+						$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+					}
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $lProduit["quantite"]);
+					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setStockQuantite($lStockQuantite);
 				}			
 			}
 			foreach($lBonLivraison as $lBon) {
@@ -248,11 +279,24 @@ class BonDeLivraisonControleur
 				if($lDelete) {
 					$lStockService->delete($lBon->getStoId());
 					$lDetailOperationService->delete($lBon->getDopeId());
+					
+					// Ajout ou Maj de la qté produit dans le stock
+					$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+					$lStockQuantite = new StockQuantiteVO();
+					if(!is_null($lStockQuantiteActuel->getId())) {
+						$lStockQuantite->setId($lStockQuantiteActuel->getId());
+						$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+					}
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() - $lProduit["quantite"]);
+					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setStockQuantite($lStockQuantite);
 				}
 			}
 			
-			// Maj des infos du stock Solidaire			
-			$lProduitMarche = $lMarche->getProduits();
+			// Maj des infos du stock Solidaire
 			$lStockSolidaire = StockSolidaireViewManager::selectSolidaire($lIdMarche,$lIdCompteFerme);
 			foreach($lProduits as $lProduit) {
 				$lMaj = false;
@@ -271,7 +315,7 @@ class BonDeLivraisonControleur
 						$lStockService->set($lStock);
 						
 						// Ajout du produit dans le stock solidaire
-						$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+						/*$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
 						$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
 						$lStockSolidaire = new StockSolidaireVO();
 						$lQuantite = $lProduit["quantiteSolidaire"];
@@ -282,7 +326,21 @@ class BonDeLivraisonControleur
 						$lStockSolidaire->setQuantite($lQuantite);
 						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
-						$lStockService->setSolidaire($lStockSolidaire);
+						$lStockService->setSolidaire($lStockSolidaire);*/
+						
+						// Ajout ou Maj de la qté produit dans le stock
+						$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+							
+						$lStockQuantite = new StockQuantiteVO();
+						if(!is_null($lStockQuantiteActuel->getId())) {
+							$lStockQuantite->setId($lStockQuantiteActuel->getId());
+							$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+						}
+						$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() + $lProduit["quantiteSolidaire"] - $lBon->getStoQuantite());
+						$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+						$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						$lStockService->setStockQuantite($lStockQuantite);
 					}
 				}
 				if(!$lMaj) {
@@ -297,7 +355,7 @@ class BonDeLivraisonControleur
 					$lStockService->set($lStock);
 
 					// Ajout du produit dans le stock solidaire
-					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+				/*	$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
 					$lStockSolidaireActuel = $lStockSolidaireActuel[0];					
 					$lStockSolidaire = new StockSolidaireVO();
 					$lQuantite = $lProduit["quantiteSolidaire"];
@@ -308,7 +366,21 @@ class BonDeLivraisonControleur
 					$lStockSolidaire->setQuantite($lQuantite);
 					$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 					$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
-					$lStockService->setSolidaire($lStockSolidaire);
+					$lStockService->setSolidaire($lStockSolidaire);*/
+					
+					// Ajout ou Maj de la qté produit dans le stock
+					$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+						
+					$lStockQuantite = new StockQuantiteVO();
+					if(!is_null($lStockQuantiteActuel->getId())) {
+						$lStockQuantite->setId($lStockQuantiteActuel->getId());
+						$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+					}
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() + $lProduit["quantiteSolidaire"]);
+					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setStockQuantite($lStockQuantite);
 					
 				}			
 			}
@@ -323,7 +395,7 @@ class BonDeLivraisonControleur
 					$lStockService->delete($lBon->getStoId());
 					
 					// Si le produit est dans le stck solidaire on le supprime
-					$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					/*$lStockSolidaireActuel = $lStockService->selectSolidaireByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
 					$lStockSolidaireActuel = $lStockSolidaireActuel[0];	
 					if(!is_null($lStockSolidaireActuel->getId())) {
 						$lStockSolidaire = new StockSolidaireVO();
@@ -332,7 +404,21 @@ class BonDeLivraisonControleur
 						$lStockSolidaire->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 						$lStockSolidaire->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
 						$lStockService->setSolidaire($lStockSolidaire);
-					}					
+					}		*/	
+
+					// Ajout ou Maj de la qté produit dans le stock
+					$lStockQuantiteActuel = $lStockService->selectQuantiteByIdNomProduitUnite($lProduitMarche[$lProduit["id"]]->getIdNom(),$lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+						
+					$lStockQuantite = new StockQuantiteVO();
+					if(!is_null($lStockQuantiteActuel->getId())) {
+						$lStockQuantite->setId($lStockQuantiteActuel->getId());
+						$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+					}
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() - $lProduit["quantiteSolidaire"]);
+					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
+					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+					$lStockService->setStockQuantite($lStockQuantite);
 				}
 			}
 		}
