@@ -230,6 +230,7 @@ class BonDeLivraisonControleur
 						$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $lProduit["quantite"] - $lBon->getStoQuantite());
 						$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 						$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
+						
 						$lStockService->setStockQuantite($lStockQuantite);
 					}
 				}
@@ -289,7 +290,7 @@ class BonDeLivraisonControleur
 						$lStockQuantite->setId($lStockQuantiteActuel->getId());
 						$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
 					}
-					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() - $lProduit["quantite"]);
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() - $lBon->getStoQuantite());
 					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
 					$lStockService->setStockQuantite($lStockQuantite);
@@ -415,7 +416,7 @@ class BonDeLivraisonControleur
 						$lStockQuantite->setId($lStockQuantiteActuel->getId());
 						$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
 					}
-					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() - $lProduit["quantiteSolidaire"]);
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() - $lBon->getStoQuantite());
 					$lStockQuantite->setIdNomProduit($lProduitMarche[$lProduit["id"]]->getIdNom());
 					$lStockQuantite->setUnite($lProduitMarche[$lProduit["id"]]->getUnite());
 					$lStockService->setStockQuantite($lStockQuantite);
