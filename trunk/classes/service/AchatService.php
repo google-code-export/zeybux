@@ -1142,8 +1142,9 @@ class AchatService
 			// Test si produit déjà dans le marché
 			$lProduits = ProduitManager::selectbyIdNomProduitIdMarche($pProduitAchat->getIdNomProduit(), $pProduitAchat->getIdMarche());
 			$lIdProduit = $lProduits[0]->getId();
+			
 			// Si il n'est pas dans le marche l'ajouter
-			if(empty($lId)) {							
+			if(empty($lIdProduit)) {							
 				$lProduit = new ProduitCommandeVO();
 				$lProduit->setId($pProduitAchat->getIdMarche());
 				$lProduit->setIdNom($pProduitAchat->getIdNomProduit());

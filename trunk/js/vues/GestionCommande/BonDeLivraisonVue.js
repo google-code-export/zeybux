@@ -8,6 +8,7 @@
 	this.mTypePaiement = [];
 	this.mResponse;
 	this.mArchive = -1;
+	this.mListeProduitCommande = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
@@ -98,7 +99,84 @@
 							if(lResponse.valid) {
 								that.mIdCompteProducteur = lIdCompteProducteur;
 								that.mEtatEdition = false;
+								
+								
+								
+								// Suppression des doublons de lot
+								var lProduits = [];
+								that.mListeProduitCommande = [];
+								$(lResponse.produits).each(function() {
+									var lProId = this.proId;
+									if(that.mListeProduitCommande[lProId] ) {
+										if(this.stoQuantite == null) {
+											this.stoQuantite = '0';
+										}
+										that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+										that.mListeProduitCommande[lProId].NbLot++;
+										that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+									} else {
+										if(this.stoQuantite == null) {
+											this.stoQuantite = '0';
+										}
+										that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+												'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+										that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+									}
+
+									var lDcomId = this.dcomId;
+									$(lResponse.produitsCommande).each(function() {
+										if(this.dcomId == lDcomId) {								
+											if(this.stoQuantite != null) {
+												that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+											}
+											if(this.dopeMontant != null) {
+												that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+											}
+										}
+									});
+								});
+								
+								var lTotal = 0;
+								$(lResponse.produits).each(function() {
+									var lLotMultiple = false;
+									if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+										lLotMultiple = true;
+									}
+									var these = this;
+									var lProId = this.proId;
+									if(!lLotMultiple) {
+										$(lResponse.produitsCommande).each(function() {
+											if(this.proId == lProId) {							
+												var lMontant = 0;										
+												if(this.stoQuantite != null) {
+													these.stoQuantiteCommande = parseFloat(this.stoQuantite);
+												}
+												if(this.dopeMontant != null) {
+													these.opeMontantCommande = parseFloat(this.dopeMontant);
+													lMontant = parseFloat(this.dopeMontant);
+												}
+												lTotal += lMontant;
+											}
+										});
+									} else {
+										these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation;
+										these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande;
+										these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande;
+										if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+											lTotal += that.mListeProduitCommande[this.proId].prixCommande;
+										}
+									}
+									if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+										that.mListeProduitCommande[this.proId].lotTraite = 1;
+										lProduits.push(this);
+									} 
+									
+								});
+								lResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+								lResponse.produits = lProduits;
+								
 								that.mResponse = lResponse;
+								
 								if(lResponse.operationProducteur && lResponse.operationProducteur.idCompte != null ) {
 									that.afficherDetail(lResponse);
 								} else {
@@ -122,36 +200,96 @@
 	
 	this.afficherDetail = function(pResponse) {
 		var that = this;
-		var lTotal = 0;
+		//var lTotal = 0;
+		
+		//var lData = {produits:[]};
+		
+		// Suppression des doublons de lot
+	/*	$(pResponse.produits).each(function() {
+			var lProId = this.proId;
+			if(that.mListeProduitCommande[lProId] ) {
+				that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+				that.mListeProduitCommande[lProId].NbLot++;
+				that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+			} else {
+				that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+						'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+				that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+			}
+
+			var lDcomId = this.dcomId;
+			$(pResponse.produitsCommande).each(function() {
+				if(this.dcomId == lDcomId) {								
+					if(this.stoQuantite != null) {
+						that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+					}
+				}
+			});
+		});*/
+		
+		
+		
 		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			/*var lLotMultiple = false;
+			if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+				lLotMultiple = true;
+			}*/
 			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
+			//this.stoQuantiteCommande = '';
+		//	this.opeMontant = '';
 			var lQuantite = 0;
 			
 			var lProId = this.proId;
 			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
 			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+			// Qte Reservation
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte commande
+			if(this.stoQuantiteCommande == null) {
+				this.stoQuantiteCommande = '0';
+			}
+			this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			
+			if(this.opeMontantCommande == null) {
+				this.opeMontantCommande = '0';
+			}
+			this.opeMontantCommande = this.opeMontantCommande.nombreFormate(2,',',' ');
+			
+			
+			this.stoQuantiteLivraison = '0'.nombreFormate(2,',',' ');
+			this.opeMontantLivraison = '0'.nombreFormate(2,',',' ');
+			this.stoQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+			
+
+			//if(!lLotMultiple) {
+				/*$(pResponse.produitsCommande).each(function() {
+					if(this.proId == lProId) {
+						var lMontant = 0;										
+						if(this.stoQuantite != null) {
+							these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+						}
+						if(this.dopeMontant != null) {
+							these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+							lMontant = parseFloat(this.dopeMontant);
+						}
+						lTotal += lMontant;
 					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
-					}
-					lTotal += lMontant;
+				});*/
+			/*} else {
+				these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation.nombreFormate(2,',',' ');
+				these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande.nombreFormate(2,',',' ');
+				these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande.nombreFormate(2,',',' ');
+				if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+					lTotal += that.mListeProduitCommande[this.proId].prixCommande;
 				}
-			});
+			}*/
 			
 			$(pResponse.produitsLivraison).each(function() {
 				if(this.proId == lProId) {
@@ -180,15 +318,18 @@
 				this.classEtat = 'qte-reservation-ok';
 			}
 
-			if(this.stoQuantite == null) {
-				this.stoQuantite = '0';
-			}
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			
 
 			this.masquerNormal = '';
 			if(this.proType == 1) {
 				this.masquerNormal = "ui-helper-hidden";
 			}
+			
+			/*if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+				that.mListeProduitCommande[this.proId].lotTraite = 1;
+				lData.produits.push(this);
+			}*/ 
+			
 		});	
 		
 		pResponse.total = '';
@@ -202,7 +343,7 @@
 		}
 		
 		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		//pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
 		pResponse.typePaiement = that.mTypePaiement;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
@@ -237,36 +378,93 @@
 	
 	this.afficherFormulaire = function(pResponse,pType) {
 		var that = this;
-		var lTotal = 0;
+	//	var lTotal = 0;
+		
+	//	var lData = {produits:[]};
+		
+		// Suppression des doublons de lot
+		/*$(pResponse.produits).each(function() {
+			var lProId = this.proId;
+			if(that.mListeProduitCommande[lProId] ) {
+				that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+				that.mListeProduitCommande[lProId].NbLot++;
+				that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+			} else {
+				that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+						'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+				that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+			}
+
+			var lDcomId = this.dcomId;
+			$(pResponse.produitsCommande).each(function() {
+				if(this.dcomId == lDcomId) {								
+					if(this.stoQuantite != null) {
+						that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+					}
+				}
+			});
+		});*/
+		
 		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			//that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+		/*	var lLotMultiple = false;
+			if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+				lLotMultiple = true;
+			}*/
 			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
+			//this.stoQuantiteCommande = '';
+		//	this.opeMontant = '';
 			var lQuantite = 0;
 			
 			var lProId = this.proId;
 			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
 			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					//var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte Reservation
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte commande
+			if(this.stoQuantiteCommande == null) {
+				this.stoQuantiteCommande = '0';
+			}
+			this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			
+			if(this.opeMontantCommande == null) {
+				this.opeMontantCommande = '0';
+			}
+			this.opeMontantCommande = this.opeMontantCommande.nombreFormate(2,',',' ');
+			
+			this.stoQuantiteLivraison = '0'.nombreFormate(2,',',' ');
+			this.opeMontantLivraison = '0'.nombreFormate(2,',',' ');
+			this.stoQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+		/*	if(!lLotMultiple) {
+				$(pResponse.produitsCommande).each(function() {
+					if(this.proId == lProId) {
+						//var lMontant = 0;										
+						if(this.stoQuantite != null) {
+							these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+						}
+						if(this.dopeMontant != null) {
+							these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+							//lMontant = parseFloat(this.dopeMontant).toFixed(2);
+							lTotal += parseFloat(this.dopeMontant).toFixed(2);
+						}
 					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						//lMontant = parseFloat(this.dopeMontant).toFixed(2);
-						lTotal += parseFloat(this.dopeMontant).toFixed(2);
-					}
+				});
+			} else {
+				these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation.nombreFormate(2,',',' ');
+				these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande.nombreFormate(2,',',' ');
+				these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande.nombreFormate(2,',',' ');
+				if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+					lTotal += that.mListeProduitCommande[this.proId].prixCommande;
 				}
-			});
+			}*/
 			
 			$(pResponse.produitsLivraison).each(function() {
 				if(this.proId == lProId) {
@@ -295,15 +493,15 @@
 				this.classEtat = 'qte-reservation-ok';
 			}
 			
-			if(this.stoQuantite == null) {
-				this.stoQuantite = '0';
-			}
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-			
 			this.masquerNormal = '';
 			if(this.proType == 1) {
 				this.masquerNormal = "ui-helper-hidden";
 			}
+			
+		/*	if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+				that.mListeProduitCommande[this.proId].lotTraite = 1;
+				lData.produits.push(this);
+			} */
 			
 		});	
 		
@@ -318,7 +516,7 @@
 		}
 		
 		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		//pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
 		pResponse.typePaiement = that.mTypePaiement;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();

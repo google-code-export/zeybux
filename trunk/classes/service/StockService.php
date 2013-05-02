@@ -71,7 +71,12 @@ class StockService
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Reservation Producteur (commande)
 					// Maj Stock Reservation et qté initiale dans le produit
-					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					if($lProduit->getStockInitial() == -1) { // Si Pas de limite (Qte init = -1) il ne faut pas prendre en compte la qte init.
+						$lStockReservation = $lProduit->getStockReservation() + $pStock->getQuantite();
+					} else {
+						$lStockReservation = $lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite();
+					}
+					$lProduit->setStockReservation($lStockReservation);
 					$lProduit->setStockInitial($pStock->getQuantite());
 					ProduitManager::update($lProduit);
 				} else { // Reservation Adherent
@@ -85,9 +90,15 @@ class StockService
 				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
-					// Maj Stock Reservation et qté initiale dans le produit
-					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					// Maj Stock Reservation et qté initiale dans le produit					
+					if($lProduit->getStockInitial() == -1) { // Si Pas de limite (Qte init = -1) il ne faut pas prendre en compte la qte init.
+						$lStockReservation = $lProduit->getStockReservation() + $pStock->getQuantite();
+					} else {
+						$lStockReservation = $lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite();
+					}
+					$lProduit->setStockReservation($lStockReservation);
 					$lProduit->setStockInitial($pStock->getQuantite());
+					
 					ProduitManager::update($lProduit);
 				}
 				break;
@@ -116,7 +127,12 @@ class StockService
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Reservation Producteur (commande)
 					// Maj Stock Reservation dans le produit
-					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					if($lProduit->getStockInitial() == -1) { // Si Pas de limite (Qte init = -1) il ne faut pas prendre en compte la qte init.
+						$lStockReservation = $lProduit->getStockReservation() + $pStock->getQuantite();
+					} else {
+						$lStockReservation = $lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite();
+					}
+					$lProduit->setStockReservation($lStockReservation);
 					$lProduit->setStockInitial($pStock->getQuantite());
 					ProduitManager::update($lProduit);
 				} else { // Reservation Adherent
@@ -131,7 +147,12 @@ class StockService
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
 					// Maj Stock Reservation et qté initiale dans le produit
-					$lProduit->setStockReservation($lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite());
+					if($lProduit->getStockInitial() == -1) { // Si Pas de limite (Qte init = -1) il ne faut pas prendre en compte la qte init.
+						$lStockReservation = $lProduit->getStockReservation() + $pStock->getQuantite();
+					} else {
+						$lStockReservation = $lProduit->getStockReservation() - $lProduit->getStockInitial() + $pStock->getQuantite();
+					}
+					$lProduit->setStockReservation($lStockReservation);
 					$lProduit->setStockInitial($pStock->getQuantite());
 					ProduitManager::update($lProduit);
 				}
@@ -226,7 +247,7 @@ class StockService
 					return $this->update($lStock);
 					break;
 					
-				case 4 : // Annulation du Bon de commande
+				case 4 : // Annulation du Bon de Livraison
 					$lStock->setType(9);
 					return $this->update($lStock);
 					break;
