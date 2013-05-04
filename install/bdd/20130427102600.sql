@@ -48,5 +48,4 @@ SELECT
 `stosol_etat`
 FROM `stosol_stock_solidaire`;
 
-INSERT INTO `zeybu_maintenance`.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '4', 'StockProduitListeFerme', 'Les Stocks', '2', '4');
-
+INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '4', 'StockProduitListeFerme', 'Les Stocks', '2', '4');
