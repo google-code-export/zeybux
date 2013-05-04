@@ -164,7 +164,7 @@ class StockValid
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function inputSolidaire($pStockSolidaire) {
+/*	public function inputSolidaire($pStockSolidaire) {
 		if(is_object($pStockSolidaire)) {
 			$lInput = true;
 			$lInput &= get_class($pStockSolidaire) == "StockSolidaireVO";
@@ -180,40 +180,40 @@ class StockValid
 		} else {
 			return false;
 		}
-	}
+	}*/
 	
 	/**
 	* @name insertSolidaire($pStock)
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function insertSolidaire($pStock) {
+/*	public function insertSolidaire($pStock) {
 		$lId = $pStock->getId();
 		return empty($lId);
-	}
+	}*/
 	
 	/**
 	* @name updateSolidaire($pStock)
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function updateSolidaire($pStock) {
+/*	public function updateSolidaire($pStock) {
 		$lId = $pStock->getId();
 		return !empty($lId);
-	}
+	}*/
 	
 	/**
 	* @name deleteSolidaire($pId)
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function deleteSolidaire($pId) {
+/*	public function deleteSolidaire($pId) {
 		$lIdValid = new IdValid();
 		if($pId != "") {
 			return $lIdValid->estId($pId);
 		}
 		return false;
-	}
+	}*/
 	
 	/* Stockquantite */
 	

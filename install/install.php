@@ -4536,6 +4536,34 @@ color:#FFFFFF;
 						<td>Mot de passe</td>
 						<td><input type="text" name="soapPass" id="soapPass"/></td>						
 					</tr>
+					
+					<tr>
+						<td colspan="2" class="ui-widget-header">Proprietaire Zeybux</td>		
+					</tr>
+					<tr>
+						<td>Nom</td>
+						<td><input type="text" name="propNom" id="propNom"/></td>						
+					</tr>
+					<tr>
+						<td>Adresse</td>
+						<td><input type="text" name="propAdresse" id="propAdresse"/></td>						
+					</tr>
+					<tr>
+						<td>Code Postal</td>
+						<td><input type="text" name="propCP" id="propCP"/></td>						
+					</tr>
+					<tr>
+						<td>Ville</td>
+						<td><input type="text" name="propVille" id="propVille"/></td>						
+					</tr>
+					<tr>
+						<td>Téléphone</td>
+						<td><input type="text" name="propTel" id="propTel"/></td>						
+					</tr>
+					<tr>
+						<td>Courriel</td>
+						<td><input type="text" name="propMail" id="propMail"/></td>						
+					</tr>
 										
 					<tr>
 						<td colspan="2" class="center">
@@ -4552,6 +4580,9 @@ color:#FFFFFF;
 		if(	isset($_POST['admin-login']) && isset($_POST['admin-pass']) && isset($_POST['admin-confirm-pass'])
 			&& isset($_POST['mailSupport']) && isset($_POST['mailingListe']) && isset($_POST['mailingListeDomain'])
 			&& isset($_POST['adresseWSDL']) && isset($_POST['soapLogin']) && isset($_POST['soapPass'])
+			&& isset($_POST['propNom']) && isset($_POST['propAdresse']) && isset($_POST['propCP'])
+			&& isset($_POST['propVille']) && isset($_POST['propTel']) && isset($_POST['propMail'])
+
 			&& isset($_POST['rep']) && isset($_POST['prefixe'])) {
 		
 			if(	empty($_POST['admin-login']) || empty($_POST['admin-pass']) || empty($_POST['admin-confirm-pass']) 
@@ -4637,6 +4668,27 @@ color:#FFFFFF;
 					fwrite($fp,"//****************************************************************\n");
 					fwrite($fp,"// Définition du level de log\n");
 					fwrite($fp,"define(\"LOG_LEVEL\",PEAR_LOG_INFO);\n");
+					fwrite($fp,"?>\n");
+					fclose($fp);
+
+					// Ajout du fichier de config du niveau de Log
+					$fp = fopen($_POST["rep"] . '/configuration/Proprietaire.php', 'w');
+					fwrite($fp,"<?php\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Createur : Julien PIERRE\n");
+					fwrite($fp,"// Date de creation : 27/04/2013\n");
+					fwrite($fp,"// Fichier : Proprietaire.php\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Description : Les informations sur le proprietaire du zeybux\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"define(\"PROP_NOM\", \"" . $_POST["propNom"] . "\");\n");
+					fwrite($fp,"define(\"PROP_ADRESSE\", \"" . $_POST["propAdresse"] . "\");\n");
+					fwrite($fp,"define(\"PROP_CODE_POSTAL\", \"" . $_POST["propCP"] . "\");\n");
+					fwrite($fp,"define(\"PROP_VILLE\", \"" . $_POST["propVille"] . "\");\n");
+					fwrite($fp,"define(\"PROP_TEL\", \"" . $_POST["propTel"] . "\");\n");
+					fwrite($fp,"define(\"PROP_MEL\", \"" . $_POST["propMail"] . "\");\n");
 					fwrite($fp,"?>\n");
 					fclose($fp);
 				}

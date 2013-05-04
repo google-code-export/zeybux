@@ -93,21 +93,21 @@ class NomProduitCatalogueValid
 		}
 		if(!isset($pData['modelesLot'])) {
 			$lVr->setValid(false);
-			$lVr->getModelesLot()->setValid(false);
+			$lVr->getLog()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-			$lVr->getModelesLot()->addErreur($lErreur);	
+			$lVr->getLog()->addErreur($lErreur);	
 		}
 		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
-					$lVr->setValid(false);
-					$lVr->getId()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-					$lVr->getId()->addErreur($lErreur);	
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);	
 			}
 			if(!is_int((int)$pData['id'])) {
 				$lVr->setValid(false);
@@ -126,12 +126,12 @@ class NomProduitCatalogueValid
 				$lVr->getNumero()->addErreur($lErreur);	
 			}
 			if(!TestFonction::checkLength($pData['idCategorie'],0,11)) {
-					$lVr->setValid(false);
-					$lVr->getIdCategorie()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-					$lVr->getIdCategorie()->addErreur($lErreur);	
+				$lVr->setValid(false);
+				$lVr->getIdCategorie()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getIdCategorie()->addErreur($lErreur);	
 			}
 			if(!is_int((int)$pData['idCategorie'])) {
 				$lVr->setValid(false);
@@ -175,11 +175,11 @@ class NomProduitCatalogueValid
 			}
 			if(!is_array($pData['modelesLot'])) {
 				$lVr->setValid(false);
-				$lVr->getModelesLot()->setValid(false);
+				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_115_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_115_MSG);
-				$lVr->getModelesLot()->addErreur($lErreur);	
+				$lVr->getLog()->addErreur($lErreur);	
 			}
 
 			if($lVr->getValid()) {
@@ -215,6 +215,14 @@ class NomProduitCatalogueValid
 					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 					$lVr->getNom()->addErreur($lErreur);	
+				}
+				if(empty($pData['modelesLot'])) {
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_264_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_264_MSG);
+					$lVr->getLog()->addErreur($lErreur);	
 				}
 
 				// La Ferme doit exister

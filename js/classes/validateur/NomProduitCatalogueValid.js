@@ -48,6 +48,8 @@
 					lVR.modelesLot.push(lVrlModeleLot);	
 					i++;
 				}				
+			} else {
+				lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_264_CODE;erreur.message = ERR_264_MSG;lVR.log.erreurs.push(erreur);
 			}
 		}
 		return lVR;
@@ -111,6 +113,8 @@
 					lVR.modelesLot.push(lVrlModeleLot);	
 					i++;
 				}				
+			} else {
+				lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_264_CODE;erreur.message = ERR_264_MSG;lVR.log.erreurs.push(erreur);
 			}
 		}
 		return lVR;

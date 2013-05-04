@@ -76,7 +76,7 @@
 	};
 			
 	this.affectLienCompte = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find('.compte-ligne')
 		.click(function() {		
 			

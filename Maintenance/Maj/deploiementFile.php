@@ -9,7 +9,8 @@ function supprimerDossier($pPath) {
 	   		&& $entry != 'SOAP.php' && $entry != 'Maintenance.php' 
 	   		&& $entry != 'Maintenance' && $entry != 'logs' 
 	   		&& $entry != "DB.php" && $entry != "Mail.php"
-	    	&& $entry != ".htaccess" && $entry != "LogLevel.php") {
+	    	&& $entry != ".htaccess" && $entry != "LogLevel.php"
+	   		&& $entry != "Proprietaire.php") {
    		if(is_dir($d->path.'/'.$entry)) {
    			supprimerDossier($d->path.'/'.$entry);
 			if($entry != 'configuration' && $entry != 'classes' && $entry != 'html' && $entry != 'vues') {

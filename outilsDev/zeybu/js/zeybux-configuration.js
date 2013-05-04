@@ -159,6 +159,12 @@ const ERR_260_CODE = 260;
 const ERR_260_MSG = 'La limite par adhérent doit être supérieure au plus grand des prix de vente avec réservation.';
 const ERR_261_CODE = 261;
 const ERR_261_MSG = 'La banque n\'existe pas.';
+const ERR_262_CODE = 262;
+const ERR_262_MSG = 'Le produit est déjà dans l\'achat.';
+const ERR_263_CODE = 263;
+const ERR_263_MSG = 'Cet adhérent a déjà un achat sur le marché.';
+const ERR_264_CODE = 264;
+const ERR_264_MSG = 'Aucun prix de vente n\'est présent sur le produit.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -280,7 +286,9 @@ const ERR_358_MSG = 'Banque ajoutée.';
 const ERR_359_CODE = 359;
 const ERR_359_MSG = 'Banque modifiée.';
 const ERR_360_CODE = 360;
-const ERR_360_MSG = 'Banque supprimée.';/********** Début Variables Globales ************/
+const ERR_360_MSG = 'Banque supprimée.';
+const ERR_361_CODE = 361;
+const ERR_361_MSG = 'Stock modifié.';/********** Début Variables Globales ************/
 const gTempsTransition = 150;
 const gTempsTransitionUnique = gTempsTransition * 2;
 const gTempsTransitionMsgInfo = gTempsTransition * 10;

@@ -519,7 +519,7 @@
 	};
 	
 	this.refusSupprimerCategorie = function(pResponse) {
-		var that = this;
+		//var that = this;
 		var lGestionProducteurTemplate = new GestionProducteurTemplate();	
 		var lTemplate = lGestionProducteurTemplate.dialogRefusSupprimerCategorie;
 		var lData = this.mCategories[pResponse.id];
@@ -875,7 +875,7 @@
 	};
 	
 	this.affectDetailProduit = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find('.liste-produit-nom')
 		.click(function() {		
 			var lId = $(this).closest('tr').attr('id-pro');
