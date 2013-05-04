@@ -9,7 +9,7 @@
 <div><a href="./index.php">Retour</a></div>
 <?php 
 // Répertoire du site
-$lDossierVersion = '../../';
+$lDossierVersion = dirname(__FILE__). '/../../';
 
 if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	$lNom = $_POST['nom'];

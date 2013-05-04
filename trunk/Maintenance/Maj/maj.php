@@ -45,6 +45,8 @@ include("./Maj/dumpMySQL.php");
 			<div class="detail_action com-widget-window  ui-widget-content menu-lien btn-menu ui-corner-all com-float-left">
 				<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Upload du package</div>		
 <?php include("./Maj/formUpload.php"); ?>
+<br/>Ou Sélectionner un package existant :<br/><br/>
+<?php include("./Maj/listeArchive.php"); ?>
 			</div>
 			<?php 
 		break;
@@ -54,6 +56,8 @@ include("./Maj/dumpMySQL.php");
 			<div class="detail_action com-widget-window  ui-widget-content menu-lien btn-menu ui-corner-all com-float-left">
 				<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Upload du package</div>		
 <?php include("./Maj/formUpload.php"); ?>
+<br/>Ou Sélectionner un package existant :<br/><br/>
+<?php include("./Maj/listeArchive.php"); ?>
 			</div>
 			<?php 
 		break;
