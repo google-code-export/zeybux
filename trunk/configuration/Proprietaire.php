@@ -5,7 +5,7 @@
 // Date de creation : 27/04/2013
 // Fichier : Proprietaire.php
 //
-// Description : Les information sur le proprietaire du zeybux
+// Description : Les informations sur le proprietaire du zeybux
 //
 //****************************************************************
 define("PROP_NOM", "Les Amis du Zeybu");

@@ -145,7 +145,7 @@
 					"<tr>" +
 						"<td class=\"com-table-td td-date \">{operationPassee.opeDate}</td>" +
 						"<td class=\"com-table-td td-libelle\">{operationPassee.opeLibelle}</td>" +
-						"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType}</td>" +
+						"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType} {operationPassee.opeTypePaiementChampComplementaire}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +
 					"</tr>" +
@@ -246,6 +246,11 @@
 			if(this.opeDate != null) {
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
+				if(this.tppId == 2) {
+					this.opeTypePaiementChampComplementaire =' N° ' + this.opeTypePaiementChampComplementaire;
+				} else {
+					this.opeTypePaiementChampComplementaire = '';
+				}
 				if(this.opeMontant < 0) {
 					this.debit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 					this.credit = '';

@@ -1,4 +1,4 @@
-;function GestionCommandeTemplate() {
+;function GestionCommandeTemplate() {	
 	this.dialogAjoutProduitAjoutMarche =
 		"<div id=\"dialog-ajout-pro\" title=\"Produit\">" +
 			"<div id=\"information-detail-producteur\">" +
@@ -17,7 +17,7 @@
 						"<option value=\"0\" >== Choisir une catégorie ==</option>" +
 					"</select>" +
 				"</div>" +
-				"<div id=\"pro-idProduit\" class=\"com-float-left\">" +
+				"<div id=\"pro-idProduit\">" +
 					"<select name=\"produit\" disabled=\"disabled\">" +
 						"<option value=\"0\" >== Choisir un produit ==</option>" +
 					"</select>" +
@@ -38,13 +38,61 @@
 		"</div>";
 	
 	this.ajoutProduitSelectProduit =
-		"<div id=\"pro-idProduit\" class=\"com-float-left\">" +
+		"<div id=\"pro-idProduit\">" +
 			"<select name=\"produit\">" +
 				"<option value=\"0\" >== Choisir un produit ==</option>" +
 				"<!-- BEGIN listeProduit -->" +
 				"<option value=\"{listeProduit.nproId}\" >{listeProduit.nproNom}</option>" +
 				"<!-- END listeProduit -->" +
 			"</select>" +
+		"</div>";
+	
+	this.dialogAjoutAchatProduit =
+		"<div id=\"dialog-ajout-pro\" title=\"Produit\">" +
+			"<div id=\"information-detail-producteur\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Produit</div>" +
+
+				"<div id=\"pro-idFerme\" class=\"com-float-left\">" +
+					"<select name=\"ferme\">" +
+						"<option value=\"0\" >== Choisir une ferme ==</option>" +
+						"<!-- BEGIN listeFerme -->" +
+						"<option value=\"{listeFerme.ferId}\" >{listeFerme.ferNom}</option>" +
+						"<!-- END listeFerme -->" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idCategorie\" class=\"com-float-left\">" +
+					"<select name=\"categorie\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir une catégorie ==</option>" +
+					"</select>" +
+				"</div>" +
+				"<div id=\"pro-idProduit\">" +
+					"<select name=\"produit\" disabled=\"disabled\">" +
+						"<option value=\"0\" >== Choisir un produit ==</option>" +
+					"</select>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"detail-achat\">" +
+			"</div>" +
+		"</div>";
+	
+	this.detailProduitAjoutAchatProduit = 
+		"<div id=\"detail-achat\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Achat</div>" +
+			"<input type=\"hidden\" id=\"pro-id\" value=\"{idProduit}\"/>" +
+			"<div id=\"choixTypeAchat\">" +
+				"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitNormal\" value=\"0\" checked=\"checked\"/> Achat" +
+				"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitSolidaire\" value=\"1\" /> Achat Solidaire" +
+			"</div>" +
+			"<table class=\"com-table-form\">" +
+				"<tr>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-quantite\" maxlength=\"13\" id=\"pro-quantite\"/> {unite}" +
+					"</td>" +
+					"<td>" +
+						"<input class=\"pro-form-input-lot com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" name=\"lot-prix\" maxlength=\"13\" id=\"pro-prix\"/> {sigleMonetaire}" +
+					"</td>" +
+				"</tr>" +
+			"</table>" +
 		"</div>";
 	
 	this.prixAjoutProduit =
@@ -1295,7 +1343,7 @@
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
 			"<div id=\"edt-com-liste\" >" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Liste des Achats et Réservations" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-achat\" title=\"Exporter les Achats et les réservations\">" +
@@ -1314,28 +1362,36 @@
 							
 						"</form>" +
 					"</div>" +
+					"{achatInvite}" +
 					"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
 						"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Réservation</th>" +
-							"<th class=\"com-table-th com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Achat</th>" +
+							"<th class=\"com-table-th-debut com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th colspan=\"2\" class=\"com-table-th-fin\"></span>Achat</th>" +
 						"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 						"<!-- BEGIN listeAchatEtReservation -->" +
 						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" id-adherent=\"{listeAchatEtReservation.adhId}\">" +							
-							"<td class=\"com-table-td com-underline-hover\">" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
 								"{listeAchatEtReservation.adhNumero}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.reservation}</td>" +
-							"<td class=\"com-table-td com-underline-hover\">{listeAchatEtReservation.achat}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">" +
+								"<span class=\"{listeAchatEtReservation.achat} ui-state-hover com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+									"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+								"</span>" +							
+							"</td>" +
+							"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
+								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+								"</span>" +
+							"</td>" +
 						"</tr>" +
 						"<!-- END listeAchatEtReservation -->" +
 						"</tbody>" +
@@ -1343,6 +1399,47 @@
 				"</div>" +
 			"</div>" +
 		"</div>";
+	
+	this.listeAchatInvite =
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\" id=\"entete-achat-invite\" >" +
+					"<th colspan=\"4\" class=\"com-table-th com-underline-hover com-center\">" +
+						"Compte invité" +
+						"<span class=\"com-btn-header-multiples ui-widget-content ui-widget-content-transparent ui-corner-all com-cursor-pointer\">" +
+							"<span id=\"icon-achat-invite\" class=\"ui-icon ui-icon-triangle-1-s\">" +
+						"</span>" +
+					"</th>" +
+				"</tr>" +
+				"<tr class=\"ui-widget ui-widget-header com-cursor-pointer ui-helper-hidden detail-achat-invite\">" +
+					"<th class=\"com-table-th-debut\"></span>Achat</th>" +
+					"<th class=\"com-table-th-med\"></span>Achat Solidaire</th>" +
+					"<th colspan=\"2\" class=\"com-table-th-fin\"></span>Montant</th>" +
+				"</tr>" +
+				"<tbody class=\"ui-helper-hidden detail-achat-invite\">" +
+					"<!-- BEGIN listeAchatInvite -->" +
+					"<tr class=\"com-cursor-pointer edt-com-achat-ligne-invite\" data-id-operation=\"{listeAchatInvite.id}\">" +							
+						"<td class=\"com-table-td-debut\">" +
+							"<span class=\"{listeAchatInvite.achat} com-flag ui-state-hover com-cursor-pointer ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+							"</span>" +							
+						"</td>" +
+						"<td class=\"com-table-td-med\">" +
+							"<span class=\"{listeAchatInvite.achatSolidaire} com-flag ui-state-hover com-cursor-pointer ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+							"</span>" +							
+						"</td>" +
+						"<td class=\"com-table-td-med\">{listeAchatInvite.montant} {sigleMonetaire}</td>" +
+						"<td class=\"com-table-td-fin td-edt\">" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+								"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+							"</span>" +
+						"</td>" +
+					"</tr>" +
+					"<!-- END listeAchatInvite -->" +
+				"</tbody>" +
+			"</thead>" +
+		"</table>";
 	
 	this.listeAchatEtReservationVide = 
 		"<div id=\"contenu\">" +
@@ -1357,23 +1454,41 @@
 			"</div>" +
 		"</div>";
 	
-	this.detailAchatEtReservation = 
+	this.dateAchat = "Achat du {dateAchat} :";
+	
+	this.boutonSupprimerAchat = 
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat\" id=\"btn-supp-achat\" title=\"Supprimer\" data-id-achat=\"{idAchat}\">" +
+			"<span class=\"ui-icon ui-icon-trash\"></span>" +
+		"</span>";
+	
+	this.boutonSupprimerAchatSolidaire = 
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat-solidaire\" id=\"btn-supp-achat-solidaire\" title=\"Supprimer\" data-id-achat=\"{idAchat}\">" +
+			"<span class=\"ui-icon ui-icon-trash\"></span>" +
+		"</span>";
+	
+	this.detailAchatEtReservationEnteteInvite =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-barre-menu-2\">" +
 				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-annuler\">" +
-					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour au Marché" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des achats" +
 				"</button>" +
 			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"Marché n°{comNumero}" +
-			"</div>" +
-			"<div>" +
-				"Fin des réservations : Le {dateFinReservation} à {heureFinReservation}H{minuteFinReservation} <br/>" +
-				"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Compte Invité" +
 				"</div>" +
 			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+			"{detailAchat}" +
+		"</div>";
+		
+	this.detailAchatEtReservationEntete = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-annuler\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des achats" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Adhérent" +
 				"</div>" +
@@ -1388,143 +1503,124 @@
 					"<div class=\"com-clear-float-left\"></div>" +
 				"</div>" +
 			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"La réservation : " +
-					
-					"<span class=\"resa-etat\" id=\"reservation-etat-label\">{etatReservation}</span>" +
-					"<span class=\"resa-etat ui-helper-hidden\">" +
-						"<select id=\"reservation-etat\">" +
-							"<!-- BEGIN typeEtatReservation -->" +
-							"<option value=\"{typeEtatReservation.value}\" {typeEtatReservation.selected}>{typeEtatReservation.label}</option>" +
-							"<!-- END typeEtatReservation -->" +
-						"</select>" +							
-					"</span>" +
-					
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-resa ui-helper-hidden\" id=\"btn-modif-resa\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-resa\" id=\"btn-check-resa\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN reservation -->" +
-					"<tr class=\"ligne-produit-reservation\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{reservation.id}</span>{reservation.nproNom}</td>" +
-						"<td>{reservation.flagType}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte\" id=\"reservation-{reservation.id}-quantite\">{reservation.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-resa-qte ui-helper-hidden\"><input type=\"text\" value=\"{reservation.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td class=\"detail-resa-unite\">{reservation.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix\" id=\"reservation-{reservation.id}-prix\">{reservation.prix}</td>" +
-						"<td class=\"com-text-align-right detail-resa-prix ui-helper-hidden\"><input type=\"text\" value=\"{reservation.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"reservation-produits{reservation.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END reservation -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						"<td class=\"com-text-align-right resa-total\" id=\"reservation-total-label\">{totalReservation}</td>" +
-						"<td class=\"com-text-align-right resa-total ui-helper-hidden\"><input type=\"text\" value=\"{totalReservation}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"reservation-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-
-
-			"<!-- BEGIN achats -->" +
-			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat <span class=\"achat-id ui-helper-hidden\">{achats.idAchat}</span>" +
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achats.idAchat}\" id=\"btn-supp-achat-{achats.idAchat}\" title=\"Supprimer\">" +
-						"<span class=\"ui-icon ui-icon-trash\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achats.idAchat}\" id=\"btn-modif-achat-{achats.idAchat}\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achats.idAchat}\" id=\"btn-annuler-achat-{achats.idAchat}\" title=\"Annuler\">" +
-						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-					"</span>" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achats.idAchat}\" id=\"btn-check-achat-{achats.idAchat}\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN achats.achat -->" +
-					"<tr class=\"ligne-produit-achat-{achats.idAchat}\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achats.achat.id}</span>{achats.achat.nproNom}</td>" +
-						"<td>{achats.achat.flagType}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-qte\">{achats.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte\" id=\"achat-{achats.idAchat}-{achats.achat.id}-quantite\">{achats.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td class=\"detail-resa-unite\">{achats.achat.proUniteMesure}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-prix\">{achats.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix\" id=\"achat-{achats.idAchat}-{achats.achat.id}-prix\">{achats.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achats.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achats.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-produits{achats.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END achats.achat -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						"<td class=\"com-text-align-right achat-{achats.idAchat}-total\" id=\"achat-{achats.idAchat}-total-label\">{achats.total}</td>" +
-						"<td class=\"com-text-align-right achat-{achats.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achats.total}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achats.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<!-- END achats -->" +
-			
-			"<!-- BEGIN achatsSolidaire -->" +
-			"<div class=\"achatSolidaire com-widget-window ui-widget ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Achat Solidaire <span class=\"achat-id ui-helper-hidden\">{achatsSolidaire.idAchat}</span>" +
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-supp-achat-{achatsSolidaire.idAchat}\" title=\"Supprimer\">" +
-						"<span class=\"ui-icon ui-icon-trash\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-modif-achat-{achatsSolidaire.idAchat}\" title=\"Modifier\">" +
-						"<span class=\"ui-icon ui-icon-pencil\"></span>" +
-					"</span>" +	
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-annuler-achat-{achatsSolidaire.idAchat}\" title=\"Annuler\">" +
-						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-					"</span>" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden modif-achat-{achatsSolidaire.idAchat}\" id=\"btn-check-achat-{achatsSolidaire.idAchat}\" title=\"Valider\">" +
-						"<span class=\"ui-icon ui-icon-check\"></span>" +
-					"</span>" +
-				"</div>" +
-				"<table>" +
-					"<!-- BEGIN achatsSolidaire.achat -->" +
-					"<tr class=\"ligne-produit-achat-{achatsSolidaire.idAchat}\">" +
-						"<td class=\"detail-resa-npro\"><span class=\"ui-helper-hidden produit-id\">{achatsSolidaire.achat.id}</span>{achatsSolidaire.achat.nproNom}</td>" +
-						"<td>{achatsSolidaire.achat.flagType}</td>" +
-						//"<td class=\"com-text-align-right detail-resa-qte\">{achatsSolidaire.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-quantite\">{achatsSolidaire.achat.stoQuantite}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-qte ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}quantite\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td class=\"detail-resa-unite\">{achatsSolidaire.achat.proUniteMesure}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix\" id=\"achat-{achatsSolidaire.idAchat}-{achatsSolidaire.achat.id}-prix\">{achatsSolidaire.achat.prix}</td>" +
-						"<td class=\"com-text-align-right detail-achat-{achatsSolidaire.idAchat}-prix ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-produits{achatsSolidaire.achat.id}prix\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						//"<td class=\"com-text-align-right detail-resa-prix\">{achatsSolidaire.achat.prix}</td>" +
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-					"<!-- END achatsSolidaire.achat -->" +
-					"<tr>" +
-						"<td class=\"com-text-align-right\" colspan=\"4\">Total : </td>" +
-						//"<td class=\"com-text-align-right\">{total}</td>" +
-						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total\" id=\"achat-{achatsSolidaire.idAchat}-total-label\">{achatsSolidaire.totalSolidaire}</td>" +
-						"<td class=\"com-text-align-right achat-{achatsSolidaire.idAchat}-total ui-helper-hidden\"><input type=\"text\" value=\"{achatsSolidaire.totalSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"achat-{achatsSolidaire.idAchat}-total\" maxlength=\"12\" size=\"3\"/></td>" +
-						
-						"<td>{sigleMonetaire}</td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"<!-- END achatsSolidaire -->" +
+			"{detailAchat}" +
 		"</div>";
 	
+	this.detailAchatVide =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\">" +			
+			"<button type=\"button\" id=\"btn-nv-produit\" class=\"com-btn-edt ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+		"</div>";
+	
+	this.detailAchatEtReservation =		
+		"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"{dateAchat} {totalMarche} {sigleMonetaire}" +
+					"<span id=\"btn-nv-produit\" class=\"com-cursor-pointer com-btn-header-text ui-widget-content ui-corner-all\" title=\"Ajouter un produit\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\"></span>Ajouter un produit" +
+					"</span>" +
+			"</div>" +
+			"<table class=\"com-table-100\">" +
+				"<tr>" +
+					"<td></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"><div class=\"ui-widget-header ui-corner-all com-center\">Réservation</div></td>" +
+					"<td colspan=\"3\" class=\"col-achat\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Achat" +
+							"{boutonSupprimerAchat}" +								
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat\" id=\"btn-modif-achat\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +	
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat\" id=\"btn-annuler-achat\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat\" id=\"btn-check-achat\" title=\"Valider\" data-id-achat=\"{idAchat}\" data-type=\"\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</div>" +
+					"</td>" +
+					"<td colspan=\"3\" class=\"col-achat-solidaire\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Achat Solidaire" +
+							"{boutonSupprimerAchatSolidaire}" +								
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-achat-solidaire\" id=\"btn-modif-achat-solidaire\" title=\"Modifier\">" +
+								"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+							"</span>" +	
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat-solidaire\" id=\"btn-annuler-achat-solidaire\" title=\"Annuler\">" +
+								"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+							"</span>" +
+							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-achat-solidaire\" id=\"btn-check-achat-solidaire\" title=\"Valider\" data-id-achat=\"{idAchatSolidaire}\" data-type=\"solidaire\">" +
+								"<span class=\"ui-icon ui-icon-check\"></span>" +
+							"</span>" +
+						"</div>" +
+					"</td>" +
+				"</tr>" +
+			"<!-- BEGIN categories -->" +
+				"<tr>" +
+					"<td><div class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</div></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
+					"<td colspan=\"3\" class=\"col-achat\"></td>" +
+					"<td colspan=\"3\" class=\"col-achat-solidaire\"></td>" +
+				"</tr>" +
+				"<!-- BEGIN categories.achat -->" +
+				"<tr class=\"com-ligne-hover ligne-produit-achat\" data-id-produit=\"{categories.achat.proId}\">" +
+					"<td>{categories.achat.nproNom}</td>" +						
+
+					"<td class=\"col-reservation com-text-align-right detail-achat-unite\">{categories.achat.stoQuantiteReservation}</td>" +						
+					"<td class=\"col-reservation detail-achat-unite\">{categories.achat.proUniteMesureReservation}</td>" +
+					
+					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-qte\">{categories.achat.stoQuantite}</span>" +
+						"<span class=\"detail-achat-qte ui-helper-hidden \">" +
+							"<input type=\"text\" value=\"{categories.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+						"</span>" +
+					"</td>" +
+					
+					"<td class=\"detail-achat-unite detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-qte\">{categories.achat.proUniteMesure}</span>" +
+						"<span class=\"detail-achat-qte ui-helper-hidden\">{categories.achat.unite}</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
+						"<span class=\"detail-achat-prix\">" +
+							"{categories.achat.prix} {categories.achat.sigleMonetaire}" +
+						"</span>" +
+						"<span class=\"detail-achat-prix ui-helper-hidden\">" +
+							"<input type=\"text\" value=\"{categories.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							" {sigleMonetaire}" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.stoQuantiteSolidaire}</span>" +
+						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden \">" +
+							"<input type=\"text\" value=\"{categories.achat.stoQuantiteSolidaire}\" class=\"com-numeric produit-quantite-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
+						"</span>" +
+					"</td>" +			
+					"<td class=\"detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.proUniteMesureSolidaire}</span>" +
+						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden\">{categories.achat.unite}</span>" +
+					"</td>" +
+					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
+						"<span class=\"detail-achat-prix-solidaire\">" +
+							"{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}" +
+						"</span>" +
+						"<span class=\"detail-achat-prix-solidaire ui-helper-hidden\">" +
+							"<input type=\"text\" value=\"{categories.achat.prixSolidaire}\" class=\"com-numeric produit-prix-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
+							" {sigleMonetaire}" +
+						"</span>" +
+					"</td>" +		
+				"</tr>" +
+				"<!-- END categories.achat -->" +
+			"<!-- END categories -->" +
+				"<tr>" +
+					"<td></td>" +
+					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
+					"<td class=\"com-text-align-right col-achat\" colspan=\"2\">Total : </td>" +
+					"<td class=\"com-text-align-right col-achat\">{total} {sigleMonetaire}</td>" +						
+					"<td class=\"com-text-align-right col-achat-solidaire\" colspan=\"2\">Total Solidaire : </td>" +
+					"<td class=\"com-text-align-right col-achat-solidaire\">{totalSolidaire} {sigleMonetaire}</td>" +
+				"</tr>" +
+			"</table>" +
+		"</div>" ;
+
 	this.supprimerReservationDialog =
 		"<div id=\"dialog-supprimer-reservation\" title=\"Supprimer la réservation\">" +
 			"<p>Voulez-vous supprimer la réservation ?</p>" +
@@ -1822,7 +1918,7 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Bon de commande du Marché n°{comNumero}" +
-					"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-bcom\" title=\"Exporter le bon de commande\">" +
+					"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-bcom\" title=\"Exporter le bon de commande\">" +
 						"<span class=\"ui-icon ui-icon-print\">" +
 					"</span>" +
 				"</span>" +
@@ -1869,22 +1965,22 @@
 							" {produits.proUniteMesure}" +
 						"</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"<span class=\"pro-id ui-helper-hidden\">{produits.proId}</span>" +
-							"<input class=\"formulaire qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"qte-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.proId}quantite\"/>" +
+							//"<span class=\"pro-id ui-helper-hidden\"  data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\"></span>" +
+							"<input class=\"formulaire qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"qte-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.dcomId}quantite\" data-taille=\"{produits.dcomTaille}\" data-prix=\"{produits.dcomPrix}\" data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\" />" +
 							"<span class=\"detail\">{produits.stoQuantiteCommande}</span>" +
 						"</td>" +
 						"<td>" +
 							" {produits.proUniteMesure}" +
 						"</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"<input class=\"formulaire prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"prix-commande-{produits.proId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.proId}prix\" />" +
+							"<input class=\"formulaire prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"prix-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.dcomId}prix\" />" +
 							"<span class=\"detail\">{produits.dopeMontant}</span>" +
 						"</td>" +
 						"<td>" +
 							" {sigleMonetaire}" +
 						"</td>" +
 						"<td>" +
-							"<div id=\"etat-commande-{produits.proId}\" class=\"{produits.classEtat} ui-corner-all\"></div>" +
+							"<div id=\"etat-commande-{produits.dcomId}\" class=\"{produits.classEtat} ui-corner-all\"></div>" +
 						"</td>" +
 					"</tr>" +
 					"<!-- END produits -->" +
@@ -2454,6 +2550,165 @@
 				"</table>" +
 			"</div>" +
 		"</div>";
+	
+	this.listeFerme = 
+		"<div id=\"contenu\">" +	
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+				"</div>" +
+				"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<form id=\"filter-form\">" +
+						"<div>" +
+							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+								"</span>" +
+							"</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						"</div>" +
+					"</form>" +
+				"</div>" +
+				"<table class=\"com-table\">" +
+					"<thead>" +
+						"<tr class=\"ui-widget ui-widget-header\">" +
+							"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+							"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody>" +
+				"<!-- BEGIN listeFerme -->" +
+						"<tr class=\"com-cursor-pointer compte-ligne\" data-id-compte-ferme=\"{listeFerme.ferIdCompte}\">" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeFerme.ferIdTri}</span>" +
+								"{listeFerme.ferNumero}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.cptLabel}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeFerme.ferNom}</td>" +
+							"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
+								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+								"</span>" +
+							"</td>" +
+						"</tr>" +
+				"<!-- END listeFerme -->" +
+					"</tbody>" +
+				"</table>" +
+				//"</div>" +
+			"</div>" +
+		"</div>";
+			
+	this.listeFermeVide =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Fermes" +
+				"</div>" +
+				"<p id=\"texte-liste-vide\">Aucune ferme dans la base.</p>" +	
+			"</div>" +
+		"</div>";
+	
+	this.listeStockProduitFermeEntete =		
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour à la liste des fermes" +
+				"</button>" +
+			"</div>" +
+			"{detail}" +
+		"</div>" ;
+	
+	this.listeStockProduitFermeDetail =	
+			"<div class=\"achat com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Produits : {ferNom}" +
+				"</div>" +
+				"<table class=\"com-table-100\">" +
+					"<tr>" +
+						"<td>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+								"Stock" +
+							"</div>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+							"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+								"Stock Solidaire" +
+							"</div>" +
+						"</td>" +
+						"<td colspan=\"2\">" +
+						"<div class=\"ui-widget-header ui-corner-all com-center\">" +
+							"Stock Total" +
+						"</div>" +
+					"</td>" +
+						"<td></td>" +
+					"</tr>" +
+				"<!-- BEGIN listeProduit -->" +
+					"<tr>" +
+						"<td><div class=\"ui-widget-header ui-corner-all com-center\">{listeProduit.cproNom}</div></td>" +
+						"<td colspan=\"7\"></td>" +
+					"</tr>" +
+					"<!-- BEGIN listeProduit.produits -->" +
+					"<tr class=\"com-ligne-hover\">" +
+						"<td>{listeProduit.produits.nproNom}</td>" +						
+				
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantite}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
+								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantite}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantite\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-solidaire-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteSolidaire}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
+								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantiteSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantiteSolidaire\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						
+						"<td class=\"com-text-align-right\">" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\"id=\"label-quantite-total-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteTotal}</span>" +
+							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-total-edit-{listeProduit.produits.stoQteId}\">" +
+								"{listeProduit.produits.stoQteQuantiteTotal}" +
+							"</span>" +
+						"</td>" +					
+						"<td>" +
+							"{listeProduit.produits.stoQteUnite}" +
+						"</td>" +
+						"<td>" +
+							"{listeProduit.produits.btnEdition}" +
+						"</td>" +	
+					"</tr>" +
+					"<!-- END listeProduit.produits -->" +
+				"<!-- END listeProduit -->" +
+				"</table>" +
+			"</div>";
+	
+	this.listeStockProduitFermeDetailBtnEdition =
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all btn-modif\" id=\"btn-modif-{stoQteId}\" title=\"Modifier\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+		"</span>" +	
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-annuler\" id=\"btn-annuler-{stoQteId}\" title=\"Annuler\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+		"</span>" +
+		"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all ui-helper-hidden btn-check\" id=\"btn-check-{stoQteId}\" title=\"Valider\" data-id=\"{stoQteId}\">" +
+			"<span class=\"ui-icon ui-icon-check\"></span>" +
+		"</span>";
+	
+	this.listeStockProduitFermeDetailVide =
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Les Produits" +
+			"</div>" +
+			"<p id=\"texte-liste-vide\">Aucun produit pour cette ferme dans la base.</p>" +	
+		"</div>";
 }
 ;function GestionListeCommandeVue(pParam) {	
 	this.construct = function(pParam) {
@@ -2545,7 +2800,183 @@
 	};
 	
 	this.construct(pParam);
-};function ResumeMarcheVue(pParam) {	
+};function StockProduitVue(pParam) {
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {StockProduitVue(pParam);}} );
+		var that = this;
+		pParam.fonction ="detailFerme";
+		$.post(	"./index.php?m=GestionCommande&v=StockProduit", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}	
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lHtml = '';
+		if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].cproNom != null) {
+			var lIdCategorie = lResponse.listeProduit[0].cproId;
+			var lIdCategorieInit = lIdCategorie;
+			var lNomCategorie = lResponse.listeProduit[0].cproNom;
+			var lStockTrie = [];
+			var lProduits = [];
+			lResponse.ferNom = lResponse.listeProduit[0].ferNom;
+			$(lResponse.listeProduit).each(function() {
+				if(this.stoQteQuantite != null)  {
+					this.stoQteQuantiteTotal = (parseFloat(this.stoQteQuantite) + parseFloat(this.stoQteQuantiteSolidaire)).toFixed(2).nombreFormate(2,',',' ');
+					this.stoQteQuantite = this.stoQteQuantite.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaire = this.stoQteQuantiteSolidaire.nombreFormate(2,',',' ');
+					this.btnEdition = lGestionCommandeTemplate.listeStockProduitFermeDetailBtnEdition.template({stoQteId:this.stoQteId});
+				} else {
+					this.stoQteQuantiteTotal = '0';
+					this.stoQteQuantiteSolidaire = '0';
+					this.stoQteQuantite = '0';
+					this.stoQteUnite = '';
+					this.btnEdition =  '';
+				}
+				
+				lProduits.push(this);
+				
+				if(lIdCategorie != this.cproId) {
+					lStockTrie.push({
+							cproNom:lNomCategorie,
+							produits:lProduits
+						});			
+					lIdCategorie = this.cproId;
+					lNomCategorie = this.cproNom;
+					lProduits = [];
+				} 
+			});
+			// Si il n'y a qu'une catégorie il faut l'ajouter
+			if(lIdCategorieInit == lIdCategorie) {
+				lStockTrie.push({
+					cproNom:lResponse.listeProduit[0].cproNom,
+					produits:lProduits
+				});
+			}
+			lResponse.listeProduit = lStockTrie;
+			lHtml = lGestionCommandeTemplate.listeStockProduitFermeDetail.template(lResponse);
+			//$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		} else {
+			lHtml = lGestionCommandeTemplate.listeStockProduitFermeDetailVide;
+		//	$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.listeFermeVide)));
+		}
+		$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.listeStockProduitFermeEntete.template({detail:lHtml}))));
+		
+	};
+	
+	this.affect = function(pData) {
+		/*pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
+		pData = this.affectDetailFerme(pData);	*/	
+		pData = this.affectEdition(pData);
+		pData = this.affectRetour(pData);
+		pData = this.affectCalculTotal(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData,{allowNegatives:true});
+		return pData;
+	};
+	
+	this.affectRetour = function(pData) {
+		pData.find('#btn-retour').click(StockProduitListeFermeVue);
+		return pData;
+	};
+	
+	this.affectEdition = function(pData) {
+		var that = this;
+		pData.find('.btn-modif, .btn-annuler').click(function() {
+			var lId = $(this).data("id");
+			$('.produit-' + lId +', #btn-modif-'  + lId + ', #btn-annuler-'  + lId + ', #btn-check-' + lId).toggle();
+		});
+		pData.find('.btn-check').click(function() {
+			that.enregistrer($(this).data("id"));
+		});
+		return pData;
+	};
+
+	this.enregistrer = function(pId) {
+		var lVo = new StockQuantiteVO();
+		lVo.id = pId;
+		lVo.quantite = $('#' + pId + '-quantite').val().numberFrToDb();
+		lVo.quantiteSolidaire = $('#' + pId + '-quantiteSolidaire').val().numberFrToDb();
+		
+		var lValid = new StockQuantiteValid();
+		var lVr = lValid.validUpdate(lVo);
+				
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			lVo.fonction = "modifierStock";
+			$.post(	"./index.php?m=GestionCommande&v=StockProduit", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse && lResponse.valid) {
+							// Maj des champs
+							var lQte = parseFloat(lVo.quantite);
+							if(isNaN(lQte) || lQte == '') {
+								lQte = 0;
+							}
+							var lQteSolidaire = parseFloat(lVo.quantiteSolidaire);
+							if(isNaN(lQteSolidaire) || lQteSolidaire == '') {
+								lQteSolidaire = 0;
+							}
+							
+							$('#label-quantite-total-' + pId).text(( lQte + lQteSolidaire ).toFixed(2).nombreFormate(2,',',' '));
+							$('#label-quantite-' + pId ).text(lVo.quantite.nombreFormate(2,',',' '));
+							$('#label-quantite-solidaire-' + pId).text(lVo.quantiteSolidaire.nombreFormate(2,',',' '));
+							$('.produit-' + pId +', #btn-modif-'  + pId + ', #btn-annuler-'  + pId + ', #btn-check-' + pId).toggle();
+							
+							// Message de confirmation
+							var lMsg = new TemplateVR();
+							lMsg.valid = false;
+							lMsg.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_361_CODE;
+							erreur.message = ERR_361_MSG;
+							lMsg.log.erreurs.push(erreur);
+							Infobulle.generer(lMsg, '');
+						} else {
+							Infobulle.generer(lResponse, pId + '-');
+						}
+					}
+			},"json");
+		} else {
+			Infobulle.generer(lVr, pId + '-');
+		}
+	};
+	
+	this.affectCalculTotal = function(pData) {
+		pData.find('.com-ligne-hover :input').keyup(function() {
+			var lId = $(this).data("id");
+			
+			var lQte = parseFloat($('#' + lId + '-quantite').val().numberFrToDb());
+			if(isNaN(lQte) || lQte == '') {
+				lQte = 0;
+			}
+			var lQteSolidaire = parseFloat($('#' + lId + '-quantiteSolidaire').val().numberFrToDb() );
+			if(isNaN(lQteSolidaire) || lQteSolidaire == '') {
+				lQteSolidaire = 0;
+			}
+			
+			$('#label-quantite-total-edit-' + lId).text( ( lQte + lQteSolidaire ).toFixed(2).nombreFormate(2,',',' '));
+		});
+		return pData;
+	};
+		
+	this.construct(pParam);
+};;function ResumeMarcheVue(pParam) {	
 	this.mIdMarche = 0;
 	
 	this.construct = function(pParam) {
@@ -3140,17 +3571,17 @@
 	
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-stock-choix]').change(function() {
-			if($(':input[name=pro-stock-choix]:checked').val() == 1) {				
-				$(":input[name=pro-stock]").attr("disabled","").val("");
+			if($(':input[name=pro-stock-choix]:checked').val() == 1) {	
+				$(":input[name=pro-stock]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-stock]").attr("disabled","disabled").val("");
+				$(":input[name=pro-stock]").prop("disabled", true).val("");
 			}
 		});
 		pData.find(':input[name=pro-qte-max-choix]').change(function() {
 			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
-				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", true).val("");
 			}
 		});
 		return pData;
@@ -5101,7 +5532,77 @@
 	}
 	
 	this.construct(pParam);
-};function ListeAchatMarcheVue(pParam) {
+};function StockProduitListeFermeVue(pParam) {
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {StockProduitListeFermeVue(pParam);}} );
+		var that = this;
+		var lParam = {fonction:"ListeFerme"};
+		$.post(	"./index.php?m=GestionCommande&v=StockProduit", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}	
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		
+		if(lResponse.listeFerme.length > 0 && lResponse.listeFerme[0].ferId != null) {
+			var lTemplate = lGestionCommandeTemplate.listeFerme;
+			$.each(lResponse.listeFerme,function() {
+				this.ferIdTri = this.ferNumero.replace("F","");
+			});
+			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		} else {
+			$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.listeFermeVide)));
+		}
+		
+	};
+	
+	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
+		pData = this.affectDetailFerme(pData);		
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
+		return pData;
+	};
+		
+	this.affectTri = function(pData) {
+		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
+		return pData;
+	};
+	
+	this.affectRecherche = function(pData) {
+		pData.find("#filter").keyup(function() {
+		    $.uiTableFilter( $('.com-table'), this.value );
+		  });
+		
+		pData.find("#filter-form").submit(function () {return false;});
+		
+		return pData;
+	};
+			
+	this.affectDetailFerme = function(pData) {
+		pData.find(".compte-ligne").click(function() {
+			StockProduitVue({idCompte:$(this).data('id-compte-ferme')});
+		});
+		return pData;
+	};
+		
+	this.construct(pParam);
+};;function ListeAchatMarcheVue(pParam) {
 	this.mIdMarche = null;
 	
 	this.construct = function(pParam) {
@@ -5130,13 +5631,36 @@
 		var that = this;
 		// Met le bouton en actif		
 		$(pResponse.listeAchatEtReservation).each(function() {
-			if(this.reservation == null) { this.reservation = '';}
-			if(this.achat == null) { this.achat = '';}
+			if(this.idOperation == null) { 
+				this.achat = 'ui-helper-hidden';
+			} else {
+				this.achat = '';
+			}
+			//if(this.achat == null) { this.achat = '';}
 			this.adhIdTri = this.adhNumero.replace("Z","");
 		});
 
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-
+		
+		// Affiche les achats invite uniquement si il y en a
+		pResponse.achatInvite = "";
+		if(pResponse.listeAchatInvite && pResponse.listeAchatInvite[0] && pResponse.listeAchatInvite[0].id != null) {
+			$(pResponse.listeAchatInvite).each(function() {
+				if(this.typePaiement == 7){
+					this.achatSolidaire = 'ui-helper-hidden';
+					this.achat = '';
+				} else {
+					this.achatSolidaire = '';
+					this.achat = 'ui-helper-hidden';
+				}
+				this.montant = (this.montant * -1).nombreFormate(2,',',' ');
+			});
+	
+			pResponse.sigleMonetaire = gSigleMonetaire;
+			
+			pResponse.achatInvite = lGestionCommandeTemplate.listeAchatInvite.template(pResponse);
+		}
+		
 		pResponse.infoMarcheSelected = '';
 		pResponse.listeReservationSelected = '';
 		pResponse.listeAchatSelected = 'ui-state-active';
@@ -5157,6 +5681,7 @@
 		pData = this.affectAchat(pData);
 		pData = this.affectExportDataEtReservation(pData);
 		pData = this.affectMenu(pData);
+		pData = this.affectToggleAchatInvite(pData);
 		return pData;
 	};
 	
@@ -5178,13 +5703,13 @@
 	};
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		pData.find('#edt-com-liste-resa').tablesorter({sortList: [[2,0]],headers: { 4: {sorter: false} }});
 		return pData;
 	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
-		    $.uiTableFilter( $('.com-table'), this.value );
+		    $.uiTableFilter( $('#edt-com-liste-resa'), this.value );
 		  });
 		pData.find("#filter-form").submit(function () {return false;});
 		return pData;
@@ -5222,7 +5747,19 @@
 	this.affectAchat = function(pData) {
 		var that = this;
 		pData.find('.edt-com-achat-ligne').click(function() {
-			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent')});
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent'), "idOperation" : ''});
+		});
+		
+		pData.find('.edt-com-achat-ligne-invite').click(function() {
+			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":-3, "idOperation" : $(this).data("id-operation")});
+		});
+		return pData;
+	};
+	
+	this.affectToggleAchatInvite = function(pData) {
+		pData.find('#entete-achat-invite').click(function() {
+			$('#icon-achat-invite').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-n');
+			$('.detail-achat-invite').toggle();
 		});
 		return pData;
 	};
@@ -5432,6 +5969,7 @@
 	this.mTypePaiement = [];
 	this.mResponse;
 	this.mArchive = -1;
+	this.mListeProduitCommande = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeLivraisonVue(pParam);}} );
@@ -5522,7 +6060,84 @@
 							if(lResponse.valid) {
 								that.mIdCompteProducteur = lIdCompteProducteur;
 								that.mEtatEdition = false;
+								
+								
+								
+								// Suppression des doublons de lot
+								var lProduits = [];
+								that.mListeProduitCommande = [];
+								$(lResponse.produits).each(function() {
+									var lProId = this.proId;
+									if(that.mListeProduitCommande[lProId] ) {
+										if(this.stoQuantite == null) {
+											this.stoQuantite = '0';
+										}
+										that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+										that.mListeProduitCommande[lProId].NbLot++;
+										that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+									} else {
+										if(this.stoQuantite == null) {
+											this.stoQuantite = '0';
+										}
+										that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+												'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+										that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+									}
+
+									var lDcomId = this.dcomId;
+									$(lResponse.produitsCommande).each(function() {
+										if(this.dcomId == lDcomId) {								
+											if(this.stoQuantite != null) {
+												that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+											}
+											if(this.dopeMontant != null) {
+												that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+											}
+										}
+									});
+								});
+								
+								var lTotal = 0;
+								$(lResponse.produits).each(function() {
+									var lLotMultiple = false;
+									if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+										lLotMultiple = true;
+									}
+									var these = this;
+									var lProId = this.proId;
+									if(!lLotMultiple) {
+										$(lResponse.produitsCommande).each(function() {
+											if(this.proId == lProId) {							
+												var lMontant = 0;										
+												if(this.stoQuantite != null) {
+													these.stoQuantiteCommande = parseFloat(this.stoQuantite);
+												}
+												if(this.dopeMontant != null) {
+													these.opeMontantCommande = parseFloat(this.dopeMontant);
+													lMontant = parseFloat(this.dopeMontant);
+												}
+												lTotal += lMontant;
+											}
+										});
+									} else {
+										these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation;
+										these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande;
+										these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande;
+										if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+											lTotal += that.mListeProduitCommande[this.proId].prixCommande;
+										}
+									}
+									if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+										that.mListeProduitCommande[this.proId].lotTraite = 1;
+										lProduits.push(this);
+									} 
+									
+								});
+								lResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+								lResponse.produits = lProduits;
+								
 								that.mResponse = lResponse;
+								
 								if(lResponse.operationProducteur && lResponse.operationProducteur.idCompte != null ) {
 									that.afficherDetail(lResponse);
 								} else {
@@ -5546,36 +6161,96 @@
 	
 	this.afficherDetail = function(pResponse) {
 		var that = this;
-		var lTotal = 0;
+		//var lTotal = 0;
+		
+		//var lData = {produits:[]};
+		
+		// Suppression des doublons de lot
+	/*	$(pResponse.produits).each(function() {
+			var lProId = this.proId;
+			if(that.mListeProduitCommande[lProId] ) {
+				that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+				that.mListeProduitCommande[lProId].NbLot++;
+				that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+			} else {
+				that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+						'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+				that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+			}
+
+			var lDcomId = this.dcomId;
+			$(pResponse.produitsCommande).each(function() {
+				if(this.dcomId == lDcomId) {								
+					if(this.stoQuantite != null) {
+						that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+					}
+				}
+			});
+		});*/
+		
+		
+		
 		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			/*var lLotMultiple = false;
+			if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+				lLotMultiple = true;
+			}*/
 			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
+			//this.stoQuantiteCommande = '';
+		//	this.opeMontant = '';
 			var lQuantite = 0;
 			
 			var lProId = this.proId;
 			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
 			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+			// Qte Reservation
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte commande
+			if(this.stoQuantiteCommande == null) {
+				this.stoQuantiteCommande = '0';
+			}
+			this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			
+			if(this.opeMontantCommande == null) {
+				this.opeMontantCommande = '0';
+			}
+			this.opeMontantCommande = this.opeMontantCommande.nombreFormate(2,',',' ');
+			
+			
+			this.stoQuantiteLivraison = '0'.nombreFormate(2,',',' ');
+			this.opeMontantLivraison = '0'.nombreFormate(2,',',' ');
+			this.stoQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+			
+
+			//if(!lLotMultiple) {
+				/*$(pResponse.produitsCommande).each(function() {
+					if(this.proId == lProId) {
+						var lMontant = 0;										
+						if(this.stoQuantite != null) {
+							these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+						}
+						if(this.dopeMontant != null) {
+							these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+							lMontant = parseFloat(this.dopeMontant);
+						}
+						lTotal += lMontant;
 					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
-					}
-					lTotal += lMontant;
+				});*/
+			/*} else {
+				these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation.nombreFormate(2,',',' ');
+				these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande.nombreFormate(2,',',' ');
+				these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande.nombreFormate(2,',',' ');
+				if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+					lTotal += that.mListeProduitCommande[this.proId].prixCommande;
 				}
-			});
+			}*/
 			
 			$(pResponse.produitsLivraison).each(function() {
 				if(this.proId == lProId) {
@@ -5603,12 +6278,19 @@
 			} else {
 				this.classEtat = 'qte-reservation-ok';
 			}
-				
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
+			
+
 			this.masquerNormal = '';
 			if(this.proType == 1) {
 				this.masquerNormal = "ui-helper-hidden";
 			}
+			
+			/*if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+				that.mListeProduitCommande[this.proId].lotTraite = 1;
+				lData.produits.push(this);
+			}*/ 
+			
 		});	
 		
 		pResponse.total = '';
@@ -5622,7 +6304,7 @@
 		}
 		
 		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		//pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
 		pResponse.typePaiement = that.mTypePaiement;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
@@ -5657,36 +6339,93 @@
 	
 	this.afficherFormulaire = function(pResponse,pType) {
 		var that = this;
-		var lTotal = 0;
+	//	var lTotal = 0;
+		
+	//	var lData = {produits:[]};
+		
+		// Suppression des doublons de lot
+		/*$(pResponse.produits).each(function() {
+			var lProId = this.proId;
+			if(that.mListeProduitCommande[lProId] ) {
+				that.mListeProduitCommande[lProId].qteReservation += parseFloat(this.stoQuantite);
+				that.mListeProduitCommande[lProId].NbLot++;
+				that.mListeProduit[lProId] += parseFloat(this.stoQuantite);
+			} else {
+				that.mListeProduitCommande[lProId] = {'qteReservation' :parseFloat(this.stoQuantite), 
+						'qteCommande' : 0, 'prixCommande': 0, 'NbLot': 1, 'lotTraite' : 0};
+				that.mListeProduit[lProId] = parseFloat(this.stoQuantite);
+			}
+
+			var lDcomId = this.dcomId;
+			$(pResponse.produitsCommande).each(function() {
+				if(this.dcomId == lDcomId) {								
+					if(this.stoQuantite != null) {
+						that.mListeProduitCommande[lProId].qteCommande += parseFloat(this.stoQuantite);
+					}
+					if(this.dopeMontant != null) {
+						that.mListeProduitCommande[lProId].prixCommande += parseFloat(this.dopeMontant);
+					}
+				}
+			});
+		});*/
+		
 		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+			//that.mListeProduit[this.proId] = parseFloat(this.stoQuantite);
+		/*	var lLotMultiple = false;
+			if(that.mListeProduitCommande[this.proId].NbLot > 1) {
+				lLotMultiple = true;
+			}*/
 			
-			this.stoQuantiteCommande = '';
-			this.opeMontant = '';
+			//this.stoQuantiteCommande = '';
+		//	this.opeMontant = '';
 			var lQuantite = 0;
 			
 			var lProId = this.proId;
 			var these = this;
-
-			these.stoQuantiteCommande = '0'.nombreFormate(2,',',' ');
-			these.opeMontantCommande = '0'.nombreFormate(2,',',' ');
-			these.stoQuantiteLivraison = '';
-			these.opeMontantLivraison = '';
-			these.stoQuantiteSolidaire = '';
 			
-			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
-					var lMontant = 0;										
-					if(this.stoQuantite != null) {
-						these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte Reservation
+			if(this.stoQuantite == null) {
+				this.stoQuantite = '0';
+			}
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+
+			// Qte commande
+			if(this.stoQuantiteCommande == null) {
+				this.stoQuantiteCommande = '0';
+			}
+			this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+			
+			if(this.opeMontantCommande == null) {
+				this.opeMontantCommande = '0';
+			}
+			this.opeMontantCommande = this.opeMontantCommande.nombreFormate(2,',',' ');
+			
+			this.stoQuantiteLivraison = '0'.nombreFormate(2,',',' ');
+			this.opeMontantLivraison = '0'.nombreFormate(2,',',' ');
+			this.stoQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+		/*	if(!lLotMultiple) {
+				$(pResponse.produitsCommande).each(function() {
+					if(this.proId == lProId) {
+						//var lMontant = 0;										
+						if(this.stoQuantite != null) {
+							these.stoQuantiteCommande = this.stoQuantite.nombreFormate(2,',',' ');
+						}
+						if(this.dopeMontant != null) {
+							these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
+							//lMontant = parseFloat(this.dopeMontant).toFixed(2);
+							lTotal += parseFloat(this.dopeMontant).toFixed(2);
+						}
 					}
-					if(this.dopeMontant != null) {
-						these.opeMontantCommande = this.dopeMontant.nombreFormate(2,',',' ');
-						lMontant = parseFloat(this.dopeMontant);
-					}
-					lTotal += lMontant;
+				});
+			} else {
+				these.stoQuantite = that.mListeProduitCommande[this.proId].qteReservation.nombreFormate(2,',',' ');
+				these.stoQuantiteCommande = that.mListeProduitCommande[this.proId].qteCommande.nombreFormate(2,',',' ');
+				these.opeMontantCommande = that.mListeProduitCommande[this.proId].prixCommande.nombreFormate(2,',',' ');
+				if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+					lTotal += that.mListeProduitCommande[this.proId].prixCommande;
 				}
-			});
+			}*/
 			
 			$(pResponse.produitsLivraison).each(function() {
 				if(this.proId == lProId) {
@@ -5714,13 +6453,16 @@
 			} else {
 				this.classEtat = 'qte-reservation-ok';
 			}
-				
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
 			
 			this.masquerNormal = '';
 			if(this.proType == 1) {
 				this.masquerNormal = "ui-helper-hidden";
 			}
+			
+		/*	if(that.mListeProduitCommande[this.proId].lotTraite == 0) {
+				that.mListeProduitCommande[this.proId].lotTraite = 1;
+				lData.produits.push(this);
+			} */
 			
 		});	
 		
@@ -5735,7 +6477,7 @@
 		}
 		
 		pResponse.sigleMonetaire = gSigleMonetaire;
-		pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
+		//pResponse.totalCommande = lTotal.nombreFormate(2,',',' ');
 		pResponse.typePaiement = that.mTypePaiement;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
@@ -6152,15 +6894,12 @@
 	
 	this.construct(pParam);
 };function AchatAdherentVue(pParam) {
-	this.mAdherent = null;
-	this.infoCommande = new Object();
-	this.pdtCommande = new Array();
-	this.reservation = [];
-	this.achats = [];
-	this.achatsSolidaire = [];
-	this.infoReservation = {};
-	this.stockSolidaire = [];
 	this.pParam = {};
+	this.mAdherent = null;
+	//this.reservation = [];
+	this.infoReservation = {};
+	this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
+	this.produit = [];
 
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AchatAdherentVue(pParam);}} );
@@ -6177,7 +6916,7 @@
 							}
 							that.mAdherent = lResponse.adherent;						
 	
-							that.infoCommande.comId = lResponse.marche.id;
+						/*	that.infoCommande.comId = lResponse.marche.id;
 							that.infoCommande.comNumero = lResponse.marche.numero;
 							that.infoCommande.comNom = lResponse.marche.nom;
 							that.infoCommande.comDescription = lResponse.marche.description;
@@ -6191,10 +6930,10 @@
 							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
 							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
 							that.infoCommande.comArchive = lResponse.marche.archive;
-							that.pdtCommande = lResponse.marche.produits;
+							that.pdtCommande = lResponse.marche.produits;*/
 							
 							that.infoReservation = lResponse.reservation;
-							that.stockSolidaire = lResponse.stockSolidaire;
+						/*	that.stockSolidaire = lResponse.stockSolidaire;
 							$.each(that.pdtCommande,function() {
 								if(this.id) {
 									var lIdProduit = this.id;
@@ -6213,6 +6952,21 @@
 										}
 									});
 								}
+							});*/
+							
+							that.produit = lResponse.detailProduit;
+							$(lResponse.achats).each(function() {
+								if(this.detailAchat.length > 0) {
+									that.mAchat.idAchat = this.id.idAchat;
+									that.mAchat.detailAchat = this.detailAchat;
+								}
+								if(this.detailAchatSolidaire.length > 0) {
+									that.mAchat.idAchatSolidaire = this.id.idAchat;
+									that.mAchat.detailAchatSolidaire = this.detailAchatSolidaire;
+								}
+								if(this.dateAchat) {
+									that.mAchat.dateAchat = this.dateAchat;
+								}
 							});
 					
 							that.afficher(lResponse);
@@ -6227,315 +6981,561 @@
 	this.afficher = function(pResponse) {
 		var that = this;
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.detailAchatEtReservation;
+		var lTemplate = lGestionCommandeTemplate.detailAchatEtReservationEnteteInvite;
 		
-		var lData = {};		
-		lData.adhId = this.mAdherent.adhId;
-		lData.adhNumero = this.mAdherent.adhNumero;
-		lData.adhCompte = this.mAdherent.cptLabel;
-		lData.adhNom = this.mAdherent.adhNom;
-		lData.adhPrenom = this.mAdherent.adhPrenom;
-		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
-		
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.comNumero = this.infoCommande.comNumero;
-		lData.dateFinReservation = this.infoCommande.dateFinReservation;
-		lData.heureFinReservation = this.infoCommande.heureFinReservation;
-		lData.minuteFinReservation = this.infoCommande.minuteFinReservation;
-		lData.dateMarcheDebut = this.infoCommande.dateMarcheDebut;
-		lData.heureMarcheDebut = this.infoCommande.heureMarcheDebut;
-		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
-		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
-		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		
-		lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
-		lData.reservation = [];
-
-		var lPdtAchat = false; // Pour n'afficher le formulaire achat uniquement si il y a des produits
-		$.each(this.pdtCommande,function() {
-			lPdtAchat = true;
+		var lDataEntete = {};
+		lDataEntete.detailAchat = lGestionCommandeTemplate.detailAchatVide;
+		if(this.mAdherent.adhId && this.mAdherent.adhId != null) {
+			lDataEntete.adhId = this.mAdherent.adhId;
+			lDataEntete.adhNumero = this.mAdherent.adhNumero;
+			lDataEntete.adhCompte = this.mAdherent.cptLabel;
+			lDataEntete.adhNom = this.mAdherent.adhNom;
+			lDataEntete.adhPrenom = this.mAdherent.adhPrenom;
+			lDataEntete.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
 			
-			var lIdProduit = this.id;
-			var lPdt = {};
-			lPdt.id = this.id;
-			lPdt.nproNom = this.nom;
-			lPdt.proUniteMesure = this.unite;
-			
-			lPdt.prix = 0;
-			lPdt.stoQuantite = 0;
-						
-			if(that.reservation[lIdProduit]) {
-				lPdt.stoQuantite = parseFloat(that.reservation[lIdProduit].stoQuantite);
-				lPdt.prix = parseFloat(that.reservation[lIdProduit].montant);
+			lTemplate = lGestionCommandeTemplate.detailAchatEtReservationEntete;
+		}
+		lDataEntete.sigleMonetaire = gSigleMonetaire;
+		
+		var lData = {};
+		lData.sigleMonetaire = gSigleMonetaire;		
+		
+		// Si il y a au moins un produit à afficher
+		if(that.produit[0] && that.produit[0].proId != null) {
+			if(this.infoReservation) {
+				lData.totalReservation = (this.infoReservation.total * -1).nombreFormate(2,',',' ');
 			}
-
-			lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-			lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
+			lData.reservation = [];
 			
-			lPdt.flagType = "";
-			if(this.type == 2) {
-				lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-			}
-			
-			lData.reservation.push(lPdt);
-		});	
-
-
-		lData.achats = [];
-		lData.achatsSolidaire = [];
-
-		var lNbAchat = 0;
-		$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatClassique = false;
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
+			lData.categories = [];
+			lData.sigleMonetaire = gSigleMonetaire;
+			lData.total = 0;
+			lData.totalSolidaire = 0;
+		
+			$.each(that.produit, function() {
+				var lProduit = this ;
+				$(that.mAchat).each(function() {
+					var lAchat = {
+					unite: lProduit.proUniteMesure,
+					proId: lProduit.proId,
+					nproNom : lProduit.nproNom ,
+					stoQuantiteReservation : "", proUniteMesureReservation : "",
+					stoQuantite : "", prix : "", proUniteMesure : "", sigleMonetaire : "",
+					stoQuantiteSolidaire : "", prixSolidaire : "", proUniteMesureSolidaire : "", sigleMonetaireSolidaire : ""};
 					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-					
-					$.each(this.lots, function() {
-						if(this.id) {
-							var lIdLot = this.id;
-							$(lAchat.detailAchat).each(function() {
-								if(this.idDetailCommande == lIdLot) {
-									lPdt.stoQuantite = this.quantite * -1;
-									lPdt.prix = this.montant * -1;
-									lNbAchat++;
-									lAchatClassique = true;
-								}
-							});
-						}
-					});
-					
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					if(that.infoReservation) {
+						$(that.infoReservation.detailReservation).each(function() {
+							if(this.idProduit == lProduit.proId) {
+								lAchat.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ');
+								lAchat.proUniteMesureReservation = lProduit.proUniteMesure;
+							}					
+						});
 					}
-					lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-					lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
-					lDataPdtAchat.push(lPdt);
-				}
-			});
-			
-			if(lAchatClassique) {
-				var lDataAchat = {	achat:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									total:(this.total * -1).nombreFormate(2,',',' ')};
-				lData.achats.push(lDataAchat);
-			}
-		});
-
-		if(lNbAchat == 0 && lPdtAchat ) {
-			var lDataPdtAchat = [];
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
-					lPdt.prix = "0".nombreFormate(2,',',' ');
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
+					
+					$(this.detailAchat).each(function() {	
+						if(this.idProduit == lProduit.proId) {
+							lAchat.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
+							lAchat.prix = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.proUniteMesure = lProduit.proUniteMesure;
+							lAchat.sigleMonetaire = gSigleMonetaire;
+							
+							lData.total += this.montant * -1;					
+						}					
+					});		
+					
+					$(this.detailAchatSolidaire).each(function() {	
+						if(this.idProduit == lProduit.proId) {
+							lAchat.stoQuantiteSolidaire = (this.quantite * -1).nombreFormate(2,',',' ');
+							lAchat.prixSolidaire = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.proUniteMesureSolidaire = lProduit.proUniteMesure;
+							lAchat.sigleMonetaireSolidaire = gSigleMonetaire;
+							
+							lData.totalSolidaire += this.montant * -1;
+						}					
+					});	
+					
+					if(!lData.categories[lProduit.cproNom]) {
+						lData.categories[lProduit.cproNom] = {nom:lProduit.cproNom,achat:[]};
 					}
-					lDataPdtAchat.push(lPdt);
-				}
+					lData.categories[lProduit.cproNom].achat.push(lAchat);
+					
+					if(this.idAchat) {
+						lData.boutonSupprimerAchat = lGestionCommandeTemplate.boutonSupprimerAchat.template({idAchat:this.idAchat});		
+						lData.idAchat = this.idAchat;					
+					} else {
+						lData.idAchat = -1;
+					}
+					
+					if(this.idAchatSolidaire) {
+						lData.boutonSupprimerAchatSolidaire = lGestionCommandeTemplate.boutonSupprimerAchatSolidaire.template({idAchat:this.idAchatSolidaire});
+						lData.idAchatSolidaire = this.idAchatSolidaire;						
+					} else {
+						lData.idAchatSolidaire = -2;
+					}
+				});
 			});
-			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-1",total:"0".nombreFormate(2,',',' ')};
-			lData.achats.push(lDataAchat);
+		
+			// N'affiche la date d'achat qu si il y a eu un achat
+			if(that.mAchat.dateAchat) {
+				lData.dateAchat = lGestionCommandeTemplate.dateAchat.template({dateAchat:that.mAchat.dateAchat.extractDbDate().dateDbToFr()});
+			}
+			
+			lData.totalMarche = lData.total + lData.totalSolidaire;
+			
+			lData.total = lData.total.nombreFormate(2,',',' ');
+			lData.totalSolidaire = lData.totalSolidaire.nombreFormate(2,',',' ');
+			lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
+			
+			lDataEntete.detailAchat = lGestionCommandeTemplate.detailAchatEtReservation.template(lData);
+		}
+		
+		var lHtml = $(lTemplate.template(lDataEntete));
+		if(that.pParam.id_adherent == -3) {
+			lHtml.find('.col-reservation').remove();
+			if(lData.idAchat > 0) {
+				lHtml.find('.col-achat-solidaire').remove();
+			} else {
+				lHtml.find('.col-achat').remove();
+			}
 		}
 
-		var lNbAchatSolidaire = 0;
-		$(pResponse.achats).each(function() {
-			var lAchat = this;
-			var lDataPdtAchat = [];
-			var lAchatSolidaire = false;
-
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lAchatPdtSolidaire = false;
-					var lProduit = this;
-					var lIdProduit = this.id;
-					
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					
-					lPdt.prix = 0;
-					lPdt.stoQuantite = 0;
-
-					$(pResponse.stockSolidaire).each(function() {
-						if(lPdt.id == this.proId){
-							$.each(lProduit.lots, function() {
-								if(this.id) {
-									var lIdLot = this.id;
-									$(lAchat.detailAchatSolidaire).each(function() {
-										if(this.idDetailCommande == lIdLot) {
-											lPdt.stoQuantite = this.quantite * -1;
-											lPdt.prix = this.montant * -1;
-											lNbAchatSolidaire++;
-											lAchatSolidaire = true;
-									//		lAchatPdtSolidaire = true;
-										}
-									});
-								}
-							});
-							lAchatPdtSolidaire = true;
-						}
-					});
-					
-					if(lAchatPdtSolidaire) {
-						
-						lPdt.flagType = "";
-						if(this.type == 2) {
-							lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-						}
-						
-						lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
-						lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');							
-						lDataPdtAchat.push(lPdt);
-					}
-				}
-			});			
-			if(lAchatSolidaire) {
-				var lDataAchat = {	achat:lDataPdtAchat,
-									idAchat:this.id.idAchat,
-									totalSolidaire:(this.totalSolidaire * -1).nombreFormate(2,',',' ')};
-				lData.achatsSolidaire.push(lDataAchat);
-			}
-		});
-		
-		if(lNbAchatSolidaire == 0 && pResponse.stockSolidaire.length > 0 && pResponse.stockSolidaire[0].proId != null) {
-			var lDataPdtAchat = [];
-			$.each(that.pdtCommande,function() {
-				if(this.id) {
-					var lIdProduit = this.id;
-					var lPdt = {};
-					lPdt.id = this.id;
-					lPdt.nproNom = this.nom;
-					lPdt.proUniteMesure = this.unite;
-					lPdt.stoQuantite = "0".nombreFormate(2,',',' ');		
-					lPdt.prix = "0".nombreFormate(2,',',' ');
-					lPdt.flagType = "";
-					if(this.type == 2) {
-						lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
-					}
-					$(pResponse.stockSolidaire).each(function() {
-						if(lPdt.id == this.proId){							
-							lDataPdtAchat.push(lPdt);
-						}
-					});
-				}
-			});
-			var lDataAchat = {	achat:lDataPdtAchat,idAchat:"-2",totalSolidaire:"0".nombreFormate(2,',',' ')};
-			lData.achatsSolidaire.push(lDataAchat);
-		}
-
-		lData.typeEtatReservation = [];
-
-		var lEtatReservation = {};
-		lEtatReservation.value = "-1";
-		lEtatReservation.label = "Aucune Réservation";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[-1] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "0";
-		lEtatReservation.label = "En réservation";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[0] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "7";
-		lEtatReservation.label = "Achetée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[7] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "15";
-		lEtatReservation.label = "Non Récupérée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[15] = lEtatReservation;
-		
-		var lEtatReservation = {};
-		lEtatReservation.value = "16";
-		lEtatReservation.label = "Supprimée";
-		lEtatReservation.selected = "";
-		lData.typeEtatReservation[16] = lEtatReservation;
-		
-		switch(this.infoReservation.etat) {
-			case "0":
-				lData.etatReservation = "En réservation";
-				lData.typeEtatReservation[0].selected = "selected=\"selected\"";
-				break;
-			case "7":
-				lData.etatReservation = "Achetée";
-				lData.typeEtatReservation[7].selected = "selected=\"selected\"";
-				break;
-			case "15":
-				lData.etatReservation = "Non Récupérée";
-				lData.typeEtatReservation[15].selected = "selected=\"selected\"";
-				break;
-			case "16":
-				lData.etatReservation = "Supprimée";
-				lData.typeEtatReservation[16].selected = "selected=\"selected\"";
-				break;
-			default:
-				lData.etatReservation = "Aucune Réservation";
-				lData.typeEtatReservation[-1].selected = "selected=\"selected\"";
-				break;
-		}
-
-		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
+		$('#contenu').replaceWith(that.affect($(lHtml)));	
 	};
 	
-	this.affectDroitArchive = function(pData) {
+	/*this.affectDroitArchive = function(pData) {
 		pData.find(".com-btn-header-multiples").remove();
 		return pData;
-	};
+	};*/
 	
 	this.affect = function(pData) {
-		pData = this.affectAnnulerDetailReservation(pData);
-		pData = this.affectModifierReservation(pData);
-		pData = this.affectValiderModifierReservation(pData);
+		pData = this.affectRetour(pData);
+		pData = this.affectAjoutProduit(pData);
 		pData = this.affectModifierAchat(pData);
 		pData = this.affectSupprimerAchat(pData);
 		pData = gCommunVue.comHoverBtn(pData);		
 		pData = gCommunVue.comNumeric(pData);
-		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
-			pData = this.affectDroitArchive(pData);
-		}
 		return pData;
 	};
 	
-	this.affectAnnulerDetailReservation = function(pData) {
+	this.affectRetour = function(pData) {
 		var that = this;
 		pData.find('#btn-annuler').click(function() {
-			ListeAchatMarcheVue({"id_marche":that.infoCommande.comId});		
+			ListeAchatMarcheVue({"id_marche":that.pParam.id_marche});		
 		});
 		return pData;
 	};
 	
-	this.affectModifierReservation = function(pData) {
+	this.affectAjoutProduit = function(pData) {
 		var that = this;
-		pData.find('#btn-modif-resa').click(function() {
-			that.modifierReservation();
+		pData.find('#btn-nv-produit').click(function() {
+			that.dialogAjoutProduit();
 		});
 		return pData;
 	};
 	
-	this.affectValiderModifierReservation = function(pData) {
+	this.dialogAjoutProduit = function(pData) {
+		var that = this;
+		var lParam = {fonction:"listeFerme"};
+		$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							var lTemplate = lGestionCommandeTemplate.dialogAjoutAchatProduit;
+							
+							$(that.affectAjoutProduitSelectFerme($(lTemplate.template(lResponse)))).dialog({			
+								autoOpen: true,
+								modal: true,
+								draggable: true,
+								resizable: false,
+								width:900,
+								buttons: {
+									'Ajouter': function() {
+										that.ajouterProduit($(this));
+									},
+									'Annuler': function() {
+										$(this).dialog('close');
+									}
+								},
+								close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+							});
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);	
+		return pData;
+	};
+	
+	this.affectAjoutProduitSelectFerme = function(pData) {
+		var that = this;
+		pData.find("#pro-idFerme select").change(function() {
+			Infobulle.init(); // Supprime les erreurs
+			var lId = $(this).val();
+			$("#pro-idCategorie select, #pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
+			if(lId > 0) {
+				var lParam = {fonction:"listeProduit",id:lId};
+				$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+					function (lResponse) {		
+						if(lResponse) {
+							if(lResponse.valid) {
+								Infobulle.init(); // Supprime les erreurs
+								
+								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
+								
+									that.mProduits = [];
+									//that.mListeProduit = [];
+								
+									var lIdCategorie = 0;
+									var lListeCategorie = [];
+									$.each(lResponse.listeProduit,function() {
+										if(that.mProduits[this.cproId]) {
+											that.mProduits[this.cproId].listeProduit.push(this);
+										} else {
+											that.mProduits[this.cproId] = {nom:this.cproNom,listeProduit:[this]};
+										}
+										if(lIdCategorie != this.cproId) {
+											lListeCategorie.push({cproId:this.cproId,cproNom:this.cproNom});
+											lIdCategorie = this.cproId;
+										}
+									});
+									
+	
+									var lGestionCommandeTemplate = new GestionCommandeTemplate();
+									var lTemplate = lGestionCommandeTemplate.ajoutProduitSelectCategorie;
+									
+									$("#pro-idCategorie").replaceWith(that.affectAjoutProduitSelectCategorie($(lTemplate.template({listeCategorie:lListeCategorie}))));
+									
+								} else {
+									// Message d'information
+									var lVr = new TemplateVR();
+									lVr.valid = false;
+									lVr.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_332_CODE;
+									erreur.message = ERR_332_MSG;
+									lVr.log.erreurs.push(erreur);
+									Infobulle.generer(lVr,'');
+									$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+								}
+							} else {
+								Infobulle.generer(lResponse,'');
+								$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+							}
+						}
+					},"json"
+				);
+			} else {
+				$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+			}	 
+						
+		});
+		return pData;
+	};
+	
+	this.affectAjoutProduitSelectCategorie = function(pData) {
+		var that = this;
+		pData.find("select").change(function() {
+			Infobulle.init(); // Supprime les erreurs
+			var lId = $(this).val();
+			$("#pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
+			if(lId > 0) {
+				var lGestionCommandeTemplate = new GestionCommandeTemplate();
+				var lTemplate = lGestionCommandeTemplate.ajoutProduitSelectProduit;
+				
+				$("#pro-idProduit").replaceWith(that.affectAjoutProduitSelectProduit($(lTemplate.template(that.mProduits[lId]))));
+			} else {
+				$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+			}			
+		});
+		return pData;
+	};
+	
+	this.affectAjoutProduitSelectProduit = function(pData) {
+		var that = this;
+		pData.find("select").change(function() {
+			var lId = $(this).val();
+			Infobulle.init(); // Supprime les erreurs
+			if(lId > 0) {
+				// Filtre si le produit n'est pas déjà dans l'achat
+				var lAfficheProduit = true;
+				$(that.produit).each(function() {
+					if(this.nproId == lId) {
+						lAfficheProduit = false;
+					}
+				});
+				if(lAfficheProduit) {
+					var lParam = {fonction:"listeUnite",id:lId};
+					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+						function (lResponse) {		
+							if(lResponse) {
+								if(lResponse.valid) {
+									Infobulle.init(); // Supprime les erreurs
+									
+									var lGestionCommandeTemplate = new GestionCommandeTemplate();
+									var lTemplate = lGestionCommandeTemplate.detailProduitAjoutAchatProduit;
+									var lData = {unite: lResponse.unite[0].mLotUnite, sigleMonetaire: gSigleMonetaire, idProduit: lId};
+																	
+									$("#detail-achat").replaceWith(that.affectDetailProduit($(lTemplate.template(lData))));
+									
+								} else {
+									Infobulle.generer(lResponse,'');
+								}
+							}
+						},"json"
+					);
+				} else {
+					// Message d'information
+					var lVr = new TemplateVR();
+					lVr.valid = false;
+					lVr.log.valid = false;
+					var erreur = new VRerreur();
+					erreur.code = ERR_262_CODE;
+					erreur.message = ERR_262_MSG;
+					lVr.log.erreurs.push(erreur);
+					Infobulle.generer(lVr,'');
+					$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+				}
+			} else {
+				$("#detail-achat").replaceWith($("<div id=\"detail-achat\">"));
+			}			
+		});
+		return pData;
+	};
+	
+	this.affectDetailProduit = function(pData) {		
+		if(this.pParam.id_adherent == -3) {
+			pData = this.affectAjoutProduitCompteInvite(pData);
+		}
+		pData = gCommunVue.comHoverBtn(pData);
+		pData = gCommunVue.comNumeric(pData);
+		return pData;		
+	};
+	
+	this.affectAjoutProduitCompteInvite = function(pData) {
+		pData.find('#choixTypeAchat').remove();
+		return pData;
+	};
+	
+	this.ajouterProduit = function(pDialog) {
+		if(pDialog.find('#pro-id').length == 1) {
+			var that = this;
+			
+			var lVo = new ProduitAjoutAchatVO();
+			
+			lVo.idMarche = this.pParam.id_marche;
+			lVo.idNomProduit = pDialog.find('#pro-id').val();
+			lVo.prix = pDialog.find('#pro-prix').val().numberFrToDb() * -1;
+			lVo.quantite = pDialog.find('#pro-quantite').val().numberFrToDb() * -1;
+			
+			// Pour le compte invité sélection du type d'achat
+			if(this.pParam.id_adherent == -3) {
+				lVo.idCompte = -3;
+				lVo.idOperation = this.pParam.idOperation;
+				if(that.mAchat.idAchat) {
+					lVo.solidaire = 0;
+				} else {
+					lVo.solidaire = 1;
+				}
+			} else {
+				lVo.idCompte = this.mAdherent.adhIdCompte;
+				lVo.solidaire = pDialog.find(':input[name=typeProduit]:checked').val();
+			}
+			
+			var lValid = new ProduitAjoutAchatValid();
+			var lVr = lValid.validAjout(lVo);
+			
+			Infobulle.init(); // Supprime les erreurs
+			if(lVr.valid) {
+				lVo.fonction = "ajoutProduitAchat";
+				$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lVo),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse && lResponse.valid) {
+								var lMsg = new TemplateVR();
+								lMsg.valid = false;
+								lMsg.log.valid = false;
+								var erreur = new VRerreur();
+								erreur.code = ERR_314_CODE;
+								erreur.message = ERR_314_MSG;
+								lMsg.log.erreurs.push(erreur);
+								
+								pDialog.dialog('close');
+								that.rechargerPage();
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+				},"json");
+			} else {
+				Infobulle.generer(lVr,'pro-');
+			}
+		}
+	};
+	
+	this.rechargerPage = function() {
+		this.mAdherent = null;
+		this.infoReservation = {};
+		this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
+		this.produit = [];
+		this.construct(this.pParam);
+	};
+	
+	this.affectModifierAchat = function(pData) {
+		var that = this;
+		
+		pData.find('#btn-modif-achat, #btn-annuler-achat').click(function() {
+			$('.btn-achat, .detail-achat-qte, .detail-achat-prix, #btn-modif-achat-solidaire, #btn-supp-achat-solidaire').toggle();			
+		});
+		pData.find('#btn-modif-achat-solidaire, #btn-annuler-achat-solidaire').click(function() {
+			$('.btn-achat-solidaire, .detail-achat-qte-solidaire, .detail-achat-prix-solidaire, #btn-modif-achat, #btn-supp-achat').toggle();			
+		});
+		pData.find("#btn-check-achat, #btn-check-achat-solidaire").click(function() {
+			that.validerModifierAchat($(this).data("id-achat"), $(this).data("type"));
+		});
+		return pData;
+	};
+	
+	this.affectSupprimerAchat = function(pData) {
+		var that = this;
+		pData.find('#btn-supp-achat, #btn-supp-achat-solidaire').click(function() {
+			that.supprimerAchat($(this).data("id-achat"));
+		});
+		return pData;
+	};
+	
+	this.validerModifierAchat = function(pIdAchat, pType) {
+		var that = this;
+		
+		if(pType != '') {pType = '-' + pType;}
+		
+		var lAchat = {};
+		lAchat.idAchat = pIdAchat;
+		//lAchat.total = $("#achat-total" + pType).val().numberFrToDb() * -1;
+		lAchat.produits = [];
+		var lProduit = [];
+		$('.ligne-produit-achat').each(function() {
+			var lVoProduit = new ProduitAchatVO();
+			lVoProduit.id = $(this).data("id-produit");			
+			var lQuantite = $(this).find(".produit-quantite" + pType).val().numberFrToDb();
+			
+			// Si il y a une quantité vérificaiton du prix
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
+				lQuantite = parseFloat(lQuantite);
+				lVoProduit.quantite = lQuantite * -1;			
+			
+				var lprix = $(this).find(".produit-prix" + pType).val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+				}
+				lAchat.produits.push(lVoProduit);
+			} else {
+				var lprix = $(this).find(".produit-prix" + pType).val().numberFrToDb();
+				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
+					lprix = parseFloat(lprix);
+					lVoProduit.prix = lprix * -1;
+					lAchat.produits.push(lVoProduit);
+				}
+			}
+			lProduit.push(lVoProduit);
+		});
+		
+		if(parseInt(pIdAchat) < 0) { // Si c'est ajout un achat
+			lAchat.idCompte = that.mAdherent.adhIdCompte;
+			lAchat.idMarche = that.pParam.id_marche;
+		}
+		
+		var lValid = new AchatAdherentValid();
+		var lVr = lValid.validUpdate(lAchat);
+		
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			var lParam ={fonction:"modifierAchat",achat:lAchat};
+			$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse && lResponse.valid) {
+							var lMsg = new TemplateVR();
+							lMsg.valid = false;
+							lMsg.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_314_CODE;
+							erreur.message = ERR_314_MSG;
+							lMsg.log.erreurs.push(erreur);
+
+							that.pParam.vr = lMsg;
+							that.rechargerPage(that.pParam);
+							
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+			},"json");
+		} else {
+			Infobulle.generer(lVr,'achat-' + pIdAchat + '-');
+		}
+	};	
+	
+	this.supprimerAchat = function(pIdAchat) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		var lTemplate = lGestionCommandeTemplate.dialogSupprimerAchat;
+		
+		$(lTemplate).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Supprimer': function() {
+					var lDialog = this;
+					var lParam ={fonction:"supprimerAchat",idAchat:pIdAchat};
+					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
+						function(lResponse) {
+							Infobulle.init(); // Supprime les erreurs
+							if(lResponse) {
+								if(lResponse && lResponse.valid) {								
+									var lMsg = new TemplateVR();
+									lMsg.valid = false;
+									lMsg.log.valid = false;
+									var erreur = new VRerreur();
+									erreur.code = ERR_315_CODE;
+									erreur.message = ERR_315_MSG;
+									lMsg.log.erreurs.push(erreur);
+									
+									that.pParam.vr = lMsg;
+									//Si compte invité retour à la liste des achats
+									if(that.pParam.id_adherent == -3) {
+										ListeAchatMarcheVue({"id_marche":that.pParam.id_marche});
+									} else {
+										that.rechargerPage(that.pParam);
+									}
+									
+									$(lDialog).dialog('close');
+								} else {
+									Infobulle.generer(lResponse,'');
+								}
+							}
+					},"json");
+			
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
+		});
+		
+	};
+/*	this.affectValiderModifierReservation = function(pData) {
 		var that = this;
 		pData.find('#btn-check-resa').click(function() {
 			that.validerModifierReservation();
@@ -6567,11 +7567,7 @@
 		});
 		return pData;
 	};
-	
-	this.modifierReservation = function() {
-		$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();	
-	};
-	
+		
 	this.validerModifierReservation = function() {
 		var lReservation = {};
 		lReservation.total = $("#reservation-total").val().numberFrToDb();
@@ -6781,7 +7777,7 @@
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 		});
 		
-	};
+	};*/
 	
 	this.construct(pParam);
 };function BonDeCommandeVue(pParam) {
@@ -6792,6 +7788,7 @@
 	this.mSuiteEdition = 0;
 	this.mIdCompteProducteur = 0;
 	this.mArchive = -1;
+	this.mAfficheLot = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
@@ -6876,6 +7873,9 @@
 						Infobulle.init(); // Supprime les erreurs
 						if(lResponse) {
 							if(lResponse.valid) {
+								// Permet l'export du bon de commande
+								$('#btn-export-bcom').show();
+								
 								that.mIdCompteProducteur = lIdCompteProducteur;
 								that.mEtatEdition = false;
 								
@@ -6899,21 +7899,32 @@
 			var lGestionCommandeTemplate = new GestionCommandeTemplate();
 			var lTemplate = lGestionCommandeTemplate.listeProduitVide;
 			$('#liste-pdt').replaceWith(lTemplate);
+			// Cache l'export du bon de commande
+			$('#btn-export-bcom').hide();
 		}
 	};
 	
 	this.afficherDetail = function(pResponse) {
 		var that = this;
+		//Initialisation du tableau
+		this.mAfficheLot = [];
 		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = this.stoQuantite;
+			//Permet de détecter si on affiche le lot
+			if(that.mAfficheLot[this.proId] ) {
+				that.mAfficheLot[this.proId] = 2;
+			} else {
+				that.mAfficheLot[this.proId] = 1;
+			}
+			
+			that.mListeProduit[this.dcomId] = this.stoQuantite;
 			
 			this.stoQuantiteCommande = "0";
 			this.dopeMontant = "0";
 			
-			var lProId = this.proId;
+			var lDcomId = this.dcomId;
 			var these = this;			
 			$(pResponse.produitsCommande).each(function() {
-				if(this.proId == lProId) {
+				if(this.dcomId == lDcomId) {
 					these.stoQuantiteCommande = this.stoQuantite;
 					these.dopeMontant = this.dopeMontant;
 				}
@@ -6928,8 +7939,17 @@
 			if(this.stoQuantiteCommande != '') {
 				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
 			}
+			if(this.stoQuantite == null) {
+				this.stoQuantite = "0";
+			}
 			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
 			this.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+		});
+		// Affiche les lots
+		$(pResponse.produits).each(function() {
+			if(that.mAfficheLot[this.proId] && that.mAfficheLot[this.proId] == 2) {
+				this.nproNom += " (" + this.dcomTaille.nombreFormate(2,',',' ') + " " + this.proUniteMesure + ")";
+			}
 		});
 		pResponse.sigleMonetaire = gSigleMonetaire;
 		
@@ -6941,9 +7961,21 @@
 	
 	this.afficherFormulaire = function(pResponse) {
 		var that = this;
-		$(pResponse.produits).each(function() {
-			that.mListeProduit[this.proId] = this.stoQuantite;
+		//Initialisation du tableau
+		this.mAfficheLot = [];
+		$(pResponse.produits).each(function() {//Permet de détecter si on affiche le lot
+			if(that.mAfficheLot[this.proId] ) {
+				that.mAfficheLot[this.proId] = 2;
+			} else {
+				that.mAfficheLot[this.proId] = 1;
+			}
+			
+			that.mListeProduit[this.dcomId] = this.stoQuantite;
 
+			if(this.stoQuantite == null) {
+				this.stoQuantite = 0;
+			}
+			
 			this.stoQuantiteCommande = this.stoQuantite;
 			this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',',' ');
 			
@@ -6957,6 +7989,12 @@
 			}
 			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
 		});		
+		// Affiche les lots
+		$(pResponse.produits).each(function() {
+			if(that.mAfficheLot[this.proId] && that.mAfficheLot[this.proId] == 2) {
+				this.nproNom += " (" + this.dcomTaille.nombreFormate(2,',',' ') + " " + this.proUniteMesure + ")";
+			}
+		});
 		pResponse.sigleMonetaire = gSigleMonetaire;
 		
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
@@ -6970,6 +8008,7 @@
 		pData = this.affectEnregistrer(pData);
 		pData = this.affectModifier(pData);
 		pData = this.affectMasquerFormulaire(pData);
+		pData = this.affectCalculPrix(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
@@ -6983,6 +8022,7 @@
 		pData = this.affectEnregistrer(pData);
 		pData = this.affectModifier(pData);
 		pData = this.affectMasquerDetail(pData);
+		pData = this.affectCalculPrix(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		if(this.mArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
@@ -7002,16 +8042,16 @@
 	
 	this.affectEtatCommande = function(pData) {
 		var that = this;
-		pData.find(":input").keyup(function() {
+		pData.find(".qte-commande").keyup(function() {
 			that.mEtatEdition = true;
-			var lIdProduit = $(this).prev(".pro-id").text();
-			if(that.mListeProduit[lIdProduit]) {
-				if($(this).val().numberFrToDb()- that.mListeProduit[lIdProduit] < 0) {
-					$("#etat-commande-" + lIdProduit)
+			var lDcomId = $(this).data('id-detail-commande');
+			if(that.mListeProduit[lDcomId]) {
+				if($(this).val().numberFrToDb()- that.mListeProduit[lDcomId] < 0) {
+					$("#etat-commande-" + lDcomId)
 						.removeClass('qte-reservation-ok')
 						.addClass('qte-reservation-ko');
 				} else {
-					$("#etat-commande-" + lIdProduit)
+					$("#etat-commande-" + lDcomId)
 						.removeClass('qte-reservation-ko')
 						.addClass('qte-reservation-ok');
 				}
@@ -7046,6 +8086,19 @@
 		return pData;
 	};
 	
+	this.affectCalculPrix = function(pData) {
+		pData.find(".qte-commande").keyup(function() {
+			var lPrix = ($(this).val().numberFrToDb() * $(this).data('prix') / $(this).data('taille') ).toFixed(2);
+			if(isNaN(lPrix) || lPrix <= 0) { 
+				lPrix = '';
+			} else { 
+				lPrix = lPrix.nombreFormate(2,',','');
+			}
+			$(':input[name=prix-commande-' +  $(this).data('id-produit') + '-' + $(this).data('id-detail-commande') + ']').val(lPrix);
+		});
+		return pData;
+	};
+	
 	this.enregistrer = function() {
 		var that = this;
 		
@@ -7055,12 +8108,14 @@
 		lParam.id_compte_ferme = this.mIdCompteProducteur;
 		lParam.export_type = 0;
 
-		$('.pro-id').each(function() {
-			var lId = $(this).text();				
+		$('.qte-commande').each(function() {
+			var lId = $(this).data('id-produit');	
+			var lDcomId = $(this).data('id-detail-commande');
 			var lProduit = new ProduitBonDeCommandeVO();
 			lProduit = {id:lId,
-						quantite:$(':input[name=qte-commande-' + lId + ']').val().numberFrToDb(),
-						prix:$(':input[name=prix-commande-' + lId + ']').val().numberFrToDb()
+						dcomId:lDcomId,
+						quantite:$(':input[name=qte-commande-' + lId + '-' + lDcomId + ']').val().numberFrToDb(),
+						prix:$(':input[name=prix-commande-' + lId + '-' + lDcomId + ']').val().numberFrToDb()
 						};				
 			lParam.produits.push(lProduit);
 		});		
@@ -7095,7 +8150,7 @@
 								}
 							} else {
 								Infobulle.generer(lResponse,'');
-								$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+								//$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 							}
 						}
 					},"json"
@@ -7103,7 +8158,7 @@
 			
 		} else {
 			Infobulle.generer(lVr,'');
-			$('#select-prdt').selectOptions(that.mIdCompteProducteur);
+			//$('#select-prdt').selectOptions(that.mIdCompteProducteur);
 		}
 	};
 	
@@ -7140,6 +8195,7 @@
 					lParam.id_commande = that.mIdCommande;
 					lParam.format = lFormat;
 					lParam.fonction = "export";
+					lParam.idCompteFerme = $('#select-prdt').val();
 					
 					// Test des erreurs
 					var lValid = new ExportBonReservationValid();
@@ -9092,14 +10148,14 @@
 
 		// Met le bouton en actif
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		
+		var lTemplate = '';
 		if(pResponse.listeAdherent[0].adhId && pResponse.listeAdherent[0].adhId != null) {
-			var lTemplate = lGestionCommandeTemplate.listeReservation;
+			lTemplate = lGestionCommandeTemplate.listeReservation;
 			$.each(pResponse.listeAdherent,function() {
 				this.adhIdTri = this.adhNumero.replace("Z","");
 			});
 		} else {
-			var lTemplate = lGestionCommandeTemplate.listeReservationVide;
+			lTemplate = lGestionCommandeTemplate.listeReservationVide;
 		}
 		
 		pResponse.infoMarcheSelected = '';
@@ -9141,7 +10197,7 @@
 	};
 	
 	this.affectTri = function(pData) {
-		pData.find('.com-table').tablesorter({sortList: [[2,0]] });
+		pData.find('.com-table').tablesorter({sortList: [[2,0]],headers: { 4: {sorter: false} } });
 		return pData;
 	};
 	
@@ -10004,17 +11060,17 @@
 	
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-stock-choix]').change(function() {
-			if($(':input[name=pro-stock-choix]:checked').val() == 1) {				
-				$(":input[name=pro-stock]").attr("disabled","").val("");
+			if($(':input[name=pro-stock-choix]:checked').val() == 1) {	
+				$(":input[name=pro-stock]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-stock]").attr("disabled","disabled").val("");
+				$(":input[name=pro-stock]").prop("disabled", true).val("");
 			}
 		});
 		pData.find(':input[name=pro-qte-max-choix]').change(function() {
 			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
-				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", true).val("");
 			}
 		});
 		return pData;

@@ -9,7 +9,7 @@
 <div><a href="./index.php">Retour</a></div>
 <?php 
 // Répertoire du site
-$lDossierVersion = '/home/julien/Informatique/Dev/zeybu/www/';
+$lDossierVersion = '../../';
 
 if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	$lNom = $_POST['nom'];
@@ -470,6 +470,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 				   		&& $entry != '.project'
 				   		&& $entry != 'DB.php'
 				   		&& $entry != 'Mail.php'
+				   		&& $entry != 'Proprietaire.php'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -501,6 +502,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 				   		&& $entry != '.project'
 				   		&& $entry != 'DB.php'
 				   		&& $entry != 'Mail.php'
+				   		&& $entry != 'Proprietaire.php'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -554,6 +556,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		} else {
 			unlink($lPath.'/configuration/DB.php');
 			unlink($lPath.'/configuration/Mail.php');
+			unlink($lPath.'/configuration/Proprietaire.php');
 			
 			// le install.sql
 			/*$serveur = "127.0.0.1";
@@ -729,7 +732,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 echo "
 	<form action=\"./ExportZeybux.php\" method=\"post\">
 		<span>Nom du dossier Source</span>
-			<select name=\"source\">";
+			<select name=\"source\">\n";
 			
 			$lDossiers = array();
 			if(is_dir($lDossierVersion)) {
@@ -749,12 +752,11 @@ echo "
 			sort($lDossiers);
 			foreach($lDossiers as $lDossier) {
 
-echo "				<option value=\"<?php echo $lDossier; ?>\"><?php echo $lDossier; ?></option>";
+echo "				<option value=\"". $lDossier . "\">" . $lDossier . "</option>\n";
 
 			}
 		
-		echo "
-			</select>	
+		echo "</select>	
 			<br/>
 		<span>Nom du dossier d'export</span><input type=\"text\" name=\"nom\" /><br/>
 		<span>Environnement de destination

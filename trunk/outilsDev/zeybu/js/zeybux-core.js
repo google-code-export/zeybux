@@ -609,7 +609,7 @@ sortABC = function(a, b){
 		if(!pData.valid) {
 			for( i in pData) {
 				if(i != 'valid') {
-					if(pData[i].valid === false && pData[i].erreurs) {						
+					if(pData[i] && pData[i].valid === false && pData[i].erreurs) {						
 						var membre = new Array();
 						membre['nom'] = pNomObj + i;
 						
@@ -654,7 +654,7 @@ sortABC = function(a, b){
 							$("#" + pNomObj + i ).addClass('ui-state-error');
 							Infobulle.afficher($("#" + pNomObj + i ));	
 						}
-					} else if (!(pData[i].valid === true) || (pData[i].valid === false && !pData[i].erreurs)) {
+					} else if (pData[i] && ( !(pData[i].valid === true) || (pData[i].valid === false && !pData[i].erreurs) )) {
 						this.generation(pData[i],pNomObj+i);
 					}
 				}
@@ -764,6 +764,7 @@ String.prototype.extractDbMinute = function() {
 	this.produitsAbonnement = new Array();
 };function ProduitBonDeCommandeVO() {
 	this.id = '';
+	this.dcomId = '';
 	this.quantite = '';
 	this.prix = '';
 }
@@ -869,6 +870,15 @@ String.prototype.extractDbMinute = function() {
 	this.quantite = '';
 	this.unite = '';	
 	this.prix = '';
+};function ProduitAjoutAchatVO() {
+	this.id = '';
+	this.idCompte = '';
+	this.idMarche = '';
+	this.idOperation = '';
+	this.idNomProduit = '';
+	this.quantite = '';
+	this.prix = '';
+	this.solidaire = '';
 };function ProduitsBonDeCommandeVO() {
 	this.id = '';
 	this.id_commande = '';
@@ -946,7 +956,12 @@ function CompteZeybuModifierVirementVO() {
 	this.id = '';
 	this.montant = '';
 	this.solde = '';
-};function DetailCommandeVO() {
+}function StockQuantiteVO() {
+	this.id = '';
+	this.quantite = '';
+	this.quantiteSolidaire = '';
+}
+;function DetailCommandeVO() {
 	this.id = '';
 	this.idProduit = '';
 	this.taille = '';
@@ -1024,6 +1039,7 @@ function CompteZeybuModifierVirementVO() {
 	this.id = '';
 	this.id_commande = '';
 	this.format = '';
+	this.idCompteFerme = '';
 };function ProduitAchatVO() {
 	this.id = '';
 	this.quantite = '';
@@ -1120,6 +1136,7 @@ function CompteZeybuModifierVirementVO() {
 	this.id = new VRelement();
 	this.id_commande = new VRelement();
 	this.format = new VRelement();
+	this.idCompteFerme = new VRelement();
 }
 ;function NomProduitVR() {
 	this.valid = true;
@@ -1353,10 +1370,23 @@ function CompteZeybuModifierVirementVR() {
 	this.quantite = new VRelement();
 	this.prix = new VRelement();
 }
+;function ProduitAjoutAchatVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.idCompte = new VRelement();
+	this.idMarche = new VRelement();
+	this.idOperation = new VRelement();
+	this.idNomProduit = new VRelement();
+	this.quantite = new VRelement();
+	this.prix = new VRelement();
+	this.solidaire = new VRelement();
+}
 ;function ProduitBonDeCommandeVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.dcomId = new VRelement();
 	this.quantite = new VRelement();
 	this.prix = new VRelement();
 }
@@ -1392,7 +1422,14 @@ function CompteZeybuModifierVirementVR() {
 	this.adresse = new VRelement();
 	this.codePostal = new VRelement();
 	this.ville = new VRelement();
-};function AchatAdherentVR() {
+}function StockQuantiteVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.id = new VRelement();
+	this.quantite = new VRelement();
+	this.quantiteSolidaire = new VRelement();
+}
+;function AchatAdherentVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.idAchat = new VRelement();
@@ -1944,12 +1981,19 @@ function CompteZeybuModifierVirementVR() {
 	this.validAjout = function(pData) { 
 		var lVR = new ProduitBonDeCommandeVR();
 		//Tests Techniques
+		if(!pData.id.checkLength(0,11)) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.id.isInt()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id.erreurs.push(erreur);}
+		if(!pData.dcomId.checkLength(0,11)) {lVR.valid = false;lVR.dcomId.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.dcomId.erreurs.push(erreur);}
+		if(!pData.dcomId.isInt()) {lVR.valid = false;lVR.dcomId.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.dcomId.erreurs.push(erreur);}
 		if(pData.quantite != '' && !pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(pData.quantite != '' && !pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(pData.prix != '' && !pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
 		if(pData.prix != '' && !pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
+		if(pData.id.isEmpty()) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id.erreurs.push(erreur);}
+		if(pData.dcomId.isEmpty()) {lVR.valid = false;lVR.dcomId.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dcomId.erreurs.push(erreur);}
+		
 		if(pData.prix != '' && pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(pData.quantite != '' && pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
 
@@ -2245,6 +2289,8 @@ function CompteZeybuModifierVirementVR() {
 					lVR.modelesLot.push(lVrlModeleLot);	
 					i++;
 				}				
+			} else {
+				lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_264_CODE;erreur.message = ERR_264_MSG;lVR.log.erreurs.push(erreur);
 			}
 		}
 		return lVR;
@@ -2308,6 +2354,8 @@ function CompteZeybuModifierVirementVR() {
 					lVR.modelesLot.push(lVrlModeleLot);	
 					i++;
 				}				
+			} else {
+				lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_264_CODE;erreur.message = ERR_264_MSG;lVR.log.erreurs.push(erreur);
 			}
 		}
 		return lVR;
@@ -2393,7 +2441,9 @@ function CompteZeybuModifierVirementVR() {
 			while(pData.produits[i]) {
 				var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
 				if(!lVrProduit.valid){lVR.valid = false;}
-				lVR.produits[pData.produits[i].id] = lVrProduit;
+				if(pData.produits[i].dcomId) {
+					lVR.produits[pData.produits[i].dcomId] = lVrProduit;
+				}
 				i++;
 			}
 		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);};
@@ -2428,6 +2478,79 @@ function CompteZeybuModifierVirementVR() {
 
 		return lVR;
 	};
+}function ProduitAjoutAchatValid() { 
+	this.validAjout = function(pData) { 
+		var lVR = new ProduitAjoutAchatVR();
+		//Tests Techniques
+		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCompte.erreurs.push(erreur);}
+		if(!pData.idMarche.checkLength(0,11)) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idMarche.erreurs.push(erreur);}
+		if(pData.idMarche != '' && !pData.idMarche.isInt()) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idMarche.erreurs.push(erreur);}
+		if(!pData.idOperation.checkLength(0,11)) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idOperation.erreurs.push(erreur);}
+		if(pData.idOperation != '' && !pData.idOperation.isInt()) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idOperation.erreurs.push(erreur);}
+		if(!pData.idNomProduit.checkLength(0,11)) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(!pData.idNomProduit.isInt()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+		if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+		if(!pData.solidaire.checkLength(0,1)) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.solidaire.erreurs.push(erreur);}
+		if(!pData.solidaire.isInt()) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.solidaire.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+		//if(pData.idMarche.isEmpty() && pData.idOperation.isEmpty()) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idMarche.erreurs.push(erreur);}
+		//if(pData.idOperation.isEmpty()) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idOperation.erreurs.push(erreur);}
+		if(pData.idNomProduit.isEmpty()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_214_CODE;erreur.message = ERR_214_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_213_CODE;erreur.message = ERR_213_MSG;lVR.prix.erreurs.push(erreur);}
+		if(pData.solidaire.isEmpty()) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.solidaire.erreurs.push(erreur);}
+
+		if(pData.quantite >= 0) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
+
+		return lVR;
+	};
+
+	/*this.validDelete = function(pData) {
+		var lVR = new ProduitAjoutAchatVR();
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new ProduitAjoutAchatVR();
+			//Tests Techniques
+			if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompte.erreurs.push(erreur);}
+			if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCompte.erreurs.push(erreur);}
+			if(!pData.idMarche.checkLength(0,11)) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idMarche.erreurs.push(erreur);}
+			if(!pData.idMarche.isInt()) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idMarche.erreurs.push(erreur);}
+			if(!pData.idOperation.checkLength(0,11)) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idOperation.erreurs.push(erreur);}
+			if(!pData.idOperation.isInt()) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idOperation.erreurs.push(erreur);}
+			if(!pData.idNomProduit.checkLength(0,11)) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+			if(!pData.idNomProduit.isInt()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+			if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
+			if(!pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+			if(!pData.solidaire.checkLength(0,1)) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.solidaire.erreurs.push(erreur);}
+			if(!pData.solidaire.isInt()) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.solidaire.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.idCompte.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompte.erreurs.push(erreur);}
+			if(pData.idMarche.isEmpty()) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idMarche.erreurs.push(erreur);}
+			if(pData.idOperation.isEmpty()) {lVR.valid = false;lVR.idOperation.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idOperation.erreurs.push(erreur);}
+			if(pData.idNomProduit.isEmpty()) {lVR.valid = false;lVR.idNomProduit.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idNomProduit.erreurs.push(erreur);}
+			if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(pData.prix.isEmpty()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prix.erreurs.push(erreur);}
+			if(pData.solidaire.isEmpty()) {lVR.valid = false;lVR.solidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.solidaire.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};*/
 }function CompteSolidaireVirementValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CompteSolidaireAjoutVirementVR();
@@ -2707,9 +2830,9 @@ function CompteZeybuModifierVirementVR() {
 		var lVR = new AchatAdherentVR();
 		//Tests Techniques
 		if(isNaN(parseInt(pData.idAchat))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
-		if(pData.total != '' && !pData.total.checkLength(0,12)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+	/*	if(pData.total != '' && !pData.total.checkLength(0,12)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
 		if(pData.total != '' && !pData.total.isFloat()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.log.erreurs.push(erreur);}
-
+*/
 		if(pData.idAchat < 0) {
 			if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
 			if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
@@ -2720,7 +2843,7 @@ function CompteZeybuModifierVirementVR() {
 			if(pData.idMarche.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 		}
 		
-		if(pData.total != '' && pData.total >= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.log.erreurs.push(erreur);}
+//		if(pData.total != '' && pData.total >= 0) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.log.erreurs.push(erreur);}
 
 		if(isArray(pData.produits)) {		
 			if(pData.produits.length > 0 && pData.produits[0] != '') {
@@ -3196,10 +3319,13 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
 		if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
+		if(!pData.idCompteFerme.checkLength(0,1)) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
+		if(!pData.idCompteFerme.isInt()) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
 		if(pData.id_commande.isEmpty()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(pData.format.isEmpty()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.format.erreurs.push(erreur);}
+		if(pData.idCompteFerme.isEmpty()) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
 
 		return lVR;
 	};
@@ -3424,7 +3550,47 @@ function CompteZeybuModifierVirementVR() {
 	};
 
 }
-;function ModeleLotValid() { 
+function StockQuantiteValid() { 
+	/*this.validAjout = function(pData) { 
+		var lVR = new StockQuantiteVR();
+		//Tests Techniques
+		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(!pData.quantiteSolidaire.checkLength(0,12)) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+		if(!pData.quantiteSolidaire.isFloat()) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+
+		//Tests Fonctionnels
+		if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+		if(pData.quantiteSolidaire.isEmpty()) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+
+		return lVR;
+	};*/
+
+	this.validDelete = function(pData) {
+		var lVR = new StockQuantiteVR();
+		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.id.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.id.erreurs.push(erreur);}
+		return lVR;
+	};
+
+	this.validUpdate = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new StockQuantiteVR();
+			//Tests Techniques
+			if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(!pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(!pData.quantiteSolidaire.checkLength(0,12)) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+			if(!pData.quantiteSolidaire.isFloat()) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+
+			//Tests Fonctionnels
+			if(pData.quantite.isEmpty()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantite.erreurs.push(erreur);}
+			if(pData.quantiteSolidaire.isEmpty()) {lVR.valid = false;lVR.quantiteSolidaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.quantiteSolidaire.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};
+};function ModeleLotValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new ModeleLotVR();
 		//Tests Techniques
@@ -3842,11 +4008,11 @@ $(document).ready(function() {
 		return pData;	
 	};
 	
-	this.comNumeric = function(pData) {
+	this.comNumeric = function(pData, pOption) {
 		if($(pData).length != 0)
-			pData.find('.com-numeric').numeric();
+			pData.find('.com-numeric').numeric(pOption);
 		else
-			$("body").find('.com-numeric').numeric();
+			$("body").find('.com-numeric').numeric(pOption);
 		return pData;
 	};
 	
@@ -3915,26 +4081,47 @@ $(document).ready(function() {
 	};
 	
 	this.comHoverBtn = function(pData) {
-		pData.find(	".com-button:not(.ui-state-disabled)," +
+		if(pData) {
+			pData.find(	".com-button:not(.ui-state-disabled)," +
+						".com-btn-header:not(.ui-state-disabled)," +
+						".com-btn-hover:not(.ui-state-disabled)," +
+						".com-btn-header-multiples:not(.ui-state-disabled)")
+			.hover(
+				function(){ 
+					$(this).addClass("ui-state-hover"); 
+				},
+				function(){ 
+					$(this).removeClass("ui-state-hover"); 
+				}
+			)
+			.mousedown(function(){
+					$(this).addClass("ui-state-active");	
+			})
+			.mouseup(function(){
+					$(this).removeClass("ui-state-active");
+			});
+			
+			return pData;
+		} else {
+			$(".com-button:not(.ui-state-disabled)," +
 					".com-btn-header:not(.ui-state-disabled)," +
 					".com-btn-hover:not(.ui-state-disabled)," +
 					".com-btn-header-multiples:not(.ui-state-disabled)")
-		.hover(
-			function(){ 
-				$(this).addClass("ui-state-hover"); 
-			},
-			function(){ 
-				$(this).removeClass("ui-state-hover"); 
-			}
-		)
-		.mousedown(function(){
-				$(this).addClass("ui-state-active");	
-		})
-		.mouseup(function(){
-				$(this).removeClass("ui-state-active");
-		});
-		
-		return pData;
+			.hover(
+				function(){ 
+					$(this).addClass("ui-state-hover"); 
+				},
+				function(){ 
+					$(this).removeClass("ui-state-hover"); 
+				}
+			)
+			.mousedown(function(){
+					$(this).addClass("ui-state-active");	
+			})
+			.mouseup(function(){
+					$(this).removeClass("ui-state-active");
+			});
+		}
 	};
 };function IdentificationTemplate() {
 	this.connexion =
@@ -4003,7 +4190,7 @@ $(document).ready(function() {
 			"</div>" +
 		"</div>";
 	
-	this.naviguateurIncompatible =
+	/*this.naviguateurIncompatible =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header com-center ui-corner-all\">" +
@@ -4029,31 +4216,32 @@ $(document).ready(function() {
 					"</div>" +
 				"</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
-	this.formulaireIdentificationHTML = 
-		"<div id=\"contenu\">" +
-			"<div class=\"ui-widget ui-widget-content ui-state-highlight com-center\" >" +
-				"Votre naviguateur n'est pas compatible avec la version complète du zeybux.<br/>" +
-				"Ceci est la version minimale du zeybux.<br/>" +
-				"Vous pouvez utiliser l'un des naviguateur suivants pour profiter de l'ensemble du site : <br/>" +
-				"<div id=\"liste-naviguateur\" class=\"com-center\">" +
-					
-					"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
-						"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
-							"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
-							"Mozilla Firefox" +
-						"</a>" +
-					"</div>" +
-					"<div>" +	
-						"<a href=\"http://www.google.com/chrome/\">" +
-							"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
-							"Google Chrome" +
-						"</a>" +
-					"</div>" +
+	this.infoNavIncompatible = 
+		"<div id=\"liste-naviguateur\" class=\"info-identification-nav-incompatible ui-widget ui-widget-content ui-state-highlight com-center ui-corner-all\" >" +
+			"<div id=\"msg-nav-incompatible\" class=\"com-float-left\">" +
+			"Votre naviguateur n'est pas compatible avec la version complète du zeybux.<br/>" +
+			"Ceci est la version minimale du zeybux.<br/>" +
+			"Vous pouvez utiliser l'un des naviguateur suivants pour profiter de l'ensemble du site :</div>" +
+			//"<div id=\"liste-naviguateur\" class=\"com-center\">" +
+				
+				"<div id=\"naviguateur-1\" class=\"com-float-left\">" +
+					"<a href=\"http://www.mozilla.com/fr/firefox/\">" +
+						"<img alt=\"Mozilla Firefox\" src=\"./images/firefox-logo.png\"/><br/>" +
+						"Mozilla Firefox" +
+					"</a>" +
 				"</div>" +
-			"</div>" +
-			"<div id=\"formulaire_identification_html\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+				"<div class=\"com-float-left\">" +	
+					"<a href=\"http://www.google.com/chrome/\">" +
+						"<img alt=\"Google Chrome\" src=\"./images/chrome-logo.png\"/><br/>" +
+						"Google Chrome" +
+					"</a>" +
+				"</div>" +
+			//"</div>" +
+		"</div>";
+		/*"<div id=\"contenu\">" +			
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +
@@ -4075,13 +4263,13 @@ $(document).ready(function() {
 					"</table>" +
 				"</form>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
-	this.formulaireIdentification = 
+	/*this.formulaireIdentification = 
 		"<div id=\"contenu\">" +
 			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent  ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
-				"<form id=\"identification-form\" action=\"./index.php\" method=\"post\">" +
+				"<form id=\"identification-form\" action=\"./index.php?m=IdentificationHTML&v=Identification\" method=\"post\">" +
 					"<table>" +
 						"<tr>" +
 							"<td>N° d'adhérent</td>" +
@@ -4101,23 +4289,23 @@ $(document).ready(function() {
 					"</table>" +
 				"</form>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.chargementModule = 
 		"<div id=\"contenu\">" +
-			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
+			"<div id=\"formulaire_identification_int\" class=\"ui-widget formulaire_identification ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Chargement du Zeybux</div>" +
 				"<div id=\"chargement-module-progressbar\"></div>" +
 			"</div>" +
 		"</div>";
 	
-	this.chargementIdentification = 
+	/*this.chargementIdentification = 
 		"<div id=\"contenu\">" +
 			"<div id=\"formulaire_identification_int\" class=\"ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\" >" +
 				"<div id=\"titre_fenetre\" class=\"ui-widget ui-widget-header ui-corner-all\">Connexion à Zeybux</div>" +
 				"<div class=\"com-center\">Identification ...</div>" +
 			"</div>" +
-		"</div>";
+		"</div>";*/
 };function MenuVue(pParam) {
 	//this.mMenuTemplate = new IdentificationTemplate();
 
@@ -4299,6 +4487,11 @@ $(document).ready(function() {
 				return false;
 			});
 			
+			pData.find('#menu-GestionCommande-StockProduitListeFerme').click(function() {
+				StockProduitListeFermeVue();
+				return false;
+			});
+			
 			pData.find('#menu-GestionProducteur-ListeFerme').click(function() {
 				ListeFermeVue();
 				return false;
@@ -4386,25 +4579,21 @@ $(document).ready(function() {
 	};
 	
 	this.afficher = function() {
-		var that = this;
-		var lIdentificationTemplate = new IdentificationTemplate();
-		$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+		this.affect();
+	};
+	
+	this.affect = function() {		
+		this.affectIdentifier();
+		gCommunVue.comHoverBtn();
 		$('#login').focus();
 	};
 	
-	this.affect = function(pData) {		
-		pData = this.affectIdentifier(pData);
-		pData = gCommunVue.comHoverBtn(pData);
-		return pData;
-	};
-	
-	this.affectIdentifier = function(pData) {
+	this.affectIdentifier = function() {
 		var that = this;
-		pData.find('#identification-form').submit(function() {
+		$('#identification-form').submit(function() {
 			that.identifier($(this));
 			return false;
 		});
-		return pData;
 	};
 	
 	this.identifier = function(pObj) {
@@ -4418,7 +4607,9 @@ $(document).ready(function() {
 		if (lVr.valid) {
 			var that = this;
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.chargementIdentification);
+			//$('#formulaire_identification_int').hide().after(lIdentificationTemplate.chargementIdentification);
+			//$('#contenu').replaceWith(lIdentificationTemplate.chargementIdentification);
+			$('.formulaire_identification').toggle();
 			$.post(	"./index.php?m=Identification&v=Identification", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 					  	Infobulle.init(); // Supprime les erreurs
@@ -4430,7 +4621,9 @@ $(document).ready(function() {
 								$('#contenu').replaceWith(that.affectChargement($(lIdentificationTemplate.chargementModule)));
 								that.chargerModule(0);
 							} else {
-								$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+								//alert(lContenu);
+								//$('#contenu').replaceWith(that.affect($(lIdentificationTemplate.formulaireIdentification)));
+								$('.formulaire_identification').toggle();
 								Infobulle.generer(lResponse,'');
 							}
 					  	}
@@ -4454,11 +4647,11 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130324102100.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130504150053.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130324102100.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130504150053.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -4545,11 +4738,11 @@ $(document).ready(function() {
 	this.afficher = function() {
 		if($.browser.msie) {
 			var lIdentificationTemplate = new IdentificationTemplate();
-			$('#contenu').replaceWith(lIdentificationTemplate.formulaireIdentificationHTML);
+			$('noscript').replaceWith(lIdentificationTemplate.infoNavIncompatible);
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130324102100.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20130504150053.js",function() {
 				that.init();
 				IdentificationVue();
 			});

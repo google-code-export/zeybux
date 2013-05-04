@@ -163,6 +163,8 @@ const ERR_262_CODE = 262;
 const ERR_262_MSG = 'Le produit est déjà dans l\'achat.';
 const ERR_263_CODE = 263;
 const ERR_263_MSG = 'Cet adhérent a déjà un achat sur le marché.';
+const ERR_264_CODE = 264;
+const ERR_264_MSG = 'Aucun prix de vente n\'est présent sur le produit.';
 
 //Message d'Information
 const ERR_301_CODE = 301;

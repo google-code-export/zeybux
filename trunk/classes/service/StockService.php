@@ -21,7 +21,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockQuantiteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
+//include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 
 /**
@@ -337,7 +337,7 @@ class StockService
 	* @return integer
 	* @desc Ajoute ou modifie le stock solidaire
 	*/
-	public function setSolidaire($pStock) {
+	/*public function setSolidaire($pStock) {
 		$lStockValid = new StockValid();
 		if($lStockValid->inputSolidaire($pStock)) {
 			if($lStockValid->insertSolidaire($pStock)) {
@@ -350,7 +350,7 @@ class StockService
 		} else {
 			return false;
 		}
-	}
+	}*/
 	
 	/**
 	* @name insertSolidaire($pStock)
@@ -358,11 +358,11 @@ class StockService
 	* @return integer
 	* @desc Ajoute un stock solidaire
 	*/
-	private function insertSolidaire($pStock) {
+	/*private function insertSolidaire($pStock) {
 		$pStock->setDateCreation(StringUtils::dateTimeAujourdhuiDb());		
 		$lId = StockSolidaireManager::insert($pStock); // Ajout du stock
 		return $lId;
-	}
+	}*/
 	
 	/**
 	* @name updateSolidaire($pStock)
@@ -370,20 +370,20 @@ class StockService
 	* @return integer
 	* @desc Met à jour un stock solidaire
 	*/
-	private function updateSolidaire($pStock) {
+	/*private function updateSolidaire($pStock) {
 		$lStockActuel = $this->getSolidaire($pStock->getId());
 		$pStock->setDateCreation($lStockActuel->getDateCreation());
 		$pStock->setDateModification(StringUtils::dateTimeAujourdhuiDb());
 		//$pStock->setEtat($lStockActuel->getEtat());
 		return StockSolidaireManager::update($pStock); // update
-	}
+	}*/
 	
 	/**
 	* @name deleteSolidaire($pId)
 	* @param integer
 	* @desc Supprime le stock
 	*/
-	public function deleteSolidaire($pId) {
+	/*public function deleteSolidaire($pId) {
 		$lStockValid = new StockValid();
 		if($lStockValid->deleteSolidaire($pId)){
 			$lStockSolidaire = $this->getSolidaire($pId);
@@ -392,7 +392,7 @@ class StockService
 		} else {
 			return false;
 		}
-	}
+	}*/
 	
 	/**
 	* @name getSolidaire($pId)
@@ -400,13 +400,13 @@ class StockService
 	* @return array(StockSolidaireVO) ou StockSolidaireVO
 	* @desc Retourne une liste de virement
 	*/
-	public function getSolidaire($pId = null) {
+	/*public function getSolidaire($pId = null) {
 		if($pId != null) {
 			return $this->selectSolidaire($pId);
 		} else {
 			return $this->selectSolidaireAll();
 		}
-	}
+	}*/
 	
 	/**
 	* @name selectSolidaire($pId)
@@ -414,18 +414,18 @@ class StockService
 	* @return StockSolidaireVO
 	* @desc Retourne une Stock
 	*/
-	public function selectSolidaire($pId) {
+	/*public function selectSolidaire($pId) {
 		return StockSolidaireManager::select($pId);
-	}
+	}*/
 	
 	/**
 	* @name selectSolidaireAll()
 	* @return array(StockSolidaireVO)
 	* @desc Retourne une liste de Stock
 	*/
-	public function selectSolidaireAll() {
+	/*public function selectSolidaireAll() {
 		return StockSolidaireManager::selectAll();
-	}
+	}*/
 	
 	/**
 	* @name selectSolidaireAllActif()
