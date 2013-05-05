@@ -4647,11 +4647,11 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130504160244.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130505112353.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130504160244.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130505112353.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -4742,7 +4742,7 @@ $(document).ready(function() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130504160244.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20130505112353.js",function() {
 				that.init();
 				IdentificationVue();
 			});

@@ -19,7 +19,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			$lControleur = new InfoCommandeArchiveControleur();
 			
 			switch($pParam["fonction"]) {
-				case "afficherCommande":
+				case "afficher":
 					echo $lControleur->getInfoCommandeArchive($pParam)->exportToJson();					
 					$lLogger->log("Affichage de la vue InfoCommandeArchive par le compte de l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
