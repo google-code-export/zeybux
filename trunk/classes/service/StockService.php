@@ -632,7 +632,7 @@ class StockService
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
 				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 				$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT]));
+				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],"","",""));
 			}
 		} else {
 			$lListeStockProduitReservation[0] = new StockProduitReservationVO();

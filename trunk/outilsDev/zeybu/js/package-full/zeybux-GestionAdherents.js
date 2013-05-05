@@ -691,7 +691,7 @@
 			if(this.opeDate != null) {
 				lNvSolde += parseFloat(this.opeMontant);
 				this.nouveauSolde = lNvSolde.nombreFormate(2,',',' ');
-				this.rechargement = (0).nombreFormate(2,',',' ');				
+				this.rechargement = 0;				
 				var lSoldeCible = 5;
 				if(lNvSolde < lSoldeCible) {
 					this.rechargement = (Math.ceil((lSoldeCible-lNvSolde)/lSoldeCible) * lSoldeCible) - lRechargementPrecedent;

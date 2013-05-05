@@ -6815,7 +6815,7 @@
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {InfoCommandeArchiveVue(pParam);}} );
 		var that = this;
-		pParam.fonction = 'afficherCommande';
+		pParam.fonction = 'afficher';
 		$.post(	"./index.php?m=GestionCommande&v=InfoCommandeArchive", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -6831,7 +6831,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {		
 		var that = this;
@@ -6844,15 +6844,15 @@
 		
 		$(lResponse.infoCommande).each(function() {
 			that.mIdMarche = this.comId;
-			if(this.stoQuantite == null) { this.stoQuantite = 0}
-			if(this.opeMontant == null) { this.opeMontant = 0 }
-			if(this.stoQuantiteLivraison == null) { this.stoQuantiteLivraison = 0 }
-			if(this.opeMontantLivraison == null) { this.opeMontantLivraison = 0 }
-			if(this.stoQuantiteSolidaire == null) { this.stoQuantiteSolidaire = 0 }
-			if(this.stoQuantiteVente == null) { this.stoQuantiteVente = 0 }
-			if(this.opeMontantVente == null) { this.opeMontantVente = 0 }
-			if(this.stoQuantiteVenteSolidaire == null) { this.stoQuantiteVenteSolidaire = 0 }
-			if(this.opeMontantVenteSolidaire == null) { this.opeMontantVenteSolidaire = 0 }
+			if(this.stoQuantite == null) { this.stoQuantite = 0;}
+			if(this.opeMontant == null) { this.opeMontant = 0; }
+			if(this.stoQuantiteLivraison == null) { this.stoQuantiteLivraison = 0; }
+			if(this.opeMontantLivraison == null) { this.opeMontantLivraison = 0; }
+			if(this.stoQuantiteSolidaire == null) { this.stoQuantiteSolidaire = 0; }
+			if(this.stoQuantiteVente == null) { this.stoQuantiteVente = 0; }
+			if(this.opeMontantVente == null) { this.opeMontantVente = 0; }
+			if(this.stoQuantiteVenteSolidaire == null) { this.stoQuantiteVenteSolidaire = 0; }
+			if(this.opeMontantVenteSolidaire == null) { this.opeMontantVenteSolidaire = 0; }
 			
 			lTotal -= parseFloat(this.opeMontantLivraison);
 			lTotal += parseFloat(this.opeMontantVente);
@@ -6874,7 +6874,7 @@
 		lResponse.numero = lResponse.detailMarche.numero;
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
-	}
+	};
 	
 	this.affect = function(pData) {
 	//	pData = this.affectLienListeCommandeArchive(pData);
@@ -6882,15 +6882,16 @@
 		pData = this.affectDupliquerMarche(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.affectDupliquerMarche = function(pData) {
 		var that = this;
 		pData.find('#btn-dupliquer-com').click(function() {
-			DupliquerMarcheVue({"id_commande":that.mIdMarche});
+			//DupliquerMarcheVue({"id_commande":that.mIdMarche});
+			AjoutCommandeVue({"id_marche":that.mIdMarche, fonction:"dupliquer"});
 		});
 		return pData;
-	}
+	};
 	
 	this.construct(pParam);
 };function AchatAdherentVue(pParam) {

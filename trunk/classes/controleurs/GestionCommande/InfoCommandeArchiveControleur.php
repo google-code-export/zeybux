@@ -32,8 +32,8 @@ class InfoCommandeArchiveControleur
 		$lVr = InfoCommandeValid::get($pParam);		
 		if($lVr->getValid()) {
 			$lResponse = new InfoCommandeResponse();
-			$lResponse->setInfoCommande( InfoCommandeViewManager::select($pParam['id_commande']) );
-			$lResponse->setDetailMarche( CommandeManager::select($pParam['id_commande']) );
+			$lResponse->setInfoCommande( InfoCommandeViewManager::select($pParam['id_marche']) );
+			$lResponse->setDetailMarche( CommandeManager::select($pParam['id_marche']) );
 			return $lResponse;
 		}
 		return $lVr;
