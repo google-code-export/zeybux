@@ -1,0 +1,1 @@
+DROP TABLE stosol_stock_solidaire;
