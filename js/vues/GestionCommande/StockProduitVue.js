@@ -26,7 +26,6 @@
 		var lHtml = '';
 		if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].cproNom != null) {
 			var lIdCategorie = lResponse.listeProduit[0].cproId;
-			var lIdCategorieInit = lIdCategorie;
 			var lNomCategorie = lResponse.listeProduit[0].cproNom;
 			var lStockTrie = [];
 			var lProduits = [];
@@ -51,8 +50,6 @@
 					this.btnEdition =  '';
 				}
 				
-				lProduits.push(this);
-				
 				if(lIdCategorie != this.cproId) {
 					lStockTrie.push({
 							cproNom:lNomCategorie,
@@ -62,14 +59,15 @@
 					lNomCategorie = this.cproNom;
 					lProduits = [];
 				} 
+				
+				lProduits.push(this);
 			});
-			// Si il n'y a qu'une catégorie il faut l'ajouter
-			if(lIdCategorieInit == lIdCategorie) {
-				lStockTrie.push({
-					cproNom:lResponse.listeProduit[0].cproNom,
-					produits:lProduits
-				});
-			}
+			// Ajout de la dernière catégorie
+			lStockTrie.push({
+				cproNom:lNomCategorie,
+				produits:lProduits
+			});	
+			
 			lResponse.listeProduit = lStockTrie;
 			lHtml = lGestionCommandeTemplate.listeStockProduitFermeDetail.template(lResponse);
 			//$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
