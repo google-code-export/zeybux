@@ -12,7 +12,9 @@
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {AjoutCommandeVue(pParam);}} );
-		var lParam = $.extend(lParam, pParam);		
+		var lParam = {};
+		lParam = $.extend(lParam, pParam);		
+		//var lParam = pParam;
 		if(pParam && pParam.fonction && pParam.fonction == "dupliquer") {
 			lParam.fonction = "dupliquer";
 		} else {
@@ -77,10 +79,10 @@
 					lStockAffichage = this.stockInitial.nombreFormate(2,',',' ');
 				}
 				var lQteMax = -1;
-				var lQteMaxAffichage = "";
+				//var lQteMaxAffichage = "";
 				if(parseFloat(this.qteMaxCommande) != -1 && lTypeProduit == 2) {
 					lQteMax = this.qteMaxCommande;
-					lQteMaxAffichage = this.qteMaxCommande.nombreFormate(2,',',' ');
+					//lQteMaxAffichage = this.qteMaxCommande.nombreFormate(2,',',' ');
 				}
 				var lUnite = this.unite;
 								
@@ -325,7 +327,7 @@
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
 											$(lResponse.detailAbonnement.lots).each(function() {
 												
-												this.id = this.id;
+												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');
 												this.unite = lData.uniteAbonnement;
 												this.prix = this.prix.nombreFormate(2,',',' ');
@@ -577,9 +579,9 @@
 	};
 	
 	this.affectLotAbonnement = function(pData) {
+		pData = this.affectAjoutLotAbonnementGestion(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
-		pData = this.affectAjoutLotAbonnementGestion(pData);
 		return pData;
 	};
 	
@@ -669,18 +671,18 @@
 		
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
+		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
+		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text().numberFrToDb().nombreFormate(2,',',''));
 		
 		this.mEditionLot = true;
 	};
 	
 	this.ajoutLotAbonnementModification = function(pId) {
 		$(".btn-lot-abonnement, #btn-annuler-lot-" + pId + "-abonnement, #btn-valider-lot-" + pId + "-abonnement, .champ-lot-" + pId + "-abonnement").toggle();
-		$("#pro-lot-abonnement" + pId + "-quantite").val($("#lot-" + pId + "-quantite-abonnement").text());
+		$("#pro-lot-abonnement" + pId + "-quantite").val($("#lot-" + pId + "-quantite-abonnement").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-abonnement" + pId + "-unite").val($("#lot-" + pId + "-unite-abonnement").text());
-		$("#pro-lot-abonnement" + pId + "-prix").val($("#lot-" + pId + "-prix-abonnement").text());
+		$("#pro-lot-abonnement" + pId + "-prix").val($("#lot-" + pId + "-prix-abonnement").text().numberFrToDb().nombreFormate(2,',',''));
 
 		this.mEditionLot = true;
 	};
@@ -762,10 +764,11 @@
 			var lTypeProduit = pDialog.find(':input[name=typeProduit]:checked').val();
 
 			if(lIdNomProduit != 0) {
+				var lStock = 0;
 				if(lTypeProduit == 2) {
-					var lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
+					lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
 				} else {
-					var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
+					lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 				}
 				
 				if(pDialog.find(':input[name=pro-stock-choix]:checked').val() == 1 && lStock == "" && lTypeProduit == 0) { // Si une limite de stock est sélectionné il faut la saisir
@@ -796,11 +799,11 @@
 						lVR.qteMaxCommande.erreurs.push(erreur);
 						Infobulle.generer(lVR,"pro-");
 					} else {
-						
+						var lUnite = '';
 						if(lTypeProduit == 2) {
-							var lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
+							lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
 						} else {
-							var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+							lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 						}
 						
 						if(lTypeProduit == 2 && this.mMarche.produitsAbonnement[lIdNomProduit]) { // Produit déjà présent en abonnement
@@ -1157,19 +1160,19 @@
 	this.dialogModifierProduit = function(pId, pType) {
 		var that = this;
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		
+		var lData = {};
 		if(pType == 0 || pType == 1) {
 			var lIdFerme = this.mMarche.produits[pId].idFerme;
 			var lIdCategorie = this.mMarche.produits[pId].idCategorie;
 			
-			var lData = {	ferId:lIdFerme,
+			lData = {	ferId:lIdFerme,
 			ferNom:this.mAffichageMarche[lIdFerme].ferNom,
 			cproId:lIdCategorie,
 			cproNom:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].cproNom,
 			nproId:pId,
 			nproNom:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproNom,
-			nproStock:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproStock.nombreFormate(2,',',' '),
-			nproQteMax:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproQteMax.nombreFormate(2,',',' '),
+			nproStock:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproStock.nombreFormate(2,',',''),
+			nproQteMax:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproQteMax.nombreFormate(2,',',''),
 			modelesLot:[]};
 						
 			lData.typeProduitLabel = "Solidaire";
@@ -1219,7 +1222,7 @@
 			var lIdFerme = this.mMarche.produitsAbonnement[pId].idFerme;
 			var lIdCategorie = this.mMarche.produitsAbonnement[pId].idCategorie;
 			
-			var lData = {	ferId:lIdFerme,
+			lData = {	ferId:lIdFerme,
 			ferNom:this.mAffichageMarche[lIdFerme].ferNom,
 			cproId:lIdCategorie,
 			cproNom:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].cproNom,
@@ -1313,9 +1316,9 @@
 
 			//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 			var lStock = 0;
-			if(pType == 2) {
+			if(pType == 2) {// Stock fixe pour abonnement
 				lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
-			} else if(pType == 0){
+			} else if(pType == 0){// Stock produit Normal
 				lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 			}
 			
@@ -1348,18 +1351,18 @@
 					Infobulle.generer(lVR,"pro-");
 				} else {	
 					
-					
+					var lUnite = '';
 					//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					if(pType == 2) {
-						var lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
+						lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
 					} else {
-						var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+						lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					}
 			
 					//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 					//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
 					
-					var lStockAffichage = "";
+					/*var lStockAffichage = "";
 					if(lStock != "") {
 						lStockAffichage = lStock.nombreFormate(2,',',' ');
 					} else {
@@ -1369,6 +1372,12 @@
 					if(lQteMax != "") {
 						lQteMaxAffichage = lQteMax.nombreFormate(2,',',' ');
 					} else {
+						lQteMax = -1;
+					}*/
+					if(lStock == "") {
+						lStock = -1;
+					}
+					if(lQteMax == "") {
 						lQteMax = -1;
 					}
 					
@@ -1381,8 +1390,10 @@
 					
 					var lProduit = {nproId:lIdNomProduit,
 							nproNom:lNomProduit,
-							nproStock:lStockAffichage,
-							nproQteMax:lQteMaxAffichage,
+						//	nproStock:lStockAffichage,
+							nproStock:lStock,
+						//	nproQteMax:lQteMaxAffichage,
+							nproQteMax:lQteMax,
 							nproUnite:lUnite,
 							type:pType,
 							modelesLot:[],
@@ -1456,6 +1467,7 @@
 					lVoProduit.qteMaxCommande = lQteMax;
 					lVoProduit.qteRestante = lStock;
 					lVoProduit.type = pType;
+					
 					
 					if(pType == 2) {
 						pDialog.find('.ligne-lot-abonnement :checkbox:checked').each( function () {

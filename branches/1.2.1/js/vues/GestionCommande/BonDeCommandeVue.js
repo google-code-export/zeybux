@@ -155,13 +155,16 @@
 			}
 			
 			if(this.stoQuantiteCommande != '') {
-				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+				this.stoQuantiteCommandeAffichage = this.stoQuantiteCommande.nombreFormate(2,',',' ');
+				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',','');
 			}
 			if(this.stoQuantite == null) {
 				this.stoQuantite = "0";
 			}
 			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
-			this.dopeMontant = this.dopeMontant.nombreFormate(2,',',' ');
+			
+			this.dopeMontantAffichage = this.dopeMontant.nombreFormate(2,',',' ');
+			this.dopeMontant = this.dopeMontant.nombreFormate(2,',','');
 		});
 		// Affiche les lots
 		$(pResponse.produits).each(function() {
@@ -191,21 +194,26 @@
 			that.mListeProduit[this.dcomId] = this.stoQuantite;
 
 			if(this.stoQuantite == null) {
-				this.stoQuantite = 0;
+				this.stoQuantite = 0;	
 			}
 			
 			this.stoQuantiteCommande = this.stoQuantite;
-			this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',',' ');
+			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			
+			if(this.dopeMontant == null) {
+				this.dopeMontant = '0'.nombreFormate(2,',','');
+			} else {
+				this.dopeMontant = (this.dopeMontant * -1).nombreFormate(2,',','');
+			}
 			
 			if(this.stoQuantiteCommande - this.stoQuantite < 0) {
 				this.classEtat = 'qte-reservation-ko';
 			} else {
 				this.classEtat = 'qte-reservation-ok';
 			}
-			if(this.stoQuantiteCommande != '') {
-				this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',',' ');
-			}
-			this.stoQuantite = this.stoQuantite.nombreFormate(2,',',' ');
+			//if(this.stoQuantiteCommande != '') {
+			this.stoQuantiteCommande = this.stoQuantiteCommande.nombreFormate(2,',','');
+			//}
 		});		
 		// Affiche les lots
 		$(pResponse.produits).each(function() {

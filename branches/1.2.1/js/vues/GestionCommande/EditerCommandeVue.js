@@ -493,14 +493,23 @@
 							var lStockAffichage = "";
 							if(parseFloat(lResponse.produit.stockInitial) != -1) {
 								that.mQuantiteReservation = parseFloat(lResponse.produit.stockInitial) - parseFloat(lResponse.produit.stockReservation);
-								lStockAffichage = lResponse.produit.stockInitial.nombreFormate(2,',',' ');
+								
+								if(lTypeProduit == 0) { // Normal
+									lStockAffichage = lResponse.produit.stockInitial.nombreFormate(2,',','');
+								} else if(lTypeProduit == 2) {// Abonnement
+									lStockAffichage = lResponse.produit.stockInitial.nombreFormate(2,',',' ');
+								}
 							} else {
 								that.mQuantiteReservation = parseFloat(lResponse.produit.stockReservation) * -1;
 							}
 							
 							var lQteMaxAffichage = "";
 							if(parseFloat(lResponse.produit.qteMaxCommande) != -1) {
-								lQteMaxAffichage = lResponse.produit.qteMaxCommande.nombreFormate(2,',',' ');
+								if(lTypeProduit == 0) { // Normal
+									lQteMaxAffichage = lResponse.produit.qteMaxCommande.nombreFormate(2,',','');
+								} else if(lTypeProduit == 2) {// Abonnement
+									lQteMaxAffichage = lResponse.produit.qteMaxCommande.nombreFormate(2,',',' ');
+								}
 							}
 							
 							var lData = {	ferId:lIdFerme,
@@ -909,7 +918,8 @@
 		});
 		pData.find(":checkbox").change(function() {
 			var lMajUnite = that.majUnite();
-			if(!that.majUnite()) {
+			//if(!that.majUnite()) {
+			if(!lMajUnite) {
 				if($(this).attr("checked")) {
 					$(this).removeAttr("checked");
 				} else {
@@ -1029,18 +1039,18 @@
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
 
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
+		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
+		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text().numberFrToDb().nombreFormate(2,',',''));
 
 		this.mEditionLot = true;
 	};
 	
 	this.ajoutLotAbonnementModification = function(pId) {
 		$(".btn-lot-abonnement, #btn-annuler-lot-" + pId + "-abonnement, #btn-valider-lot-" + pId + "-abonnement, .champ-lot-" + pId + "-abonnement").toggle();
-		$("#pro-lot-abonnement" + pId + "-quantite").val($("#lot-" + pId + "-quantite-abonnement").text());
+		$("#pro-lot-abonnement" + pId + "-quantite").val($("#lot-" + pId + "-quantite-abonnement").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-abonnement" + pId + "-unite").val($("#lot-" + pId + "-unite-abonnement").text());
-		$("#pro-lot-abonnement" + pId + "-prix").val($("#lot-" + pId + "-prix-abonnement").text());
+		$("#pro-lot-abonnement" + pId + "-prix").val($("#lot-" + pId + "-prix-abonnement").text().numberFrToDb().nombreFormate(2,',',''));
 
 		this.mEditionLot = true;
 	};
@@ -1094,10 +1104,11 @@
 		lVo.prix = $("#pro-lot-" + pId + "-prix").val().numberFrToDb();
 	
 		var lValid = new ModeleLotValid();
+		var lVr = {};
 		if(this.autorisationSupprimerLot(pId)) {
-			var lVr = lValid.validAjout(lVo);
+			lVr = lValid.validAjout(lVo);
 		} else {
-			var lVr = lValid.validUpdateAvecReservation(lVo,this.mLotReservation[pId].quantite);
+			lVr = lValid.validUpdateAvecReservation(lVo,this.mLotReservation[pId].quantite);
 		}
 		
 		if(lVr.valid) {	
@@ -1177,10 +1188,11 @@
 		/*var lValid = new ModeleLotValid();
 		var lVr = lValid.validAjout(lVo);*/
 		var lValid = new ModeleLotValid();
+		var lVr = {};
 		if(this.autorisationSupprimerLot(pId)) {
-			var lVr = lValid.validAjout(lVo);
+			lVr = lValid.validAjout(lVo);
 		} else {
-			var lVr = lValid.validUpdateAvecReservation(lVo,this.mLotReservation[pId].quantite);
+			lVr = lValid.validUpdateAvecReservation(lVo,this.mLotReservation[pId].quantite);
 		}
 		
 		if(lVr.valid) {	
@@ -1443,11 +1455,12 @@
 					Infobulle.generer(lVR,"pro-");
 				} else {
 			
-					//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();	
+					//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+					var lUnite = '';
 					if(pType == 2) {
-						var lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
+						lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
 					} else {
-						var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+						lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					}
 					
 					if(lStock == "") {
@@ -1909,7 +1922,7 @@
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
 											$(lResponse.detailAbonnement.lots).each(function() {
 												
-												this.id = this.id;
+												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');
 												this.unite = lData.uniteAbonnement;
 												this.prix = this.prix.nombreFormate(2,',',' ');
@@ -2012,8 +2025,8 @@
 		var that = this;
 		if(!this.mEditionLot) {
 			// Préparation du AffichageMarche
-			var lIdFerme = pDialog.find(':input[name=ferme]').val();
-			var lIdCategorie = pDialog.find(':input[name=categorie]').val();
+			//var lIdFerme = pDialog.find(':input[name=ferme]').val();
+			//var lIdCategorie = pDialog.find(':input[name=categorie]').val();
 			var lIdNomProduit = pDialog.find(':input[name=produit]').val();
 			var lTypeProduit = pDialog.find(':input[name=typeProduit]:checked').val();
 			
@@ -2058,10 +2071,11 @@
 						lVR.qteMaxCommande.erreurs.push(erreur);
 						Infobulle.generer(lVR,"pro-");
 					} else {	
+						var lUnite = '';
 						if(lTypeProduit == 2) {
-							var lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
+							lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
 						} else {
-							var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
+							lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 						}
 						//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 							
