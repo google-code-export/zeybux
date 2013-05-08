@@ -599,7 +599,7 @@
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
 						"<td class=\"com-table-form-td montant-virement\">" +
 							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/>" +
 						"</td>" +
@@ -620,7 +620,7 @@
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
 						"</td>" +
 					"</tr>" +
 				"</table>" +

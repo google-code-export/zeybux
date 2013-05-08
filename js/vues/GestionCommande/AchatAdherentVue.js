@@ -125,8 +125,8 @@
 					proId: lProduit.proId,
 					nproNom : lProduit.nproNom ,
 					stoQuantiteReservation : "", proUniteMesureReservation : "",
-					stoQuantite : "", prix : "", proUniteMesure : "", sigleMonetaire : "",
-					stoQuantiteSolidaire : "", prixSolidaire : "", proUniteMesureSolidaire : "", sigleMonetaireSolidaire : ""};
+					stoQuantite : "", stoQuantiteAffiche : "", prix : "", prixAffiche : "", proUniteMesure : "", sigleMonetaire : "",
+					stoQuantiteSolidaire : "", stoQuantiteSolidaireAffiche : "", prixSolidaire : "", prixSolidaireAffiche : "", proUniteMesureSolidaire : "", sigleMonetaireSolidaire : ""};
 					
 					if(that.infoReservation) {
 						$(that.infoReservation.detailReservation).each(function() {
@@ -139,8 +139,10 @@
 					
 					$(this.detailAchat).each(function() {	
 						if(this.idProduit == lProduit.proId) {
-							lAchat.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-							lAchat.prix = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+							lAchat.stoQuantite = (this.quantite * -1).nombreFormate(2,',','');
+							lAchat.prixAffiche = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.prix = (this.montant * -1).nombreFormate(2,',','');
 							lAchat.proUniteMesure = lProduit.proUniteMesure;
 							lAchat.sigleMonetaire = gSigleMonetaire;
 							
@@ -150,8 +152,10 @@
 					
 					$(this.detailAchatSolidaire).each(function() {	
 						if(this.idProduit == lProduit.proId) {
-							lAchat.stoQuantiteSolidaire = (this.quantite * -1).nombreFormate(2,',',' ');
-							lAchat.prixSolidaire = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.stoQuantiteSolidaireAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+							lAchat.stoQuantiteSolidaire = (this.quantite * -1).nombreFormate(2,',','');
+							lAchat.prixSolidaireAffiche = (this.montant * -1).nombreFormate(2,',',' ');
+							lAchat.prixSolidaire = (this.montant * -1).nombreFormate(2,',','');
 							lAchat.proUniteMesureSolidaire = lProduit.proUniteMesure;
 							lAchat.sigleMonetaireSolidaire = gSigleMonetaire;
 							

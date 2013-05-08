@@ -154,8 +154,8 @@
 								}											
 							});
 							$(that.mReservation).each(function() {
-								if(this.idDetailCommande == lLot.dcomId) {
-									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+								if(this.idDetailCommande == lLot.dcomId) {									
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ');
 									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
 								}											
 							});
@@ -270,7 +270,9 @@
 					lProduit.nproNom = this.nom;
 					lProduit.proUniteMesure = this.unite;
 					lProduit.stoQuantite = "";
+					lProduit.stoQuantiteAffiche = "";
 					lProduit.proPrix = "";
+					lProduit.proPrixAffiche = "";
 					lProduit.lot = [];
 
 					lProduit.stoQuantiteReservation = '';
@@ -292,9 +294,11 @@
 								$(this.detailAchat).each(function() {
 									if(this.idDetailCommande == lLot.dcomId) {
 										lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',','');
+										lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
 										
 										lPrix = this.montant * -1;									
-										lProduit.proPrix = lPrix.nombreFormate(2,',','');
+										lProduit.proPrix = lPrix.nombreFormate(2,',','');		
+										lProduit.proPrixAffiche = lPrix.nombreFormate(2,',',' ');
 										lLot.prixReservation = lPrix;
 										
 										that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
@@ -310,7 +314,7 @@
 							});
 							$(that.mReservation).each(function() {
 								if(this.idDetailCommande == lLot.dcomId) {
-									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ');
 									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
 								}											
 							});
@@ -338,7 +342,9 @@
 					lProduit.proId = this.id;
 					lProduit.nproNom = this.nom;
 					lProduit.proUniteMesure = this.unite;
-					lProduit.stoQuantite = "";
+					lProduit.stoQuantiteAffiche = "";
+					lProduit.stoQuantite = "";					
+					lProduit.proPrixAffiche = "";
 					lProduit.proPrix = "";
 					lProduit.lot = [];
 
@@ -369,9 +375,11 @@
 										$(this.detailAchatSolidaire).each(function() {
 											if(this.idDetailCommande == lLot.dcomId) {
 												lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',','');
+												lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
 												
 												lPrix = this.montant * -1;									
-												lProduit.proPrix = lPrix.nombreFormate(2,',','');
+												lProduit.proPrix = lPrix.nombreFormate(2,',','');		
+												lProduit.proPrixAffiche = lPrix.nombreFormate(2,',',' ');
 												lLot.prixReservation = lPrix;
 												
 												that.mListeLotSolidaire.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
@@ -1070,8 +1078,8 @@
 						lProduit.proId = this.id;
 						lProduit.nproNom = this.nom;
 						lProduit.proUniteMesure = this.unite;
-						lProduit.stoQuantite = "";
-						lProduit.proPrix = "";
+						lProduit.stoQuantiteAffiche = "";
+						lProduit.proPrixAffiche = "";
 						lProduit.dcomTaille = "";
 						
 						lProduit.flagType = "";
@@ -1085,8 +1093,8 @@
 						var lPrix = 0;
 						$(lVo.produits).each(function() {
 							if(this.id == lProduit.proId) {
-								lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-								lProduit.proPrix = (this.prix * -1).nombreFormate(2,',',' ');
+								lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+								lProduit.proPrixAffiche = (this.prix * -1).nombreFormate(2,',',' ');
 								lPrix = this.prix * -1;
 								if(!lData.categoriesAchat[lIdCategorie]) {
 									lData.categoriesAchat[lIdCategorie] = {nom:lCategorie,produits:[]};
@@ -1100,8 +1108,8 @@
 						lProduitSolidaire.proId = this.id;
 						lProduitSolidaire.nproNom = this.nom;
 						lProduitSolidaire.proUniteMesure = this.unite;
-						lProduitSolidaire.stoQuantite = "";
-						lProduitSolidaire.proPrix = "";
+						lProduitSolidaire.stoQuantiteAffiche = "";
+						lProduitSolidaire.proPrixAffiche = "";
 						lProduitSolidaire.dcomTaille = "";
 						
 						lProduitSolidaire.flagType = "";
@@ -1111,8 +1119,8 @@
 						var lPrix = 0;
 						$(lVo.produitsSolidaire).each(function() {
 							if(this.id == lProduitSolidaire.proId) {
-								lProduitSolidaire.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-								lProduitSolidaire.proPrix = (this.prix * -1).nombreFormate(2,',',' ');
+								lProduitSolidaire.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+								lProduitSolidaire.proPrixAffiche = (this.prix * -1).nombreFormate(2,',',' ');
 								lPrix = this.prix * -1;
 								if(!lData.categoriesSolidaireAchat[lIdCategorie]) {
 									lData.categoriesSolidaireAchat[lIdCategorie] = {nom:lCategorie,produits:[]};

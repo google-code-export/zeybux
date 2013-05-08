@@ -34,13 +34,19 @@
 			$(lResponse.listeProduit).each(function() {
 				if(this.stoQteQuantite != null)  {
 					this.stoQteQuantiteTotal = (parseFloat(this.stoQteQuantite) + parseFloat(this.stoQteQuantiteSolidaire)).toFixed(2).nombreFormate(2,',',' ');
-					this.stoQteQuantite = this.stoQteQuantite.nombreFormate(2,',',' ');
-					this.stoQteQuantiteSolidaire = this.stoQteQuantiteSolidaire.nombreFormate(2,',',' ');
+					
+					this.stoQteQuantiteAffiche = this.stoQteQuantite.nombreFormate(2,',',' ');
+					this.stoQteQuantite = this.stoQteQuantite.nombreFormate(2,',','');
+					
+					this.stoQteQuantiteSolidaireAffiche = this.stoQteQuantiteSolidaire.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaire = this.stoQteQuantiteSolidaire.nombreFormate(2,',','');
 					this.btnEdition = lGestionCommandeTemplate.listeStockProduitFermeDetailBtnEdition.template({stoQteId:this.stoQteId});
 				} else {
-					this.stoQteQuantiteTotal = '0';
-					this.stoQteQuantiteSolidaire = '0';
-					this.stoQteQuantite = '0';
+					this.stoQteQuantiteTotal = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaireAffiche = this.stoQteQuantiteSolidaire;
+					this.stoQteQuantite = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteAffiche = this.stoQteQuantite;
 					this.stoQteUnite = '';
 					this.btnEdition =  '';
 				}

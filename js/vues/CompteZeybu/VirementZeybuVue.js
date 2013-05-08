@@ -233,7 +233,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "ajout";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
