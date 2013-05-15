@@ -464,7 +464,7 @@
 	};
 	
 	this.changeTypeProduit = function(pTypeProduit) {
-		if(!this.mEditionLot) {			
+		if(!this.mEditionLot) {
 			$(".pro-detail").hide();
 			if(pTypeProduit == 0 ) {
 				$("#pro-normal,#id-stock").show();
@@ -1175,7 +1175,8 @@
 			nproQteMax:this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].nproQteMax.nombreFormate(2,',',''),
 			modelesLot:[]};
 						
-			lData.typeProduitLabel = "Solidaire";
+		//	lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelSolidaire;
+			
 			
 			for(i in this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].modelesLot) {
 				var lLot = this.mAffichageMarche[lIdFerme].categories[lIdCategorie].produits[pId].modelesLot[i];
@@ -1197,27 +1198,36 @@
 				}
 			};
 
-			if(pType == 0 ) { // Si produit Normal gestion des limites de stock
-				lData.typeProduitLabel = "Normal";
-
-				if(this.mMarche.produits[pId].qteRestante == -1) {
-					lData.nproStockCheckedNoLimit = "checked=\"checked\"";
-					lData.nproStockDisabled = "disabled=\"disabled\"";
-					lData.nproStock = "";
-				} else {
-					lData.nproStockCheckedLimit = "checked=\"checked\"";
-				}
-				
-				if(this.mMarche.produits[pId].qteMaxCommande == -1) {
-					lData.nproQteMaxCheckedNoLimit = "checked=\"checked\"";
-					lData.nproQteMaxDisabled = "disabled=\"disabled\"";
-					lData.nproQteMax = "";
-				} else {
-					lData.nproQteMaxCheckedLimit = "checked=\"checked\"";
-				}
-				lData.divStock = lGestionCommandeTemplate.stockModifProduit.template(lData);
+			if(this.mMarche.produits[pId].qteRestante == -1) {
+				lData.nproStockCheckedNoLimit = "checked=\"checked\"";
+				lData.nproStockDisabled = "disabled=\"disabled\"";
+				lData.nproStock = "";
+			} else {
+				lData.nproStockCheckedLimit = "checked=\"checked\"";
 			}
+			
+			if(this.mMarche.produits[pId].qteMaxCommande == -1) {
+				lData.nproQteMaxCheckedNoLimit = "checked=\"checked\"";
+				lData.nproQteMaxDisabled = "disabled=\"disabled\"";
+				lData.nproQteMax = "";
+			} else {
+				lData.nproQteMaxCheckedLimit = "checked=\"checked\"";
+			}	
+			
+			if(pType == 0 ) { // Si produit Normal gestion des limites de stock
+		//		lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelNormal;
+				lData.typeSolidaireSelected = "";
+				lData.typeNormalSelected = "checked=\"checked\"";
+				lData.visibleSolidaire = "";			
+			} else {
+				lData.typeSolidaireSelected = "checked=\"checked\"";
+				lData.typeNormalSelected = "";
+				lData.visibleSolidaire = 'ui-helper-hidden';
+			}
+			
+			lData.divStock = lGestionCommandeTemplate.stockModifProduit.template(lData);
 			lData.divLot = lGestionCommandeTemplate.prixModifProduit.template(lData);
+			
 		} else { // Produit Abonnement
 			var lIdFerme = this.mMarche.produitsAbonnement[pId].idFerme;
 			var lIdCategorie = this.mMarche.produitsAbonnement[pId].idCategorie;
@@ -1281,12 +1291,18 @@
 			lData.qMaxAbonnementValue = lQMax;
 			
 			lData.divStock = lGestionCommandeTemplate.stockAbonnementAjoutProduit.template(lData);
-			lData.typeProduitLabel = "Abonnement";
+			lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelAbonnement;
 			lData.divLot = lGestionCommandeTemplate.prixAbonnementModifProduit.template(lData);
 		}
-
+		
+		
 		var lTemplate = lGestionCommandeTemplate.dialogModifProduitAjoutMarche;
 		
+		
+		if(pType == 0 || pType == 1) { 
+			lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelFormulaire.template(lData);
+		}
+				 
 		$(that.affectPrixEtStock($(lTemplate.template(lData)))).dialog({			
 			autoOpen: true,
 			modal: true,
@@ -1313,7 +1329,11 @@
 			var lIdFerme = pDialog.find('#pro-idFerme').attr("id-ferme");
 			var lIdCategorie = pDialog.find('#pro-idCategorie').attr("id-categorie");
 			var lIdNomProduit = pDialog.find('#pro-idProduit').attr("id-produit");
-
+			
+			if(pType == 0 || pType == 1) { // Si produit de type Normal ou solidaire vérifier si il a été modifié
+				pType = pDialog.find(':input[name=typeProduit]:checked').val();
+			}
+		
 			//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 			var lStock = 0;
 			if(pType == 2) {// Stock fixe pour abonnement
