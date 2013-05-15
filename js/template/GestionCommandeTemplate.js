@@ -485,13 +485,30 @@
 			"</div>" +
 			"<div id=\"prix-stock-produit\">" +
 				"<div id=\"pro-typeProduit\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
 					"{typeProduitLabel}" +
 				"</div>" +
 				"{divLot}" +
 				"{divStock}" + 
 			"</div>" +
 		"</div>";
+	
+	this.typeProduitLabelNormal =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Normal";
+	
+	this.typeProduitLabelSolidaire =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Solidaire";
+	
+	this.typeProduitLabelAbonnement =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Abonnement";
+	
+	this.typeProduitLabelFormulaire =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitNormal\" value=\"0\" {typeNormalSelected} /> Normal" +
+		"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitSolidaire\" value=\"1\" {typeSolidaireSelected}/> Solidaire";
+		
 	
 	this.prixModifProduit =
 		"<div id=\"div-lot\">" +
@@ -788,42 +805,44 @@
 		"</div>";
 	
 	this.stockModifProduit = 
-		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
-		"<table class=\"com-table-form\">" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-					"Limite de stock : " +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
-					"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-					"Quantité max par adhérent : " +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
-					"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
-				"</td>" +
-			"</tr>" +
-		"</table>";
-	
+		"<div id=\"id-stock\" class=\"{visibleSolidaire} pro-detail\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
+			"<table class=\"com-table-form\">" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+						"Limite de stock : " +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
+						"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+						"Quantité max par adhérent : " +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
+						"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+					"</td>" +
+				"</tr>" +
+			"</table>" +
+		"</div>";
+
 	this.dialogSupprimerLotModifierMarche =
 		"<div id=\"dialog-supp-lot\" title=\"Supprimer le prix de vente\">" +
 			"<div id=\"information-detail-producteur\">" +

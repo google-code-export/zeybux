@@ -534,7 +534,8 @@
 							
 							switch(lTypeProduit) {
 								case 0:
-										lData.typeProduitLabel = "Normal";
+										//lData.typeProduitLabel = "Normal";
+										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelNormal;
 										$(lResponse.modelesLot).each(function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;												
@@ -589,7 +590,8 @@
 									break;
 									
 								case 1:
-										lData.typeProduitLabel = "Solidaire";
+										//lData.typeProduitLabel = "Solidaire";
+										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelSolidaire;
 										$(lResponse.modelesLot).each(function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;			
@@ -651,7 +653,8 @@
 											}
 										});
 										
-										lData.typeProduitLabel = "Abonnement";
+										//lData.typeProduitLabel = "Abonnement";
+										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelAbonnement;
 										lData.stockInitialAbonnement = lStockAffichage;
 										lData.uniteAbonnement = lResponse.produit.unite;
 
