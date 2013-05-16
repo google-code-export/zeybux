@@ -364,11 +364,11 @@
 					"<tr>" +
 						"<td class=\"table-vente-produit\">{categoriesAchat.produits.nproNom} {categoriesAchat.produits.flagType}</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"{categoriesAchat.produits.stoQuantite}" +
+							"{categoriesAchat.produits.stoQuantiteAffiche}" +
 						"</td>" +
 						"<td>{categoriesAchat.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right\" >" +
-							"{categoriesAchat.produits.proPrix}" +
+							"{categoriesAchat.produits.proPrixAffiche}" +
 						"</td>" +
 						"<td><span>{sigleMonetaire}</span></td>" +
 					"</tr>" +
@@ -419,11 +419,11 @@
 							"{categoriesSolidaireAchat.produits.nproNom} {categoriesSolidaireAchat.produits.flagType}" +
 						"</td>" +							
 						"<td class=\"com-text-align-right\">" +
-							"{categoriesSolidaireAchat.produits.stoQuantite}" +
+							"{categoriesSolidaireAchat.produits.stoQuantiteAffiche}" +
 						"</td>" +
 						"<td>{categoriesSolidaireAchat.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right\" >" +
-							"{categoriesSolidaireAchat.produits.proPrix}" +
+							"{categoriesSolidaireAchat.produits.proPrixAffiche}" +
 						"</td>" +
 						"<td><span>{sigleMonetaire}</span></td>" +
 					"</tr>" +

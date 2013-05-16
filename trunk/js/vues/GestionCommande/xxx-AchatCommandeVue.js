@@ -1,4 +1,4 @@
-;function AchatCommandeVue(pParam) {
+;/*function AchatCommandeVue(pParam) {
 	this.idCommande = null;
 	this.idAdherent = null;
 	this.idCompte = null;
@@ -71,7 +71,7 @@
 					},"json"
 			);
 		}
-	}		
+	};
 	
 	this.afficher = function(pResponse) {
 		Infobulle.init(); // Supprime les erreurs
@@ -136,7 +136,7 @@
 									// Permet de cocher le lot correspondant à la résa
 									//lLotReservation = this.id;
 									//lLot.checked = 'checked="checked"';
-									that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId})
+									that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
 								}											
 							});
 							
@@ -187,7 +187,7 @@
 		} else {
 			Infobulle.generer(pResponse,'');
 		}
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
@@ -205,14 +205,14 @@
 		pData = this.affectInitLot(pData);
 		pData = this.mCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 	
 	this.selectLot = function(pData) {
 		$(this.mListeLot).each(function() {
 			pData.find('#lot-' + this.idPdt).selectOptions( this.idLot);
 		});
 		return pData;
-	}
+	};
 	
 	this.supprimerSelect = function(pData) {
 		pData.find('.ligne-produit select').each(function() {
@@ -241,7 +241,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.affectInitLot = function(pData) {
 		var that = this;
@@ -270,7 +270,7 @@
 			}
 		});
 		return pData;
-	}
+	};
 	
 	this.affectChangementLot = function(pData) {
 		var that = this;
@@ -281,7 +281,7 @@
 			that.changerLotSolidaire($(this).parent().parent().find(".produit-id").text(),$(this).val());
 		});
 		return pData;
-	}
+	};
 	
 	this.changerLot = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
@@ -292,12 +292,10 @@
 		$('#produits' + pIdPdt +'quantite,#produits' + pIdPdt + 'prix').val(0);
 		
 
-		/*if(this.idCompte != -3) {*/
+		
 			this.majNouveauSolde();
-		/*} else {
-			this.majTotal();
-		}*/
-	}
+		
+	};
 	
 	this.changerLotSolidaire = function(pIdPdt,pIdLot) {
 		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
@@ -308,12 +306,10 @@
 		$('#produitsSolidaire' + pIdPdt +'quantite,#produitsSolidaire' + pIdPdt + 'prix').val(0);
 		
 
-		/*if(this.idCompte != -3) {*/
+		
 			this.majNouveauSoldeSolidaire();
-	/*	} else {
-			this.majTotalSolidaire();
-		}*/
-	}
+	
+	};
 		
 	this.affectSelectTypePaiement = function(pData) {
 		var that = this;
@@ -322,7 +318,7 @@
 			that.controlerAchat();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectNouveauSolde = function(pData) {
 		var that = this;
@@ -335,7 +331,7 @@
 			that.controlerAchat();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectNouveauSoldeInvite = function(pData) {
 		var that = this;
@@ -348,7 +344,7 @@
 			that.controlerAchat();
 		});
 		return pData;
-	}
+	};
 			
 	this.affectNouveauPrixProduit = function(pData) {
 		var that = this;
@@ -361,31 +357,31 @@
 			that.controlerAchat();
 		});
 		return pData;
-	}
+	};
 	
 	this.affectChampComplementaire = function(pData) {
 		var that = this;
 		pData.find(":input[name=champ-complementaire]").keyup(function() {that.controlerAchat();});		
 		return pData;
-	}
+	};
 	
 	this.affectValider = function(pData) {
 		var that = this;
 		pData.find("#btn-valider").click(function() {that.creerRecapitulatif();});		
 		return pData;
-	}
+	};
 	
 	this.affectAnnuler = function(pData) {
 		var that = this;
 		pData.find("#btn-annuler").click(function() {that.retourListe();});		
 		return pData;
-	}
+	};
 	
 	this.affectModifier = function(pData) {
 		var that = this;
 		pData.find("#btn-modifier").click(function() {that.boutonModifier();});		
 		return pData;
-	}
+	};
 	
 	this.affectSupprimerPdt = function(pData) {
 		if(pData.find(".ligne-produit").size() == 0) {
@@ -395,7 +391,7 @@
 			pData.find("#achat-pdt-solidaire-widget").remove();
 		}
 		return pData;
-	}
+	};
 	
 	this.majPrixProduit = function(Obj) {
 		var lQuantite = parseFloat(Obj.val().numberFrToDb());
@@ -416,12 +412,10 @@
 		} else {
 			ligne.find(".produit-prix").val(0);
 		}
-	/*	if(this.idCompte != -3) {*/
+	
 			this.majNouveauSolde();
-	/*	} else {
-			this.majTotal();
-		}*/
-	}
+	
+	};
 	
 	this.majPrixProduitSolidaire = function(Obj) {
 		var lQuantite = parseFloat(Obj.val().numberFrToDb());
@@ -442,76 +436,44 @@
 		} else {
 			ligne.find(".produit-solidaire-prix").val(0);
 		}
-	/*	if(this.idCompte != -3) {*/
-			this.majNouveauSoldeSolidaire();
-	/*	} else {
-			this.majTotalSolidaire();
-		}/*/
-	}
 	
-	/*this.nouvelleQuantite = function(pIdPdt,pIdLot,pQte) {
-		// La quantité max soit qte max soit stock
-		//var lMax = this.pdtCommande[pIdPdt].qteMaxCommande;
-		//var lStock = this.pdtCommande[pIdPdt].stockReservation;
-		//if(parseFloat(lStock) < parseFloat(lMax)) { lMax = lStock; }
-		
-		var lTaille = this.pdtCommande[pIdPdt].lots[pIdLot].taille;
-		var lPrix = this.pdtCommande[pIdPdt].lots[pIdLot].prix;
-		
-		// Récupère le nombre de lot réservé
-		/*var lQteReservation = 0;
-		if(this.reservation[pIdPdt] && (this.reservation[pIdPdt].dcomId == pIdLot)) {
-			lQteReservation = this.reservation[pIdPdt].stoQuantite/lTaille;
-		}		
-		lQteReservation += pIncrement;*/
-		
-		/*var lNvQteReservation = 0;		
-		lNvQteReservation = lQteReservation * lTaille;
-		
-		// Test si la quantité est dans les limites
-		//if(lNvQteReservation > 0 && lNvQteReservation <= lMax) {
-			var lNvPrix = 0;
-			lNvPrix = (lQteReservation * lPrix).toFixed(2);
-			
-			// Mise à jour de la quantite reservée
-			this.reservation[pIdPdt].stoQuantite = lNvQteReservation;			
-			
-			//$('#qte-pdt-' + pIdPdt).text(parseFloat(lNvQteReservation).nombreFormate(2,',',' '));
-			$('#prix-pdt-' + pIdPdt).text(parseFloat(lNvPrix).nombreFormate(2,',',' '));		
-
-			this.majTotal();
-	}*/
+			this.majNouveauSoldeSolidaire();
+	
+	};
+	
+	
 	
 	this.controlerAchat = function() {
 		Infobulle.init(); // Supprime les erreurs
 		var lValid = new AchatCommandeValid();
+		var lVr = {};
 		if(this.idCompte == -3) {
-			var lVr = lValid.validAjoutInvite(this.getAchatCommandeVO());
+			lVr = lValid.validAjoutInvite(this.getAchatCommandeVO());
 		} else {
-			var lVr = lValid.validAjout(this.getAchatCommandeVO());
+			lVr = lValid.validAjout(this.getAchatCommandeVO());
 		}
 		Infobulle.generer(lVr,'');
 		return lVr;
-	}
+	};
 			
 	this.majTotal = function() {
 		var lTotal = this.calculerTotal();
 		$("#total-achat").text(lTotal.nombreFormate(2,',',' '));
 		this.total = lTotal;
 		this.majTotalGlobal();		
-	}
+	};
 	
 	this.majTotalSolidaire = function() {
 		var lTotalSolidaire = this.calculerTotalSolidaire();
 		$("#total-achat-solidaire").text(lTotalSolidaire.nombreFormate(2,',',' '));
 		this.totalSolidaire = lTotalSolidaire;
 		this.majTotalGlobal();		
-	}
+	};
 	
 	this.majTotalGlobal = function() {
 		var lTotal = this.totalSolidaire + this.total;
 		$("#total-global").text(lTotal.nombreFormate(2,',',' '));
-	}
+	};
 	
 	this.calculerTotal = function() {
 		var lTotal = 0;
@@ -521,7 +483,7 @@
 			lTotal += lMontant;
 		});
 		return lTotal;		
-	}
+	};
 	
 	this.calculerTotalSolidaire = function() {
 		var lTotal = 0;
@@ -531,7 +493,7 @@
 			lTotal += lMontant;
 		});
 		return lTotal;		
-	}
+	};
 	
 	this.majNouveauSolde = function() {
 		this.majTotal();
@@ -544,7 +506,7 @@
 			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
 		}
 		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
-	}
+	};
 	
 	this.majNouveauSoldeSolidaire = function() {
 		this.majTotalSolidaire();
@@ -557,7 +519,7 @@
 			$("#nouveau-solde-sigle").removeClass("com-nombre-negatif");
 		}
 		$("#nouveau-solde").text(lTotal.nombreFormate(2,',',' '));
-	}
+	};
 	
 	this.calculNouveauSolde = function() {
 		var lAchats = this.total;// parseFloat($("#total-achat").val().numberFrToDb());
@@ -567,7 +529,7 @@
 		var lRechargement = parseFloat($(":input[name=montant-rechargement]").val().numberFrToDb());
 		if(isNaN(lRechargement)) {lRechargement = 0;}		
 		return this.solde - lAchats - lAchatsSolidaire + lRechargement;
-	}
+	};
 		
 	this.changerTypePaiement = function(pObj) {
 		var lId = pObj.val();
@@ -580,7 +542,7 @@
 			$(":input[name=champ-complementaire]").val('');
 			$("#td-champ-complementaire").hide();
 		}
-	}
+	};
 		
 	this.getLabelChamComplementaire = function(pId) {
 		var lTpp = this.mTypePaiement;
@@ -590,7 +552,7 @@
 			}
 		}	
 		return null;
-	}
+	};
 	
 	this.getAchatCommandeVO = function() {
 		var lVo = new AchatCommandeVO();
@@ -605,7 +567,7 @@
 		//lVo.NbProduits = $('.ligne-produit').size();
 		//lVo.NbProduitsSolidaire = $('.ligne-produit-solidaire').size();		
 		return lVo;
-	}	
+	};
 	
 	this.getProduitsVO = function() {
 		var lVo = new Array();		
@@ -633,7 +595,7 @@
 			}		
 		});		
 		return lVo;
-	}
+	};
 	
 	this.getProduitsSolidaireVO = function() {
 		var lVo = new Array();		
@@ -661,7 +623,7 @@
 			}	
 		});		
 		return lVo;
-	}
+	};
 	
 	this.getRechargementVO = function() {
 		var lVo = new RechargementCompteVO();		
@@ -680,7 +642,7 @@
 			lVo.champComplementaireObligatoire = 0;
 		}
 		return lVo;
-	}
+	};
 	
 	this.creerRecapitulatif = function() {
 		var lVr = this.controlerAchat();
@@ -700,7 +662,7 @@
 				this.enregistrerAchat();
 			}
 		}
-	}
+	};
 	
 	this.enregistrerAchat = function() {
 		var that = this;
@@ -721,7 +683,7 @@
 					}
 				},"json"
 			);
-	}
+	};
 	
 	this.boutonModifier = function() {
 		if(this.etapeValider == 1) {
@@ -729,11 +691,11 @@
 			$(".lot-vente-produit, #btn-annuler, #btn-modifier").toggle();	
 			this.etapeValider = 0;
 		}
-	}
+	};
 	
 	this.retourListe = function() {
 		MarcheCommandeVue({id_commande:this.idCommande});
-	}
+	};
 	
 	this.construct(pParam);
-}
+}*/

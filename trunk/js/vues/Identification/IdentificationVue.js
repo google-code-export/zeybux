@@ -117,9 +117,9 @@
 		});
 
 		// Confirmation de sortie du zeybux
-		$(window).bind('beforeunload', function() {
+	/*	$(window).bind('beforeunload', function() {
 		    return "";
-		});
+		});*/
 
 		this.lancement();
 	};

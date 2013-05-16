@@ -469,11 +469,11 @@
 			$(pResponse.produitsLivraison).each(function() {
 				if(this.proId == lProId) {
 					if(this.stoQuantite != null) {
-						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',',' ');
+						these.stoQuantiteLivraison = this.stoQuantite.nombreFormate(2,',','');
 						lQuantite += parseFloat(this.stoQuantite);
 					}
 					if(this.dopeMontant != null) {
-						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',',' ');
+						these.opeMontantLivraison = this.dopeMontant.nombreFormate(2,',','');
 					}
 				}
 			});
@@ -481,7 +481,7 @@
 			$(pResponse.produitsSolidaire).each(function() {
 				if(this.proId == lProId) {										
 					if(this.stoQuantite != null) {
-						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',',' ');
+						these.stoQuantiteSolidaire = this.stoQuantite.nombreFormate(2,',','');
 						lQuantite += parseFloat(this.stoQuantite);
 					}
 				}
@@ -508,7 +508,7 @@
 		pResponse.total = '';
 		if(pResponse.operationProducteur) {
 			if(pResponse.operationProducteur.montant != null) {
-				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',',' ');
+				pResponse.total = (pResponse.operationProducteur.montant).nombreFormate(2,',','');
 			}
 			if(pResponse.operationProducteur.typePaiementChampComplementaire != null) {
 				pResponse.champComplementaire = pResponse.operationProducteur.typePaiementChampComplementaire;

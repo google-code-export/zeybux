@@ -101,12 +101,22 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.categories = [];
+		//lData.categories = [];
+		
+		var lIdCategorie = 0;
+		var lNomCategorie = '';
+		var lCategoriesTrie = [];
+		var lProduits = [];
 		
 		var lTotal = 0;
 		$.each(this.pdtCommande, function() {
 			var lInfoProduit = this;
 			if(that.reservation[this.id]) {
+				if(lIdCategorie == 0) {
+					lIdCategorie = this.idCategorie;
+					lNomCategorie = this.cproNom;
+				}
+				
 				var lPdt = new Object;
 				lPdt.proId = lInfoProduit.id;
 				lPdt.nproNom = this.nom;
@@ -124,19 +134,38 @@
 				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 				
-				if(!lData.categories[this.idCategorie]) {
+				/*if(!lData.categories[this.idCategorie]) {
 					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
+				}*/
 				
 				lPdt.flagType = "";
 				if(lInfoProduit.type == 2) {
 					lPdt.flagType = lGestionCommandeTemplate.flagAbonnement;
 				}
 				
-				lData.categories[this.idCategorie].produits.push(lPdt);
+				//lData.categories[this.idCategorie].produits.push(lPdt);
+				
+				if(lIdCategorie != this.idCategorie) {
+					lCategoriesTrie.push({
+							nom:lNomCategorie,
+							produits:lProduits
+						});			
+					lIdCategorie = this.idCategorie;
+					lNomCategorie = this.cproNom;
+					lProduits = [];
+				} 
+				lProduits.push(lPdt);
 			}			
 		});
 		lData.total = parseFloat(lTotal).nombreFormate(2,',',' ');
+		
+		// Ajout de la dernière catégorie
+		lCategoriesTrie.push({
+			nom:lNomCategorie,
+			produits:lProduits
+		});	
+		
+		lData.categories = lCategoriesTrie;
 		
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
@@ -164,12 +193,22 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		lData.categories = [];
+		//lData.categories = [];
+		
+		var lIdCategorie = 0;
+		var lNomCategorie = '';
+		var lCategoriesTrie = [];
+		var lProduits = [];
 		
 		var lTotal = 0;		
 		$.each(this.pdtCommande, function() {
 			// Test si la ligne n'est pas vide
 			if(this.id) {
+				if(lIdCategorie == 0) {
+					lIdCategorie = this.idCategorie;
+					lNomCategorie = this.cproNom;
+				}
+				
 				var lPdt = {};
 				lPdt.proId = this.id;
 				lPdt.nproNom = this.nom;
@@ -208,9 +247,9 @@
 					}					
 				}
 				
-				var i = 0;
+			//	var i = 0;
 				var lLotReservation = -1;
-				var lLotInit = -1;
+			//	var lLotInit = -1;
 				
 				lPdt.stoQuantiteReservation = 0;
 				lPdt.prixReservation = 0;
@@ -268,9 +307,9 @@
 				}
 				lData.categories[this.idCategorie].produits.push(lPdt);*/
 				
-				if(!lData.categories[this.idCategorie]) {
+				/*if(!lData.categories[this.idCategorie]) {
 					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}
+				}*/
 				
 				lPdt.sigleMonetaire = gSigleMonetaire;
 				var lAjoutProduit = true;
@@ -294,10 +333,29 @@
 				}
 				
 				if(lAjoutProduit) {
-					lData.categories[this.idCategorie].produits.push(lPdt);
+					//lData.categories[this.idCategorie].produits.push(lPdt);
+					if(lIdCategorie != this.idCategorie) {
+						lCategoriesTrie.push({
+								nom:lNomCategorie,
+								produits:lProduits
+							});			
+						lIdCategorie = this.idCategorie;
+						lNomCategorie = this.cproNom;
+						lProduits = [];
+					} 
+					lProduits.push(lPdt);
 				}
 			}
 		});
+		
+		// Ajout de la dernière catégorie
+		lCategoriesTrie.push({
+			nom:lNomCategorie,
+			produits:lProduits
+		});	
+		
+		lData.categories = lCategoriesTrie;
+		
 		
 		// Maj des reservations temp pour modif
 		this.reservationModif = [];
@@ -352,7 +410,7 @@
 	};
 	
 	this.affectInfoProduit = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find('.btn-info-produit')
 		.click(function() {		
 			var lId = $(this).attr('id-produit');
@@ -488,10 +546,11 @@
 		var lMax = parseFloat(this.pdtCommande[pIdPdt].qteMaxCommande);
 		
 		// Recherche de la quantité reservée pour la déduire de la quantité max
+		var lStock = 0;
 		if(this.reservation[pIdPdt]) {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
+			lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation) + parseFloat(this.reservation[pIdPdt].stoQuantite);						
 		} else {
-			var lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
+			lStock = parseFloat(this.pdtCommande[pIdPdt].stockReservation);
 		}
 		
 		var lNoStock = false;
