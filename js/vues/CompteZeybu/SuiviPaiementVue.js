@@ -41,6 +41,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
@@ -53,6 +54,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalChequeAdherent += parseFloat(this.opeMontant);		
@@ -65,6 +67,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalEspeceFerme += parseFloat(this.opeMontant);		
@@ -77,6 +80,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalChequeFerme += parseFloat(this.opeMontant);		

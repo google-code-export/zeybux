@@ -485,13 +485,30 @@
 			"</div>" +
 			"<div id=\"prix-stock-produit\">" +
 				"<div id=\"pro-typeProduit\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
 					"{typeProduitLabel}" +
 				"</div>" +
 				"{divLot}" +
 				"{divStock}" + 
 			"</div>" +
 		"</div>";
+	
+	this.typeProduitLabelNormal =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Normal";
+	
+	this.typeProduitLabelSolidaire =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Solidaire";
+	
+	this.typeProduitLabelAbonnement =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"Abonnement";
+	
+	this.typeProduitLabelFormulaire =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Type de produit</div>" +
+		"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitNormal\" value=\"0\" {typeNormalSelected} /> Normal" +
+		"<input class=\"ui-widget-content ui-corner-all\" type=\"radio\" name=\"typeProduit\" id=\"pro-typeProduitSolidaire\" value=\"1\" {typeSolidaireSelected}/> Solidaire";
+		
 	
 	this.prixModifProduit =
 		"<div id=\"div-lot\">" +
@@ -788,42 +805,44 @@
 		"</div>";
 	
 	this.stockModifProduit = 
-		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
-		"<table class=\"com-table-form\">" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-					"Limite de stock : " +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
-					"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-					"Quantité max par adhérent : " +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
-				"</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<th class=\"com-table-form-th\">" +
-				"</th>" +
-				"<td class=\"com-table-form-td\">" +
-					"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
-					"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
-				"</td>" +
-			"</tr>" +
-		"</table>";
-	
+		"<div id=\"id-stock\" class=\"{visibleSolidaire} pro-detail\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Stock</div>" +
+			"<table class=\"com-table-form\">" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+						"Limite de stock : " +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"0\" {nproStockCheckedNoLimit} />Pas de limite" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-stock-choix\" value=\"1\" {nproStockCheckedLimit} />" +
+						"<input {nproStockDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproStock}\" name=\"pro-stock\" maxlength=\"13\" id=\"pro-qteRestante\"/> <span class=\"unite-stock\">{unite}</span>" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+						"Quantité max par adhérent : " +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"0\" {nproQteMaxCheckedNoLimit} />Pas de limite" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<th class=\"com-table-form-th\">" +
+					"</th>" +
+					"<td class=\"com-table-form-td\">" +
+						"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"radio\" name=\"pro-qte-max-choix\" value=\"1\" {nproQteMaxCheckedLimit} />" +
+						"<input {nproQteMaxDisabled} class=\"com-input-text ui-widget-content ui-corner-all com-numeric\" type=\"text\" value=\"{nproQteMax}\" name=\"pro-qte-max\" maxlength=\"13\" id=\"pro-qteMaxCommande\"/> <span class=\"unite-stock\">{unite}</span>" +
+					"</td>" +
+				"</tr>" +
+			"</table>" +
+		"</div>";
+
 	this.dialogSupprimerLotModifierMarche =
 		"<div id=\"dialog-supp-lot\" title=\"Supprimer le prix de vente\">" +
 			"<div id=\"information-detail-producteur\">" +
@@ -1498,7 +1517,7 @@
 						"N° de Compte : {adhCompte}" +
 					"</div>" +
 					"<div>" +
-						"<span>Solde : </span><span>{adhSolde} {sigleMonetaire}</span>" +
+						"<span>Solde : </span><span><span id=\"affiche-solde\" class=\"solde\">{adhSolde}</span><span id=\"affiche-solde-modification\" class=\"ui-helper-hidden solde\">{adhSolde}</span> {sigleMonetaire}</span>" +
 					"</div>" +
 					"<div class=\"com-clear-float-left\"></div>" +
 				"</div>" +
@@ -1569,7 +1588,7 @@
 					"<td class=\"col-reservation detail-achat-unite\">{categories.achat.proUniteMesureReservation}</td>" +
 					
 					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
-						"<span class=\"detail-achat-qte\">{categories.achat.stoQuantite}</span>" +
+						"<span class=\"detail-achat-qte affiche-produit-quantite\">{categories.achat.stoQuantiteAffiche}</span>" +
 						"<span class=\"detail-achat-qte ui-helper-hidden \">" +
 							"<input type=\"text\" value=\"{categories.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
 						"</span>" +
@@ -1581,7 +1600,7 @@
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
 						"<span class=\"detail-achat-prix\">" +
-							"{categories.achat.prix} {categories.achat.sigleMonetaire}" +
+							"<span class=\"affiche-produit-prix\">{categories.achat.prixAffiche}</span> {categories.achat.sigleMonetaire}" +
 						"</span>" +
 						"<span class=\"detail-achat-prix ui-helper-hidden\">" +
 							"<input type=\"text\" value=\"{categories.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
@@ -1589,7 +1608,7 @@
 						"</span>" +
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
-						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.stoQuantiteSolidaire}</span>" +
+						"<span class=\"detail-achat-qte-solidaire affiche-produit-quantite-solidaire\">{categories.achat.stoQuantiteSolidaireAffiche}</span>" +
 						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden \">" +
 							"<input type=\"text\" value=\"{categories.achat.stoQuantiteSolidaire}\" class=\"com-numeric produit-quantite-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
 						"</span>" +
@@ -1600,7 +1619,7 @@
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
 						"<span class=\"detail-achat-prix-solidaire\">" +
-							"{categories.achat.prixSolidaire} {categories.achat.sigleMonetaireSolidaire}" +
+							"<span class=\"affiche-produit-prix-solidaire\">{categories.achat.prixSolidaireAffiche}</span> {categories.achat.sigleMonetaireSolidaire}" +
 						"</span>" +
 						"<span class=\"detail-achat-prix-solidaire ui-helper-hidden\">" +
 							"<input type=\"text\" value=\"{categories.achat.prixSolidaire}\" class=\"com-numeric produit-prix-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
@@ -1614,9 +1633,9 @@
 					"<td></td>" +
 					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
 					"<td class=\"com-text-align-right col-achat\" colspan=\"2\">Total : </td>" +
-					"<td class=\"com-text-align-right col-achat\">{total} {sigleMonetaire}</td>" +						
+					"<td class=\"com-text-align-right col-achat\"><span id=\"affiche-total\" class=\"total-achat\">{total}</span><span id=\"affiche-total-modification\" class=\"total-achat ui-helper-hidden\">{total}</span> {sigleMonetaire}</td>" +						
 					"<td class=\"com-text-align-right col-achat-solidaire\" colspan=\"2\">Total Solidaire : </td>" +
-					"<td class=\"com-text-align-right col-achat-solidaire\">{totalSolidaire} {sigleMonetaire}</td>" +
+					"<td class=\"com-text-align-right col-achat-solidaire\"><span id=\"affiche-total-solidaire\" class=\"total-achat-solidaire\">{totalSolidaire}</span><span id=\"affiche-total-modification-solidaire\" class=\"total-achat-solidaire ui-helper-hidden\">{totalSolidaire}</span> {sigleMonetaire}</td>" +
 				"</tr>" +
 			"</table>" +
 		"</div>" ;
@@ -1967,14 +1986,14 @@
 						"<td class=\"com-text-align-right\">" +
 							//"<span class=\"pro-id ui-helper-hidden\"  data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\"></span>" +
 							"<input class=\"formulaire qte-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"qte-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.stoQuantiteCommande}\" id=\"produits{produits.dcomId}quantite\" data-taille=\"{produits.dcomTaille}\" data-prix=\"{produits.dcomPrix}\" data-id-produit=\"{produits.proId}\" data-id-detail-commande=\"{produits.dcomId}\" />" +
-							"<span class=\"detail\">{produits.stoQuantiteCommande}</span>" +
+							"<span class=\"detail\">{produits.stoQuantiteCommandeAffichage}</span>" +
 						"</td>" +
 						"<td>" +
 							" {produits.proUniteMesure}" +
 						"</td>" +
 						"<td class=\"com-text-align-right\">" +
 							"<input class=\"formulaire prix-commande com-numeric com-input-text ui-widget-content ui-corner-all\" type=\"text\" size=\"3\" name=\"prix-commande-{produits.proId}-{produits.dcomId}\" maxlength=\"11\" value=\"{produits.dopeMontant}\" id=\"produits{produits.dcomId}prix\" />" +
-							"<span class=\"detail\">{produits.dopeMontant}</span>" +
+							"<span class=\"detail\">{produits.dopeMontantAffichage}</span>" +
 						"</td>" +
 						"<td>" +
 							" {sigleMonetaire}" +
@@ -2654,7 +2673,7 @@
 						"<td>{listeProduit.produits.nproNom}</td>" +						
 				
 						"<td class=\"com-text-align-right\">" +
-							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantite}</span>" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteAffiche}</span>" +
 							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
 								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantite}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantite\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
 							"</span>" +
@@ -2664,7 +2683,7 @@
 						"</td>" +
 						
 						"<td class=\"com-text-align-right\">" +
-							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-solidaire-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteSolidaire}</span>" +
+							"<span class=\"produit-{listeProduit.produits.stoQteId}\" id=\"label-quantite-solidaire-{listeProduit.produits.stoQteId}\">{listeProduit.produits.stoQteQuantiteSolidaireAffiche}</span>" +
 							"<span class=\"ui-helper-hidden produit-{listeProduit.produits.stoQteId}\">" +
 								"<input type=\"text\" value=\"{listeProduit.produits.stoQteQuantiteSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"{listeProduit.produits.stoQteId}-quantiteSolidaire\" maxlength=\"12\" size=\"3\" data-id=\"{listeProduit.produits.stoQteId}\" />" +
 							"</span>" +

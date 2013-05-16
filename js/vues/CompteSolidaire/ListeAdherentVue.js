@@ -121,7 +121,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "ajoutVirement";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteSolidaire&v=ListeAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

@@ -111,7 +111,7 @@
 			
 			var lData = {};
 			lData.label = $(this).parents("tr").find(".cpt-label").text();
-			lData.montant = $(this).parents("tr").find(".montant").text();
+			lData.montant = $(this).parents("tr").find(".montant").text().numberFrToDb().nombreFormate(2,',','');
 			lData.sigleMonetaire = gSigleMonetaire;
 									
 			var lDialog = $(that.affectDialog($(lTemplate.template(lData)))).dialog({
@@ -150,7 +150,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "modifier";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -232,7 +232,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "supprimer";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
