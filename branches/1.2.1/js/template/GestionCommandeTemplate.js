@@ -1517,7 +1517,7 @@
 						"N° de Compte : {adhCompte}" +
 					"</div>" +
 					"<div>" +
-						"<span>Solde : </span><span>{adhSolde} {sigleMonetaire}</span>" +
+						"<span>Solde : </span><span><span id=\"affiche-solde\" class=\"solde\">{adhSolde}</span><span id=\"affiche-solde-modification\" class=\"ui-helper-hidden solde\">{adhSolde}</span> {sigleMonetaire}</span>" +
 					"</div>" +
 					"<div class=\"com-clear-float-left\"></div>" +
 				"</div>" +
@@ -1588,7 +1588,7 @@
 					"<td class=\"col-reservation detail-achat-unite\">{categories.achat.proUniteMesureReservation}</td>" +
 					
 					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
-						"<span class=\"detail-achat-qte\">{categories.achat.stoQuantiteAffiche}</span>" +
+						"<span class=\"detail-achat-qte affiche-produit-quantite\">{categories.achat.stoQuantiteAffiche}</span>" +
 						"<span class=\"detail-achat-qte ui-helper-hidden \">" +
 							"<input type=\"text\" value=\"{categories.achat.stoQuantite}\" class=\"com-numeric produit-quantite com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
 						"</span>" +
@@ -1600,7 +1600,7 @@
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat\">" +
 						"<span class=\"detail-achat-prix\">" +
-							"{categories.achat.prixAffiche} {categories.achat.sigleMonetaire}" +
+							"<span class=\"affiche-produit-prix\">{categories.achat.prixAffiche}</span> {categories.achat.sigleMonetaire}" +
 						"</span>" +
 						"<span class=\"detail-achat-prix ui-helper-hidden\">" +
 							"<input type=\"text\" value=\"{categories.achat.prix}\" class=\"com-numeric produit-prix com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchat}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
@@ -1608,7 +1608,7 @@
 						"</span>" +
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
-						"<span class=\"detail-achat-qte-solidaire\">{categories.achat.stoQuantiteSolidaireAffiche}</span>" +
+						"<span class=\"detail-achat-qte-solidaire affiche-produit-quantite-solidaire\">{categories.achat.stoQuantiteSolidaireAffiche}</span>" +
 						"<span class=\"detail-achat-qte-solidaire ui-helper-hidden \">" +
 							"<input type=\"text\" value=\"{categories.achat.stoQuantiteSolidaire}\" class=\"com-numeric produit-quantite-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}quantite\" maxlength=\"12\" size=\"3\"/>" +
 						"</span>" +
@@ -1619,7 +1619,7 @@
 					"</td>" +
 					"<td class=\"com-text-align-right detail-achat-unite col-achat-solidaire\">" +
 						"<span class=\"detail-achat-prix-solidaire\">" +
-							"{categories.achat.prixSolidaireAffiche} {categories.achat.sigleMonetaireSolidaire}" +
+							"<span class=\"affiche-produit-prix-solidaire\">{categories.achat.prixSolidaireAffiche}</span> {categories.achat.sigleMonetaireSolidaire}" +
 						"</span>" +
 						"<span class=\"detail-achat-prix-solidaire ui-helper-hidden\">" +
 							"<input type=\"text\" value=\"{categories.achat.prixSolidaire}\" class=\"com-numeric produit-prix-solidaire com-input-text ui-widget-content ui-corner-all\" id=\"achat-{idAchatSolidaire}-produits{categories.achat.proId}prix\" maxlength=\"12\" size=\"3\"/>" +
@@ -1633,9 +1633,9 @@
 					"<td></td>" +
 					"<td colspan=\"2\" class=\"col-reservation\"></td>" +
 					"<td class=\"com-text-align-right col-achat\" colspan=\"2\">Total : </td>" +
-					"<td class=\"com-text-align-right col-achat\">{total} {sigleMonetaire}</td>" +						
+					"<td class=\"com-text-align-right col-achat\"><span id=\"affiche-total\" class=\"total-achat\">{total}</span><span id=\"affiche-total-modification\" class=\"total-achat ui-helper-hidden\">{total}</span> {sigleMonetaire}</td>" +						
 					"<td class=\"com-text-align-right col-achat-solidaire\" colspan=\"2\">Total Solidaire : </td>" +
-					"<td class=\"com-text-align-right col-achat-solidaire\">{totalSolidaire} {sigleMonetaire}</td>" +
+					"<td class=\"com-text-align-right col-achat-solidaire\"><span id=\"affiche-total-solidaire\" class=\"total-achat-solidaire\">{totalSolidaire}</span><span id=\"affiche-total-modification-solidaire\" class=\"total-achat-solidaire ui-helper-hidden\">{totalSolidaire}</span> {sigleMonetaire}</td>" +
 				"</tr>" +
 			"</table>" +
 		"</div>" ;
