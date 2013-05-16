@@ -1,7 +1,6 @@
 ;function AchatAdherentVue(pParam) {
 	this.pParam = {};
 	this.mAdherent = null;
-	//this.reservation = [];
 	this.infoReservation = {};
 	this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
 	this.produit = [];
@@ -20,45 +19,7 @@
 								Infobulle.generer(pParam.vr,'');
 							}
 							that.mAdherent = lResponse.adherent;						
-	
-						/*	that.infoCommande.comId = lResponse.marche.id;
-							that.infoCommande.comNumero = lResponse.marche.numero;
-							that.infoCommande.comNom = lResponse.marche.nom;
-							that.infoCommande.comDescription = lResponse.marche.description;
-							that.infoCommande.dateTimeFinReservation = lResponse.marche.dateFinReservation;
-							that.infoCommande.dateFinReservation = lResponse.marche.dateFinReservation.extractDbDate().dateDbToFr();
-							that.infoCommande.heureFinReservation = lResponse.marche.dateFinReservation.extractDbHeure();
-							that.infoCommande.minuteFinReservation = lResponse.marche.dateFinReservation.extractDbMinute();
-							that.infoCommande.dateMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbDate().dateDbToFr();
-							that.infoCommande.heureMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbHeure();
-							that.infoCommande.minuteMarcheDebut = lResponse.marche.dateMarcheDebut.extractDbMinute();
-							that.infoCommande.heureMarcheFin = lResponse.marche.dateMarcheFin.extractDbHeure();
-							that.infoCommande.minuteMarcheFin = lResponse.marche.dateMarcheFin.extractDbMinute();
-							that.infoCommande.comArchive = lResponse.marche.archive;
-							that.pdtCommande = lResponse.marche.produits;*/
-							
 							that.infoReservation = lResponse.reservation;
-						/*	that.stockSolidaire = lResponse.stockSolidaire;
-							$.each(that.pdtCommande,function() {
-								if(this.id) {
-									var lIdProduit = this.id;
-									$.each(this.lots, function() {
-										if(this.id) {
-											var lIdLot = this.id;
-											$(lResponse.reservation.detailReservation).each(function() {
-												if(this.idDetailCommande == lIdLot) {
-													this.stoQuantite = this.quantite * -1;
-													this.dcomId = this.idDetailCommande;
-													this.proId = lIdProduit;
-													this.montant = this.montant * -1;
-													that.reservation[lIdProduit] = this;
-												}											
-											});
-										}
-									});
-								}
-							});*/
-							
 							that.produit = lResponse.detailProduit;
 							$(lResponse.achats).each(function() {
 								if(this.detailAchat.length > 0) {
@@ -221,6 +182,7 @@
 		pData = this.affectAjoutProduit(pData);
 		pData = this.affectModifierAchat(pData);
 		pData = this.affectSupprimerAchat(pData);
+		pData = this.affectCalculTotal(pData);
 		pData = gCommunVue.comHoverBtn(pData);		
 		pData = gCommunVue.comNumeric(pData);
 		return pData;
@@ -499,15 +461,83 @@
 		var that = this;
 		
 		pData.find('#btn-modif-achat, #btn-annuler-achat').click(function() {
-			$('.btn-achat, .detail-achat-qte, .detail-achat-prix, #btn-modif-achat-solidaire, #btn-supp-achat-solidaire').toggle();			
+			$('.btn-achat, .detail-achat-qte, .detail-achat-prix, .total-achat, .solde, #btn-modif-achat-solidaire, #btn-supp-achat-solidaire').toggle();			
 		});
 		pData.find('#btn-modif-achat-solidaire, #btn-annuler-achat-solidaire').click(function() {
-			$('.btn-achat-solidaire, .detail-achat-qte-solidaire, .detail-achat-prix-solidaire, #btn-modif-achat, #btn-supp-achat').toggle();			
+			$('.btn-achat-solidaire, .detail-achat-qte-solidaire, .total-achat-solidaire, .solde, .detail-achat-prix-solidaire, #btn-modif-achat, #btn-supp-achat').toggle();			
 		});
 		pData.find("#btn-check-achat, #btn-check-achat-solidaire").click(function() {
 			that.validerModifierAchat($(this).data("id-achat"), $(this).data("type"));
 		});
+		
+		pData.find('#btn-modif-achat').click(function() {
+			that.initFormModifierAchat('');
+		});
+		pData.find('#btn-modif-achat-solidaire').click(function() {
+			that.initFormModifierAchat('-solidaire');
+		});
 		return pData;
+	};
+	
+	this.initFormModifierAchat = function(pType) {
+		var lTotal = 0;
+		$('.ligne-produit-achat').each(function() {		
+			// Initialise prix et qté pour le formulaire de modification de l'achat
+			var lQuantite = parseFloat($(this).find(".affiche-produit-quantite" + pType).text().numberFrToDb());
+			if(isNaN(lQuantite)){
+				lQuantite = 0;
+			}
+			lQuantite = lQuantite.nombreFormate(2,',','');
+			$(this).find(".produit-quantite" + pType).val(lQuantite);
+			
+			var lprix = parseFloat($(this).find(".affiche-produit-prix" + pType).text().numberFrToDb());
+			if(isNaN(lprix)){
+				lprix = 0;
+			}
+			lTotal = (parseFloat(lTotal) + parseFloat(lprix)).toFixed(2);
+			
+			lprix = lprix.nombreFormate(2,',','');
+			$(this).find(".produit-prix" + pType).val(lprix);
+		});
+		$('#affiche-total-modification' + pType).text(lTotal.nombreFormate(2,',',' '));
+		
+		$('#affiche-solde-modification').text($('#affiche-solde').text());
+	};
+	
+	this.affectCalculTotal = function(pData) {
+		var that = this;
+		pData.find('.produit-prix').keyup(function() {
+			that.majTotal('');
+		});
+		pData.find('.produit-prix-solidaire').keyup(function() {
+			that.majTotal('-solidaire');
+		});
+		return pData;
+	};
+	
+	this.majTotal = function(pType) {
+		var lTotal = 0;
+		$('.produit-prix' + pType).each(function() {
+			var lPrix = parseFloat($(this).val().numberFrToDb());
+			if(!isNaN(lPrix)) {
+				lTotal = (parseFloat(lTotal) + lPrix).toFixed(2);
+			}
+		});
+		$('#affiche-total-modification' + pType).text(lTotal.nombreFormate(2,',',' '));
+		
+		var lSolde = parseFloat($('#affiche-solde').text().numberFrToDb());
+		if(isNaN(lSolde)) {
+			lSolde = 0;
+		}
+		
+		var lTotalInit = parseFloat($('#affiche-total'  + pType).text().numberFrToDb());
+		if(isNaN(lTotalInit)) {
+			lTotalInit = 0;
+		}
+		
+		lSolde = (lSolde + lTotalInit - lTotal).toFixed(2);
+		$('#affiche-solde-modification').text(lSolde.nombreFormate(2,',',' '));
+		
 	};
 	
 	this.affectSupprimerAchat = function(pData) {
@@ -525,7 +555,6 @@
 		
 		var lAchat = {};
 		lAchat.idAchat = pIdAchat;
-		//lAchat.total = $("#achat-total" + pType).val().numberFrToDb() * -1;
 		lAchat.produits = [];
 		var lProduit = [];
 		$('.ligne-produit-achat').each(function() {
@@ -643,250 +672,6 @@
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
 		});
 		
-	};
-/*	this.affectValiderModifierReservation = function(pData) {
-		var that = this;
-		pData.find('#btn-check-resa').click(function() {
-			that.validerModifierReservation();
-		});
-		return pData;
-	};
-	
-	this.affectSupprimerAchat = function(pData) {
-		var that = this;
-		pData.find('.achat, .achatSolidaire').each(function() {
-			var lIdAchat = $(this).find(".achat-id").text();
-			pData.find("#btn-supp-achat-" + lIdAchat).click(function() {
-				that.supprimerAchat(lIdAchat);
-			});
-		});
-		return pData;
-	};
-	
-	this.affectModifierAchat = function(pData) {
-		var that = this;
-		pData.find('.achat, .achatSolidaire').each(function() {
-			var lIdAchat = $(this).find(".achat-id").text();
-			pData.find("#btn-annuler-achat-" + lIdAchat + ", #btn-modif-achat-" + lIdAchat).click(function() {
-				that.modifierAchat(lIdAchat);
-			});
-			pData.find("#btn-check-achat-" + lIdAchat).click(function() {
-				that.validerModifierAchat(lIdAchat);
-			});
-		});
-		return pData;
-	};
-		
-	this.validerModifierReservation = function() {
-		var lReservation = {};
-		lReservation.total = $("#reservation-total").val().numberFrToDb();
-		lReservation.etat = $("#reservation-etat").val();
-		lReservation.produits = [];
-		var lProduit = [];
-		$('.ligne-produit-reservation').each(function() {
-			var lVoProduit = new ProduitAchatVO();
-			lVoProduit.id = $(this).find(".produit-id").text();
-			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
-				lQuantite = parseFloat(lQuantite);
-				lVoProduit.quantite = lQuantite * -1;			
-			
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-				}
-				lReservation.produits.push(lVoProduit);
-			} else {
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-					lReservation.produits.push(lVoProduit);
-				}
-			}
-			lProduit.push(lVoProduit);
-		});
-		
-		lReservation.id = this.infoReservation.id;
-		
-		var lValid = new ReservationAdherentValid();
-		var lVr = lValid.validUpdate(lReservation);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			// TODO envoi vers le server
-			
-			
-			$(lProduit).each(function() {
-				if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
-				$("#reservation-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
-				if(isNaN(this.prix) || this.quantite.isEmpty()) {this.prix = 0;}
-				$("#reservation-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
-			});
-			
-			switch(lReservation.etat) {
-				case "0":
-					$("#reservation-etat-label").text("En réservation");
-					break;
-				case "7":
-					$("#reservation-etat-label").text("Achetée");
-					break;
-				case "15":
-					$("#reservation-etat-label").text("Non Récupérée");
-					break;
-				case "16":
-					$("#reservation-etat-label").text("Supprimée");
-					break;
-				default:
-					$("#reservation-etat-label").text("Aucune Réservation");
-					break;
-			}
-	
-			if(isNaN(lReservation.total) || lReservation.total.isEmpty()) {lReservation.total = 0;}
-			$("#reservation-total-label").text(lReservation.total.nombreFormate(2,',',' '));
-			
-			
-			$('.modif-resa, .resa-etat, .detail-resa-prix, .detail-resa-qte, .resa-total').toggle();
-		} else {
-			Infobulle.generer(lVr,'reservation-');
-		}
-	};
-
-	this.modifierAchat = function(pIdAchat) {
-		$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();	
-	};
-	
-	this.validerModifierAchat = function(pIdAchat) {
-		var that = this;
-		var lAchat = {};
-		lAchat.idAchat = pIdAchat;
-		lAchat.total = $("#achat-" + pIdAchat + "-total").val().numberFrToDb() * -1;
-		lAchat.produits = [];
-		var lProduit = [];
-		$('.ligne-produit-achat-' + pIdAchat).each(function() {
-			var lVoProduit = new ProduitAchatVO();
-			lVoProduit.id = $(this).find(".produit-id").text();
-			var lQuantite = $(this).find(".produit-quantite").val().numberFrToDb();
-			if(!isNaN(lQuantite) && !lQuantite.isEmpty() && lQuantite != 0){
-				lQuantite = parseFloat(lQuantite);
-				lVoProduit.quantite = lQuantite * -1;			
-			
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0){
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-				}
-				lAchat.produits.push(lVoProduit);
-			} else {
-				var lprix = $(this).find(".produit-prix").val().numberFrToDb();
-				if(!isNaN(lprix) && !lprix.isEmpty() && lprix != 0) {
-					lprix = parseFloat(lprix);
-					lVoProduit.prix = lprix * -1;
-					lAchat.produits.push(lVoProduit);
-				}
-			}
-			lProduit.push(lVoProduit);
-		});
-		
-		if(parseInt(pIdAchat) < 0) { // Si c'est un achat
-			lAchat.idCompte = that.mAdherent.adhIdCompte;
-			lAchat.idMarche = that.pParam.id_marche;
-		}
-		
-		var lValid = new AchatAdherentValid();
-		var lVr = lValid.validUpdate(lAchat);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			var lParam ={fonction:"modifierAchat",achat:lAchat};
-			$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse && lResponse.valid) {
-							var lMsg = new TemplateVR();
-							lMsg.valid = false;
-							lMsg.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_314_CODE;
-							erreur.message = ERR_314_MSG;
-							lMsg.log.erreurs.push(erreur);
-							
-							if(lAchat.idAchat < 0) {
-								that.pParam.vr = lMsg;
-								that.construct(that.pParam);
-							} else {
-								$(lProduit).each(function() {
-									if(isNaN(this.quantite) || this.quantite.isEmpty()) {this.quantite = 0;}
-									$("#achat-" + pIdAchat + "-" + this.id + "-quantite").text((this.quantite * -1).nombreFormate(2,',',' '));
-									if(isNaN(this.prix) || this.prix.isEmpty()) {this.prix = 0;}
-									$("#achat-" + pIdAchat + "-" + this.id + "-prix").text((this.prix * -1).nombreFormate(2,',',' '));
-								});
-								if(isNaN(lAchat.total) || lAchat.total.isEmpty()) {lAchat.total = 0;}
-								$("#achat-" + pIdAchat + "-total-label").text((lAchat.total * -1).nombreFormate(2,',',' '));
-								
-								$('.modif-achat-' + pIdAchat + ', .detail-achat-' + pIdAchat + '-prix, .detail-achat-' + pIdAchat + '-qte, .achat-' + pIdAchat + '-total').toggle();						
-								
-								Infobulle.generer(lMsg,'');
-							}
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-			},"json");
-		} else {
-			Infobulle.generer(lVr,'achat-' + pIdAchat + '-');
-		}
-	};
-	
-	this.supprimerAchat = function(pIdAchat) {
-		var that = this;
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		var lTemplate = lGestionCommandeTemplate.dialogSupprimerAchat;
-		
-		$(lTemplate).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Supprimer': function() {
-					var lDialog = this;
-					var lParam ={fonction:"supprimerAchat",idAchat:pIdAchat};
-					$.post(	"./index.php?m=GestionCommande&v=AchatAdherent", "pParam=" + $.toJSON(lParam),
-						function(lResponse) {
-							Infobulle.init(); // Supprime les erreurs
-							if(lResponse) {
-								if(lResponse && lResponse.valid) {								
-									var lMsg = new TemplateVR();
-									lMsg.valid = false;
-									lMsg.log.valid = false;
-									var erreur = new VRerreur();
-									erreur.code = ERR_315_CODE;
-									erreur.message = ERR_315_MSG;
-									lMsg.log.erreurs.push(erreur);
-									
-									that.pParam.vr = lMsg;
-									
-									that.construct(that.pParam);
-									$(lDialog).dialog('close');
-								} else {
-									Infobulle.generer(lResponse,'');
-								}
-							}
-					},"json");
-			
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
-		});
-		
-	};*/
-	
+	};	
 	this.construct(pParam);
 }
