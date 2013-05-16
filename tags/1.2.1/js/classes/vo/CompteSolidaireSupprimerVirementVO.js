@@ -1,0 +1,3 @@
+function CompteSolidaireSupprimerVirementVO() {
+	this.id = '';
+}
