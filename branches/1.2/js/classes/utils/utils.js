@@ -193,7 +193,7 @@ function jourSem(pDate) {
 	 function separeMilliers (sNombre) {
 		 var sRetour = "";
 		 while (sNombre.length % 3 != 0) {
-			 sNombre = "0"+sNombre;
+			 sNombre = "0" + sNombre;
 		 }
 		
 		 for (i = 0; i < sNombre.length; i += 3) {
@@ -205,8 +205,8 @@ function jourSem(pDate) {
 			 sRetour = sRetour.substr(1);
 		 }
 		 // Pour le cas où l'on affiche 0
-		 if(sRetour == " ") {
-			 sRetour = "0 ";
+		 if(sRetour == separateurMilliers) {
+			 sRetour = "0" + separateurMilliers;
 		 }
 		 return sRetour.substr(0, sRetour.lastIndexOf(separateurMilliers));
 	 }

@@ -26,7 +26,6 @@
 		var lHtml = '';
 		if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].cproNom != null) {
 			var lIdCategorie = lResponse.listeProduit[0].cproId;
-			var lIdCategorieInit = lIdCategorie;
 			var lNomCategorie = lResponse.listeProduit[0].cproNom;
 			var lStockTrie = [];
 			var lProduits = [];
@@ -34,18 +33,22 @@
 			$(lResponse.listeProduit).each(function() {
 				if(this.stoQteQuantite != null)  {
 					this.stoQteQuantiteTotal = (parseFloat(this.stoQteQuantite) + parseFloat(this.stoQteQuantiteSolidaire)).toFixed(2).nombreFormate(2,',',' ');
-					this.stoQteQuantite = this.stoQteQuantite.nombreFormate(2,',',' ');
-					this.stoQteQuantiteSolidaire = this.stoQteQuantiteSolidaire.nombreFormate(2,',',' ');
+					
+					this.stoQteQuantiteAffiche = this.stoQteQuantite.nombreFormate(2,',',' ');
+					this.stoQteQuantite = this.stoQteQuantite.nombreFormate(2,',','');
+					
+					this.stoQteQuantiteSolidaireAffiche = this.stoQteQuantiteSolidaire.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaire = this.stoQteQuantiteSolidaire.nombreFormate(2,',','');
 					this.btnEdition = lGestionCommandeTemplate.listeStockProduitFermeDetailBtnEdition.template({stoQteId:this.stoQteId});
 				} else {
-					this.stoQteQuantiteTotal = '0';
-					this.stoQteQuantiteSolidaire = '0';
-					this.stoQteQuantite = '0';
+					this.stoQteQuantiteTotal = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaire = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteSolidaireAffiche = this.stoQteQuantiteSolidaire;
+					this.stoQteQuantite = '0'.nombreFormate(2,',',' ');
+					this.stoQteQuantiteAffiche = this.stoQteQuantite;
 					this.stoQteUnite = '';
 					this.btnEdition =  '';
 				}
-				
-				lProduits.push(this);
 				
 				if(lIdCategorie != this.cproId) {
 					lStockTrie.push({
@@ -56,14 +59,15 @@
 					lNomCategorie = this.cproNom;
 					lProduits = [];
 				} 
+				
+				lProduits.push(this);
 			});
-			// Si il n'y a qu'une catégorie il faut l'ajouter
-			if(lIdCategorieInit == lIdCategorie) {
-				lStockTrie.push({
-					cproNom:lResponse.listeProduit[0].cproNom,
-					produits:lProduits
-				});
-			}
+			// Ajout de la dernière catégorie
+			lStockTrie.push({
+				cproNom:lNomCategorie,
+				produits:lProduits
+			});	
+			
 			lResponse.listeProduit = lStockTrie;
 			lHtml = lGestionCommandeTemplate.listeStockProduitFermeDetail.template(lResponse);
 			//$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
