@@ -1,4 +1,4 @@
-;function DupliquerMarcheVue(pParam) {
+;/*function DupliquerMarcheVue(pParam) {
 	
 	this.mListeFerme = {};
 	this.mProduits = [];
@@ -836,19 +836,7 @@
 				}
 			});	
 			
-			/*if(!this.mAffichageMarche[lIdFerme]) {
-				this.mAffichageMarche[lIdFerme] = {	ferId:lIdFerme,
-													ferNom:pDialog.find(':input[name=ferme] option:selected').text(),
-													categories:[]};
-			}
 			
-			if(!this.mAffichageMarche[lIdFerme].categories[lIdCategorie]){
-				this.mAffichageMarche[lIdFerme].categories[lIdCategorie] = {
-						cproId:lIdCategorie,
-						cproNom:pDialog.find(':input[name=categorie] option:selected').text(),
-						produits:[]};
-			}
-			*/
 
 			// Préparation du MarcheVO		
 			var lVoProduit = new ProduitMarcheVO();
@@ -1034,4 +1022,4 @@
 	
 	this.construct(pParam);
 	
-}
+}*/
