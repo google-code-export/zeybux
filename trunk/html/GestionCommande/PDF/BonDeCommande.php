@@ -52,15 +52,15 @@ td    { vertical-align: top; }
     </i>
     <div>
     Madame, Monsieur,<br>
-    Les amis du zeybu souhaite commander les produits suivant pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
+    Les amis du zeybu souhaite commander les produits suivants pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
     </div>
-    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
+    <table cellspacing="0" style="width: 100%; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <tr>
-            <th style="width: 10%">Produit</th>
-            <th style="width: 47%">Désignation</th>
-            <th style="width: 15%">Prix Unitaire</th>
-            <th style="width: 15%">Quantité</th>
-            <th style="width: 13%">Prix Net</th>
+            <th style="width: 10%; border: solid 1px black;">Produit</th>
+            <th style="width: 37%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Désignation</th>
+            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Prix Unitaire</th>
+            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Quantité</th>
+            <th style="width: 13%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Prix Net</th>
         </tr>
     </table>
 <?php
@@ -81,21 +81,21 @@ foreach($lLignesBonCommande as $lLigne) {
 	$lTotal += $lLigne->getDopeMontant();
 	
 	?>
-	    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
+	    <table cellspacing="0" style="width: 100%; background: #F7F7F7; text-align: center; font-size: 10pt;">
 	        <tr>
-	            <td style="width: 10%; text-align: left"><?php echo $lNumero; ?></td>
-	            <td style="width: 47%; text-align: left"><?php echo $lNomproduit; ?></td>
-	            <td style="width: 10%; text-align: right"><?php echo number_format($lPrixUnitaire, 2, ',', ' '); ?></td>
-	            <td style="width: 5%; text-align: left"> &euro;/<?php echo $lUnite;?></td>
-	            <td style="width: 10%; text-align: right"><?php echo number_format($lLigne->getStoQuantite(), 2, ',', ' '); ?></td>
-	            <td style="width: 5%; text-align: left"> <?php echo $lUnite;?></td>
-	            <td style="width: 13%; text-align: right;"><?php echo number_format($lLigne->getDopeMontant(), 2, ',', ' '); ?> &euro;</td>
+	            <td style="width: 10%; text-align: left; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black;"><?php echo $lNumero; ?></td>
+	            <td style="width: 37%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo $lNomproduit; ?></td>
+	            <td style="width: 10%; text-align: right; border-bottom: solid 1px black;"><?php echo number_format($lPrixUnitaire, 2, ',', ' '); ?></td>
+	            <td style="width: 10%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"> &euro;/<?php echo $lUnite;?></td>
+	            <td style="width: 10%; text-align: right; border-bottom: solid 1px black;"><?php echo number_format($lLigne->getStoQuantite(), 2, ',', ' '); ?></td>
+	            <td style="width: 10%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"> <?php echo $lUnite;?></td>
+	            <td style="width: 13%; text-align: right; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo number_format($lLigne->getDopeMontant(), 2, ',', ' '); ?> &euro;</td>
 	        </tr>
 	    </table>
 	<?php
 }
 ?>
-    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
+    <table cellspacing="0" style="width: 100%; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <tr>
             <th style="width: 87%; text-align: right;">Total : </th>
             <th style="width: 13%; text-align: right;"><?php echo number_format($lTotal, 2, ',', ' '); ?> &euro;</th>
@@ -104,7 +104,7 @@ foreach($lLignesBonCommande as $lLigne) {
     <br>
     <div style="font-size: 11pt;">
     Merci de nous confirmer la bonne prise en compte de cette commande par mail : <a href="mailto:<?php echo PROP_MEL;?>"><?php echo PROP_MEL;?></a><br>
-    N'oubliez pas le zeybu solidaire.
+    Plus les dons en nature à préciser sur la facture au nom des Amis du Zeybu.
     </div>
     <br>
     <nobreak>
@@ -115,7 +115,6 @@ foreach($lLignesBonCommande as $lLigne) {
                     Chantal VIOLETTE<br>
                     Responsable Zeybu Marché<br>
                     Tel : 06 34 68 46 87<br>
-                    Courriel : chantal.violette@neuf.fr<br>
                 </td>
             </tr>
         </table>
