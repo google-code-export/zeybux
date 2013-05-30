@@ -23,7 +23,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -39,7 +39,7 @@
 			$('#contenu').replaceWith(that.affect($(lGestionProduitTemplate.listeCategorieVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -50,12 +50,12 @@
 		pData = this.affectDialogSupprimerCategorie(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -65,10 +65,10 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 	
 	this.affectLienCompte = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find('.compte-ligne')
 		.click(function() {		
 			var lId = $(this).closest('tr').attr('id');
@@ -99,7 +99,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerCategorie = function(pData) {
 		var that = this;
@@ -130,7 +130,7 @@
 			});			
 		});		
 		return pData;
-	}
+	};
 	
 	this.CreerCategorie = function(pForm) {
 		var that = this;
@@ -174,7 +174,7 @@
 		} else {
 			Infobulle.generer(lVr,'cat-');
 		}
-	}
+	};
 	
 	this.affectDialogModifierCategorie = function(pData) {
 		var that = this;
@@ -220,7 +220,7 @@
 			);
 		});		
 		return pData;
-	}
+	};
 	
 	this.ModifierCategorie = function(pForm) {
 		var that = this;
@@ -265,7 +265,7 @@
 		} else {
 			Infobulle.generer(lVr,'cat-');
 		}
-	}
+	};
 	
 	this.affectDialogSupprimerCategorie = function(pData) {
 		var that = this;
@@ -292,7 +292,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 	
 	this.dialogSupprimerCategorie = function(pId) {
 		var that = this;
@@ -315,7 +315,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.supprimerCategorie = function(pId) {
 		var that = this;
@@ -346,10 +346,10 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.refusSupprimerCategorie = function(pResponse) {
-		var that = this;
+		//var that = this;
 		var lGestionProduitTemplate = new GestionProduitTemplate();
 		var lTemplate = lGestionProduitTemplate.dialogRefusSupprimerCategorie;
 		var lData = this.mCategories[pResponse.id];
@@ -371,7 +371,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.construct(pParam);
 }

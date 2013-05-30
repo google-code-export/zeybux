@@ -143,6 +143,58 @@ class OperationManager
 	}
 
 	/**
+	 * @name selectRechargementMarche($pIdCompte, $pIdMarche)
+	 * @return OperationVO
+	 * @desc Récupère l'operation de rechargement d'un compte sur un marche et retourne l'OperationVO correspondant
+	 */
+	public static function selectRechargementMarche($pIdCompte, $pIdMarche) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+				. OperationManager::CHAMP_OPERATION_ID .
+				"," . OperationManager::CHAMP_OPERATION_ID_COMPTE .
+				"," . OperationManager::CHAMP_OPERATION_MONTANT .
+				"," . OperationManager::CHAMP_OPERATION_LIBELLE .
+				"," . OperationManager::CHAMP_OPERATION_DATE .
+				"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
+				"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .
+				"," . OperationManager::CHAMP_OPERATION_TYPE .
+				"," . OperationManager::CHAMP_OPERATION_ID_COMMANDE .
+				"," . OperationManager::CHAMP_OPERATION_ID_BANQUE .
+				"," . OperationManager::CHAMP_OPERATION_DATE_MAJ .
+				"," . OperationManager::CHAMP_OPERATION_ID_LOGIN . "
+			FROM " . OperationManager::TABLE_OPERATION . "
+			JOIN " . TypePaiementManager::TABLE_TYPEPAIEMENT . " ON " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT ."
+			WHERE " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '" . StringUtils::securiser($pIdCompte) . "'
+				AND " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = '" . StringUtils::securiser($pIdMarche) . "'
+				AND " . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . " = 1 ;";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			return OperationManager::remplirOperation(
+				$lLigne[OperationManager::CHAMP_OPERATION_ID],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_COMPTE],
+				$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+				$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
+				$lLigne[OperationManager::CHAMP_OPERATION_DATE],
+				$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
+				$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
+				$lLigne[OperationManager::CHAMP_OPERATION_TYPE],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_COMMANDE],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_BANQUE],
+				$lLigne[OperationManager::CHAMP_OPERATION_DATE_MAJ],
+				$lLigne[OperationManager::CHAMP_OPERATION_ID_LOGIN]);
+		} else {
+			return new OperationVO();
+		}
+	}
+	
+	/**
 	* @name selectByIdCompte($pId)
 	* @param integer
 	* @return array(OperationVO)

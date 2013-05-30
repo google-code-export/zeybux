@@ -77,6 +77,12 @@ class ReservationDetailViewVO  extends DataTemplate
 	* @desc StoType de la ReservationDetailViewVO
 	*/
 	protected $mStoType;
+	
+	/**
+	* @var int(11)
+	* @desc DcomIdNomProduit de la ReservationDetailViewVO
+	*/
+	protected $mDcomIdNomProduit;	
 
 	/**
 	* @name getStoIdOperation()
@@ -256,6 +262,24 @@ class ReservationDetailViewVO  extends DataTemplate
 	*/
 	public function setStoType($pStoType) {
 		$this->mStoType = $pStoType;
+	}
+	
+	/**
+	* @name getDcomIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre DcomIdNomProduit de la ReservationDetailViewVO
+	*/
+	public function getDcomIdNomProduit() {
+		return $this->mDcomIdNomProduit;
+	}
+
+	/**
+	* @name setDcomIdNomProduit($pDcomIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre DcomIdNomProduit de la ReservationDetailViewVO par $pDcomIdNomProduit
+	*/
+	public function setDcomIdNomProduit($pDcomIdNomProduit) {
+		$this->mDcomIdNomProduit = $pDcomIdNomProduit;
 	}
 }
 ?>

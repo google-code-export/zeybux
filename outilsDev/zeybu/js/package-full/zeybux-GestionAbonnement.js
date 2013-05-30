@@ -1902,13 +1902,13 @@
 									
 									
 							//	}
-								lData.proAboStockInitial = lData.proAboStockInitial.nombreFormate(2,',',' ');
+								lData.proAboStockInitial = lData.proAboStockInitial.nombreFormate(2,',','');
 								if(lData.proAboMax == -1) {
 									lData.checkedNoLimit = "checked=\"checked\"";
 									lData.disableLimit = "disabled=\"disabled\"";
 								} else {
 									lData.checkedLimit = "checked=\"checked\"";
-									lData.max = lData.proAboMax.nombreFormate(2,',',' ');
+									lData.max = lData.proAboMax.nombreFormate(2,',','');
 								}
 								lData.sigleMonetaire = gSigleMonetaire;
 
@@ -2057,9 +2057,11 @@
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-qte-max-choix]').change(function() {
 			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
-				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+				//$(":input[name=pro-qte-max]").attr("disabled","").val("");		
+				$(":input[name=pro-qte-max]").prop("disabled", false).val("");
 			} else {
-				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+			//	$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+				$(":input[name=pro-qte-max]").prop("disabled", true).val("");
 			}
 		});
 		return pData;
@@ -2067,9 +2069,9 @@
 	
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
+		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
+		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text().numberFrToDb().nombreFormate(2,',',''));
 		
 		this.mEditionLot = true;
 	};
@@ -2144,7 +2146,7 @@
 	};
 	
 
-	this.ajoutLotModification = function(pId) {
+	/*this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
 
 		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
@@ -2152,7 +2154,7 @@
 		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
 
 		this.mEditionLot = true;
-	};
+	};*/
 	
 	this.ajoutLotValiderModification = function(pId) {
 		var lVo = new ModeleLotVO();
@@ -2789,9 +2791,9 @@
 
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
+		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
+		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text().numberFrToDb().nombreFormate(2,',',''));
 		
 		this.mEditionLot = true;
 	};

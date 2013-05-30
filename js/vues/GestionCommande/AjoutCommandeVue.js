@@ -213,7 +213,7 @@
 		var that = this;
 		pData.find("#pro-idFerme select").change(function() {
 			var lId = $(this).val();
-			$("#pro-idCategorie select, #pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idCategorie select, #pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#prix-stock-produit").replaceWith("<div id=\"prix-stock-produit\"></div>");
 			if(lId > 0) {
 				var lParam = {fonction:"listeProduit",id:lId};
@@ -275,7 +275,7 @@
 		var that = this;
 		pData.find("select").change(function() {
 			var lId = $(this).val();
-			$("#pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#prix-stock-produit").replaceWith("<div id=\"prix-stock-produit\"></div>");
 			if(lId > 0) {
 				
@@ -606,10 +606,10 @@
 		});
 		pData.find(":checkbox").change(function() {
 			if(!that.majUnite()) {
-				if($(this).attr("checked")) {
-					$(this).removeAttr("checked");
+				if($(this).prop("checked")) {
+					$(this).prop("checked",false);
 				} else {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}				
 			}
 		});
@@ -866,7 +866,7 @@
 									}
 									
 									var lSelected = false;
-									if($(this).attr("checked")) {
+									if($(this).prop("checked")) {
 										lSelected = true;
 									}
 									
@@ -896,7 +896,7 @@
 									}
 									
 									var lSelected = false;
-									if($(this).attr("checked")) {
+									if($(this).prop("checked")) {
 										lSelected = true;
 									}
 									if(lModele || lSelected) {
@@ -1432,7 +1432,7 @@
 							}
 							
 							var lSelected = false;
-							if($(this).attr("checked")) {
+							if($(this).prop("checked")) {
 								lSelected = true;
 							}
 							
@@ -1462,7 +1462,7 @@
 							}
 							
 							var lSelected = false;
-							if($(this).attr("checked")) {
+							if($(this).prop("checked")) {
 								lSelected = true;
 							}
 							if(lModele || lSelected) {

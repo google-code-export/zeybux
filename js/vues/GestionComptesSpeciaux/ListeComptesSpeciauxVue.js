@@ -25,7 +25,7 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;		
@@ -44,7 +44,7 @@
 		}
 		
 		$('#contenu').replaceWith(that.affect(lHtml));
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -56,20 +56,20 @@
 		pData = this.affectUpdatePassCompte(pData);
 		pData = this.affectDeleteCompte(pData);
 		return pData;
-	}
+	};
 	
 	this.affectTabs = function(pData) {
 		var that = this;
 		pData.find( "#liste-compte" ).tabs({ selected: that.tabSelected });
 		return pData;
-	}
+	};
 
 	this.affectTri = function(pData) {
 		pData.find('.table-administrateur').tablesorter({sortList: [[0,0]],headers: {1: {sorter: false} }});
 		pData.find('.table-caisse').tablesorter({sortList: [[0,0]],headers: { 1: {sorter: false} }});
 		pData.find('.table-solidaire').tablesorter({sortList: [[0,0]],headers: { 1: {sorter: false} }});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter-administrateur").keyup(function() {
@@ -87,7 +87,7 @@
 		pData.find("#filter-form-administrateur, #filter-form-caisse, #filter-form-solidaire").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 	
 	this.affectAjoutCompte = function(pData) {
 		var that = this;
@@ -95,7 +95,7 @@
 		pData.find('#btn-nv-caisse').click(function() {that.dialogAjoutCompte(3);});
 		pData.find('#btn-nv-solidaire').click(function() {that.dialogAjoutCompte(4);});
 		return pData;		
-	}
+	};
 	
 	this.dialogAjoutCompte = function(pType) {
 		var that = this;
@@ -136,7 +136,7 @@
 				that.ajoutCompte($(lDialog),pType);
 			}
 		});
-	}
+	};
 	
 	this.ajoutCompte = function(pDialog,pType) {
 		var that = this;
@@ -180,13 +180,13 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.affectUpdateCompte = function(pData) {
 		var that = this;
 		pData.find('.btn-edt-modifier').click(function() {that.dialogUpdateCompte($(this));});
 		return pData;		
-	}
+	};
 	
 	this.dialogUpdateCompte = function(pButton) {
 		var that = this;
@@ -219,7 +219,7 @@
 				return false;
 			}
 		});
-	}
+	};
 	
 	this.updateCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
@@ -260,13 +260,13 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.affectUpdatePassCompte = function(pData) {
 		var that = this;
 		pData.find('.btn-edt-modifier-pass').click(function() {that.dialogUpdatePassCompte($(this));});
 		return pData;		
-	}
+	};
 	
 	this.dialogUpdatePassCompte = function(pButton) {
 		var that = this;
@@ -297,7 +297,7 @@
 				that.updatePassCompte($(lDialog),lIdCompte,lType);
 			}
 		}).find('form').submit(function() {return false;});
-	}
+	};
 	
 	this.updatePassCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
@@ -339,13 +339,13 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 
 	this.affectDeleteCompte = function(pData) {
 		var that = this;
 		pData.find('.btn-edt-supprimer').click(function() {that.dialogDeleteCompte($(this));});
 		return pData;		
-	}
+	};
 	
 	this.dialogDeleteCompte = function(pButton) {
 		var that = this;
@@ -371,7 +371,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); }
 		});
-	}
+	};
 	
 	this.deleteCompte = function(pDialog, pIdCompte, pType) {
 		var that = this;		
@@ -411,7 +411,7 @@
 		} else {
 			Infobulle.generer(lVr,'');
 		}
-	}
+	};
 	
 	this.construct(pParam);
 }	

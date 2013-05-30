@@ -923,10 +923,10 @@
 			var lMajUnite = that.majUnite();
 			//if(!that.majUnite()) {
 			if(!lMajUnite) {
-				if($(this).attr("checked")) {
-					$(this).removeAttr("checked");
+				if($(this).prop("checked")) {
+					$(this).prop("checked",false);
 				} else {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}				
 			}
 		});
@@ -954,10 +954,10 @@
 		});
 		pData.find(":checkbox").change(function() {
 			if(!that.majUnite()) {
-				if($(this).attr("checked")) {
-					$(this).removeAttr("checked");
+				if($(this).prop("checked")) {
+					$(this).prop("checked",false);
 				} else {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}				
 			}
 		});
@@ -1407,7 +1407,7 @@
 		} else {		
 			this.mLotRemplacement[pIdLot] = lIdLotRemplacement; // Ajout à la table de remplacement
 			$("#ligne-lot-abonnement-" + pIdLot + ", #ligne-lot-" + pIdLot + ", #btn-supprimer-lot-abonnement-" + lIdLotRemplacement + ", #btn-supprimer-lot-" + lIdLotRemplacement).remove(); // Supression du formulaire de l'ancien lot + delete du bouton de suppression du lot de remplacement
-			$("#pro-lot-" + lIdLotRemplacement + "-id").attr("checked","checked").attr("disabled","disabled"); // Coche le lot dans le formulaire et le rend non sélectionnable
+			$("#pro-lot-" + lIdLotRemplacement + "-id").prop("checked",true).prop("disabled",true); // Coche le lot dans le formulaire et le rend non sélectionnable
 			pDialog.dialog('close'); // Fermeture de la fenêtre
 		}
 	};
@@ -1801,7 +1801,7 @@
 		var that = this;
 		pData.find("#pro-idFerme select").change(function() {
 			var lId = $(this).val();
-			$("#pro-idCategorie select, #pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idCategorie select, #pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#prix-stock-produit").replaceWith("<div id=\"prix-stock-produit\"></div>");	
 			if(lId > 0) {
 				var lParam = {fonction:"listeProduit",id:lId};
@@ -1861,7 +1861,7 @@
 	this.affectAjoutProduitSelectCategorie = function(pData) {
 		var that = this;
 		pData.find("select").change(function() {
-			$("#pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#prix-stock-produit").replaceWith("<div id=\"prix-stock-produit\"></div>");
 			
 			var lId = $(this).val();

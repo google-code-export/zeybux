@@ -37,7 +37,6 @@
 										"{formCompte}" +
 										"<span class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\" id=\"choix_compte_liaison\">Choisir</span>" +
 									"</td>" +
-										/*"<input class=\"com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"numero_compte\" value=\"{compte}\" maxlength=\"5\" disabled=\"disabled\" id=\"compte\"/></td>" +*/
 								"</tr>" +
 								"<tr>" +
 									"<th class=\"ui-widget-content ui-widget-content-transparent ui-corner-all\">Commentaire</th>" +
@@ -86,32 +85,6 @@
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center\" id=\"div-submit-ajout-adherent\">" +
 						"<input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Valider\" />" +
 					"</div>" +
-					/*"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-						"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all com-center com-ligne-submit\">" +
-							"<input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Valider\" />" +
-						"</div>" +
-						"<div class=\"com-widget-content\">" +
-							"<table id=\"formulaire-modifier-adherent-table-autorisation\" class=\"com-table-form\">" +
-								"<tr>" +
-									"<th class=\"com-table-form-th ui-widget-content ui-corner-all\">Modules autorisés</th>" +
-							"<!-- BEGIN modules_default -->" +								
-									"<input type=\"hidden\" name=\"modules_default[]\" value=\"{modules_default.id}\"/>" +
-							"<!-- END modules_default -->" +
-								"</tr>" +
-								
-							"<!-- BEGIN modules -->" +
-								"<tr class=\"ui-widget-content\" >" +
-									"<td class=\"com-table-form-td\" ><input type=\"checkbox\" name=\"modules[]\" value=\"{modules.id}\" {modules.checked}/>{modules.label}</td>" +
-								"</tr>" +
-							"<!-- END modules -->" +
-								"<tr>" +
-									"<td class=\"com-center com-ligne-submit\">" +
-										"<input class=\"ui-state-default ui-corner-all com-button com-center\" type=\"submit\" value=\"Valider\" />" +
-									"</td>" +
-								"</tr>" +
-							"</table>" +
-						"</div>" +
-					"</div>" +*/
 				"</form>" +
 			"</div>" +
 		"</div>";
@@ -144,42 +117,6 @@
 				"</table>" +
 			"</div>" +
 		"</div>";
-	
-	/*this.ajoutAdherentSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Nouvel Adhérent" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\" ><span class=\"com-float-left ui-icon ui-icon-check\"></span>L'adhérent {numero} a été ajouté avec succès.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.modifierAdherentSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Modification d'Adhérent" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\" ><span class=\"com-float-left ui-icon ui-icon-check\"></span>L'adhérent {numero} a été mis à jour avec succès.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
-	
-	/*this.supprimerAdherentSucces = 
-		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Suppression d'Adhérent" +				
-				"</div>" +
-				"<div class=\"com-widget-content\">" +
-					"<p class=\"com-msg-confirm-icon\" ><span class=\"com-float-left ui-icon ui-icon-check\"></span>L'adhérent {numero} a été supprimé avec succès.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";*/
 	
 	this.dialogListeAdherent = 
 		"<div id=\"dialog-liste-adherent\" title=\"Adhérents\">" +

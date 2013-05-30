@@ -1,26 +1,5 @@
 @CHARSET "UTF-8";
 /*MarchéCommande*/
-.recherche {
-	width:220px;
-	margin-top:10px;
-	position:relative;
-	left:50%;
-	margin-left:-110px;
-}
-
-.recherche .conteneur-icon {
-	padding-left:3px;
-	padding-top:4px;
-	border-right:none;	
-	height:20px;
-	width:18px;
-}
-
-.recherche #filter {
-	height:20px;
-	width:182px;
-}
-
 .marche-com-th-num-adh {
 	width:150px;
 }

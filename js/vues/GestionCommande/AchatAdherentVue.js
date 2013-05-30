@@ -245,7 +245,7 @@
 		pData.find("#pro-idFerme select").change(function() {
 			Infobulle.init(); // Supprime les erreurs
 			var lId = $(this).val();
-			$("#pro-idCategorie select, #pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idCategorie select, #pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
 			if(lId > 0) {
 				var lParam = {fonction:"listeProduit",id:lId};
@@ -312,7 +312,7 @@
 		pData.find("select").change(function() {
 			Infobulle.init(); // Supprime les erreurs
 			var lId = $(this).val();
-			$("#pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
 			if(lId > 0) {
 				var lGestionCommandeTemplate = new GestionCommandeTemplate();

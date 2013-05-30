@@ -338,6 +338,7 @@ class ReservationService
 							$lDetailReservation->setMontant($lDetail->getDopeMontant());
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}
@@ -357,6 +358,7 @@ class ReservationService
 							$lDetailReservation->setMontant($lDetail->getDopeMontant());
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}
@@ -376,6 +378,7 @@ class ReservationService
 							$lDetailReservation->setMontant($lDetail->getDopeMontant());
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
+							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}

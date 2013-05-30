@@ -629,9 +629,9 @@
 	this.affectReference = function(pData) {
 		pData.find(':input[name=reference-choix]').change(function() {
 			if($(':input[name=reference-choix]:checked').val() == 1) {				
-				$(":input[name=reference]").attr("disabled","").val("");
+				$(":input[name=reference]").prop("disabled",false).val("");
 			} else {
-				$(":input[name=reference]").attr("disabled","disabled").val("");
+				$(":input[name=reference]").prop("disabled",true).val("");
 			}
 		});
 		return pData;
@@ -974,11 +974,11 @@
 							lhtml.find('#pro-idCategorie').selectOptions(lResponse.produit.idCategorie);
 							
 							$(lResponse.produit.producteurs).each(function() {
-								lhtml.find('#pro-prdt-' + this.prdtId).attr("checked","checked");
+								lhtml.find('#pro-prdt-' + this.prdtId).prop("checked",true);
 							});
 							
 							$(lResponse.produit.caracteristiques).each(function() {
-								lhtml.find('#pro-car-' + this.carId).attr("checked","checked");
+								lhtml.find('#pro-car-' + this.carId).prop("checked",true);
 							});
 							
 							$(lResponse.produit.modelesLot).each(function() {

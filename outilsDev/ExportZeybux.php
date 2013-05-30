@@ -130,12 +130,12 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		$fp = fopen("./zeybu/js/zeybux-jquery.js", 'w');
 		//$filename = "../js/jquery/jquery-1.4.2.min.js";
 
-		$filenameJQuery = "jquery-1.8.3.min.js";
+		$filenameJQuery = "jquery-1.10.0.min.js";
 		$filename = $lDossierVersionSource . "/js/jquery/" . $filenameJQuery;
 		fwrite($fp,file_get_contents($filename));
 		//$filename = "./jquery/jquery-ui-1.8.custom.min.js";
 		//$filename = "../js/jquery/jquery-ui-1.8.15.custom.min.js";
-		$filenameJQUI = "jquery-ui-1.9.2.custom.min.js";
+		$filenameJQUI = "jquery-ui-1.10.3.custom.min.js";
 		$filename = $lDossierVersionSource . "/js/jquery/" . $filenameJQUI;
 		fwrite($fp,file_get_contents($filename));
 		fclose($fp);

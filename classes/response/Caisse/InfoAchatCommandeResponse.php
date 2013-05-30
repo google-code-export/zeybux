@@ -40,7 +40,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @var array(StockProduitViewVO)
 	 * @desc Les Stocks solidaire
 	 */
-	protected $mStockSolidaire;
+	/*protected $mStockSolidaire;*/
 	
 	/**
 	 * @var AdherentViewVO
@@ -71,6 +71,12 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @desc Les Banques
 	 */
 	protected $mBanques;
+	
+	/**
+	 * @var OperationVO
+	 * @desc Le Rechargement
+	 */
+	protected $mRechargement;
 
 	/**
 	* @name InfoAchatCommandeResponse()
@@ -164,28 +170,28 @@ class InfoAchatCommandeResponse extends DataTemplate
 	* @return array(StockProduitViewVO)
 	* @desc Renvoie le StockSolidaire
 	*/
-	public function getStockSolidaire() {
+	/*public function getStockSolidaire() {
 		return $this->mStockSolidaire;
-	}
+	}*/
 
 	/**
 	* @name setStockSolidaire($pStockSolidaire)
 	* @param array(StockProduitViewVO)
 	* @desc Remplace le StockSolidaire par $pStockSolidaire
 	*/
-	public function setStockSolidaire($pStockSolidaire) {
+	/*public function setStockSolidaire($pStockSolidaire) {
 		$this->mStockSolidaire = $pStockSolidaire;
-	}
+	}*/
 	
 	/**
 	* @name addStockSolidaire($pStockSolidaire)
 	* @param StockProduitViewVO
 	* @desc Remplace le StockSolidaire par $pStockSolidaire
 	*/
-	public function addStockSolidaire($pStockSolidaire) {
+	/*public function addStockSolidaire($pStockSolidaire) {
 		array_push($this->mStockSolidaire, $pStockSolidaire);
 	}
-	
+	*/
 	/**
 	* @name getAdherent()
 	* @return AdherentViewVO
@@ -310,6 +316,24 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 */
 	public function addBanques($pBanque) {
 		array_push($this->mBanques,$pBanque);
+	}
+	
+	/**
+	* @name getRechargement()
+	* @return OperationVO
+	* @desc Renvoie les Rechargement
+	*/
+	public function getRechargement() {
+		return $this->mRechargement;
+	}
+
+	/**
+	* @name setRechargement($pRechargement)
+	* @param OperationVO
+	* @desc Remplace les Rechargement par $pRechargement
+	*/
+	public function setRechargement($pRechargement) {
+		$this->mRechargement = $pRechargement;
 	}
 }
 ?>

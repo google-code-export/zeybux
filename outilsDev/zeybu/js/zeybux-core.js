@@ -443,7 +443,7 @@ function jourSem(pDate) {
 	 function separeMilliers (sNombre) {
 		 var sRetour = "";
 		 while (sNombre.length % 3 != 0) {
-			 sNombre = "0"+sNombre;
+			 sNombre = "0" + sNombre;
 		 }
 		
 		 for (i = 0; i < sNombre.length; i += 3) {
@@ -455,8 +455,8 @@ function jourSem(pDate) {
 			 sRetour = sRetour.substr(1);
 		 }
 		 // Pour le cas où l'on affiche 0
-		 if(sRetour == " ") {
-			 sRetour = "0 ";
+		 if(sRetour == separateurMilliers) {
+			 sRetour = "0" + separateurMilliers;
 		 }
 		 return sRetour.substr(0, sRetour.lastIndexOf(separateurMilliers));
 	 }
@@ -4647,11 +4647,11 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130505112353.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130516201551.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130505112353.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130516201551.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -4687,9 +4687,9 @@ $(document).ready(function() {
 		});
 
 		// Confirmation de sortie du zeybux
-		$(window).bind('beforeunload', function() {
+	/*	$(window).bind('beforeunload', function() {
 		    return "";
-		});
+		});*/
 
 		this.lancement();
 	};
@@ -4742,7 +4742,7 @@ $(document).ready(function() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130505112353.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20130516201551.js",function() {
 				that.init();
 				IdentificationVue();
 			});

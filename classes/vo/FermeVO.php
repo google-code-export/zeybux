@@ -25,7 +25,7 @@ class FermeVO  extends DataTemplate
 	protected $mId;
 
 	/**
-	* @var int(11)
+	* @var varchar(20)
 	* @desc Numero de la FermeVO
 	*/
 	protected $mNumero;

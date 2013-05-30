@@ -292,7 +292,7 @@
 			
 			var lData = {};
 			lData.label = $(this).parents("tr").find(".cpt-label").text();
-			lData.montant = $(this).parents("tr").find(".montant").text();
+			lData.montant = $(this).parents("tr").find(".montant").text().numberFrToDb().nombreFormate(2,',','');
 			lData.sigleMonetaire = gSigleMonetaire;
 									
 			var lDialog = $(that.affectDialog($(lTemplate.template(lData)))).dialog({
@@ -333,7 +333,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "modifierVirement";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -415,7 +415,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "supprimerVirement";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteSolidaire&v=CompteSolidaire", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -568,7 +568,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "ajoutVirement";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteSolidaire&v=ListeAdherent", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

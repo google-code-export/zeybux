@@ -558,5 +558,13 @@ class OperationService
 		return false;
 	}
 	
+	/**
+	 * @name getRechargementMarche($pIdCompte, $pIdMarche)
+	 * @return OperationVO
+	 * @desc Retour le rechargement effectué sur un marché par un compte
+	 */
+	public static function getRechargementMarche($pIdCompte, $pIdMarche) {
+		 return OperationManager::selectRechargementMarche($pIdCompte, $pIdMarche);
+	}
 }
 ?>

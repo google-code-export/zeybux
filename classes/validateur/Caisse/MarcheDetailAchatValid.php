@@ -182,22 +182,24 @@ class MarcheDetailAchatValid
 				$lVr->getPrix()->addErreur($lErreur);	
 			}	
 			
-			$lPdt = ProduitManager::select($pData['id']);
-			if($lPdt->getId() == null) {
-				$lVr->setValid(false);
-				$lVr->getLog()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getLog()->addErreur($lErreur);
-			} else {
-				if($lPdt->getIdCommande() != $pData['idCommande']) {
+			if($pData['id'] > 0) { // Si c'est un produit du marche
+				$lPdt = ProduitManager::select($pData['id']);
+				if($lPdt->getId() == null) {
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();
 					$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 					$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 					$lVr->getLog()->addErreur($lErreur);
+				} else {
+					if($lPdt->getIdCommande() != $pData['idCommande']) {
+						$lVr->setValid(false);
+						$lVr->getLog()->setValid(false);
+						$lErreur = new VRerreur();
+						$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+						$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+						$lVr->getLog()->addErreur($lErreur);
+					}
 				}
 			}
 		}

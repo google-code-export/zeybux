@@ -39,11 +39,7 @@
 		return pData;*/
 		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
-	
-	/*this.genererLienAdmin = function() {
-		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	};*/
-	
+		
 	this.genererMenu = function(pMenu) {
 		var lIdentificationTemplate = new IdentificationTemplate();
 		
@@ -63,17 +59,7 @@
 		lMenu = this.affectVues(lMenu);
 		return lMenu;
 	};
-	
-	/*this.affectHover = function(pData) {
-		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-		return pData;
-	};*/
-	
-	/*this.genererModule = function(pModule) {
-		var lTemplate = this.mMenuTemplate.nouveauModule;
-		return lTemplate.template(pModule);		
-	};*/
-	
+		
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();

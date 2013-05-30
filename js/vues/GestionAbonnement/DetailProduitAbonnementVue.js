@@ -307,10 +307,10 @@
 		});
 		pData.find(":checkbox").change(function() {
 			if(!that.majUnite()) {
-				if($(this).attr("checked")) {
-					$(this).removeAttr("checked");
+				if($(this).prop("checked")) {
+					$(this).prop("checked",false);
 				} else {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}				
 			}
 		});
@@ -426,13 +426,13 @@
 		});
 		pData.find(":checkbox").change(function() {	
 			var lMajUnite = that.majUnite();
-			if($(this).attr("checked")) {
+			if($(this).prop("checked")) {
 				if(!lMajUnite) {
-					$(this).removeAttr("checked");
+					$(this).prop("checked",false);
 				}
 			} else {
 				if(!that.autorisationSupprimerLot($(this).closest('tr').find('#id-lot').text())) {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}
 			}
 		});
@@ -581,7 +581,7 @@
 		} else {		
 			this.mLotRemplacement[pIdLot] = lIdLotRemplacement; // Ajout à la table de remplacement
 			$("#ligne-lot-" + pIdLot + ", #btn-supprimer-lot-" + lIdLotRemplacement).remove(); // Supression du formulaire de l'ancien lot + delete du bouton de suppression du lot de remplacement
-			$("#pro-lot-" + lIdLotRemplacement + "-id").attr("checked","checked").attr("disabled","disabled"); // Coche le lot dans le formulaire et le rend non sélectionnable
+			$("#pro-lot-" + lIdLotRemplacement + "-id").prop("checked",true).prop("disabled",true); // Coche le lot dans le formulaire et le rend non sélectionnable
 			pDialog.dialog('close'); // Fermeture de la fenêtre
 		}
 	};

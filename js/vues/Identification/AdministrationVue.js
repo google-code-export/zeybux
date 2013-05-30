@@ -126,6 +126,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-CaissePermanente').click(function() {
+				CaisseMarcheCommandeVue({id_commande:-1});
+				return false;
+			});
+			
 			pData.find('#menu-Parametrage-Banque').click(function() {
 				ListeBanqueVue();
 				return false;
