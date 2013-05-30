@@ -93,7 +93,7 @@
 			if( (nPos.left + infobulle.width()) > (nPosSite.left + $("#site").width()) ) {nPos.left -= infobulle.width();}
 			if( (nPos.top + infobulle.height()) > (nPosSite.top + $("#site").height()) ) {nPos.top -= (infobulle.height() + 2*pInput.height() + 8);}
 						
-			infobulle.css('position', 'absolute').css('z-index', '2000');
+			infobulle.css('position', 'absolute').css('z-index', '11000');
 			infobulle.css(nPos).fadeIn(gTempsTransitionUnique);	
 		}
 		function disparition() { //infobulle.fadeOut(gTempsTransitionUnique);

@@ -61,6 +61,12 @@ class AchatDetailViewVO  extends DataTemplate
 	protected $mDcomIdProduit;
 	
 	/**
+	* @var int(11)
+	* @desc DcomIdNomProduit de la AchatDetailViewVO
+	*/
+	protected $mDcomIdNomProduit;
+	
+	/**
 	* @name getStoIdOperation()
 	* @return int(11)
 	* @desc Renvoie le membre StoIdOperation de la AchatDetailViewVO
@@ -184,6 +190,24 @@ class AchatDetailViewVO  extends DataTemplate
 	*/
 	public function setDcomIdProduit($pDcomIdProduit) {
 		$this->mDcomIdProduit = $pDcomIdProduit;
+	}
+
+	/**
+	* @name getDcomIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre DcomIdNomProduit de la AchatDetailViewVO
+	*/
+	public function getDcomIdNomProduit() {
+		return $this->mDcomIdNomProduit;
+	}
+
+	/**
+	* @name setDcomIdNomProduit($pDcomIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre DcomIdNomProduit de la AchatDetailViewVO par $pDcomIdNomProduit
+	*/
+	public function setDcomIdNomProduit($pDcomIdNomProduit) {
+		$this->mDcomIdNomProduit = $pDcomIdNomProduit;
 	}
 }
 ?>

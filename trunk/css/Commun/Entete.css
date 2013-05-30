@@ -10,6 +10,9 @@
 /* Progressbar */
 .ui-progressbar { height:10px; text-align: left; }
 
+.ui-widget-overlay { z-index: 9999;}
+.ui-dialog { z-index: 10000; }
+
 /*** Le Site ***/
 
 h1 {
@@ -35,7 +38,7 @@ body {
 	left:479px;
 	top:200px;
 	padding:5px;
-	z-index:1100;
+	z-index:15000;
 }
 
 #widget_message_information {
@@ -45,13 +48,18 @@ body {
 	width:400px;
 	margin-left:-200px;
 	left:50%;
-	z-index:2000;
+	z-index: 11000;
 }
 
 #message_information {
 	padding: 0 .7em;
 	font-size:10.5pt;
 	box-shadow: 0 0 20px #555;
+}
+
+.com-infobulle {
+	width: 310px;		
+	z-index: 11000;
 }
 
 #icone {
@@ -224,10 +232,6 @@ body {
 	padding:10px 0;
 }
 
-.com-infobulle {
-	width: 310px;	
-}
-
 .com-ligne-hover:hover {
 	background-color:#4eb305;
 }
@@ -271,8 +275,16 @@ body {
 	margin-right:4px;
 }
 
-.com-btn-header, .com-btn-header-multiples, .com-flag{
+.com-btn-header, .com-btn-header-multiples, .com-flag, .com-btn-header-multiples-gauche{
 	margin-top:1px;
+}
+
+.com-btn-header-multiples-gauche {
+	position:relative;
+	float:left;
+	cursor: pointer;
+	margin-left:4px;
+	margin-right:4px;
 }
 
 .com-btn-header-text {
@@ -288,7 +300,24 @@ body {
 	margin-top: -54px;
 }
 
-.recherche .filter {
-    height: 20px;
-    width: 182px;
+/*** Recherche ***/
+.recherche {
+	width:220px;
+	margin-top:10px;
+	position:relative;
+	left:50%;
+	margin-left:-110px;
+}
+
+.recherche .conteneur-icon {
+	padding-left:3px;
+	padding-top:4px;
+	border-right:none;	
+	height:20px;
+	width:18px;
+}
+
+.recherche #filter, .recherche .filter {
+	height:20px;
+	width:182px;
 }

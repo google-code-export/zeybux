@@ -21,6 +21,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "StockQuantiteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockProduitDisponibleViewManager.php");
 //include_once(CHEMIN_CLASSES_MANAGERS . "StockSolidaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 
@@ -812,6 +813,48 @@ class StockService
 				array(0),
 				array(''),
 				array(''));
+	}
+	
+	/**
+	 * @name getProduitsDisponible()
+	 * @return array(ProduitMarcheVO)
+	 * @desc Retourne la liste des produits disponible en stock
+	 */
+	public function getProduitsDisponible() {
+		$lStockProduit = StockProduitDisponibleViewManager::selectAll();
+		$lProduits = array();
+		foreach($lStockProduit as $lProduit) {
+			// Le Produit
+			if(!isset($lProduits[$lProduit->getNproId()])) {
+				$lProduitMarche = new ProduitMarcheVO();
+				/*$lProduitMarche->setId();
+				$lProduitMarche->setIdCompteFerme();*/
+				$lProduitMarche->setIdNom($lProduit->getNproId());
+				$lProduitMarche->setNom($lProduit->getNproNom());
+			/*	$lProduitMarche->setDescription(); */
+				$lProduitMarche->setIdCategorie($lProduit->getCproId());
+				$lProduitMarche->setCproNom($lProduit->getCproNom());
+				$lProduitMarche->setUnite($lProduit->getStoQteUnite());
+				/*$lProduitMarche->setQteMaxCommande($lDetail->getProMaxProduitCommande());
+				$lProduitMarche->setStockReservation($lDetail->getProStockReservation());
+				$lProduitMarche->setStockInitial($lDetail->getProStockInitial());
+				$lProduitMarche->setType($lDetail->getProType());*/
+				$lProduitMarche->setFerId($lProduit->getFerId());
+				$lProduitMarche->setFerNom($lProduit->getFerNom());
+				$lProduits[$lProduit->getNproId()] = $lProduitMarche;
+			}
+	
+			// Le Lot
+			$lLot = new DetailMarcheVO();
+			$lLot->setId($lProduit->getMLotId());
+			$lLot->setTaille($lProduit->getMLotQuantite());
+			$lLot->setPrix($lProduit->getMLotPrix());
+			$lLots = $lProduits[$lProduit->getNproId()]->getLots();
+			$lLots[$lProduit->getMLotId()] = $lLot;
+			$lProduits[$lProduit->getNproId()]->setLots($lLots);
+		}
+		
+		return $lProduits;
 	}
 }
 ?>

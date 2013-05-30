@@ -110,7 +110,7 @@
 		var that = this;
 		pData.find("#pro-idFerme select").change(function() {
 			var lId = $(this).val();
-			$("#pro-idCategorie select, #pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idCategorie select, #pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
 			if(lId > 0) {
 				var lParam = {fonction:"listeProduit",id:lId};
@@ -172,7 +172,7 @@
 		var that = this;
 		pData.find("select").change(function() {
 			var lId = $(this).val();
-			$("#pro-idProduit select").attr("disabled","disabled").selectOptions("0");
+			$("#pro-idProduit select").prop("disabled",true).selectOptions("0");
 			$("#detail-produit").replaceWith("<div id=\"detail-produit\"></div>");
 			if(lId > 0) {
 				
@@ -320,10 +320,10 @@
 		});
 		pData.find(":checkbox").change(function() {
 			if(!that.majUnite()) {
-				if($(this).attr("checked")) {
-					$(this).removeAttr("checked");
+				if($(this).prop("checked")) {
+					$(this).prop("checked",false);
 				} else {
-					$(this).attr("checked","checked");
+					$(this).prop("checked",true);
 				}				
 			}
 		});
@@ -364,9 +364,9 @@
 	this.affectLimiteStock = function(pData) {
 		pData.find(':input[name=pro-qte-max-choix]').change(function() {
 			if($(':input[name=pro-qte-max-choix]:checked').val() == 1) {				
-				$(":input[name=pro-qte-max]").attr("disabled","").val("");
+				$(":input[name=pro-qte-max]").prop("disabled",false).val("");
 			} else {
-				$(":input[name=pro-qte-max]").attr("disabled","disabled").val("");
+				$(":input[name=pro-qte-max]").prop("disabled",true).val("");
 			}
 		});
 		return pData;

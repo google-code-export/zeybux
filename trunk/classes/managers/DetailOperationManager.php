@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailOperationVO.php");
 
-define("TABLE_DETAILOPERATION", MYSQL_DB_PREFIXE . "dope_detail_operation");
+define("TABLE_DETAILOPERATION", MYSQL_DB_PREFIXE ."dope_detail_operation");
 /**
  * @name DetailOperationManager
  * @author Julien PIERRE
@@ -33,6 +33,7 @@ class DetailOperationManager
 	const CHAMP_DETAILOPERATION_TYPE_PAIEMENT = "dope_type_paiement";
 	const CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE = "dope_type_paiement_champ_complementaire";
 	const CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE = "dope_id_detail_commande";
+	const CHAMP_DETAILOPERATION_ID_NOM_PRODUIT = "dope_id_nom_produit";
 	const CHAMP_DETAILOPERATION_ID_CONNEXION = "dope_id_connexion";
 
 	/**
@@ -57,6 +58,7 @@ class DetailOperationManager
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION . "
 			FROM " . DetailOperationManager::TABLE_DETAILOPERATION . " 
 			WHERE " . DetailOperationManager::CHAMP_DETAILOPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -76,6 +78,7 @@ class DetailOperationManager
 				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT],
 				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE],
+				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT],
 				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION]);
 		} else {
 			return new DetailOperationVO();
@@ -102,6 +105,7 @@ class DetailOperationManager
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION . "
 			FROM " . DetailOperationManager::TABLE_DETAILOPERATION;
 
@@ -122,6 +126,7 @@ class DetailOperationManager
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION]));
 			}
 		} else {
@@ -156,6 +161,7 @@ class DetailOperationManager
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION		);
 
 		// Préparation de la requète de recherche
@@ -183,6 +189,7 @@ class DetailOperationManager
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION]));
 				}
 			} else {
@@ -197,7 +204,7 @@ class DetailOperationManager
 	}
 
 	/**
-	* @name remplirDetailOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pIdDetailCommande, $pIdConnexion)
+	* @name remplirDetailOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pIdDetailCommande, $pIdNomProduit, $pIdConnexion)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -208,10 +215,11 @@ class DetailOperationManager
 	* @param varchar(50)
 	* @param int(11)
 	* @param int(11)
+	* @param int(11)
 	* @return DetailOperationVO
 	* @desc Retourne une DetailOperationVO remplie
 	*/
-	private static function remplirDetailOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pIdDetailCommande, $pIdConnexion) {
+	private static function remplirDetailOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pIdDetailCommande, $pIdNomProduit, $pIdConnexion) {
 		$lDetailOperation = new DetailOperationVO();
 		$lDetailOperation->setId($pId);
 		$lDetailOperation->setIdOperation($pIdOperation);
@@ -222,6 +230,7 @@ class DetailOperationManager
 		$lDetailOperation->setTypePaiement($pTypePaiement);
 		$lDetailOperation->setTypePaiementChampComplementaire($pTypePaiementChampComplementaire);
 		$lDetailOperation->setIdDetailCommande($pIdDetailCommande);
+		$lDetailOperation->setIdNomProduit($pIdNomProduit);
 		$lDetailOperation->setIdConnexion($pIdConnexion);
 		return $lDetailOperation;
 	}
@@ -248,8 +257,15 @@ class DetailOperationManager
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . "
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . "
+				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT . "
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION . ")
-			VALUES (NULL
+			VALUES ";
+
+		if(is_array($pVo)) {
+			$lNbVO = count($pVo);
+			$lI = 1;
+			foreach($pVo as $lVo) {
+				$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
@@ -258,7 +274,29 @@ class DetailOperationManager
 				,'" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
 				,'" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdConnexion() ) . "')";
+
+				if($lNbVO == $lI) {
+					$lRequete .= ";";
+				} else {
+					$lRequete .= ",";
+				}
+				$lI++;
+			}
+		} else{
+			$lRequete .= "(NULL
+				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
+				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
+				,'" . StringUtils::securiser( $pVo->getLibelle() ) . "'
+				,'" . StringUtils::securiser( $pVo->getDate() ) . "'
+				,'" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
+				,'" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdConnexion() ) . "');";
+		}
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -285,11 +323,12 @@ class DetailOperationManager
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . " = '" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = '" . StringUtils::securiser( $pVo->getIdDetailCommande() ) . "'
+				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT . " = '" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
 				," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_CONNEXION . " = '" . StringUtils::securiser( $pVo->getIdConnexion() ) . "'
 			 WHERE " . DetailOperationManager::CHAMP_DETAILOPERATION_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**
@@ -306,7 +345,7 @@ class DetailOperationManager
 			WHERE " . DetailOperationManager::CHAMP_DETAILOPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 }
 ?>

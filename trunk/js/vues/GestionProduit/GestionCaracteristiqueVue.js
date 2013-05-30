@@ -23,7 +23,7 @@
 					}
 				},"json"
 		);
-	}	
+	};
 	
 	this.afficher = function(lResponse) {
 		var that = this;
@@ -39,7 +39,7 @@
 			$('#contenu').replaceWith(that.affect($(lGestionProduitTemplate.listeCaracteristiqueVide)));
 		}
 		
-	}
+	};
 	
 	this.affect = function(pData) {
 		pData = this.affectTri(pData);
@@ -50,12 +50,12 @@
 		pData = this.affectDialogSupprimerCaracteristique(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
-	}
+	};
 		
 	this.affectTri = function(pData) {
 		pData.find('.com-table').tablesorter({sortList: [[0,0]]});
 		return pData;
-	}
+	};
 	
 	this.affectRecherche = function(pData) {
 		pData.find("#filter").keyup(function() {
@@ -65,10 +65,10 @@
 		pData.find("#filter-form").submit(function () {return false;});
 		
 		return pData;
-	}
+	};
 	
 	this.affectLienCompte = function(pData) {
-		var that = this;
+		//var that = this;
 		pData.find('.compte-ligne')
 		.click(function() {		
 			
@@ -100,7 +100,7 @@
 			
 		});
 		return pData;
-	}
+	};
 	
 	this.affectDialogCreerCaracteristique = function(pData) {
 		var that = this;
@@ -131,7 +131,7 @@
 			});			
 		});		
 		return pData;
-	}
+	};
 	
 	this.CreerCaracteristique = function(pForm) {
 		var that = this;
@@ -175,7 +175,7 @@
 		} else {
 			Infobulle.generer(lVr,'car-');
 		}
-	}
+	};
 	
 	this.affectDialogModifierCaracteristique = function(pData) {
 		var that = this;
@@ -219,7 +219,7 @@
 			);		
 		});		
 		return pData;
-	}
+	};
 	
 	this.ModifierCaracteristique = function(pForm) {
 		var that = this;
@@ -264,7 +264,7 @@
 		} else {
 			Infobulle.generer(lVr,'car-');
 		}
-	}
+	};
 	
 	this.affectDialogSupprimerCaracteristique = function(pData) {
 		var that = this;
@@ -291,7 +291,7 @@
 			);
 		});
 		return pData;
-	}
+	};
 	
 	this.dialogSupprimerCaracteristique = function(pId) {
 		var that = this;
@@ -314,7 +314,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.supprimerCaracteristique = function(pId) {
 		var that = this;
@@ -345,10 +345,10 @@
 				}
 			},"json"
 		);
-	}
+	};
 	
 	this.refusSupprimerCaracteristique = function(pResponse) {
-		var that = this;
+		//var that = this;
 		var lGestionProduitTemplate = new GestionProduitTemplate();
 		var lTemplate = lGestionProduitTemplate.dialogRefusSupprimerCaracteristique;
 		var lData = this.mCaracteristiques[pResponse.id];
@@ -370,7 +370,7 @@
 			},
 			close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
 		});
-	}
+	};
 	
 	this.construct(pParam);
 }

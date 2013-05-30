@@ -47,7 +47,8 @@ class AchatDetailSolidaireViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT .  "
 			FROM " . AchatDetailSolidaireViewManager::VUE_ACHATDETAILSOLIDAIRE . " 
 			WHERE " . StockManager::CHAMP_STOCK_ID_OPERATION . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -65,7 +66,8 @@ class AchatDetailSolidaireViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT]));
 			}
 		} else {
 			$lListeAchatDetailSolidaire[0] = new AchatDetailSolidaireViewVO();
@@ -90,7 +92,8 @@ class AchatDetailSolidaireViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT. "
 			FROM " . AchatDetailSolidaireViewManager::VUE_ACHATDETAILSOLIDAIRE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -107,7 +110,8 @@ class AchatDetailSolidaireViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT]));
 			}
 		} else {
 			$lListeAchatDetailSolidaire[0] = new AchatDetailSolidaireViewVO();
@@ -138,7 +142,8 @@ class AchatDetailSolidaireViewManager
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
-			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT		);
+			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(AchatDetailSolidaireViewManager::VUE_ACHATDETAILSOLIDAIRE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -162,7 +167,8 @@ class AchatDetailSolidaireViewManager
 						$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
-						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT]));
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_NOM_PRODUIT]));
 				}
 			} else {
 				$lListeAchatDetailSolidaire[0] = new AchatDetailSolidaireViewVO();
@@ -176,18 +182,19 @@ class AchatDetailSolidaireViewManager
 	}
 
 	/**
-	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit)
+	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param decimal(10,2)
 	* @param decimal(10,2)
+	* @param int(11)
 	* @param int(11)
 	* @return AchatDetailSolidaireViewVO
 	* @desc Retourne une AchatDetailSolidaireViewVO remplie
 	*/
-	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit) {
+	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit) {
 		$lAchatDetailSolidaire = new AchatDetailSolidaireViewVO();
 		$lAchatDetailSolidaire->setStoIdOperation($pStoIdOperation);
 		$lAchatDetailSolidaire->setStoId($pStoId);
@@ -196,6 +203,7 @@ class AchatDetailSolidaireViewManager
 		$lAchatDetailSolidaire->setDopeMontant($pDopeMontant);
 		$lAchatDetailSolidaire->setStoQuantite($pStoQuantite);
 		$lAchatDetailSolidaire->setDcomIdProduit($pDcomIdProduit);
+		$lAchatDetailSolidaire->setDcomIdNomProduit($pDcomIdNomProduit);
 		return $lAchatDetailSolidaire;
 	}
 }

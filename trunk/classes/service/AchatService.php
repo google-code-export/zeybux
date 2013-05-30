@@ -152,6 +152,7 @@ class AchatService
 				}
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
+				$lDetailOperation->setIdNomProduit($lProduit->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);
 			}
 		}	
@@ -329,6 +330,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(7);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
 					$lTestUpdate = true;
@@ -416,6 +418,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
 		}
@@ -476,6 +479,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(7);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
 					$lTestUpdate = true;
@@ -543,6 +547,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
 		}
@@ -604,6 +609,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché Solidaire N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(8);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
 					$lTestUpdate = true;
@@ -724,6 +730,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché Solidaire N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(8);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
 		}
@@ -803,6 +810,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(8);
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
+				$lDetailOperation->setIdNomProduit($lProduit->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);
 			}
 			
@@ -997,7 +1005,7 @@ class AchatService
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
 						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
-						
+						$lDetailAchat->setIdNomProduit($lDetail->getDcomIdNomProduit());
 						$lAchat->addDetailAchat($lDetailAchat);
 					}
 				}		
@@ -1015,6 +1023,7 @@ class AchatService
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
 						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
+						$lDetailAchat->setIdNomProduit($lDetail->getDcomIdNomProduit());
 						
 						$lAchat->addDetailAchatSolidaire($lDetailAchat);
 					}

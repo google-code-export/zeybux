@@ -12,6 +12,8 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailCommandeVO.php");
+include_once(CHEMIN_CLASSES_VO . "DetailCommandeUniteMesureVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 
 define("TABLE_DETAILCOMMANDE", MYSQL_DB_PREFIXE . "dcom_detail_commande");
 /**
@@ -121,6 +123,53 @@ class DetailCommandeManager
 	}
 	
 	/**
+	 * @name selectByArrayIdProduit($pIdNomProduits, $pIdMarche)
+	 * @param array(integer)
+	 * @return array(DetailCommandeVO)
+	 * @desc Récupères toutes les lignes de la table avec les Id Nom Produits du paramètre pour le marche $pIdMarche et les renvoie sous forme d'une collection de DetailCommandeVO
+	 */
+	public static function selectByArrayIdProduit($pIdNomProduits, $pIdMarche) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+				. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . 
+				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+				"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT ."
+			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " 
+			JOIN " . ProduitManager::TABLE_PRODUIT. " ON " . ProduitManager::CHAMP_PRODUIT_ID . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "		
+			WHERE " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pIdNomProduits) ) ) . "')
+				AND " . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdMarche . "	
+				AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT ." = 0
+				AND " . ProduitManager::CHAMP_PRODUIT_ETAT ." = 0;";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeDetailCommande = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				$lListeDetailCommande[$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT]] =
+				DetailCommandeManager::remplirDetailCommandeUniteMesure(
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE]);
+			}
+		} else {
+			$lListeDetailCommande[0] = new DetailCommandeUniteMesureVO();
+		}
+		return $lListeDetailCommande;
+	}
+	
+	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche
@@ -193,6 +242,28 @@ class DetailCommandeManager
 		$lDetailCommande->setTaille($pTaille);
 		$lDetailCommande->setPrix($pPrix);
 		$lDetailCommande->setEtat($pEtat);
+		return $lDetailCommande;
+	}
+	
+	/**
+	 * @name remplirDetailCommandeUniteMesure($pId, $pIdProduit, $pTaille, $pPrix, $pEtat, $pUnite)
+	 * @param int(11)
+	 * @param int(11)
+	 * @param decimal(10,2)
+	 * @param decimal(10,2)
+	 * @param int(11)
+	 * @param varchar(20)
+	 * @return DetailCommandeUniteMesureVO
+	 * @desc Retourne une DetailCommandeUniteMesureVO remplie
+	 */
+	private static function remplirDetailCommandeUniteMesure($pId, $pIdProduit, $pTaille, $pPrix, $pEtat, $pUnite) {
+		$lDetailCommande = new DetailCommandeUniteMesureVO();
+		$lDetailCommande->setId($pId);
+		$lDetailCommande->setIdProduit($pIdProduit);
+		$lDetailCommande->setTaille($pTaille);
+		$lDetailCommande->setPrix($pPrix);
+		$lDetailCommande->setEtat($pEtat);
+		$lDetailCommande->setUnite($pUnite);
 		return $lDetailCommande;
 	}
 

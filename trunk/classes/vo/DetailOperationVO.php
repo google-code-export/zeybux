@@ -74,6 +74,12 @@ class DetailOperationVO  extends DataTemplate
 
 	/**
 	* @var int(11)
+	* @desc IdNomProduit de la DetailOperationVO
+	*/
+	protected $mIdNomProduit;
+
+	/**
+	* @var int(11)
 	* @desc IdConnexion de la DetailOperationVO
 	*/
 	protected $mIdConnexion;
@@ -238,6 +244,24 @@ class DetailOperationVO  extends DataTemplate
 	*/
 	public function setIdDetailCommande($pIdDetailCommande) {
 		$this->mIdDetailCommande = $pIdDetailCommande;
+	}
+
+	/**
+	* @name getIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre IdNomProduit de la DetailOperationVO
+	*/
+	public function getIdNomProduit() {
+		return $this->mIdNomProduit;
+	}
+
+	/**
+	* @name setIdNomProduit($pIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre IdNomProduit de la DetailOperationVO par $pIdNomProduit
+	*/
+	public function setIdNomProduit($pIdNomProduit) {
+		$this->mIdNomProduit = $pIdNomProduit;
 	}
 
 	/**

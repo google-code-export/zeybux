@@ -24,15 +24,25 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_CAISSE]) || isset($_SESS
 						$lLogger->log("Affichage de la vue MarcheCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
+				case "listeAdherent":
+						echo $lControleur->getListeAdherent()->exportToJson();
+						$lLogger->log("Affichage de la vue MarcheCommande liste des adherents par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
+					
 				case "infoAchat":
 						echo $lControleur->getInfoAchatMarche($lParam)->exportToJson();
 						$lLogger->log("Affichage de la vue AchatCommande par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
 					
-				case "infoMarche":
+				/*case "infoMarche":
 						echo $lControleur->getInfoMarche($lParam)->exportToJson();
 						$lLogger->log("Affichage de la vue AchatCommande (infoMarche) par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
+					
+				case "infoListeProduitDisponible":
+						echo $lControleur->getProduitsDisponible()->exportToJson();
+						$lLogger->log("Affichage de la vue AchatCommande (ListeProduitDisponible) par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;*/
 				
 				case "acheter":
 						$lResponse = $lControleur->enregistrerAchat($lParam);
@@ -45,7 +55,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_CAISSE]) || isset($_SESS
 						}						
 					break;
 					
-				case "modifier":
+				/*case "modifier":
 						$lResponse = $lControleur->modifierAchat($lParam);
 						echo $lResponse->exportToJson();
 		
@@ -54,7 +64,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_CAISSE]) || isset($_SESS
 						} else {
 							$lLogger->log("Echec de l'enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 						}						
-					break;
+					break;*/
 
 				default:
 					$lLogger->log("Demande d'accés à MarcheCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs

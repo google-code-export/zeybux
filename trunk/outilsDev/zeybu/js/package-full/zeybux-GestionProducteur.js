@@ -2412,9 +2412,9 @@
 	};
 	
 	this.affectLot = function(pData) {
+		pData = this.affectAjoutLotGestion(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = gCommunVue.comNumeric(pData);
-		pData = this.affectAjoutLotGestion(pData);
 		return pData;
 	};
 	
@@ -2448,9 +2448,9 @@
 	this.ajoutLotModification = function(pId) {
 		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
 
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
+		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text().numberFrToDb().nombreFormate(2,',',''));
 		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
+		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text().numberFrToDb().nombreFormate(2,',',''));
 	};
 	
 	this.ajoutLotValiderModification = function(pId) {

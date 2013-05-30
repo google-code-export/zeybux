@@ -599,7 +599,7 @@
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
 						"<td class=\"com-table-form-td montant-virement\">" +
 							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/>" +
 						"</td>" +
@@ -620,7 +620,7 @@
 					"</tr>" +
 					"<tr class=\"com-center\" >" +
 						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontantAffichage}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
 						"</td>" +
 					"</tr>" +
 				"</table>" +
@@ -669,6 +669,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
@@ -681,6 +682,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalChequeAdherent += parseFloat(this.opeMontant);		
@@ -693,6 +695,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalEspeceFerme += parseFloat(this.opeMontant);		
@@ -705,6 +708,7 @@
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				lTotalChequeFerme += parseFloat(this.opeMontant);		
@@ -1465,7 +1469,7 @@
 			
 			var lData = {};
 			lData.label = $(this).parents("tr").find(".cpt-label").text();
-			lData.montant = $(this).parents("tr").find(".montant").text();
+			lData.montant = $(this).parents("tr").find(".montant").text().numberFrToDb().nombreFormate(2,',','');
 			lData.sigleMonetaire = gSigleMonetaire;
 									
 			var lDialog = $(that.affectDialog($(lTemplate.template(lData)))).dialog({
@@ -1504,7 +1508,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "modifier";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -1586,7 +1590,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "supprimer";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
@@ -1851,7 +1855,7 @@
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
 			lVo.fonction = "ajout";
-			var lDialog = this;
+			//var lDialog = this;
 			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs

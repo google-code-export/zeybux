@@ -1,12 +1,98 @@
 @CHARSET "UTF-8";
-
-.achat-commande-table-pdt {
-	margin-bottom:5px;
-	width:100%;
-	border-collapse:collapse;	
-	text-align:left;
+.tableau-liste-produit {
+	font-size:12pt;	
 }
 
-.achat-commande-table-pdt .ligne-produit:hover, .achat-commande-table-pdt .ligne-produit-solidaire:hover {
+#info-adherent-widget {
+	font-size: 12pt; 
+	padding: 5px;
+}
+
+.info-adherent-cellule {
+	padding: 2px 5px;
+}
+
+.info-adherent-cellule-achat {
+	width: 267px;
+}
+
+.info-adherent-cellule-nom-adherent {
+	width: 420px;
+}
+
+.formulaire-achat-produit-nom-produit-reservation {
+	width: 280px;
+}
+
+.formulaire-achat-produit-reservation {
+	width: 140px;
+}
+
+#select-typePaiement {
+	position: absolute;
+	padding: 5px;
+	border: none;
+	width: 255px;
+}
+
+#rechargementtypePaiement {
+	width: 255px;
+}
+
+#form-champ-complementaire, #label-champ-complementaire-banque {
+	margin-top: 5px;
+}
+
+#rechargementchampComplementaire, #rechargementidBanque {
+	width: 237px;
+}
+
+.input-formulaire-achat-produit {
+	text-align: right;
+	width: 65px;
+}
+
+.formulaire-achat-produit-sigle-monetaire {
+	width:10px;
+}
+
+.formulaire-achat-produit-unite {
+	width:127px;
+}
+
+.formulaire-achat-produit-quantite {
+	width:192px;
+}
+
+.formulaire-achat-produit-prix {
+	width:75px;
+}
+
+.recherche-produit-achat-marche {
+	width:220px;
+}
+
+.recherche-produit-achat-marche .conteneur-icon {
+	padding-left:3px;
+	padding-top:4px;
+	height:20px;
+	width:18px;
+}
+
+#icon-recherche {
+	border-right:none;	
+}
+
+#icon-annuler-recherche {
+	border-left:none;	
+}
+
+#input-rechercher {
+	height:20px;
+	width:161px;
+	border-right:none;
+}
+
+.ligne-detail-produit:hover, .ligne-produit:hover {
 	background-color:#4eb305;
 }

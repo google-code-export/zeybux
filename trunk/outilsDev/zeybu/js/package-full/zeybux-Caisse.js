@@ -364,11 +364,11 @@
 					"<tr>" +
 						"<td class=\"table-vente-produit\">{categoriesAchat.produits.nproNom} {categoriesAchat.produits.flagType}</td>" +
 						"<td class=\"com-text-align-right\">" +
-							"{categoriesAchat.produits.stoQuantite}" +
+							"{categoriesAchat.produits.stoQuantiteAffiche}" +
 						"</td>" +
 						"<td>{categoriesAchat.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right\" >" +
-							"{categoriesAchat.produits.proPrix}" +
+							"{categoriesAchat.produits.proPrixAffiche}" +
 						"</td>" +
 						"<td><span>{sigleMonetaire}</span></td>" +
 					"</tr>" +
@@ -419,11 +419,11 @@
 							"{categoriesSolidaireAchat.produits.nproNom} {categoriesSolidaireAchat.produits.flagType}" +
 						"</td>" +							
 						"<td class=\"com-text-align-right\">" +
-							"{categoriesSolidaireAchat.produits.stoQuantite}" +
+							"{categoriesSolidaireAchat.produits.stoQuantiteAffiche}" +
 						"</td>" +
 						"<td>{categoriesSolidaireAchat.produits.proUniteMesure}</td>" +
 						"<td class=\"com-text-align-right\" >" +
-							"{categoriesSolidaireAchat.produits.proPrix}" +
+							"{categoriesSolidaireAchat.produits.proPrixAffiche}" +
 						"</td>" +
 						"<td><span>{sigleMonetaire}</span></td>" +
 					"</tr>" +
@@ -751,12 +751,26 @@
 			lData.total = 0;
 			
 		//	lData.produits = [];
-			lData.categories = [];
+		//	lData.categories = [];
 		//	lData.produitsSolidaire = new Array();
-			lData.categoriesSolidaire = [];
+		//	lData.categoriesSolidaire = [];
+			
+			
+			var lIdCategorie = 0;
+			var lNomCategorie = '';
+			var lCategoriesTrie = [];
+			var lProduits = [];
+			var lIdCategorieSol = 0;
+			var lNomCategorieSol = '';
+			var lCategoriesTrieSol = [];
+			var lProduitsSol = [];
+			
 			
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
+					
+					
+					
 					var lProduitCommande = this;
 					var lProduit = {};
 					lProduit.proId = this.id;
@@ -773,6 +787,8 @@
 					var lPrix = 0;
 					$.each(this.lots, function() {
 						if(this.id) {
+							
+							
 							var lLot = {};
 							lLot.dcomId = this.id;
 							lLot.dcomTaille = parseFloat(this.taille).nombreFormate(2,',',' ');
@@ -792,8 +808,8 @@
 								}											
 							});
 							$(that.mReservation).each(function() {
-								if(this.idDetailCommande == lLot.dcomId) {
-									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+								if(this.idDetailCommande == lLot.dcomId) {									
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ');
 									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
 								}											
 							});
@@ -811,10 +827,26 @@
 					}
 					
 					if(this.type == 0 || this.type == 2) {
-						if(!lData.categories[this.idCategorie]) {
+						/*if(!lData.categories[this.idCategorie]) {
 							lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
 						}
-						lData.categories[this.idCategorie].produits.push(lProduit);
+						lData.categories[this.idCategorie].produits.push(lProduit);*/
+						if(lIdCategorie == 0) {
+							lIdCategorie = this.idCategorie;
+							lNomCategorie = this.cproNom;
+						}
+						
+						if(lIdCategorie != this.idCategorie) {
+							lCategoriesTrie.push({
+									nom:lNomCategorie,
+									produits:lProduits
+								});			
+							lIdCategorie = this.idCategorie;
+							lNomCategorie = this.cproNom;
+							lProduits = [];
+						} 
+						lProduits.push(lProduit);
+						
 					}
 
 					var lProduitSolidaire = {};
@@ -828,18 +860,51 @@
 					lProduitSolidaire.prixUnitaire = lProduit.prixUnitaire;
 					
 					var lIdNomProduit = this.idNom;
+					
+					
 					$(pResponse.stockSolidaire).each(function() {
 						if(lProduit.proUniteMesure == this.unite && this.idNomProduit == lIdNomProduit && this.quantiteSolidaire > 0){
-							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
+						/*	if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
 								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 							}
-							lData.categoriesSolidaire[lProduitCommande.idCategorie].produits.push(lProduitSolidaire);
+							lData.categoriesSolidaire[lProduitCommande.idCategorie].produits.push(lProduitSolidaire);*/
+							if(lIdCategorieSol == 0) {
+								lIdCategorieSol = lProduitCommande.idCategorie;
+								lNomCategorieSol = lProduitCommande.cproNom;
+							}
+							
+							if(lIdCategorieSol != lProduitCommande.idCategorie) {
+								lCategoriesTrieSol.push({
+										nom:lNomCategorieSol,
+										produits:lProduitsSol
+									});			
+								lIdCategorieSol = lProduitCommande.idCategorie;
+								lNomCategorieSol = lProduitCommande.cproNom;
+								lProduitsSol = [];
+							} 
+							
+							lProduitsSol.push(lProduitSolidaire);
 						}
 					});
 				}
 			});
 						
 			lData.typePaiement = that.mTypePaiement;
+			
+			
+			// Ajout de la dernière catégorie
+			lCategoriesTrie.push({
+				nom:lNomCategorie,
+				produits:lProduits
+			});	
+			lCategoriesTrieSol.push({
+				nom:lNomCategorieSol,
+				produits:lProduitsSol
+			});
+			
+			lData.categories = lCategoriesTrie;
+			lData.categoriesSolidaire = lCategoriesTrieSol;
+			
 			
 			lData.adhSolde = this.solde;
 			lData.adhSolde = lData.adhSolde.nombreFormate(2,',',' ');
@@ -894,11 +959,31 @@
 			lData.totalSolidaire = 0;
 			
 		//	lData.produits = [];
-			lData.categories = [];
+		//	lData.categories = [];
 		//	lData.produitsSolidaire = new Array();
-			lData.categoriesSolidaire = [];
-			lData.categoriesAchat = [];
-			lData.categoriesSolidaireAchat = [];
+		//	lData.categoriesSolidaire = [];
+		//	lData.categoriesAchat = [];
+		//	lData.categoriesSolidaireAchat = [];
+			
+			var lIdCategorie = 0;
+			var lNomCategorie = '';
+			var lCategoriesTrie = [];
+			var lProduits = [];
+			
+			var lIdCategorieSol = 0;
+			var lNomCategorieSol = '';
+			var lCategoriesTrieSol = [];
+			var lProduitsSol = [];
+			
+			var lIdCategorieAchat = 0;
+			var lNomCategorieAchat = '';
+			var lCategoriesTrieAchat = [];
+			var lProduitsAchat = [];
+			
+			var lIdCategorieAchatSol = 0;
+			var lNomCategorieAchatSol = '';
+			var lCategoriesTrieAchatSol = [];
+			var lProduitsAchatSol = [];
 			
 			$.each(that.pdtCommande,function() {
 				if(this.id) {
@@ -908,7 +993,9 @@
 					lProduit.nproNom = this.nom;
 					lProduit.proUniteMesure = this.unite;
 					lProduit.stoQuantite = "";
+					lProduit.stoQuantiteAffiche = "";
 					lProduit.proPrix = "";
+					lProduit.proPrixAffiche = "";
 					lProduit.lot = [];
 
 					lProduit.stoQuantiteReservation = '';
@@ -930,17 +1017,35 @@
 								$(this.detailAchat).each(function() {
 									if(this.idDetailCommande == lLot.dcomId) {
 										lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',','');
+										lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
 										
 										lPrix = this.montant * -1;									
-										lProduit.proPrix = lPrix.nombreFormate(2,',','');
+										lProduit.proPrix = lPrix.nombreFormate(2,',','');		
+										lProduit.proPrixAffiche = lPrix.nombreFormate(2,',',' ');
 										lLot.prixReservation = lPrix;
 										
 										that.mListeLot.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
 										
-										if(!lData.categoriesAchat[lProduitCommande.idCategorie]) {
+										/*if(!lData.categoriesAchat[lProduitCommande.idCategorie]) {
 											lData.categoriesAchat[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 										}
-										lData.categoriesAchat[lProduitCommande.idCategorie].produits.push(lProduit);
+										lData.categoriesAchat[lProduitCommande.idCategorie].produits.push(lProduit);*/
+										
+										if(lIdCategorieAchat == 0) {
+											lIdCategorieAchat = lProduitCommande.idCategorie;
+											lNomCategorieAchat = lProduitCommande.cproNom;
+										}
+										
+										if(lIdCategorieAchat != lProduitCommande.idCategorie) {
+											lCategoriesTrieAchat.push({
+													nom:lNomCategorieAchat,
+													produits:lProduitsAchat
+												});			
+											lIdCategorieAchat = lProduitCommande.idCategorie;
+											lNomCategorieAchat = lProduitCommande.cproNom;
+											lProduitsAchat = [];
+										} 
+										lProduitsAchat.push(lProduit);
 
 										lData.total += lPrix;
 									}
@@ -948,7 +1053,7 @@
 							});
 							$(that.mReservation).each(function() {
 								if(this.idDetailCommande == lLot.dcomId) {
-									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',','');
+									lProduit.stoQuantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ');
 									lProduit.proUniteMesureReservation = lProduit.proUniteMesure;
 								}											
 							});
@@ -965,10 +1070,25 @@
 					}
 					
 					if(this.type == 0 || this.type == 2) {
-						if(!lData.categories[this.idCategorie]) {
+						/*if(!lData.categories[this.idCategorie]) {
 							lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
 						}
-						lData.categories[this.idCategorie].produits.push(lProduit);
+						lData.categories[this.idCategorie].produits.push(lProduit);*/
+						if(lIdCategorie == 0) {
+							lIdCategorie = this.idCategorie;
+							lNomCategorie = this.cproNom;
+						}
+						
+						if(lIdCategorie != this.idCategorie) {
+							lCategoriesTrie.push({
+									nom:lNomCategorie,
+									produits:lProduits
+								});			
+							lIdCategorie = this.idCategorie;
+							lNomCategorie = this.cproNom;
+							lProduits = [];
+						} 
+						lProduits.push(lProduit);
 					}
 
 					
@@ -976,7 +1096,9 @@
 					lProduit.proId = this.id;
 					lProduit.nproNom = this.nom;
 					lProduit.proUniteMesure = this.unite;
-					lProduit.stoQuantite = "";
+					lProduit.stoQuantiteAffiche = "";
+					lProduit.stoQuantite = "";					
+					lProduit.proPrixAffiche = "";
 					lProduit.proPrix = "";
 					lProduit.lot = [];
 
@@ -1007,17 +1129,35 @@
 										$(this.detailAchatSolidaire).each(function() {
 											if(this.idDetailCommande == lLot.dcomId) {
 												lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',','');
+												lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
 												
 												lPrix = this.montant * -1;									
-												lProduit.proPrix = lPrix.nombreFormate(2,',','');
+												lProduit.proPrix = lPrix.nombreFormate(2,',','');		
+												lProduit.proPrixAffiche = lPrix.nombreFormate(2,',',' ');
 												lLot.prixReservation = lPrix;
 												
 												that.mListeLotSolidaire.push({idPdt:lProduit.proId,idLot:lLot.dcomId});
 												
-												if(!lData.categoriesSolidaireAchat[lProduitCommande.idCategorie]) {
+												/*if(!lData.categoriesSolidaireAchat[lProduitCommande.idCategorie]) {
 													lData.categoriesSolidaireAchat[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 												}
-												lData.categoriesSolidaireAchat[lProduitCommande.idCategorie].produits.push(lProduit);
+												lData.categoriesSolidaireAchat[lProduitCommande.idCategorie].produits.push(lProduit);*/
+												if(lIdCategorieAchatSol == 0) {
+													lIdCategorieAchatSol = lProduitCommande.idCategorie;
+													lNomCategorieAchatSol = lProduitCommande.cproNom;
+												}
+												
+												if(lIdCategorieAchatSol != lProduitCommande.idCategorie) {
+													lCategoriesTrieAchatSol.push({
+															nom:lNomCategorieAchatSol,
+															produits:lProduitsAchatSol
+														});			
+													lIdCategorieAchatSol = lProduitCommande.idCategorie;
+													lNomCategorieAchatSol = lProduitCommande.cproNom;
+													lProduitsAchatSol = [];
+												} 
+												
+												lProduitsAchatSol.push(lProduit);
 
 												lData.totalSolidaire += lPrix;
 											}
@@ -1030,16 +1170,55 @@
 								}
 							});
 							
-							if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
+							/*if(!lData.categoriesSolidaire[lProduitCommande.idCategorie]) {
 								lData.categoriesSolidaire[lProduitCommande.idCategorie] = {nom:lProduitCommande.cproNom,produits:[]};
 							}
-							lData.categoriesSolidaire[lProduitCommande.idCategorie].produits.push(lProduit);
+							lData.categoriesSolidaire[lProduitCommande.idCategorie].produits.push(lProduit);*/
+							if(lIdCategorieSol == 0) {
+								lIdCategorieSol = lProduitCommande.idCategorie;
+								lNomCategorieSol = lProduitCommande.cproNom;
+							}
+							
+							if(lIdCategorieSol != lProduitCommande.idCategorie) {
+								lCategoriesTrieSol.push({
+										nom:lNomCategorieSol,
+										produits:lProduitsSol
+									});			
+								lIdCategorieSol = lProduitCommande.idCategorie;
+								lNomCategorieSol = lProduitCommande.cproNom;
+								lProduitsSol = [];
+							} 
+							
+							lProduitsSol.push(lProduit);
 						}
 					});
 				}
 			});
 						
 			lData.typePaiement = that.mTypePaiement;
+			
+			// Ajout de la dernière catégorie
+			lCategoriesTrie.push({
+				nom:lNomCategorie,
+				produits:lProduits
+			});	
+			lCategoriesTrieSol.push({
+				nom:lNomCategorieSol,
+				produits:lProduitsSol
+			});
+			lCategoriesTrieAchat.push({
+				nom:lNomCategorieAchat,
+				produits:lProduitsAchat
+			});	
+			lCategoriesTrieAchatSol.push({
+				nom:lNomCategorieAchatSol,
+				produits:lProduitsAchatSol
+			});
+			
+			lData.categories = lCategoriesTrie;
+			lData.categoriesSolidaire = lCategoriesTrieSol;
+			lData.categoriesAchat = lCategoriesTrieAchat;
+			lData.categoriesSolidaireAchat = lCategoriesTrieAchatSol;
 			
 			
 			lData.adhNouveauSolde = this.solde.nombreFormate(2,',',' ');
@@ -1708,8 +1887,8 @@
 						lProduit.proId = this.id;
 						lProduit.nproNom = this.nom;
 						lProduit.proUniteMesure = this.unite;
-						lProduit.stoQuantite = "";
-						lProduit.proPrix = "";
+						lProduit.stoQuantiteAffiche = "";
+						lProduit.proPrixAffiche = "";
 						lProduit.dcomTaille = "";
 						
 						lProduit.flagType = "";
@@ -1723,8 +1902,8 @@
 						var lPrix = 0;
 						$(lVo.produits).each(function() {
 							if(this.id == lProduit.proId) {
-								lProduit.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-								lProduit.proPrix = (this.prix * -1).nombreFormate(2,',',' ');
+								lProduit.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+								lProduit.proPrixAffiche = (this.prix * -1).nombreFormate(2,',',' ');
 								lPrix = this.prix * -1;
 								if(!lData.categoriesAchat[lIdCategorie]) {
 									lData.categoriesAchat[lIdCategorie] = {nom:lCategorie,produits:[]};
@@ -1738,8 +1917,8 @@
 						lProduitSolidaire.proId = this.id;
 						lProduitSolidaire.nproNom = this.nom;
 						lProduitSolidaire.proUniteMesure = this.unite;
-						lProduitSolidaire.stoQuantite = "";
-						lProduitSolidaire.proPrix = "";
+						lProduitSolidaire.stoQuantiteAffiche = "";
+						lProduitSolidaire.proPrixAffiche = "";
 						lProduitSolidaire.dcomTaille = "";
 						
 						lProduitSolidaire.flagType = "";
@@ -1749,8 +1928,8 @@
 						var lPrix = 0;
 						$(lVo.produitsSolidaire).each(function() {
 							if(this.id == lProduitSolidaire.proId) {
-								lProduitSolidaire.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-								lProduitSolidaire.proPrix = (this.prix * -1).nombreFormate(2,',',' ');
+								lProduitSolidaire.stoQuantiteAffiche = (this.quantite * -1).nombreFormate(2,',',' ');
+								lProduitSolidaire.proPrixAffiche = (this.prix * -1).nombreFormate(2,',',' ');
 								lPrix = this.prix * -1;
 								if(!lData.categoriesSolidaireAchat[lIdCategorie]) {
 									lData.categoriesSolidaireAchat[lIdCategorie] = {nom:lCategorie,produits:[]};
