@@ -16,9 +16,9 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/AjoutFermeResp
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");*/
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
+//include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
+//include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 
 /**
  * @name InformationFermeControleur
@@ -39,8 +39,10 @@ class InformationFermeControleur
 			$lResponse = new InformationFermeResponse();
 			$lFerme = FermeViewManager::select($pParam["id"]);
 			$lResponse->setFerme($lFerme);
-			$lResponse->setOperationPassee( OperationPasseeViewManager::select( $lFerme[0]->getFerIdCompte() ));
-			$lResponse->setTypePaiement( TypePaiementManager::selectAll() );
+
+			$lOperationService = new OperationService();
+			$lResponse->setOperationPassee( $lOperationService->getOperationPassee( $lFerme[0]->getFerIdCompte() ));
+			//$lResponse->setTypePaiement( TypePaiementManager::selectAll() );
 			return $lResponse;
 		}
 		return $lVr;

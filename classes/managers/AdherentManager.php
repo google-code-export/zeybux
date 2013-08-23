@@ -25,6 +25,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationChampComplementaireManager.php");
 
 
 define("TABLE_ADHERENT", MYSQL_DB_PREFIXE . "adh_adherent");
@@ -200,30 +201,18 @@ class AdherentManager
 				"," . CompteManager::CHAMP_COMPTE_LABEL . 
 				"," . AdherentManager::CHAMP_ADHERENT_NOM .
 				"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
-				"," . OperationManager::CHAMP_OPERATION_ID .
-			" FROM " . AdherentManager::TABLE_ADHERENT .
-			" JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID .
-			" LEFT JOIN " . OperationManager::TABLE_OPERATION . " ON " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
-			" AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8) " .
-			" AND " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = " . $pIdMarche .
-			" WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 1 " .
-			" GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ")" .
-			" union " .
-			"(SELECT "
-				. AdherentManager::CHAMP_ADHERENT_ID .
-				"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
-				"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
-				"," . CompteManager::CHAMP_COMPTE_LABEL .
-				"," . AdherentManager::CHAMP_ADHERENT_NOM .
-				"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
-				"," . OperationManager::CHAMP_OPERATION_ID .
-			" FROM " . AdherentManager::TABLE_ADHERENT .
-			" JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID .
-			" JOIN " . OperationManager::TABLE_OPERATION . " ON " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
-			" AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8) " .
-			" AND " . OperationManager::CHAMP_OPERATION_ID_COMMANDE . " = " . $pIdMarche .
-			" WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 2" .
-			" GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ");";
+				"," . OperationManager::CHAMP_OPERATION_ID . "
+			 FROM " . AdherentManager::TABLE_ADHERENT . "
+			 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+			 LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
+			 	ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+			 	AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser( $pIdMarche ) . "'
+			 LEFT JOIN " . OperationManager::TABLE_OPERATION . " 
+			 	ON " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
+			 	AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8) 
+			 	AND " . OperationManager::CHAMP_OPERATION_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . "
+			WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " in (1,2) 
+			GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ");";
 			
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);

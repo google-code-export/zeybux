@@ -122,6 +122,7 @@ class AchatService
 				$lStock->setIdCompte($pAchat->getId()->getIdCompte());
 				$lStock->setIdDetailCommande($lProduit->getIdDetailCommande());
 				$lStock->setIdOperation($lIdOperation);
+				$lStock->setIdModeleLot($lProduit->getIdLot());
 				$lStockService->set($lStock);
 				
 				// Ajout ou Maj de la qté produit dans le stock
@@ -152,6 +153,7 @@ class AchatService
 				}
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
+				$lDetailOperation->setIdModeleLot($lProduit->getIdLot());
 				$lDetailOperation->setIdNomProduit($lProduit->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);
 			}
@@ -303,6 +305,7 @@ class AchatService
 					$lStock->setType(1);
 					$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 					$lStock->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lStock->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lStock->setIdOperation($pIdOperation);
 					$lStockService->set($lStock);
 					
@@ -330,6 +333,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(7);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
@@ -393,6 +397,7 @@ class AchatService
 				$lStock->setType(1);
 				$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 				$lStock->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lStock->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lStock->setIdOperation($pIdOperation);
 				$lStockService->set($lStock);
 				
@@ -418,6 +423,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
@@ -453,6 +459,7 @@ class AchatService
 					$lStock->setType(1);
 					$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 					$lStock->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lStock->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lStock->setIdOperation($pIdOperation);
 					$lStockService->set($lStock);
 					
@@ -479,6 +486,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(7);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
@@ -522,6 +530,7 @@ class AchatService
 				$lStock->setType(1);
 				$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 				$lStock->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lStock->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lStock->setIdOperation($pIdOperation);
 				$lStockService->set($lStock);
 				
@@ -547,6 +556,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(7);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
@@ -583,6 +593,7 @@ class AchatService
 					$lStock->setType(2);
 					$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 					$lStock->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lStock->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lStock->setIdOperation($pIdOperation);
 					$lStockService->set($lStock);
 					
@@ -609,6 +620,7 @@ class AchatService
 					$lDetailOperation->setLibelle("Marché Solidaire N°" . $pNouvelAchat->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(8);
 					$lDetailOperation->setIdDetailCommande($lAchatActuelle->getIdDetailCommande());
+					$lDetailOperation->setIdModeleLot($lAchatActuelle->getIdLot());
 					$lDetailOperation->setIdNomProduit($lAchatActuelle->getIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);					
 					
@@ -692,6 +704,7 @@ class AchatService
 				$lStock->setType(2);
 				$lStock->setIdCompte($pNouvelAchat->getId()->getIdCompte());
 				$lStock->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lStock->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lStock->setIdOperation($pIdOperation);
 				$lStockService->set($lStock);
 				
@@ -730,6 +743,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché Solidaire N°" . $pNouvelAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(8);
 				$lDetailOperation->setIdDetailCommande($lAchatNouvelle->getIdDetailCommande());
+				$lDetailOperation->setIdModeleLot($lAchatNouvelle->getIdLot());
 				$lDetailOperation->setIdNomProduit($lAchatNouvelle->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);	
 			}
@@ -772,6 +786,7 @@ class AchatService
 				$lStock->setType(2);
 				$lStock->setIdCompte($pAchat->getId()->getIdCompte());
 				$lStock->setIdDetailCommande($lProduit->getIdDetailCommande());
+				$lStock->setIdModeleLot($lProduit->getIdLot());
 				$lStock->setIdOperation($lIdOperationSolidaire);
 				$lStockService->set($lStock);
 				
@@ -810,6 +825,7 @@ class AchatService
 				$lDetailOperation->setLibelle("Marché Solidaire N°" . $pAchat->getId()->getIdCommande());
 				$lDetailOperation->setTypePaiement(8);
 				$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
+				$lDetailOperation->setIdModeleLot($lProduit->getIdLot());
 				$lDetailOperation->setIdNomProduit($lProduit->getIdNomProduit());
 				$lDetailOperationService->set($lDetailOperation);
 			}
@@ -950,13 +966,7 @@ class AchatService
 	* @desc Retourne une liste d'operation
 	*/
 	public function selectOperationAchat($pId) {
-		// ORDER BY date -> récupère la dernière operation en lien avec la commande
-		return OperationManager::recherche(
-			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_ID_COMMANDE),
-			array('in','=','='),
-			array(array(7,8), $pId->getIdCompte(),$pId->getIdCommande()),
-			array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_DATE),
-			array('ASC','DESC'));
+		return OperationManager::selectOperationAchat($pId);
 	}
 
 	/**
@@ -1002,6 +1012,7 @@ class AchatService
 						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
 						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
 						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+						$lDetailAchat->setIdLot($lDetail->getDopeIdModeleLot());
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
 						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
@@ -1020,6 +1031,7 @@ class AchatService
 						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
 						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
 						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
+						$lDetailAchat->setIdLot($lDetail->getDopeIdModeleLot());
 						$lDetailAchat->setMontant($lDetail->getDopeMontant());
 						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
 						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
@@ -1166,23 +1178,41 @@ class AchatService
 				// Récupère les modèles de lot
 				$lIdLotPremier = $lModelesLot[0]->getMLotId();
 				if(!empty($lIdLotPremier)) {
-					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+					$lLotAchat = array();
 					foreach($lModelesLot as $lLot) {
 						$lDetailCommande = new DetailCommandeVO();
 						$lDetailCommande->setId($lLot->getMLotId());
 						$lDetailCommande->setTaille($lLot->getMLotQuantite());
 						$lDetailCommande->setPrix($lLot->getMLotPrix());
 						$lProduit->addLots($lDetailCommande);
+						
+						if($lDetail['lotId'] == $lLot->getMLotId()) {
+							$lUnite = $lModelesLot[$lLot->getMLotId()]->getMLotUnite();
+							$lProduit->setUnite($lUnite);
+							$lDetailAchat->setUnite($lUnite);
+							array_push($lLotAchat,$lDetailCommande);
+						} else {
+							$lProduit->addLots($lDetailCommande);
+						}
 					}
 					
-					// Ajout du produit dans le marché
+					// Ajout du produit dans le marché sauf le lot d'achat
 					$lMarcheService = new MarcheService();
 					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
+					
+					//Ajout du lot d'achat
+					$lProduit->setId($lIdProduit);
+					$lProduit->setLots($lLotAchat);
+					$lIdLotProduitMarche = $lMarcheService->ajoutLotUnitaireProduit($lProduit);
+					
+					$lDetailAchat->setIdDetailCommande($lDcomId);
 				}
+			} else {
+				$lIdLotProduitMarche = $lDetail['lotId'];
 			}
 			
 			// Id du produit existe (soit présent soit bien ajouté)
-			if(!empty($lIdProduit)) {
+		/*	if(!empty($lIdProduit)) {
 				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
 				$lIdLotProduitMarche = $lDetailCommande[0]->getId();			
 			} else { // Sinon on arrête avec une erreur
@@ -1194,7 +1224,7 @@ class AchatService
 				$lErreur->setMessage(MessagesErreurs::ERR_210_MSG);
 				$lVr->getLog()->addErreur($lErreur);
 				return $lVr;
-			}
+			}*/
 		} 
 				
 		// On vérifie pour un compte != d'invité si il n'y a pas un achat ou une réservation à mettre à jour

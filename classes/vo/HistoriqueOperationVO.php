@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/06/2011
+// Date de creation : 19/07/2013
 // Fichier : HistoriqueOperationVO.php
 //
 // Description : Classe HistoriqueOperationVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name HistoriqueOperationVO
  * @author Julien PIERRE
- * @since 26/06/2011
+ * @since 19/07/2013
  * @desc Classe représentant une HistoriqueOperationVO
  */
 class HistoriqueOperationVO  extends DataTemplate
@@ -61,22 +61,10 @@ class HistoriqueOperationVO  extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	* @var varchar(50)
-	* @desc TypePaiementChampComplementaire de la HistoriqueOperationVO
-	*/
-	protected $mTypePaiementChampComplementaire;
-
-	/**
 	* @var int(11)
 	* @desc Type de la HistoriqueOperationVO
 	*/
 	protected $mType;
-
-	/**
-	* @var int(11)
-	* @desc IdCommande de la HistoriqueOperationVO
-	*/
-	protected $mIdCommande;
 
 	/**
 	* @var int(11)
@@ -211,24 +199,6 @@ class HistoriqueOperationVO  extends DataTemplate
 	}
 
 	/**
-	* @name getTypePaiementChampComplementaire()
-	* @return varchar(50)
-	* @desc Renvoie le membre TypePaiementChampComplementaire de la HistoriqueOperationVO
-	*/
-	public function getTypePaiementChampComplementaire() {
-		return $this->mTypePaiementChampComplementaire;
-	}
-
-	/**
-	* @name setTypePaiementChampComplementaire($pTypePaiementChampComplementaire)
-	* @param varchar(50)
-	* @desc Remplace le membre TypePaiementChampComplementaire de la HistoriqueOperationVO par $pTypePaiementChampComplementaire
-	*/
-	public function setTypePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		$this->mTypePaiementChampComplementaire = $pTypePaiementChampComplementaire;
-	}
-
-	/**
 	* @name getType()
 	* @return int(11)
 	* @desc Renvoie le membre Type de la HistoriqueOperationVO
@@ -244,24 +214,6 @@ class HistoriqueOperationVO  extends DataTemplate
 	*/
 	public function setType($pType) {
 		$this->mType = $pType;
-	}
-
-	/**
-	* @name getIdCommande()
-	* @return int(11)
-	* @desc Renvoie le membre IdCommande de la HistoriqueOperationVO
-	*/
-	public function getIdCommande() {
-		return $this->mIdCommande;
-	}
-
-	/**
-	* @name setIdCommande($pIdCommande)
-	* @param int(11)
-	* @desc Remplace le membre IdCommande de la HistoriqueOperationVO par $pIdCommande
-	*/
-	public function setIdCommande($pIdCommande) {
-		$this->mIdCommande = $pIdCommande;
 	}
 
 	/**

@@ -104,7 +104,6 @@ class ReservationMarcheControleur
 	public function modifierReservation($pParam) {
 		$pParam['idCompte'] = $_SESSION[ID_COMPTE];
 
-		//$lVr = ReservationMarcheValid::validUpdate($pParam);
 		$lVr = ReservationMarcheValid::validAjout($pParam);
 		if($lVr->getValid()) {
 			$lReservationService = new ReservationService();
@@ -120,12 +119,10 @@ class ReservationMarcheControleur
 			
 			$lReservationsActuelle = $lReservationService->get($lReservation->getId());
 			$lProduitsAbonnementMarche = ProduitManager::selectbyIdMarcheProduitAbonnement($lDetailMarche[0]->getComId());
-			//var_dump($lReservationsActuelle->getDetailReservation());
 			foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
 		 		foreach($lProduitsAbonnementMarche as $lProduitAboMarche) {
 					if($lReservationActuelle->getIdProduit() == $lProduitAboMarche->getId()) {
 						$lReservationAbonnement[$lProduitAboMarche->getId()] = $lReservationActuelle;
-						//var_dump($lReservationActuelle);
 					}
 		 		}
 			}
@@ -158,10 +155,6 @@ class ReservationMarcheControleur
 			foreach($lReservationAbonnement as $lReservationAbo) {
 				$lReservation->addDetailReservation($lReservationAbo);
 			}
-			
-			//var_dump($lReservation);
-			
-			
 			$lIdOperation = $lReservationService->set($lReservation);
 		}				
 		return $lVr;

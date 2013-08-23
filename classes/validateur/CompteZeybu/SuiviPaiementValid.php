@@ -69,7 +69,7 @@ class SuiviPaiementValid
 			}
 			
 			$lOperationService = new OperationService();
-			$lOperation = $lOperationService->get($pData['id']);
+			$lOperation = $lOperationService->getDetail($pData['id']);
 			if($lOperation->getId() != $pData['id']) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -86,6 +86,10 @@ class SuiviPaiementValid
 				$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
 				$lVr->getId()->addErreur($lErreur);	
 				
+			}
+			
+			if($lVr->getValid()) {
+				$lVr->setData( array('operation' => $lOperation) );
 			}
 		}
 		return $lVr;

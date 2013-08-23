@@ -216,11 +216,11 @@ class TypeAdhesionManager
 			$lI = 1;
 			foreach($pVo as $lVo) {
 				$lRequete .= "(NULL
-				,'" . StringUtils::securiser( $pVo->getIdAdhesion() ) . "'
-				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
-				,'" . StringUtils::securiser( $pVo->getPerimetre() ) . "'
-				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
-				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
+				,'" . StringUtils::securiser( $lVo->getIdAdhesion() ) . "'
+				,'" . StringUtils::securiser( $lVo->getLabel() ) . "'
+				,'" . StringUtils::securiser( $lVo->getPerimetre() ) . "'
+				,'" . StringUtils::securiser( $lVo->getMontant() ) . "'
+				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
 
 				if($lNbVO == $lI) {
 					$lRequete .= ";";

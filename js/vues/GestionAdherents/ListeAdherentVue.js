@@ -45,7 +45,6 @@
 		} else {
 			$('#contenu').replaceWith(that.affect($(lGestionAdherentsTemplate.listeAdherentVide)));
 		}
-		
 	};
 	
 	this.affect = function(pData) {

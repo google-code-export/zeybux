@@ -980,9 +980,10 @@
 							$(lResponse.produit.caracteristiques).each(function() {
 								lhtml.find('#pro-car-' + this.carId).prop("checked",true);
 							});
-							
-							$(lResponse.produit.modelesLot).each(function() {
+
+							$.each(lResponse.produit.modelesLot, function() {
 								if(this.mLotId != null) {
+									
 									this.id = this.mLotId;
 									this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
 									this.unite = this.mLotUnite;

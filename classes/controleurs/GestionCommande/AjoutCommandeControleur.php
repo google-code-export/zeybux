@@ -13,7 +13,6 @@
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitValid.php" );
 include_once(CHEMIN_CLASSES_TOVO . "NomProduitToVO.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
@@ -21,7 +20,6 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheAjoutComm
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AjoutNomProduitResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
 
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
@@ -36,6 +34,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommande
 include_once(CHEMIN_CLASSES_TOVO . "CommandeCompleteToVO.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php" );
 include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php" );
 
 /**
@@ -91,7 +90,8 @@ class AjoutCommandeControleur
 
 			$lResponse = new DupliquerMarcheResponse();
 			$lResponse->setMarche($lMarche);
-			$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+			$lFermeService = new FermeService();
+			$lResponse->setListeFerme($lFermeService->get());
 
 			return $lResponse;
 		}				
@@ -106,7 +106,8 @@ class AjoutCommandeControleur
 	public function getListeFerme() {		
 		// Lancement de la recherche
 		$lResponse = new ListeFermeResponse();
-		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		$lFermeService = new FermeService();
+		$lResponse->setListeFerme($lFermeService->get());
 		return $lResponse;
 	}
 	

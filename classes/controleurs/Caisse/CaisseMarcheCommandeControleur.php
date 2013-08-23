@@ -191,13 +191,16 @@ class CaisseMarcheCommandeControleur
 			$lAchat->getId()->setIdReservation($lOperations[0]->getId());
 		}
 		
-		$lIdProduits = array();
+		$lTableauIdDetailCommande = array();
 		foreach($pParam["produits"] as $lDetail) {
-			array_push($lIdProduits,$lDetail["nproId"]);
+			array_push($lTableauIdDetailCommande,$lDetail["dcomId"]);
 		}
 		
-		$lLotProduits = DetailCommandeManager::selectByArrayIdProduit($lIdProduits, $lIdMarche);
-		//var_dump($lLotProduits);
+		$lLotProduits = DetailCommandeManager::selectByArray($lTableauIdDetailCommande);
+		
+		// TODO Si lot n'existe pas vérifier quand même si il n'y a pas déjà le produit
+		// Le bug se présente si il n'y a pas de réponse du server que la caisse fait un doublon sur enregistrer.
+		 
 		foreach($pParam["produits"] as $lDetail){
 			$lDetailAchat = new DetailReservationVO();
 			$lDetailAchat->setQuantite($lDetail["quantite"]);
@@ -206,7 +209,7 @@ class CaisseMarcheCommandeControleur
 			$lDetailAchat->setIdNomProduit($lDetail['nproId']);
 			
 			if(isset($lLotProduits[$lDetail["nproId"]])) { 
-				$lDetailAchat->setIdDetailCommande($lLotProduits[$lDetail["nproId"]]->getId());
+				$lDetailAchat->setIdDetailCommande($lDetail["dcomId"]);
 				$lDetailAchat->setUnite($lLotProduits[$lDetail["nproId"]]->getUnite());
 			} else { // Le produit n'est pas dans le marche il faut l'ajouter
 				$lProduit = new ProduitCommandeVO();
@@ -220,24 +223,41 @@ class CaisseMarcheCommandeControleur
 				
 				// Récupère les modèles de lot
 				$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-				$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-				$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+				//$lIdLotPremier = $lModelesLot[0]->getMLotId();
+				$lLotUnique = count($lModelesLot) == 1;
+				$lLotAchat = array();
 				foreach($lModelesLot as $lLot) {
 					$lDetailCommande = new DetailCommandeVO();
-					$lDetailCommande->setId($lLot->getMLotId());
 					$lDetailCommande->setTaille($lLot->getMLotQuantite());
 					$lDetailCommande->setPrix($lLot->getMLotPrix());
-					$lProduit->addLots($lDetailCommande);
+										
+					if($lDetail['lotId'] == $lLot->getMLotId()) {
+						$lUnite = $lModelesLot[$lLot->getMLotId()]->getMLotUnite();
+						$lProduit->setUnite($lUnite);
+						$lDetailAchat->setUnite($lUnite);
+						array_push($lLotAchat,$lDetailCommande);
+						if($lLotUnique) { // Si un seul lot ajout dans le produit
+							$lProduit->addLots($lDetailCommande);
+						}
+					} else {
+						$lProduit->addLots($lDetailCommande);
+					}					
 				}
 					
-				// Ajout du produit dans le marché
+				// Ajout du produit dans le marché sauf le lot d'achat
 				$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
 				
-				
-				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-				$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-				$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
+				if($lLotUnique) {// Si un seul lot déjà ajouté avec le produit donc c'est le premier lot
+					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
+					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
+				} else {
+					//Ajout du lot d'achat
+					$lProduit->setId($lIdProduit);
+					$lProduit->setLots($lLotAchat);				
+					$lDcomId = $lMarcheService->ajoutLotUnitaireProduit($lProduit);
+					
+					$lDetailAchat->setIdDetailCommande($lDcomId);
+				}
 			}
 			
 			$lAchat->addDetailAchat($lDetailAchat);
@@ -249,17 +269,17 @@ class CaisseMarcheCommandeControleur
 		}
 		
 		$lLotProduits = DetailCommandeManager::selectByArrayIdProduit($lIdProduits, $lIdMarche);
-		//var_dump($lLotProduits);
+	
 		foreach($pParam["produitsSolidaire"] as $lDetail){
-		$lDetailAchat = new DetailReservationVO();
+			$lDetailAchat = new DetailReservationVO();
 			$lDetailAchat->setQuantite($lDetail["quantite"]);
 			$lDetailAchat->setMontant($lDetail["prix"]);
 			
 			$lDetailAchat->setIdNomProduit($lDetail['nproId']);
 			
-			if(isset($lLotProduits[$lDetail["nproId"]])) { 
-				$lDetailAchat->setIdDetailCommande($lLotProduits[$lDetail["nproId"]]->getId());
-				$lDetailAchat->setUnite($lLotProduits[$lDetail["nproId"]]->getUnite());
+			if(isset($lLotProduits[$lDetail["nproId"]])) { 				
+				$lDetailAchat->setIdDetailCommande($lDetail["dcomId"]);
+				$lDetailAchat->setUnite($lLotProduits[$lDetail["nproId"]]->getUnite());				
 			} else { // Le produit n'est pas dans le marche il faut l'ajouter
 				$lProduit = new ProduitCommandeVO();
 				$lProduit->setId($lIdMarche);
@@ -272,23 +292,40 @@ class CaisseMarcheCommandeControleur
 				
 				// Récupère les modèles de lot
 				$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-				$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-				$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+				$lLotUnique = count($lModelesLot) == 1;
+				$lLotAchat = array();
 				foreach($lModelesLot as $lLot) {
 					$lDetailCommande = new DetailCommandeVO();
-					$lDetailCommande->setId($lLot->getMLotId());
 					$lDetailCommande->setTaille($lLot->getMLotQuantite());
 					$lDetailCommande->setPrix($lLot->getMLotPrix());
-					$lProduit->addLots($lDetailCommande);
+					
+					if($lDetail['lotId'] == $lLot->getMLotId()) {
+						$lUnite = $lModelesLot[$lLot->getMLotId()]->getMLotUnite();
+						$lProduit->setUnite($lUnite);
+						$lDetailAchat->setUnite($lUnite);
+						array_push($lLotAchat,$lDetailCommande);
+						if($lLotUnique) { // Si un seul lot ajout dans le produit
+							$lProduit->addLots($lDetailCommande);
+						}
+					} else {
+						$lProduit->addLots($lDetailCommande);
+					}
 				}
 					
-				// Ajout du produit dans le marché
+				// Ajout du produit dans le marché sauf le lot d'achat
 				$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
-				
-				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-				$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-				$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
+
+				if($lLotUnique) {// Si un seul lot déjà ajouté avec le produit donc c'est le premier lot
+					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
+					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
+				} else {
+					//Ajout du lot d'achat
+					$lProduit->setId($lIdProduit);
+					$lProduit->setLots($lLotAchat);
+					$lDcomId = $lMarcheService->ajoutLotUnitaireProduit($lProduit);
+					
+					$lDetailAchat->setIdDetailCommande($lDcomId);
+				}
 			}
 			$lAchat->addDetailAchatSolidaire($lDetailAchat);
 		}
@@ -317,22 +354,33 @@ class CaisseMarcheCommandeControleur
 		$lAchat = new AchatVO();
 		$lAchat->getId()->setIdCompte($pParam["idCompte"]);
 		$lAchat->getId()->setIdCommande(-1);
-				
-		foreach($pParam["produits"] as $lDetail){
+		
+		$lIdLots = array();
+		foreach($pParam["produits"] as $lDetail) {
+			array_push($lIdLots,$lDetail["lotId"]);
+		}
+		foreach($pParam["produitsSolidaire"] as $lDetail) {
+			array_push($lIdLots,$lDetail["lotId"]);
+		}
+		$lModelesLot = ModeleLotViewManager::selectbyArray($lIdLots);
+		
+		foreach($pParam["produits"] as $lDetail) {
 			$lDetailAchat = new DetailReservationVO();
 			$lDetailAchat->setQuantite($lDetail["quantite"]);
 			$lDetailAchat->setMontant($lDetail["prix"]);
 			$lDetailAchat->setIdNomProduit($lDetail['nproId']);
-			$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());		
+			$lDetailAchat->setUnite($lModelesLot[$lDetail["lotId"]]->getUnite());	
+			$lDetailAchat->setIdLot($lDetail["lotId"]);
 			$lAchat->addDetailAchat($lDetailAchat);
 		}
 			
-		foreach($pParam["produitsSolidaire"] as $lDetail){
+		foreach($pParam["produitsSolidaire"] as $lDetail) {
 			$lDetailAchat = new DetailReservationVO();
 			$lDetailAchat->setQuantite($lDetail["quantite"]);
 			$lDetailAchat->setMontant($lDetail["prix"]);
 			$lDetailAchat->setIdNomProduit($lDetail['nproId']);
-			$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
+			$lDetailAchat->setUnite($lModelesLot[$lDetail["lotId"]]->getUnite());		
+			$lDetailAchat->setIdLot($lDetail["lotId"]);
 			$lAchat->addDetailAchatSolidaire($lDetailAchat);
 		}
 		
@@ -389,12 +437,21 @@ class CaisseMarcheCommandeControleur
 	
 		$lPdtNvAchat = NULL;
 		$lPdtNvAchatSolidaire = NULL;
+		$lTableauIdDetailCommande = array();
 		if(!empty($pParam["produits"])) {
 			$lPdtNvAchat = $pParam["produits"];
+			foreach($pParam["produits"] as $lDetail) {
+				array_push($lTableauIdDetailCommande,$lDetail["dcomId"]);
+			}
 		}
 		if(!empty($pParam["produitsSolidaire"])) {
 			$lPdtNvAchatSolidaire = $pParam["produitsSolidaire"];
+			foreach($pParam["produitsSolidaire"] as $lDetail) {
+				array_push($lTableauIdDetailCommande,$lDetail["dcomId"]);
+			}
 		}
+		
+		$lLotProduits = DetailCommandeManager::selectByArray($lTableauIdDetailCommande);
 	
 		if((is_null($lAchat) && !is_null($lPdtNvAchat)) || (!is_null($lAchat) && !is_null($lPdtNvAchat))) { // Ajout ou Maj de l'achat
 			$lNvAchat = new AchatVO();
@@ -404,28 +461,28 @@ class CaisseMarcheCommandeControleur
 			if(!is_null($lAchat) && !is_null($lPdtNvAchat)) { // Maj de l'achat
 				$lNvAchat->getId()->setIdAchat($lAchat->getId()->getIdAchat());
 			}
-				
+			
 			$lTotal = 0;
 			foreach($lPdtNvAchat as $lDetail) {
-				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
+				//$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 	
 				$lDetailAchat = new DetailReservationVO();
-				if(!is_null($lAchat) && !is_null($lPdtNvAchat)) { // Maj de l'achat
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-				}
-				
+
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
-	
-				//$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
-				//$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				
+					
 				$lDetailAchat->setIdNomProduit($lDetail['nproId']);
 				
-				if(!is_null($lDetailCommande[0]->getId())) {
+				
+				if(isset($lLotProduits[$lDetail["nproId"]])) {
+					$lDetailAchat->setIdDetailCommande($lDetail["dcomId"]);
+					$lDetailAchat->setUnite($lLotProduits[$lDetail["nproId"]]->getUnite());
+				} else { // Le produit n'est pas dans le marche il faut l'ajouter
+					
+				/*if(!is_null($lDetailCommande[0]->getId())) {
 					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
 					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				} else { // Le produit n'est pas dans le marche il faut l'ajouter
+				} else { // Le produit n'est pas dans le marche il faut l'ajouter*/
 					$lProduit = new ProduitCommandeVO();
 					$lProduit->setId($lIdMarche);
 					$lProduit->setIdNom($lDetail['nproId']);
@@ -437,24 +494,40 @@ class CaisseMarcheCommandeControleur
 				
 					// Récupère les modèles de lot
 					$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-					$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+					$lLotUnique = count($lModelesLot) == 1;
+					$lLotAchat = array();
 					foreach($lModelesLot as $lLot) {
 						$lDetailCommande = new DetailCommandeVO();
-						$lDetailCommande->setId($lLot->getMLotId());
 						$lDetailCommande->setTaille($lLot->getMLotQuantite());
 						$lDetailCommande->setPrix($lLot->getMLotPrix());
-						$lProduit->addLots($lDetailCommande);
+							
+						if($lDetail['lotId'] == $lLot->getMLotId()) {
+							$lUnite = $lModelesLot[$lLot->getMLotId()]->getMLotUnite();
+							$lProduit->setUnite($lUnite);
+							$lDetailAchat->setUnite($lUnite);
+							array_push($lLotAchat,$lDetailCommande);
+							if($lLotUnique) { // Si un seul lot ajout dans le produit
+								$lProduit->addLots($lDetailCommande);
+							}							
+						} else {
+							$lProduit->addLots($lDetailCommande);
+						}
 					}
 				
-					// Ajout du produit dans le marché
+					// Ajout du produit dans le marché sauf le lot d'achat
 					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
-				
-				
-					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-					$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
+
+					if($lLotUnique) {// Si un seul lot déjà ajouté avec le produit donc c'est le premier lot
+						$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
+						$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
+					} else {
+						//Ajout du lot d'achat
+						$lProduit->setId($lIdProduit);
+						$lProduit->setLots($lLotAchat);
+						$lDcomId = $lMarcheService->ajoutLotUnitaireProduit($lProduit);
+						
+						$lDetailAchat->setIdDetailCommande($lDcomId);
+					}
 				}
 				
 	
@@ -465,67 +538,6 @@ class CaisseMarcheCommandeControleur
 				
 			$lNvAchat->setTotal($lTotal);
 			$lAchatService->set($lNvAchat);
-	
-		/*} else if(is_null($lAchat) && !is_null($lPdtNvAchat)){ // Ajout
-			$lNvAchat = new AchatVO();
-			$lNvAchat->getId()->setIdCompte($pParam["idCompte"]);
-			$lNvAchat->getId()->setIdCommande($pParam["id"]);
-				
-			$lTotal = 0;
-				
-			foreach($lPdtNvAchat as $lDetail){
-				$lDetailAchat = new DetailReservationVO();
-				$lDcom = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
-				
-				$lDetailAchat->setQuantite($lDetail["quantite"]);
-				$lDetailAchat->setMontant($lDetail["prix"]);
-	
-				//$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
-				//$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				
-
-				$lDetailAchat->setIdNomProduit($lDetail['nproId']);
-				
-					
-				if(!is_null($lDcom[0]->getId())) {
-					$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
-					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				} else { // Le produit n'est pas dans le marche il faut l'ajouter
-					$lProduit = new ProduitCommandeVO();
-					$lProduit->setId($lIdMarche);
-					$lProduit->setIdNom($lDetail['nproId']);
-				
-					// On ajout un produit classique uniquement
-					$lProduit->setQteMaxCommande(-1);
-					$lProduit->setQteRestante(-1);
-					$lProduit->setType(0);
-				
-					// Récupère les modèles de lot
-					$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-					$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
-					foreach($lModelesLot as $lLot) {
-						$lDetailCommande = new DetailCommandeVO();
-						$lDetailCommande->setId($lLot->getMLotId());
-						$lDetailCommande->setTaille($lLot->getMLotQuantite());
-						$lDetailCommande->setPrix($lLot->getMLotPrix());
-						$lProduit->addLots($lDetailCommande);
-					}
-						
-					// Ajout du produit dans le marché
-					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
-				
-				
-					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-					$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
-				}
-				
-				$lTotal += $lDetail["prix"];
-				$lNvAchat->addDetailAchat($lDetailAchat);
-			}
-			$lAchatService->set($lNvAchat); // Achat des produits*/
 		} else if(!is_null($lAchat) && is_null($lPdtNvAchat)){ // Supression
 			$lAchatService->delete($lAchat->getId());
 		}
@@ -540,25 +552,22 @@ class CaisseMarcheCommandeControleur
 				
 			$lTotal = 0;
 			foreach($lPdtNvAchatSolidaire as $lDetail) {
-				$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
+				//$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 	
 				$lDetailAchat = new DetailReservationVO();
-
-				if(!is_null($lAchatSolidaire) && !is_null($lPdtNvAchatSolidaire)) { // Maj de l'achat
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-				}
 				$lDetailAchat->setQuantite($lDetail["quantite"]);
 				$lDetailAchat->setMontant($lDetail["prix"]);
-	
-			//	$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
-			//	$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
 				$lDetailAchat->setIdNomProduit($lDetail['nproId']);
 				
+				if(isset($lLotProduits[$lDetail["nproId"]])) {
+					$lDetailAchat->setIdDetailCommande($lDetail["dcomId"]);
+					$lDetailAchat->setUnite($lLotProduits[$lDetail["nproId"]]->getUnite());
+				} else { // Le produit n'est pas dans le marche il faut l'ajouter
 					
-				if(!is_null($lDetailCommande[0]->getId())) {
+				/*if(!is_null($lDetailCommande[0]->getId())) {
 					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
 					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				} else { // Le produit n'est pas dans le marche il faut l'ajouter
+				} else { // Le produit n'est pas dans le marche il faut l'ajouter*/
 					$lProduit = new ProduitCommandeVO();
 					$lProduit->setId($lIdMarche);
 					$lProduit->setIdNom($lDetail['nproId']);
@@ -570,24 +579,40 @@ class CaisseMarcheCommandeControleur
 				
 					// Récupère les modèles de lot
 					$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-					$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
+					$lLotUnique = count($lModelesLot) == 1;
+					
+					$lLotAchat = array();
 					foreach($lModelesLot as $lLot) {
 						$lDetailCommande = new DetailCommandeVO();
-						$lDetailCommande->setId($lLot->getMLotId());
 						$lDetailCommande->setTaille($lLot->getMLotQuantite());
 						$lDetailCommande->setPrix($lLot->getMLotPrix());
-						$lProduit->addLots($lDetailCommande);
+							
+						if($lDetail['lotId'] == $lLot->getMLotId()) {
+							$lUnite = $lModelesLot[$lLot->getMLotId()]->getMLotUnite();
+							$lProduit->setUnite($lUnite);
+							$lDetailAchat->setUnite($lUnite);
+							array_push($lLotAchat,$lDetailCommande);
+							if($lLotUnique) { // Si un seul lot ajout dans le produit
+								$lProduit->addLots($lDetailCommande);
+							}
+						} else {
+							$lProduit->addLots($lDetailCommande);
+						}
 					}
-				
-					// Ajout du produit dans le marché
+
+					// Ajout du produit dans le marché sauf le lot d'achat
 					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
-				
-				
-					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-					$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
+					if($lLotUnique) {// Si un seul lot déjà ajouté avec le produit donc c'est le premier lot
+						$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
+						$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
+					} else {
+						//Ajout du lot d'achat
+						$lProduit->setId($lIdProduit);
+						$lProduit->setLots($lLotAchat);
+						$lDcomId = $lMarcheService->ajoutLotUnitaireProduit($lProduit);
+						
+						$lDetailAchat->setIdDetailCommande($lDcomId);
+					}
 				}
 				
 				$lNvAchatSolidaire->addDetailAchatSolidaire($lDetailAchat);
@@ -598,71 +623,6 @@ class CaisseMarcheCommandeControleur
 			$lNvAchatSolidaire->setTotalSolidaire($lTotal);
 	
 			$lAchatService->set($lNvAchatSolidaire);
-		/*} else if(is_null($lAchatSolidaire) && !is_null($lPdtNvAchatSolidaire)){ // Ajout
-				
-			$lNvAchatSolidaire = new AchatVO();
-			$lNvAchatSolidaire->getId()->setIdCompte($pParam["idCompte"]);
-			$lNvAchatSolidaire->getId()->setIdCommande($pParam["id"]);
-				
-			$lTotal = 0;
-				
-			foreach($lPdtNvAchatSolidaire as $lDetail) {
-				$lDetailAchat = new DetailReservationVO();
-				$lDcom = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
-				//$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
-				$lDetailAchat->setQuantite($lDetail["quantite"]);
-				$lDetailAchat->setMontant($lDetail["prix"]);
-				$lTotal += $lDetail["prix"];
-	
-				//$lDetailAchat->setIdNomProduit($lProduitsMarche[$lDetail["id"]]->getIdNom());
-				//$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				
-				
-				
-				$lDetailAchat->setIdNomProduit($lDetail['nproId']);
-				
-					
-				if(!is_null($lDcom[0]->getId())) {
-					$lDetailAchat->setIdDetailCommande($lDcom[0]->getId());
-					$lDetailAchat->setUnite($lProduitsMarche[$lDetail["id"]]->getUnite());
-				} else { // Le produit n'est pas dans le marche il faut l'ajouter
-					$lProduit = new ProduitCommandeVO();
-					$lProduit->setId($lIdMarche);
-					$lProduit->setIdNom($lDetail['nproId']);
-				
-					// On ajout un produit classique uniquement
-					$lProduit->setQteMaxCommande(-1);
-					$lProduit->setQteRestante(-1);
-					$lProduit->setType(0);
-				
-					// Récupère les modèles de lot
-					$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lDetail['nproId']);
-					$lIdLotPremier = $lModelesLot[0]->getMLotId();
-				
-					$lProduit->setUnite($lModelesLot[0]->getMLotUnite());
-					foreach($lModelesLot as $lLot) {
-						$lDetailCommande = new DetailCommandeVO();
-						$lDetailCommande->setId($lLot->getMLotId());
-						$lDetailCommande->setTaille($lLot->getMLotQuantite());
-						$lDetailCommande->setPrix($lLot->getMLotPrix());
-						$lProduit->addLots($lDetailCommande);
-					}
-				
-					// Ajout du produit dans le marché
-					$lIdProduit = $lMarcheService->ajoutProduit($lProduit);
-				
-				
-					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lIdProduit);
-					$lDetailAchat->setIdDetailCommande($lDetailCommande[0]->getId());
-					$lDetailAchat->setUnite($lModelesLot[0]->getMLotUnite());
-				}
-				
-				
-	
-				$lNvAchatSolidaire->addDetailAchatSolidaire($lDetailAchat);
-			}
-			$lAchatService->set($lNvAchatSolidaire); // Achat des produits
-				*/
 		} else if(!is_null($lAchatSolidaire) && is_null($lPdtNvAchatSolidaire)){ // Supression
 			$lAchatService->delete($lAchatSolidaire->getId());
 		}

@@ -86,9 +86,24 @@ class StockService
 					ProduitManager::update($lProduit);
 				}
 				break;
+
+			case 2 : // Livraison Solidaire
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
 				
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+				}
+				$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() + $pStock->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+				break;
 			case 4 : // Livraison				
-				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				/*$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
 					// Maj Stock Reservation et qté initiale dans le produit					
@@ -101,7 +116,22 @@ class StockService
 					$lProduit->setStockInitial($pStock->getQuantite());
 					
 					ProduitManager::update($lProduit);
+				}*/
+				
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+				
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
 				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $pStock->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+
 				break;
 		}	
 		return $lId;
@@ -116,8 +146,6 @@ class StockService
 	private function update($pStock) {
 		// TODO les test : on update que les types 0/1/2/3/4/5/6
 		
-		
-		//var_dump($pStock);
 		$lStockActuel = $this->get($pStock->getId());
 		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 		$this->insertHistorique($pStock); // Ajout historique
@@ -142,9 +170,25 @@ class StockService
 					ProduitManager::update($lProduit);
 				}
 				break;
+				
+			case 2 : // Livraison Solidaire
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+				}
+				$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() + $pStock->getQuantite() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+				break;
 			
 			case 4 : // Livraison				
-				$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
+				/*$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				if($pStock->getQuantite() > 0) { // Livraison Producteur
 					// Maj Stock Reservation et qté initiale dans le produit
@@ -156,7 +200,21 @@ class StockService
 					$lProduit->setStockReservation($lStockReservation);
 					$lProduit->setStockInitial($pStock->getQuantite());
 					ProduitManager::update($lProduit);
+				}*/
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+				
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
 				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $pStock->getQuantite() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				
+				$this->setStockQuantite($lStockQuantite);
 				break;
 			
 			case 6 : // Reservation annulée
@@ -165,6 +223,39 @@ class StockService
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
 				$lProduit->setStockReservation($lProduit->getStockReservation() - $lStockActuel->getQuantite());
 				ProduitManager::update($lProduit);
+				break;
+				
+				
+			case 9 : // Supression d'une Livraison
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+				break;
+				
+			case 10 : // Supression d'une Livraison Solidaire
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+				
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite());
+				}
+				$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
 				break;
 		}
 		
@@ -180,8 +271,6 @@ class StockService
 	public function updateStockProduit($pStock) {
 		// TODO les test : on update que les types 0/1/2/3/4/5/6
 		
-		
-		//var_dump($pStock);
 		$lStockActuel = $this->get($pStock->getId());
 		$pStock->setDate(StringUtils::dateTimeAujourdhuiDb());
 		// TODO Mise à jour du stock selon le type
@@ -192,11 +281,9 @@ class StockService
 				
 				
 				if($pStock->getQuantite() != -1 && $lProduit->getStockInitial() == -1) {
-					//var_dump($lProduit);
 					// Maj Stock Reservation dans le produit
 					$lProduit->setStockReservation($lProduit->getStockReservation() + $pStock->getQuantite());
 					$lProduit->setStockInitial($pStock->getQuantite());
-					//var_dump($lProduit);
 					ProduitManager::update($lProduit);
 				} else if($pStock->getQuantite() == -1 && $lProduit->getStockInitial() != -1) {
 					//echo 2;
@@ -278,6 +365,7 @@ class StockService
 		$lHistoriqueStock->setType($pStock->getType());
 		$lHistoriqueStock->setIdCompte($pStock->getIdCompte());
 		$lHistoriqueStock->setIdDetailCommande($pStock->getIdDetailCommande());
+		$lHistoriqueStock->setIdModeleLot($pStock->getIdModeleLot());
 		$lHistoriqueStock->setIdOperation($pStock->getIdOperation());
 		$lHistoriqueStock->setIdConnexion($_SESSION[ID_CONNEXION]);
 		return HistoriqueStockManager::insert($lHistoriqueStock);

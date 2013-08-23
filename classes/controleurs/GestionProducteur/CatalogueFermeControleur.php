@@ -474,7 +474,7 @@ class CatalogueFermeControleur
 			$lId = $pParam['idNomProduit'];
 			
 			$lNomProduit = NomProduitViewManager::select($lId);	
-			//var_dump($lNomProduit);
+		
 			$lNomProduit = $lNomProduit[0];
 			$lNomProduitCatalagueVO = new NomProduitCatalogueVO();
 			$lNomProduitCatalagueVO->setId($lNomProduit->getNProIdFerme());

@@ -449,7 +449,6 @@ class AfficheAchatAdherentValid
 			if($lVr->getValid()) {
 				$lOperationService = new OperationService();
 				$lOperation = $lOperationService->get($pData['idAchat']);
-				//var_dump($lOperation);
 				if(is_null($lOperation->getId()) || ($lOperation->getTypePaiement() != 7 && $lOperation->getTypePaiement() != 8)) {
 					$lVr->setValid(false);
 					$lVr->getIdAchat()->setValid(false);

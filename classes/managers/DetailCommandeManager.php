@@ -170,6 +170,50 @@ class DetailCommandeManager
 	}
 	
 	/**
+	 * @name selectByArray($pIdDetailCommande)
+	 * @param array(integer)
+	 * @return array(DetailCommandeVO)
+	 * @desc Récupère les détailCommande par tableau et les retournes sous forme d'un collection de DetailCommandeVO
+	 */
+	public static function selectByArray($pIdDetailCommande) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+				. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX .
+				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT .
+				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+				"," . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT ."
+			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+			JOIN " . ProduitManager::TABLE_PRODUIT. " ON " . ProduitManager::CHAMP_PRODUIT_ID . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "
+			WHERE " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pIdDetailCommande) ) ) . "');";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeDetailCommande = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				$lListeDetailCommande[$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT]] =
+				DetailCommandeManager::remplirDetailCommandeUniteMesure(
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX],
+						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE]);
+			}
+		} else {
+			$lListeDetailCommande[0] = new DetailCommandeUniteMesureVO();
+		}
+		return $lListeDetailCommande;
+	}
+	
+	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
 	* @param string Le type de critère de recherche

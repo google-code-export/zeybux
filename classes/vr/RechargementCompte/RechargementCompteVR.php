@@ -35,12 +35,6 @@ class RechargementCompteVR extends DataTemplate
 
 	/**
 	 * @var VRelement
-	 * @desc L'IdBanque de l'objet
-	 */
-	protected $mIdBanque;
-
-	/**
-	 * @var VRelement
 	 * @desc Montant de la RechargementCompteVR
 	 */
 	protected $mMontant;
@@ -52,13 +46,7 @@ class RechargementCompteVR extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	 * @var VRelement
-	 * @desc ChampComplementaireObligatoire de la RechargementCompteVR
-	 */
-	protected $mChampComplementaireObligatoire;
-
-	/**
-	 * @var VRelement
+	 * @var array(ChampComplementaireVR)
 	 * @desc ChampComplementaire de la RechargementCompteVR
 	 */
 	protected $mChampComplementaire;
@@ -71,11 +59,9 @@ class RechargementCompteVR extends DataTemplate
 	function RechargementCompteVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
-		$this->mIdBanque = new VRelement();
 		$this->mMontant = new VRelement();
 		$this->mTypePaiement = new VRelement();
-		$this->mChampComplementaireObligatoire = new VRelement();
-		$this->mChampComplementaire = new VRelement();
+		$this->mChampComplementaire = array();
 	}
 
 	/**
@@ -113,25 +99,7 @@ class RechargementCompteVR extends DataTemplate
 	public function setLog($pLog) {
 		$this->mLog = $pLog;
 	}
-
-	/**
-	* @name getIdBanque()
-	* @return VRelement
-	* @desc Renvoie le VRelement IdBanque
-	*/
-	public function getIdBanque() {
-		return $this->mIdBanque;
-	}
-
-	/**
-	* @name setIdBanque($pIdBanque)
-	* @param VRelement
-	* @desc Remplace le VRelement IdBanque par $pIdBanque
-	*/
-	public function setIdBanque($pIdBanque) {
-		$this->mIdBanque = $pIdBanque;
-	}
-
+	
 	/**
 	* @name getMontant()
 	* @return VRelement
@@ -169,27 +137,9 @@ class RechargementCompteVR extends DataTemplate
 	}
 
 	/**
-	* @name getChampComplementaireObligatoire()
-	* @return VRelement
-	* @desc Renvoie le VRelement mChampComplementaireObligatoire
-	*/
-	public function getChampComplementaireObligatoire() {
-		return $this->mChampComplementaireObligatoire;
-	}
-
-	/**
-	* @name setChampComplementaireObligatoire($pChampComplementaireObligatoire)
-	* @param VRelement
-	* @desc Remplace le mChampComplementaireObligatoire par $pChampComplementaireObligatoire
-	*/
-	public function setChampComplementaireObligatoire($pChampComplementaireObligatoire) {
-		$this->mChampComplementaireObligatoire = $pChampComplementaireObligatoire;
-	}
-
-	/**
 	* @name getChampComplementaire()
-	* @return VRelement
-	* @desc Renvoie le VRelement mChampComplementaire
+	* @return array(ChampComplementaireVR)
+	* @desc Renvoie le array(ChampComplementaireVR) mChampComplementaire
 	*/
 	public function getChampComplementaire() {
 		return $this->mChampComplementaire;
@@ -197,11 +147,20 @@ class RechargementCompteVR extends DataTemplate
 
 	/**
 	* @name setChampComplementaire($pChampComplementaire)
-	* @param VRelement
-	* @desc Remplace le mChampComplementaire par $pChampComplementaire
+	* @param array(ChampComplementaireVR)
+	* @desc Remplace le array(ChampComplementaireVR) par $pChampComplementaire
 	*/
 	public function setChampComplementaire($pChampComplementaire) {
 		$this->mChampComplementaire = $pChampComplementaire;
+	}
+	
+	/**
+	 * @name addChampComplementaire($pChampComplementaire)
+	 * @param array(ChampComplementaireVR)
+	 * @desc Ajoute $pChampComplementaire à mChampComplementaire 
+	 */
+	public function addChampComplementaire($pChampComplementaire) {
+		array_push($this->mChampComplementaire, $pChampComplementaire);
 	}
 }
 ?>

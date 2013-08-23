@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 15/01/2011
+// Date de creation : 15/06/2013
 // Fichier : TypePaiementVO.php
 //
 // Description : Classe TypePaiementVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name TypePaiementVO
  * @author Julien PIERRE
- * @since 15/01/2011
+ * @since 15/06/2013
  * @desc Classe représentant une TypePaiementVO
  */
 class TypePaiementVO  extends DataTemplate
@@ -35,12 +35,6 @@ class TypePaiementVO  extends DataTemplate
 	* @desc ChampComplementaire de la TypePaiementVO
 	*/
 	protected $mChampComplementaire;
-
-	/**
-	* @var varchar(30)
-	* @desc LabelChampComplementaire de la TypePaiementVO
-	*/
-	protected $mLabelChampComplementaire;
 
 	/**
 	* @var tinyint(1)
@@ -100,24 +94,6 @@ class TypePaiementVO  extends DataTemplate
 	*/
 	public function setChampComplementaire($pChampComplementaire) {
 		$this->mChampComplementaire = $pChampComplementaire;
-	}
-
-	/**
-	* @name getLabelChampComplementaire()
-	* @return varchar(30)
-	* @desc Renvoie le membre LabelChampComplementaire de la TypePaiementVO
-	*/
-	public function getLabelChampComplementaire() {
-		return $this->mLabelChampComplementaire;
-	}
-
-	/**
-	* @name setLabelChampComplementaire($pLabelChampComplementaire)
-	* @param varchar(30)
-	* @desc Remplace le membre LabelChampComplementaire de la TypePaiementVO par $pLabelChampComplementaire
-	*/
-	public function setLabelChampComplementaire($pLabelChampComplementaire) {
-		$this->mLabelChampComplementaire = $pLabelChampComplementaire;
 	}
 
 	/**

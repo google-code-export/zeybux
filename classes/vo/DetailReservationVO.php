@@ -56,6 +56,12 @@ class DetailReservationVO  extends DataTemplate
 	protected $mIdNomProduit;
 	
 	/**
+	* @var int(11)
+	* @desc Id du Lot de la DetailReservationVO
+	*/
+	protected $mIdLot;
+	
+	/**
 	* @var varchar(20)
 	* @desc Unite de la DetailReservationVO
 	*/
@@ -175,6 +181,24 @@ class DetailReservationVO  extends DataTemplate
 	*/
 	public function setIdNomProduit($pIdNomProduit) {
 		$this->mIdNomProduit = $pIdNomProduit;
+	}
+
+	/**
+	* @name getIdLot()
+	* @return int(11)
+	* @desc Renvoie le membre IdLot de la DetailReservationVO
+	*/
+	public function getIdLot() {
+		return $this->mIdLot;
+	}
+
+	/**
+	* @name setIdLot($pIdLot)
+	* @param int(11)
+	* @desc Remplace le membre IdLot de la DetailReservationVO par $pIdLot
+	*/
+	public function setIdLot($pIdLot) {
+		$this->mIdLot = $pIdLot;
 	}
 
 	/**

@@ -11,16 +11,13 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationChampComplementaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "CompteZeybuOperationVO.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteAdherentViewManager.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAttenteFermeViewManager.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
 
 /**
  * @name OperationService
@@ -62,6 +59,14 @@ class OperationService
 		$pOperation->setId($lId);
 		$this->insertHistorique($pOperation); // Ajout historique
 
+		// Ajout du champ complementaire
+		$lChampComplementaire = $pOperation->getChampComplementaire();
+		if(!empty($lChampComplementaire)) {
+			foreach($pOperation->getChampComplementaire() as $lChamp) {
+				$lChamp->setOpeId($lId);
+			}
+			OperationChampComplementaireManager::insert($pOperation->getChampComplementaire());
+		}
 		// Selon le type on met à jour le solde du compte
 		$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 		if(in_array($pOperation->getTypePaiement(), $lTypeModificationSolde)) {
@@ -106,6 +111,18 @@ class OperationService
 			}
 			$lCompteService->set($lCompte);
 		}
+		// Maj des champs complémentaires
+		// Suppression des champs complementaires
+		OperationChampComplementaireManager::deleteByIdOpe($pOperation->getId());
+		// Ajout des champs complementaires
+		$lChampComplementaire = $pOperation->getChampComplementaire();
+		if(!empty($lChampComplementaire)) {
+			foreach($pOperation->getChampComplementaire() as $lChamp) {
+				$lChamp->setOpeId($pOperation->getId());
+			}
+			OperationChampComplementaireManager::insert($pOperation->getChampComplementaire());
+		}
+		
 		return OperationManager::update($pOperation); // update de l'opération
 	}
 	
@@ -116,9 +133,10 @@ class OperationService
 	*/
 	public function delete($pId) {
 		$lOperationValid = new OperationValid();
+		
 		if($lOperationValid->delete($pId)){			
 		
-			$lOperation = $this->get($pId);
+			$lOperation = $this->getDetail($pId);
 			// Maj du solde du compte
 			$lTypeModificationSolde = array(1,2,3,4,7,8,9,10,11,12,13,14);
 			if(in_array($lOperation->getTypePaiement(), $lTypeModificationSolde)) {
@@ -178,9 +196,7 @@ class OperationService
 		$lHistoriqueOperation->setLibelle($pOperation->getLibelle());
 		$lHistoriqueOperation->setDate($pOperation->getDate());
 		$lHistoriqueOperation->setTypePaiement($pOperation->getTypePaiement()	);
-		$lHistoriqueOperation->setTypePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire());
 		$lHistoriqueOperation->setType($pOperation->getType());
-		$lHistoriqueOperation->setIdCommande($pOperation->getIdCommande());
 		$lHistoriqueOperation->setIdConnexion($_SESSION[ID_CONNEXION]);
 		return HistoriqueOperationManager::insert($lHistoriqueOperation);
 	}
@@ -218,7 +234,7 @@ class OperationService
 	* @name get($pId)
 	* @param integer
 	* @return array(OperationVO) ou OperationVO
-	* @desc Retourne une liste de virement
+	* @desc Retourne une liste d'operation
 	*/
 	public function get($pId = null) {
 		if($pId != null) {
@@ -248,6 +264,17 @@ class OperationService
 	}
 	
 	/**
+	 * @name getDetail($pId)
+	 * @param integer
+	 * @return array(OperationDetailVO) ou OperationDetailVO
+	 * @desc Retourne une liste d'operation avec le détail
+	 */
+	public function getDetail($pId = null) {
+		return OperationManager::selectDetail($pId);
+	}
+	
+	
+	/**
 	* @name selectByCompte($pIdCompte)
 	* @param integer
 	* @return array(OperationVO)
@@ -271,10 +298,10 @@ class OperationService
 	* @desc Retourne une liste d'Operation
 	*/
 	public function getBonCommande($pIdMarche,$pIdCompteProducteur) {
-		$lOperation = OperationManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-				array('=','=','='),
-				array($pIdMarche,$pIdCompteProducteur,5),
+		$lOperation = OperationManager::rechercheDetail(
+				array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR, OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+				array('=','=','=','='),
+				array(1, $pIdMarche,$pIdCompteProducteur,5),
 				array(''),
 				array(''));
 				
@@ -289,10 +316,10 @@ class OperationService
 	* @desc Récupères toutes les lignes de la table ayant pour IdCompte $pId, IdCommande $pIdCommande et de type 0 ou 1. Puis les renvoie sous forme d'une collection de OperationVO
 	*/
 	public static function getBonLivraison($pIdCommande,$pIdCompte) {
-		return OperationManager::recherche(
-			array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-			array('=','=','='),
-			array($pIdCommande,$pIdCompte, 6),
+		return OperationManager::rechercheDetail(
+			array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
+			array('=','=','=','='),
+			array(1, $pIdCommande,$pIdCompte, 6),
 			array(''),
 			array(''));
 	}
@@ -304,10 +331,10 @@ class OperationService
 	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationVO
 	*/
 	public static function getReservationCommande($pId) {		
-		return OperationManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_ID_COMMANDE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_MONTANT),
-				array('=', '=', '<'),
-				array($pId, 0, 0),
+		return OperationManager::rechercheDetail(
+				array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_MONTANT),
+				array('=', '=', '=', '<'),
+				array(1, $pId, 0, 0),
 				array(''),
 				array(''));
 	}
@@ -469,65 +496,45 @@ class OperationService
 	* @desc Passe une operation au statut validé
 	*/
 	public function validerPaiement($pId) {		
-		$lOperation = $this->get($pId);
+		$lOperation = $this->getDetail($pId);
 		$lOperation->setType(1);
 		$this->update($lOperation);
 	}
 	
 	/**
 	* @name getListeEspeceNonEnregistre()
-	* @return array(OperationAttenteAdherentViewVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentViewVO
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
 	*/
 	public static function getListeEspeceAdherentNonEnregistre() {		
-		return OperationAttenteAdherentViewManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-				array('='),
-				array(1),
-				array(''),
-				array(''));
+		return OperationManager::operationAttenteAdherent(1);
 	}
 	
 	/**
 	* @name getListeChequeAdherentNonEnregistre()
-	* @return array(OperationAttenteAdherentViewVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentViewVO
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
 	*/
-	public static function getListeChequeAdherentNonEnregistre() {		
-		return OperationAttenteAdherentViewManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-				array('='),
-				array(2),
-				array(''),
-				array(''));
+	public static function getListeChequeAdherentNonEnregistre() {				
+		return OperationManager::operationAttenteAdherent(2);
 	}
 	
 	/**
 	* @name getListeEspeceFermeNonEnregistre()
-	* @return array(OperationAttenteFermeViewVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeViewVO
+	* @return array(OperationAttenteFermeVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeVO
 	*/
 	public static function getListeEspeceFermeNonEnregistre() {		
-		return OperationAttenteFermeViewManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-				array('='),
-				array(1),
-				array(''),
-				array(''));
+		return OperationManager::operationAttenteFerme(1);
 	}
 	
 	/**
 	* @name getListeChequeFermeNonEnregistre()
-	* @return array(OperationAttenteFermeViewVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeViewVO
+	* @return array(OperationAttenteFermeVO)
+	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeVO
 	*/
 	public static function getListeChequeFermeNonEnregistre() {		
-		return OperationAttenteFermeViewManager::recherche(
-				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
-				array('='),
-				array(2),
-				array(''),
-				array(''));
+		return OperationManager::operationAttenteFerme(2);
 	}
 	
 	/**
@@ -537,11 +544,7 @@ class OperationService
 	 * @desc Retourne les opérations avenir pour un compte
 	 */
 	public function getOperationAvenir($pIdCompte) {
-		$lCompteService = new CompteService;
-		if($lCompteService->existe($pIdCompte)) {
-			return OperationAvenirViewManager::select( $pIdCompte );
-		}
-		return false;
+		return OperationManager::selectOperationAvenir( $pIdCompte );
 	}
 	
 	/**
@@ -551,11 +554,7 @@ class OperationService
 	 * @desc Retourne les opérations passées d'un compte
 	 */
 	public function getOperationPassee($pIdCompte) {
-		$lCompteService = new CompteService;
-		if($lCompteService->existe($pIdCompte)) {
-			return OperationPasseeViewManager::select( $pIdCompte );
-		}
-		return false;
+		return OperationManager::selectOperationPassee( $pIdCompte );
 	}
 	
 	/**

@@ -11,7 +11,6 @@
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
 		var that = this;
-		//pParam.export_type = 0;
 		pParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -422,6 +421,8 @@
 					lParam.format = lFormat;
 					lParam.fonction = "export";
 					lParam.idCompteFerme = $('#select-prdt').val();
+					
+					console.log(lParam);
 					
 					// Test des erreurs
 					var lValid = new ExportBonReservationValid();

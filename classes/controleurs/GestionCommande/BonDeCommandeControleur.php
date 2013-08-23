@@ -113,11 +113,16 @@ class BonDeCommandeControleur
 			$lIdOperation = $lOperations[0]->getId();
 
 			if(is_null($lIdOperation)) { // Si il n'y a pas d'opération de Bon de commande
-				$lOperation = new OperationVO();
+				$lOperation = new OperationDetailVO();
 				$lOperation->setIdCompte($lIdCompteFerme);
 				$lOperation->setLibelle('Bon de Commande');
 				$lOperation->setTypePaiement(5);
-				$lOperation->setIdCommande($lIdMarche);
+				
+				$lOperationChampComplementaire = new OperationChampComplementaireVO();
+				$lOperationChampComplementaire->setChcpId(1);
+				$lOperationChampComplementaire->setValeur($lIdMarche);
+				
+				$lOperation->setChampComplementaire(array($lOperationChampComplementaire));
 			} else {
 				$lOperation = $lOperations[0];
 			}
@@ -170,7 +175,7 @@ class BonDeCommandeControleur
 					$lDetailOperation->setMontant($lProduit["prix"]);
 					$lDetailOperation->setLibelle('Bon de Commande');
 					$lDetailOperation->setTypePaiement(5);
-					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
+					//$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
 					$lDetailOperation->setIdDetailCommande($lProduit["dcomId"]);
 					$lDetailOperationService->set($lDetailOperation);
 				}			

@@ -29,7 +29,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 					if(isset($_GET["id_marche"])) {
 						$lParam = array("id_commande" => $_GET["id_marche"]);
 						$lPage = $lControleur->getReservation($lParam);
-						//var_dump($lPage);
 						$lLogger->log("Affichage de la vue AfficherReservation par l'Adhérent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 
 						// Préparation de l'affichage

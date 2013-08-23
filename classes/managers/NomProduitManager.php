@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "NomProduitVO.php");
+include_once(CHEMIN_CLASSES_VO . "UniteNomProduitVO.php");
 include_once(CHEMIN_CLASSES_VO . "StockProduitFermeVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockQuantiteManager.php");
 
@@ -246,6 +247,55 @@ class NomProduitManager
 		return $lNomProduit;
 	}
 
+	/**
+	 * @name selectUniteNomProduit($pIdNomProduit)
+	 * @return array(NomProduitVO)
+	 * @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de NomProduitVO
+	 */
+	public static function selectUniteNomProduit($pIdNomProduit) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+					. CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID .
+				","	. CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_ID .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
+				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
+				"," . ModeleLotManager::CHAMP_MODELELOT_UNITE . "
+			FROM " . NomProduitManager::TABLE_NOMPRODUIT . "
+			JOIN " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . "
+				ON " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+			JOIN " . ModeleLotManager::TABLE_MODELELOT . "
+				ON " . ModeleLotManager::CHAMP_MODELELOT_ID_NOM_PRODUIT . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID . "
+				AND " . ModeleLotManager::CHAMP_MODELELOT_ETAT . " = 0 
+			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ETAT . " = 0 
+				AND " . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = '" . StringUtils::securiser($pIdNomProduit) . "'
+			GROUP BY " . ModeleLotManager::CHAMP_MODELELOT_UNITE;
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lUniteNomProduit = new UniteNomProduitVO();
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			
+			$lUniteNomProduit = new UniteNomProduitVO(
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+					array($lLigne[ModeleLotManager::CHAMP_MODELELOT_UNITE]));
+			
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				$lUniteNomProduit->addMLotUnite($lLigne[ModeleLotManager::CHAMP_MODELELOT_UNITE]);
+			}
+		}
+		return $lUniteNomProduit;
+	}
+	
 	/**
 	* @name insert($pVo)
 	* @param NomProduitVO

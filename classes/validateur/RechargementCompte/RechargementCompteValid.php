@@ -12,11 +12,11 @@
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_RECHARGEMENT_COMPTE . "/RechargementCompteVR.php" );
-//include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . "ChampComplementaireValid.php");
+
 
 /**
  * @name RechargementCompteVR
@@ -66,14 +66,6 @@ class RechargementCompteValid
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 			$lVr->getChampComplementaire()->addErreur($lErreur);
 		}
-		if(!isset($pData['idBanque'])) {
-			$lVr->setValid(false);
-			$lVr->getIdBanque()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$lVr->getIdBanque()->addErreur($lErreur);
-		}
 		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!is_int((int)$pData['id'])) {
@@ -116,21 +108,13 @@ class RechargementCompteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);	
 			}
-			if(!empty($pData['champComplementaire']) && !TestFonction::checkLength($pData['champComplementaire'],0,50)) {
+			if(!is_array($pData['champComplementaire'])) {
 				$lVr->setValid(false);
-				$lVr->getChampComplementaire()->setValid(false);
+				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-				$lVr->getChampComplementaire()->addErreur($lErreur);	
-			}
-			if(!empty($pData['champComplementaire']) && !is_int((int)$pData['idBanque']) ) {
-				$lVr->setValid(false);
-				$lVr->getIdBanque()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
-				$lVr->getIdBanque()->addErreur($lErreur);	
+				$lErreur->setCode(MessagesErreurs::ERR_115_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_115_MSG);
+				$lVr->getLog()->addErreur($lErreur);
 			}
 	
 			//Tests Fonctionnels
@@ -177,9 +161,9 @@ class RechargementCompteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);	
 			}
-			//$lTypepaiement = TypePaiementManager::select($pData['typePaiement']);
+			
 			$lTypePaiementService = new TypePaiementService();
-			$lTypePaiement = $lTypePaiementService->get($pData['typePaiement']);
+			$lTypePaiement = $lTypePaiementService->selectDetail($pData['typePaiement']);
 			if($lTypePaiement->getId() != $pData['typePaiement']) {
 				$lVr->setValid(false);
 				$lVr->getTypePaiement()->setValid(false);
@@ -188,37 +172,25 @@ class RechargementCompteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);			
 			} else {
-				// Si des infos complémentaires sont nécessaires
-				if($lTypePaiement->getChampComplementaire() == 1) {
-					if( empty($pData['champComplementaire'])) {				
-						$lVr->setValid(false);
-						$lVr->getChampComplementaire()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-						$lVr->getChampComplementaire()->addErreur($lErreur);	
-					}
-					if(empty($pData['idBanque'])) {
-						$lVr->setValid(false);
-						$lVr->getIdBanque()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-						$lVr->getIdBanque()->addErreur($lErreur);
-					}
-					
-					if($lVr->getValid()) {
-						$lBanqueService = new BanqueService();
-						if(!$lBanqueService->existe($pData['idBanque'])) {
-							$lVr->setValid(false);
-							$lVr->getIdBanque()->setValid(false);
-							$lErreur = new VRerreur();
-							$lErreur->setCode(MessagesErreurs::ERR_261_CODE);
-							$lErreur->setMessage(MessagesErreurs::ERR_261_MSG);
-							$lVr->getIdBanque()->addErreur($lErreur);					
+				
+				$lChampComplementaire = array();
+				foreach($pData['champComplementaire'] as $lChamp) {
+					if(!is_null($lChamp)) {
+						$lObligatoire = NULL;
+						foreach($lTypePaiement->getChampComplementaire() as $lChampTypePaiement) {
+							if($lChampTypePaiement->getId() == $lChamp['id']) {
+								$lObligatoire = $lChampTypePaiement->getObligatoire();
+							};
 						}
+						$lVrChampComplementaire = ChampComplementaireValid::validUpdate($lChamp, $lObligatoire);
+						if(!$lVrChampComplementaire->getValid()) {
+							$lVr->setValid(false);
+						}
+						$lChampComplementaire[$lChamp['id']] = $lVrChampComplementaire;
 					}
 				}
+				$lVr->setChampComplementaire($lChampComplementaire);
+				
 			}		
 		}
 		return $lVr;

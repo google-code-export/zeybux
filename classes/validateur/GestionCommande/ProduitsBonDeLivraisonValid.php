@@ -15,7 +15,8 @@ include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/ProduitsBonDeLivraison
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitBonDeLivraisonValid.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php" );
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 
 /**
  * @name ProduitsBonDeLivraisonVR
@@ -236,8 +237,9 @@ class ProduitsBonDeLivraisonValid
 				$lVr->getId_producteur()->addErreur($lErreur);	
 			}
 			
-			$lTypePaiement = TypePaiementVisibleViewManager::select($pData['typePaiement']);
-			if($lTypePaiement[0]->getTppId() != $pData['typePaiement']) {
+			$lTypePaiementService = new TypePaiementService();
+			$lTypePaiement = $lTypePaiementService->selectVisible($pData['typePaiement']);
+			if($lTypePaiement[0]->getId() != $pData['typePaiement']) {
 				$lVr->setValid(false);
 				$lVr->getTypePaiement()->setValid(false);
 				$lErreur = new VRerreur();

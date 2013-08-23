@@ -11,11 +11,9 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VALIDATEUR . "IdValid.php");
-include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "MontantValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
-//include_once(CHEMIN_CLASSES_VR . "OperationVR.php" );
+include_once(CHEMIN_CLASSES_VALIDATEUR . "TypePaiementValid.php");
 
 /**
  * @name OperationValid
@@ -24,42 +22,14 @@ include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
  * @desc Classe représentant une OperationValid
  */
 class OperationValid
-{
-	/**
-	* @var int(11)
-	* @desc Vr de la OperationValid
-	*/
-	/*protected $mVr;
-	
-	/**
-	* @name getVr()
-	* @return int(11)
-	* @desc Renvoie le membre Vr de la OperationValid
-	*/
-	/*public function getVr() {
-		return $this->mVr;
-	}
-
-	/**
-	* @name setVr($pVr)
-	* @param int(11)
-	* @desc Remplace le membre Vr de la OperationValid par $pVr
-	*/
-	/*public function setVr($pVr) {
-		$this->mVr = $pVr;
-	}*/
-	
+{	
 	/**
 	* @name estOperation($pOperation)
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
 	public function estOperation($pOperation) {
-		if(is_object($pOperation)) {
-			return (get_class($pOperation) == "OperationVO");
-		} else {
-			return false;
-		}
+		return is_object($pOperation) && (get_class($pOperation) == "OperationDetailVO");
 	}
 	
 	/**
@@ -69,11 +39,7 @@ class OperationValid
 	*/
 	public function id($pId) {
 		$lIdValid = new IdValid();
-		if(!empty($pId)){
-			return $lIdValid->estId($pId);
-		} else {
-			return false;
-		}
+		return !empty($pId) && $lIdValid->estId($pId);
 	}
 	
 	/**
@@ -82,8 +48,8 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function compte($pIdCompte) {
-		$lCompteService = new CompteService();
-		return $lCompteService->existe($pIdCompte);
+		$lIdValid = new IdValid();
+		return !empty($pIdCompte) && $lIdValid->estId($pIdCompte);
 	}
 	
 	/**
@@ -102,11 +68,7 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function libelle($pLibelle) {
-		if(is_string($pLibelle)) {
-			return TestFonction::checkLength($pLibelle,0,100);
-		} else {
-			return false;
-		}
+		return is_string($pLibelle) && TestFonction::checkLength($pLibelle,0,100);
 	}
 		
 	/**
@@ -124,42 +86,48 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function typePaiement($pTypePaiement) {
-		$lTypePaiementService = new TypePaiementService();
-		return $lTypePaiementService->existe($pTypePaiement);
+		$lTypePaiementValid = new TypePaiementValid();
+		return $lTypePaiementValid->id($pTypePaiement);
 	}
-	
-	/**
-	* @name typePaiementChampComplementaire($pTypePaiementChampComplementaire)
-	* @return bool
-	* @desc Test la validite de l'élément
-	*/
-	public function typePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		if(is_string((string)$pTypePaiementChampComplementaire)) {
-			return TestFonction::checkLength($pTypePaiementChampComplementaire,0,50);
-		} else if(is_null($pTypePaiementChampComplementaire)) {
-			return true;
-		}
-		return false;
-	}
-	
+		
 	/**
 	* @name type($pType)
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
 	public function type($pType) {
-		return $pType >= 0 && $pType <= 7;
+		return $pType = 0 || $pType = 1;
+	}
+		
+	/**
+	 * @name champComplementaire($pChampComplementaire, $pType)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function champComplementaire($pChampComplementaire, $pType) {
+		return is_array($pChampComplementaire) && $this->champComplementaireDetailOperation($pChampComplementaire, $pType);
 	}
 	
 	/**
-	* @name idCommande($pIdCommande)
-	* @return bool
-	* @desc Test la validite de l'élément
-	*/
-	public function idCommande($pIdCommande) {
+	 * @name champComplementaireDetailOperation($pChampComplementaire, $pType)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function champComplementaireDetailOperation($pChampComplementaire, $pType) {
 		$lIdValid = new IdValid();
-		return $lIdValid->estId($pIdCommande);
+		$lRetour = true;
+		foreach($pChampComplementaire as $lChamp) {
+			$lChcpId = $lChamp->getChcpId();		
+			$lRetour &= !empty($lChcpId)
+					&& $lIdValid->estId($lChcpId)
+					&& TestFonction::checkLength($lChamp->getValeur(),0,50);			
+			if($pType == 'update') {
+				$lRetour &= $lIdValid->estId($lChamp->getOpeId());
+			}			
+		}
+		return $lRetour;
 	}
+	
 	
 	/**
 	* @name insert($pOperation)
@@ -170,16 +138,14 @@ class OperationValid
 		if($this->estOperation($pOperation)) {
 			$lIdValid = new IdValid();
 			$lId = $pOperation->getId();
-						
 			return $lIdValid->estId($lId)
 				&& empty($lId)
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
 				&& $this->libelle($pOperation->getLibelle())
 				&& $this->typePaiement($pOperation->getTypePaiement())
-				&& $this->typePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire())
 				&& $this->type($pOperation->getType())
-				&& $this->idCommande($pOperation->getIdCommande());
+				&& $this->champComplementaire($pOperation->getChampComplementaire(),'insert');
 				
 		} else {
 			return false;
@@ -192,16 +158,15 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function update($pOperation) {
-		if($this->estOperation($pOperation)) {
+		if($this->estOperation($pOperation)) {			
 			$lIdValid = new IdValid();
 			return $this->id($pOperation->getId())
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())
 				&& $this->libelle($pOperation->getLibelle())
 				&& $this->typePaiement($pOperation->getTypePaiement())
-				&& $this->typePaiementChampComplementaire($pOperation->getTypePaiementChampComplementaire())
 				&& $this->type($pOperation->getType())
-				&& $this->idCommande($pOperation->getIdCommande());
+				&& $this->champComplementaire($pOperation->getChampComplementaire(),'update');
 		} else {
 			return false;
 		}

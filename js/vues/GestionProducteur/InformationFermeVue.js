@@ -26,26 +26,20 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		
-		/*this.mIdFerme = lResponse.ferme.ferId;
-		this.mferNumero = lResponse.ferme.ferNumero;*/
-		
-		
-		
 		if(lResponse.ferme[0].ferSiren == 0 ) {lResponse.ferme[0].ferSiren = "";}
 		lResponse.ferme[0].ferDateAdhesion = lResponse.ferme[0].ferDateAdhesion.extractDbDate().dateDbToFr();
 		
 		this.mFerme = lResponse.ferme[0];
 		
 		$(lResponse.operationPassee).each(function() {
-			this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+			this.date = this.date.extractDbDate().dateDbToFr();
 			if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
-			if(this.opeMontant < 0) {
-				this.credit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+			if(this.montant < 0) {
+				this.credit = (this.montant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 				this.debit = '';
 			} else {
 				this.credit = '';
-				this.debit = this.opeMontant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+				this.debit = this.montant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 			}
 		});
 						

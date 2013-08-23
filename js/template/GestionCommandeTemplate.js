@@ -2728,4 +2728,308 @@
 			"</div>" +
 			"<p id=\"texte-liste-vide\">Aucun produit pour cette ferme dans la base.</p>" +	
 		"</div>";
+	
+	this.rechercheListeFacture = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Factures" +
+					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter une Facture\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
+						"</span>Ajouter" +
+					"</span>" +
+				"</div>" +
+				"<div id=\"form-recherche-liste-facture\" class=\"com-center\">" +
+					"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+					" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+					"Marché " +
+					"<select id=\"idMarche\" >" +
+						"<option value=\"0\" >Tout</option>" +
+						"<option value=\"-1\" >Hors Marché</option>" +
+						"<!-- BEGIN listeMarche -->" +
+						"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+						"<!-- END listeMarche -->" +
+					"</select>" +
+					"<button type=\"button\" id=\"btn-rechercher-liste-facture\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"liste-facture\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeFacture = 
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Ferme</th>	" +
+					"<th class=\"com-table-th-med com-center\">Montant</th>	" +
+					"<th class=\"com-table-th-fin\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeFacture -->" +
+				"<tr>" +
+					"<td class=\"com-table-td-debut\">{listeFacture.valeur}</td>" +
+					"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{listeFacture.dateTri}</span>{listeFacture.date}</td>" +
+					"<td class=\"com-table-td-med\">{listeFacture.numero}</td>" +
+					"<td class=\"com-table-td-med\">{listeFacture.nom}</td>" +
+					"<td class=\"com-table-td-med com-text-align-right\">{listeFacture.montant} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-fin\">" +
+						"<span data-id-facture=\"{listeFacture.id}\" class=\"btn-afficher-facture com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+							"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+						"</span>" +
+					"</td>" +								
+				"</tr>" +
+				"<!-- END listeFacture -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeFactureNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
+	
+	this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucune Facture.</p>";
+	
+	this.facture =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<span class=\"entete-numero-facture\" >Facture n°{numeroFacture}</span>" +
+					"<span>Ferme : {listeFermeAffiche}</span>" +					
+					"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter la facture\">" +
+						"<span class=\"ui-icon ui-icon-print\">" +
+						"</span>" +
+					"</span>" +
+				"</div>" +
+				"<div id=\"liste-pdt\"></div>" +
+		"</div>";
+	
+	this.factureSelectFerme = 
+		"<select id=\"select-ferme\">" +
+			"<option value=\"0\">== Choisir une ferme ==</option>" +
+			"<!-- BEGIN listeFerme -->" +
+			"<option value=\"{listeFerme.ferId}\">{listeFerme.ferNom}</option>" +
+			"<!-- END listeFerme -->" +
+		"</select>";
+		
+	this.listeProduitFermeVide = "<div id=\"liste-pdt\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">Aucun produit pour cette ferme.</div>";
+	
+	this.listeProduitFerme = 
+		"<div id=\"liste-pdt\">" +
+			"<div id=\"facture-catalogue-produit\" >" +
+				"<div id=\"form-affiche-paiement-facture\" class=\"ui-helper-hidden com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
+					"<table >" +
+						"<thead>" +
+							"<tr>" +
+								"<td>Total</td>" +
+								"<td><input type=\"text\" name=\"montant-total\" value=\"{montant}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr id=\"ligne-operation\">" +
+								"<td>Paiement</td>" +
+								"<td>" +
+									"<select name=\"typepaiement\" id=\"typePaiement\">" +
+										"<option value=\"0\">== Choisir ==</option>" +
+										"<!-- BEGIN typePaiement -->" +
+										"<option value=\"{typePaiement.id}\">{typePaiement.type}</option>" +
+										"<!-- END typePaiement -->" +
+									"</select>" +
+								"</td>" +
+							"</tr>" +
+							"{champComplementaire}" +
+						"</tbody>" +
+					"</table>" +					
+				"</div>" +
+				"<div id=\"affiche-paiement-facture\" class=\"ui-helper-hidden com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
+					"<table >" +
+						"<thead>" +
+							"<tr>" +
+								"<td>Total</td>" +
+								"<td>{montantAffiche} {sigleMonetaire}</td>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr id=\"ligne-operation\">" +
+								"<td>Paiement</td>" +
+								"<td>{tppType}</td>" +
+							"</tr>" +
+							"{champComplementaireAffiche}" +							
+					"</table>" +							
+				"</div>" +				
+				"<div id=\"widget-catalogue-produit\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-produit\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-produit\" id=\"filter-produit\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
+			
+					"<table class=\"com-table\" id=\"table-produit\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut\">Ref.</th>" +
+								"<th class=\"com-table-th-med\">Nom</th>" +
+								"<th class=\"com-table-th-fin td-edt\"></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+						"<!-- BEGIN listeProduit -->" +
+							"<tr class=\"ui-widget-header\">" +
+								"<th colspan=\"3\" class=\"com-table-th\">{listeProduit.nom}</th>" +
+							"</tr>" +
+						
+							"<!-- BEGIN listeProduit.produits -->" +
+							"<tr class=\"com-cursor-pointer\">" +
+								"<td class=\"com-table-td-debut\">{listeProduit.produits.nproNumero}</td>" +
+								"<td class=\"com-table-td-med\">{listeProduit.produits.nproNom}</td>" +
+								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
+									"<span data-id-nom-produit=\"{listeProduit.produits.nproId}\" class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-ajout-produit\" title=\"Ajouter\">" +
+										"<span class=\"ui-icon ui-icon-plusthick\"></span>" +
+									"</span>" +
+								"</td>" +
+							"</tr>" +
+							"<!-- END listeProduit.produits -->" +
+						"<!-- END listeProduit -->" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"facture-detail\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"{detailFacture}" +
+			"</div>" +
+		"</div>";
+	
+	this.detailFactureVide = 
+		"<div class=\"detail-facture com-center\">Ajouter un produit.</div>" +
+		"<div class=\"detail-facture ui-helper-hidden\">" +	
+			"<table class=\"com-table\" id=\"table-detail-facture\">" +
+				"<thead>" +
+					"<tr>" +
+						"<th class=\"facture-detail-ref\">Ref.</th>" +
+						"<th class=\"facture-detail-nom\">Nom</th>" +
+						"<th class=\"facture-detail-quantite\">Quantite</th>" +
+						"<th class=\"facture-detail-montant\">Montant</th>" +
+						"<th class=\"facture-detail-quantite\">Solidaire</th>" +
+						"<th></th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+				"</tbody>" +
+			"</table>" +
+			"<div class=\"com-center\">" +
+				"<button type=\"button\" id=\"btn-enregistrer-facture\" class=\"ui-state-default ui-corner-all com-button com-center\">Enregistrer</button>" +
+				"<button type=\"button\" id=\"btn-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+				"<button type=\"button\" id=\"btn-supprimer-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Supprimer</button>" +
+				"<button type=\"button\" id=\"btn-annuler-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
+				"<button type=\"button\" id=\"btn-enregistrer-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Enregistrer</button>" +
+			"</div>" +
+		"</div>";
+	
+	this.champComplementaire =
+		"<!-- BEGIN champComplementaire -->" +
+			"<tr class=\"champ-complementaire\">" +
+				"<td>{champComplementaire.label}</td>" +
+				"<td>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+				"</td>" +
+			"</tr>" +
+		"<!-- END champComplementaire -->";
+	
+	this.listeProduitAffiche = 
+		"<!-- BEGIN categorie -->" +
+			"<tr id=\"cat-{categorie.cproId}\">" +
+				"<th colspan=\"6\" class=\"ui-widget-header\">{categorie.cproNom}</th>" +
+			"</tr>" +
+			"<!-- BEGIN categorie.produits -->" +
+			"<!-- BEGIN categorie.produits.produit -->" +
+			"<tr id=\"stock-{categorie.produits.produit.compteurStock}\" class=\"cat-{categorie.cproId} pro-{categorie.produits.produit.nproId} produit-detail-facture\" data-compteur-stock=\"{categorie.produits.produit.compteurStock}\" data-id-nom-produit=\"{categorie.produits.produit.nproId}\" >" +
+				"<td>{categorie.produits.produit.nproNumero}</td>" +
+				"<td>{categorie.produits.produit.nproNom}</td>" +
+				"<td class=\"produit-detail-facture-stock\" data-id-stock=\"{categorie.produits.produit.idStock}\" >" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.quantiteAffiche}</span> " +
+						"<span>{categorie.produits.produit.uniteAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.quantite}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}quantite\" /> " +
+						"<span class=\"facture-detail-unite-span\">{categorie.produits.produit.unite}</span>" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"produit-detail-facture-montant\" data-id-detail-operation=\"{categorie.produits.produit.idDetailOperation}\">" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.montantAffiche}</span> " +
+						"<span>{categorie.produits.produit.sigleMonetaireAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
+						"{categorie.produits.produit.sigleMonetaire}" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"produit-detail-facture-stock-solidaire\" data-id-stock-solidaire=\"{categorie.produits.produit.idStockSolidaire}\">" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.quantiteSolidaireAffiche}</span> " +
+						"<span>{categorie.produits.produit.uniteSolidaireAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.quantiteSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}quantiteSolidaire\" /> " +
+						"<span class=\"facture-detail-unite-span\">{categorie.produits.produit.uniteSolidaire}</span>" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"td-edt\">" +
+					"<span data-compteur-stock=\"{categorie.produits.produit.compteurStock}\" data-id-categorie=\"{categorie.cproId}\" data-id-nom-produit=\"{categorie.produits.produit.nproId}\" class=\"ui-helper-hidden affiche-detail-facture com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+					"</span>" +
+				"</td>" +
+			"</tr>" +
+			"<!-- END categorie.produits.produit -->" +
+			"<!-- END categorie.produits -->" +
+		"<!-- END categorie -->";
+	
+	this.categorieDetailFacture =
+		"<tr id=\"cat-{cproId}\">" +
+			"<th colspan=\"6\" class=\"ui-widget-header\">{cproNom}</th>" +
+		"</tr>";
+	
+	this.produitDetailFacture = 
+		"<tr id=\"stock-{compteurStock}\" class=\"cat-{cproId} pro-{nproId} produit-detail-facture\" data-compteur-stock=\"{compteurStock}\" data-id-nom-produit=\"{nproId}\" >" +
+			"<td>{nproNumero}</td>" +
+			"<td>{nproNom}</td>" +
+			"<td class=\"produit-detail-facture-stock\">" +
+				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantite\" /> <span class=\"facture-detail-unite-span\">{unite}</span>" +
+			"</td>" +
+			"<td class=\"produit-detail-facture-montant\">" +
+				"<input type=\"text\" value=\"\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}montant\" /> {sigleMonetaire}" +
+			"</td>" +
+			"<td class=\"produit-detail-facture-stock-solidaire\">" +
+				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantiteSolidaire\" /> <span class=\"facture-detail-unite-span\">{uniteSolidaire}</span>" +
+			"</td>" +
+			"<td class=\"td-edt\">" +
+				"<span data-compteur-stock=\"{compteurStock}\" data-id-categorie=\"{cproId}\" data-id-nom-produit=\"{nproId}\" class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\">" +
+					"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+				"</span>" +
+			"</td>" +
+		"</tr>";
+	
+	this.uniteDetailFactureSelect = 
+		"<select class=\"facture-detail-unite\" id=\"produits{compteurStock}unite{type}\">" +
+			"<!-- BEGIN mLotUnite -->" +
+			"<option value=\"{mLotUnite.unite}\">{mLotUnite.unite}</option>" +
+			"<!-- END mLotUnite -->" +
+		"</select>";
+	
+	this.dialogSupprimerFacture =
+		"<div title=\"Supprimer la facture\">" +
+			"<p>Voulez-vous supprimer cette facture ?</p>" +
+		"</div>";	
 }

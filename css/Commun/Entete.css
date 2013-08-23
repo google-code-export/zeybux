@@ -9,7 +9,6 @@
 
 .ui-widget {
 	font-size: 1em;
-	font-weight: bold;
 }
 
 /* Progressbar */
@@ -17,6 +16,7 @@
 
 .ui-widget-overlay { z-index: 9999;}
 .ui-dialog { z-index: 10000; }
+.ui-autocomplete { z-index: 10001; }
 
 /*** Le Site ***/
 
@@ -325,4 +325,19 @@ body {
 .recherche #filter, .recherche .filter {
 	height:20px;
 	width:182px;
+}
+
+/*** Formulaire Dialog ***/
+.formulairer_dialog table {
+	padding:3px;	
+}
+
+.formulairer_dialog td {
+	border-collapse:collapse;
+	padding:3px;	
+}
+
+.formulairer_dialog input {
+	width:200px;
+	margin-left:5px;
 }

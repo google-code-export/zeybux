@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/06/2011
+// Date de creation : 03/08/2013
 // Fichier : AccesManager.php
 //
 // Description : Classe de gestion des Acces
@@ -13,11 +13,11 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "AccesVO.php");
 
-define("TABLE_ACCES", MYSQL_DB_PREFIXE . "acc_acces");
+define("TABLE_ACCES", MYSQL_DB_PREFIXE ."acc_acces");
 /**
  * @name AccesManager
  * @author Julien PIERRE
- * @since 26/06/2011
+ * @since 03/08/2013
  * 
  * @desc Classe permettant l'accès aux données des Acces
  */
@@ -28,6 +28,7 @@ class AccesManager
 	const CHAMP_ACCES_ID_LOGIN = "acc_id_login";
 	const CHAMP_ACCES_TYPE_LOGIN = "acc_type_login";
 	const CHAMP_ACCES_IP = "acc_ip";
+	const CHAMP_ACCES_NAV = "acc_nav";
 	const CHAMP_ACCES_DATE_CREATION = "acc_date_creation";
 	const CHAMP_ACCES_DATE_MODIFICATION = "acc_date_modification";
 	const CHAMP_ACCES_AUTORISE = "acc_autorise";
@@ -49,6 +50,7 @@ class AccesManager
 			"," . AccesManager::CHAMP_ACCES_ID_LOGIN . 
 			"," . AccesManager::CHAMP_ACCES_TYPE_LOGIN . 
 			"," . AccesManager::CHAMP_ACCES_IP . 
+			"," . AccesManager::CHAMP_ACCES_NAV . 
 			"," . AccesManager::CHAMP_ACCES_DATE_CREATION . 
 			"," . AccesManager::CHAMP_ACCES_DATE_MODIFICATION . 
 			"," . AccesManager::CHAMP_ACCES_AUTORISE . "
@@ -65,6 +67,7 @@ class AccesManager
 				$lLigne[AccesManager::CHAMP_ACCES_ID_LOGIN],
 				$lLigne[AccesManager::CHAMP_ACCES_TYPE_LOGIN],
 				$lLigne[AccesManager::CHAMP_ACCES_IP],
+				$lLigne[AccesManager::CHAMP_ACCES_NAV],
 				$lLigne[AccesManager::CHAMP_ACCES_DATE_CREATION],
 				$lLigne[AccesManager::CHAMP_ACCES_DATE_MODIFICATION],
 				$lLigne[AccesManager::CHAMP_ACCES_AUTORISE]);
@@ -88,6 +91,7 @@ class AccesManager
 			"," . AccesManager::CHAMP_ACCES_ID_LOGIN . 
 			"," . AccesManager::CHAMP_ACCES_TYPE_LOGIN . 
 			"," . AccesManager::CHAMP_ACCES_IP . 
+			"," . AccesManager::CHAMP_ACCES_NAV . 
 			"," . AccesManager::CHAMP_ACCES_DATE_CREATION . 
 			"," . AccesManager::CHAMP_ACCES_DATE_MODIFICATION . 
 			"," . AccesManager::CHAMP_ACCES_AUTORISE . "
@@ -105,6 +109,7 @@ class AccesManager
 					$lLigne[AccesManager::CHAMP_ACCES_ID_LOGIN],
 					$lLigne[AccesManager::CHAMP_ACCES_TYPE_LOGIN],
 					$lLigne[AccesManager::CHAMP_ACCES_IP],
+					$lLigne[AccesManager::CHAMP_ACCES_NAV],
 					$lLigne[AccesManager::CHAMP_ACCES_DATE_CREATION],
 					$lLigne[AccesManager::CHAMP_ACCES_DATE_MODIFICATION],
 					$lLigne[AccesManager::CHAMP_ACCES_AUTORISE]));
@@ -136,6 +141,7 @@ class AccesManager
 			"," . AccesManager::CHAMP_ACCES_ID_LOGIN .
 			"," . AccesManager::CHAMP_ACCES_TYPE_LOGIN .
 			"," . AccesManager::CHAMP_ACCES_IP .
+			"," . AccesManager::CHAMP_ACCES_NAV .
 			"," . AccesManager::CHAMP_ACCES_DATE_CREATION .
 			"," . AccesManager::CHAMP_ACCES_DATE_MODIFICATION .
 			"," . AccesManager::CHAMP_ACCES_AUTORISE		);
@@ -160,6 +166,7 @@ class AccesManager
 						$lLigne[AccesManager::CHAMP_ACCES_ID_LOGIN],
 						$lLigne[AccesManager::CHAMP_ACCES_TYPE_LOGIN],
 						$lLigne[AccesManager::CHAMP_ACCES_IP],
+						$lLigne[AccesManager::CHAMP_ACCES_NAV],
 						$lLigne[AccesManager::CHAMP_ACCES_DATE_CREATION],
 						$lLigne[AccesManager::CHAMP_ACCES_DATE_MODIFICATION],
 						$lLigne[AccesManager::CHAMP_ACCES_AUTORISE]));
@@ -176,23 +183,25 @@ class AccesManager
 	}
 
 	/**
-	* @name remplirAcces($pId, $pIdLogin, $pTypeLogin, $pIp, $pDateCreation, $pDateModification, $pAutorise)
+	* @name remplirAcces($pId, $pIdLogin, $pTypeLogin, $pIp, $pNav, $pDateCreation, $pDateModification, $pAutorise)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(40)
+	* @param varchar(100)
 	* @param datetime
 	* @param timestamp
 	* @param int(11)
 	* @return AccesVO
 	* @desc Retourne une AccesVO remplie
 	*/
-	private static function remplirAcces($pId, $pIdLogin, $pTypeLogin, $pIp, $pDateCreation, $pDateModification, $pAutorise) {
+	private static function remplirAcces($pId, $pIdLogin, $pTypeLogin, $pIp, $pNav, $pDateCreation, $pDateModification, $pAutorise) {
 		$lAcces = new AccesVO();
 		$lAcces->setId($pId);
 		$lAcces->setIdLogin($pIdLogin);
 		$lAcces->setTypeLogin($pTypeLogin);
 		$lAcces->setIp($pIp);
+		$lAcces->setNav($pNav);
 		$lAcces->setDateCreation($pDateCreation);
 		$lAcces->setDateModification($pDateModification);
 		$lAcces->setAutorise($pAutorise);
@@ -216,21 +225,47 @@ class AccesManager
 				," . AccesManager::CHAMP_ACCES_ID_LOGIN . "
 				," . AccesManager::CHAMP_ACCES_TYPE_LOGIN . "
 				," . AccesManager::CHAMP_ACCES_IP . "
+				," . AccesManager::CHAMP_ACCES_NAV . "
 				," . AccesManager::CHAMP_ACCES_DATE_CREATION . "
 				," . AccesManager::CHAMP_ACCES_DATE_MODIFICATION . "
 				," . AccesManager::CHAMP_ACCES_AUTORISE . ")
-			VALUES (NULL
+			VALUES ";
+
+		if(is_array($pVo)) {
+			$lNbVO = count($pVo);
+			$lI = 1;
+			foreach($pVo as $lVo) {
+				$lRequete .= "(NULL
+				,'" . StringUtils::securiser( $lVo->getIdLogin() ) . "'
+				,'" . StringUtils::securiser( $lVo->getTypeLogin() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIp() ) . "'
+				,'" . StringUtils::securiser( $lVo->getNav() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDateCreation() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDateModification() ) . "'
+				,'" . StringUtils::securiser( $lVo->getAutorise() ) . "')";
+
+				if($lNbVO == $lI) {
+					$lRequete .= ";";
+				} else {
+					$lRequete .= ",";
+				}
+				$lI++;
+			}
+		} else{
+			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getIdLogin() ) . "'
 				,'" . StringUtils::securiser( $pVo->getTypeLogin() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIp() ) . "'
+				,'" . StringUtils::securiser( $pVo->getNav() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateCreation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDateModification() ) . "'
-				,'" . StringUtils::securiser( $pVo->getAutorise() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getAutorise() ) . "');";
+		}
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
 	}
-	
+
 	/**
 	* @name update($pVo)
 	* @param AccesVO
@@ -241,21 +276,20 @@ class AccesManager
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
-		$pVo->setDateModification(StringUtils::dateTimeAujourdhuiDb());
-		
 		$lRequete = 
 			"UPDATE " . AccesManager::TABLE_ACCES . "
 			 SET
 				 " . AccesManager::CHAMP_ACCES_ID_LOGIN . " = '" . StringUtils::securiser( $pVo->getIdLogin() ) . "'
 				," . AccesManager::CHAMP_ACCES_TYPE_LOGIN . " = '" . StringUtils::securiser( $pVo->getTypeLogin() ) . "'
 				," . AccesManager::CHAMP_ACCES_IP . " = '" . StringUtils::securiser( $pVo->getIp() ) . "'
+				," . AccesManager::CHAMP_ACCES_NAV . " = '" . StringUtils::securiser( $pVo->getNav() ) . "'
 				," . AccesManager::CHAMP_ACCES_DATE_CREATION . " = '" . StringUtils::securiser( $pVo->getDateCreation() ) . "'
 				," . AccesManager::CHAMP_ACCES_DATE_MODIFICATION . " = '" . StringUtils::securiser( $pVo->getDateModification() ) . "'
 				," . AccesManager::CHAMP_ACCES_AUTORISE . " = '" . StringUtils::securiser( $pVo->getAutorise() ) . "'
 			 WHERE " . AccesManager::CHAMP_ACCES_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**
@@ -272,7 +306,7 @@ class AccesManager
 			WHERE " . AccesManager::CHAMP_ACCES_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 }
 ?>

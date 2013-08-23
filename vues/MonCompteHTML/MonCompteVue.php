@@ -144,21 +144,21 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 
 		$lType = '';
 		if($lOperation->getTppId() == 2) {
-			$lType = $lOperation->getTppType() . " N° " . $lOperation->getOpeTypePaiementChampComplementaire();
+			$lType = $lOperation->getTppType() . " N° " . $lOperation->getchampComplementaire()[3]->getValeur();
 		}
 		
-		if( $lOperation->getOpeMontant() > 0 ) {
+		if( $lOperation->getMontant() > 0 ) {
 			$lTemplate->assign_block_vars('operationPassee', array(
-						'opeLibelle' => $lOperation->getOpeLibelle(),
-						'opeDate' => StringUtils::dateDbToFr($lOperation->getOpeDate()),
+						'opeLibelle' => $lOperation->getLibelle(),
+						'opeDate' => StringUtils::dateDbToFr($lOperation->getDate()),
 						'tppType' => $lType,
-						'credit'  => StringUtils::affichageMonetaireFr($lOperation->getOpeMontant() )  . " " . SIGLE_MONETAIRE));
+						'credit'  => StringUtils::affichageMonetaireFr($lOperation->getMontant() )  . " " . SIGLE_MONETAIRE));
 		} else {
 			$lTemplate->assign_block_vars('operationPassee', array(
-					'opeLibelle' => $lOperation->getOpeLibelle(),
-					'opeDate' => StringUtils::dateDbToFr($lOperation->getOpeDate()),
+					'opeLibelle' => $lOperation->getLibelle(),
+					'opeDate' => StringUtils::dateDbToFr($lOperation->getDate()),
 					'tppType' => $lType,
-					'debit' => StringUtils::affichageMonetaireFr( $lOperation->getOpeMontant() * -1 )  . " " . SIGLE_MONETAIRE));
+					'debit' => StringUtils::affichageMonetaireFr( $lOperation->getMontant() * -1 )  . " " . SIGLE_MONETAIRE));
 		}
 		$i++;
 	}

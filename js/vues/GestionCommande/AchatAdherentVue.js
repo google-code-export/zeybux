@@ -171,12 +171,7 @@
 
 		$('#contenu').replaceWith(that.affect($(lHtml)));	
 	};
-	
-	/*this.affectDroitArchive = function(pData) {
-		pData.find(".com-btn-header-multiples").remove();
-		return pData;
-	};*/
-	
+		
 	this.affect = function(pData) {
 		pData = this.affectRetour(pData);
 		pData = this.affectAjoutProduit(pData);
@@ -258,8 +253,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -349,7 +342,13 @@
 									
 									var lGestionCommandeTemplate = new GestionCommandeTemplate();
 									var lTemplate = lGestionCommandeTemplate.detailProduitAjoutAchatProduit;
-									var lData = {unite: lResponse.unite[0].mLotUnite, sigleMonetaire: gSigleMonetaire, idProduit: lId};
+									
+									var lUnite = '';
+									$.each(lResponse.unite, function() {
+										lUnite = this.mLotUnite;
+									});
+
+									var lData = {unite: lUnite, sigleMonetaire: gSigleMonetaire, idProduit: lId};
 																	
 									$("#detail-achat").replaceWith(that.affectDetailProduit($(lTemplate.template(lData))));
 									

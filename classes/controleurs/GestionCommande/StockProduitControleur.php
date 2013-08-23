@@ -20,7 +20,6 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeProduitResp
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/UniteResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
@@ -34,8 +33,8 @@ include_once(CHEMIN_CLASSES_TOVO . "ProduitAjoutAchatToVO.php");*/
 
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeProduitResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/StockQuantiteValid.php");
 include_once(CHEMIN_CLASSES_TOVO . "StockQuantiteToVO.php" );
@@ -55,7 +54,8 @@ class StockProduitControleur
 	public function getListeFerme() {
 		// Lancement de la recherche
 		$lResponse = new ListeFermeResponse();
-		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		$lFermeService = new FermeService();
+		$lResponse->setListeFerme($lFermeService->get());
 		return $lResponse;
 	}
 	

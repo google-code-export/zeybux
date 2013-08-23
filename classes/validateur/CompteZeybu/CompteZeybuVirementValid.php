@@ -307,9 +307,17 @@ class CompteZeybuVirementValid
 				}*/
 				
 				$lOperationService = new OperationService();			
-				$lOperation = $lOperationService->get($pData['id']);
-				$lOperationSoeur = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
-				if(!$lCompteService->existe($lOperationSoeur->getIdCompte())) {
+				$lOperation = $lOperationService->getDetail($pData['id']);
+				
+				if($lOperation->getTypePaiement() == 3 || $lOperation->getTypePaiement() == 9) {
+					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
+				} else if($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10) {
+					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
+				}
+				
+				//$lOperationSoeur = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+				if(!$lCompteService->existe($lOperationSoeur->getIdCompte())
+						|| !$lCompteService->existe($lOperation->getIdCompte())) {
 					$lVr->setValid(false);
 					$lVr->getId()->setValid(false);
 					$lErreur = new VRerreur();

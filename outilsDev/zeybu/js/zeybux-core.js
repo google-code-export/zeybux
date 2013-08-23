@@ -689,7 +689,7 @@ sortABC = function(a, b){
 			if( (nPos.left + infobulle.width()) > (nPosSite.left + $("#site").width()) ) {nPos.left -= infobulle.width();}
 			if( (nPos.top + infobulle.height()) > (nPosSite.top + $("#site").height()) ) {nPos.top -= (infobulle.height() + 2*pInput.height() + 8);}
 						
-			infobulle.css('position', 'absolute').css('z-index', '2000');
+			infobulle.css('position', 'absolute').css('z-index', '11000');
 			infobulle.css(nPos).fadeIn(gTempsTransitionUnique);	
 		}
 		function disparition() { //infobulle.fadeOut(gTempsTransitionUnique);
@@ -1042,6 +1042,9 @@ function CompteZeybuModifierVirementVO() {
 	this.idCompteFerme = '';
 };function ProduitAchatVO() {
 	this.id = '';
+	this.nproId = '';
+	this.dcomId = '';
+	this.lotId = '';
 	this.quantite = '';
 	this.prix = '';
 }
@@ -1367,6 +1370,9 @@ function CompteZeybuModifierVirementVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.dcomId = new VRelement();
+	this.lotId = new VRelement();
+	this.nproId = new VRelement();
 	this.quantite = new VRelement();
 	this.prix = new VRelement();
 }
@@ -1560,10 +1566,15 @@ function CompteZeybuModifierVirementVR() {
 		var lVR = new ProduitAchatVR();
 		//Tests Techniques
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+		if(isNaN(parseInt(pData.nproId))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(pData.quantite != '' && !pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
 		if(pData.prix != '' && !pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+		if(pData.dcomId != '' && !pData.dcomId.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(pData.dcomId != '' && !pData.dcomId.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+		if(pData.lotId != '' && !pData.lotId.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+		if(pData.lotId != '' && !pData.lotId.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
 		if((isNaN(pData.quantite) || pData.quantite == 0 || pData.prix == '') && (!isNaN(pData.prix) && pData.prix != 0)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_214_CODE;erreur.message = ERR_214_MSG;lVR.quantite.erreurs.push(erreur);}
@@ -1571,7 +1582,9 @@ function CompteZeybuModifierVirementVR() {
 		
 		if((isNaN(pData.prix) || pData.prix == 0 || pData.prix == '') && (!isNaN(pData.quantite) && pData.quantite != 0)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_213_CODE;erreur.message = ERR_213_MSG;lVR.prix.erreurs.push(erreur);}
 		if(pData.prix >= 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
-
+		
+		if(pData.dcomId.isEmpty() && pData.lotId.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+		
 		return lVR;
 	};
 
@@ -1587,10 +1600,15 @@ function CompteZeybuModifierVirementVR() {
 			var lVR = new ProduitAchatVR();
 			//Tests Techniques
 			if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+			if(isNaN(parseInt(pData.nproId))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 			if(!pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
 			if(pData.quantite != '' && !pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
 			if(!pData.prix.checkLength(0,12)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prix.erreurs.push(erreur);}
 			if(pData.prix != '' && !pData.prix.isFloat()) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.prix.erreurs.push(erreur);}
+			if(pData.dcomId != '' && !pData.dcomId.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+			if(pData.dcomId != '' && !pData.dcomId.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
+			if(pData.lotId != '' && !pData.lotId.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+			if(pData.lotId != '' && !pData.lotId.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
 
 			//Tests Fonctionnels
 			if((isNaN(pData.quantite) || pData.quantite == 0) && (!isNaN(pData.prix) && pData.prix != 0)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_214_CODE;erreur.message = ERR_214_MSG;lVR.quantite.erreurs.push(erreur);}
@@ -1599,6 +1617,8 @@ function CompteZeybuModifierVirementVR() {
 			if((isNaN(pData.prix) || pData.prix == 0) && (!isNaN(pData.quantite) && pData.quantite != 0)) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_213_CODE;erreur.message = ERR_213_MSG;lVR.prix.erreurs.push(erreur);}
 			if(pData.prix < 0) {lVR.valid = false;lVR.prix.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.prix.erreurs.push(erreur);}
 
+			if(pData.dcomId.isEmpty() && pData.lotId.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+			
 			return lVR;
 		}
 		return lTestId;
@@ -1717,7 +1737,7 @@ function CompteZeybuModifierVirementVR() {
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
-
+		
 		//Tests Fonctionnels
 		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 		
@@ -1767,23 +1787,23 @@ function CompteZeybuModifierVirementVR() {
 			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}		
 		//}
 		
-		// Il faut au moins 1 produit sur la commande
-		if(!lNbPdt) {
+		// Si il y a rechargement du compte on le test
+		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
+				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
+			var lValidRechargement = new RechargementCompteValid();
+			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
+			if(!lVR.rechargement.valid){
+				lVR.valid = false;
+				lVR.rechargement.montant.valid = false;
+			}
+		} else if(!lNbPdt) { // Si pas de rechargement il faut au moins 1 produit sur la commande
 			lVR.valid = false;
 			lVR.log.valid = false;
 			var erreur = new VRerreur();
 			erreur.code = ERR_207_CODE;
 			erreur.message = ERR_207_MSG;
 			lVR.log.erreurs.push(erreur);					
-		}		
-		
-		// Si il y a rechargement du compte on le test
-		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
-				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
-			var lValidRechargement = new RechargementCompteValid();
-			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
-			if(!lVR.rechargement.valid){lVR.valid = false;}
-		}		
+		}
 		
 		return lVR;
 	};
@@ -1794,57 +1814,57 @@ function CompteZeybuModifierVirementVR() {
 		if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.idCompte.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.idCompte.isInt()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
-		if(!pData.solde.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
+	/*	if(!pData.solde.checkLength(0,11)) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.log.erreurs.push(erreur);}
 		if(!pData.solde.isFloat()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.log.erreurs.push(erreur);}
-
+*/	
 		//Tests Fonctionnels
 		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 		
-		var lNbPdt = false;
-		//if(pData.NbProduits > 0) {
-			if(isArray(pData.produits)) {		
-				if(pData.produits.length > 0 && pData.produits[0] != '') {
-					lNbPdt = true;
-					var lValidProduit = new ProduitAchatValid();
-					var i = 0;
-					var lNbProduit = 0;
-					while(pData.produits[i]) {
-						var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
-						if(!lVrProduit.valid){lVR.valid = false;}
-						if(!pData.produits[i].id.isEmpty()) {
-							lVR.produits[pData.produits[i].id] = lVrProduit;
-						} else {
-							lVR.produits.push(lVrProduit);
-						}
-						
-						if(!isNaN(pData.produits[i].quantite) && pData.produits[i].quantite != 0) {lNbProduit++;}					
-						i++;
-					}				
-				}
-			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
-		//}
-		
-		//if(pData.NbProduitsSolidaire > 0) {
-			if(isArray(pData.produitsSolidaire)) {		
-				if(pData.produitsSolidaire.length > 0 && pData.produitsSolidaire[0] != '') {
-					lNbPdt = true;
-					var lValidProduit = new ProduitAchatValid();
-					var i = 0;
-					var lNbProduitSolidaire = 0;
-					while(pData.produitsSolidaire[i]) {
-						var lVrProduit = lValidProduit.validAjout(pData.produitsSolidaire[i]);	
-						if(!lVrProduit.valid){lVR.valid = false;}
-						if(!pData.produitsSolidaire[i].id.isEmpty()) {
-							lVR.produitsSolidaire[pData.produitsSolidaire[i].id] = lVrProduit;
-						} else {
-							lVR.produitsSolidaire.push(lVrProduit);
-						}
-						if(!isNaN(pData.produitsSolidaire[i].quantite) && pData.produitsSolidaire[i].quantite != 0) {lNbProduitSolidaire++;}
-						i++;
+		var lNbPdt = false;		
+		var lTotal = 0;
+		if(isArray(pData.produits)) {		
+			if(pData.produits.length > 0 && pData.produits[0] != '') {
+				lNbPdt = true;
+				var lValidProduit = new ProduitAchatValid();
+				var i = 0;
+				var lNbProduit = 0;
+				while(pData.produits[i]) {
+					var lVrProduit = lValidProduit.validAjout(pData.produits[i]);	
+					if(!lVrProduit.valid){lVR.valid = false;}
+					if(!pData.produits[i].id.isEmpty()) {
+						lVR.produits[pData.produits[i].id] = lVrProduit;
+					} else {
+						lVR.produits.push(lVrProduit);
 					}
+					
+					if(!isNaN(pData.produits[i].quantite) && pData.produits[i].quantite != 0) {lNbProduit++;}	
+					lTotal = (parseFloat(lTotal) + parseFloat(pData.produits[i].prix)).toFixed(2);	
+					i++;
+				}				
+			}
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_111_CODE;erreur.message = ERR_111_MSG;lVR.log.erreurs.push(erreur);}		
+		
+		if(isArray(pData.produitsSolidaire)) {		
+			if(pData.produitsSolidaire.length > 0 && pData.produitsSolidaire[0] != '') {
+				lNbPdt = true;
+				var lValidProduit = new ProduitAchatValid();
+				var i = 0;
+				var lNbProduitSolidaire = 0;
+				while(pData.produitsSolidaire[i]) {
+					var lVrProduit = lValidProduit.validAjout(pData.produitsSolidaire[i]);	
+					if(!lVrProduit.valid){lVR.valid = false;}
+					if(!pData.produitsSolidaire[i].id.isEmpty()) {
+						lVR.produitsSolidaire[pData.produitsSolidaire[i].id] = lVrProduit;
+					} else {
+						lVR.produitsSolidaire.push(lVrProduit);
+					}
+					if(!isNaN(pData.produitsSolidaire[i].quantite) && pData.produitsSolidaire[i].quantite != 0) {lNbProduitSolidaire++;}
+					lTotal = (parseFloat(lTotal) + parseFloat(pData.produitsSolidaire[i].prix)).toFixed(2);	
+					i++;
 				}
-			} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}		
-		//}
+			}
+		} else {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.log.erreurs.push(erreur);}		
+		
 		
 		// Il faut au moins 1 produit sur la commande
 		if(!lNbPdt) {
@@ -1861,10 +1881,14 @@ function CompteZeybuModifierVirementVR() {
 				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
 			var lValidRechargement = new RechargementCompteValid();
 			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
-			if(!lVR.rechargement.valid){lVR.valid = false;}
+			if(!lVR.rechargement.valid){
+				lVR.valid = false;
+				lVR.rechargement.montant.valid = false;
+			}
+			lTotal = (parseFloat(lTotal) +  parseFloat(pData.rechargement.montant)).toFixed(2);	
 		}
-		
-		if(pData.solde != 0 ) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_244_CODE;erreur.message = ERR_244_MSG;lVR.log.erreurs.push(erreur);}
+
+		if(lTotal != 0 ) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_244_CODE;erreur.message = ERR_244_MSG;lVR.log.erreurs.push(erreur);}
 		return lVR;
 	};
 
@@ -4347,11 +4371,7 @@ $(document).ready(function() {
 		return pData;*/
 		return $(pData).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
 	};
-	
-	/*this.genererLienAdmin = function() {
-		return $(this.mMenuTemplate.administration).hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-	};*/
-	
+		
 	this.genererMenu = function(pMenu) {
 		var lIdentificationTemplate = new IdentificationTemplate();
 		
@@ -4371,17 +4391,7 @@ $(document).ready(function() {
 		lMenu = this.affectVues(lMenu);
 		return lMenu;
 	};
-	
-	/*this.affectHover = function(pData) {
-		pData.hover(function() {$(this).addClass("ui-state-hover");},function() {$(this).removeClass("ui-state-hover");});
-		return pData;
-	};*/
-	
-	/*this.genererModule = function(pModule) {
-		var lTemplate = this.mMenuTemplate.nouveauModule;
-		return lTemplate.template(pModule);		
-	};*/
-	
+		
 	this.affectAdministration = function(pData) {
 		pData.click(function() {
 			AdministrationVue();
@@ -4557,6 +4567,11 @@ $(document).ready(function() {
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-CaissePermanente').click(function() {
+				CaisseMarcheCommandeVue({id_commande:-1});
+				return false;
+			});
+			
 			pData.find('#menu-Parametrage-Banque').click(function() {
 				ListeBanqueVue();
 				return false;
@@ -4647,21 +4662,21 @@ $(document).ready(function() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130516201551.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130625225359.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130516201551.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130625225359.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
-		if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
-			$("#loading").ajaxStart( function() {$(this).fadeIn(gTempsTransition);} );
-			$("#loading").ajaxStop( function() {$(this).fadeOut(gTempsTransition);} );
-		}
+		//if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
+			$(document).ajaxStart( function() {$("#loading").fadeIn(gTempsTransition);} );
+			$(document).ajaxStop( function() {$("#loading").fadeOut(gTempsTransition);} );
+		//}
 		
 		// Gestion du F5
 		// Bloque le fonctionnement du F5
@@ -4742,7 +4757,7 @@ $(document).ready(function() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130516201551.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20130625225359.js",function() {
 				that.init();
 				IdentificationVue();
 			});

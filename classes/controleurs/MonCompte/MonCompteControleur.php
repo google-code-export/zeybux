@@ -10,8 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_MON_COMPTE . "/InfoCompteResponse.php" );
 
 /**
@@ -32,8 +31,9 @@ class MonCompteControleur
 		$lIdAdherent = $pParam['id_adherent'];
 		$lAdherent = AdherentViewManager::select( $lIdAdherent );
 		$lResponse->setAdherent($lAdherent);
-		$lResponse->setOperationAvenir( OperationAvenirViewManager::select( $lAdherent->getAdhIdCompte() ));
-		$lResponse->setOperationPassee( OperationPasseeViewManager::select( $lAdherent->getAdhIdCompte() ));
+		$lOperationService = new OperationService();
+		$lResponse->setOperationAvenir( $lOperationService->getOperationAvenir( $lAdherent->getAdhIdCompte() ));
+		$lResponse->setOperationPassee( $lOperationService->getOperationPassee( $lAdherent->getAdhIdCompte() ));
 		return $lResponse;
 	}
 	

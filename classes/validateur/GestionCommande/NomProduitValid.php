@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "NomProduitVR.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php" );
 
 /**
  * @name NomProduitVR
@@ -133,6 +134,17 @@ class NomProduitValid
 				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getId()->addErreur($lErreur);	
+			}
+			
+			$lNomProduit = NomProduitManager::select($pData['id']);
+			if($lNomProduit->getId() != $pData['id']) {
+				$lVr = new TemplateVR();
+				$lVr->getId(false);
+				$lVr->getLog()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getId()->addErreur($lErreur);
 			}
 		}
 		return $lVr;

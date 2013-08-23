@@ -9,14 +9,6 @@
 //
 //****************************************************************
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/ListeAdherentRechargementResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_RECHARGEMENT_COMPTE . "/InfoRechargementResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/BanqueValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_RECHARGEMENT_COMPTE . "/RechargementCompteValid.php" );*/
 include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_PARAMETRAGE . "/BanqueValid.php" );
 include_once(CHEMIN_CLASSES_VO . "BanqueVO.php" );

@@ -226,8 +226,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -306,9 +304,9 @@
 										var lGestionCommandeTemplate = new GestionCommandeTemplate();
 										var lData = {sigleMonetaire:gSigleMonetaire};
 										
-										if(lResponse.modelesLot.length > 0 && lResponse.modelesLot[0].mLotId != null) {
+										if($(lResponse.modelesLot).length > 0) {
 											lData.modelesLot = [];
-											$(lResponse.modelesLot).each(function() {
+											$.each(lResponse.modelesLot, function() {
 												if(this.mLotId != null) {
 													this.id = this.mLotId;
 													this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
@@ -325,7 +323,7 @@
 											lData.modelesLotAbonnement = [];
 											lData.modelesLotAbonnementReservation = [];
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-											$(lResponse.detailAbonnement.lots).each(function() {
+											$.each(lResponse.detailAbonnement.lots, function() {
 												
 												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');

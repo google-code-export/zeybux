@@ -34,6 +34,12 @@ class TemplateVR extends DataTemplate
 	protected $mLog;
 
 	/**
+	 * @var VRelement
+	 * @desc Le Log de l'objet
+	 */
+	private $mData;
+
+	/**
 	* @name TemplateVR()
 	* @return bool
 	* @desc Constructeur
@@ -41,6 +47,7 @@ class TemplateVR extends DataTemplate
 	function TemplateVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
+		$this->mData = array();
 	}
 
 	/**
@@ -77,6 +84,33 @@ class TemplateVR extends DataTemplate
 	*/
 	public function setLog($pLog) {
 		$this->mLog = $pLog;
+	}
+
+	/**
+	* @name getData()
+	* @return array()
+	* @desc Renvoie le mData
+	*/
+	public function getData() {
+		return $this->mData;
+	}
+
+	/**
+	* @name setData($pData)
+	* @param array()
+	* @desc Remplace le mData par $pData
+	*/
+	public function setData($pData) {
+		$this->mData = $pData;
+	}
+
+	/**
+	* @name addData($pData)
+	* @param array()
+	* @desc ajoute $pData à mData 
+	*/
+	public function addData($pData) {
+		array_push($this->mData, $pData);
 	}
 }
 ?>

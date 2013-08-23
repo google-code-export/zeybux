@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 10/07/2011
+// Date de creation : 25/07/2013
 // Fichier : DetailOperationVO.php
 //
 // Description : Classe DetailOperationVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name DetailOperationVO
  * @author Julien PIERRE
- * @since 10/07/2011
+ * @since 25/07/2013
  * @desc Classe représentant une DetailOperationVO
  */
 class DetailOperationVO  extends DataTemplate
@@ -61,16 +61,16 @@ class DetailOperationVO  extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	* @var varchar(50)
-	* @desc TypePaiementChampComplementaire de la DetailOperationVO
-	*/
-	protected $mTypePaiementChampComplementaire;
-
-	/**
 	* @var int(11)
 	* @desc IdDetailCommande de la DetailOperationVO
 	*/
 	protected $mIdDetailCommande;
+
+	/**
+	* @var int(11)
+	* @desc IdModeleLot de la DetailOperationVO
+	*/
+	protected $mIdModeleLot;
 
 	/**
 	* @var int(11)
@@ -83,6 +83,25 @@ class DetailOperationVO  extends DataTemplate
 	* @desc IdConnexion de la DetailOperationVO
 	*/
 	protected $mIdConnexion;
+	
+	/**
+	 * @name DetailOperationVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function DetailOperationVO($pId = null, $pIdOperation = null, $pIdCompte = null, $pMontant = null, $pLibelle = null, $pDate = null, $pTypePaiement = null, $pIdDetailCommande = null, $pIdModeleLot = null, $pIdNomProduit = null, $pIdConnexion = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pIdOperation)) {$this->mIdOperation = $pIdOperation; }
+		if(!is_null($pIdCompte)) {$this->mIdCompte = $pIdCompte; }
+		if(!is_null($pMontant)) {$this->mMontant = $pMontant; }
+		if(!is_null($pLibelle)) {$this->mLibelle = $pLibelle; }
+		if(!is_null($pDate)) {$this->mDate = $pDate; }
+		if(!is_null($pTypePaiement)) {$this->mTypePaiement = $pTypePaiement; }
+		if(!is_null($pIdDetailCommande)) {$this->mIdDetailCommande = $pIdDetailCommande; }
+		if(!is_null($pIdModeleLot)) {$this->mIdModeleLot = $pIdModeleLot; }
+		if(!is_null($pIdNomProduit)) {$this->mIdNomProduit = $pIdNomProduit; }
+		if(!is_null($pIdConnexion)) {$this->mIdConnexion = $pIdConnexion; }
+	}
 
 	/**
 	* @name getId()
@@ -211,24 +230,6 @@ class DetailOperationVO  extends DataTemplate
 	}
 
 	/**
-	* @name getTypePaiementChampComplementaire()
-	* @return varchar(50)
-	* @desc Renvoie le membre TypePaiementChampComplementaire de la DetailOperationVO
-	*/
-	public function getTypePaiementChampComplementaire() {
-		return $this->mTypePaiementChampComplementaire;
-	}
-
-	/**
-	* @name setTypePaiementChampComplementaire($pTypePaiementChampComplementaire)
-	* @param varchar(50)
-	* @desc Remplace le membre TypePaiementChampComplementaire de la DetailOperationVO par $pTypePaiementChampComplementaire
-	*/
-	public function setTypePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		$this->mTypePaiementChampComplementaire = $pTypePaiementChampComplementaire;
-	}
-
-	/**
 	* @name getIdDetailCommande()
 	* @return int(11)
 	* @desc Renvoie le membre IdDetailCommande de la DetailOperationVO
@@ -244,6 +245,24 @@ class DetailOperationVO  extends DataTemplate
 	*/
 	public function setIdDetailCommande($pIdDetailCommande) {
 		$this->mIdDetailCommande = $pIdDetailCommande;
+	}
+
+	/**
+	* @name getIdModeleLot()
+	* @return int(11)
+	* @desc Renvoie le membre IdModeleLot de la DetailOperationVO
+	*/
+	public function getIdModeleLot() {
+		return $this->mIdModeleLot;
+	}
+
+	/**
+	* @name setIdModeleLot($pIdModeleLot)
+	* @param int(11)
+	* @desc Remplace le membre IdModeleLot de la DetailOperationVO par $pIdModeleLot
+	*/
+	public function setIdModeleLot($pIdModeleLot) {
+		$this->mIdModeleLot = $pIdModeleLot;
 	}
 
 	/**

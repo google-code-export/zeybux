@@ -33,6 +33,8 @@ parcourirDossier($Path);
 
 $filename = "./template/CommunTemplate.js";
 echo file_get_contents($filename);
+$filename = "./template/TypePaiementServiceTemplate.js";
+echo file_get_contents($filename);
 
 $filename = "./vues/CommunVue.js";
 echo file_get_contents($filename);
@@ -65,4 +67,5 @@ function parcourirDossierIdentification($pPath) {
 }
 $Path = './vues/Identification';
 parcourirDossierIdentification($Path);
+
 ?>

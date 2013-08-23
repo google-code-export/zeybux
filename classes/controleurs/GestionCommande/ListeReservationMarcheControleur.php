@@ -10,50 +10,13 @@
 //****************************************************************
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VIEW_MANAGER . "GestionCommandeListeReservationViewManager.php");
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/EditerCommandeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAchatEtReservationResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/DetailProduitResponse.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "AchatService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ModifierMarcheValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitMarcheValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/CommandeCompleteValid.php" );
-include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
-include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
-include_once(CHEMIN_CLASSES_TOVO . "ProduitCommandeToVO.php");
-
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeNomProduitViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeFermeResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ListeProduitResponse.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE ."/ModelesLotResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FermeValid.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/NomProduitCatalogueValid.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AutorisationSupprimerLotResponse.php" );
-*/
-
-
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAdherentResponse.php" );
-/*include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/EditerCommandeValid.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/EditerCommandeResponse.php" );*/
-
-
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 
 /**
  * @name ListeReservationMarcheControleur
@@ -70,32 +33,10 @@ class ListeReservationMarcheControleur
 	*/
 	public function getListeAdherent() {
 		$lResponse = new ListeAdherentResponse();
-		$lResponse->setListeAdherent(ListeAdherentViewManager::selectAll());
+		$lAdherentService = new AdherentService();
+		$lResponse->setListeAdherent($lAdherentService->getAllResumeSansSolde());
 		return $lResponse;
 	}
-	
-	/**
-	* @name getDetailMarche($pParam)
-	* @return ListeReservationMarcheResponse
-	* @desc Retourne la liste des adhérents qui ont réservé sur cette commande et les infos sur la commande.
-	*/
-	/*public function getDetailMarche($pParam) {
-		$lVr = EditerCommandeValid::validGetInfoCommande($pParam);
-		if($lVr->getValid()) {
-			$lIdMarche = $pParam["id_commande"];
-
-			$lMarcheService = new MarcheService();
-			$lMarche = $lMarcheService->get($lIdMarche);
-			//$lListeAdherent = GestionCommandeListeReservationViewManager::select($lIdMarche);
-
-			$lResponse = new EditerCommandeResponse();
-			$lResponse->setMarche($lMarche);
-			//$lResponse->setListeAdherentCommande($lListeAdherent);
-
-			return $lResponse;
-		}				
-		return $lVr;
-	}*/
 
 	/**
 	* @name getListeReservationExport($pParam)
@@ -103,10 +44,11 @@ class ListeReservationMarcheControleur
 	* @desc Retourne la liste des réservations pour une commande et la liste de produits demandés
 	*/
 	private function getListeReservationExport($pParam) {
-		$lIdCommande = $pParam['id_commande'];
+		$lIdMarche = $pParam['id_commande'];
 		$lIdProduits = $pParam['id_produits'];
 		
-		$lReservations = ReservationViewManager::selectReservationProduit($lIdCommande, $lIdProduits);		
+		$lReservationService = new ReservationService();
+		$lReservations = $lReservationService->getReservationProduit($lIdMarche, $lIdProduits);
 		
 		// Mise en forme des données par produit
 		$lTableauReservation = array();
@@ -279,7 +221,7 @@ class ListeReservationMarcheControleur
 			$lIdProduits = $pParam['id_produits'];
 			
 			$lTableauReservation = $this->getListeReservationExport($pParam);
-	//var_dump($lTableauReservation);
+	
 			$lCSV = new CSV();
 			$lCSV->setNom('Réservations.csv'); // Le Nom
 	

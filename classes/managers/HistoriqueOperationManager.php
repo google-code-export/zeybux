@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/06/2011
+// Date de creation : 19/07/2013
 // Fichier : HistoriqueOperationManager.php
 //
 // Description : Classe de gestion des HistoriqueOperation
@@ -13,11 +13,11 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "HistoriqueOperationVO.php");
 
-define("TABLE_HISTORIQUEOPERATION", MYSQL_DB_PREFIXE . "hope_historique_operation");
+define("TABLE_HISTORIQUEOPERATION", MYSQL_DB_PREFIXE ."hope_historique_operation");
 /**
  * @name HistoriqueOperationManager
  * @author Julien PIERRE
- * @since 26/06/2011
+ * @since 19/07/2013
  * 
  * @desc Classe permettant l'accès aux données des HistoriqueOperation
  */
@@ -31,9 +31,7 @@ class HistoriqueOperationManager
 	const CHAMP_HISTORIQUEOPERATION_LIBELLE = "hope_libelle";
 	const CHAMP_HISTORIQUEOPERATION_DATE = "hope_date";
 	const CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT = "hope_type_paiement";
-	const CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE = "hope_type_paiement_champ_complementaire";
 	const CHAMP_HISTORIQUEOPERATION_TYPE = "hope_type";
-	const CHAMP_HISTORIQUEOPERATION_ID_COMMANDE = "hope_id_commande";
 	const CHAMP_HISTORIQUEOPERATION_ID_CONNEXION = "hope_id_connexion";
 
 	/**
@@ -56,9 +54,7 @@ class HistoriqueOperationManager
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT . 
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE . 
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION . "
 			FROM " . HistoriqueOperationManager::TABLE_HISTORIQUEOPERATION . " 
 			WHERE " . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -76,9 +72,7 @@ class HistoriqueOperationManager
 				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE],
 				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE],
 				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT],
-				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE],
-				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE],
 				$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION]);
 		} else {
 			return new HistoriqueOperationVO();
@@ -103,9 +97,7 @@ class HistoriqueOperationManager
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT . 
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE . 
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE . 
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION . "
 			FROM " . HistoriqueOperationManager::TABLE_HISTORIQUEOPERATION;
 
@@ -124,9 +116,7 @@ class HistoriqueOperationManager
 					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE],
 					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE],
 					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT],
-					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE],
-					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE],
 					$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION]));
 			}
 		} else {
@@ -159,9 +149,7 @@ class HistoriqueOperationManager
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE .
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE .
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT .
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE .
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE .
-			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE .
 			"," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION		);
 
 		// Préparation de la requète de recherche
@@ -187,9 +175,7 @@ class HistoriqueOperationManager
 						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE],
 						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE],
 						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT],
-						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE],
 						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE],
-						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE],
 						$lLigne[HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION]));
 				}
 			} else {
@@ -204,7 +190,7 @@ class HistoriqueOperationManager
 	}
 
 	/**
-	* @name remplirHistoriqueOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande, $pIdConnexion)
+	* @name remplirHistoriqueOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pType, $pIdConnexion)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -212,14 +198,12 @@ class HistoriqueOperationManager
 	* @param varchar(100)
 	* @param datetime
 	* @param int(11)
-	* @param varchar(50)
-	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @return HistoriqueOperationVO
 	* @desc Retourne une HistoriqueOperationVO remplie
 	*/
-	private static function remplirHistoriqueOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pTypePaiementChampComplementaire, $pType, $pIdCommande, $pIdConnexion) {
+	private static function remplirHistoriqueOperation($pId, $pIdOperation, $pIdCompte, $pMontant, $pLibelle, $pDate, $pTypePaiement, $pType, $pIdConnexion) {
 		$lHistoriqueOperation = new HistoriqueOperationVO();
 		$lHistoriqueOperation->setId($pId);
 		$lHistoriqueOperation->setIdOperation($pIdOperation);
@@ -228,9 +212,7 @@ class HistoriqueOperationManager
 		$lHistoriqueOperation->setLibelle($pLibelle);
 		$lHistoriqueOperation->setDate($pDate);
 		$lHistoriqueOperation->setTypePaiement($pTypePaiement);
-		$lHistoriqueOperation->setTypePaiementChampComplementaire($pTypePaiementChampComplementaire);
 		$lHistoriqueOperation->setType($pType);
-		$lHistoriqueOperation->setIdCommande($pIdCommande);
 		$lHistoriqueOperation->setIdConnexion($pIdConnexion);
 		return $lHistoriqueOperation;
 	}
@@ -255,21 +237,42 @@ class HistoriqueOperationManager
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE . "
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE . "
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT . "
-				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . "
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE . "
-				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE . "
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION . ")
-			VALUES (NULL
+			VALUES ";
+
+		if(is_array($pVo)) {
+			$lNbVO = count($pVo);
+			$lI = 1;
+			foreach($pVo as $lVo) {
+				$lRequete .= "(NULL
+				,'" . StringUtils::securiser( $lVo->getIdOperation() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdCompte() ) . "'
+				,'" . StringUtils::securiser( $lVo->getMontant() ) . "'
+				,'" . StringUtils::securiser( $lVo->getLibelle() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDate() ) . "'
+				,'" . StringUtils::securiser( $lVo->getTypePaiement() ) . "'
+				,'" . StringUtils::securiser( $lVo->getType() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdConnexion() ) . "')";
+
+				if($lNbVO == $lI) {
+					$lRequete .= ";";
+				} else {
+					$lRequete .= ",";
+				}
+				$lI++;
+			}
+		} else{
+			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
 				,'" . StringUtils::securiser( $pVo->getLibelle() ) . "'
 				,'" . StringUtils::securiser( $pVo->getDate() ) . "'
 				,'" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
-				,'" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				,'" . StringUtils::securiser( $pVo->getType() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdCommande() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdConnexion() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getIdConnexion() ) . "');";
+		}
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -294,14 +297,12 @@ class HistoriqueOperationManager
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_LIBELLE . " = '" . StringUtils::securiser( $pVo->getLibelle() ) . "'
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_DATE . " = '" . StringUtils::securiser( $pVo->getDate() ) . "'
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser( $pVo->getTypePaiement() ) . "'
-				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE_PAIEMENT_CHAMP_COMPLEMENTAIRE . " = '" . StringUtils::securiser( $pVo->getTypePaiementChampComplementaire() ) . "'
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_TYPE . " = '" . StringUtils::securiser( $pVo->getType() ) . "'
-				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_COMMANDE . " = '" . StringUtils::securiser( $pVo->getIdCommande() ) . "'
 				," . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID_CONNEXION . " = '" . StringUtils::securiser( $pVo->getIdConnexion() ) . "'
 			 WHERE " . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**
@@ -318,7 +319,7 @@ class HistoriqueOperationManager
 			WHERE " . HistoriqueOperationManager::CHAMP_HISTORIQUEOPERATION_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 26/06/2011
+// Date de creation : 03/08/2013
 // Fichier : AccesVO.php
 //
 // Description : Classe AccesVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name AccesVO
  * @author Julien PIERRE
- * @since 26/06/2011
+ * @since 03/08/2013
  * @desc Classe représentant une AccesVO
  */
 class AccesVO  extends DataTemplate
@@ -41,6 +41,12 @@ class AccesVO  extends DataTemplate
 	* @desc Ip de la AccesVO
 	*/
 	protected $mIp;
+
+	/**
+	* @var varchar(100)
+	* @desc Nav de la AccesVO
+	*/
+	protected $mNav;
 
 	/**
 	* @var datetime
@@ -130,6 +136,24 @@ class AccesVO  extends DataTemplate
 	*/
 	public function setIp($pIp) {
 		$this->mIp = $pIp;
+	}
+
+	/**
+	* @name getNav()
+	* @return varchar(100)
+	* @desc Renvoie le membre Nav de la AccesVO
+	*/
+	public function getNav() {
+		return $this->mNav;
+	}
+
+	/**
+	* @name setNav($pNav)
+	* @param varchar(100)
+	* @desc Remplace le membre Nav de la AccesVO par $pNav
+	*/
+	public function setNav($pNav) {
+		$this->mNav = $pNav;
 	}
 
 	/**

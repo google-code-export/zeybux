@@ -55,16 +55,15 @@ class CompteService
 		$this->update($pCompte);
 		
 		// Initialisation du compte
-		$lOperation = new OperationVO();
+		$lOperation = new OperationDetailVO();
 		$lOperation->setIdCompte($lId);
 		$lOperation->setMontant(0);
 		$lOperation->setLibelle("Création du compte");
 		$lOperation->setDate(StringUtils::dateAujourdhuiDb());
-		$lOperation->setIdCommande(0);
 		$lOperation->setTypePaiement(-1);
 		
 		$lOperationService = new OperationService();
-		$lTest = $lOperationService->set($lOperation);
+		$lOperationService->set($lOperation);
 		
 		return $pCompte;
 	}

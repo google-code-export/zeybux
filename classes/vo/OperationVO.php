@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 24/05/2010
+// Date de creation : 15/06/2013
 // Fichier : OperationVO.php
 //
 // Description : Classe OperationVO
@@ -13,10 +13,10 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name OperationVO
  * @author Julien PIERRE
- * @since 24/05/2010
+ * @since 15/06/2013
  * @desc Classe représentant une OperationVO
  */
-class OperationVO extends DataTemplate
+class OperationVO  extends DataTemplate
 {
 	/**
 	* @var int(11)
@@ -55,28 +55,10 @@ class OperationVO extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	* @var varchar(50)
-	* @desc TypePaiementChampComplementaire de la OperationVO
-	*/
-	protected $mTypePaiementChampComplementaire;
-
-	/**
 	* @var int(11)
 	* @desc Type de la OperationVO
 	*/
 	protected $mType;
-
-	/**
-	* @var int(11)
-	* @desc IdCommande de la OperationVO
-	*/
-	protected $mIdCommande;
-
-	/**
-	* @var int(11)
-	* @desc IdBanque de la OperationVO
-	*/
-	protected $mIdBanque;
 
 	/**
 	* @var datetime
@@ -89,6 +71,22 @@ class OperationVO extends DataTemplate
 	* @desc IdLogin de la OperationVO
 	*/
 	protected $mIdLogin;
+	
+	/**
+	* @name OperationVO()
+	* @desc Le constructeur
+	*/
+	public function OperationVO($pId = null, $pIdCompte = null, $pMontant = null,$pLibelle = null, $pDate = null, $pTypePaiement = null, $pType = null, $pDateMaj = null, $pIdLogin = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pIdCompte)) { $this->mIdCompte = $pIdCompte; }
+		if(!is_null($pMontant)) { $this->mMontant = $pMontant; }
+		if(!is_null($pLibelle)) { $this->mLibelle = $pLibelle; }
+		if(!is_null($pDate)) { $this->mDate = $pDate; }
+		if(!is_null($pTypePaiement)) { $this->mTypePaiement = $pTypePaiement; }
+		if(!is_null($pType)) { $this->mType = $pType; }
+		if(!is_null($pDateMaj)) { $this->mDateMaj = $pDateMaj; }
+		if(!is_null($pIdLogin)) { $this->mIdLogin = $pIdLogin; }
+	}
 
 	/**
 	* @name getId()
@@ -199,24 +197,6 @@ class OperationVO extends DataTemplate
 	}
 
 	/**
-	* @name getTypePaiementChampComplementaire()
-	* @return varchar(50)
-	* @desc Renvoie le membre TypePaiementChampComplementaire de la OperationVO
-	*/
-	public function getTypePaiementChampComplementaire() {
-		return $this->mTypePaiementChampComplementaire;
-	}
-
-	/**
-	* @name setTypePaiementChampComplementaire($pTypePaiementChampComplementaire)
-	* @param varchar(50)
-	* @desc Remplace le membre TypePaiementChampComplementaire de la OperationVO par $pTypePaiementChampComplementaire
-	*/
-	public function setTypePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		$this->mTypePaiementChampComplementaire = $pTypePaiementChampComplementaire;
-	}
-
-	/**
 	* @name getType()
 	* @return int(11)
 	* @desc Renvoie le membre Type de la OperationVO
@@ -232,42 +212,6 @@ class OperationVO extends DataTemplate
 	*/
 	public function setType($pType) {
 		$this->mType = $pType;
-	}
-
-	/**
-	* @name getIdCommande()
-	* @return int(11)
-	* @desc Renvoie le membre IdCommande de la OperationVO
-	*/
-	public function getIdCommande() {
-		return $this->mIdCommande;
-	}
-
-	/**
-	* @name setIdCommande($pIdCommande)
-	* @param int(11)
-	* @desc Remplace le membre IdCommande de la OperationVO par $pIdCommande
-	*/
-	public function setIdCommande($pIdCommande) {
-		$this->mIdCommande = $pIdCommande;
-	}
-
-	/**
-	* @name getIdBanque()
-	* @return int(11)
-	* @desc Renvoie le membre IdBanque de la OperationVO
-	*/
-	public function getIdBanque() {
-		return $this->mIdBanque;
-	}
-
-	/**
-	* @name setIdBanque($pIdBanque)
-	* @param int(11)
-	* @desc Remplace le membre IdBanque de la OperationVO par $pIdBanque
-	*/
-	public function setIdBanque($pIdBanque) {
-		$this->mIdBanque = $pIdBanque;
 	}
 
 	/**

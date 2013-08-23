@@ -49,6 +49,12 @@ class ListeNomProduitViewVO  extends DataTemplate
 	protected $mCproId;
 
 	/**
+	* @var varchar(50)
+	* @desc NproNumero de la ListeNomProduitViewVO
+	*/
+	protected $mNproNumero;
+
+	/**
 	* @name getNproIdFerme()
 	* @return int(11)
 	* @desc Renvoie le membre NproIdFerme de la ListeNomProduitViewVO
@@ -136,6 +142,24 @@ class ListeNomProduitViewVO  extends DataTemplate
 	*/
 	public function setCproId($pCproId) {
 		$this->mCproId = $pCproId;
+	}
+
+	/**
+	* @name getNproNumero()
+	* @return varchar(50)
+	* @desc Renvoie le membre NproNumero de la ListeNomProduitViewVO
+	*/
+	public function getNproNumero() {
+		return $this->mNproNumero;
+	}
+
+	/**
+	* @name setNproNumero($pNproNumero)
+	* @param varchar(50)
+	* @desc Remplace le membre NproNumero de la ListeNomProduitViewVO par $pNproNumero
+	*/
+	public function setNproNumero($pNproNumero) {
+		$this->mNproNumero = $pNproNumero;
 	}
 
 }
