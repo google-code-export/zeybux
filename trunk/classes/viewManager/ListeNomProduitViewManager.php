@@ -44,7 +44,8 @@ class ListeNomProduitViewManager
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . "
 			FROM " . ListeNomProduitViewManager::VUE_LISTENOMPRODUIT . " 
 			WHERE " . NomProduitManager::CHAMP_NOMPRODUIT_ID_FERME . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -60,7 +61,8 @@ class ListeNomProduitViewManager
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID]));
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO]));
 			}
 		} else {
 			$lListeListeNomProduit[0] = new ListeNomProduitViewVO();
@@ -83,7 +85,8 @@ class ListeNomProduitViewManager
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID . 
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . 
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM . 
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . "
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID .  
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO . "
 			FROM " . ListeNomProduitViewManager::VUE_LISTENOMPRODUIT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -98,7 +101,8 @@ class ListeNomProduitViewManager
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID]));
+					$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+					$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO]));
 			}
 		} else {
 			$lListeListeNomProduit[0] = new ListeNomProduitViewVO();
@@ -127,7 +131,8 @@ class ListeNomProduitViewManager
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_ID .
 			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
-			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID		);
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . 
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(ListeNomProduitViewManager::VUE_LISTENOMPRODUIT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -149,7 +154,8 @@ class ListeNomProduitViewManager
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_ID],
 						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
 						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
-						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID]));
+						$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO]));
 				}
 			} else {
 				$lListeListeNomProduit[0] = new ListeNomProduitViewVO();
@@ -163,22 +169,24 @@ class ListeNomProduitViewManager
 	}
 
 	/**
-	* @name remplir($pNproIdFerme, $pNproId, $pNproNom, $pCproNom, $pCproId)
+	* @name remplir($pNproIdFerme, $pNproId, $pNproNom, $pCproNom, $pCproId, $pNproNumero)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(50)
 	* @param varchar(50)
 	* @param int(11)
+	* @param varchar(50)
 	* @return ListeNomProduitViewVO
 	* @desc Retourne une ListeNomProduitViewVO remplie
 	*/
-	private static function remplir($pNproIdFerme, $pNproId, $pNproNom, $pCproNom, $pCproId) {
+	private static function remplir($pNproIdFerme, $pNproId, $pNproNom, $pCproNom, $pCproId, $pNproNumero) {
 		$lListeNomProduit = new ListeNomProduitViewVO();
 		$lListeNomProduit->setNproIdFerme($pNproIdFerme);
 		$lListeNomProduit->setNproId($pNproId);
 		$lListeNomProduit->setNproNom($pNproNom);
 		$lListeNomProduit->setCproNom($pCproNom);
 		$lListeNomProduit->setCproId($pCproId);
+		$lListeNomProduit->setNproNumero($pNproNumero);
 		return $lListeNomProduit;
 	}
 }

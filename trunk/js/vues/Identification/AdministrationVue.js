@@ -61,6 +61,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-GestionCommande-Facture').click(function() {
+				FactureVue();
+				return false;
+			});
+			
 			pData.find('#menu-GestionProducteur-ListeFerme').click(function() {
 				ListeFermeVue();
 				return false;

@@ -10,11 +10,10 @@
 //****************************************************************
 // Inclusion des classesgetListeAdherent
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListeVirementResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteZeybuListeVirementViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "VirementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMPTE_ZEYBU . "/CompteZeybuVirementValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "IdVirementValid.php");
 
@@ -34,7 +33,8 @@ class VirementsControleur
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentResponse();
 		$lResponse->setListeAdherent(AdherentViewManager::selectAll());
-		$lResponse->setListeProducteur(ListeFermeViewManager::selectAll());
+		$lFermeService = new FermeService();
+		$lResponse->setListeProducteur($lFermeService->get());
 		return $lResponse;		
 	}
 	
@@ -44,8 +44,9 @@ class VirementsControleur
 	* @desc Renvoie le solde du compte solidaire et le détail des opérations
 	*/
 	public function getListeVirement() {
-		$lResponse = new ListeVirementResponse();		
-		$lResponse->setOperation( CompteZeybuListeVirementViewManager::selectAll());
+		$lResponse = new ListeVirementResponse();	
+		$lVirementService = new VirementService();	
+		$lResponse->setOperation( $lVirementService->selectListeVirementCompteZeybu() );
 		return $lResponse;
 	}
 	

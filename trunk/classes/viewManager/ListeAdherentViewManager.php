@@ -73,7 +73,7 @@ class ListeAdherentViewManager
 	* @return array(ListeAdherentViewVO)
 	* @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de ListeAdherentViewVO
 	*/
-	public static function selectAll() {
+	public static function selectAll($pMasquer = false) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -94,15 +94,27 @@ class ListeAdherentViewManager
 		$lListeAdherent = array();
 		if( mysql_num_rows($lSql) > 0 ) {
 			while ($lLigne = mysql_fetch_assoc($lSql)) {
-				array_push($lListeAdherent,
-					ListeAdherentViewManager::remplir(
+				if($pMasquer) {
+					array_push($lListeAdherent,
+						ListeAdherentViewManager::remplir(
 						$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
-						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+						NULL,
+						NULL,
 						$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
+				} else {
+					array_push($lListeAdherent,
+						ListeAdherentViewManager::remplir(
+							$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_COURRIEL_PRINCIPAL],
+							$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+							$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
+				}
 			}
 		} else {
 			$lListeAdherent[0] = new ListeAdherentViewVO();

@@ -202,21 +202,12 @@
 								var lTemplate = lGestionAbonnementTemplate.detailProduitAjoutProduit;
 								
 								var lData = {};
-								if(lResponse.unite.length > 0) {
-									/*if(lResponse.unite.length == 1) {
-										if(lResponse.unite[0].mLotId == null) { // Pas d'unité
-											lData.formUnite = lGestionAbonnementTemplate.formUniteSansUnite;
-										} else { // Une seule unité
-											lData.formUnite = lGestionAbonnementTemplate.formUnite.template({unite:lResponse.unite[0].mLotUnite});
-											lData.unite = lResponse.unite[0].mLotUnite;
-										}
-									} else { // Plusieures unités
-										lData.formUnite = lGestionAbonnementTemplate.formUniteSelect.template(lResponse);
-									}*/
-									
+								if($(lResponse.unite).length > 0) {
+																		
 									lData.modelesLot = [];
-									$(lResponse.unite).each(function() {
+									$.each(lResponse.unite, function() {
 										if(this.mLotId != null) {
+											console.log(this.mLotId);
 											this.id = this.mLotId;
 											this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
 											this.unite = this.mLotUnite;

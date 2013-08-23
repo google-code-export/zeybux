@@ -12,6 +12,8 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "FermeVO.php");
+include_once(CHEMIN_CLASSES_VO . "ListeFermeVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 
 define("TABLE_FERME", MYSQL_DB_PREFIXE . "fer_ferme");
 /**
@@ -184,6 +186,46 @@ class FermeManager
 			}
 		} else {
 			$lListeFerme[0] = new FermeVO();
+		}
+		return $lListeFerme;
+	}
+	
+	/**
+	 * @name listeFerme()
+	 * @return array(ListeFermeVO)
+	 * @desc Récupères toutes les fermes actives et les renvoie sous forme d'une collection de ListeFermeVO
+	 */
+	public static function listeFerme() {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+				. FermeManager::CHAMP_FERME_ID .
+			"," . FermeManager::CHAMP_FERME_NUMERO .
+			"," . CompteManager::CHAMP_COMPTE_LABEL .
+			"," . FermeManager::CHAMP_FERME_NOM .
+			"," . FermeManager::CHAMP_FERME_ID_COMPTE . "
+		FROM " . FermeManager::TABLE_FERME . "
+		JOIN " . CompteManager::TABLE_COMPTE . "
+			ON " . CompteManager::CHAMP_COMPTE_ID . " = " . FermeManager::CHAMP_FERME_ID_COMPTE . "
+		WHERE " . FermeManager::CHAMP_FERME_ETAT . " = 0;";
+			
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeFerme = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeFerme, new ListeFermeVO(
+				$lLigne[FermeManager::CHAMP_FERME_ID],
+				$lLigne[FermeManager::CHAMP_FERME_NUMERO],
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+				$lLigne[FermeManager::CHAMP_FERME_NOM],
+				$lLigne[FermeManager::CHAMP_FERME_ID_COMPTE]));
+			}
+		} else {
+			$lListeFerme[0] = new ListeFermeVO();
 		}
 		return $lListeFerme;
 	}

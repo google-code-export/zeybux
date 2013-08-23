@@ -90,6 +90,9 @@ class ReservationAdherentControleur
 					$lDetailReservation->setIdDetailCommande($lDetail["stoIdDetailCommande"]);
 					$lDetailReservation->setQuantite($lDetail["stoQuantite"]);
 					$lDetailReservation->setMontant($lPrix);
+
+					/*$lDetailProduit = DetailMarcheViewManager::selectByLot($lDetail["stoIdDetailCommande"]);
+					$lDetailReservation->setIdNomProduit($lDetailProduit[0]->getNproId());*/
 					
 					$lReservation->addDetailReservation($lDetailReservation);
 			}		

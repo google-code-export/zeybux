@@ -14,8 +14,8 @@ include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "CompteSolidaireAjoutVirementVR.php" );
 include_once(CHEMIN_CLASSES_VR . "CompteSolidaireModifierVirementVR.php" );
 include_once(CHEMIN_CLASSES_VR . "CompteSolidaireSupprimerVirementVR.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php" );
 
 /**
  * @name CompteSolidaireVirementValid
@@ -85,8 +85,9 @@ class CompteSolidaireVirementValid
 				$lVr->getMontant()->addErreur($lErreur);	
 			}
 
-			//Tests Fonctionnels			
-			$lAdherent = AdherentViewManager::select($pData['id']); // L'adherent doit exister
+			//Tests Fonctionnels	
+			$lAdherentService = new AdherentService();
+			$lAdherent = $lAdherentService->get($pData['id']); // L'adherent doit exister
 			if(empty($pData['id']) || $lAdherent->getAdhId() != $pData['id']) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
@@ -120,6 +121,12 @@ class CompteSolidaireVirementValid
 				$lErreur->setCode(MessagesErreurs::ERR_237_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_237_MSG);
 				$lVr->getMontant()->addErreur($lErreur);			
+			}
+			
+			if($lVr->getValid()) {
+				$lData = array();
+				$lData['adherent'] = $lAdherent;
+				$lVr->setData($lData);
 			}
 		}
 		return $lVr;
@@ -213,20 +220,24 @@ class CompteSolidaireVirementValid
 			
 			if($lVr->getValid()) {				
 				$lOperationService = new OperationService();			
-				$lOperation = $lOperationService->get($pData['id']);
-				$lOperationSoeur = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());
+				$lOperation = $lOperationService->getDetail($pData['id']);
 				
-				$lAdherents = AdherentViewManager::selectByIdCompte($lOperationSoeur->getIdCompte());
-				if($lAdherents[0]->getAdhIdCompte() != $lOperationSoeur->getIdCompte()) {
-					$lVr->setValid(false);
-					$lVr->getLog()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-					$lVr->getLog()->addErreur($lErreur);
-				}			
-			
+				if($lOperation->getTypePaiement() == 3 || $lOperation->getTypePaiement() == 9) {
+					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
+				} else if($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10) {
+					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
+				}
 				$lCompteService = new CompteService();
+				if(!$lCompteService->existe($lOperationSoeur->getIdCompte()) 
+						|| !$lCompteService->existe($lOperation->getIdCompte())) {
+					$lVr->setValid(false);
+					$lVr->getId()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_227_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_227_MSG);
+					$lVr->getId()->addErreur($lErreur);
+				}
+				
 				// Le Montant dans l'operation est négatif donc solde - montant
 				if($pData['montant'] > ($lCompteService->get(-2)->getSolde() - $lOperation->getMontant() )) {
 					$lVr->setValid(false);

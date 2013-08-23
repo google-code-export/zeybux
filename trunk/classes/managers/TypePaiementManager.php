@@ -12,6 +12,9 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "TypePaiementVO.php");
+include_once(CHEMIN_CLASSES_VO . "TypePaiementDetailVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementChampComplementaireManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ChampComplementaireManager.php");
 
 define("TABLE_TYPEPAIEMENT", MYSQL_DB_PREFIXE . "tpp_type_paiement");
 /**
@@ -27,7 +30,6 @@ class TypePaiementManager
 	const CHAMP_TYPEPAIEMENT_ID = "tpp_id";
 	const CHAMP_TYPEPAIEMENT_TYPE = "tpp_type";
 	const CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE = "tpp_champ_complementaire";
-	const CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE = "tpp_label_champ_complementaire";
 	const CHAMP_TYPEPAIEMENT_VISIBLE = "tpp_visible";
 
 	/**
@@ -46,7 +48,6 @@ class TypePaiementManager
 			    . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . "
 			FROM " . TypePaiementManager::TABLE_TYPEPAIEMENT . " 
 			WHERE " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -60,7 +61,6 @@ class TypePaiementManager
 				$pId,
 				$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 				$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-				$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
 				$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE]);
 		} else {
 			return new TypePaiementVO();
@@ -81,7 +81,6 @@ class TypePaiementManager
 			    . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . 
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . 
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . "
 			FROM " . TypePaiementManager::TABLE_TYPEPAIEMENT;
 
@@ -96,7 +95,6 @@ class TypePaiementManager
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
 					$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE]));
 			}
 		} else {
@@ -105,6 +103,91 @@ class TypePaiementManager
 		return $lListeTypePaiement;
 	}
 
+	/**
+	 * @name selectVisible($pTypePaiement)
+	 * @return array(TypePaiementDetailVO)
+	 * @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de TypePaiementDetailVO
+	 */
+	public static function selectVisible($pTypePaiement = NULL) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+					. TypePaiementManager::CHAMP_TYPEPAIEMENT_ID .
+				"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE .
+				"," . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID .
+				"," . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_LABEL . 
+				"," . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_OBLIGATOIRE . "
+		FROM " . TypePaiementManager::TABLE_TYPEPAIEMENT . "
+		LEFT JOIN " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
+			ON " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . " = " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
+				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . " = 0 
+				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . " = 1
+		LEFT  JOIN " . ChampComplementaireManager::TABLE_CHAMPCOMPLEMENTAIRE . "
+			ON " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . " = " . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID . "
+				AND " . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ETAT . " = 0		
+		WHERE " . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . " = 1 ";
+		
+		if(!is_null($pTypePaiement)) {
+			$lRequete .= " AND " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = '" . StringUtils::securiser($pTypePaiement) . "' ";
+		}		
+		$lRequete .= " ORDER BY " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " ASC, " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE . " ASC;";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeTypePaiement = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+
+			$lTppId = $lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID];
+			
+			$lTypePaiement = TypePaiementManager::remplirTypePaiementVisibleEntete(
+			$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID],
+			$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE]);
+			
+			if(!is_null($lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID])) {
+				$lTypePaiement->addChampComplementaire( ChampComplementaireManager::remplirChampComplementaire(
+					$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID],
+					$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_LABEL],
+					$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_OBLIGATOIRE],
+					NULL));
+			}
+			
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				 if($lTppId != $lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID]) {
+				 	$lListeTypePaiement[$lTppId] = $lTypePaiement;
+				 	$lTppId = $lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID];
+				 	
+				 	$lTypePaiement = TypePaiementManager::remplirTypePaiementVisibleEntete(
+				 			$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID],
+				 			$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE]);
+				 }	
+
+				 if(!is_null($lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID])) {
+				 	$lTypePaiement->addChampComplementaire( ChampComplementaireManager::remplirChampComplementaire(
+				 			$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID],
+				 			$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_LABEL],
+				 			$lLigne[ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_OBLIGATOIRE],
+				 			NULL));
+				 }
+			}
+			if(!is_null($pTypePaiement)) {
+				return $lTypePaiement;
+			} else {
+				$lListeTypePaiement[$lTppId] = $lTypePaiement;
+			}
+		} else {
+			if(!is_null($pTypePaiement)) {
+				return new TypePaiementDetailVO();
+			} else {
+				$lListeTypePaiement[0] = new TypePaiementDetailVO();
+			}
+		}
+		return $lListeTypePaiement;
+	}
+	
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )
 	* @param string nom de la table
@@ -125,7 +208,6 @@ class TypePaiementManager
 			    TypePaiementManager::CHAMP_TYPEPAIEMENT_ID .
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE .
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE .
-			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE .
 			"," . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE		);
 
 		// Préparation de la requète de recherche
@@ -147,7 +229,6 @@ class TypePaiementManager
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_ID],
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE],
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE],
-						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE],
 						$lLigne[TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE]));
 				}
 			} else {
@@ -162,22 +243,34 @@ class TypePaiementManager
 	}
 
 	/**
-	* @name remplirTypePaiement($pId, $pType, $pChampComplementaire, $pLabelChampComplementaire, $pVisible)
+	* @name remplirTypePaiement($pId, $pType, $pChampComplementaire, $pVisible)
 	* @param int(11)
 	* @param varchar(100)
 	* @param tinyint(4)
-	* @param varchar(30)
 	* @param tinyint(1)
 	* @return TypePaiementVO
 	* @desc Retourne une TypePaiementVO remplie
 	*/
-	private static function remplirTypePaiement($pId, $pType, $pChampComplementaire, $pLabelChampComplementaire, $pVisible) {
+	private static function remplirTypePaiement($pId, $pType, $pChampComplementaire, $pVisible) {
 		$lTypePaiement = new TypePaiementVO();
 		$lTypePaiement->setId($pId);
 		$lTypePaiement->setType($pType);
 		$lTypePaiement->setChampComplementaire($pChampComplementaire);
-		$lTypePaiement->setLabelChampComplementaire($pLabelChampComplementaire);
 		$lTypePaiement->setVisible($pVisible);
+		return $lTypePaiement;
+	}
+	
+	/**
+	 * @name remplirTypePaiementVisibleEntete($pId, $pType)
+	 * @param int(11)
+	 * @param varchar(100)
+	 * @return TypePaiementVO
+	 * @desc Retourne une TypePaiementVO remplie
+	 */
+	private static function remplirTypePaiementVisibleEntete($pId, $pType) {
+		$lTypePaiement = new TypePaiementDetailVO();
+		$lTypePaiement->setId($pId);
+		$lTypePaiement->setType($pType);
 		return $lTypePaiement;
 	}
 
@@ -197,13 +290,31 @@ class TypePaiementManager
 				(" . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
 				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . "
 				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . "
-				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . "
 				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . ")
-			VALUES (NULL
+			VALUES ";
+
+		if(is_array($pVo)) {
+			$lNbVO = count($pVo);
+			$lI = 1;
+			foreach($pVo as $lVo) {
+				$lRequete .= "(NULL
+				,'" . StringUtils::securiser( $lVo->getType() ) . "'
+				,'" . StringUtils::securiser( $lVo->getChampComplementaire() ) . "'
+				,'" . StringUtils::securiser( $lVo->getVisible() ) . "')";
+
+				if($lNbVO == $lI) {
+					$lRequete .= ";";
+				} else {
+					$lRequete .= ",";
+				}
+				$lI++;
+			}
+		} else{
+			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getType() ) . "'
 				,'" . StringUtils::securiser( $pVo->getChampComplementaire() ) . "'
-				,'" . StringUtils::securiser( $pVo->getLabelChampComplementaire() ) . "'
-				,'" . StringUtils::securiser( $pVo->getVisible() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getVisible() ) . "');";
+		}
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -224,12 +335,11 @@ class TypePaiementManager
 			 SET
 				 " . TypePaiementManager::CHAMP_TYPEPAIEMENT_TYPE . " = '" . StringUtils::securiser( $pVo->getType() ) . "'
 				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_CHAMP_COMPLEMENTAIRE . " = '" . StringUtils::securiser( $pVo->getChampComplementaire() ) . "'
-				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_LABEL_CHAMP_COMPLEMENTAIRE . " = '" . StringUtils::securiser( $pVo->getLabelChampComplementaire() ) . "'
 				," . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . " = '" . StringUtils::securiser( $pVo->getVisible() ) . "'
 			 WHERE " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**
@@ -246,7 +356,7 @@ class TypePaiementManager
 			WHERE " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 }
 ?>

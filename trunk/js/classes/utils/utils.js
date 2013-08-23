@@ -59,6 +59,20 @@
     };    */
 })(jQuery);
 
+function clone(srcInstance)
+{
+	/*Si l'instance source n'est pas un objet ou qu'elle ne vaut rien c'est une feuille donc on la retourne*/
+	if(typeof(srcInstance) != 'object' || srcInstance == null) { return srcInstance; }
+	/*On appel le constructeur de l'instance source pour crée une nouvelle instance de la même classe*/
+	var newInstance = srcInstance.constructor();
+	/*On parcourt les propriétés de l'objet et on les recopies dans la nouvelle instance*/
+	for(var i in srcInstance) {
+		newInstance[i] = clone(srcInstance[i]);
+	}
+	/*On retourne la nouvelle instance*/
+	return newInstance;
+}
+
 //Function to get the Max value in Array
 Array.max = function( array ){
 return Math.max.apply( Math, array );
@@ -98,6 +112,22 @@ String.prototype.nombreFormate = function(decimales, signe, separateurMilliers) 
 	return parseFloat(this).nombreFormate(decimales, signe, separateurMilliers);
 };
 
+function getPremierJourDuMois() {
+	var lDate = new Date();
+	lMois = lDate.getMonth() + 1;
+	if (lMois < 10) {lMois = '0' + lMois;}
+	return lDate.getFullYear() + '-' + lMois + '-01';
+};
+
+function getDernierJourDuMois() {
+	var lDate = new Date();
+	var lFinMois = new Date(lDate.getFullYear(),lDate.getMonth() + 1 , 0);
+	lMois = lDate.getMonth() + 1;
+	if (lMois < 10) {lMois = '0' + lMois;}
+	lJour = lFinMois.getDate();
+	if (lJour < 10) {lJour = '0' + lJour;}
+	return lDate.getFullYear() + '-' + lMois + '-' + lJour;
+};
 
 function differenceDateTime(pDate1,pDate2) {
 	var lDateTime1 = pDate1.split(' ');

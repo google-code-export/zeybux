@@ -714,7 +714,6 @@ class AbonnementService
 			// Récupère l'ensemble des abonnements et met à jour les réservations en conséquence
 			$lListeCompteAbonnement = CompteAbonnementManager::selectActifByIdCompte($pCompteAbonnement->getIdCompte());
 			foreach($lListeCompteAbonnement as $lCompteAbonnement) {
-				//var_dump($lCompteAbonnement);
 				$this->updateAbonnement($lCompteAbonnement);
 			}
 		} else {

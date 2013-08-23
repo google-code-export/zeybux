@@ -9,9 +9,8 @@
 //
 //****************************************************************
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/InfoCompteZeybuResponse.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );*/
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/DetailAbonneResponse.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AbonnementListeAdherentViewManager.php");
@@ -20,7 +19,6 @@ include_once(CHEMIN_CLASSES_VO . "ListeProduitVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeCategorieVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeProduitFermeCategorieProduitAbonnementVO.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/ListeFermeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT ."/ListeProduitFermeResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ABONNEMENT . "/FermeValid.php");
@@ -221,7 +219,8 @@ class ListeAbonneControleur
 	public function getListeFerme() {		
 		// Lancement de la recherche
 		$lResponse = new ListeFermeResponse();
-		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		$lFermeService = new FermeService();
+		$lResponse->setListeFerme($lFermeService->get());
 		return $lResponse;
 	}
 	

@@ -181,6 +181,28 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 	        		$j++;
 	        	}
 	        	
+	        	// Ecriture du constructeur
+	        	fwrite($fp,"\t/**\n");
+	        	fwrite($fp,"\t * @name " . $lNomTable[1] . "VO()\n");
+	        	fwrite($fp,"\t * @return bool\n");
+	        	fwrite($fp,"\t * @desc Constructeur\n");
+	        	fwrite($fp,"\t */\n");
+	        	fwrite($fp,"\tfunction " . $lNomTable[1] . "VO(");
+	        	$j = 0;
+	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
+	        		if($j == 0) {
+	        			fwrite($fp, "\$p" . $lNomAttribut . " = null");
+	        		} else {
+	        			fwrite($fp, ", \$p" . $lNomAttribut . " = null");
+	        		}
+	        		$j++;
+	        	}
+	        	fwrite($fp,") {\n");	        	
+	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
+	        		fwrite($fp,"\t\tif(!is_null(\$p" . $lNomAttribut . ")) { \$this->m" . $lNomAttribut . " = \$p" . $lNomAttribut . "; }\n");
+	        	}
+	        	fwrite($fp, "\t}\n\n");
+	        	
 	        	// Ecriture des accesseurs
 	        	$j = 0;
 	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
@@ -522,7 +544,7 @@ if(file_exists(CHEMIN_FICHIER_SQL . FICHIER_SQL) && isset($_POST["auteur"]) && $
 				$j = 0;
 	        	foreach($lListeNomAttribut[1] as $lNomAttribut){
 	        		if($j != 0) {
-	        			fwrite($fp,"\n\t\t\t\t,'\" . StringUtils::securiser( \$pVo->get" . $lNomAttribut . "() ) . \"'");
+	        			fwrite($fp,"\n\t\t\t\t,'\" . StringUtils::securiser( \$lVo->get" . $lNomAttribut . "() ) . \"'");
 	        		}
 	        		$j++;
 				}	

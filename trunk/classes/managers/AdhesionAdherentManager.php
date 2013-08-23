@@ -206,10 +206,10 @@ class AdhesionAdherentManager
 			$lI = 1;
 			foreach($pVo as $lVo) {
 				$lRequete .= "(NULL
-				,'" . StringUtils::securiser( $pVo->getIdAdherent() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdTypeAdhesion() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
-				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
+				,'" . StringUtils::securiser( $lVo->getIdAdherent() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdTypeAdhesion() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdOperation() ) . "'
+				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
 
 				if($lNbVO == $lI) {
 					$lRequete .= ";";

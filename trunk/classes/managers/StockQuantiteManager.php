@@ -246,14 +246,14 @@ class StockQuantiteManager
 			$lI = 1;
 			foreach($pVo as $lVo) {
 				$lRequete .= "(NULL
-				,'" . StringUtils::securiser( $pVo->getIdNomProduit() ) . "'
-				,'" . StringUtils::securiser( $pVo->getQuantite() ) . "'
-				,'" . StringUtils::securiser( $pVo->getQuantiteSolidaire() ) . "'
-				,'" . StringUtils::securiser( $pVo->getUnite() ) . "'
-				,'" . StringUtils::securiser( $pVo->getDateCreation() ) . "'
-				,'" . StringUtils::securiser( $pVo->getDateModification() ) . "'
-				,'" . StringUtils::securiser( $pVo->getIdLogin() ) . "'
-				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
+				,'" . StringUtils::securiser( $lVo->getIdNomProduit() ) . "'
+				,'" . StringUtils::securiser( $lVo->getQuantite() ) . "'
+				,'" . StringUtils::securiser( $lVo->getQuantiteSolidaire() ) . "'
+				,'" . StringUtils::securiser( $lVo->getUnite() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDateCreation() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDateModification() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdLogin() ) . "'
+				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
 
 				if($lNbVO == $lI) {
 					$lRequete .= ";";

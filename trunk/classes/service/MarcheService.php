@@ -206,7 +206,6 @@ class MarcheService
 			$lProduit->setStockInitial($pProduit->getQteRestante());
 		}
 		$lProduit->setType($pProduit->getType());
-//		var_dump($lProduit);
 		$lIdProduit = ProduitManager::insert($lProduit);
 
 		//Insertion des lots
@@ -244,8 +243,10 @@ class MarcheService
 			$lIdNomProduit = $lProduit->getIdNomProduit();
 			
 			$lAbonnes = $lAbonnementService->getAbonnesByIdNomProduit($lIdNomProduit);
+
 			if(!is_null($lAbonnes[0]->getCptAboIdProduitAbonnement())) { // Si il y a des abonnés
 				foreach($lAbonnes as $lAbonne) {
+
 					// Pas de suspension de l'abonnement
 					if(	(!	(TestFonction::dateTimeEstPLusGrandeEgale($lMarche->getDateMarcheDebut(),$lAbonne->getCptAboDateDebutSuspension(),'db')
 							 && TestFonction::dateTimeEstPLusGrandeEgale($lAbonne->getCptAboDateFinSuspension(),$lMarche->getDateMarcheDebut(),'db') )
@@ -285,6 +286,25 @@ class MarcheService
 			}
 		}
 		return $lIdProduit;
+	}
+	
+	/**
+	 * @name ajoutLotUnitaireProduit($pProduit)
+	 * @param ProduitMarcheVO
+	 * @desc Ajoute uniquement un Lot au produit marche et retourne l'Id du Lot
+	 */
+	public function ajoutLotUnitaireProduit($pProduit) {	
+		// Insertion du produit
+		$lIdProduit = $pProduit->getId();
+		$lLots = $pProduit->getLots();
+		$lLot = $lLots[0];
+	
+		//Insertion du lot
+		$lDetailCommande = new DetailCommandeVO();
+		$lDetailCommande->setIdProduit($lIdProduit);
+		$lDetailCommande->setTaille($lLot->getTaille());
+		$lDetailCommande->setPrix($lLot->getPrix());
+		return DetailCommandeManager::insert($lDetailCommande);
 	}
 
 	/**
@@ -551,37 +571,6 @@ class MarcheService
 		// Modif des réservations
 		$lReservationService = new ReservationService();
 		$lIdMarche = $lProduitActuel->getIdMarche();
-		//var_dump($lLotModif);
-		/*foreach($lLotModif as $lLot) { // Chaque lot modifié
-			$lListeDetailReservation = $lReservationService->getReservationSurLot($lLot->getId());
-			if(!is_null($lListeDetailReservation[0]->getDopeIdCompte())) { // Si il y a des réservations			
-				foreach($lListeDetailReservation as $lDetailReservation) { // Chaque réservation de lot modifié
-					$lIdReservationVO = new IdReservationVO();
-					$lIdReservationVO->setIdCompte( $lDetailReservation->getDopeIdCompte() );
-					$lIdReservationVO->setIdCommande( $lIdMarche );
-					
-					$lReservationVO = $lReservationService->get($lIdReservationVO);
-					
-					$lNvDetailReservation = array();
-					foreach($lReservationVO->getDetailReservation() as $lDetailReservationActuelle) {						
-						if($lDetailReservationActuelle->getIdDetailCommande() == $lLot->getId()) { // Maj de la reservation pour ce produit
-							$lPrix = $lDetailReservation->getStoQuantite() / $lLot->getTaille() * $lLot->getPrix();
-	
-							$lDetailReservationVO = new DetailReservationVO();					
-							$lDetailReservationVO->setIdDetailCommande($lLot->getId());
-							$lDetailReservationVO->setQuantite($lDetailReservation->getStoQuantite());
-							$lDetailReservationVO->setMontant($lPrix);
-							
-							array_push($lNvDetailReservation,$lDetailReservationVO);						
-						} else { // Ajout des autres produits
-							array_push($lNvDetailReservation,$lDetailReservationActuelle);
-						}
-					}
-					$lReservationVO->setDetailReservation($lNvDetailReservation);
-					$lReservationService->set($lReservationVO); // Maj de la reservation
-				}	
-			}		
-		}*/
 		
 		foreach($lLotSupp as $lIdLot) { // Chaque lot supprimé => La réservation est positionnée sur un autre lot				
 			if(isset($pLotRemplacement[$lIdLot]) ) {
@@ -644,7 +633,7 @@ class MarcheService
 		// Modif des réservations
 		$lReservationService = new ReservationService();
 		$lIdMarche = $lProduit->getIdCommande();
-		//var_dump($lLotModif);
+
 		foreach($lLots as $lLot) { // Chaque lot modifié
 			$lListeDetailReservation = $lReservationService->getReservationSurLot($lLot->getId());
 			if(!is_null($lListeDetailReservation[0]->getDopeIdCompte())) { // Si il y a des réservations			

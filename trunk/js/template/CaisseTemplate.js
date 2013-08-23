@@ -118,13 +118,13 @@
 	
 	
 	this.achatMarcheSelectLot =
-		"<div>" +
+		"<span>" +
 			"<select id=\"select-{nproId}{type}\" class=\"select-lot\" data-id-nom-produit=\"{nproId}\" data-type=\"{type}\" >" +
 				"<!-- BEGIN lots -->" +
 				"<option {lots.selected} value=\"{lots.id}\">par {lots.tailleAffiche} {unite}</option>" +
 				"<!-- END lots -->" +
 			"</select>" +
-		"</div>";
+		"</span>";
 	
 	this.achatMarcheAfficheLot = "<span data-id-lot=\"{id}\">par {tailleAffiche} {unite}</span>";
 	

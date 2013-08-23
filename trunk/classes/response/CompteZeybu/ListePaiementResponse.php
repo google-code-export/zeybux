@@ -25,25 +25,25 @@ class ListePaiementResponse extends DataTemplate
 	protected $mValid = true;
 	
 	/**
-	* @var array(OperationAttenteAdherentViewVO)
+	* @var array(OperationAttenteAdherentVO)
 	* @desc ListeChequeAdherent de la ListePaiementResponse
 	*/
 	protected $mListeChequeAdherent;	
 	
 	/**
-	* @var array(OperationAttenteAdherentViewVO)
+	* @var array(OperationAttenteAdherentO)
 	* @desc ListeEspeceAdherent de la ListePaiementResponse
 	*/
 	protected $mListeEspeceAdherent;	
 	
 	/**
-	* @var array(OperationAttenteFermeViewVO)
+	* @var array(OperationAttenteFermeVO)
 	* @desc ListeChequeFerme de la ListePaiementResponse
 	*/
 	protected $mListeChequeFerme;	
 	
 	/**
-	* @var array(OperationAttenteFermeViewVO)
+	* @var array(OperationAttenteFermeVO)
 	* @desc ListeEspeceFerme de la ListePaiementResponse
 	*/
 	protected $mListeEspeceFerme;	
@@ -53,6 +53,12 @@ class ListePaiementResponse extends DataTemplate
 	 * @desc Les Banques
 	 */
 	protected $mBanques;
+	
+	/**
+	 * @var array(TypePaiementVO)
+	 * @desc La liste des types de paiement
+	 */
+	protected $mTypePaiement;
 	
 	/**
 	* @name ListePaiementResponse()
@@ -65,6 +71,7 @@ class ListePaiementResponse extends DataTemplate
 		$this->mListeChequeFerme = array();
 		$this->mListeEspeceFerme = array();
 		$this->mBanques = array();
+		$this->mTypePaiement = array();
 	}
 	
 	/**
@@ -87,7 +94,7 @@ class ListePaiementResponse extends DataTemplate
 		
 	/**
 	* @name getListeChequeAdherent()
-	* @return array(OperationAttenteAdherentViewVO)
+	* @return array(OperationAttenteAdherentVO)
 	* @desc Renvoie le membre ListeChequeAdherent de la ListePaiementResponse
 	*/
 	public function getListeChequeAdherent(){
@@ -96,7 +103,7 @@ class ListePaiementResponse extends DataTemplate
 
 	/**
 	* @name setListeChequeAdherent($pListeChequeAdherent)
-	* @param array(OperationAttenteAdherentViewVO)
+	* @param array(OperationAttenteAdherentVO)
 	* @desc Remplace le membre ListeChequeAdherent de la ListePaiementResponse par $pListeChequeAdherent
 	*/
 	public function setListeChequeAdherent($pListeChequeAdherent) {
@@ -105,7 +112,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name addListeChequeAdherent($pListeChequeAdherent)
-	* @param OperationAttenteAdherentViewVO
+	* @param OperationAttenteAdherentVO
 	* @desc Ajoute $pListeChequeAdherent à ListeChequeAdherent
 	*/
 	public function addListeChequeAdherent($pListeChequeAdherent){
@@ -114,7 +121,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name getListeEspeceAdherent()
-	* @return array(OperationAttenteAdherentViewVO)
+	* @return array(OperationAttenteAdherentVO)
 	* @desc Renvoie le membre ListeEspeceAdherent de la ListePaiementResponse
 	*/
 	public function getListeEspeceAdherent(){
@@ -123,7 +130,7 @@ class ListePaiementResponse extends DataTemplate
 
 	/**
 	* @name setListeEspeceAdherent($pListeEspeceAdherent)
-	* @param array(OperationAttenteAdherentViewVO)
+	* @param array(OperationAttenteAdherentVO)
 	* @desc Remplace le membre ListeEspeceAdherent de la ListePaiementResponse par $pListeEspeceAdherent
 	*/
 	public function setListeEspeceAdherent($pListeEspeceAdherent) {
@@ -132,7 +139,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name addListeEspeceAdherent($pListeEspeceAdherent)
-	* @param OperationAttenteAdherentViewVO
+	* @param OperationAttenteAdherentVO
 	* @desc Ajoute $pListeEspeceAdherent à ListeEspeceAdherent
 	*/
 	public function addListeEspeceAdherent($pListeEspeceAdherent){
@@ -141,7 +148,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name getListeChequeFerme()
-	* @return array(OperationAttenteFermeViewVO)
+	* @return array(OperationAttenteFermeVO)
 	* @desc Renvoie le membre ListeChequeFerme de la ListePaiementResponse
 	*/
 	public function getListeChequeFerme(){
@@ -150,7 +157,7 @@ class ListePaiementResponse extends DataTemplate
 
 	/**
 	* @name setListeChequeFerme($pListeChequeFerme)
-	* @param array(OperationAttenteFermeViewVO)
+	* @param array(OperationAttenteFermeVO)
 	* @desc Remplace le membre ListeChequeFerme de la ListePaiementResponse par $pListeChequeFerme
 	*/
 	public function setListeChequeFerme($pListeChequeFerme) {
@@ -159,7 +166,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name addListeChequeFerme($pListeChequeFerme)
-	* @param OperationAttenteFermeViewVO
+	* @param OperationAttenteFermeVO
 	* @desc Ajoute $pListeChequeFerme à ListeChequeFerme
 	*/
 	public function addListeChequeFerme($pListeChequeFerme){
@@ -168,7 +175,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name getListeEspeceFerme()
-	* @return array(OperationAttenteFermeViewVO)
+	* @return array(OperationAttenteFermeVO)
 	* @desc Renvoie le membre ListeEspeceFerme de la ListePaiementResponse
 	*/
 	public function getListeEspeceFerme(){
@@ -177,7 +184,7 @@ class ListePaiementResponse extends DataTemplate
 
 	/**
 	* @name setListeEspeceFerme($pListeEspeceFerme)
-	* @param array(OperationAttenteFermeViewVO)
+	* @param array(OperationAttenteFermeVO)
 	* @desc Remplace le membre ListeEspeceFerme de la ListePaiementResponse par $pListeEspeceFerme
 	*/
 	public function setListeEspeceFerme($pListeEspeceFerme) {
@@ -186,7 +193,7 @@ class ListePaiementResponse extends DataTemplate
 	
 	/**
 	* @name addListeEspeceFerme($pListeEspeceFerme)
-	* @param OperationAttenteFermeViewVO
+	* @param OperationAttenteFermeVO
 	* @desc Ajoute $pListeEspeceFerme à ListeEspeceFerme
 	*/
 	public function addListeEspeceFerme($pListeEspeceFerme){
@@ -218,6 +225,33 @@ class ListePaiementResponse extends DataTemplate
 	 */
 	public function addBanques($pBanque) {
 		array_push($this->mBanques,$pBanque);
+	}
+	
+	/**
+	* @name getTypePaiement()
+	* @return array(TypePaiementVO)
+	* @desc Renvoie le TypePaiement
+	*/
+	public function getTypePaiement() {
+		return $this->mTypePaiement;
+	}
+
+	/**
+	* @name setTypePaiement($pTypePaiement)
+	* @param array(TypePaiementVO)
+	* @desc Remplace le TypePaiement par $pTypePaiement
+	*/
+	public function setTypePaiement($pTypePaiement) {
+		$this->mTypePaiement = $pTypePaiement;
+	}
+	
+	/**
+	* @name addTypePaiement($pTypePaiement)
+	* @param TypePaiementVO
+	* @desc Ajoute le $pTypePaiement à TypePaiement
+	*/
+	public function addTypePaiement($pTypePaiement) {
+		array_push($this->mTypePaiement, $pTypePaiement);
 	}
 }
 ?>

@@ -56,42 +56,43 @@
 	this.dialogRecharger = 
 		"<div title=\"Rechargement du compte {compte}\">" +
 			"<div>" +
-				"<div id=\"resa-info-commande\">" +
-					"{numero} :  {prenom} {nom}<br/>" +
-					"N° de Compte : {compte}" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{solde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
+				"{numero} : {prenom} {nom}" +
 			"</div>" +
+			"<div>" +
+				"<span>Solde : </span><span class=\"{classSolde}\" id=\"nouveau-solde\">{solde}</span> <span class=\"{classSolde}\" id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+			"</div><br/>" +
 			"<div class=\"com-widget-content\">" +
 				"<table>" +
 					"<thead>" +
 						"<tr>" +
-							"<th>Montant</th>" +
-							"<th>Type de Paiement</th>" +
-							"<th id=\"label-champ-complementaire\"></th>" +
-							"<th id=\"label-champ-complementaire-banque\">Banque</th>" +
+							"<td>Montant</td>" +
+							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
-						"<tr>" +
-							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
-							"<td class=\"com-center\">" +
+						"<tr id=\"ligne-operation\">" +
+							"<td>Type de Paiement</td>" +
+							"<td>" +
 								"<select name=\"typepaiement\" id=\"typePaiement\">" +
 									"<option value=\"0\">== Choisir ==</option>" +
 									"<!-- BEGIN typePaiement -->" +
-									"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
+									"<option value=\"{typePaiement.id}\">{typePaiement.type}</option>" +
 									"<!-- END typePaiement -->" +
 								"</select>" +
 							"</td>" +
-							"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
-							"<td id=\"td-champ-complementaire-banque\"><input type=\"text\" name=\"champ-complementaire-banque\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"idBanque\" maxlength=\"50\" size=\"15\"/></td>" +
 						"</tr>" +
 					"</tbody>" +
 				"</table>" +
 			"</div>" +
 		"</div>";
-
+	
+	this.champComplementaire =
+		"<!-- BEGIN champComplementaire -->" +
+			"<tr class=\"champ-complementaire\">" +
+				"<td>{champComplementaire.label}</td>" +
+				"<td>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+				"</td>" +
+			"</tr>" +
+		"<!-- END champComplementaire -->";
 }

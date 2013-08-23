@@ -219,6 +219,10 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
 		$filename = $lDossierVersionSource . "/js/template/CommunTemplate.js";
 		fwrite($fp,file_get_contents($filename));
+
+		$filename = $lDossierVersionSource . "/js/template/TypePaiementServiceTemplate.js";
+		fwrite($fp,file_get_contents($filename));
+		
 		$filename = $lDossierVersionSource . "/js/vues/CommunVue.js";
 		fwrite($fp,file_get_contents($filename));
 		$filename = $lDossierVersionSource . "/js/template/IdentificationTemplate.js";

@@ -16,6 +16,15 @@ String.prototype.dateDbToFr = function() {
 	return '';
 };
 
+String.prototype.dateDbToTri = function() {
+	var pDate = this.toString();
+	if(pDate !== '') {
+		if(pDate.checkDateExist('db') && pDate.checkDate('db'))
+			return pDate[0]+pDate[1]+pDate[2]+pDate[3]+pDate[5]+pDate[6]+pDate[8]+pDate[9];
+	}
+	return '';
+};
+
 String.prototype.numberFrToDb = function() {
 	var pNumber = this.toString();
 	if(pNumber !== '') {

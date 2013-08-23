@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 18/07/2011
+// Date de creation : 09/08/2013
 // Fichier : StockVO.php
 //
 // Description : Classe StockVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name StockVO
  * @author Julien PIERRE
- * @since 18/07/2011
+ * @since 09/08/2013
  * @desc Classe représentant une StockVO
  */
 class StockVO  extends DataTemplate
@@ -56,9 +56,45 @@ class StockVO  extends DataTemplate
 
 	/**
 	* @var int(11)
+	* @desc IdModeleLot de la StockVO
+	*/
+	protected $mIdModeleLot;
+
+	/**
+	* @var int(11)
 	* @desc IdOperation de la StockVO
 	*/
 	protected $mIdOperation;
+
+	/**
+	* @var int(11)
+	* @desc IdNomProduit de la StockVO
+	*/
+	protected $mIdNomProduit;
+
+	/**
+	* @var varchar(20)
+	* @desc Unite de la StockVO
+	*/
+	protected $mUnite;
+	
+	/**
+	 * @name StockVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function StockVO($pId = null, $pDate = null, $pQuantite = null, $pType = null, $pIdCompte = null, $pIdDetailCommande = null, $pIdModeleLot = null, $pIdOperation = null, $pIdNomProduit = null, $pUnite = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pDate)) {$this->mDate = $pDate; }
+		if(!is_null($pQuantite)) {$this->mQuantite = $pQuantite; }
+		if(!is_null($pType)) {$this->mType = $pType; }
+		if(!is_null($pIdCompte)) {$this->mIdCompte = $pIdCompte; }
+		if(!is_null($pIdDetailCommande)) {$this->mIdDetailCommande = $pIdDetailCommande; }
+		if(!is_null($pIdModeleLot)) {$this->mIdModeleLot = $pIdModeleLot; }
+		if(!is_null($pIdOperation)) {$this->mIdOperation = $pIdOperation; }
+		if(!is_null($pIdNomProduit)) {$this->mIdNomProduit = $pIdNomProduit; }
+		if(!is_null($pUnite)) {$this->mUnite = $pUnite; }
+	}
 
 	/**
 	* @name getId()
@@ -169,6 +205,24 @@ class StockVO  extends DataTemplate
 	}
 
 	/**
+	* @name getIdModeleLot()
+	* @return int(11)
+	* @desc Renvoie le membre IdModeleLot de la StockVO
+	*/
+	public function getIdModeleLot() {
+		return $this->mIdModeleLot;
+	}
+
+	/**
+	* @name setIdModeleLot($pIdModeleLot)
+	* @param int(11)
+	* @desc Remplace le membre IdModeleLot de la StockVO par $pIdModeleLot
+	*/
+	public function setIdModeleLot($pIdModeleLot) {
+		$this->mIdModeleLot = $pIdModeleLot;
+	}
+
+	/**
 	* @name getIdOperation()
 	* @return int(11)
 	* @desc Renvoie le membre IdOperation de la StockVO
@@ -184,6 +238,42 @@ class StockVO  extends DataTemplate
 	*/
 	public function setIdOperation($pIdOperation) {
 		$this->mIdOperation = $pIdOperation;
+	}
+
+	/**
+	* @name getIdNomProduit()
+	* @return int(11)
+	* @desc Renvoie le membre IdNomProduit de la StockVO
+	*/
+	public function getIdNomProduit() {
+		return $this->mIdNomProduit;
+	}
+
+	/**
+	* @name setIdNomProduit($pIdNomProduit)
+	* @param int(11)
+	* @desc Remplace le membre IdNomProduit de la StockVO par $pIdNomProduit
+	*/
+	public function setIdNomProduit($pIdNomProduit) {
+		$this->mIdNomProduit = $pIdNomProduit;
+	}
+
+	/**
+	* @name getUnite()
+	* @return varchar(20)
+	* @desc Renvoie le membre Unite de la StockVO
+	*/
+	public function getUnite() {
+		return $this->mUnite;
+	}
+
+	/**
+	* @name setUnite($pUnite)
+	* @param varchar(20)
+	* @desc Remplace le membre Unite de la StockVO par $pUnite
+	*/
+	public function setUnite($pUnite) {
+		$this->mUnite = $pUnite;
 	}
 
 }

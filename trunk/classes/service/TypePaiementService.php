@@ -140,5 +140,24 @@ class TypePaiementService
 	private function selectAll() {
 		return TypePaiementManager::selectAll();
 	}
+	
+	/**
+	* @name selectVisible()
+	* @return array(TypePaiementDetailVO)
+	* @desc Retourne une liste de type de Paiement
+	*/
+	public function selectVisible() {
+		return TypePaiementManager::selectVisible();
+	}
+	
+	/**
+	 * @name selectDetail($pTypePaiement)
+	 * @param integer
+	 * @return array(TypePaiementDetailVO)
+	 * @desc Retourne une liste de type de Paiement
+	 */
+	public function selectDetail($pTypePaiement) {
+		return TypePaiementManager::selectVisible($pTypePaiement);
+	}
 }
 ?>

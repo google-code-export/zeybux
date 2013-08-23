@@ -536,7 +536,7 @@
 								case 0:
 										//lData.typeProduitLabel = "Normal";
 										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelNormal;
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;												
 												var lVoLot = {	
@@ -550,7 +550,7 @@
 												lData.listeModelesLot.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -592,7 +592,7 @@
 								case 1:
 										//lData.typeProduitLabel = "Solidaire";
 										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelSolidaire;
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;			
 												var lVoLot = {	
@@ -606,7 +606,7 @@
 												lData.listeModelesLot.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -622,7 +622,7 @@
 									break;
 									
 								case 2:
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null && this.mLotUnite == lResponse.produit.unite) {
 												that.mIdLotAbonnement--;		
 												var lVoLot = {	
@@ -636,7 +636,7 @@
 												lData.listeModelesLotAbonnement.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -1247,23 +1247,6 @@
 	};
 	
 	this.modifierLotSupprimer = function(pId) {
-		/*var that = this;
-		var lParam = {fonction:"autorisationSupprimerLot",id:pId};
-		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-			function (lResponse) {		
-				if(lResponse) {
-					if(lResponse.valid) {
-						if(lResponse.autorise) {
-							$("#ligne-lot-" + pId).remove();								
-						} else {
-							that.dialogSupprimerLot(pId);
-						}
-					} else {
-						Infobulle.generer(lResponse,"");
-					}
-				}
-			},"json"
-		);*/
 		if(this.autorisationSupprimerLot(pId)) {
 			$("#ligne-lot-" + pId).remove();	
 		} else {
@@ -1276,23 +1259,6 @@
 	};
 	
 	this.modifierLotAbonnementSupprimer = function(pId) {
-		/*var that = this;
-		var lParam = {fonction:"autorisationSupprimerLot",id:pId};
-		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-			function (lResponse) {		
-				if(lResponse) {
-					if(lResponse.valid) {
-						if(lResponse.autorise) {
-							$("#ligne-lot-abonnement-" + pId).remove();							
-						} else {
-							that.dialogSupprimerLotAbonnement(pId);
-						}
-					} else {
-						Infobulle.generer(lResponse,"");
-					}
-				}
-			},"json"
-		);*/
 		if(this.autorisationSupprimerLot(pId)) {
 			$("#ligne-lot-abonnement-" + pId).remove();
 		} else {
@@ -1307,7 +1273,6 @@
 		var lData = {modelesLot:[]};
 
 		var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();		
-		//var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").find('#lot-' + pId + '-unite').text();
 		var lQuantite = this.mLotReservation[pId].quantite;
 		
 		$("#dialog-modif-pro").find('.ligne-lot').each( function () {
@@ -1315,7 +1280,6 @@
 			var lQuantiteLot = parseFloat($(this).find(".lot-quantite").text().numberFrToDb());
 			var lPrix = parseFloat($(this).find(".lot-prix").text().numberFrToDb());
 			var lUniteLot = $(this).find(".lot-unite").text();
-			//alert(lId);alert(lQuantiteLot);alert(lPrix);alert(lUniteLot);
 			if(lId != null && lId != pId && lUniteLot == lUnite && lQuantiteLot <= lQuantite && (lQuantite % lQuantiteLot) == 0) {
 				var lVoLot = {	
 						id:lId,
@@ -1352,7 +1316,6 @@
 		var lData = {modelesLot:[]};
 
 		var lUnite = $("#dialog-modif-pro").find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
-		//var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").find('#lot-' + pId + '-unite').text();
 		var lQuantite = this.mLotReservation[pId].quantite;
 		$("#dialog-modif-pro").find('.ligne-lot-abonnement').each( function () {			
 			
@@ -1415,12 +1378,6 @@
 	this.modifierProduit = function(pDialog,pType) {
 		var that = this;
 		if(!this.mEditionLot) {
-			// Préparation du MarcheVO							
-			/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
-
-			//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			
 			var lStock = -1;
 			if(pType == 2) {
 				lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
@@ -1439,7 +1396,6 @@
 				lVR.qteRestante.erreurs.push(erreur);
 				Infobulle.generer(lVR,"pro-");
 			} else {				
-				//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();	
 				var lQteMax = -1;
 				if(pType == 0) {
 					lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
@@ -1457,8 +1413,6 @@
 					lVR.qteMaxCommande.erreurs.push(erreur);
 					Infobulle.generer(lVR,"pro-");
 				} else {
-			
-					//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					var lUnite = '';
 					if(pType == 2) {
 						lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
@@ -1649,8 +1603,6 @@
 		lHtml.find('#marche-dateFinReservation').datepicker("option", "minDate", that.mMarche.dateDebutReservation).datepicker("option", "maxDate", that.mMarche.dateMarcheDebut);
 		lHtml.find('#marche-dateMarcheDebut').datepicker("option", "minDate", that.mMarche.dateFinReservation);
 		
-		/*lHtml = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',lHtml);*/
-		
 		$(lHtml).dialog({
 			autoOpen: true,
 			modal: true,
@@ -1814,8 +1766,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -1895,14 +1845,9 @@
 
 										var lGestionCommandeTemplate = new GestionCommandeTemplate();
 										var lData = {sigleMonetaire:gSigleMonetaire};
-										/*if(lResponse.detailAbonnement.idNomProduit == lId) { // Si le produit existe en abonnement
-											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-										}*/
-										
-										if(lResponse.modelesLot.length > 0 && lResponse.modelesLot[0].mLotId != null) {
+										if($(lResponse.modelesLot).length > 0) {
 											lData.modelesLot = [];
-											//lData.modelesLotAbonnement = [];
-											$(lResponse.modelesLot).each(function() {
+											$.each(lResponse.modelesLot,function() {
 												if(this.mLotId != null) {
 													this.id = this.mLotId;
 													this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
@@ -1910,11 +1855,7 @@
 													this.prix = this.mLotPrix.nombreFormate(2,',',' ');
 													this.sigleMonetaire = gSigleMonetaire;
 													lData.modelesLot.push(this);
-													lData.unite = this.mLotUnite;	
-													
-													/*if(lData.uniteAbonnement == this.mLotUnite) { // Si unité du modèle et identique à celle de l'abonnement alors le modèle est proposé
-														lData.modelesLotAbonnement.push(this);
-													}*/
+													lData.unite = this.mLotUnite;
 												}
 											});	
 										}
@@ -1923,7 +1864,7 @@
 											lData.modelesLotAbonnement = [];
 											lData.modelesLotAbonnementReservation = [];
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-											$(lResponse.detailAbonnement.lots).each(function() {
+											$.each(lResponse.detailAbonnement.lots, function() {
 												
 												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');
@@ -2028,16 +1969,10 @@
 		var that = this;
 		if(!this.mEditionLot) {
 			// Préparation du AffichageMarche
-			//var lIdFerme = pDialog.find(':input[name=ferme]').val();
-			//var lIdCategorie = pDialog.find(':input[name=categorie]').val();
 			var lIdNomProduit = pDialog.find(':input[name=produit]').val();
 			var lTypeProduit = pDialog.find(':input[name=typeProduit]:checked').val();
 			
 			if(lIdNomProduit != 0) {
-				/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
-				
-				//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 				var lStock = -1;
 				if(lTypeProduit == 2) {
 					lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
@@ -2055,8 +1990,7 @@
 					lVR.qteRestante.valid = false;
 					lVR.qteRestante.erreurs.push(erreur);
 					Infobulle.generer(lVR,"pro-");
-				} else {				
-					//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();					
+				} else {			
 					var lQteMax = -1;
 					if(lTypeProduit == 2) {
 						lQteMax = pDialog.find('#max-abonnement').text().numberFrToDb();
@@ -2080,8 +2014,6 @@
 						} else {
 							lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 						}
-						//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
-							
 						if(lTypeProduit == 2 && this.mMarche.produitsAbonnement[lIdNomProduit]) { // Produit déjà présent en abonnement
 							var lVR = new Object();
 							var erreur = new VRerreur();
@@ -2118,15 +2050,6 @@
 							lVoProduit.qteMaxCommande = lQteMax;
 							lVoProduit.qteRestante = lStock;
 							lVoProduit.type = lTypeProduit;
-									
-							/*pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-								// Récupération des lots
-								var lVoLot = new DetailCommandeVO();
-								lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-								lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-								
-								lVoProduit.lots.push(lVoLot);										
-							});	*/
 							
 							if(lTypeProduit == 2) {
 								pDialog.find('.ligne-lot-abonnement :checkbox').each( function () {

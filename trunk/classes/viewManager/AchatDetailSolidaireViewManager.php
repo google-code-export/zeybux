@@ -45,6 +45,7 @@ class AchatDetailSolidaireViewManager
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID . 
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE . 
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
@@ -64,6 +65,7 @@ class AchatDetailSolidaireViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
@@ -90,6 +92,7 @@ class AchatDetailSolidaireViewManager
 			"," . StockManager::CHAMP_STOCK_ID . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID . 
 			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT . 
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
@@ -108,6 +111,7 @@ class AchatDetailSolidaireViewManager
 					$lLigne[StockManager::CHAMP_STOCK_ID],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 					$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT],
 					$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 					$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 					$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
@@ -139,7 +143,8 @@ class AchatDetailSolidaireViewManager
 			    StockManager::CHAMP_STOCK_ID_OPERATION .
 			"," . StockManager::CHAMP_STOCK_ID .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE .
+			"," . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . 
+			"," . DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT .
 			"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 			"," . StockManager::CHAMP_STOCK_QUANTITE .
 			"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
@@ -165,6 +170,7 @@ class AchatDetailSolidaireViewManager
 						$lLigne[StockManager::CHAMP_STOCK_ID],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID],
 						$lLigne[StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_ID_MODELE_LOT],
 						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
 						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
 						$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT],
@@ -182,7 +188,8 @@ class AchatDetailSolidaireViewManager
 	}
 
 	/**
-	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit)
+	* @name remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeIdModeleLot, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit)
+	* @param int(11)
 	* @param int(11)
 	* @param int(11)
 	* @param int(11)
@@ -194,12 +201,13 @@ class AchatDetailSolidaireViewManager
 	* @return AchatDetailSolidaireViewVO
 	* @desc Retourne une AchatDetailSolidaireViewVO remplie
 	*/
-	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit) {
+	private static function remplir($pStoIdOperation, $pStoId, $pDopeId, $pStoIdDetailCommande, $pDopeIdModeleLot, $pDopeMontant, $pStoQuantite, $pDcomIdProduit, $pDcomIdNomProduit) {
 		$lAchatDetailSolidaire = new AchatDetailSolidaireViewVO();
 		$lAchatDetailSolidaire->setStoIdOperation($pStoIdOperation);
 		$lAchatDetailSolidaire->setStoId($pStoId);
 		$lAchatDetailSolidaire->setDopeId($pDopeId);
 		$lAchatDetailSolidaire->setStoIdDetailCommande($pStoIdDetailCommande);
+		$lAchatDetailSolidaire->setDopeIdModeleLot($pDopeIdModeleLot);
 		$lAchatDetailSolidaire->setDopeMontant($pDopeMontant);
 		$lAchatDetailSolidaire->setStoQuantite($pStoQuantite);
 		$lAchatDetailSolidaire->setDcomIdProduit($pDcomIdProduit);

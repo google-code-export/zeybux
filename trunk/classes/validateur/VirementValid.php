@@ -10,6 +10,7 @@
 //****************************************************************
 
 // Inclusion des classes
+include_once(CHEMIN_CLASSES_VALIDATEUR . "IdValid.php");
 include_once(CHEMIN_CLASSES_VO . "VirementVO.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "IdVirementValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
@@ -42,8 +43,8 @@ class VirementValid
 	* @desc Test la validite de l'élément
 	*/
 	public function compte($pIdCompte) {
-		$lCompteService = new CompteService();
-		return $lCompteService->existe($pIdCompte);
+		$lIdValid = new IdValid();
+		return !empty($pIdCompte) && $lIdValid->estId($pIdCompte);
 	}
 	
 	/**

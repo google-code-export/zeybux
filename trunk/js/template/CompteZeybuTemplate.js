@@ -358,13 +358,13 @@
 								"<td class=\"com-table-td\">{listeChequeAdherent.adhNom}</td>" +
 								"<td class=\"com-table-td\">{listeChequeAdherent.adhPrenom}</td>" +
 								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeAdherent.opeMontant}</span>{listeChequeAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-table-td\">{listeChequeAdherent.opeTypePaiementChampComplementaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeAdherent.numeroCheque}</td>" +
 								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeAdherent.opeId}\">Ok</button>" +
 								"</td>" +
 								
 								"<td class=\"com-table-td-med td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -426,7 +426,7 @@
 								"</td>" +
 								
 								"<td class=\"com-table-td-med td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -480,14 +480,14 @@
 								"</td>" +
 								"<td class=\"com-table-td\">{listeChequeFerme.ferNom}</td>" +
 								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeFerme.opeMontant}</span>{listeChequeFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-table-td\">{listeChequeFerme.opeTypePaiementChampComplementaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeFerme.numeroCheque}</td>" +
 								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeFerme.opeId}\">Ok</button>" +
 								"</td>" +
 								
 
 								"<td class=\"com-table-td-fin td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeChequeFerme.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -540,7 +540,7 @@
 								"</td>" +
 
 								"<td class=\"com-table-td-fin td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeEspeceFerme.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -590,28 +590,24 @@
 			"</form>" +
 		"</div>";
 	
-	this.dialogModifierPaiementCheque = 
+	this.dialogModifierPaiement = 
 		"<div id=\"dialog-modifier-paiement\" title=\"Modifier le paiement\">" +
 			"<form>" +
 				"<table class=\"com-table-100\">" +
 					"<tr>" +
-						"<td>N° de compte : {cptLabel}</td>" +
+						"<td>N° de compte </td>" +
+						"<td>{cptLabel}</td>" +
 					"</tr>" +
-					"<tr class=\"com-center\" >" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/>" +
-						"</td>" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"Banque <input type=\"text\" value=\"{opeBanque}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champ-complementaire-banque\" id=\"idBanque\" id-banque=\"{opeIdBanque}\" maxlength=\"50\" size=\"15\"/>" +
-						"</td>" +
+					"<tr>" +
+						"<td>Montant</td>" +
+						"<td><input type=\"text\" name=\"montant-rechargement\" value=\"{opeMontant}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
 					"</tr>" +
+					"{champComplementaire}" +
 				"</table>" +
 			"</form>" +
 		"</div>";
 	
-	this.dialogModifierPaiementEspece = 
+	/*this.dialogModifierPaiementEspece = 
 		"<div id=\"dialog-modifier-paiement\" title=\"Modifier le paiement\">" +
 			"<form>" +
 				"<table class=\"com-table-100\">" +
@@ -625,5 +621,5 @@
 					"</tr>" +
 				"</table>" +
 			"</form>" +
-		"</div>";
+		"</div>";*/
 }

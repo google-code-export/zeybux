@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_ZEYBU . "/ListePaiementRespons
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMPTE_ZEYBU . "/SuiviPaiementValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php" );
 
 /**
  * @name SuiviPaiementControleur
@@ -34,8 +35,12 @@ class SuiviPaiementControleur
 		$lResponse->setListeEspeceAdherent($lOperationService->getListeEspeceAdherentNonEnregistre());
 		$lResponse->setListeChequeFerme($lOperationService->getListeChequeFermeNonEnregistre());
 		$lResponse->setListeEspeceFerme($lOperationService->getListeEspeceFermeNonEnregistre());
+		
 		$lBanqueService = new BanqueService();
 		$lResponse->setBanques($lBanqueService->getAllActif());
+		
+		$lTypePaiementService = new TypePaiementService();
+		$lResponse->setTypePaiement($lTypePaiementService->selectVisible());
 		
 		return $lResponse;		
 	}
@@ -60,8 +65,8 @@ class SuiviPaiementControleur
 	public function supprimerPaiement($pParam) {
 		$lVr = SuiviPaiementValid::validValider($pParam);
 		if($lVr->getValid()) {			
-			$lOperationService = new OperationService();
-			$lOperationMaj = $lOperationService->get($pParam["id"]);
+			//$lOperationService = new OperationService();
+			$lOperationMaj = $lVr->getData()['operation'];
 
 			$lOperations = $lOperationService->getBonLivraison($lOperationMaj->getIdCommande(),$lOperationMaj->getIdCompte());
 			$lOperation = $lOperations[0];

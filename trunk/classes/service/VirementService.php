@@ -50,7 +50,7 @@ class VirementService
 		$lOperationService = new OperationService();	
 	
 		// Operation de débit
-		$lOperationDebit = new OperationVO();
+		$lOperationDebit = new OperationDetailVO();
 		$lOperationDebit->setIdCompte($pVirement->getCptDebit());
 		$lOperationDebit->setMontant($pVirement->getMontant() * -1);
 		if($pVirement->getType() == 1) {
@@ -60,13 +60,13 @@ class VirementService
 			$lOperationDebit->setLibelle("Virement Solidaire");
 			$lOperationDebit->setTypePaiement(9);
 		}		
-		$lOperationDebit->setTypePaiementChampComplementaire('');
+//		$lOperationDebit->setTypePaiementChampComplementaire('');
 //		$lOperationDebit->setType(1);
-		$lOperationDebit->setIdCommande(0);
+//		$lOperationDebit->setIdCommande(0);
 		$lIdDebit = $lOperationService->set($lOperationDebit);
 		
 		// Operation de crédit
-		$lOperationCredit = new OperationVO();
+		$lOperationCredit = new OperationDetailVO();
 		$lOperationCredit->setIdCompte($pVirement->getCptCredit());
 		$lOperationCredit->setMontant($pVirement->getMontant());
 		if($pVirement->getType() == 1) {
@@ -76,15 +76,28 @@ class VirementService
 			$lOperationCredit->setLibelle("Virement Solidaire");
 			$lOperationCredit->setTypePaiement(10);
 		}				
-		$lOperationCredit->setTypePaiementChampComplementaire($lIdDebit);
+//		$lOperationCredit->setTypePaiementChampComplementaire($lIdDebit);
 //		$lOperationCredit->setType(1);
-		$lOperationCredit->setIdCommande(0);
+//		$lOperationCredit->setIdCommande(0);
+
+		
+		$lOperationChampComplementaireCredit = new OperationChampComplementaireVO();
+		$lOperationChampComplementaireCredit->setChcpId(5);
+		$lOperationChampComplementaireCredit->setValeur($lIdDebit);
+		$lOperationCredit->addChampComplementaire($lOperationChampComplementaireCredit);
 		
 		$lIdCredit = $lOperationService->set($lOperationCredit);
 		
 		// Maj Operation de débit
 		$lOperationDebit->setId($lIdDebit);
-		$lOperationDebit->setTypePaiementChampComplementaire($lIdCredit);
+		//$lOperationDebit->setTypePaiementChampComplementaire($lIdCredit);
+		
+		$lOperationChampComplementaireDebit = new OperationChampComplementaireVO();
+		//$lOperationChampComplementaireDebit->setOpeId($lIdDebit);
+		$lOperationChampComplementaireDebit->setChcpId(4);
+		$lOperationChampComplementaireDebit->setValeur($lIdCredit);
+		$lOperationDebit->addChampComplementaire($lOperationChampComplementaireDebit);
+		
 		$lOperationService->set($lOperationDebit);
 		
 		$pIdVirement = new IdVirementVO();
@@ -124,7 +137,7 @@ class VirementService
 		if($lVirementValid->delete($pId)) {
 			$lOperationService = new OperationService();
 			// Créer une opération (débit Annulation)
-			$lOperationDebit = $lOperationService->get($pId->getIdDebit());
+			$lOperationDebit = $lOperationService->getDetail($pId->getIdDebit());
 			
 			// Mise au statut d'annulation du virement initial
 			$lOperationDebit->setTypePaiement($this->getTypeAnnulation($lOperationDebit->getTypePaiement()));
@@ -136,7 +149,7 @@ class VirementService
 			$lOperationService->set($lOperationDebit);
    
 			// Créer une opération (crédit Annulation)
-			$lOperationCredit = $lOperationService->get($pId->getIdCredit());
+			$lOperationCredit = $lOperationService->getDetail($pId->getIdCredit());
 			
 			// Mise au statut d'annulation du virement initial
 			$lOperationCredit->setTypePaiement($this->getTypeAnnulation($lOperationCredit->getTypePaiement()));
@@ -194,13 +207,15 @@ class VirementService
 		$lIdVirementValid = new IdVirementValid();
 		if(	$lIdVirementValid->estDebit($pVirement->getId()->getIdDebit()) ) {
 			$lOperationService = new OperationService();
-			$lOperation = $lOperationService->get($pVirement->getId()->getIdDebit());
-			$pVirement->getId()->setIdCredit($lOperation->getTypePaiementChampComplementaire());
+			$lOperation = $lOperationService->getDetail($pVirement->getId()->getIdDebit());
+			$lIdCredit = $lOperation->getChampComplementaire()[4]->getValeur();
+			$pVirement->getId()->setIdCredit($lIdCredit);			
 			return $pVirement;			
 		} else if ($lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {
 			$lOperationService = new OperationService();			
 			$lOperation = $lOperationService->get($pVirement->getId()->getIdCredit());
-			$pVirement->getId()->setIdDebit($lOperation->getTypePaiementChampComplementaire());
+			$lIdDebit = $lOperation->getChampComplementaire()[5]->getValeur();
+			$pVirement->getId()->setIdDebit($lIdDebit);
 			return $pVirement;			
 		} else {
 			return false;			
@@ -228,14 +243,17 @@ class VirementService
 	* @desc Retourne un virement
 	*/
 	private function select($pId) {		
-		$lOperation = OperationManager::select($pId);
-		$lOperationSoeur = OperationManager::select($lOperation->getTypePaiementChampComplementaire());		
+		$lOperationService = new OperationService();
+		$lOperation = $lOperationService->getDetail($pId);
+		//$lOperation = OperationManager::select($pId);
+		//$lOperationSoeur = OperationManager::select($lOperation->getTypePaiementChampComplementaire());		
 		
 		$lVirement = new VirementVO();
 		$lIdVirement = new IdVirementVO();
 		$lVirement->setId($lIdVirement);
 		switch($lOperation->getTypePaiement()) {
 			case 3:				
+				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
 				$lVirement->getId()->setIdDebit($pId);
 				$lVirement->getId()->setIdCredit($lOperationSoeur->getId());
 				$lVirement->setCptDebit($lOperation->getIdCompte());
@@ -244,7 +262,8 @@ class VirementService
 				$lVirement->setType(1);				
 				break;
 				
-			case 4:				
+			case 4:		
+				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
 				$lVirement->getId()->setIdDebit($lOperationSoeur->getId());
 				$lVirement->getId()->setIdCredit($pId);
 				$lVirement->setCptDebit($lOperationSoeur->getIdCompte());
@@ -254,6 +273,7 @@ class VirementService
 				break;
 				
 			case 9:
+				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
 				$lVirement->getId()->setIdDebit($pId);
 				$lVirement->getId()->setIdCredit($lOperationSoeur->getId());
 				$lVirement->setCptDebit($lOperation->getIdCompte());
@@ -263,6 +283,7 @@ class VirementService
 				break;
 				
 			case 10:				
+				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
 				$lVirement->getId()->setIdDebit($lOperationSoeur->getId());
 				$lVirement->getId()->setIdCredit($pId);
 				$lVirement->setCptDebit($lOperationSoeur->getIdCompte());
@@ -293,7 +314,7 @@ class VirementService
 	* @name selectByCompte($pCpt,$pType)
 	* @param integer
 	* @param integer
-	* @return array(OperationVO) ou false en erreur
+	* @return array(OperationDetailVO) ou false en erreur
 	* @desc Retourne une liste de virement
 	*/
 	private function selectByCompte($pCpt,$pType = null) {
@@ -302,7 +323,7 @@ class VirementService
 			if($pType != null) {
 				$lVirementValid = new VirementValid();
 				if($lVirementValid->typeVirement($pType)) {			
-					return OperationManager::recherche(
+					return OperationManager::rechercheDetail(
 						array(OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 						array('=','='),
 						array($pCpt, $pType),
@@ -312,7 +333,7 @@ class VirementService
 					return false;
 				}
 			} else {
-				return OperationManager::recherche(
+				return OperationManager::rechercheDetail(
 					array(OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 					array('=','in'),
 					array($pCpt, array(3,4,9,10)),
@@ -327,14 +348,14 @@ class VirementService
 	/**
 	* @name selectByCompteAll($pType)
 	* @param integer
-	* @return array(OperationVO) ou false en erreur
+	* @return array(OperationDetailVO) ou false en erreur
 	* @desc Retourne l'ensemble des virements
 	*/
 	private function selectByCompteAll($pType = null) {
 		if($pType != null) {
 			$lVirementValid = new VirementValid();
 			if($lVirementValid->typeVirement($pType)) {			
-				return OperationManager::recherche(
+				return OperationManager::rechercheDetail(
 					array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 					array('='),
 					array( $pType),
@@ -344,13 +365,31 @@ class VirementService
 				return false;
 			}
 		} else {
-			return OperationManager::recherche(
+			return OperationManager::rechercheDetail(
 				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 				array('in'),
 				array(array(3,4,9,10)),
 				array(OperationManager::CHAMP_OPERATION_DATE),
 				array('DESC'));
 		}
+	}
+	
+	/**
+	 * @name selectListeVirementCompteZeybu()
+	 * @return array(OperationDetailVO) 
+	 * @desc Retourne l'ensemble des virements
+	 */
+	public function selectListeVirementCompteZeybu() {
+		return OperationManager::selectListeVirementCompte(-1);
+	}
+	
+	/**
+	 * @name selectListeVirementCompteSolidaire()
+	 * @return array(OperationDetailVO) 
+	 * @desc Retourne l'ensemble des virements
+	 */
+	public function selectListeVirementCompteSolidaire() {
+		return OperationManager::selectListeVirementCompte(-2);
 	}
 }
 ?>

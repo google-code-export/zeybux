@@ -25,9 +25,9 @@ class IdValid
 	* @desc Test la validite de l'élément
 	*/
 	public function estId($pId) {
-		if(is_int($pId)) { // Si entier il doit être inférieur
+		if(is_int((int)$pId)) { // Si entier il doit être inférieur
 			return $pId <= 99999999999;
-		} else if(is_string($pId)) {
+		} else if((string)is_string($pId)) {
 			return TestFonction::checkLength($pId,0,11); // si string ne doit pas dépasser 11 de long. Peut être vide
 		} else if(empty($pId)) {
 			return true;

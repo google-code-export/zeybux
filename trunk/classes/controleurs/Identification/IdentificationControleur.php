@@ -76,6 +76,7 @@ class IdentificationControleur
 						$lAcces->setIdLogin($lIdentification->getIdLogin());
 						$lAcces->setTypeLogin($lIdentification->getType());
 						$lAcces->setIp($_SERVER["REMOTE_ADDR"]);
+						$lAcces->setNav($_SERVER['HTTP_USER_AGENT']);
 						$lAcces->setDateCreation(StringUtils::dateTimeAujourdhuiDb());
 						$lAcces->setAutorise(1);
 						$_SESSION[ID_CONNEXION] = AccesManager::insert($lAcces);

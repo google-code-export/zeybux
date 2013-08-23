@@ -99,7 +99,7 @@
 	"</div>";
 	
 	this.dialogEditionPass =
-		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulaire_identification\">" +
+		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulairer_dialog\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -143,8 +143,8 @@
 					"<tbody>" +
 				"<!-- BEGIN operationPassee -->" +
 					"<tr>" +
-						"<td class=\"com-table-td td-date \">{operationPassee.opeDate}</td>" +
-						"<td class=\"com-table-td td-libelle\">{operationPassee.opeLibelle}</td>" +
+						"<td class=\"com-table-td td-date \">{operationPassee.date}</td>" +
+						"<td class=\"com-table-td td-libelle\">{operationPassee.libelle}</td>" +
 						"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType} {operationPassee.opeTypePaiementChampComplementaire}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +

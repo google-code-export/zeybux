@@ -17,23 +17,19 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 
 include_once(CHEMIN_CONFIGURATION . "Mail.php"); // Les Constantes de mail
 
-include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php" );
+include_once(CHEMIN_CLASSES_UTILS . "MotDePasseUtils.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
-include_once(CHEMIN_CLASSES_UTILS . "MotDePasseUtils.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
-include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "MarcheListeReservationViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ModuleService.php");
-
-/*
-include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");*/
-
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 
 /**
  * @name AdherentService
@@ -355,13 +351,15 @@ class AdherentService
 			// Si c'est le dernier adhérent du compte : suppression des réservations et abonnements
 			if( $lNbAdherentSurCompte < 2 ) {
 				// Suppression des réservations en cours
-				$lReservationService = new ReservationService();
-				$lReservations = MarcheListeReservationViewManager::select($lAdherent->getIdCompte());
-				if(!is_null($lReservations[0]->getComId())) {
+				$lMarcheService = new MarcheService();
+				$lReservations = $lMarcheService->getNonAchatParCompte($lAdherent->getIdCompte());
+				
+				if(!is_null($lReservations[0]->getId())) {
+					$lReservationService = new ReservationService();
 					foreach($lReservations as $lReservation) {
 						$lIdReservation = new IdReservationVO();
 						$lIdReservation->setIdCompte($lAdherent->getIdCompte());
-						$lIdReservation->setIdCommande($lReservation->getComId());
+						$lIdReservation->setIdCommande($lReservation->getId());
 						$lReservationService->delete($lIdReservation);
 					}
 				}
@@ -475,6 +473,15 @@ class AdherentService
 	}
 	
 	/**
+	 * @name getAllResumeSansSolde()
+	 * @return array(ListeAdherentViewVO)
+	 * @desc Retourne la liste des adhérents
+	 */
+	public function getAllResumeSansSolde() {
+		return ListeAdherentViewManager::selectAll(true);
+	}
+	
+	/**
 	 * @name getAllActif()
 	 * @return array(AdherentViewVO)
 	 * @desc Retourne la liste des adhérents
@@ -495,60 +502,6 @@ class AdherentService
 		}
 		return false;
 	}
-	
-	/**
-	 * @name select($pId)
-	 * @param IdAchatVO
-	 * @return AchatVO
-	 * @desc Retourne une Reservation
-	 */
-	/*private function select($pId) {
-		$lOperation = OperationManager::select($pId->getIdAchat());
-	
-		$lAchat = new AchatVO();
-		$lAchat->getId()->setIdCompte($pId->getIdCompte());
-		$lAchat->getId()->setIdCommande($pId->getIdCommande());
-		$lAchat->getId()->setIdAchat($pId->getIdAchat());
-	
-		// Recherche du détail de la reservation
-		switch($lOperation->getTypePaiement()) {
-			case 7: // Un achat
-				$lDetailsAchat = AchatDetailViewManager::select($lOperation->getId());
-				foreach($lDetailsAchat as $lDetail) {
-					if(!is_null($lDetail->getStoId())) {
-						$lDetailAchat = new DetailReservationVO();
-						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
-						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
-						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
-						$lDetailAchat->setMontant($lDetail->getDopeMontant());
-						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
-						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
-	
-						$lAchat->addDetailAchat($lDetailAchat);
-					}
-				}
-				$lAchat->setTotal($lOperation->getMontant());
-				break;
-	
-			case 8: // Achat Solidaire
-				$lDetailsAchat = AchatDetailSolidaireViewManager::select($lOperation->getId());
-				foreach($lDetailsAchat as $lDetail) {
-					if(!is_null($lDetail->getStoId())) {
-						$lDetailAchat = new DetailReservationVO();
-						$lDetailAchat->getId()->setIdStock($lDetail->getStoId());
-						$lDetailAchat->getId()->setIdDetailOperation($lDetail->getDopeId());
-						$lDetailAchat->setIdDetailCommande($lDetail->getStoIdDetailCommande());
-						$lDetailAchat->setMontant($lDetail->getDopeMontant());
-						$lDetailAchat->setQuantite($lDetail->getStoQuantite());
-						$lDetailAchat->setIdProduit($lDetail->getDcomIdProduit());
-	
-						$lAchat->addDetailAchatSolidaire($lDetailAchat);
-					}
-				}
-				$lAchat->setTotalSolidaire($lOperation->getMontant());
-				break;
-		}
-		return $lAchat;
-	}*/
+
 }
 ?>

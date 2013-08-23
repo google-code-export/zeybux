@@ -43,6 +43,12 @@ class AchatDetailViewVO  extends DataTemplate
 	protected $mStoIdDetailCommande;
 
 	/**
+	* @var int(11)
+	* @desc DopeIdModeleLot de la AchatDetailViewVO
+	*/
+	protected $mDopeIdModeleLot;
+
+	/**
 	* @var decimal(10,2)
 	* @desc DopeMontant de la AchatDetailViewVO
 	*/
@@ -136,6 +142,24 @@ class AchatDetailViewVO  extends DataTemplate
 	*/
 	public function setStoIdDetailCommande($pStoIdDetailCommande) {
 		$this->mStoIdDetailCommande = $pStoIdDetailCommande;
+	}
+
+	/**
+	 * @name getDopeIdModeleLot()
+	 * @return int(11)
+	 * @desc Renvoie le membre DopeIdModeleLot de la AchatDetailViewVO
+	 */
+	public function getDopeIdModeleLot() {
+		return $this->mDopeIdModeleLot;
+	}
+	
+	/**
+	 * @name setDopeIdModeleLot($pDopeIdModeleLot)
+	 * @param int(11)
+	 * @desc Remplace le membre DopeIdModeleLot de la AchatDetailViewVO par $pDopeIdModeleLot
+	 */
+	public function setDopeIdModeleLot($pDopeIdModeleLot) {
+		$this->mDopeIdModeleLot = $pDopeIdModeleLot;
 	}
 
 	/**

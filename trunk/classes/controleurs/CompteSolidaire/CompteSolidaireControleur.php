@@ -10,12 +10,10 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_SOLIDAIRE . "/CompteSolidaireResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireOperationViewManager.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "CompteSolidaireListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_COMPTE_SOLIDAIRE . "/ListeAdherentResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "VirementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_COMPTE_SOLIDAIRE . "/CompteSolidaireVirementValid.php" );
 
 /**
@@ -33,7 +31,8 @@ class CompteSolidaireControleur
 	*/
 	public function getCompte() {
 		$lResponse = new CompteSolidaireResponse();		
-		$lResponse->setOperation( CompteSolidaireOperationViewManager::selectAll());
+		$lVirementService = new VirementService();
+		$lResponse->setOperation( $lVirementService->selectListeVirementCompteSolidaire());
 		$lCompteService = new CompteService();
 		$lResponse->setSolde( $lCompteService->get(-2)->getSolde());
 		return $lResponse;
@@ -47,7 +46,8 @@ class CompteSolidaireControleur
 	public function getAdherent() {		
 		// Lancement de la recherche
 		$lResponse = new ListeAdherentResponse();
-		$lResponse->setListeAdherent(CompteSolidaireListeAdherentViewManager::selectAll());
+		$lAdherentService = new AdherentService();
+		$lResponse->setListeAdherent($lAdherentService->getAllResumeSansSolde());
 		$lCompteService = new CompteService();
 		$lResponse->setSolde( $lCompteService->get(-2)->getSolde());
 		return $lResponse;
@@ -65,7 +65,8 @@ class CompteSolidaireControleur
 			$lIdVirement = new IdVirementVO(); // Id du virement
 			$lVirement->setId($lIdVirement);
 			$lVirement->setCptDebit(-2); // Le Compte solidaire
-			$lAdherent = AdherentViewManager::select($pParam['id']); // Dans le valid ajouter un test pour vérifier qu'il existe
+			
+			$lAdherent = $lVr->getData()['adherent'];
 			$lVirement->setCptCredit($lAdherent->getAdhIdCompte());
 			
 			$lVirement->setMontant($pParam['montant']); 

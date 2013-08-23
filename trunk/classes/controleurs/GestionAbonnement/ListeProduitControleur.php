@@ -10,6 +10,7 @@
 //****************************************************************
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/ListeProduitAbonnementResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/ListeProduitResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/DetailProduitResponse.php" );
@@ -17,7 +18,6 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ABONNEMENT . "/ListeProduit
 
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/ListeFermeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT ."/ListeProduitFermeResponse.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AbonnementNomProduitViewManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ABONNEMENT . "/FermeValid.php");
 
@@ -222,7 +222,8 @@ class ListeProduitControleur
 	public function getListeFerme() {		
 		// Lancement de la recherche
 		$lResponse = new ListeFermeResponse();
-		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		$lFermeService = new  FermeService();
+		$lResponse->setListeFerme($lFermeService->get());
 		return $lResponse;
 	}
 	

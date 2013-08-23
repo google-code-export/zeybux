@@ -9,15 +9,6 @@
 //
 //****************************************************************
 // Inclusion des classes
-/*
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationAvenirViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "OperationPasseeViewManager.php");*/
-
-/*include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMPTES_SPECIAUX . "/GestionResponse.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "IdentificationService.php" );
-include_once(CHEMIN_CLASSES_VO . "IdentificationVO.php");*/
-
 
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMPTES_SPECIAUX . "/CompteSpecialValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "IdentificationService.php" );
@@ -39,21 +30,26 @@ class GestionControleur
 	public function ajouter($pParam) {		
 		$lVr = CompteSpecialValid::validAjout($pParam);
 		if($lVr->getValid()) {			
+			
+			
 			$lIdentificationService = new IdentificationService();
-			
-			$lIde = $lIdentificationService->selectByType(3);
-			
 			$lStatutAutorise = 1;
-			$lAutoriseActif = false;
 			
-			$i = 0;
-			while(isset($lIde[$i]) && $lStatutAutorise == 1) {
-				$lAutorise = $lIde[0]->getAutorise();
-				if($lAutorise == 2) {
-					$lStatutAutorise = 2;
-				}
-				$i++;
-			}			
+			if($pParam["type"] == 3) {
+				$lIde = $lIdentificationService->selectByType(3);
+				
+				
+				$lAutoriseActif = false;
+				
+				$i = 0;
+				while(isset($lIde[$i]) && $lStatutAutorise == 1) {
+					$lAutorise = $lIde[0]->getAutorise();
+					if($lAutorise == 2) {
+						$lStatutAutorise = 2;
+					}
+					$i++;
+				}		
+			}	
 			
 			$lIdentificationVO = new IdentificationVO();
 			$lIdentificationVO->setLogin($pParam["login"]);

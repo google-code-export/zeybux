@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 12/07/2011
+// Date de creation : 25/07/2013
 // Fichier : HistoriqueDetailOperationVO.php
 //
 // Description : Classe HistoriqueDetailOperationVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name HistoriqueDetailOperationVO
  * @author Julien PIERRE
- * @since 12/07/2011
+ * @since 25/07/2013
  * @desc Classe représentant une HistoriqueDetailOperationVO
  */
 class HistoriqueDetailOperationVO  extends DataTemplate
@@ -67,16 +67,16 @@ class HistoriqueDetailOperationVO  extends DataTemplate
 	protected $mTypePaiement;
 
 	/**
-	* @var varchar(50)
-	* @desc TypePaiementChampComplementaire de la HistoriqueDetailOperationVO
-	*/
-	protected $mTypePaiementChampComplementaire;
-
-	/**
 	* @var int(11)
 	* @desc IdDetailCommande de la HistoriqueDetailOperationVO
 	*/
 	protected $mIdDetailCommande;
+
+	/**
+	* @var int(11)
+	* @desc IdModeleLot de la HistoriqueDetailOperationVO
+	*/
+	protected $mIdModeleLot;
 
 	/**
 	* @var int(11)
@@ -229,24 +229,6 @@ class HistoriqueDetailOperationVO  extends DataTemplate
 	}
 
 	/**
-	* @name getTypePaiementChampComplementaire()
-	* @return varchar(50)
-	* @desc Renvoie le membre TypePaiementChampComplementaire de la HistoriqueDetailOperationVO
-	*/
-	public function getTypePaiementChampComplementaire() {
-		return $this->mTypePaiementChampComplementaire;
-	}
-
-	/**
-	* @name setTypePaiementChampComplementaire($pTypePaiementChampComplementaire)
-	* @param varchar(50)
-	* @desc Remplace le membre TypePaiementChampComplementaire de la HistoriqueDetailOperationVO par $pTypePaiementChampComplementaire
-	*/
-	public function setTypePaiementChampComplementaire($pTypePaiementChampComplementaire) {
-		$this->mTypePaiementChampComplementaire = $pTypePaiementChampComplementaire;
-	}
-
-	/**
 	* @name getIdDetailCommande()
 	* @return int(11)
 	* @desc Renvoie le membre IdDetailCommande de la HistoriqueDetailOperationVO
@@ -262,6 +244,24 @@ class HistoriqueDetailOperationVO  extends DataTemplate
 	*/
 	public function setIdDetailCommande($pIdDetailCommande) {
 		$this->mIdDetailCommande = $pIdDetailCommande;
+	}
+
+	/**
+	* @name getIdModeleLot()
+	* @return int(11)
+	* @desc Renvoie le membre IdModeleLot de la HistoriqueDetailOperationVO
+	*/
+	public function getIdModeleLot() {
+		return $this->mIdModeleLot;
+	}
+
+	/**
+	* @name setIdModeleLot($pIdModeleLot)
+	* @param int(11)
+	* @desc Remplace le membre IdModeleLot de la HistoriqueDetailOperationVO par $pIdModeleLot
+	*/
+	public function setIdModeleLot($pIdModeleLot) {
+		$this->mIdModeleLot = $pIdModeleLot;
 	}
 
 	/**

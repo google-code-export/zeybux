@@ -36,19 +36,21 @@
 		lResponse.adherent.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		
 		$(lResponse.operationPassee).each(function() {
-			this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
-			if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
-			if(this.tppId == 2) {
-				this.opeTypePaiementChampComplementaire =' N° ' + this.opeTypePaiementChampComplementaire;
-			} else {
-				this.opeTypePaiementChampComplementaire = '';
-			}
-			if(this.opeMontant < 0) {
-				this.debit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
-				this.credit = '';
-			} else {
-				this.debit = '';
-				this.credit = this.opeMontant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+			if(this.date != null) {
+				this.date = this.date.extractDbDate().dateDbToFr();
+				if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
+				if(this.tppId == 2) { // Affiche le N° de chèque
+					this.opeTypePaiementChampComplementaire =' N° ' + this.champComplementaire[3].valeur;
+				} else {
+					this.opeTypePaiementChampComplementaire = '';
+				}
+				if(this.montant < 0) {
+					this.debit = (this.montant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+					this.credit = '';
+				} else {
+					this.debit = '';
+					this.credit = this.montant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+				}
 			}
 		});
 		

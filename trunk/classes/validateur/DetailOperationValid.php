@@ -14,7 +14,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . "IdValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "MontantValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
-include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . "TypePaiementValid.php");
 //include_once(CHEMIN_CLASSES_VR . "DetailOperationVR.php" );
 
 /**
@@ -45,11 +45,7 @@ class DetailOperationValid
 	*/
 	public function id($pId) {
 		$lIdValid = new IdValid();
-		if(!empty($pId)){
-			return $lIdValid->estId($pId);
-		} else {
-			return false;
-		}
+		return !empty($pId) && $lIdValid->estId($pId);
 	}
 	
 	/**
@@ -58,8 +54,8 @@ class DetailOperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function idOperation($pIdOperation) {
-		$lOperationService = new OperationService();
-		return $lOperationService->existe($pIdOperation);
+		$lIdValid = new IdValid();
+		return !empty($pIdOperation) && $lIdValid->estId($pIdOperation);
 	}
 	
 	/**
@@ -68,8 +64,8 @@ class DetailOperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function compte($pIdCompte) {
-		$lCompteService = new CompteService();
-		return $lCompteService->existe($pIdCompte);
+		$lIdValid = new IdValid();
+		return !empty($pIdCompte) && $lIdValid->estId($pIdCompte);
 	}
 	
 	/**
@@ -110,8 +106,8 @@ class DetailOperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function typePaiement($pTypePaiement) {
-		$lTypePaiementService = new TypePaiementService();
-		return $lTypePaiementService->existe($pTypePaiement);
+		$lTypePaiementValid = new TypePaiementValid();
+		return $lTypePaiementValid->id($pTypePaiement);
 	}
 	
 	/**
@@ -119,13 +115,13 @@ class DetailOperationValid
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function typePaiementChampComplementaire($pTypePaiementChampComplementaire) {
+	/*public function typePaiementChampComplementaire($pTypePaiementChampComplementaire) {
 		if(is_string((string)$pTypePaiementChampComplementaire)) {
 			return TestFonction::checkLength($pTypePaiementChampComplementaire,0,50);
 		} else {
 			return false;
 		}
-	}
+	}*/
 		
 	/**
 	* @name idDetailCommande($pIdDetailCommande)
@@ -145,8 +141,8 @@ class DetailOperationValid
 	public function insert($pDetailOperation) {
 		if($this->estDetailOperation($pDetailOperation)) {
 			$lIdValid = new IdValid();
-			$lId = $pDetailOperation->getId();			
-			
+			$lId = $pDetailOperation->getId();		
+
 			return $lIdValid->estId($lId)
 				&& empty($lId)
 				&& $this->idOperation($pDetailOperation->getIdOperation())
@@ -154,7 +150,6 @@ class DetailOperationValid
 				&& $this->montant($pDetailOperation->getMontant())
 				&& $this->libelle($pDetailOperation->getLibelle())
 				&& $this->typePaiement($pDetailOperation->getTypePaiement())
-				&& $this->typePaiementChampComplementaire($pDetailOperation->getTypePaiementChampComplementaire())
 				&& $this->idDetailCommande($pDetailOperation->getIdDetailCommande());
 				
 		} else {
@@ -175,7 +170,6 @@ class DetailOperationValid
 				&& $this->montant($pDetailOperation->getMontant())
 				&& $this->libelle($pDetailOperation->getLibelle())
 				&& $this->typePaiement($pDetailOperation->getTypePaiement())
-				&& $this->typePaiementChampComplementaire($pDetailOperation->getTypePaiementChampComplementaire())
 				&& $this->idDetailCommande($pDetailOperation->getIdDetailCommande());
 		} else {
 			return false;

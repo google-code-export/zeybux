@@ -206,10 +206,10 @@ class BanqueManager
 			$lI = 1;
 			foreach($pVo as $lVo) {
 				$lRequete .= "(NULL
-				,'" . StringUtils::securiser( $pVo->getNomCourt() ) . "'
-				,'" . StringUtils::securiser( $pVo->getNom() ) . "'
-				,'" . StringUtils::securiser( $pVo->getDescription() ) . "'
-				,'" . StringUtils::securiser( $pVo->getEtat() ) . "')";
+				,'" . StringUtils::securiser( $lVo->getNomCourt() ) . "'
+				,'" . StringUtils::securiser( $lVo->getNom() ) . "'
+				,'" . StringUtils::securiser( $lVo->getDescription() ) . "'
+				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
 
 				if($lNbVO == $lI) {
 					$lRequete .= ";";

@@ -12,41 +12,29 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonLivraisonViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ProducteurViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
-
+//include_once(CHEMIN_CLASSES_VIEW_MANAGER . "TypePaiementVisibleViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockLivraisonViewManager.php");
-
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
-
+include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
 include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
-
-
-
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
-
-
-
-
-include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProducteurMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheBonDeLivraisonResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AfficheListeProduitBonDeLivraisonResponse.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "StockSolidaireViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoBonCommandeViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportBonLivraisonValid.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ProduitsBonDeLivraisonValid.php" );
-include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
-
-
-
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/BonDeCommandeValid.php" );
 
 /**
  * @name BonDeLivraisonControleur
@@ -72,12 +60,16 @@ class BonDeLivraisonControleur
 			$lResponse = new AfficheBonDeLivraisonResponse();
 	
 			$lProducteurs = ListeProducteurMarcheViewManager::select($lIdMarche);
-			$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
+			//$lTypePaiement = TypePaiementVisibleViewManager::selectAll();
+			
+
+			$lTypePaiementService = new TypePaiementService();
+			$lResponse->setTypePaiement($lTypePaiementService->selectVisible());
 			
 			$lResponse->setComNumero($lMarche->getNumero());
 			$lResponse->setArchive($lMarche->getArchive());
 			$lResponse->setProducteurs($lProducteurs);
-			$lResponse->setTypePaiement($lTypePaiement);
+			//$lResponse->setTypePaiement($lTypePaiement);
 			
 			return $lResponse;
 		}
@@ -251,7 +243,7 @@ class BonDeLivraisonControleur
 					$lDetailOperation->setMontant($lProduit["prix"]);
 					$lDetailOperation->setLibelle('Bon de Livraison');
 					$lDetailOperation->setTypePaiement(6);
-					$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
+					//$lDetailOperation->setTypePaiementChampComplementaire($lProduit["id"]);
 					$lDetailOperation->setIdDetailCommande($lDcom[0]->getId());
 					$lDetailOperationService->set($lDetailOperation);
 					

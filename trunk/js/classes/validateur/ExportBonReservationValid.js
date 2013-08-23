@@ -6,7 +6,7 @@
 		if(!pData.id_commande.isInt()) {lVR.valid = false;lVR.id_commande.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.id_commande.erreurs.push(erreur);}
 		if(!pData.format.checkLength(0,1)) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.format.erreurs.push(erreur);}
 		if(!pData.format.isInt()) {lVR.valid = false;lVR.format.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.format.erreurs.push(erreur);}
-		if(!pData.idCompteFerme.checkLength(0,1)) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
+		if(!pData.idCompteFerme.checkLength(0,11)) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
 		if(!pData.idCompteFerme.isInt()) {lVR.valid = false;lVR.idCompteFerme.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.idCompteFerme.erreurs.push(erreur);}
 
 		//Tests Fonctionnels

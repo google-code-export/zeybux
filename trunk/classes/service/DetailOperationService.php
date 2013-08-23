@@ -136,8 +136,9 @@ class DetailOperationService
 		$lHistoriqueDetailOperation->setLibelle($pDetailOperation->getLibelle());
 		$lHistoriqueDetailOperation->setDate($pDetailOperation->getDate());
 		$lHistoriqueDetailOperation->setTypePaiement($pDetailOperation->getTypePaiement()	);
-		$lHistoriqueDetailOperation->setTypePaiementChampComplementaire($pDetailOperation->getTypePaiementChampComplementaire());
+		//$lHistoriqueDetailOperation->setTypePaiementChampComplementaire($pDetailOperation->getTypePaiementChampComplementaire());
 		$lHistoriqueDetailOperation->setIdDetailCommande($pDetailOperation->getIdDetailCommande());
+		$lHistoriqueDetailOperation->setIdModeleLot($pDetailOperation->getIdModeleLot());
 		$lHistoriqueDetailOperation->setIdConnexion($pDetailOperation->getIdConnexion());
 		return HistoriqueDetailOperationManager::insert($lHistoriqueDetailOperation);
 	}

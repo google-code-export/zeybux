@@ -401,8 +401,8 @@
 								"<tbody>" +
 							"<!-- BEGIN operationPassee -->" +
 								"<tr>" +
-									"<td class=\"com-table-td td-date \">{operationPassee.opeDate}</td>" +
-									"<td class=\"com-table-td td-libelle\">{operationPassee.opeLibelle}</td>" +
+									"<td class=\"com-table-td td-date \">{operationPassee.date}</td>" +
+									"<td class=\"com-table-td td-libelle\">{operationPassee.libelle}</td>" +
 									"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType}</td>" +
 									"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
 									"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +

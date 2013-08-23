@@ -219,6 +219,7 @@
 				return false;
 			}
 		});
+		lDialog.find('form').submit(function() {return false;});
 	};
 	
 	this.updateCompte = function(pDialog, pIdCompte, pType) {

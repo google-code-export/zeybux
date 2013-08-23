@@ -9,13 +9,13 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeFermeViewManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/ListeFermeResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_PRODUCTEUR . "/AjoutFermeResponse.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_PRODUCTEUR . "/FermeValid.php");
+//include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "FermeService.php");
 
 /**
  * @name ListeFermeControleur
@@ -33,7 +33,8 @@ class ListeFermeControleur
 	public function getListeFerme() {		
 		// Lancement de la recherche
 		$lResponse = new ListeFermeResponse();
-		$lResponse->setListeFerme(ListeFermeViewManager::selectAll());
+		$lFermeService = new FermeService();
+		$lResponse->setListeFerme($lFermeService->get());
 		return $lResponse;
 	}
 	
@@ -44,29 +45,16 @@ class ListeFermeControleur
 	*/
 	public function ajouterFerme($pParam) {	
 		$lVr = FermeValid::validAjout($pParam);
-		if($lVr->getValid()) {
+		if($lVr->getValid()) {			
 			// Création d'un nouveau compte
 			$lCompte = new CompteVO();
-			$lIdCompte = CompteManager::insert($lCompte);
-			// Le label est l'id du compte par défaut
-			$lCompte->setId($lIdCompte);
-			$lCompte->setLabel('C' . $lIdCompte);
-			CompteManager::update($lCompte);
+			$lCompteService = new CompteService();
+			$lCompte = $lCompteService->set($lCompte);
 			
-			// Initialisation du compte
-			$lOperation = new OperationVO();
-			$lOperation->setIdCompte($lIdCompte);
-			$lOperation->setMontant(0);
-			$lOperation->setLibelle("Création du compte");
-			$lOperation->setDate(StringUtils::dateAujourdhuiDb());
-			//$lOperation->setType(1);
-			$lOperation->setIdCommande(0);
-			$lOperation->setTypePaiement(-1);				
-			OperationManager::insert($lOperation);
-			
+			// Création de la ferme
 			$lFerme = new FermeVO();
 			$lFerme->setNom($pParam["nom"]);
-			$lFerme->setIdCompte($lIdCompte);
+			$lFerme->setIdCompte($lCompte->getId());
 			$lFerme->setSiren($pParam["siren"]);
 			$lFerme->setAdresse($pParam["adresse"]);
 			$lFerme->setCodePostal($pParam["codePostal"]);

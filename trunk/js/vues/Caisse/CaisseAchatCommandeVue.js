@@ -128,14 +128,16 @@
 														lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
 														//lAchatReservation = (parseFloat(lAchatReservation) + parseFloat(this.montant) * -1).toFixed(2);
 														lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
+														that.mLotAchat[lProduit.nproId] = {normal:this.idDetailCommande,solidaire:0};
 													}
 													lAfficherCategorie = true;
 												}
 											});
 											
 											$.each(lResponse.achats, function() {
-												that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
-												
+												if(this.id && this.id.idAchat) {
+													that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
+												}
 												$(this.detailAchat).each(function() {
 													if(this.idProduit == lIdProduit) {
 														lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
@@ -146,6 +148,12 @@
 														lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
 														lAfficherCategorie = true;
 														that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
+														
+														if(that.mLotAchat[lProduit.nproId]) {
+															that.mLotAchat[lProduit.nproId].normal = this.idDetailCommande;
+														} else {
+															that.mLotAchat[lProduit.nproId] = {normal:this.idDetailCommande,solidaire:''};
+														}
 													}
 												});
 												
@@ -158,6 +166,12 @@
 														lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) - parseFloat(this.montant)).toFixed(2);
 														lAfficherCategorie = true;
 														that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
+														
+														if(that.mLotAchat[lProduit.nproId]) {
+															that.mLotAchat[lProduit.nproId].solidaire = this.idDetailCommande;
+														} else {
+															that.mLotAchat[lProduit.nproId] = {normal:'',solidaire:this.idDetailCommande};
+														}
 													}
 												});
 											});
@@ -402,9 +416,12 @@
 		pData.find(".produit-quantite, .produit-quantite-solidaire, .produit-prix, .produit-prix-solidaire").focus(function() {
 			var lNproId = $(this).data('id-nom-produit');
 			var lType = $(this).data('type');
+			
 			if($('#select-' + lNproId + lType).length == 0) {// Si le select est déjà affiché il ne faut pas le réinitialiser			
 				var lProduit = that.mPrixProduit[lNproId];
 				
+				lProduit.prixUnitaire = lProduit.lots[0].mLotPrixUnitaire;
+
 				if(lProduit.lots.length == 1) {
 					lProduit.lotAffiche = lCaisseTemplate.achatMarcheAfficheLot.template({	id:lProduit.lots[0].id,
 																						tailleAffiche:lProduit.lots[0].tailleAffiche,
@@ -419,8 +436,11 @@
 							lIdLot = that.mLotAchat[lNproId].solidaire;
 						}
 						$(lProduit.lots).each(function() {
-							if(this.mLotId == lIdLot) {
+							if(this.id == lIdLot) {
+								lProduit.prixUnitaire = this.mLotPrixUnitaire;
 								this.selected = "selected=\"selected\"";
+							} else {
+								this.selected = '';
 							}
 						});
 					}
@@ -428,7 +448,7 @@
 					lProduit.lotAffiche = lCaisseTemplate.achatMarcheSelectLot.template($.extend({type:lType}, lProduit));
 				}
 				
-				lProduit.prixUnitaire = lProduit.lots[0].mLotPrixUnitaire;
+				
 				
 				$('#cellule-lot-produit').html(that.affectChangeLot($(lProduit.lotAffiche)));
 				
@@ -446,9 +466,9 @@
 			var lType = $(this).data('type');
 			var lIdLot = 0;
 			if(that.mPrixProduit[lNproId].lots.length == 1) {
-				lIdLot = that.mPrixProduit[lNproId].lots[0].mLotId;
+				lIdLot = that.mPrixProduit[lNproId].lots[0].id;
 			} else {
-				lIdLot = that.mLots[$('#select-' + lNproId + lType).val()].mLotId;
+				lIdLot = that.mLots[$('#select-' + lNproId + lType).val()].id;
 			}
 			
 			if(that.mLotAchat[lNproId]) {
@@ -733,6 +753,15 @@
 			lVoProduit.nproId = lNproId;		
 			lVoProduitSolidaire.nproId = lNproId;
 			
+			if(that.mLotAchat[lNproId]) {
+				if(lIdProduit > 0) { // Produit du marche
+					lVoProduit.dcomId = that.mLotAchat[lNproId].normal;		
+					lVoProduitSolidaire.dcomId = that.mLotAchat[lNproId].solidaire;
+				} else { // Produit en stock
+					lVoProduit.lotId = that.mLotAchat[lNproId].normal;		
+					lVoProduitSolidaire.lotId = that.mLotAchat[lNproId].solidaire;				
+				}
+			}
 			lVoProduit = that.qteEtPrixAchat(lNproId, '', lVoProduit);
 			lVoProduitSolidaire = that.qteEtPrixAchat(lNproId, 'Solidaire', lVoProduitSolidaire);
 			
