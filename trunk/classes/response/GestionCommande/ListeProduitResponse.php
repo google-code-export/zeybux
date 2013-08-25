@@ -31,12 +31,19 @@ class ListeProduitResponse extends DataTemplate
 	protected $mListeProduit;
 	
 	/**
+	* @var array(ProduitDetailFactureAfficheVO)
+	* @desc Liste des produits de la commande non facturé de la ListeProduitResponse
+	*/
+	protected $mListeProduitCommande;
+	
+	/**
 	* @name ListeProduitResponse()
 	* @desc Le constructeur
 	*/
 	public function ListeProduitResponse() {
 		$this->mValid = true;
 		$this->mListeProduit = array();
+		$this->mListeProduitCommande = array();
 	}
 	
 	/**
@@ -82,6 +89,33 @@ class ListeProduitResponse extends DataTemplate
 	*/
 	public function addListeProduit($pListeProduit){
 		array_push($this->mListeProduit,$pListeProduit);
+	}
+	
+	/**
+	 * @name getListeProduitCommande()
+	 * @return array(ProduitDetailFactureAfficheVO)
+	 * @desc Renvoie le membre ListeProduitCommande de la ListeProduitResponse
+	 */
+	public function getListeProduitCommande(){
+		return $this->mListeProduitCommande;
+	}
+	
+	/**
+	 * @name setListeProduitCommande($pListeProduitCommande)
+	 * @param array(ProduitDetailFactureAfficheVO)
+	 * @desc Remplace le membre ListeProduitCommande de la ListeProduitResponse par $pListeProduitCommande
+	 */
+	public function setListeProduitCommande($pListeProduitCommande) {
+		$this->mListeProduitCommande = $pListeProduitCommande;
+	}
+	
+	/**
+	 * @name addListeProduitCommande($pListeProduitCommande)
+	 * @param ProduitDetailFactureAfficheVO
+	 * @desc Ajoute $pListeProduitCommande à ListeProduitCommande
+	 */
+	public function addListeProduitCommande($pListeProduitCommande){
+		array_push($this->mListeProduitCommande,$pListeProduitCommande);
 	}
 }
 ?>

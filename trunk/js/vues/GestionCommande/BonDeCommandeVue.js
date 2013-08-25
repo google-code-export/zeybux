@@ -422,8 +422,6 @@
 					lParam.fonction = "export";
 					lParam.idCompteFerme = $('#select-prdt').val();
 					
-					console.log(lParam);
-					
 					// Test des erreurs
 					var lValid = new ExportBonReservationValid();
 					var lVr = lValid.validAjout(lParam);

@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/FactureVR.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/RechercheListeFactureVR.php" );
+include_once(CHEMIN_CLASSES_VR . MOD_GESTION_COMMANDE . "/ListeProduitFermeVR.php" );
 //include_once(CHEMIN_CLASSES_MANAGERS . "FactureManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
@@ -220,6 +221,14 @@ class FactureValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getProduits()->addErreur($lErreur);
+			}
+			
+			if(isset($pData['id']['champComplementaire'][1])) { // Si Marché
+				$lVrChampComplementaire = ChampComplementaireValid::validUpdate($pData['id']['champComplementaire'][1], 0);
+				if(!$lVrChampComplementaire->getValid()) {
+					$lVr->setValid(false);
+				}
+				$lVr->setChampComplementaire(array(1 => $lVrChampComplementaire));
 			}
 			
 			if($pData['id']['id'] != '') { // Modification
@@ -519,43 +528,38 @@ class FactureValid
 	}
 	
 	/**
-	* @name validUpdate($pData)
-	* @return FactureVR
-	* @desc Test la validite de l'élément
-	*/
-	/*public static function validUpdate($pData) {
-		$lVr = FactureValid::validDelete($pData);		
-		if($lVr->getvalid()) {
-			return FactureValid::validAjout($pData);
-		}
-		return $lVr;
-	}	*/
-	
-	/**
-	* @name validDelete($pData)
-	* @return FactureVR
-	* @desc Test la validite de l'élément
-	*/
-/*	public static function validDelete($pData) {
-		$lVr = new FactureVR();
+	 * @name validListeProduitFerme($pData)
+	 * @return ListeProduitFermeVR
+	 * @desc Test la validite de l'élément
+	 */
+	public static function validListeProduitFerme($pData) {
+		$lVr = new ListeProduitFermeVR();
 		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
 			$lVr->getId()->setValid(false);
 			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-			$lVr->getId()->addErreur($lErreur);	
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId()->addErreur($lErreur);
+		}
+		if(!isset($pData['idMarche'])) {
+			$lVr->setValid(false);
+			$lVr->getIdMarche()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getIdMarche()->addErreur($lErreur);
 		}
 		if($lVr->getValid()) {
 			//Tests Techniques
 			if(!TestFonction::checkLength($pData['id'],0,11)) {
-					$lVr->setValid(false);
-					$lVr->getId()->setValid(false);
-					$lErreur = new VRerreur();
-					$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-					$lVr->getId()->addErreur($lErreur);	
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);
 			}
 			if(!is_int((int)$pData['id'])) {
 				$lVr->setValid(false);
@@ -563,9 +567,25 @@ class FactureValid
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getId()->addErreur($lErreur);	
+				$lVr->getId()->addErreur($lErreur);
 			}
-			
+			if(!TestFonction::checkLength($pData['idMarche'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
+			if($pData['idMarche'] != '' && !is_int((int)$pData['idMarche'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
+				
 			//Tests Fonctionnels
 			if(empty($pData['id'])) {
 				$lVr->setValid(false);
@@ -573,12 +593,12 @@ class FactureValid
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);	
+				$lVr->getId()->addErreur($lErreur);
 			}
-			
+				
 			// La ferme doit exister
-			$lFacture = FactureManager::select($pData['id']);
-			if($lFacture->getId() != $pData['id']) {
+			$lFerme = FermeManager::select($pData['id']);
+			if($lFerme->getId() != $pData['id']) {
 				$lVr->setValid(false);
 				$lVr->getId()->setValid(false);
 				$lErreur = new VRerreur();
@@ -586,67 +606,25 @@ class FactureValid
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getId()->addErreur($lErreur);
 			}
+			
+			// Si il y a un marche il doit exister
+			if($pData['idMarche'] != '') {
+				$lCommande = CommandeManager::select($pData['idMarche']);
+				if($lCommande->getId() != $pData['idMarche']) {
+					$lVr->setValid(false);
+					$lVr->getIdMarche()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+					$lVr->getIdMarche()->addErreur($lErreur);
+				}
+			}
+			
+			if($lVr->getValid()) {
+				$lVr->setData(array('ferme' => $lFerme));
+			}
 		}
 		return $lVr;
 	}
-	
-	/**
-	 * @name validGetByIdCompte($pData)
-	 * @return FactureVR
-	 * @desc Test la validite de l'élément
-	 */
-	/*public static function validGetByIdCompte($pData) {
-		$lVr = new FactureVR();
-		//Tests inputs
-		if(!isset($pData['idCompte'])) {
-			$lVr->setValid(false);
-			$lVr->getCompte()->setValid(false);
-			$lErreur = new VRerreur();
-			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$lVr->getCompte()->addErreur($lErreur);
-		}
-	
-		if($lVr->getValid()) {
-			//Tests Techniques
-			if(!TestFonction::checkLength($pData['idCompte'],0,11)) {
-				$lVr->setValid(false);
-				$lVr->getCompte()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
-				$lVr->getCompte()->addErreur($lErreur);
-			}
-			if(!is_int((int)$pData['idCompte'])) {
-				$lVr->setValid(false);
-				$lVr->getId_producteur()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
-				$lVr->getCompte()->addErreur($lErreur);
-			}
-	
-			//Tests Fonctionnels
-			if(empty($pData['idCompte'])) {
-				$lVr->setValid(false);
-				$lVr->getCompte()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getCompte()->addErreur($lErreur);
-			}
-				
-			$lFacture = FactureManager::selectByIdCompte($pData['idCompte']);
-			if($lFacture[0]->getIdCompte() != $pData['idCompte']) {
-				$lVr->setValid(false);
-				$lVr->getCompte()->setValid(false);
-				$lErreur = new VRerreur();
-				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
-				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getCompte()->addErreur($lErreur);
-			}
-		}
-		return $lVr;
-	}*/
 }
 ?>

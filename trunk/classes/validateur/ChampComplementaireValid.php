@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . "ChampComplementaireVR.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
 /**
  * @name ChampComplementaireVR
@@ -95,6 +96,24 @@ class ChampComplementaireValid
 				// Selon le type de champ
 				switch($pData['id']) {
 					case 1: // IdMarche
+						if(!is_int((int)$pData['valeur'])) {
+							$lVr->setValid(false);
+							$lVr->getValeur()->setValid(false);
+							$lErreur = new VRerreur();
+							$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
+							$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
+							$lVr->getValeur()->addErreur($lErreur);
+						}
+						$lMarche = CommandeManager::select($pData['valeur']);
+						if($lMarche->getId() != $pData['valeur']) {
+							$lVr->setValid(false);
+							$lVr->getValeur()->setValid(false);
+							$lErreur = new VRerreur();
+							$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+							$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+							$lVr->getValeur()->addErreur($lErreur);
+						}
+						break;
 					case 4: // Id Operation Reception
 					case 5: // Id Operation émission
 					case 6: // Id Produit

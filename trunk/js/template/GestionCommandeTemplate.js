@@ -1281,7 +1281,7 @@
 							"<span class=\"ui-icon ui-icon-copy\">" +
 							"</span>" +
 						"</span>" +
-						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-livraison-com\" title=\"Bon de livraison\">" +
+						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-facture-com\" title=\"Factures\">" +
 							"<span class=\"ui-icon ui-icon-cart\">" +
 							"</span>" +
 						"</span>" +
@@ -2012,8 +2012,8 @@
 			"</div>" +
 		"</div>";
 	
-	this.dialogExportBonDeLivraison =
-		"<div id=\"dialog-export-livraison\" title=\"Export du bon de livraison du Marché n°{comNumero}\">" +
+	this.dialogExportFacture =
+		"<div id=\"dialog-export-facture\" title=\"Export de la Facture\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -2731,7 +2731,12 @@
 	
 	this.rechercheListeFacture = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-barre-menu-2 ui-helper-hidden\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			//"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Les Factures" +
 					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter une Facture\">" +
@@ -2739,7 +2744,7 @@
 						"</span>Ajouter" +
 					"</span>" +
 				"</div>" +
-				"<div id=\"form-recherche-liste-facture\" class=\"com-center\">" +
+				"<div id=\"form-recherche-liste-facture\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 					"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
 					" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
 					"Marché " +
@@ -2752,7 +2757,7 @@
 					"</select>" +
 					"<button type=\"button\" id=\"btn-rechercher-liste-facture\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
 				"</div>" +
-			"</div>" +
+			//"</div>" +
 			"<div id=\"liste-facture\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 			"</div>" +
 		"</div>";
@@ -2798,15 +2803,15 @@
 					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
 				"</button>" +
 			"</div>" +
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"<span class=\"entete-numero-facture\" >Facture n°{numeroFacture}</span>" +
-					"<span>Ferme : {listeFermeAffiche}</span>" +					
-					"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter la facture\">" +
-						"<span class=\"ui-icon ui-icon-print\">" +
-						"</span>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"<span class=\"entete-numero-facture\" >Facture n°{numeroFacture}</span>" +
+				"<span>Ferme : {listeFermeAffiche}</span>" +					
+				"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter la facture\">" +
+					"<span class=\"ui-icon ui-icon-print\">" +
 					"</span>" +
-				"</div>" +
-				"<div id=\"liste-pdt\"></div>" +
+				"</span>" +
+			"</div>" +
+			"<div id=\"liste-pdt\"></div>" +
 		"</div>";
 	
 	this.factureSelectFerme = 

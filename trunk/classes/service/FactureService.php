@@ -439,6 +439,17 @@ class FactureService
 	}
 	
 	/**
+	 * @name getProduitCommandeNonFacture($pIdMarche, $pIdCompteFerme)
+	 * @param integer Id Marche
+	 * @param integer Id Compte Ferme
+	 * @return array(ProduitDetailFactureAfficheVO)
+	 * @desc Retourne la liste des produits commandés mais non facturés
+	 */
+	public function getProduitCommandeNonFacture($pIdMarche, $pIdCompteFerme) {
+		return OperationManager::produitCommandeNonFacture($pIdMarche, $pIdCompteFerme);
+	}
+	
+	/**
 	 * @name rechercheListeFacture()
 	 * @return array(FactureVO)
 	 * @desc Retourne une liste de Facture
