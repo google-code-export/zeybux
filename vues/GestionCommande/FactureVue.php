@@ -68,6 +68,37 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			$lLogger->log("Demande d'accés à Facture sans paramètre par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
+	} else if(isset($_POST['fonction'])) {	
+		if(isset($_POST['id']) && isset($_POST['format'])) {
+			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/FactureControleur.php");						
+			$lControleur = new FactureControleur();
+			
+			switch($_POST['fonction']) {					
+				case "export":
+						$lParam = array();
+						$lParam['id'] = $_POST['id'];
+						
+						if($_POST['format'] == 0) {					
+							echo $lControleur->getFacturePdf($lParam);
+						} else if ($_POST['format'] == 1) {					
+							echo $lControleur->getFactureCSV($lParam);						
+						} else {
+							$lLogger->log("Demande d'accés à Facture pour export sans format valide par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+							header('location:./index.php');
+						}
+					break;
+	
+				default:
+					$lLogger->log("Demande d'accés à Facture sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					header('location:./index.php');
+					break;
+			}
+		} else {
+			$lLogger->log("Demande d'accés à Facture pour export sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+			header('location:./index.php');
+		}
+		
+		
 	} else {
 		$lLogger->log("Demande d'accés à Facture sans paramètre par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 		header('location:./index.php');

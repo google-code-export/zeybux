@@ -9,13 +9,20 @@
 	this.mBanques = [];
 	this.mFermes = [];
 	this.mTypeEdition = 0;
+	this.mIdMarche = 0;
+	this.mIdFacture = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {EditionFactureVue(pParam);}} );
 		var that = this;
 		
+		if(pParam && pParam.idMarche) { // En mode Marché
+			this.mIdMarche = pParam.idMarche;
+		}
+		
 		var lVo = {};
 		if(pParam && pParam.id) { // Affiche une facture
+			this.mIdFacture = pParam.id;
 			lVo.id = pParam.id;
 			lVo.fonction = 'afficherFacture';
 			this.mTypeEdition = 1;
@@ -91,14 +98,57 @@
 	
 	this.affectExport = function(pData) {
 		if(this.mTypeEdition == 1) {
-			pData.find('#btn-export-facture').show();
+			var that = this;	
+			pData.find('#btn-export-facture').show()
+				.click(function() {
+				var lGestionCommandeTemplate = new GestionCommandeTemplate();
+				$(lGestionCommandeTemplate.dialogExportFacture).dialog({
+					autoOpen: true,
+					modal: true,
+					draggable: false,
+					resizable: false,
+					width:600,
+					buttons: {
+						'Exporter': function() {
+							// Récupération du formulaire
+							var lFormat = $(this).find(':input[name=format]:checked').val();
+							
+							var lParam = new ExportFactureVO();
+							lParam.id = that.mIdFacture;
+							lParam.format = lFormat;
+							lParam.fonction = "export";
+												
+							// Test des erreurs
+							var lValid = new ExportFactureValid();
+							var lVr = lValid.validAjout(lParam);
+							
+							Infobulle.init(); // Supprime les erreurs
+							if(lVr.valid) {
+								// Affichage
+								$.download("./index.php?m=GestionCommande&v=Facture", lParam);
+							} else {
+								Infobulle.generer(lVr,'');
+							}
+						},
+						'Annuler': function() {
+							$(this).dialog('close');
+						}
+					},
+					close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
+				});
+			});
 		}
 		return pData;
 	};
 	
 	this.retour = function(pData){
+		var that = this;
 		pData.find('#btn-retour').click(function() {
-			FactureVue();
+			var lParam = {};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}			
+			FactureVue(lParam);
 		});
 		return pData;
 	};
@@ -113,7 +163,10 @@
 			if(lIdFerme == 0) {
 				$('#btn-export-facture, #liste-pdt').hide();
 			} else {
-				var lVo = {fonction:"listeProduitFerme",id:lIdFerme};
+				var lVo = {fonction:"listeProduitFerme",id:lIdFerme, idMarche:''};
+				if(that.mIdMarche > 0) {
+					lVo.idMarche = that.mIdMarche;
+				}
 				$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(lVo),
 						function(lResponse) {
 							Infobulle.init(); // Supprime les erreurs
@@ -182,16 +235,20 @@
 			pResponse.detailFacture = lGestionCommandeTemplate.detailFactureVide.template(pResponse);
 			var lData = $(lGestionCommandeTemplate.listeProduitFerme.template(pResponse));
 			
-			if(this.mTypeEdition == 1) {
+			if(this.mTypeEdition == 1 ) {
 				lData.find('#affiche-paiement-facture').toggle();
+			} else if (this.mIdMarche > 0 && pResponse.listeProduitCommande[0] && pResponse.listeProduitCommande[0].cproId != null) {
+				lData.find('#form-affiche-paiement-facture').toggle();
 			}
 			
 			$('#liste-pdt').replaceWith(this.affectListeProduit(lData));	
 			
 			// Le détail de la facture
-			if(this.mTypeEdition == 1) {
+			if(this.mTypeEdition == 1) { // En modification
 				this.afficheDetailProduit(pResponse.facture);
-			}		
+			} else if(this.mIdMarche > 0 && pResponse.listeProduitCommande[0] && pResponse.listeProduitCommande[0].cproId != null) { // En création sur marche si il y a des produits
+				this.afficheDetailProduit({produits:pResponse.listeProduitCommande});
+			}
 		} else {
 			$('#liste-pdt').replaceWith(lGestionCommandeTemplate.listeProduitFermeVide);
 		}
@@ -439,7 +496,7 @@
 			
 			this.nproId = this.idNomProduit;
 			
-			if(this.quantite == null) {
+			if(this.quantite == null || this.quantite == '') {
 				this.quantiteAffiche = '';
 				this.quantite = '';
 				this.uniteAffiche  = '';
@@ -461,7 +518,7 @@
 			}
 			this.sigleMonetaire = gSigleMonetaire;
 			
-			if(this.quantiteSolidaire == null) {
+			if(this.quantiteSolidaire == null || this.quantiteSolidaire == '') {
 				this.quantiteSolidaireAffiche = '';
 				this.quantiteSolidaire = '';
 				
@@ -486,11 +543,18 @@
 			
 			that.mNbProduit++;
 		});
-		
+
 		if(this.mNbProduit > 0) { // Affiche le détail dès le premier produit
 			var lGestionCommandeTemplate = new GestionCommandeTemplate();
 			$('#table-detail-facture tbody').prepend(that.affectProduitDetailFacture($(lGestionCommandeTemplate.listeProduitAffiche.template({categorie:lDetailProduitFacture}))));
-			$('.detail-facture, #widget-catalogue-produit, #btn-enregistrer-facture, #btn-modifier-facture, #btn-supprimer-facture').toggle();
+			
+			
+			if(this.mTypeEdition == 0 && this.mIdMarche > 0) { // Création sur un marché
+				$('.detail-facture, .affiche-detail-facture').toggle();		
+				this.majTotal();
+			} else { // Modification
+				$('.detail-facture, #widget-catalogue-produit, #btn-enregistrer-facture, #btn-modifier-facture, #btn-supprimer-facture').toggle();
+			}
 		}
 	};
 		
@@ -568,6 +632,14 @@
 		lVo.operationProducteur = lOperationProducteur;
 		
 		var lId = new OperationDetailVO();
+		// Mode Marché
+		if(that.mIdMarche > 0) {
+			var lChampComplementaire = new ChampComplementaireVO();
+			lChampComplementaire.id = 1;
+			lChampComplementaire.obligatoire = 0;
+			lChampComplementaire.valeur = that.mIdMarche;
+			lId.champComplementaire[1] = lChampComplementaire;
+		}
 		// Pour modification ajout de l'id de la facture
 		if(this.mTypeEdition == 1) {
 			lId.id = this.mFactureInitiale.facture.id.id;	
@@ -648,7 +720,13 @@
 											erreur.code = ERR_363_CODE;
 											erreur.message = ERR_363_MSG;
 											lVr.log.erreurs.push(erreur);
-											FactureVue({vr:lVr});
+											var lParam = {vr:lVr};
+											
+											if(that.mIdMarche > 0) {
+												lParam.idMarche = that.mIdMarche;
+											}
+											
+											FactureVue(lParam);
 											
 											$(lDialog).dialog('close');
 										} else {

@@ -248,7 +248,7 @@
 		pData = this.affectModifier(pData);
 		pData = this.affectDupliquerMarche(pData);
 		pData = this.affectBonDeCommande(pData);
-		pData = this.affectBonDeLivraison(pData);
+		pData = this.affectFacture(pData);
 		pData = this.affectArchive(pData);
 		pData = this.affectMajListeFerme(pData);
 		pData = this.affectDialogAjoutProduit(pData);
@@ -293,10 +293,10 @@
 		return pData;
 	};
 	
-	this.affectBonDeLivraison = function(pData) {
+	this.affectFacture = function(pData) {
 		var that = this;
-		pData.find('#btn-livraison-com').click(function() {
-			BonDeLivraisonVue({"id_commande":that.mIdMarche});
+		pData.find('#btn-facture-com').click(function() {
+			FactureVue({'idMarche':that.mIdMarche});
 		});
 		return pData;
 	};

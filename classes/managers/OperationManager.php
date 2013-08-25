@@ -1107,6 +1107,91 @@ class OperationManager
 	}
 	
 	/**
+	 * @name produitCommandeNonFacture($pIdMarche, $pIdCompte)
+	 * @return array(ProduitDetailFactureAfficheVO) ou false en erreur
+	 * @desc Retourne la liste des produits commandés mais non facturés
+	 */
+	public static function produitCommandeNonFacture($pIdMarche, $pIdCompte) {
+		 // Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		
+		$lRequete =
+			"SELECT " .
+			" pro_commande." . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . 
+			", stock_commande." . StockManager::CHAMP_STOCK_QUANTITE . 
+			", dope_commande." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . 
+			", pro_commande." . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . 
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID .
+			"," . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM . "
+			FROM " . OperationManager::TABLE_OPERATION . " commande 
+			JOIN " . StockManager::TABLE_STOCK . " stock_commande 
+				ON stock_commande." . StockManager::CHAMP_STOCK_ID_OPERATION . " = commande." . OperationManager::CHAMP_OPERATION_ID . "
+				AND stock_commande." . StockManager::CHAMP_STOCK_TYPE . " = 3
+			JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+				ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = stock_commande." . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . "
+			JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " dope_commande 
+				ON dope_commande." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = commande." . OperationManager::CHAMP_OPERATION_ID . "
+			    AND dope_commande." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 5
+			    AND dope_commande." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			JOIN " . ProduitManager::TABLE_PRODUIT . " pro_commande 
+				ON pro_commande." . ProduitManager::CHAMP_PRODUIT_ID . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . "				
+			JOIN " . NomProduitManager::TABLE_NOMPRODUIT . "
+				ON pro_commande." . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID . "
+			JOIN " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . "
+				ON " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . " = " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . "
+			WHERE commande." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 5
+			AND pro_commande." . ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser($pIdMarche) . "'
+			AND commande." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '" . StringUtils::securiser($pIdCompte) . "'
+			AND NOT EXISTS (			
+				SELECT 1
+				FROM " . OperationManager::TABLE_OPERATION . " facture
+				JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " 
+					ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = facture." . OperationManager::CHAMP_OPERATION_ID . "
+					AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+				JOIN " . StockManager::TABLE_STOCK . " stock_facture 
+					ON stock_facture." . StockManager::CHAMP_STOCK_ID_OPERATION . " = facture." . OperationManager::CHAMP_OPERATION_ID . "
+					AND stock_facture." . StockManager::CHAMP_STOCK_TYPE . " = 4
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " dope_facture 
+					ON dope_facture." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = facture." . OperationManager::CHAMP_OPERATION_ID . "
+					AND dope_facture." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 6
+				WHERE facture." . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 6
+				AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser($pIdMarche) . "'
+				AND facture." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = '" . StringUtils::securiser($pIdCompte) . "'				
+				AND pro_commande." . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " = stock_facture." . StockManager::CHAMP_STOCK_ID_NOM_PRODUIT . "
+				AND pro_commande." . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . " = stock_facture." . StockManager::CHAMP_STOCK_UNITE . ");";
+		
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeDetailFacture = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeDetailFacture,
+				new ProduitDetailFactureAfficheVO(
+				$lLigne[ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT],
+				"",
+				"",
+				"",
+				$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+				"",
+				"",
+				$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID],
+				$lLigne[CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_NOM],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NUMERO],
+				$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM]));
+			}
+		} else {
+			$lListeDetailFacture[0] = new ProduitDetailFactureAfficheVO();
+		}
+		return $lListeDetailFacture;
+	}
+	
+	/**
 	 * @name listeFacture()
 	 * @return array(ListeFactureVO) ou false en erreur
 	 * @desc Retourne la liste des factures

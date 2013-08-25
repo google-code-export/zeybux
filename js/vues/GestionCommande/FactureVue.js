@@ -1,8 +1,15 @@
 ;function FactureVue(pParam) {
+	this.mIdMarche = 0;
+	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {FactureVue(pParam);}} );
 		var that = this;
 		pParam = $.extend(true,{},pParam);
+		
+		if(pParam.idMarche) {
+			this.mIdMarche = pParam.idMarche;
+		}
+		
 		pParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -10,10 +17,15 @@
 					if(lResponse) {
 						if(lResponse.valid) {
 							var lVo = new RechercheListeFactureVO();
-							lVo.dateDebut = getPremierJourDuMois();
-							lResponse.dateDebut = lVo.dateDebut.dateDbToFr();
-							lVo.dateFin = getDernierJourDuMois();
-							lResponse.dateFin = lVo.dateFin.dateDbToFr();
+							
+							if(that.mIdMarche > 0) {
+								lVo.idMarche = that.mIdMarche;
+							} else {							
+								lVo.dateDebut = getPremierJourDuMois();
+								lResponse.dateDebut = lVo.dateDebut.dateDbToFr();
+								lVo.dateFin = getDernierJourDuMois();
+								lResponse.dateFin = lVo.dateFin.dateDbToFr();
+							}
 							if(pParam && pParam.vr) {
 								lVo.vr = pParam.vr;
 							}
@@ -30,10 +42,23 @@
 	};
 
 	this.affectEntete = function(pData) {
+		pData = this.affectModeMarche(pData);
 		pData = this.affectAjoutFacture(pData);
 		pData = this.affectControleDatepicker(pData);
-		pData = this.affectRechercheListeFacture(pData);
+		pData = this.affectRechercheListeFacture(pData);		
 		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectModeMarche = function(pData) {
+		if(this.mIdMarche > 0) {
+			var that = this;
+			pData.find('#form-recherche-liste-facture').remove();
+			pData.find('.com-barre-menu-2').show();
+			pData.find('#btn-retour').click(function() {
+				EditerCommandeVue({"id_marche":that.mIdMarche});
+			});
+		}
 		return pData;
 	};
 	
@@ -121,15 +146,25 @@
 	};
 
 	this.affectAjoutFacture = function(pData) {
+		var that = this;
 		pData.find('#btn-nv-facture').click(function() {
-			EditionFactureVue();
+			var lParam = {};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}
+			EditionFactureVue(lParam);
 		});
 		return pData;
 	};
 	
 	this.affectAfficherFacture = function(pData) {
+		var that = this;
 		pData.find('.btn-afficher-facture').click(function() {
-			EditionFactureVue({id:$(this).data("id-facture")});
+			var lParam = {id:$(this).data("id-facture")};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}
+			EditionFactureVue(lParam);
 		});
 		return pData;
 	};
