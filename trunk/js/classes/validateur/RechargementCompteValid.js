@@ -20,9 +20,23 @@
 		if(pData.champComplementaireObligatoire == 1 && pData.idBanque.isEmpty()) {lVR.valid = false;lVR.idBanque.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idBanque.erreurs.push(erreur);}
 */
 		if(isArray(pData.champComplementaire) ) {
-			if(pData.champComplementaire.length > 0 && pData.champComplementaire[0] != '') {
+			if(pData.champComplementaire.length > 0) {
 				var lValidChampComplementaire = new ChampComplementaireValid();
-				var i = 0;
+				
+				for(i in pData.champComplementaire) {
+					var lVrChampComplementaire = lValidChampComplementaire.validUpdate(pData.champComplementaire[i]);
+					if(!lVrChampComplementaire.valid){lVR.valid = false;}
+					if(!pData.champComplementaire[i].id.isEmpty()) {
+						lVR.champComplementaire[pData.champComplementaire[i].id] = lVrChampComplementaire;
+					} else {
+						lVR.champComplementaire.push(lVrChampComplementaire);
+					}
+				}
+				
+				
+				
+				
+				/*var i = 0;
 				while(pData.champComplementaire[i]) {
 					var lVrChampComplementaire = lValidChampComplementaire.validUpdate(pData.champComplementaire[i]);
 					
@@ -34,7 +48,7 @@
 					}
 					
 					i++;
-				}
+				}*/
 			}
 		} else {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.champComplementaire.erreurs.push(erreur);}
 

@@ -329,6 +329,8 @@
 							"</div>" +
 						"</form>" +
 					"</div>" +
+					"{chequeInvite}" +
+					"Adhérents" +
 					"<table class=\"com-table table-cheque-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
@@ -393,6 +395,8 @@
 							"</div>" +
 						"</form>" +
 					"</div>" +
+					"{especeInvite}" +
+					"Adhérents" +
 					"<table class=\"com-table table-espece-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
@@ -554,6 +558,80 @@
 		"</div>";
 	
 	this.listePaiementVide = "<div id=\"{id}\" class=\"com-center\">Aucun paiement en attente.</div>";
+	
+	this.listeChequeInvite =
+		"Invité" +
+		"<table class=\"com-table table-cheque-invite\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+			"<!-- BEGIN listeChequeInvite -->" +
+				"<tr class=\"com-cursor-pointer compte-ligne-adherent\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeDateTri}</span>{listeChequeInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeMontant}</span>{listeChequeInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td\">{listeChequeInvite.numeroCheque}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
+						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeInvite.opeId}\">Ok</button>" +
+					"</td>" +
+					
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeInvite.opeId}\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeChequeInvite.opeId}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+				"</tr>" +
+			"<!-- END listeChequeInvite -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeEspeceInvite =
+		"Invité" +
+		"<table class=\"com-table table-espece-invite\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer \"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeEspeceInvite -->" +
+				"<tr class=\"com-cursor-pointer compte-ligne-producteur\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeDateTri}</span>{listeEspeceInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeMontant}</span>{listeEspeceInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
+						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceInvite.opeId}\">Ok</button>" +
+					"</td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceInvite.opeId}\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeEspeceInvite.opeId}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+					
+				"</tr>" +
+				"<!-- END listeEspeceInvite -->" +
+			"</tbody>" +
+		"</table>";	
 	
 	this.dialogValiderPaiement = 
 		"<div id=\"dialog-valider-paiement\" title=\"Valider le paiement\">" +

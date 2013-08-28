@@ -49,6 +49,18 @@ class ListePaiementResponse extends DataTemplate
 	protected $mListeEspeceFerme;	
 	
 	/**
+	* @var array(OperationAttenteAdherentVO)
+	* @desc ListeChequeInvite de la ListePaiementResponse
+	*/
+	protected $mListeChequeInvite;	
+	
+	/**
+	* @var array(OperationAttenteAdherentO)
+	* @desc ListeEspeceInvite de la ListePaiementResponse
+	*/
+	protected $mListeEspeceInvite;	
+	
+	/**
 	 * @var array(BanqueVO)
 	 * @desc Les Banques
 	 */
@@ -70,6 +82,8 @@ class ListePaiementResponse extends DataTemplate
 		$this->mListeEspeceAdherent = array();
 		$this->mListeChequeFerme = array();
 		$this->mListeEspeceFerme = array();
+		$this->mListeChequeInvite = array();
+		$this->mListeEspeceInvite = array();
 		$this->mBanques = array();
 		$this->mTypePaiement = array();
 	}
@@ -198,6 +212,60 @@ class ListePaiementResponse extends DataTemplate
 	*/
 	public function addListeEspeceFerme($pListeEspeceFerme){
 		array_push($this->mListeEspeceFerme,$pListeEspeceFerme);
+	}
+	
+	/**
+	 * @name getListeChequeInvite()
+	 * @return array(OperationAttenteAdherentVO)
+	 * @desc Renvoie le membre ListeChequeInvite de la ListePaiementResponse
+	 */
+	public function getListeChequeInvite(){
+		return $this->mListeChequeInvite;
+	}
+	
+	/**
+	 * @name setListeChequeInvite($pListeChequeInvite)
+	 * @param array(OperationAttenteAdherentVO)
+	 * @desc Remplace le membre ListeChequeInvite de la ListePaiementResponse par $pListeChequeInvite
+	 */
+	public function setListeChequeInvite($pListeChequeInvite) {
+		$this->mListeChequeInvite = $pListeChequeInvite;
+	}
+	
+	/**
+	 * @name addListeChequeInvite($pListeChequeInvite)
+	 * @param OperationAttenteAdherentVO
+	 * @desc Ajoute $pListeChequeInvite à ListeChequeInvite
+	 */
+	public function addListeChequeInvite($pListeChequeInvite){
+		array_push($this->mListeChequeInvite,$pListeChequeInvite);
+	}
+	
+	/**
+	 * @name getListeEspeceInvite()
+	 * @return array(OperationAttenteAdherentVO)
+	 * @desc Renvoie le membre ListeEspeceInvite de la ListePaiementResponse
+	 */
+	public function getListeEspeceInvite(){
+		return $this->mListeEspeceInvite;
+	}
+	
+	/**
+	 * @name setListeEspeceInvite($pListeEspeceInvite)
+	 * @param array(OperationAttenteAdherentVO)
+	 * @desc Remplace le membre ListeEspeceInvite de la ListePaiementResponse par $pListeEspeceInvite
+	 */
+	public function setListeEspeceInvite($pListeEspeceInvite) {
+		$this->mListeEspeceInvite = $pListeEspeceInvite;
+	}
+	
+	/**
+	 * @name addListeEspeceInvite($pListeEspeceInvite)
+	 * @param OperationAttenteAdherentVO
+	 * @desc Ajoute $pListeEspeceInvite à ListeEspeceInvite
+	 */
+	public function addListeEspeceInvite($pListeEspeceInvite){
+		array_push($this->mListeEspeceInvite,$pListeEspeceInvite);
 	}
 	
 	/**

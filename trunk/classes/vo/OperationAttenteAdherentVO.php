@@ -95,8 +95,20 @@ class OperationAttenteAdherentVO  extends DataTemplate
 	 * @return bool
 	 * @desc Constructeur
 	 */
-	function OperationAttenteAdherentVO() {
-		$this->mOpeTypePaiementChampComplementaire = array();		
+	function OperationAttenteAdherentVO($pAdhId = null, $pAdhNumero = null, $pAdhNom = null, $pAdhPrenom = null, $pCptLabel = null, $pCptSolde = null,
+			$pOpeMontant = null, $pOpeTypePaiement = null, $pOpeTypePaiementChamComplementaire = null, $pOpeDate = null, $pOpeLibelle = null, $pOpeId = null) {
+		if(!is_null($pAdhId)) {$this->mAdhId = $pAdhId; }
+		if(!is_null($pAdhNumero)) {$this->mAdhNumero = $pAdhNumero; }
+		if(!is_null($pAdhNom)) {$this->mAdhNom = $pAdhNom; }
+		if(!is_null($pAdhPrenom)) {$this->mAdhPrenom = $pAdhPrenom; }
+		if(!is_null($pCptLabel)) {$this->mCptLabel = $pCptLabel; }
+		if(!is_null($pCptSolde)) {$this->mCptSolde = $pCptSolde; }
+		if(!is_null($pOpeMontant)) {$this->mOpeMontant = $pOpeMontant; }
+		if(!is_null($pOpeTypePaiement)) {$this->mOpeTypePaiement = $pOpeTypePaiement; }
+		if(!is_null($pOpeTypePaiementChamComplementaire)) {$this->mOpeTypePaiementChampComplementaire = $pOpeTypePaiementChamComplementaire; } else { $this->mOpeTypePaiementChampComplementaire = array();}
+		if(!is_null($pOpeDate)) {$this->mOpeDate = $pOpeDate; }
+		if(!is_null($pOpeLibelle)) {$this->mOpeLibelle = $pOpeLibelle; }
+		if(!is_null($pOpeId)) {$this->mOpeId = $pOpeId; }
 	}
 	
 	/**

@@ -32,6 +32,7 @@ class validerPaiementVR extends TemplateVR
 	* @desc Constructeur
 	*/
 	function validerPaiementVR() {
+		parent::__construct();		
 		$this->mId = new VRelement();
 	}
 

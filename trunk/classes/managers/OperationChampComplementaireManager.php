@@ -12,6 +12,9 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "OperationChampComplementaireVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementChampComplementaireManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
+
 
 define("TABLE_OPERATIONCHAMPCOMPLEMENTAIRE", MYSQL_DB_PREFIXE ."opecp_operation_champ_complementaire");
 /**
@@ -230,7 +233,7 @@ class OperationChampComplementaireManager
 	/**
 	* @name deleteByIdOpe($pId)
 	* @param integer
-	* @desc Supprime la ligne de la table correspondant à l'id en paramètre
+	* @desc Supprime la ligne de la table correspondant à l'id en paramètre si la mise à jour de ce type de champ est autorisée
 	*/
 	public static function deleteByIdOpe($pId) {
 		// Initialisation du Logger
@@ -238,7 +241,15 @@ class OperationChampComplementaireManager
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 
 		$lRequete = "DELETE FROM " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
-			WHERE " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = '" . StringUtils::securiser($pId) . "'";
+			WHERE " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = '" . StringUtils::securiser($pId) . "'
+			AND EXISTS (
+					SELECT 1 
+					FROM " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
+					JOIN " . OperationManager::TABLE_OPERATION . "
+						ON " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . "
+						AND " . OperationManager::CHAMP_OPERATION_ID . " = '" . StringUtils::securiser($pId) . "'
+					WHERE " .OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . "
+						AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . " = 1);";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequete($lRequete);

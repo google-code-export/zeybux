@@ -11,7 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VR . "VRelement.php" );
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
-include_once(CHEMIN_CLASSES . "DataTemplate.php");
+include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 
 /**
  * @name RechargementCompteVR
@@ -19,20 +19,8 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
  * @since 21/09/2010
  * @desc Classe représentant une RechargementCompteVR
  */
-class RechargementCompteVR extends DataTemplate
+class RechargementCompteVR extends TemplateVR
 {
-	/**
-	 * @var bool
-	 * @desc Donne la validité de l'objet
-	 */
-	protected $mValid;
-
-	/**
-	 * @var VRelement
-	 * @desc Le Log de l'objet
-	 */
-	protected $mLog;
-
 	/**
 	 * @var VRelement
 	 * @desc L'Id de l'objet
@@ -64,17 +52,12 @@ class RechargementCompteVR extends DataTemplate
 	protected $mChampComplementaire;
 
 	/**
-	 * @var VRelement
-	 * @desc L'IdBanque de l'objet
-	 */
-	protected $mIdBanque;
-
-	/**
 	* @name RechargementCompteVR()
 	* @return bool
 	* @desc Constructeur
 	*/
 	function RechargementCompteVR() {
+		parent::__construct();	
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
@@ -82,43 +65,6 @@ class RechargementCompteVR extends DataTemplate
 		$this->mTypePaiement = new VRelement();
 		$this->mChampComplementaireObligatoire = new VRelement();
 		$this->mChampComplementaire = new VRelement();
-		$this->mIdBanque = new VRelement();
-	}
-
-	/**
-	* @name getValid()
-	* @return bool
-	* @desc Renvoie la validite de l'élément
-	*/
-	public function getValid() {
-		return $this->mValid;
-	}
-
-	/**
-	* @name setValid($pValid)
-	* @param bool
-	* @desc Remplace la validite de l'élément par $pValid
-	*/
-	public function setValid($pValid) {
-		$this->mValid = $pValid;
-	}
-
-	/**
-	* @name getLog()
-	* @return VRelement
-	* @desc Renvoie le VRelement Log
-	*/
-	public function getLog() {
-		return $this->mLog;
-	}
-
-	/**
-	* @name setLog($pLog)
-	* @param VRelement
-	* @desc Remplace le VRelement Log par $pLog
-	*/
-	public function setLog($pLog) {
-		$this->mLog = $pLog;
 	}
 
 	/**
@@ -209,24 +155,6 @@ class RechargementCompteVR extends DataTemplate
 	*/
 	public function setChampComplementaire($pChampComplementaire) {
 		$this->mChampComplementaire = $pChampComplementaire;
-	}
-
-	/**
-	* @name getIdBanque()
-	* @return VRelement
-	* @desc Renvoie le VRelement IdBanque
-	*/
-	public function getIdBanque() {
-		return $this->mIdBanque;
-	}
-
-	/**
-	* @name setIdBanque($pIdBanque)
-	* @param VRelement
-	* @desc Remplace le VRelement IdBanque par $pIdBanque
-	*/
-	public function setIdBanque($pIdBanque) {
-		$this->mIdBanque = $pIdBanque;
 	}
 }
 ?>

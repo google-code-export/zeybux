@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationChampComplementaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueOperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "InfoOperationLivraisonManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementChampComplementaireManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
@@ -117,12 +118,46 @@ class OperationService
 		// Ajout des champs complementaires
 		$lChampComplementaire = $pOperation->getChampComplementaire();
 		if(!empty($lChampComplementaire)) {
+			// Vérifie si le champ est autorisé en modification
+			$lChampAutorise = TypePaiementChampcomplementaireManager::champAutoriseMaj($pOperation->getTypePaiement());
+			$lChampAjout = array();
 			foreach($pOperation->getChampComplementaire() as $lChamp) {
-				$lChamp->setOpeId($pOperation->getId());
+				if(in_array($lChamp->getChcpId(), $lChampAutorise)) {
+					$lChamp->setOpeId($pOperation->getId());
+					array_push($lChampAjout,$lChamp);
+				}
 			}
-			OperationChampComplementaireManager::insert($pOperation->getChampComplementaire());
+			if(!empty($lChampAjout)) {
+				OperationChampComplementaireManager::insert($lChampAjout);
+			}
 		}
 		
+		// Si c'est un paiement de facture de producteur il faut mettre à jour les paiements associés
+		$lOperationChampComplementaireFacture = OperationChampComplementaireManager::recherche(
+				array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR), 
+				array('=','='), 
+				array(9,$pOperation->getId()),
+				array(), array());
+		
+		if(!is_null($lOperationChampComplementaireFacture[0]->getOpeId())) {
+			$lMontant = $pOperation->getMontant();
+			
+			// Maj de l'operation de facture
+			$lOperationFacture = $this->getDetail($lOperationChampComplementaireFacture[0]->getOpeId());
+			$lOperationFacture->setMontant($lMontant);
+			$this->set($lOperationFacture);
+			
+			// Maj de l'operation zeybu
+			if(isset($lOperationFacture->getChampComplementaire()[10])) {
+				$lOperationZeybu = $this->getDetail($lOperationFacture->getChampComplementaire()[10]->getValeur());
+				
+				$lOperationZeybu->setMontant(-1 * $lMontant);
+				$lOperationZeybu->setTypePaiement($pOperation->getTypePaiement());
+				$lOperationZeybu->setChampComplementaire($pOperation->getChampComplementaire());
+				$this->set($lOperationZeybu);
+			}
+		}
+				
 		return OperationManager::update($pOperation); // update de l'opération
 	}
 	
@@ -144,6 +179,22 @@ class OperationService
 				$lCompte = $lCompteService->get($lOperation->getIdCompte());
 				$lCompte->setSolde($lCompte->getSolde() - $lOperation->getMontant());
 				$lCompteService->set($lCompte);
+			}
+			
+			// Si c'est un paiement de facture de producteur il faut mettre à jour les paiements associés
+			$lOperationChampComplementaireFacture = OperationChampComplementaireManager::recherche(
+					array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
+					array('=','='),
+					array(9,$pId),
+					array(), array());
+							
+			if(!is_null($lOperationChampComplementaireFacture[0]->getOpeId())) {
+				// Suppression de l'operation de facture
+				$lOperationFacture = $this->getDetail($lOperationChampComplementaireFacture[0]->getOpeId());
+				$this->delete($lOperationFacture->getId());	
+				
+				// Suppression de l'operation zeybu
+				$this->delete($lOperationFacture->getChampComplementaire()[10]->getValeur());
 			}
 			
 			switch($lOperation->getTypePaiement()) {
@@ -502,9 +553,9 @@ class OperationService
 	}
 	
 	/**
-	* @name getListeEspeceNonEnregistre()
+	* @name getListeEspeceAdherentNonEnregistre()
 	* @return array(OperationAttenteAdherentVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	* @desc Récupères toutes les opérations espèce non validées pour les comptes adhérents et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
 	*/
 	public static function getListeEspeceAdherentNonEnregistre() {		
 		return OperationManager::operationAttenteAdherent(1);
@@ -513,16 +564,34 @@ class OperationService
 	/**
 	* @name getListeChequeAdherentNonEnregistre()
 	* @return array(OperationAttenteAdherentVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	* @desc Récupères toutes les opérations chèque non validées pour les comptes adhérents et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
 	*/
 	public static function getListeChequeAdherentNonEnregistre() {				
 		return OperationManager::operationAttenteAdherent(2);
 	}
 	
 	/**
+	* @name getListeEspeceInviteNonEnregistre()
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations espèce non validées pour le compte invité de la table et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeEspeceInviteNonEnregistre() {		
+		return OperationManager::operationAttenteInvite(1);
+	}
+	
+	/**
+	* @name getListeChequeInviteNonEnregistre()
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations chèque non validées pour le compte invité de la table et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeChequeInviteNonEnregistre() {				
+		return OperationManager::operationAttenteInvite(2);
+	}
+		
+	/**
 	* @name getListeEspeceFermeNonEnregistre()
 	* @return array(OperationAttenteFermeVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeVO
+	* @desc Récupères toutes les opérations espèce non validées pour les comptes fermes et les renvoie sous forme d'une collection de OperationAttenteFermeVO
 	*/
 	public static function getListeEspeceFermeNonEnregistre() {		
 		return OperationManager::operationAttenteFerme(1);
@@ -531,7 +600,7 @@ class OperationService
 	/**
 	* @name getListeChequeFermeNonEnregistre()
 	* @return array(OperationAttenteFermeVO)
-	* @desc Récupères toutes les reservations de la table ayant pour IdCommande $pId et les renvoie sous forme d'une collection de OperationAttenteFermeVO
+	* @desc Récupères toutes les opérations chèque non validées pour les comptes fermes et les renvoie sous forme d'une collection de OperationAttenteFermeVO
 	*/
 	public static function getListeChequeFermeNonEnregistre() {		
 		return OperationManager::operationAttenteFerme(2);
