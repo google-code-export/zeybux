@@ -16,24 +16,6 @@ include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteurManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailFactureManager.php");
-/*include_once(CHEMIN_CLASSES_MANAGERS . "ProduitAbonnementManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "CompteAbonnementManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueSuspensionAbonnementManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "LotAbonnementManager.php");
-include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
-include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "AbonnementValid.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitAbonnementViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailCompteAbonnementViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailProduitAbonnementViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsNonAbonneViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeProduitsAbonneViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAbonnesProduitViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeLotAbonnementViewManager.php");
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
-include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
-include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");*/
 
 /**
  * @name FactureService
@@ -81,6 +63,14 @@ class FactureService
 			$pFacture->getOperationProducteur()->setTypePaiement(21);
 		}
 		
+		// Si liaison avec un marche
+		$lChampComplementaire = $pFacture->getId()->getChampComplementaire();
+		if(isset($lChampComplementaire[1])) {
+			$lChampComplementaireProducteur = $pFacture->getOperationProducteur()->getChampComplementaire();
+			$lChampComplementaireProducteur[1] = $lChampComplementaire[1];
+			$pFacture->getOperationProducteur()->setChampComplementaire($lChampComplementaireProducteur);
+		}
+		
 		// Ajout opération de crédit sur le compte du producteur
 		$pFacture->getOperationProducteur()->setLibelle('Livraison Facture n°' . $lNumeroFacture);
 		$lIdOperationPrdt = $lOperationService->set($pFacture->getOperationProducteur());
@@ -99,7 +89,6 @@ class FactureService
 		$pFacture->getId()->setMontant($lMontant);
 		$pFacture->getId()->setLibelle('Facture n°' . $lNumeroFacture);
 		$pFacture->getId()->setTypePaiement(6);		
-		$lChampComplementaire = $pFacture->getId()->getChampComplementaire();
 		$lChampComplementaire[9] = new OperationChampComplementaireVO(null, 9, $lIdOperationPrdt);
 		$lChampComplementaire[10] = new OperationChampComplementaireVO(null, 10, $lIdOperationZeybu);
 		$lChampComplementaire[11] = new OperationChampComplementaireVO(null, 11, $lNumeroFacture);
@@ -182,13 +171,13 @@ class FactureService
 		$lOperationService = new OperationService();
 		
 		// Montant pour l'id
-		$lFactureInitiale->getId()->setMontant($pFacture->getOperationProducteur()->getMontant());
-		$lOperationService->set($lFactureInitiale->getId());
+		/*$lFactureInitiale->getId()->setMontant($pFacture->getOperationProducteur()->getMontant());
+		$lOperationService->set($lFactureInitiale->getId());*/
 		
 		// Gestion si pas de paiement
 		if($pFacture->getOperationProducteur()->getMontant() == 0) {
 			$pFacture->getOperationProducteur()->setTypePaiement(21);
-			$pFacture->getOperationZeybu()->setTypePaiement(21);
+			//$pFacture->getOperationZeybu()->setTypePaiement(21);
 		}
 		// Montant / Typepaiement / Champ Complementaire pour le producteur		
 		$lFactureInitiale->getOperationProducteur()->setMontant($pFacture->getOperationProducteur()->getMontant());
@@ -197,10 +186,10 @@ class FactureService
 		$lOperationService->set($lFactureInitiale->getOperationProducteur());
 		
 		// Montant / Typepaiement / Champ Complementaire pour le zeybu
-		$lFactureInitiale->getOperationZeybu()->setMontant(-1 * $pFacture->getOperationProducteur()->getMontant());
+		/*$lFactureInitiale->getOperationZeybu()->setMontant(-1 * $pFacture->getOperationProducteur()->getMontant());
 		$lFactureInitiale->getOperationZeybu()->setTypePaiement($pFacture->getOperationProducteur()->getTypePaiement());
 		$lFactureInitiale->getOperationZeybu()->setChampComplementaire($pFacture->getOperationProducteur()->getChampComplementaire());
-		$lOperationService->set($lFactureInitiale->getOperationZeybu());
+		$lOperationService->set($lFactureInitiale->getOperationZeybu());*/
 		
 		// Suppression de l'ensemble des lignes de facture qui seront à nouveau insérée
 		DetailFactureManager::delete($lIdOperation);
@@ -500,9 +489,9 @@ class FactureService
 			$lOperationService = new OperationService();
 			
 			// Suppression des opérations
-			$lOperationService->delete($pIdFacture);
+		//	$lOperationService->delete($pIdFacture);
 			$lOperationService->delete($lFacture->getOperationProducteur()->getId());
-			$lOperationService->delete($lFacture->getOperationZeybu()->getId());
+		//	$lOperationService->delete($lFacture->getOperationZeybu()->getId());
 			
 			// Suppression du détail de facture
 			DetailFactureManager::delete($pIdFacture);

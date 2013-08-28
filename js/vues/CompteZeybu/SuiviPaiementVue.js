@@ -51,6 +51,19 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
+		var lEspeceInvite = false;
+		$.each(lResponse.listeEspeceInvite,function() {
+			if(this.opeId) {
+				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
+				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
+				that.mListeOperation[this.opeId] = this;
+				lEspeceInvite = true;
+			}
+		});
+		
 		var lTotalChequeAdherent = 0;
 		$.each(lResponse.listeChequeAdherent,function() {
 			if(this.opeId) {
@@ -68,6 +81,23 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
+		var lChequeInvite = false;
+		$.each(lResponse.listeChequeInvite,function() {
+			if(this.opeId) {
+				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
+				this.numeroCheque ='';
+				if(this.opeTypePaiementChampComplementaire[3]) {
+					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
+				}
+				lTotalChequeAdherent += parseFloat(this.opeMontant);		
+				that.mListeOperation[this.opeId] = this;
+				lChequeInvite = true;
+			}
+		});
+		
 		var lTotalEspeceFerme = 0;
 		$.each(lResponse.listeEspeceFerme,function() {
 			if(this.opeId) {
@@ -106,6 +136,13 @@
 		lResponse.totalChequeFerme = lTotalChequeFerme.nombreFormate(2,',',' ');
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		if(lChequeInvite) {
+			lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
+		}
+		if(lEspeceInvite) {
+			lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
+		}
+		
 		var lTemplate = lCompteZeybuTemplate.listePaiement;	
 		var lHtml = $(lTemplate.template(lResponse));
 				
@@ -150,6 +187,8 @@
 		pData.find('.table-espece-adherent').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
 		pData.find('.table-cheque-ferme').tablesorter({sortList: [[0,0]],headers: { 7: {sorter: false} }});
 		pData.find('.table-espece-ferme').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
+		pData.find('.table-cheque-invite').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false} }});
+		pData.find('.table-espece-invite').tablesorter({sortList: [[0,0]],headers: { 2: {sorter: false} }});
 		return pData;
 	};
 	
@@ -282,22 +321,30 @@
 	this.modifierPaiement = function(pIdOperation,pType,pDialog) {
 		var that = this;
 
-		var lVo = new RechargementCompteVO();
+		var lVo = new OperationDetailVO();
+		
+		
+		//var lVo = new RechargementCompteVO();
 		lVo.id = pIdOperation;
 		lVo.fonction="modifier";
 		lVo.montant=$(pDialog).find("#montant").val().numberFrToDb();
-		if(pType == 1) { // Cheque
-			lVo.champComplementaireObligatoire = 1;
+		//if(pType == 1) { // Cheque
+			/*lVo.champComplementaireObligatoire = 1;
 			lVo.champComplementaire = $(pDialog).find("#champComplementaire").val();
 			// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
 			// il ne faut pas prendre en compte le id-banque
 			if($('#idBanque').val() != "") {
 				lVo.idBanque = $('#idBanque').attr('id-banque');
-			}
-			lVo.typePaiement = 2;
-		} else { // Espece
+			}*/
+			lVo.typePaiement = pType;
+	/*	} else { // Espece
 			lVo.typePaiement = 1;
-			lVo.champComplementaireObligatoire = 0;
+			//lVo.champComplementaireObligatoire = 0;
+		}*/
+		
+		if(this.mTypePaiement[lVo.typePaiement]) {
+			var lTypePaiementService = new TypePaiementService();
+			lVo.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lVo.typePaiement].champComplementaire);
 		}
 		
 		var lValid = new RechargementCompteValid();

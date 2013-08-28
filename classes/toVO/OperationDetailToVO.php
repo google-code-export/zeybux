@@ -44,7 +44,8 @@ class OperationDetailToVO
 			$lChampComplementaire = array();
 			foreach($pArray['champComplementaire'] as $lChamp) {
 				if(!is_null($lChamp)) {
-					array_push($lChampComplementaire, OperationChampComplementaireToVO::convertFromArray($lChamp));
+					$lChampVo = OperationChampComplementaireToVO::convertFromArray($lChamp);
+					$lChampComplementaire[$lChampVo->getChcpId()] = $lChampVo;
 				}
 			} 
 		} else { $lChampComplementaire = NULL; }

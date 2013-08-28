@@ -1192,78 +1192,81 @@ class OperationManager
 	}
 	
 	/**
-	 * @name listeFacture()
-	 * @return array(ListeFactureVO) ou false en erreur
-	 * @desc Retourne la liste des factures
+	 * @name operationAttenteInvite($pTypePaiement)
+	 * @return array(OperationDetailVO) ou false en erreur
+	 * @desc Retourne l'ensemble des des opérations du compte Invite non pointées
 	 */
-	/*public static function listeFacture() {
+	public static function operationAttenteInvite($pTypePaiement) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-	
+
 		$lRequete =
-			"SELECT "
-				. OperationManager::CHAMP_OPERATION_ID .
-			",numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR .
+			"SELECT " 
+				. CompteManager::CHAMP_COMPTE_LABEL . 
+			"," . CompteManager::CHAMP_COMPTE_SOLDE .
+			"," . OperationManager::CHAMP_OPERATION_MONTANT .
+			"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
 			"," . OperationManager::CHAMP_OPERATION_DATE .
-			"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
-			"," . FermeManager::CHAMP_FERME_NOM .
-			"," . OperationManager::CHAMP_OPERATION_MONTANT . "
-			FROM " . OperationManager::TABLE_OPERATION . "
-			LEFT JOIN " . FermeManager::TABLE_FERME . "
-				ON " . FermeManager::CHAMP_FERME_ID_COMPTE . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
-			LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " AS numero
-				ON numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
-				AND numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 11
-			LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " AS marche
-				ON marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
-				AND marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
-			LEFT JOIN " . CommandeManager::TABLE_COMMANDE . "
-				ON " . CommandeManager::CHAMP_COMMANDE_ID . " = marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
-			WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 6;";
+			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
+			"," . OperationManager::CHAMP_OPERATION_ID .
+			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . 
+			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+		FROM " . OperationManager::TABLE_OPERATION . "
+		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+		LEFT JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " 
+			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		WHERE " . OperationManager::CHAMP_OPERATION_TYPE . " = 0 
+			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
+			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
+			AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = -3
+		ORDER BY " . OperationManager::CHAMP_OPERATION_DATE . ";";
 		
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
 		
-		$lListeFacture = array();
+		$lListeOperationAttente = array();
+		$lChampComplementaire = array();
 		if( mysql_num_rows($lSql) > 0 ) {
+			
+			$lOpeId = NULL;
+			
 			while ($lLigne = mysql_fetch_assoc($lSql)) {
-				array_push($lListeFacture,
-				OperationManager::remplirListeFacture(
-				$lLigne[OperationManager::CHAMP_OPERATION_ID],
-				$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR],
-				$lLigne[OperationManager::CHAMP_OPERATION_DATE],
-				$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
-				$lLigne[FermeManager::CHAMP_FERME_NOM],
-				$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+				 if($lOpeId != $lLigne[OperationManager::CHAMP_OPERATION_ID]) {
+				 	if(!is_null($lOpeId)) {
+				 		$lOperationAttente->setOpeTypePaiementChampComplementaire($lChampComplementaire);
+					 	$lListeOperationAttente[$lOpeId] = $lOperationAttente;
+					}
+				 	$lOpeId = $lLigne[OperationManager::CHAMP_OPERATION_ID];
+				 	
+				 	$lOperationAttente = new OperationAttenteAdherentVO (
+						NULL,NULL,NULL,NULL,
+						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+						$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
+				 		NULL,
+						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
+						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
+						$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+				 }	
+
+				 if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
+				 	$lChampComplementaire[$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID]] = new ChampComplementaireDetailOperationVO(
+						NULL,NULL,NULL,NULL,NULL,
+						$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID],
+						NULL,NULL,NULL,
+						$lLigne[OperationManager::CHAMP_OPERATION_ID],
+						$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR]);
+				 }
 			}
+			$lOperationAttente->setOpeTypePaiementChampComplementaire($lChampComplementaire);
+			$lListeOperationAttente[$lOpeId] = $lOperationAttente;
 		} else {
-			$lListeFacture[0] = new ListeFactureVO();
+			$lListeOperationAttente[0] = new OperationAttenteAdherentVO();
 		}
-		return $lListeFacture;
-	}*/
-	
-	/**
-	 * @name remplirListeFacture($pId, $pValeur, $pDate, $pNumero, $pNom, $pMontant)
-	 * @param int(11)
-	 * @param varchar(50)
-	 * @param datetime
-	 * @param int(11)
-	 * @param text
-	 * @param decimal(10,2)
-	 * @return FactureVO
-	 * @desc Retourne une FactureVO remplie
-	 */
-	/*private static function remplirListeFacture($pId, $pValeur, $pDate, $pNumero, $pNom, $pMontant) {
-		$lFacture = new ListeFactureVO();
-		$lFacture->setId($pId);
-		$lFacture->setValeur($pValeur);
-		$lFacture->setDate($pDate);
-		$lFacture->setNumero($pNumero);
-		$lFacture->setNom($pNom);
-		$lFacture->setMontant($pMontant);
-		return $lFacture;
-	}*/
+		return $lListeOperationAttente;
+	}
 	
 	/**
 	* @name insert($pVo)

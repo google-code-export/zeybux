@@ -85,6 +85,25 @@ class ChampComplementaireDetailOperationVO  extends DataTemplate
 	protected $mValeur;
 	
 	/**
+	 * @name ChampComplementaireDetailOperationVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function ChampComplementaireDetailOperationVO($pTppCpTppId = null, $pTppCpChcpId = null, $pTppCpOrdre = null, $pTppCpVisible = null, $pTppCpEtat = null, $pChCpId = null, $pChCpLabel = null, $pChCpObligatoire = null, $pChCpEtat = null, $pOpeId = null, $pValeur = null) {
+		if(!is_null($pTppCpTppId)) {$this->mTppCpTppId = $pTppCpTppId; }
+		if(!is_null($pTppCpChcpId)) {$this->mTppCpTppId = $pTppCpChcpId; }
+		if(!is_null($pTppCpOrdre)) {$this->mTppCpOrdre = $pTppCpOrdre; }
+		if(!is_null($pTppCpVisible)) {$this->mTppCpVisible = $pTppCpVisible; }
+		if(!is_null($pTppCpEtat)) {$this->mTppCpEtat = $pTppCpEtat; }
+		if(!is_null($pChCpId)) {$this->mChCpId = $pChCpId; }
+		if(!is_null($pChCpLabel)) {$this->mChCpLabel = $pChCpLabel; }
+		if(!is_null($pChCpObligatoire)) {$this->mChCpObligatoire = $pChCpObligatoire; }
+		if(!is_null($pChCpEtat)) {$this->mChCpEtat = $pChCpEtat; }
+		if(!is_null($pOpeId)) {$this->mOpeId = $pOpeId; }
+		if(!is_null($pValeur)) {$this->mValeur = $pValeur; }
+	}
+	
+	/**
 	 * @name getTppCpTppId()
 	 * @return int(11)
 	 * @desc Renvoie le membre TppCpTppId de la ChampComplementaireDetailOperationVO

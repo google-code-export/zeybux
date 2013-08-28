@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 15/06/2013
+// Date de creation : 27/08/2013
 // Fichier : TypePaiementChampComplementaireManager.php
 //
 // Description : Classe de gestion des TypePaiementChampComplementaire
@@ -17,7 +17,7 @@ define("TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE", MYSQL_DB_PREFIXE ."tppcp_type_pa
 /**
  * @name TypePaiementChampComplementaireManager
  * @author Julien PIERRE
- * @since 15/06/2013
+ * @since 27/08/2013
  * 
  * @desc Classe permettant l'accès aux données des TypePaiementChampComplementaire
  */
@@ -26,6 +26,7 @@ class TypePaiementChampComplementaireManager
 	const TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE = TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE;
 	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID = "tppcp_tpp_id";
 	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID = "tppcp_chcp_id";
+	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE = "tppcp_maj_autorise";
 	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE = "tppcp_ordre";
 	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE = "tppcp_visible";
 	const CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT = "tppcp_etat";
@@ -45,6 +46,7 @@ class TypePaiementChampComplementaireManager
 			"SELECT "
 			    . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . 
+			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . "
@@ -59,6 +61,7 @@ class TypePaiementChampComplementaireManager
 			return TypePaiementChampComplementaireManager::remplirTypePaiementChampComplementaire(
 				$pId,
 				$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID],
+				$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE],
 				$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE],
 				$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE],
 				$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT]);
@@ -80,6 +83,7 @@ class TypePaiementChampComplementaireManager
 			"SELECT "
 			    . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . 
+			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . 
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . "
@@ -95,6 +99,7 @@ class TypePaiementChampComplementaireManager
 					TypePaiementChampComplementaireManager::remplirTypePaiementChampComplementaire(
 					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID],
 					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID],
+					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE],
 					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE],
 					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE],
 					$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT]));
@@ -124,6 +129,7 @@ class TypePaiementChampComplementaireManager
 		$lChamps = array( 
 			    TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID .
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID .
+			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE .
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE .
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE .
 			"," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT		);
@@ -146,6 +152,7 @@ class TypePaiementChampComplementaireManager
 						TypePaiementChampComplementaireManager::remplirTypePaiementChampComplementaire(
 						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID],
 						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID],
+						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE],
 						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE],
 						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE],
 						$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT]));
@@ -162,23 +169,56 @@ class TypePaiementChampComplementaireManager
 	}
 
 	/**
-	* @name remplirTypePaiementChampComplementaire($pTppId, $pChcpId, $pOrdre, $pVisible, $pEtat)
+	* @name remplirTypePaiementChampComplementaire($pTppId, $pChcpId, $pMajAutorise, $pOrdre, $pVisible, $pEtat)
 	* @param int(11)
 	* @param int(11)
+	* @param tinyint(1)
 	* @param int(11)
 	* @param tinyint(1)
 	* @param tinyint(1)
 	* @return TypePaiementChampComplementaireVO
 	* @desc Retourne une TypePaiementChampComplementaireVO remplie
 	*/
-	private static function remplirTypePaiementChampComplementaire($pTppId, $pChcpId, $pOrdre, $pVisible, $pEtat) {
+	private static function remplirTypePaiementChampComplementaire($pTppId, $pChcpId, $pMajAutorise, $pOrdre, $pVisible, $pEtat) {
 		$lTypePaiementChampComplementaire = new TypePaiementChampComplementaireVO();
 		$lTypePaiementChampComplementaire->setTppId($pTppId);
 		$lTypePaiementChampComplementaire->setChcpId($pChcpId);
+		$lTypePaiementChampComplementaire->setMajAutorise($pMajAutorise);
 		$lTypePaiementChampComplementaire->setOrdre($pOrdre);
 		$lTypePaiementChampComplementaire->setVisible($pVisible);
 		$lTypePaiementChampComplementaire->setEtat($pEtat);
 		return $lTypePaiementChampComplementaire;
+	}
+	
+	/**
+	* @name champAutoriseMaj($pIdTypePaiement)
+	* @param integer
+	* @return array(int)
+	* @desc Recherche la liste des champ qui sont autorisé en maj pour le type de paiement
+	*/
+	public static function champAutoriseMaj($pIdTypePaiement) {		
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		
+		$lRequete =
+			"SELECT "
+				. TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . "
+			FROM " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
+			WHERE " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . " = '" . StringUtils::securiser($pIdTypePaiement) . "'
+				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . " = 1
+				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . " = 0;";
+		
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeChamp = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
+				array_push($lListeChamp,$lLigne[TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID]);
+			}
+		}
+		return $lListeChamp;
 	}
 
 	/**
@@ -196,6 +236,7 @@ class TypePaiementChampComplementaireManager
 			"INSERT INTO " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
 				(" . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . "
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . "
+				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . "
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE . "
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . "
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . ")
@@ -207,6 +248,7 @@ class TypePaiementChampComplementaireManager
 			foreach($pVo as $lVo) {
 				$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $lVo->getChcpId() ) . "'
+				,'" . StringUtils::securiser( $lVo->getMajAutorise() ) . "'
 				,'" . StringUtils::securiser( $lVo->getOrdre() ) . "'
 				,'" . StringUtils::securiser( $lVo->getVisible() ) . "'
 				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
@@ -221,6 +263,7 @@ class TypePaiementChampComplementaireManager
 		} else{
 			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getChcpId() ) . "'
+				,'" . StringUtils::securiser( $pVo->getMajAutorise() ) . "'
 				,'" . StringUtils::securiser( $pVo->getOrdre() ) . "'
 				,'" . StringUtils::securiser( $pVo->getVisible() ) . "'
 				,'" . StringUtils::securiser( $pVo->getEtat() ) . "');";
@@ -244,6 +287,7 @@ class TypePaiementChampComplementaireManager
 			"UPDATE " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
 			 SET
 				 " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . " = '" . StringUtils::securiser( $pVo->getChcpId() ) . "'
+				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_MAJ_AUTORISE . " = '" . StringUtils::securiser( $pVo->getMajAutorise() ) . "'
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ORDRE . " = '" . StringUtils::securiser( $pVo->getOrdre() ) . "'
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . " = '" . StringUtils::securiser( $pVo->getVisible() ) . "'
 				," . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'

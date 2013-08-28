@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 15/06/2013
+// Date de creation : 27/08/2013
 // Fichier : TypePaiementChampComplementaireVO.php
 //
 // Description : Classe TypePaiementChampComplementaireVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name TypePaiementChampComplementaireVO
  * @author Julien PIERRE
- * @since 15/06/2013
+ * @since 27/08/2013
  * @desc Classe représentant une TypePaiementChampComplementaireVO
  */
 class TypePaiementChampComplementaireVO  extends DataTemplate
@@ -29,6 +29,12 @@ class TypePaiementChampComplementaireVO  extends DataTemplate
 	* @desc ChcpId de la TypePaiementChampComplementaireVO
 	*/
 	protected $mChcpId;
+
+	/**
+	* @var tinyint(1)
+	* @desc MajAutorise de la TypePaiementChampComplementaireVO
+	*/
+	protected $mMajAutorise;
 
 	/**
 	* @var int(11)
@@ -47,6 +53,20 @@ class TypePaiementChampComplementaireVO  extends DataTemplate
 	* @desc Etat de la TypePaiementChampComplementaireVO
 	*/
 	protected $mEtat;
+
+	/**
+	 * @name TypePaiementChampComplementaireVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function TypePaiementChampComplementaireVO($pTppId = null, $pChcpId = null, $pMajAutorise = null, $pOrdre = null, $pVisible = null, $pEtat = null) {
+		if(!is_null($pTppId)) { $this->mTppId = $pTppId; }
+		if(!is_null($pChcpId)) { $this->mChcpId = $pChcpId; }
+		if(!is_null($pMajAutorise)) { $this->mMajAutorise = $pMajAutorise; }
+		if(!is_null($pOrdre)) { $this->mOrdre = $pOrdre; }
+		if(!is_null($pVisible)) { $this->mVisible = $pVisible; }
+		if(!is_null($pEtat)) { $this->mEtat = $pEtat; }
+	}
 
 	/**
 	* @name getTppId()
@@ -82,6 +102,24 @@ class TypePaiementChampComplementaireVO  extends DataTemplate
 	*/
 	public function setChcpId($pChcpId) {
 		$this->mChcpId = $pChcpId;
+	}
+
+	/**
+	* @name getMajAutorise()
+	* @return tinyint(1)
+	* @desc Renvoie le membre MajAutorise de la TypePaiementChampComplementaireVO
+	*/
+	public function getMajAutorise() {
+		return $this->mMajAutorise;
+	}
+
+	/**
+	* @name setMajAutorise($pMajAutorise)
+	* @param tinyint(1)
+	* @desc Remplace le membre MajAutorise de la TypePaiementChampComplementaireVO par $pMajAutorise
+	*/
+	public function setMajAutorise($pMajAutorise) {
+		$this->mMajAutorise = $pMajAutorise;
 	}
 
 	/**
