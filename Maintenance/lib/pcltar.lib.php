@@ -99,7 +99,7 @@ if (!defined("PCL_TAR"))
   // --------------------------------------------------------------------------------
   function PclTarCreate($p_tarname, $p_filelist="", $p_mode="", $p_add_dir="", $p_remove_dir="")
   {
-    TrFctStart(__FILE__, __LINE__, "PclTarCreate", "tar=$p_tarname, file='$p_filelist', mode=$p_mode, add_dir='$p_add_dir', remove_dir='$p_remove_dir'");
+    @TrFctStart(__FILE__, __LINE__, "PclTarCreate", "tar=$p_tarname, file='$p_filelist', mode=$p_mode, add_dir='$p_add_dir', remove_dir='$p_remove_dir'");
     $v_result=1;
 
     // ----- Look for default mode

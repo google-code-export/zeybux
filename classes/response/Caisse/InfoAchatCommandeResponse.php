@@ -37,12 +37,6 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mStock;
 	
 	/**
-	 * @var array(StockProduitViewVO)
-	 * @desc Les Stocks solidaire
-	 */
-	/*protected $mStockSolidaire;*/
-	
-	/**
 	 * @var AdherentViewVO
 	 * @desc L'Adherent
 	 */
@@ -73,10 +67,16 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mBanques;
 	
 	/**
-	 * @var OperationVO
-	 * @desc Le Rechargement
+	 * @var array(DetailMarcheVO)
+	 * @desc Les Lots
 	 */
-	protected $mRechargement;
+	protected $mLots;
+	
+	/**
+	 * @var varchar
+	 * @desc L'Id de la requete
+	 */
+	protected $mIdRequete;
 
 	/**
 	* @name InfoAchatCommandeResponse()
@@ -86,7 +86,7 @@ class InfoAchatCommandeResponse extends DataTemplate
 		$this->mValid = true;
 		$this->mMarche = array();
 		$this->mStock = array();
-		$this->mStockSolidaire = array();
+		$this->mLots = array();
 		$this->mReservation = array();
 		$this->mTypePaiement = array();
 		$this->mAchats = array();
@@ -165,33 +165,6 @@ class InfoAchatCommandeResponse extends DataTemplate
 		array_push($this->mStock, $pStock);
 	}
 	
-	/**
-	* @name getStockSolidaire()
-	* @return array(StockProduitViewVO)
-	* @desc Renvoie le StockSolidaire
-	*/
-	/*public function getStockSolidaire() {
-		return $this->mStockSolidaire;
-	}*/
-
-	/**
-	* @name setStockSolidaire($pStockSolidaire)
-	* @param array(StockProduitViewVO)
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	/*public function setStockSolidaire($pStockSolidaire) {
-		$this->mStockSolidaire = $pStockSolidaire;
-	}*/
-	
-	/**
-	* @name addStockSolidaire($pStockSolidaire)
-	* @param StockProduitViewVO
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	/*public function addStockSolidaire($pStockSolidaire) {
-		array_push($this->mStockSolidaire, $pStockSolidaire);
-	}
-	*/
 	/**
 	* @name getAdherent()
 	* @return AdherentViewVO
@@ -319,21 +292,48 @@ class InfoAchatCommandeResponse extends DataTemplate
 	}
 	
 	/**
-	* @name getRechargement()
-	* @return OperationVO
-	* @desc Renvoie les Rechargement
+	* @name getLots()
+	* @return array(DetailMarcheVO)
+	* @desc Renvoie les Lots
 	*/
-	public function getRechargement() {
-		return $this->mRechargement;
+	public function getLots() {
+		return $this->mLots;
 	}
 
 	/**
-	* @name setRechargement($pRechargement)
-	* @param OperationVO
-	* @desc Remplace les Rechargement par $pRechargement
+	* @name setLots($pLots)
+	* @param array(DetailMarcheVO)
+	* @desc Remplace les Lots par $pLots
 	*/
-	public function setRechargement($pRechargement) {
-		$this->mRechargement = $pRechargement;
+	public function setLots($pLots) {
+		$this->mLots = $pLots;
+	}
+	
+	/**
+	 * @name addLots($pLots)
+	 * @param DetailMarcheVO
+	 * @desc Ajoute le Lot à Lots
+	 */
+	public function addLots($pLots) {
+		array_push($this->mLots,$pLots);
+	}
+	
+	/**
+	* @name getIdRequete()
+	* @return varchar
+	* @desc Renvoie les IdRequete
+	*/
+	public function getIdRequete() {
+		return $this->mIdRequete;
+	}
+
+	/**
+	* @name setIdRequete($pIdRequete)
+	* @param varchar
+	* @desc Remplace les IdRequete par $pIdRequete
+	*/
+	public function setIdRequete($pIdRequete) {
+		$this->mIdRequete = $pIdRequete;
 	}
 }
 ?>

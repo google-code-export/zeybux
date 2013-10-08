@@ -48,7 +48,7 @@ class OperationDetailToVO
 					$lChampComplementaire[$lChampVo->getChcpId()] = $lChampVo;
 				}
 			} 
-		} else { $lChampComplementaire = NULL; }
+		} else { $lChampComplementaire = array(); }
 		
 		return new OperationDetailVO($lId, $lIdCompte, $lMontant, $lLibelle, $lDate, $lTypePaiement, $lType, $lDateMaj, $lIdLogin, $lTppId, $lTppType, $lTppChampComplementaire, $lTppVisible, $lChampComplementaire);		
 	}

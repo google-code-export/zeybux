@@ -16,6 +16,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "DetailOperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ReservationValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ReservationDetailViewManager.php");
+include_once(CHEMIN_CLASSES_VIEW_MANAGER . "DetailMarcheViewManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "HistoriqueStockManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 
@@ -81,7 +82,13 @@ class ReservationService
 		$lOperation->setChampComplementaire($lChampComplementaire);
 //		
 //		$lOperation->setIdCommande($pReservation->getId()->getIdCommande());
-		
+
+		$lListeIdDetailCommande = array();
+		foreach($pReservation->getDetailReservation() as $lProduit) {
+			array_push($lListeIdDetailCommande, $lProduit->getIdDetailCommande());
+		}
+		$lDetailMarche = DetailMarcheViewManager::selectByIdDetailCommande($lListeIdDetailCommande);
+
 		$lOperationService = new OperationService();
 		$lIdOperation = $lOperationService->set($lOperation);
 
@@ -96,6 +103,8 @@ class ReservationService
 			$lStock->setIdCompte($pReservation->getId()->getIdCompte());
 			$lStock->setIdDetailCommande($lProduit->getIdDetailCommande());
 			$lStock->setIdOperation($lIdOperation);
+			$lStock->setIdNomProduit($lDetailMarche[$lProduit->getIdDetailCommande()]->getProIdNomProduit());
+			$lStock->setUnite($lDetailMarche[$lProduit->getIdDetailCommande()]->getProUniteMesure());
 			$lStockService->set($lStock);
 				
 			// Ajout du détail de l'operation
@@ -106,6 +115,7 @@ class ReservationService
 			$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
 			$lDetailOperation->setTypePaiement(0);
 			$lDetailOperation->setIdDetailCommande($lProduit->getIdDetailCommande());
+			$lDetailOperation->setIdNomProduit($lDetailMarche[$lProduit->getIdDetailCommande()]->getProIdNomProduit());
 			$lDetailOperationService->set($lDetailOperation);
 		}
 
@@ -131,6 +141,13 @@ class ReservationService
 	
 			$lStockService = new StockService();
 			$lDetailOperationService = new DetailOperationService();
+			
+
+			$lListeIdDetailCommande = array();
+			foreach($pReservation->getDetailReservation() as $lProduit) {
+				array_push($lListeIdDetailCommande, $lProduit->getIdDetailCommande());
+			}
+			$lDetailMarche = DetailMarcheViewManager::selectByIdDetailCommande($lListeIdDetailCommande);
 
 			
 			foreach($lReservationsActuelle->getDetailReservation() as $lReservationActuelle) {
@@ -147,6 +164,8 @@ class ReservationService
 						$lStock->setIdCompte($pReservation->getId()->getIdCompte());
 						$lStock->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
 						$lStock->setIdOperation($lIdOperation);
+						$lStock->setIdNomProduit($lDetailMarche[$lReservationActuelle->getIdDetailCommande()]->getProIdNomProduit());
+						$lStock->setUnite($lDetailMarche[$lReservationActuelle->getIdDetailCommande()]->getProUniteMesure());
 						$lStockService->set($lStock);
 						
 						// Maj du détail Opération
@@ -158,6 +177,7 @@ class ReservationService
 						$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
 						$lDetailOperation->setTypePaiement(0);
 						$lDetailOperation->setIdDetailCommande($lReservationActuelle->getIdDetailCommande());
+						$lDetailOperation->setIdNomProduit($lDetailMarche[$lReservationActuelle->getIdDetailCommande()]->getProIdNomProduit());
 						$lDetailOperationService->set($lDetailOperation);					
 						
 						$lTestUpdate = true;
@@ -187,6 +207,8 @@ class ReservationService
 					$lStock->setIdCompte($pReservation->getId()->getIdCompte());
 					$lStock->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
 					$lStock->setIdOperation($lIdOperation);
+					$lStock->setIdNomProduit($lDetailMarche[$lReservationNouvelle->getIdDetailCommande()]->getProIdNomProduit());
+					$lStock->setUnite($lDetailMarche[$lReservationNouvelle->getIdDetailCommande()]->getProUniteMesure());
 					$lStockService->set($lStock);
 					
 					// Ajout du détail Opération
@@ -197,6 +219,7 @@ class ReservationService
 					$lDetailOperation->setLibelle("Marché N°" . $pReservation->getId()->getIdCommande());
 					$lDetailOperation->setTypePaiement(0);
 					$lDetailOperation->setIdDetailCommande($lReservationNouvelle->getIdDetailCommande());
+					$lDetailOperation->setIdNomProduit($lDetailMarche[$lReservationNouvelle->getIdDetailCommande()]->getProIdNomProduit());
 					$lDetailOperationService->set($lDetailOperation);	
 				}
 			}
@@ -233,7 +256,26 @@ class ReservationService
 			$lDetailOperationService->delete($lReservationActuelle->getId()->getIdDetailOperation());
 		}
 	}
-			
+	
+	/**
+	 * @name updateEnAchat($pIdReservation)
+	 * @param IdReservationVO
+	 * @desc Met à jour une réservation
+	 */
+	public function updateEnAchat($pIdReservation) {
+		$lReservationsActuelle = $this->get($pIdReservation);
+		$lOperations = $this->selectOperationReservation($pIdReservation);
+		$lOperation = $lOperations[0];
+		$lIdOperation = $lOperation->getId();
+		if(!is_null($lIdOperation)) {
+			// Maj du type paiement
+			$lOperationService = new OperationService();
+			$lOperation = $lOperationService->get($lIdOperation);
+			$lOperation->setTypePaiement(22);
+			$lOperationService->set($lOperation);
+		}
+	}
+		
 	/**
 	* @name get($pId)
 	* @param integer
@@ -257,11 +299,6 @@ class ReservationService
 	*/
 	public function selectOperationReservation($pId) {
 		return OperationManager::selectOperationReservation($pId);
-		/*$lListeOperation =
-		 if(is_null($lListeOperation[0]->getIdDetailCommande())) {
-		 	$lListeOperation = array();
-		 }
-		 return $lListeOperation;*/
 	}
 
 	/**
@@ -308,7 +345,7 @@ class ReservationService
 			$lReservation->setEtat($lOperations[0]->getTypePaiement());
 			
 			switch($lOperations[0]->getTypePaiement()) {
-				case 7: // Un achat
+			/*	case 7: // Un achat
 					foreach($lOperations as $lOperation) {
 						if($lOperation->getTypePaiement() == 7) {
 							// Mise à jour du détail de réservation à partir de l'historique du stock
@@ -316,8 +353,8 @@ class ReservationService
 							$lReservation->setTotal($lOperation->getMontant());
 						}		
 					}	
-					break;
-					
+					break;*/
+				case 22: // Reservation achetée
 				case 0: // Reservation en cours
 					$lOperation = $lOperations[0];
 					$lDetailsReservation = ReservationDetailViewManager::selectDetail($lOperation->getId(),0,0);
@@ -331,6 +368,7 @@ class ReservationService
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
 							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
+							$lDetailReservation->setUnite($lDetail->getStoUnite());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}
@@ -351,6 +389,7 @@ class ReservationService
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
 							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
+							$lDetailReservation->setUnite($lDetail->getStoUnite());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}
@@ -371,6 +410,7 @@ class ReservationService
 							$lDetailReservation->setQuantite($lDetail->getStoQuantite());
 							$lDetailReservation->setIdProduit($lDetail->getDcomIdProduit());
 							$lDetailReservation->setIdNomProduit($lDetail->getDcomIdNomProduit());
+							$lDetailReservation->setUnite($lDetail->getStoUnite());
 							
 							$lReservation->addDetailReservation($lDetailReservation);
 						}

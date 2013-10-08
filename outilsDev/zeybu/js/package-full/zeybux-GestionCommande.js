@@ -1281,7 +1281,7 @@
 							"<span class=\"ui-icon ui-icon-copy\">" +
 							"</span>" +
 						"</span>" +
-						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-livraison-com\" title=\"Bon de livraison\">" +
+						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-facture-com\" title=\"Factures\">" +
 							"<span class=\"ui-icon ui-icon-cart\">" +
 							"</span>" +
 						"</span>" +
@@ -2012,8 +2012,8 @@
 			"</div>" +
 		"</div>";
 	
-	this.dialogExportBonDeLivraison =
-		"<div id=\"dialog-export-livraison\" title=\"Export du bon de livraison du Marché n°{comNumero}\">" +
+	this.dialogExportFacture =
+		"<div id=\"dialog-export-facture\" title=\"Export de la Facture\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -2728,6 +2728,380 @@
 			"</div>" +
 			"<p id=\"texte-liste-vide\">Aucun produit pour cette ferme dans la base.</p>" +	
 		"</div>";
+	
+	this.rechercheListeFacture = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2 ui-helper-hidden\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			//"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"Les Factures" +
+					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter une Facture\">" +
+						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
+						"</span>Ajouter" +
+					"</span>" +
+				"</div>" +
+				"<div id=\"form-recherche-liste-facture\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+					"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+					" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+					"Marché " +
+					"<select id=\"idMarche\" >" +
+						"<option value=\"0\" >Tout</option>" +
+						"<option value=\"-1\" >Hors Marché</option>" +
+						"<!-- BEGIN listeMarche -->" +
+						"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+						"<!-- END listeMarche -->" +
+					"</select>" +
+					"<button type=\"button\" id=\"btn-rechercher-liste-facture\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+				"</div>" +
+			//"</div>" +
+			"<div id=\"liste-facture\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeFacture = 
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Ferme</th>	" +
+					"<th class=\"com-table-th-med com-center\">Montant</th>	" +
+					"<th class=\"com-table-th-fin\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeFacture -->" +
+				"<tr>" +
+					"<td class=\"com-table-td-debut\">{listeFacture.valeur}</td>" +
+					"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{listeFacture.dateTri}</span>{listeFacture.date}</td>" +
+					"<td class=\"com-table-td-med\">{listeFacture.numero}</td>" +
+					"<td class=\"com-table-td-med\">{listeFacture.nom}</td>" +
+					"<td class=\"com-table-td-med com-text-align-right\">{listeFacture.montant} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-fin\">" +
+						"<span data-id-facture=\"{listeFacture.id}\" class=\"btn-afficher-facture com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+							"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+						"</span>" +
+					"</td>" +								
+				"</tr>" +
+				"<!-- END listeFacture -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeFactureNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
+	
+	this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucune Facture.</p>";
+	
+	this.facture =
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"<span class=\"entete-numero-facture\" >Facture n°{numeroFacture}</span>" +
+				"<span>Ferme : {listeFermeAffiche}</span>" +					
+				"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter la facture\">" +
+					"<span class=\"ui-icon ui-icon-print\">" +
+					"</span>" +
+				"</span>" +
+			"</div>" +
+			"<div id=\"liste-pdt\"></div>" +
+		"</div>";
+	
+	this.factureSelectFerme = 
+		"<select id=\"select-ferme\">" +
+			"<option value=\"0\">== Choisir une ferme ==</option>" +
+			"<!-- BEGIN listeFerme -->" +
+			"<option value=\"{listeFerme.ferId}\">{listeFerme.ferNom}</option>" +
+			"<!-- END listeFerme -->" +
+		"</select>";
+		
+	this.listeProduitFermeVide = "<div id=\"liste-pdt\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">Aucun produit pour cette ferme.</div>";
+	
+	this.listeProduitFerme = 
+		"<div id=\"liste-pdt\">" +
+			"<div id=\"facture-catalogue-produit\" >" +
+				"<div id=\"form-affiche-paiement-facture\" class=\"ui-helper-hidden com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
+					"<table >" +
+						"<thead>" +
+							"<tr>" +
+								"<td>Total</td>" +
+								"<td><input type=\"text\" name=\"montant-total\" value=\"{montant}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr id=\"ligne-operation\">" +
+								"<td>Paiement</td>" +
+								"<td>" +
+									"<select name=\"typepaiement\" id=\"typePaiement\">" +
+										"<option value=\"0\">== Choisir ==</option>" +
+										"<!-- BEGIN typePaiement -->" +
+										"<option value=\"{typePaiement.id}\">{typePaiement.type}</option>" +
+										"<!-- END typePaiement -->" +
+									"</select>" +
+								"</td>" +
+							"</tr>" +
+							"{champComplementaire}" +
+						"</tbody>" +
+					"</table>" +					
+				"</div>" +
+				"<div id=\"affiche-paiement-facture\" class=\"ui-helper-hidden com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
+					"<table >" +
+						"<thead>" +
+							"<tr>" +
+								"<td>Total</td>" +
+								"<td>{montantAffiche} {sigleMonetaire}</td>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+							"<tr id=\"ligne-operation\">" +
+								"<td>Paiement</td>" +
+								"<td>{tppType}</td>" +
+							"</tr>" +
+							"{champComplementaireAffiche}" +							
+					"</table>" +							
+				"</div>" +				
+				"<div id=\"widget-catalogue-produit\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-produit\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-produit\" id=\"filter-produit\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
+			
+					"<table class=\"com-table\" id=\"table-produit\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut\">Ref.</th>" +
+								"<th class=\"com-table-th-med\">Nom</th>" +
+								"<th class=\"com-table-th-fin td-edt\"></th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+						"<!-- BEGIN listeProduit -->" +
+							"<tr class=\"ui-widget-header\">" +
+								"<th colspan=\"3\" class=\"com-table-th\">{listeProduit.nom}</th>" +
+							"</tr>" +
+						
+							"<!-- BEGIN listeProduit.produits -->" +
+							"<tr class=\"com-cursor-pointer\">" +
+								"<td class=\"com-table-td-debut\">{listeProduit.produits.nproNumero}</td>" +
+								"<td class=\"com-table-td-med\">{listeProduit.produits.nproNom}</td>" +
+								"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
+									"<span data-id-nom-produit=\"{listeProduit.produits.nproId}\" class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-ajout-produit\" title=\"Ajouter\">" +
+										"<span class=\"ui-icon ui-icon-plusthick\"></span>" +
+									"</span>" +
+								"</td>" +
+							"</tr>" +
+							"<!-- END listeProduit.produits -->" +
+						"<!-- END listeProduit -->" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>" +
+			"<div id=\"facture-detail\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"{detailFacture}" +
+			"</div>" +
+		"</div>";
+	
+	this.detailFactureVide = 
+		"<div class=\"detail-facture com-center\">Ajouter un produit.</div>" +
+		"<div class=\"detail-facture ui-helper-hidden\">" +	
+			"<table class=\"com-table\" id=\"table-detail-facture\">" +
+				"<thead>" +
+					"<tr>" +
+						"<th class=\"facture-detail-ref\">Ref.</th>" +
+						"<th class=\"facture-detail-nom\">Nom</th>" +
+						"<th class=\"facture-detail-quantite\">Quantite</th>" +
+						"<th class=\"facture-detail-montant\">Montant</th>" +
+						"<th class=\"facture-detail-quantite\">Solidaire</th>" +
+						"<th></th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+				"</tbody>" +
+			"</table>" +
+			"<div class=\"com-center\">" +
+				"<button type=\"button\" id=\"btn-enregistrer-facture\" class=\"ui-state-default ui-corner-all com-button com-center\">Enregistrer</button>" +
+				"<button type=\"button\" id=\"btn-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
+				"<button type=\"button\" id=\"btn-supprimer-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Supprimer</button>" +
+				"<button type=\"button\" id=\"btn-annuler-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
+				"<button type=\"button\" id=\"btn-enregistrer-modifier-facture\" class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Enregistrer</button>" +
+			"</div>" +
+		"</div>";
+	
+	this.champComplementaire =
+		"<!-- BEGIN champComplementaire -->" +
+			"<tr class=\"champ-complementaire\">" +
+				"<td>{champComplementaire.label}</td>" +
+				"<td>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+				"</td>" +
+			"</tr>" +
+		"<!-- END champComplementaire -->";
+	
+	this.listeProduitAffiche = 
+		"<!-- BEGIN categorie -->" +
+			"<tr id=\"cat-{categorie.cproId}\">" +
+				"<th colspan=\"6\" class=\"ui-widget-header\">{categorie.cproNom}</th>" +
+			"</tr>" +
+			"<!-- BEGIN categorie.produits -->" +
+			"<!-- BEGIN categorie.produits.produit -->" +
+			"<tr id=\"stock-{categorie.produits.produit.compteurStock}\" class=\"cat-{categorie.cproId} pro-{categorie.produits.produit.nproId} produit-detail-facture\" data-compteur-stock=\"{categorie.produits.produit.compteurStock}\" data-id-nom-produit=\"{categorie.produits.produit.nproId}\" >" +
+				"<td>{categorie.produits.produit.nproNumero}</td>" +
+				"<td>{categorie.produits.produit.nproNom}</td>" +
+				"<td class=\"produit-detail-facture-stock\" data-id-stock=\"{categorie.produits.produit.idStock}\" >" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.quantiteAffiche}</span> " +
+						"<span>{categorie.produits.produit.uniteAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.quantite}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}quantite\" /> " +
+						"<span class=\"facture-detail-unite-span\">{categorie.produits.produit.unite}</span>" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"produit-detail-facture-montant\" data-id-detail-operation=\"{categorie.produits.produit.idDetailOperation}\">" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.montantAffiche}</span> " +
+						"<span>{categorie.produits.produit.sigleMonetaireAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
+						"{categorie.produits.produit.sigleMonetaire}" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"produit-detail-facture-stock-solidaire\" data-id-stock-solidaire=\"{categorie.produits.produit.idStockSolidaire}\">" +
+					"<span class=\"affiche-detail-facture\">" +
+						"<span>{categorie.produits.produit.quantiteSolidaireAffiche}</span> " +
+						"<span>{categorie.produits.produit.uniteSolidaireAffiche}</span>" +
+					"</span>" +
+					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.quantiteSolidaire}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}quantiteSolidaire\" /> " +
+						"<span class=\"facture-detail-unite-span\">{categorie.produits.produit.uniteSolidaire}</span>" +
+					"</span>" +
+				"</td>" +
+				"<td class=\"td-edt\">" +
+					"<span data-compteur-stock=\"{categorie.produits.produit.compteurStock}\" data-id-categorie=\"{categorie.cproId}\" data-id-nom-produit=\"{categorie.produits.produit.nproId}\" class=\"ui-helper-hidden affiche-detail-facture com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+					"</span>" +
+				"</td>" +
+			"</tr>" +
+			"<!-- END categorie.produits.produit -->" +
+			"<!-- END categorie.produits -->" +
+		"<!-- END categorie -->";
+	
+	this.categorieDetailFacture =
+		"<tr id=\"cat-{cproId}\">" +
+			"<th colspan=\"6\" class=\"ui-widget-header\">{cproNom}</th>" +
+		"</tr>";
+	
+	this.produitDetailFacture = 
+		"<tr id=\"stock-{compteurStock}\" class=\"cat-{cproId} pro-{nproId} produit-detail-facture\" data-compteur-stock=\"{compteurStock}\" data-id-nom-produit=\"{nproId}\" >" +
+			"<td>{nproNumero}</td>" +
+			"<td>{nproNom}</td>" +
+			"<td class=\"produit-detail-facture-stock\">" +
+				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantite\" /> <span class=\"facture-detail-unite-span\">{unite}</span>" +
+			"</td>" +
+			"<td class=\"produit-detail-facture-montant\">" +
+				"<input type=\"text\" value=\"\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}montant\" /> {sigleMonetaire}" +
+			"</td>" +
+			"<td class=\"produit-detail-facture-stock-solidaire\">" +
+				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantiteSolidaire\" /> <span class=\"facture-detail-unite-span\">{uniteSolidaire}</span>" +
+			"</td>" +
+			"<td class=\"td-edt\">" +
+				"<span data-compteur-stock=\"{compteurStock}\" data-id-categorie=\"{cproId}\" data-id-nom-produit=\"{nproId}\" class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer-produit\" title=\"Supprimer\">" +
+					"<span class=\"ui-icon ui-icon-closethick\"></span>" +
+				"</span>" +
+			"</td>" +
+		"</tr>";
+	
+	this.uniteDetailFactureSelect = 
+		"<select class=\"facture-detail-unite\" id=\"produits{compteurStock}unite{type}\">" +
+			"<!-- BEGIN mLotUnite -->" +
+			"<option value=\"{mLotUnite.unite}\">{mLotUnite.unite}</option>" +
+			"<!-- END mLotUnite -->" +
+		"</select>";
+	
+	this.dialogSupprimerFacture =
+		"<div title=\"Supprimer la facture\">" +
+			"<p>Voulez-vous supprimer cette facture ?</p>" +
+		"</div>";	
+	
+	this.rechercheListeAchat = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2 ui-helper-hidden\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Les Achats" +
+			"</div>" +
+			"<div id=\"form-recherche-liste-achat\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+				" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+				"Marché " +
+				"<select id=\"idMarche\" >" +
+					"<option value=\"0\" >Tout</option>" +
+					"<option value=\"-1\" >Hors Marché</option>" +
+					"<!-- BEGIN listeMarche -->" +
+					"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+					"<!-- END listeMarche -->" +
+				"</select>" +
+				"<button type=\"button\" id=\"btn-rechercher-liste-achat\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+			"</div>" +
+			"<div id=\"liste-achat\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeAchat = 
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>	" +
+					"<th class=\"com-table-th-med com-center\">Montant</th>	" +
+					"<th class=\"com-table-th-fin\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeAchat -->" +
+				"<tr>" +
+					"<td class=\"com-table-td-debut\"><span class=\"ui-helper-hidden\">{listeAchat.dateTri}</span>{listeAchat.date}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.comNumero}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhNumero}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.cptLabel}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhNom}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhPrenom}</td>" +
+					"<td class=\"com-table-td-med com-text-align-right\">{listeAchat.montant} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-fin\">" +
+						"<span data-id-achat=\"{listeAchat.opeId}\" class=\"btn-afficher-achat com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+							"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+						"</span>" +
+					"</td>" +								
+				"</tr>" +
+				"<!-- END listeAchat -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeAchatNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
+	
+	this.listeAchatVide = "<p id=\"texte-liste-vide\">Aucun Achat.</p>";
 }
 ;function GestionListeCommandeVue(pParam) {	
 	this.construct = function(pParam) {
@@ -3333,8 +3707,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -3413,9 +3785,9 @@
 										var lGestionCommandeTemplate = new GestionCommandeTemplate();
 										var lData = {sigleMonetaire:gSigleMonetaire};
 										
-										if(lResponse.modelesLot.length > 0 && lResponse.modelesLot[0].mLotId != null) {
+										if($(lResponse.modelesLot).length > 0) {
 											lData.modelesLot = [];
-											$(lResponse.modelesLot).each(function() {
+											$.each(lResponse.modelesLot, function() {
 												if(this.mLotId != null) {
 													this.id = this.mLotId;
 													this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
@@ -3432,7 +3804,7 @@
 											lData.modelesLotAbonnement = [];
 											lData.modelesLotAbonnementReservation = [];
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-											$(lResponse.detailAbonnement.lots).each(function() {
+											$.each(lResponse.detailAbonnement.lots, function() {
 												
 												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');
@@ -4849,7 +5221,181 @@
 
 	this.construct(pParam);
 	
-};function StockProduitListeFermeVue(pParam) {
+};function AchatVue(pParam) {
+	this.mIdMarche = 0;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {AchatVue(pParam);}} );
+		var that = this;
+		pParam = $.extend(true,{},pParam);
+		
+		if(pParam.idMarche) {
+			this.mIdMarche = pParam.idMarche;
+		}
+		
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=GestionCommande&v=Achat", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							var lVo = new RechercheListeAchatVO();
+							
+							if(that.mIdMarche > 0) {
+								lVo.idMarche = that.mIdMarche;
+							} else {							
+								lVo.dateDebut = getPremierJourDuMois();
+								lResponse.dateDebut = lVo.dateDebut.dateDbToFr();
+								lVo.dateFin = getDernierJourDuMois();
+								lResponse.dateFin = lVo.dateFin.dateDbToFr();
+							}
+							if(pParam && pParam.vr) {
+								lVo.vr = pParam.vr;
+							}
+							
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							$('#contenu').replaceWith(that.affectEntete($(lGestionCommandeTemplate.rechercheListeAchat.template(lResponse))));
+							that.recherche(lVo);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+
+	this.affectEntete = function(pData) {
+		pData = this.affectModeMarche(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.affectRechercheListeAchat(pData);		
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectModeMarche = function(pData) {
+		if(this.mIdMarche > 0) {
+			var that = this;
+			pData.find('#form-recherche-liste-achat').remove();
+			pData.find('.com-barre-menu-2').show();
+			pData.find('#btn-retour').click(function() {
+				EditerCommandeVue({"id_marche":that.mIdMarche});
+			});
+		}
+		return pData;
+	};
+	
+	this.affectControleDatepicker = function(pData) {
+		pData = gCommunVue.comLienDatepicker('dateDebut','dateFin',pData);
+		pData.find('#dateDebut, #dateFin').datepicker( "option", "yearRange", '1900:c' );
+		return pData;
+	};
+	
+	this.affectRechercheListeAchat = function(pData) {
+		var that = this;
+		pData.find('#btn-rechercher-liste-achat').click(function() {
+			var lVo = new RechercheListeAchatVO();
+			lVo.dateDebut = $('#dateDebut').val().dateFrToDb();
+			lVo.dateFin = $('#dateFin').val().dateFrToDb();
+			lVo.idMarche = $('#idMarche').val();
+
+			var lValid = new AchatValid();
+			var lVr = lValid.validRechercheListeAchat(lVo);
+
+			Infobulle.init(); // Supprime les erreurs
+			if(lVr.valid) {
+				that.recherche(lVo);
+			} else {
+				Infobulle.generer(lVr,'');
+			}
+		});
+		return pData;
+	};
+	
+	this.recherche = function(pVo) {
+		var that = this;
+		pVo.fonction = "rechercher";
+		$.post(	"./index.php?m=GestionCommande&v=Achat", "pParam=" + $.toJSON(pVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pVo && pVo.vr) {
+								Infobulle.generer(pVo.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+
+		if(lResponse.listeAchat.length > 0 && lResponse.listeAchat[0].opeId != null) {			
+			lResponse.sigleMonetaire = gSigleMonetaire;
+			$.each(lResponse.listeAchat, function() {
+				this.montant = this.opeMontant.nombreFormate(2,',',' ');
+				this.dateTri = this.opeDate.extractDbDate().dateDbToTri();
+				this.date = this.opeDate.extractDbDate().dateDbToFr();
+				
+				if( this.comNumero == null) {
+					this.comNumero = '';
+				} else {
+					this.comNumero = lGestionCommandeTemplate.listeAchatNumeroMarche.template(this);
+				}
+				if( this.adhNumero == null) {
+					this.adhNumero = '';
+				}
+				if( this.adhNom == null) {
+					this.adhNom = '';
+				}
+				if( this.adhPrenom == null) {
+					this.adhPrenom = '';
+				}
+			});			
+			$('#liste-achat').html(that.affect($(lGestionCommandeTemplate.listeAchat.template(lResponse))));
+		} else {
+			$('#liste-achat').html(that.affect($(lGestionCommandeTemplate.listeAchatVide)));
+		}
+		
+	};
+	
+	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectAfficherAchat(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectTri = function(pData) {
+		pData.tablesorter({sortList: [[0,1]], headers: { 6: {sorter: false}, 7: {sorter: false} }});
+		return pData;
+	};
+	
+	this.affectAfficherAchat = function(pData) {
+		//var that = this;
+		pData.find('.btn-afficher-achat').click(function() {
+			/*var lParam = {id:$(this).data("id-achat")};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}*/
+			
+			var lParam = {	
+					id:$(this).data("id-achat"),
+					module:'GestionCommande'};
+			
+			
+			CaisseVue(lParam);
+		});
+		return pData;
+	};
+	
+	this.construct(pParam);
+};;function StockProduitListeFermeVue(pParam) {
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {StockProduitListeFermeVue(pParam);}} );
 		var that = this;
@@ -4918,6 +5464,178 @@
 		return pData;
 	};
 		
+	this.construct(pParam);
+};;function FactureVue(pParam) {
+	this.mIdMarche = 0;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {FactureVue(pParam);}} );
+		var that = this;
+		pParam = $.extend(true,{},pParam);
+		
+		if(pParam.idMarche) {
+			this.mIdMarche = pParam.idMarche;
+		}
+		
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(pParam),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							var lVo = new RechercheListeFactureVO();
+							
+							if(that.mIdMarche > 0) {
+								lVo.idMarche = that.mIdMarche;
+							} else {							
+								lVo.dateDebut = getPremierJourDuMois();
+								lResponse.dateDebut = lVo.dateDebut.dateDbToFr();
+								lVo.dateFin = getDernierJourDuMois();
+								lResponse.dateFin = lVo.dateFin.dateDbToFr();
+							}
+							if(pParam && pParam.vr) {
+								lVo.vr = pParam.vr;
+							}
+							
+							var lGestionCommandeTemplate = new GestionCommandeTemplate();
+							$('#contenu').replaceWith(that.affectEntete($(lGestionCommandeTemplate.rechercheListeFacture.template(lResponse))));
+							that.recherche(lVo);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+
+	this.affectEntete = function(pData) {
+		pData = this.affectModeMarche(pData);
+		pData = this.affectAjoutFacture(pData);
+		pData = this.affectControleDatepicker(pData);
+		pData = this.affectRechercheListeFacture(pData);		
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectModeMarche = function(pData) {
+		if(this.mIdMarche > 0) {
+			var that = this;
+			pData.find('#form-recherche-liste-facture').remove();
+			pData.find('.com-barre-menu-2').show();
+			pData.find('#btn-retour').click(function() {
+				EditerCommandeVue({"id_marche":that.mIdMarche});
+			});
+		}
+		return pData;
+	};
+	
+	this.affectControleDatepicker = function(pData) {
+		pData = gCommunVue.comLienDatepicker('dateDebut','dateFin',pData);
+		pData.find('#dateDebut, #dateFin').datepicker( "option", "yearRange", '1900:c' );
+		return pData;
+	};
+	
+	this.affectRechercheListeFacture = function(pData) {
+		var that = this;
+		pData.find('#btn-rechercher-liste-facture').click(function() {
+			var lVo = new RechercheListeFactureVO();
+			lVo.dateDebut = $('#dateDebut').val().dateFrToDb();
+			lVo.dateFin = $('#dateFin').val().dateFrToDb();
+			lVo.idMarche = $('#idMarche').val();
+
+			var lValid = new FactureValid();
+			var lVr = lValid.validRechercheListeFacture(lVo);
+
+			Infobulle.init(); // Supprime les erreurs
+			if(lVr.valid) {
+				that.recherche(lVo);
+			} else {
+				Infobulle.generer(lVr,'');
+			}
+		});
+		return pData;
+	};
+	
+	this.recherche = function(pVo) {
+		var that = this;
+		pVo.fonction = "rechercher";
+		$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(pVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pVo && pVo.vr) {
+								Infobulle.generer(pVo.vr,'');
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+
+		if(lResponse.listeFacture.length > 0 && lResponse.listeFacture[0].id != null) {			
+			lResponse.sigleMonetaire = gSigleMonetaire;
+			$.each(lResponse.listeFacture, function() {
+				this.montant = this.montant.nombreFormate(2,',',' ');
+				this.dateTri = this.date.extractDbDate().dateDbToTri();
+				this.date = this.date.extractDbDate().dateDbToFr();
+				
+				if( this.numero == null) {
+					this.numero = '';
+				} else {
+					this.numero = lGestionCommandeTemplate.listeFactureNumeroMarche.template(this);
+				}
+			});			
+			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFacture.template(lResponse))));
+		} else {
+			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFactureVide)));
+		}
+		
+	};
+	
+	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectAfficherFacture(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectTri = function(pData) {
+		pData.tablesorter({sortList: [[0,1]], headers: { 4: {sorter: false}, 5: {sorter: false} }});
+		return pData;
+	};
+
+	this.affectAjoutFacture = function(pData) {
+		var that = this;
+		pData.find('#btn-nv-facture').click(function() {
+			var lParam = {};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}
+			EditionFactureVue(lParam);
+		});
+		return pData;
+	};
+	
+	this.affectAfficherFacture = function(pData) {
+		var that = this;
+		pData.find('.btn-afficher-facture').click(function() {
+			var lParam = {id:$(this).data("id-facture")};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}
+			EditionFactureVue(lParam);
+		});
+		return pData;
+	};
+	
 	this.construct(pParam);
 };;function ListeAchatMarcheVue(pParam) {
 	this.mIdMarche = null;
@@ -5083,7 +5801,757 @@
 	
 	this.construct(pParam);
 }
-	;function ListeCommandeArchiveVue(pParam) {
+	;function EditionFactureVue(pParam) {
+	this.mListeProduit = [];
+	this.mDetailFacture = [];
+	this.mFactureInitiale = {};
+	this.mCompteurStock = 0;
+	this.mNbProduit = 0;
+	this.mTypePaiementSelect = 0;
+	this.mTypePaiement = [];
+	this.mBanques = [];
+	this.mFermes = [];
+	this.mTypeEdition = 0;
+	this.mIdMarche = 0;
+	this.mIdFacture = 0;
+	
+	this.construct = function(pParam) {
+		$.history( {'vue':function() {EditionFactureVue(pParam);}} );
+		var that = this;
+		
+		if(pParam && pParam.idMarche) { // En mode Marché
+			this.mIdMarche = pParam.idMarche;
+		}
+		
+		var lVo = {};
+		if(pParam && pParam.id) { // Affiche une facture
+			this.mIdFacture = pParam.id;
+			lVo.id = pParam.id;
+			lVo.fonction = 'afficherFacture';
+			this.mTypeEdition = 1;
+		} else { // Le formulaire de création de facture
+			lVo.fonction = 'listeFerme';
+			this.mTypeEdition = 0;
+		}
+		
+		$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pParam && pParam.vr) {
+								Infobulle.generer(pParam.vr,'');
+							}
+							that.mTypePaiement = lResponse.typePaiement;
+							that.mBanques = lResponse.banques;
+							
+							if(that.mTypeEdition == 0) { // Pour la création
+								$(lResponse.listeFerme).each(function() {
+									that.mFermes[this.ferId] = this;
+								});
+							}
+							that.afficher(lResponse);
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.afficher = function(lResponse) {
+		var that = this;
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		if(this.mTypeEdition == 0) { // Pour le formulaire de création
+			if(lResponse.listeFerme.length > 0 && lResponse.listeFerme[0].ferId != null) {		
+				lResponse.listeFermeAffiche = lGestionCommandeTemplate.factureSelectFerme.template(lResponse);
+			} else {
+				// Pas de ferme on n'affiche pas le formulaire
+				var lVR = new Object();
+				var erreur = new VRerreur();
+				erreur.code = ERR_265_CODE;
+				erreur.message = ERR_265_MSG;
+				lVR.valid = false;
+				lVR.log = new VRelement();
+				lVR.log.valid = false;
+				lVR.log.erreurs.push(erreur);
+				Infobulle.generer(lVR,'');
+			}
+		} else { // Affiche et modification de facture
+			this.mResponseAfficheFacture = lResponse;
+			
+			lResponse.numeroFacture = lResponse.facture.id.champComplementaire[11].valeur;
+			lResponse.listeFermeAffiche = lResponse.ferme.nom;
+		}
+		
+		$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.facture.template(lResponse))));	
+		
+		if(this.mTypeEdition == 1) {
+			this.afficheListeProduit(lResponse);
+		}
+	};
+	
+	this.affect = function(pData) {
+		pData = this.retour(pData);
+		pData = this.affectSelectFerme(pData);
+		pData = this.affectExport(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectExport = function(pData) {
+		if(this.mTypeEdition == 1) {
+			var that = this;	
+			pData.find('#btn-export-facture').show()
+				.click(function() {
+				var lGestionCommandeTemplate = new GestionCommandeTemplate();
+				$(lGestionCommandeTemplate.dialogExportFacture).dialog({
+					autoOpen: true,
+					modal: true,
+					draggable: false,
+					resizable: false,
+					width:600,
+					buttons: {
+						'Exporter': function() {
+							// Récupération du formulaire
+							var lFormat = $(this).find(':input[name=format]:checked').val();
+							
+							var lParam = new ExportFactureVO();
+							lParam.id = that.mIdFacture;
+							lParam.format = lFormat;
+							lParam.fonction = "export";
+												
+							// Test des erreurs
+							var lValid = new ExportFactureValid();
+							var lVr = lValid.validAjout(lParam);
+							
+							Infobulle.init(); // Supprime les erreurs
+							if(lVr.valid) {
+								// Affichage
+								$.download("./index.php?m=GestionCommande&v=Facture", lParam);
+							} else {
+								Infobulle.generer(lVr,'');
+							}
+						},
+						'Annuler': function() {
+							$(this).dialog('close');
+						}
+					},
+					close: function(ev, ui) { $(this).remove(); Infobulle.init(); }
+				});
+			});
+		}
+		return pData;
+	};
+	
+	this.retour = function(pData){
+		var that = this;
+		pData.find('#btn-retour').click(function() {
+			var lParam = {};
+			if(that.mIdMarche > 0) {
+				lParam.idMarche = that.mIdMarche;
+			}			
+			FactureVue(lParam);
+		});
+		return pData;
+	};
+	
+	this.affectSelectFerme = function(pData) {
+		var that = this;
+		pData.find('#select-ferme').change(function() {
+			var lIdFerme = $(this).val();
+			that.mCompteurStock = 0;
+			that.mDetailFacture = [];
+			that.mNbProduit = 0;
+			if(lIdFerme == 0) {
+				$('#btn-export-facture, #liste-pdt').hide();
+			} else {
+				var lVo = {fonction:"listeProduitFerme",id:lIdFerme, idMarche:''};
+				if(that.mIdMarche > 0) {
+					lVo.idMarche = that.mIdMarche;
+				}
+				$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(lVo),
+						function(lResponse) {
+							Infobulle.init(); // Supprime les erreurs
+							if(lResponse) {
+								if(lResponse.valid) {
+									if(pParam && pParam.vr) {
+										Infobulle.generer(pParam.vr,'');
+									}
+									that.afficheListeProduit(lResponse);
+								} else {
+									Infobulle.generer(lResponse,'');
+								}
+							}
+						},"json"
+				);
+			}
+		});
+		return pData;
+	};
+
+	this.afficheListeProduit = function(pResponse) {
+		var that = this;
+		this.mFactureInitiale = clone(pResponse);
+		this.mListeProduit = [];
+
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		if(pResponse.listeProduit.length > 0 && pResponse.listeProduit[0].nproId != null) {
+			
+			// Catalogue de produit
+			$.each(pResponse.listeProduit,function() {
+				if(that.mListeProduit[this.cproNom]) {
+					that.mListeProduit[this.cproNom].produits.push(this);
+				} else {
+					that.mListeProduit[this.cproNom] = {id:this.cproId,nom:this.cproNom,produits:[this]};
+				}
+			});
+			pResponse.listeProduit = this.mListeProduit;
+
+			// Le paiement
+			pResponse.banques = this.mBanques;
+			pResponse.sigleMonetaire = gSigleMonetaire;
+			pResponse.typePaiement = this.mTypePaiement;
+			
+			if(this.mTypeEdition == 1) {
+				pResponse.montant = pResponse.facture.id.montant.nombreFormate(2,',','');
+				pResponse.montantAffiche = pResponse.facture.id.montant.nombreFormate(2,',',' ');
+				
+				this.mTypePaiementSelect = pResponse.facture.operationZeybu.typePaiement;
+				pResponse.tppType = pResponse.facture.operationZeybu.tppType;
+				
+				var lTypePaiementService = new TypePaiementService();
+				var lChampComplementaire = [];
+				if(this.mTypePaiement[pResponse.facture.operationZeybu.typePaiement]) {
+					$(this.mTypePaiement[pResponse.facture.operationZeybu.typePaiement].champComplementaire).each(function() {				
+						var lChamp = pResponse.facture.operationZeybu.champComplementaire[this.id];
+						lChamp.id = this.id;
+						lChamp.tppCpVisible = 1;
+						lChamp.chCpLabel = this.label;
+						lChampComplementaire.push(lChamp);
+					});
+				}
+				pResponse.champComplementaire = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanques);
+				pResponse.champComplementaireAffiche = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanques, true);
+			}
+
+			pResponse.detailFacture = lGestionCommandeTemplate.detailFactureVide.template(pResponse);
+			var lData = $(lGestionCommandeTemplate.listeProduitFerme.template(pResponse));
+			
+			if(this.mTypeEdition == 1 ) {
+				lData.find('#affiche-paiement-facture').toggle();
+			} else if (this.mIdMarche > 0 && pResponse.listeProduitCommande[0] && pResponse.listeProduitCommande[0].cproId != null) {
+				lData.find('#form-affiche-paiement-facture').toggle();
+			}
+			
+			$('#liste-pdt').replaceWith(this.affectListeProduit(lData));	
+			
+			// Le détail de la facture
+			if(this.mTypeEdition == 1) { // En modification
+				this.afficheDetailProduit(pResponse.facture);
+			} else if(this.mIdMarche > 0 && pResponse.listeProduitCommande[0] && pResponse.listeProduitCommande[0].cproId != null) { // En création sur marche si il y a des produits
+				this.afficheDetailProduit({produits:pResponse.listeProduitCommande});
+			}
+		} else {
+			$('#liste-pdt').replaceWith(lGestionCommandeTemplate.listeProduitFermeVide);
+		}
+	};
+	
+	this.affectListeProduit = function(pData) {
+		pData = this.affectRecherche(pData);
+		pData = this.affectSelectTypePaiement(pData);
+		pData = this.affectAjoutProduitDetail(pData);
+		pData = this.affectEnregistrer(pData);
+		pData = this.affectModifier(pData);
+		pData = this.affectSupprimer(pData);
+		pData = this.affectAnnulerModifier(pData);
+		
+		var lTypePaiementService = new TypePaiementService();
+		pData = lTypePaiementService.affect(pData, this.mBanques);
+		
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;		
+	};
+	
+	this.affectSelectTypePaiement = function(pData) {
+		var that = this;
+		pData.find(":input[name=typepaiement]").change(function () {
+			that.changerTypePaiement($(this));
+		});
+		
+		pData.find(":input[name=typepaiement] option[value='" + that.mTypePaiementSelect + "']").prop("selected", true);
+		return pData;
+	};
+	
+	this.changerTypePaiement = function(pObj) {
+		var lId = pObj.val();
+		if(!this.mTypePaiement[lId] || (this.mTypePaiement[lId] && this.mTypePaiement[lId].champComplementaire.length == 0)) {
+			$('.champ-complementaire').remove();
+		} else {
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			var lTypePaiementService = new TypePaiementService();
+			$('#ligne-operation').after(lTypePaiementService.affect($(lGestionCommandeTemplate.champComplementaire.template(this.mTypePaiement[lId])), this.mBanques));
+		}
+	};
+	
+	this.affectRecherche = function(pData) {
+		pData.find("#filter-produit").keyup(function() {
+		    $.uiTableFilter( $('#table-produit'), this.value );
+		  });
+		
+		pData.find("#filter-form-produit").submit(function () {return false;});
+		
+		return pData;
+	};
+	
+	this.affectAjoutProduitDetail = function(pData) {
+		var that = this;
+		pData.find('.btn-ajout-produit').click(function() {
+			var lIdNomProduit = $(this).data('id-nom-produit');
+			$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON({fonction: 'uniteProduit',id: lIdNomProduit}),
+					function(lResponse) {
+						Infobulle.init(); // Supprime les erreurs
+						if(lResponse) {
+							if(lResponse.valid) {
+								if(pParam && pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}
+								that.ajoutProduitDetail(lResponse);
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
+						}
+					},"json"
+			);
+		});
+		return pData;
+	};
+	
+	this.ajoutProduitDetail = function(lResponse) {
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		// Ajout de la categorie	
+		if(!this.mDetailFacture[lResponse.uniteNomProduit.cproId] || (this.mDetailFacture[lResponse.uniteNomProduit.cproId] && this.mDetailFacture[lResponse.uniteNomProduit.cproId].nbProduit < 1)) {		
+			if(this.mDetailFacture.length == 0) { // Première catégorie du détail
+				$('#table-detail-facture tbody').prepend(lGestionCommandeTemplate.categorieDetailFacture.template(lResponse.uniteNomProduit));
+			} else {
+				var lPosition = 0;
+				var lIdCategorie = 0;
+				for(i in this.mListeProduit) {
+					if(lResponse.uniteNomProduit.cproId == this.mListeProduit[i].id) {
+						lPosition = lIdCategorie;
+					}
+					if($('.cat-' + this.mListeProduit[i].id).length > 0) {
+						lIdCategorie = this.mListeProduit[i].id;
+					}
+				}
+				// Si elle doit être placée en premier
+				if(lPosition == 0) {
+					$('#table-detail-facture tbody').prepend(lGestionCommandeTemplate.categorieDetailFacture.template(lResponse.uniteNomProduit));
+				} else {
+					$('.cat-' + lPosition).last().after(lGestionCommandeTemplate.categorieDetailFacture.template(lResponse.uniteNomProduit));
+				}
+			}
+			this.mDetailFacture[lResponse.uniteNomProduit.cproId] = {produits:[], nbProduit: 0};
+		}
+		this.mDetailFacture[lResponse.uniteNomProduit.cproId].nbProduit++;
+		
+		lResponse.uniteNomProduit.sigleMonetaire = gSigleMonetaire;
+		
+		// L'unite
+		if(lResponse.uniteNomProduit.mLotUnite.length == 1) {
+			lResponse.uniteNomProduit.unite = lResponse.uniteNomProduit.mLotUnite[0];
+			lResponse.uniteNomProduit.uniteSolidaire = lResponse.uniteNomProduit.mLotUnite[0];
+		} else {
+			var lTabUnite = [];
+			$.each(lResponse.uniteNomProduit.mLotUnite, function() {
+				lTabUnite.push({unite:this});
+			});
+			lResponse.uniteNomProduit.unite = lGestionCommandeTemplate.uniteDetailFactureSelect.template({mLotUnite:lTabUnite,type:''});
+			lResponse.uniteNomProduit.uniteSolidaire = lGestionCommandeTemplate.uniteDetailFactureSelect.template({mLotUnite:lTabUnite,type:'Solidaire'});
+		}
+		
+		lResponse.uniteNomProduit.compteurStock = this.mCompteurStock;
+		this.mCompteurStock++;
+		
+		// Ajout du produit
+		if(this.mDetailFacture[lResponse.uniteNomProduit.cproId].produits.length == 0) { // Premier produit de la catégorie
+			$('#cat-' + lResponse.uniteNomProduit.cproId).after(this.affectProduitDetailFacture($(lGestionCommandeTemplate.produitDetailFacture.template(lResponse.uniteNomProduit))));
+		} else { // Recherche de la position
+			var lPosition = 0;
+			var lIdProduit = 0;
+
+			for(i in this.mListeProduit[lResponse.uniteNomProduit.cproNom].produits) {
+				if(lResponse.uniteNomProduit.nproId == this.mListeProduit[lResponse.uniteNomProduit.cproNom].produits[i].nproId) {
+					lPosition = lIdProduit;
+				}
+				if($('.pro-' + this.mListeProduit[lResponse.uniteNomProduit.cproNom].produits[i].nproId).length > 0) {
+					lIdProduit = this.mListeProduit[lResponse.uniteNomProduit.cproNom].produits[i].nproId;
+				}
+			}
+
+			// Si elle doit être placée en premier
+			if(lPosition == 0) {
+				$('#cat-' + lResponse.uniteNomProduit.cproId).after(this.affectProduitDetailFacture($(lGestionCommandeTemplate.produitDetailFacture.template(lResponse.uniteNomProduit))));
+			} else {
+				$('.pro-' + lPosition).last().after(this.affectProduitDetailFacture($(lGestionCommandeTemplate.produitDetailFacture.template(lResponse.uniteNomProduit))));
+			}
+		}
+		
+		if(this.mDetailFacture[lResponse.uniteNomProduit.cproId].produits[lResponse.uniteNomProduit.nproId]) {
+			this.mDetailFacture[lResponse.uniteNomProduit.cproId].produits[lResponse.uniteNomProduit.nproId].produit.push(lResponse.uniteNomProduit);
+		} else {
+			this.mDetailFacture[lResponse.uniteNomProduit.cproId].produits[lResponse.uniteNomProduit.nproId] = {produit:[lResponse.uniteNomProduit]};
+		}
+		
+		if(this.mNbProduit == 0) { // Affiche le détail dès le premier produit
+			if(this.mTypeEdition == 0) { 
+				$('.detail-facture, #form-affiche-paiement-facture').toggle();
+			} else if(this.mTypeEdition == 1) { // Pour la modification on affiche de nouveau le bouton enregistrer
+				$('#btn-enregistrer-modifier-facture').show();
+			}
+		}
+		this.mNbProduit++;
+	};
+	
+	this.affectProduitDetailFacture = function(pData) {
+		pData = this.affectSupprimerProduit(pData);
+		pData = this.affectCalculTotal(pData);
+		pData = gCommunVue.comNumeric(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectSupprimerProduit = function(pData) {
+		var that = this;
+		pData.find('.btn-supprimer-produit').click(function() {
+			
+			var lCompteurStock = $(this).data('compteur-stock');
+			//var lNproId = $(this).data('id-nom-produit');
+			var lCproId = $(this).data('id-categorie');
+			
+			// Suppression du produit
+			$('#stock-'+ lCompteurStock).remove();
+			//that.mDetailFacture[lCproId].produits[lNproId]--;
+			
+			// Suppression de la categorie
+			that.mDetailFacture[lCproId].nbProduit--;
+			if(that.mDetailFacture[lCproId].nbProduit == 0) {
+				$('#cat-' + lCproId).remove();
+			}
+			
+			// Masque le détail de produit
+			that.mNbProduit--;
+			
+			if(that.mNbProduit == 0) { 
+				// Pour la création il faut au moins un produit
+				if(that.mTypeEdition == 0) {
+					$('.detail-facture, #form-affiche-paiement-facture').toggle();
+					$('.champ-complementaire').remove();
+					$('#typePaiement').selectOptions("0");
+					$('#montant').val('');
+				} else if(that.mTypeEdition == 1) { // Pour la modification on garde le bouton annuler
+					$('#btn-enregistrer-modifier-facture').hide();
+				}
+			}
+			
+			// Mise à jour du total
+			that.majTotal();
+		});
+		return pData;
+	};
+	
+	this.affectCalculTotal = function(pData) {
+		var that = this;
+		pData.find('.montant-produit').keyup(function() {
+			that.majTotal();
+		});
+		return pData;
+	};
+	
+	this.majTotal = function() {
+		var lTotal = 0;
+		$('.montant-produit').each(function() {
+			var lMontant = parseFloat($(this).val().numberFrToDb());
+			if(!isNaN(lMontant)) {
+				lTotal = (parseFloat(lTotal) + lMontant).toFixed(2);
+			}
+		});
+		$('#montant').val(lTotal.nombreFormate(2,',',''));
+	};
+	
+	this.afficheDetailProduit = function(pFacture) {
+		var that = this;
+		this.mDetailFacture = [];
+		this.mNbProduit = 0;
+		
+		var lDetailProduitFacture = [];
+		$(pFacture.produits).each(function() {	
+			// Ajoute la categorie
+			if(!that.mDetailFacture[this.cproId]) { 
+				that.mDetailFacture[this.cproId] = {cproId: this.cproId, cproNom: this.cproNom, produits:[], nbProduit: 0};
+				lDetailProduitFacture[this.cproNom] = {cproId: this.cproId, cproNom: this.cproNom, produits:[] };
+			}
+			that.mDetailFacture[this.cproId].nbProduit++;
+			
+			this.compteurStock = that.mCompteurStock;
+			that.mCompteurStock++;
+			
+			this.nproId = this.idNomProduit;
+			
+			if(this.quantite == null || this.quantite == '') {
+				this.quantiteAffiche = '';
+				this.quantite = '';
+				this.uniteAffiche  = '';
+				this.unite = this.uniteSolidaire;
+				this.montantAffiche = '';
+				this.montant = '';
+				this.sigleMonetaireAffiche = '';				
+			} else {
+				var lQuantite = this.quantite;
+				this.quantiteAffiche = lQuantite.nombreFormate(2,',',' ');
+				this.quantite = lQuantite.nombreFormate(2,',','');
+				this.uniteAffiche  = this.unite;
+				
+				var lMontant = this.montant;
+				this.montantAffiche = lMontant.nombreFormate(2,',',' ');
+				this.montant = lMontant.nombreFormate(2,',','');
+				
+				this.sigleMonetaireAffiche = gSigleMonetaire;
+			}
+			this.sigleMonetaire = gSigleMonetaire;
+			
+			if(this.quantiteSolidaire == null || this.quantiteSolidaire == '') {
+				this.quantiteSolidaireAffiche = '';
+				this.quantiteSolidaire = '';
+				
+				this.uniteSolidaireAffiche = '';
+				this.uniteSolidaire = this.unite;
+			} else {
+				var lQuantiteSolidaire = this.quantiteSolidaire;
+				this.quantiteSolidaireAffiche = lQuantiteSolidaire.nombreFormate(2,',',' ');
+				this.quantiteSolidaire = lQuantiteSolidaire.nombreFormate(2,',','');
+				
+				this.uniteSolidaireAffiche = this.uniteSolidaire;
+			}		
+			
+			// Ajoute le produit
+			if(that.mDetailFacture[this.cproId].produits[this.nproId]) {
+				that.mDetailFacture[this.cproId].produits[this.nproId].produit.push(this);
+				lDetailProduitFacture[this.cproNom].produits[this.nproNom].produit.push(this);
+			} else {
+				that.mDetailFacture[this.cproId].produits[this.nproId] = {produit:[this]};
+				lDetailProduitFacture[this.cproNom].produits[this.nproNom] = {produit:[this]};
+			}
+			
+			that.mNbProduit++;
+		});
+
+		if(this.mNbProduit > 0) { // Affiche le détail dès le premier produit
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			$('#table-detail-facture tbody').prepend(that.affectProduitDetailFacture($(lGestionCommandeTemplate.listeProduitAffiche.template({categorie:lDetailProduitFacture}))));
+			
+			
+			if(this.mTypeEdition == 0 && this.mIdMarche > 0) { // Création sur un marché
+				$('.detail-facture, .affiche-detail-facture').toggle();		
+				this.majTotal();
+			} else { // Modification
+				$('.detail-facture, #widget-catalogue-produit, #btn-enregistrer-facture, #btn-modifier-facture, #btn-supprimer-facture').toggle();
+			}
+		}
+	};
+		
+	this.affectEnregistrer = function(pData) {
+		var that = this;
+		pData.find('#btn-enregistrer-facture, #btn-enregistrer-modifier-facture').click(function() {
+			that.enregistrer();
+		});
+		return pData;
+	};	
+		
+	this.enregistrer = function() {	
+		var that = this;
+		var lVo = new FactureVO();
+		
+		$('.produit-detail-facture').each(function() {
+			var lProduitDetailFacture = new ProduitDetailFactureVO();
+			lProduitDetailFacture.idNomProduit = $(this).data('id-nom-produit');
+			
+			lProduitDetailFacture.idStock = $(this).find('.produit-detail-facture-stock').data('id-stock');
+			if(lProduitDetailFacture.idStock == undefined) {
+				lProduitDetailFacture.idStock = '';
+			}
+			lProduitDetailFacture.idDetailOperation = $(this).find('.produit-detail-facture-montant').data('id-detail-operation');
+			if(lProduitDetailFacture.idDetailOperation == undefined) {
+				lProduitDetailFacture.idDetailOperation = '';
+			}
+			lProduitDetailFacture.idStockSolidaire = $(this).find('.produit-detail-facture-stock-solidaire').data('id-stock-solidaire');
+			if(lProduitDetailFacture.idStockSolidaire == undefined) {
+				lProduitDetailFacture.idStockSolidaire = '';
+			}
+						
+			var lQuantite = $(this).find('.produit-detail-facture-stock :input').val().numberFrToDb();
+			if(!isNaN(lQuantite) && !lQuantite.isEmpty()){ lQuantite = parseFloat(lQuantite); } else { lQuantite = ''; }
+			lProduitDetailFacture.quantite = lQuantite;
+			
+			lProduitDetailFacture.unite = ($(this).find('.produit-detail-facture-stock select').length == 1) ? $(this).find('.produit-detail-facture-stock select').val() : $(this).find('.produit-detail-facture-stock .facture-detail-unite-span').text();
+			
+			var lQuantiteSolidaire = $(this).find('.produit-detail-facture-stock-solidaire :input').val().numberFrToDb();
+			if(!isNaN(lQuantiteSolidaire) && !lQuantiteSolidaire.isEmpty()){ lQuantiteSolidaire = parseFloat(lQuantiteSolidaire); } else { lQuantiteSolidaire = ''; }
+			lProduitDetailFacture.quantiteSolidaire = lQuantiteSolidaire;
+			
+			lProduitDetailFacture.uniteSolidaire = ($(this).find('.produit-detail-facture-stock-solidaire select').length == 1) ? $(this).find('.produit-detail-facture-stock-solidaire select').val() : $(this).find('.produit-detail-facture-stock-solidaire .facture-detail-unite-span').text();
+			
+			var lMontant = $(this).find('.produit-detail-facture-montant :input').val().numberFrToDb();
+			if(!isNaN(lMontant) && !lMontant.isEmpty()){ lMontant = parseFloat(lMontant); } else { lMontant = ''; }
+			lProduitDetailFacture.montant = lMontant;
+			
+			lVo.produits[$(this).data('compteur-stock')] = lProduitDetailFacture;
+		});
+		
+		lOperationProducteur = new OperationDetailVO();
+		
+		// Récupération du compte en fonction d'ajout ou de modification
+		if(this.mTypeEdition == 0) {
+			lOperationProducteur.idCompte = this.mFermes[$('#select-ferme').val()].ferIdCompte;
+		} else if(this.mTypeEdition == 1) {
+			lOperationProducteur.idCompte = this.mFactureInitiale.facture.operationProducteur.idCompte;
+		}
+		
+		var lMontant = $(":input[name=montant-total]").val().numberFrToDb();
+		if(!isNaN(lMontant) && !lMontant.isEmpty()){
+			lMontant = parseFloat(lMontant);
+		} else {
+			lMontant = '';
+		}
+		lOperationProducteur.montant = lMontant;
+		lOperationProducteur.typePaiement = $(":input[name=typepaiement]").val();
+		
+		if(this.mTypePaiement[lOperationProducteur.typePaiement]) {
+			var lTypePaiementService = new TypePaiementService();
+			lOperationProducteur.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lOperationProducteur.typePaiement].champComplementaire);
+		}
+		
+		lVo.operationProducteur = lOperationProducteur;
+		
+		var lId = new OperationDetailVO();
+		// Mode Marché
+		if(that.mIdMarche > 0) {
+			var lChampComplementaire = new ChampComplementaireVO();
+			lChampComplementaire.id = 1;
+			lChampComplementaire.obligatoire = 0;
+			lChampComplementaire.valeur = that.mIdMarche;
+			lId.champComplementaire[1] = lChampComplementaire;
+		}
+		// Pour modification ajout de l'id de la facture
+		if(this.mTypeEdition == 1) {
+			lId.id = this.mFactureInitiale.facture.id.id;	
+		}
+		lVo.id = lId;
+
+		var lValid = new FactureValid();
+		var lVr = lValid.validEnregistrer(lVo);
+
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			lVo.fonction = "enregistrer";
+			$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse.valid) {
+						
+						// Message d'information
+						var lVr = new TemplateVR();
+						lVr.valid = false;
+						lVr.log.valid = false;
+						var erreur = new VRerreur();
+						erreur.code = ERR_362_CODE;
+						erreur.message = ERR_362_MSG;
+						lVr.log.erreurs.push(erreur);
+						that.construct({vr:lVr,id:lResponse.id});
+						
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	};
+	
+	this.affectModifier = function(pData) {
+		pData.find('#btn-modifier-facture').click(function() {
+			$('.affiche-detail-facture, #affiche-paiement-facture, #form-affiche-paiement-facture, #btn-export-facture, #widget-catalogue-produit, #btn-modifier-facture, #btn-supprimer-facture, #btn-annuler-modifier-facture, #btn-enregistrer-modifier-facture').toggle();
+		});
+		return pData;
+	};
+	
+	this.affectAnnulerModifier = function(pData) {
+		var that = this;
+		pData.find('#btn-annuler-modifier-facture').click(function() {
+			that.afficheListeProduit(that.mFactureInitiale);
+			$('#btn-export-facture').show();
+		});
+		return pData;
+	};
+	
+	this.affectSupprimer = function(pData) {
+		var that = this;
+		pData.find('#btn-supprimer-facture').click(function() {
+			var lGestionCommandeTemplate = new GestionCommandeTemplate();
+			$(lGestionCommandeTemplate.dialogSupprimerFacture).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Supprimer': function() {
+						var lDialog = this;
+						var lVo = {fonction:'supprimer', id:that.mFactureInitiale.facture.id.id};						
+						$.post(	"./index.php?m=GestionCommande&v=Facture", "pParam=" + $.toJSON(lVo),
+								function(lResponse) {
+									Infobulle.init(); // Supprime les erreurs
+									if(lResponse) {
+										if(lResponse.valid) {
+											// Message d'information
+											var lVr = new TemplateVR();
+											lVr.valid = false;
+											lVr.log.valid = false;
+											var erreur = new VRerreur();
+											erreur.code = ERR_363_CODE;
+											erreur.message = ERR_363_MSG;
+											lVr.log.erreurs.push(erreur);
+											var lParam = {vr:lVr};
+											
+											if(that.mIdMarche > 0) {
+												lParam.idMarche = that.mIdMarche;
+											}
+											
+											FactureVue(lParam);
+											
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
+									}
+								},"json"
+						);
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); }
+				
+			});
+		});
+		return pData;
+	};
+	
+	this.construct(pParam);
+};;function ListeCommandeArchiveVue(pParam) {
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ListeCommandeArchiveVue(pParam);}} );
@@ -6299,12 +7767,7 @@
 
 		$('#contenu').replaceWith(that.affect($(lHtml)));	
 	};
-	
-	/*this.affectDroitArchive = function(pData) {
-		pData.find(".com-btn-header-multiples").remove();
-		return pData;
-	};*/
-	
+		
 	this.affect = function(pData) {
 		pData = this.affectRetour(pData);
 		pData = this.affectAjoutProduit(pData);
@@ -6386,8 +7849,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -6477,7 +7938,13 @@
 									
 									var lGestionCommandeTemplate = new GestionCommandeTemplate();
 									var lTemplate = lGestionCommandeTemplate.detailProduitAjoutAchatProduit;
-									var lData = {unite: lResponse.unite[0].mLotUnite, sigleMonetaire: gSigleMonetaire, idProduit: lId};
+									
+									var lUnite = '';
+									$.each(lResponse.unite, function() {
+										lUnite = this.mLotUnite;
+									});
+
+									var lData = {unite: lUnite, sigleMonetaire: gSigleMonetaire, idProduit: lId};
 																	
 									$("#detail-achat").replaceWith(that.affectDetailProduit($(lTemplate.template(lData))));
 									
@@ -6815,7 +8282,6 @@
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {BonDeCommandeVue(pParam);}} );
 		var that = this;
-		//pParam.export_type = 0;
 		pParam.fonction = "afficher";
 		$.post(	"./index.php?m=GestionCommande&v=BonDeCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
@@ -8599,7 +10065,7 @@
 		pData = this.affectModifier(pData);
 		pData = this.affectDupliquerMarche(pData);
 		pData = this.affectBonDeCommande(pData);
-		pData = this.affectBonDeLivraison(pData);
+		pData = this.affectFacture(pData);
 		pData = this.affectArchive(pData);
 		pData = this.affectMajListeFerme(pData);
 		pData = this.affectDialogAjoutProduit(pData);
@@ -8644,10 +10110,10 @@
 		return pData;
 	};
 	
-	this.affectBonDeLivraison = function(pData) {
+	this.affectFacture = function(pData) {
 		var that = this;
-		pData.find('#btn-livraison-com').click(function() {
-			BonDeLivraisonVue({"id_commande":that.mIdMarche});
+		pData.find('#btn-facture-com').click(function() {
+			FactureVue({'idMarche':that.mIdMarche});
 		});
 		return pData;
 	};
@@ -8887,7 +10353,7 @@
 								case 0:
 										//lData.typeProduitLabel = "Normal";
 										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelNormal;
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;												
 												var lVoLot = {	
@@ -8901,7 +10367,7 @@
 												lData.listeModelesLot.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -8943,7 +10409,7 @@
 								case 1:
 										//lData.typeProduitLabel = "Solidaire";
 										lData.typeProduitLabel = lGestionCommandeTemplate.typeProduitLabelSolidaire;
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null) {
 												that.mIdLot--;			
 												var lVoLot = {	
@@ -8957,7 +10423,7 @@
 												lData.listeModelesLot.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -8973,7 +10439,7 @@
 									break;
 									
 								case 2:
-										$(lResponse.modelesLot).each(function() {
+										$.each(lResponse.modelesLot, function() {
 											if(this.mLotId != null && this.mLotUnite == lResponse.produit.unite) {
 												that.mIdLotAbonnement--;		
 												var lVoLot = {	
@@ -8987,7 +10453,7 @@
 												lData.listeModelesLotAbonnement.push(lVoLot);
 											}
 										});
-										$(lResponse.produit.lots).each(function() {
+										$.each(lResponse.produit.lots, function() {
 											var lVoLot = {	
 													id:this.id,
 													quantite:this.taille.nombreFormate(2,',',' '),
@@ -9598,23 +11064,6 @@
 	};
 	
 	this.modifierLotSupprimer = function(pId) {
-		/*var that = this;
-		var lParam = {fonction:"autorisationSupprimerLot",id:pId};
-		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-			function (lResponse) {		
-				if(lResponse) {
-					if(lResponse.valid) {
-						if(lResponse.autorise) {
-							$("#ligne-lot-" + pId).remove();								
-						} else {
-							that.dialogSupprimerLot(pId);
-						}
-					} else {
-						Infobulle.generer(lResponse,"");
-					}
-				}
-			},"json"
-		);*/
 		if(this.autorisationSupprimerLot(pId)) {
 			$("#ligne-lot-" + pId).remove();	
 		} else {
@@ -9627,23 +11076,6 @@
 	};
 	
 	this.modifierLotAbonnementSupprimer = function(pId) {
-		/*var that = this;
-		var lParam = {fonction:"autorisationSupprimerLot",id:pId};
-		$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-			function (lResponse) {		
-				if(lResponse) {
-					if(lResponse.valid) {
-						if(lResponse.autorise) {
-							$("#ligne-lot-abonnement-" + pId).remove();							
-						} else {
-							that.dialogSupprimerLotAbonnement(pId);
-						}
-					} else {
-						Infobulle.generer(lResponse,"");
-					}
-				}
-			},"json"
-		);*/
 		if(this.autorisationSupprimerLot(pId)) {
 			$("#ligne-lot-abonnement-" + pId).remove();
 		} else {
@@ -9658,7 +11090,6 @@
 		var lData = {modelesLot:[]};
 
 		var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();		
-		//var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").find('#lot-' + pId + '-unite').text();
 		var lQuantite = this.mLotReservation[pId].quantite;
 		
 		$("#dialog-modif-pro").find('.ligne-lot').each( function () {
@@ -9666,7 +11097,6 @@
 			var lQuantiteLot = parseFloat($(this).find(".lot-quantite").text().numberFrToDb());
 			var lPrix = parseFloat($(this).find(".lot-prix").text().numberFrToDb());
 			var lUniteLot = $(this).find(".lot-unite").text();
-			//alert(lId);alert(lQuantiteLot);alert(lPrix);alert(lUniteLot);
 			if(lId != null && lId != pId && lUniteLot == lUnite && lQuantiteLot <= lQuantite && (lQuantite % lQuantiteLot) == 0) {
 				var lVoLot = {	
 						id:lId,
@@ -9703,7 +11133,6 @@
 		var lData = {modelesLot:[]};
 
 		var lUnite = $("#dialog-modif-pro").find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
-		//var lUnite = $("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").find('#lot-' + pId + '-unite').text();
 		var lQuantite = this.mLotReservation[pId].quantite;
 		$("#dialog-modif-pro").find('.ligne-lot-abonnement').each( function () {			
 			
@@ -9766,12 +11195,6 @@
 	this.modifierProduit = function(pDialog,pType) {
 		var that = this;
 		if(!this.mEditionLot) {
-			// Préparation du MarcheVO							
-			/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
-
-			//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-			
 			var lStock = -1;
 			if(pType == 2) {
 				lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
@@ -9790,7 +11213,6 @@
 				lVR.qteRestante.erreurs.push(erreur);
 				Infobulle.generer(lVR,"pro-");
 			} else {				
-				//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();	
 				var lQteMax = -1;
 				if(pType == 0) {
 					lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();
@@ -9808,8 +11230,6 @@
 					lVR.qteMaxCommande.erreurs.push(erreur);
 					Infobulle.generer(lVR,"pro-");
 				} else {
-			
-					//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 					var lUnite = '';
 					if(pType == 2) {
 						lUnite = pDialog.find(".ligne-lot-abonnement :checkbox:checked").first().closest(".ligne-lot-abonnement").find(".lot-unite").text();
@@ -10000,8 +11420,6 @@
 		lHtml.find('#marche-dateFinReservation').datepicker("option", "minDate", that.mMarche.dateDebutReservation).datepicker("option", "maxDate", that.mMarche.dateMarcheDebut);
 		lHtml.find('#marche-dateMarcheDebut').datepicker("option", "minDate", that.mMarche.dateFinReservation);
 		
-		/*lHtml = gCommunVue.comLienDatepicker('marche-dateFinReservation','marche-dateMarcheDebut',lHtml);*/
-		
 		$(lHtml).dialog({
 			autoOpen: true,
 			modal: true,
@@ -10165,8 +11583,6 @@
 								if(lResponse.listeProduit.length > 0 && lResponse.listeProduit[0].nproId != null) {
 								
 									that.mProduits = [];
-									//that.mListeProduit = [];
-								
 									var lIdCategorie = 0;
 									var lListeCategorie = [];
 									$.each(lResponse.listeProduit,function() {
@@ -10246,14 +11662,9 @@
 
 										var lGestionCommandeTemplate = new GestionCommandeTemplate();
 										var lData = {sigleMonetaire:gSigleMonetaire};
-										/*if(lResponse.detailAbonnement.idNomProduit == lId) { // Si le produit existe en abonnement
-											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-										}*/
-										
-										if(lResponse.modelesLot.length > 0 && lResponse.modelesLot[0].mLotId != null) {
+										if($(lResponse.modelesLot).length > 0) {
 											lData.modelesLot = [];
-											//lData.modelesLotAbonnement = [];
-											$(lResponse.modelesLot).each(function() {
+											$.each(lResponse.modelesLot,function() {
 												if(this.mLotId != null) {
 													this.id = this.mLotId;
 													this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
@@ -10261,11 +11672,7 @@
 													this.prix = this.mLotPrix.nombreFormate(2,',',' ');
 													this.sigleMonetaire = gSigleMonetaire;
 													lData.modelesLot.push(this);
-													lData.unite = this.mLotUnite;	
-													
-													/*if(lData.uniteAbonnement == this.mLotUnite) { // Si unité du modèle et identique à celle de l'abonnement alors le modèle est proposé
-														lData.modelesLotAbonnement.push(this);
-													}*/
+													lData.unite = this.mLotUnite;
 												}
 											});	
 										}
@@ -10274,7 +11681,7 @@
 											lData.modelesLotAbonnement = [];
 											lData.modelesLotAbonnementReservation = [];
 											lData.uniteAbonnement = lResponse.detailAbonnement.unite;
-											$(lResponse.detailAbonnement.lots).each(function() {
+											$.each(lResponse.detailAbonnement.lots, function() {
 												
 												//this.id = this.id;
 												this.quantite = this.taille.nombreFormate(2,',',' ');
@@ -10379,16 +11786,10 @@
 		var that = this;
 		if(!this.mEditionLot) {
 			// Préparation du AffichageMarche
-			//var lIdFerme = pDialog.find(':input[name=ferme]').val();
-			//var lIdCategorie = pDialog.find(':input[name=categorie]').val();
 			var lIdNomProduit = pDialog.find(':input[name=produit]').val();
 			var lTypeProduit = pDialog.find(':input[name=typeProduit]:checked').val();
 			
 			if(lIdNomProduit != 0) {
-				/*var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
-				var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();*/
-				
-				//var lStock = pDialog.find(':input[name=pro-stock]').val().numberFrToDb();
 				var lStock = -1;
 				if(lTypeProduit == 2) {
 					lStock = pDialog.find('#stock-abonnement').text().numberFrToDb();
@@ -10406,8 +11807,7 @@
 					lVR.qteRestante.valid = false;
 					lVR.qteRestante.erreurs.push(erreur);
 					Infobulle.generer(lVR,"pro-");
-				} else {				
-					//var lQteMax = pDialog.find(':input[name=pro-qte-max]').val().numberFrToDb();					
+				} else {			
 					var lQteMax = -1;
 					if(lTypeProduit == 2) {
 						lQteMax = pDialog.find('#max-abonnement').text().numberFrToDb();
@@ -10431,8 +11831,6 @@
 						} else {
 							lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 						}
-						//var lUnite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
-							
 						if(lTypeProduit == 2 && this.mMarche.produitsAbonnement[lIdNomProduit]) { // Produit déjà présent en abonnement
 							var lVR = new Object();
 							var erreur = new VRerreur();
@@ -10469,15 +11867,6 @@
 							lVoProduit.qteMaxCommande = lQteMax;
 							lVoProduit.qteRestante = lStock;
 							lVoProduit.type = lTypeProduit;
-									
-							/*pDialog.find('.ligne-lot :checkbox:checked').each( function () {
-								// Récupération des lots
-								var lVoLot = new DetailCommandeVO();
-								lVoLot.taille = $(this).closest(".ligne-lot").find(".lot-quantite").text().numberFrToDb();
-								lVoLot.prix = $(this).closest(".ligne-lot").find(".lot-prix").text().numberFrToDb();
-								
-								lVoProduit.lots.push(lVoLot);										
-							});	*/
 							
 							if(lTypeProduit == 2) {
 								pDialog.find('.ligne-lot-abonnement :checkbox').each( function () {

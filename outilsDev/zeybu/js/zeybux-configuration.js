@@ -165,6 +165,10 @@ const ERR_263_CODE = 263;
 const ERR_263_MSG = 'Cet adhérent a déjà un achat sur le marché.';
 const ERR_264_CODE = 264;
 const ERR_264_MSG = 'Aucun prix de vente n\'est présent sur le produit.';
+const ERR_265_CODE = 265;
+const ERR_265_MSG = 'Aucune ferme n\'existe.';
+const ERR_266_CODE = 266;
+const ERR_266_MSG = 'Le total ne correspond pas à la somme des produits.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
@@ -288,7 +292,11 @@ const ERR_359_MSG = 'Banque modifiée.';
 const ERR_360_CODE = 360;
 const ERR_360_MSG = 'Banque supprimée.';
 const ERR_361_CODE = 361;
-const ERR_361_MSG = 'Stock modifié.';/********** Début Variables Globales ************/
+const ERR_361_MSG = 'Stock modifié.';
+const ERR_362_CODE = 362;
+const ERR_362_MSG = 'Facture enregistrée.';
+const ERR_363_CODE = 363;
+const ERR_363_MSG = 'Facture supprimée.';/********** Début Variables Globales ************/
 const gTempsTransition = 150;
 const gTempsTransitionUnique = gTempsTransition * 2;
 const gTempsTransitionMsgInfo = gTempsTransition * 10;

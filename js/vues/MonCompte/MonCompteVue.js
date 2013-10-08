@@ -91,10 +91,10 @@
 		});
 		
 		var lMonCompteTemplate = new MonCompteTemplate();
-		var lCommunTemplate = new CommunTemplate();
+		var lCoreTemplate = new CoreTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
-		var lHtml = lCommunTemplate.debutContenu;		
+		var lHtml = lCoreTemplate.debutContenu;		
 		lHtml += lMonCompteTemplate.infoCompteAdherent.template(lResponse.adherent);
 		lHtml += lMonCompteTemplate.listeOperationAdherentDebut.template(lResponse);
 		lHtml += lMonCompteTemplate.listeOperationPassee.template(lResponse);
@@ -107,7 +107,7 @@
 			lHtml += lMonCompteTemplate.listeOperationAvenir.template(lResponse);
 		}
 		lHtml += lMonCompteTemplate.listeOperationAdherentFin.template(lResponse);
-		lHtml += lCommunTemplate.finContenu;
+		lHtml += lCoreTemplate.finContenu;
 		
 		lHtml = $(lHtml);
 		if(lResponse.adherent.cptSolde < 0) {

@@ -12,7 +12,6 @@
 include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php" );
 include_once(CHEMIN_CLASSES_VR . "VRerreur.php" );
 include_once(CHEMIN_CLASSES_VR . MOD_RECHARGEMENT_COMPTE . "/RechargementCompteVR.php" );
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "ChampComplementaireValid.php");
@@ -36,11 +35,19 @@ class RechargementCompteValid
 		//Tests inputs
 		if(!isset($pData['id'])) {
 			$lVr->setValid(false);
-			$lVr->getId()->setValid(false);
+			$lVr->getLog()->setValid(false);
 			$lErreur = new VRerreur();
 			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-			$lVr->getId()->addErreur($lErreur);
+			$lVr->getLog()->addErreur($lErreur);
+		}
+		if(!isset($pData['idCompte'])) {
+			$lVr->setValid(false);
+			$lVr->getLog()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getLog()->addErreur($lErreur);
 		}
 		if(!isset($pData['montant'])) {
 			$lVr->setValid(false);
@@ -68,13 +75,21 @@ class RechargementCompteValid
 		}
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!is_int((int)$pData['id'])) {
+			if(!TestFonction::checkLength($pData['idCompte'],0,11)) {
 				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
+				$lVr->getIdCompte()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getIdCompte()->addErreur($lErreur);	
+			}
+			if(!is_int((int)$pData['idCompte'])) {
+				$lVr->setValid(false);
+				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_104_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
-				$lVr->getId()->addErreur($lErreur);	
+				$lVr->getLog()->addErreur($lErreur);	
 			}
 			if(!TestFonction::checkLength($pData['montant'],0,12)) {
 				$lVr->setValid(false);
@@ -118,23 +133,23 @@ class RechargementCompteValid
 			}
 	
 			//Tests Fonctionnels
-			if(empty($pData['id'])) {
+			if(empty($pData['idCompte'])) {
 				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
+				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
-				$lVr->getId()->addErreur($lErreur);	
+				$lVr->getLog()->addErreur($lErreur);	
 			}
 			// Le compte doit exister
 			$lCompteService = new CompteService();
-			if(!$lCompteService->existe($pData['id'])) {
+			if(!$lCompteService->existe($pData['idCompte'])) {
 				$lVr->setValid(false);
-				$lVr->getId()->setValid(false);
+				$lVr->getLog()->setValid(false);
 				$lErreur = new VRerreur();
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
-				$lVr->getId()->addErreur($lErreur);
+				$lVr->getLog()->addErreur($lErreur);
 			}
 			
 			if(empty($pData['montant'])) {
@@ -163,7 +178,7 @@ class RechargementCompteValid
 			}
 			
 			$lTypePaiementService = new TypePaiementService();
-			$lTypePaiement = $lTypePaiementService->selectDetail($pData['typePaiement']);
+			$lTypePaiement = $lTypePaiementService->selectVisible($pData['typePaiement']);
 			if($lTypePaiement->getId() != $pData['typePaiement']) {
 				$lVr->setValid(false);
 				$lVr->getTypePaiement()->setValid(false);

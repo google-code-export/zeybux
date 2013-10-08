@@ -385,15 +385,19 @@ class AdherentService
 	* @return AdherentViewVO or array(AdherentViewVO)
 	* @desc Retourne un adhérent ou une liste d'adhérent
 	*/
-	public function get($pId = null) {
+	public function get($pId = null, $pIdCompte = null) {
 		$lAdherentValid = new NAMESPACE_CLASSE\NAMESPACE_VALIDATEUR\MOD_SERVICE\AdherentValid();
-		if($lAdherentValid->delete($pId)) {
-			return $this->select($pId);
-		} else if($pId == NULL) {
-			return $this->selectAll();
-		} else {
-			return false;
+		if(!is_null($pId)) {
+			if($lAdherentValid->delete($pId)) {
+				return $this->select($pId);
+			} else if($pId == NULL) {
+				return $this->selectAll();
+			} 
+		} else if(!is_null($pIdCompte)) {
+			return $this->selectByIdCompte($pIdCompte);
 		}
+		return false;
+		
 	}
 		
 	/**
@@ -413,8 +417,18 @@ class AdherentService
 	 */
 	private function selectAll() {
 		return AdherentViewManager::selectAll();
-	}	
+	}
 	
+	/**
+	 * @name select($pIdCompte)
+	 * @param integer
+	 * @return AdherentViewVO
+	 * @desc Retourne un adhérent
+	 */
+	private function selectByIdCompte($pIdCompte) {
+		return AdherentViewManager::selectByIdCompte( $pIdCompte );
+	}	
+
 	/**
 	 * @name getAutorisation($pId)
 	 * @param integer

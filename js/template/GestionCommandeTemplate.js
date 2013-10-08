@@ -1363,61 +1363,67 @@
 			"{editerMenu}" +
 			"<div id=\"edt-com-liste\" >" +
 				"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Liste des Achats et Réservations" +
-						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-achat\" title=\"Exporter les Achats et les réservations\">" +
-							"<span class=\"ui-icon ui-icon-print\">" +
-							"</span>" +
-						"</span>" +
-					"</div>" +
-					"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"<form id=\"filter-form\">" +
-		
-							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
-									"<span class=\"ui-icon ui-icon-search\">" +
-								"</span>" +
-							"</span>" +
-							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
-							
-						"</form>" +
-					"</div>" +
+					"{rechercheAchat}" +
 					"{achatInvite}" +
-					"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
-						"<thead>" +
-						"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
-							"<th class=\"com-table-th-debut com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
-							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
-							"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
-							"<th colspan=\"2\" class=\"com-table-th-fin\"></span>Achat</th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-						"<!-- BEGIN listeAchatEtReservation -->" +
-						"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" id-adherent=\"{listeAchatEtReservation.adhId}\">" +							
-							"<td class=\"com-table-td-debut com-underline-hover\">" +
-								"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
-								"{listeAchatEtReservation.adhNumero}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
-							"<td class=\"com-table-td-med com-underline-hover\">" +
-								"<span class=\"{listeAchatEtReservation.achat} ui-state-hover com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
-									"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
-								"</span>" +							
-							"</td>" +
-							"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
-								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
-									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-						"<!-- END listeAchatEtReservation -->" +
-						"</tbody>" +
-					"</table>" +
+					"{achatAdherent}" +
 				"</div>" +
 			"</div>" +
 		"</div>";
+	
+	this.rechercheAchatAdherent =
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+			"Liste des Achats et Réservations" +
+			"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-achat\" title=\"Exporter les Achats et les réservations\">" +
+				"<span class=\"ui-icon ui-icon-print\">" +
+				"</span>" +
+			"</span>" +
+		"</div>" +
+		"<div id=\"edt-com-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+			"<form id=\"filter-form\">" +
+	
+				"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+						"<span class=\"ui-icon ui-icon-search\">" +
+					"</span>" +
+				"</span>" +
+				"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+				
+			"</form>" +
+		"</div>";
+	
+	this.listeAchatAdherent =
+		"<table class=\"com-table\" id=\"edt-com-liste-resa\">" +
+			"<thead>" +
+			"<tr class=\"ui-widget ui-widget-header com-cursor-pointer\">" +
+				"<th class=\"com-table-th-debut com-underline-hover\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+				"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+				"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+				"<th class=\"com-table-th-med com-underline-hover\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+				"<th colspan=\"2\" class=\"com-table-th-fin\"></span>Achat</th>" +
+			"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+			"<!-- BEGIN listeAchatEtReservation -->" +
+			"<tr class=\"com-cursor-pointer edt-com-achat-ligne\" data-id-adherent=\"{listeAchatEtReservation.adhId}\" data-id-operation=\"{listeAchatEtReservation.idOperation}\" >" +							
+				"<td class=\"com-table-td-debut com-underline-hover\">" +
+					"<span class=\"ui-helper-hidden\">{listeAchatEtReservation.adhIdTri}</span>" +
+					"{listeAchatEtReservation.adhNumero}</td>" +
+				"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.cptLabel}</td>" +
+				"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhNom}</td>" +
+				"<td class=\"com-table-td-med com-underline-hover\">{listeAchatEtReservation.adhPrenom}</td>" +
+				"<td class=\"com-table-td-med com-underline-hover\">" +
+					"<span class=\"{listeAchatEtReservation.achat} ui-state-hover com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+						"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
+					"</span>" +							
+				"</td>" +
+				"<td class=\"com-table-td-fin com-underline-hover td-edt\">" +
+					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+						"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+					"</span>" +
+				"</td>" +
+			"</tr>" +
+			"<!-- END listeAchatEtReservation -->" +
+			"</tbody>" +
+		"</table>";
 	
 	this.listeAchatInvite =
 		"<table class=\"com-table\">" +
@@ -1437,7 +1443,7 @@
 				"</tr>" +
 				"<tbody class=\"ui-helper-hidden detail-achat-invite\">" +
 					"<!-- BEGIN listeAchatInvite -->" +
-					"<tr class=\"com-cursor-pointer edt-com-achat-ligne-invite\" data-id-operation=\"{listeAchatInvite.id}\">" +							
+					"<tr class=\"com-cursor-pointer edt-com-achat-ligne-invite\" data-id-adherent=\"0\" data-id-operation=\"{listeAchatInvite.id}\">" +							
 						"<td class=\"com-table-td-debut\">" +
 							"<span class=\"{listeAchatInvite.achat} com-flag ui-state-hover com-cursor-pointer ui-widget-content ui-corner-all\">" +
 								"<span class=\"ui-icon ui-icon-circle-check\"></span>" +
@@ -1461,17 +1467,10 @@
 		"</table>";
 	
 	this.listeAchatEtReservationVide = 
-		"<div id=\"contenu\">" +
-			"{editerMenu}" +
-			"<div>" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
-					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-						"Liste des Achats et Réservations" +
-					"</div>" +
-					"<p id=\"texte-liste-vide\">Aucun adhérent sur ce marché.</p>" +
-				"</div>" +
-			"</div>" +
-		"</div>";
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+			"Liste des Achats et Réservations" +
+		"</div>" +
+		"<p id=\"texte-liste-vide\">Aucun adhérent sur ce marché.</p>";
 	
 	this.dateAchat = "Achat du {dateAchat} :";
 	
@@ -3037,4 +3036,69 @@
 		"<div title=\"Supprimer la facture\">" +
 			"<p>Voulez-vous supprimer cette facture ?</p>" +
 		"</div>";	
+	
+	this.rechercheListeAchat = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-barre-menu-2 ui-helper-hidden\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"btn-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Les Achats" +
+			"</div>" +
+			"<div id=\"form-recherche-liste-achat\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+				" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+				"Marché " +
+				"<select id=\"idMarche\" >" +
+					"<option value=\"0\" >Tout</option>" +
+					"<option value=\"-1\" >Hors Marché</option>" +
+					"<!-- BEGIN listeMarche -->" +
+					"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+					"<!-- END listeMarche -->" +
+				"</select>" +
+				"<button type=\"button\" id=\"btn-rechercher-liste-achat\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+			"</div>" +
+			"<div id=\"liste-achat\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeAchat = 
+		"<table class=\"com-table\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Compte</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>	" +
+					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>	" +
+					"<th class=\"com-table-th-med com-center\">Montant</th>	" +
+					"<th class=\"com-table-th-fin\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeAchat -->" +
+				"<tr>" +
+					"<td class=\"com-table-td-debut\"><span class=\"ui-helper-hidden\">{listeAchat.dateTri}</span>{listeAchat.date}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.comNumero}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhNumero}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.cptLabel}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhNom}</td>" +
+					"<td class=\"com-table-td-med\">{listeAchat.adhPrenom}</td>" +
+					"<td class=\"com-table-td-med com-text-align-right\">{listeAchat.montant} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-fin\">" +
+						"<span data-id-achat=\"{listeAchat.opeId}\" data-id-adherent=\"{listeAchat.adhId}\" class=\"btn-afficher-achat com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
+							"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
+						"</span>" +
+					"</td>" +								
+				"</tr>" +
+				"<!-- END listeAchat -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeAchatNumeroMarche = "<span class=\"ui-helper-hidden\">{comNumero}</span>N°{comNumero}";
+	
+	this.listeAchatVide = "<p id=\"texte-liste-vide\">Aucun Achat.</p>";
 }

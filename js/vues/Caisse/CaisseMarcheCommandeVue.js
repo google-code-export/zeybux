@@ -89,8 +89,9 @@
 		var that = this;
 		pData.find(".achat-commande-ligne").click(function() {
 			var lParam = {	id_commande:that.idCommande,
-							id_adherent:$(this).attr("id-adherent")};
-			CaisseAchatCommandeVue(lParam);
+							id_adherent:$(this).attr("id-adherent"),
+							module:'Caisse'};
+			CaisseVue(lParam);
 		});
 		return pData;
 	};

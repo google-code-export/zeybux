@@ -167,6 +167,10 @@ const ERR_264_CODE = 264;
 const ERR_264_MSG = 'Aucun prix de vente n\'est présent sur le produit.';
 const ERR_265_CODE = 265;
 const ERR_265_MSG = 'Aucune ferme n\'existe.';
+const ERR_266_CODE = 266;
+const ERR_266_MSG = 'Le total ne correspond pas à la somme des produits.';
+const ERR_267_CODE = 267;
+const ERR_267_MSG = 'Ce champ doit être négatif.';
 
 //Message d'Information
 const ERR_301_CODE = 301;

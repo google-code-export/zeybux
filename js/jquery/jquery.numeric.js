@@ -173,7 +173,12 @@ jQuery.fn.numeric = function(options, callback)
 			{
 				allow = format(t,defaults.decimal,defaults.nbDecimal,defaults.nbInteger);
 			}
-
+			
+			// Si aucune décimal pas de séparateur
+			if(defaults.decimal.charCodeAt(0) == key && defaults.nbDecimal <= 0) {
+				allow = false;
+			}
+			
 			// Si le caractère initial est "." alors on modifie l'écriture
 			if(allow && lKeyInit == 46 && e.charCode == 46) {
 				$(this).val(getNewValue(this,defaults.decimal.charCodeAt(0),e,lKeyInit));

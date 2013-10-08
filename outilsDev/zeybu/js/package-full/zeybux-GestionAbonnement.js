@@ -1806,102 +1806,48 @@
 								var lTemplate = lGestionAbonnementTemplate.dialogModifierProduit;
 								
 								var lData = lResponse.produit[0];
-								
-							//	if(lResponse.unite.length > 0) {
-									/*if(lResponse.unite.length == 1) {
-										if(lResponse.unite[0].mLotId == null) { // Pas d'unité
-											lData.formUnite = lGestionAbonnementTemplate.formUniteSansUnite.template({unite:lData.proAboUnite});
-										} else { // Une seule unité
-											lData.formUnite = lGestionAbonnementTemplate.formUnite.template({unite:lResponse.unite[0].mLotUnite});
-											lData.unite = lResponse.unite[0].mLotUnite;
-										}
-									} else { // Plusieures unités
-										$.each(lResponse.unite,function() {
-											if(lData.proAboUnite == this.mLotUnite) {
-												this.selected = "selected=\"selected\"";
-											}
-										});
-										lData.formUnite = lGestionAbonnementTemplate.formUniteSelect.template(lResponse);
-									}*/
-
-									lData.modelesLot = [];
-								/*	$(lResponse.unite).each(function() {
-										if(this.mLotId != null) {
-											this.id = this.mLotId;
-											this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
-											this.unite = this.mLotUnite;
-											this.prix = this.mLotPrix.nombreFormate(2,',',' ');
-											this.sigleMonetaire = gSigleMonetaire;
-											lData.modelesLot.push(this);
-											lData.unite = this.mLotUnite;
-										}
-									});	
-									lResponse.modelesLot = lResponse.unite;*/
+								lData.modelesLot = [];
 									
-
-									that.mTailleLotResaMax = -1;
-									//that.mLotReservation = [];
-									lData.modelesLotReservation  = [];
-									lData.listeModelesLot = [];
-									$(lResponse.unite).each(function() {
-										if(this.mLotId != null) {
-											that.mIdLot--;												
-											var lVoLot = {	
-													id:that.mIdLot,
-													quantite:this.mLotQuantite.nombreFormate(2,',',' '),
-													prix:this.mLotPrix.nombreFormate(2,',',' '),
-													unite:this.mLotUnite,
-													sigleMonetaire:gSigleMonetaire,
-													modele: "modele-lot",
-													checked:""};
-											lData.listeModelesLot.push(lVoLot);
-										}
-									});
-									$(lData.lots).each(function() {
+								that.mTailleLotResaMax = -1;
+								lData.modelesLotReservation  = [];
+								lData.listeModelesLot = [];
+								$.each(lResponse.unite, function() {
+									if(this.mLotId != null) {
+										that.mIdLot--;												
 										var lVoLot = {	
-												id:this.id,
-												quantite:this.taille.nombreFormate(2,',',' '),
-												prix:this.prix.nombreFormate(2,',',' '),
-												unite:lData.proAboUnite,
+												id:that.mIdLot,
+												quantite:this.mLotQuantite.nombreFormate(2,',',' '),
+												prix:this.mLotPrix.nombreFormate(2,',',' '),
+												unite:this.mLotUnite,
 												sigleMonetaire:gSigleMonetaire,
-												modele: "",
-												checked:"checked=\"checked\""};
-										//lData.modelesLot.push(lVoLot);
-										if(this.reservation) {
-											lData.modelesLotReservation.push(lVoLot);
-											//that.mLotReservation[this.id] = {id:this.id,quantite:this.taille};
-											
-											if(this.taille > that.mTailleLotResaMax) {
-												that.mTailleLotResaMax = this.taille;
-											}
-											
-										} else {
-											lData.modelesLot.push(lVoLot);
+												modele: "modele-lot",
+												checked:""};
+										lData.listeModelesLot.push(lVoLot);
+									}
+								});
+								$.each(lData.lots, function() {
+									var lVoLot = {	
+											id:this.id,
+											quantite:this.taille.nombreFormate(2,',',' '),
+											prix:this.prix.nombreFormate(2,',',' '),
+											unite:lData.proAboUnite,
+											sigleMonetaire:gSigleMonetaire,
+											modele: "",
+											checked:"checked=\"checked\""};
+
+									if(this.reservation) {
+										lData.modelesLotReservation.push(lVoLot);										
+										if(this.taille > that.mTailleLotResaMax) {
+											that.mTailleLotResaMax = this.taille;
 										}
-									});
-									lResponse.modelesLot = lResponse.unite;
+										
+									} else {
+										lData.modelesLot.push(lVoLot);
+									}
+								});
+								lResponse.modelesLot = lResponse.unite;
 																		
-									/*if(lResponse.produit.qteRestante == "" || lResponse.produit.stockInitial == -1) {
-										lData.nproStockCheckedNoLimit = "checked=\"checked\"";
-										lData.nproStockDisabled = "disabled=\"disabled\"";
-									} else {
-										lData.nproStockCheckedLimit = "checked=\"checked\"";
-									}
 									
-									if(lResponse.produit.qteMaxCommande == "" || lResponse.produit.qteMaxCommande == -1) {
-										lData.nproQteMaxCheckedNoLimit = "checked=\"checked\"";
-										lData.nproQteMaxDisabled = "disabled=\"disabled\"";
-									} else {
-										lData.nproQteMaxCheckedLimit = "checked=\"checked\"";
-									}
-									lData.divStock = lGestionCommandeTemplate.stockModifProduit.template(lData);
-									lData.divLot = lGestionCommandeTemplate.prixModifProduit.template(lData);*/
-									
-									
-									
-									
-									
-							//	}
 								lData.proAboStockInitial = lData.proAboStockInitial.nombreFormate(2,',','');
 								if(lData.proAboMax == -1) {
 									lData.checkedNoLimit = "checked=\"checked\"";
@@ -1940,7 +1886,6 @@
 	
 	this.affectModifierDetailProduit = function(pData) {
 		pData = this.affectLimiteStock(pData);
-		//pData = this.affectFormUnite(pData);
 		pData = this.affectAjoutLot(pData);
 		pData = this.affectAjoutLotGestionModifier(pData);
 		pData = gCommunVue.comHoverBtn(pData);
@@ -2619,21 +2564,12 @@
 								var lTemplate = lGestionAbonnementTemplate.detailProduitAjoutProduit;
 								
 								var lData = {};
-								if(lResponse.unite.length > 0) {
-									/*if(lResponse.unite.length == 1) {
-										if(lResponse.unite[0].mLotId == null) { // Pas d'unité
-											lData.formUnite = lGestionAbonnementTemplate.formUniteSansUnite;
-										} else { // Une seule unité
-											lData.formUnite = lGestionAbonnementTemplate.formUnite.template({unite:lResponse.unite[0].mLotUnite});
-											lData.unite = lResponse.unite[0].mLotUnite;
-										}
-									} else { // Plusieures unités
-										lData.formUnite = lGestionAbonnementTemplate.formUniteSelect.template(lResponse);
-									}*/
-									
+								if($(lResponse.unite).length > 0) {
+																		
 									lData.modelesLot = [];
-									$(lResponse.unite).each(function() {
+									$.each(lResponse.unite, function() {
 										if(this.mLotId != null) {
+											console.log(this.mLotId);
 											this.id = this.mLotId;
 											this.quantite = this.mLotQuantite.nombreFormate(2,',',' ');
 											this.unite = this.mLotUnite;

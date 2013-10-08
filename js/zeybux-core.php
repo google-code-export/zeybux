@@ -12,11 +12,11 @@ function parcourirDossier($pPath) {
 	   		&& $entry != 'package'
 	   		&& $entry != 'template'
 	   		&& $entry != 'vues'
+	   		&& $entry != 'Configuration'
 	   		&& $entry != 'zeybux-configuration.php'
 	   		&& $entry != 'zeybux-core.php' 
 	   		&& $entry != 'zeybux-jquery.php'
 	   		&& $entry != 'MessagesErreurs.js'
-	   		&& $entry != 'Configuration.js'
 	   		) {
 	   		if(is_dir($d->path.'/'.$entry)) {
 	   			parcourirDossier($d->path.'/'.$entry);
@@ -30,17 +30,6 @@ function parcourirDossier($pPath) {
 }
 $Path = '.';
 parcourirDossier($Path);
-
-$filename = "./template/CommunTemplate.js";
-echo file_get_contents($filename);
-$filename = "./template/TypePaiementServiceTemplate.js";
-echo file_get_contents($filename);
-
-$filename = "./vues/CommunVue.js";
-echo file_get_contents($filename);
-
-$filename = "./template/IdentificationTemplate.js";
-echo file_get_contents($filename);
 
 function parcourirDossierIdentification($pPath) {
 	if(is_dir($pPath)) {
@@ -65,7 +54,19 @@ function parcourirDossierIdentification($pPath) {
 		echo file_get_contents($pPath);
 	}
 }
+/* Identification */
+$filename = "./template/IdentificationTemplate.js";
+echo file_get_contents($filename);
 $Path = './vues/Identification';
 parcourirDossierIdentification($Path);
+
+/* Core */
+$filename = "./template/CoreTemplate.js";
+echo file_get_contents($filename);
+$Path = './vues/Core';
+parcourirDossierIdentification($Path);
+
+$filename = "./template/TypePaiementServiceTemplate.js";
+echo file_get_contents($filename);
 
 ?>

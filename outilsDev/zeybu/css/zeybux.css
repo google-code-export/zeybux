@@ -234,7 +234,7 @@
 }
 
 #rechargementtypePaiement {
-	width: 255px;
+	width:165px;
 }
 
 #form-champ-complementaire, #label-champ-complementaire-banque {
@@ -586,6 +586,61 @@
 .input-bon-livraison {
 	width:60px;
 }
+
+.entete-numero-facture {
+	display:inline-block;
+	width:250px;
+}
+
+#select-ferme {
+	width:370px;
+}
+
+#facture-catalogue-produit {
+	float:left;
+	width:250px;
+}
+
+#facture-detail {
+	float: left;
+	margin-left: 3px;
+	width: 711px;
+}
+
+.facture-detail-ref {
+	width:75px;
+}
+
+.facture-detail-nom {
+	width:260px;
+}
+
+.facture-detail-quantite {
+	width:138px;
+}
+
+.facture-detail-montant {
+	width:80px;
+}
+
+.facture-detail-unite {
+	width:72px;
+}
+
+#btn-enregistrer-modifier-facture, #btn-supprimer-facture {
+	margin-left:100px;
+}
+
+#form-recherche-liste-facture #dateDebut, #form-recherche-liste-facture #dateFin {
+	width:80px;
+}
+#form-recherche-liste-facture #dateFin {
+	margin-right:20px;
+}
+#form-recherche-liste-facture #idMarche {
+	width:130px;
+	margin-right:25px;
+}
 /*AjoutCommande*/
 #formulaire_ajout_commande_ext {
 	width:850px;
@@ -660,6 +715,61 @@
 
 #info-marche-archive tr:hover {
 	background-color:transparent;
+}
+
+.entete-numero-achat {
+	display:inline-block;
+	width:250px;
+}
+
+#select-ferme {
+	width:370px;
+}
+
+#achat-catalogue-produit {
+	float:left;
+	width:250px;
+}
+
+#achat-detail {
+	float: left;
+	margin-left: 3px;
+	width: 711px;
+}
+
+.achat-detail-ref {
+	width:75px;
+}
+
+.achat-detail-nom {
+	width:260px;
+}
+
+.achat-detail-quantite {
+	width:138px;
+}
+
+.achat-detail-montant {
+	width:80px;
+}
+
+.achat-detail-unite {
+	width:72px;
+}
+
+#btn-enregistrer-modifier-achat, #btn-supprimer-achat {
+	margin-left:100px;
+}
+
+#form-recherche-liste-achat #dateDebut, #form-recherche-liste-achat #dateFin {
+	width:80px;
+}
+#form-recherche-liste-achat #dateFin {
+	margin-right:20px;
+}
+#form-recherche-liste-achat #idMarche {
+	width:130px;
+	margin-right:25px;
 }
 /*MarchéCommande*/
 .marche-com-th-num-adh {

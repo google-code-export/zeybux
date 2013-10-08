@@ -390,6 +390,31 @@ class OperationService
 				array(''));
 	}
 	
+	/**
+	 * @name getByIdrequete($pId)
+	 * @param varchar
+	 * @return array(OperationVO)
+	 * @desc Récupères toutes les operations de la table ayant pour IdRequete $pId et les renvoie sous forme d'une collection de OperationVO
+	 */
+	public static function getByIdrequete($pId) {
+		return OperationManager::rechercheDetail(
+				array(OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
+				array('=', '='),
+				array(15, $pId),
+				array(''),
+				array(''));
+	}
+	
+	/**
+	 * @name getOperationRechargementSurMarche($pIdCompte, $pIdMarche)
+	 * @param int(11) Id Compte
+	 * @param int(11) Id Marche
+	 * @return array(OperationVO)
+	 * @desc Récupères toutes les operations de la table ayant pour IdCompte $pIdCompte et Id Marche $pIdMarcheet les renvoie sous forme d'une collection de OperationVO
+	 */
+	public static function getOperationRechargementSurMarche($pIdCompte, $pIdMarche) {
+		return OperationManager::selectOperationRechargementSurMarche($pIdCompte, $pIdMarche);
+	}
 	
 	/**
 	* @name getSoldeCaisse()
@@ -631,8 +656,8 @@ class OperationService
 	 * @return OperationVO
 	 * @desc Retour le rechargement effectué sur un marché par un compte
 	 */
-	public static function getRechargementMarche($pIdCompte, $pIdMarche) {
+	/*public static function getRechargementMarche($pIdCompte, $pIdMarche) {
 		 return OperationManager::selectRechargementMarche($pIdCompte, $pIdMarche);
-	}
+	}*/
 }
 ?>

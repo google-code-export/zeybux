@@ -35,22 +35,13 @@
 	};
 	
 	this.affectVues = function(pData) {
-		if(pData) {		
-			/*pData.find('#menu-GestionAdherents-AjoutAdherent').click(function() {
-				AjoutAdherentVue();
-				return false;
-			});	*/
+		if(pData) {
 			
 			pData.find('#menu-GestionAdherents-ListeAdherent').click(function() {
 				ListeAdherentVue();
 				return false;
 			});	
-			
-			/*pData.find('#menu-GestionCommande-AjoutCommande').click(function() {
-				AjoutCommandeVue();
-				return false;
-			});*/
-			
+						
 			pData.find('#menu-GestionCommande-ListeCommande').click(function() {
 				GestionListeCommandeVue();
 				return false;
@@ -63,6 +54,11 @@
 			
 			pData.find('#menu-GestionCommande-Facture').click(function() {
 				FactureVue();
+				return false;
+			});
+			
+			pData.find('#menu-GestionCommande-Achat').click(function() {
+				AchatVue();
 				return false;
 			});
 			

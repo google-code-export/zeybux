@@ -185,16 +185,15 @@ class AdherentManager
 	}
 	
 	/**
-	 * @name selectListeAdherentAchatMarche($pIdMarche, &$pListeAchat)
+	 * @name selectListeAdherentAchatMarche($pIdMarche)
 	 * @param integer
-	 * @param ListeAchatEtReservationResponse
 	 * @desc Récupère la liste des adhérents actifs avec l'opération d'achat et les adhérents inactif si ils ont un achat
 	 */
-	public static function selectListeAdherentAchatMarche($pIdMarche, &$pListeAchat) {
+	public static function selectListeAdherentAchatMarche($pIdMarche) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-		$lRequete = "(SELECT "
+		$lRequete = "SELECT "
 				. AdherentManager::CHAMP_ADHERENT_ID .
 				"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
 				"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
@@ -204,33 +203,40 @@ class AdherentManager
 				"," . OperationManager::CHAMP_OPERATION_ID . "
 			 FROM " . AdherentManager::TABLE_ADHERENT . "
 			 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
-			 LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
-			 	ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
-			 	AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser( $pIdMarche ) . "'
-			 LEFT JOIN " . OperationManager::TABLE_OPERATION . " 
-			 	ON " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
-			 	AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8) 
-			 	AND " . OperationManager::CHAMP_OPERATION_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . "
-			WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " in (1,2) 
-			GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ");";
+			 LEFT JOIN (
+			 	SELECT " 
+			 		. OperationManager::CHAMP_OPERATION_ID .
+			 		"," . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+			 	FROM " . OperationManager::TABLE_OPERATION . " 
+			 	JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
+			 		ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+			 		AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser( $pIdMarche ) . "'
+					AND " . OperationManager::CHAMP_OPERATION_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . "
+				WHERE " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (7,8) 
+			) AS ope
+			 	ON ope." . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
+			 GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ";";
 			
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		$lSql = Dbutils::executerRequete($lRequete);
 		
+		$lListeAchat = array();
 		if( mysql_num_rows($lSql) > 0 ) {
-			while ($lLigne = mysql_fetch_assoc($lSql)) {
-				
-				$lListeAchat = new ListeAchatReservationVO();
-				$lListeAchat->setAdhId($lLigne[AdherentManager::CHAMP_ADHERENT_ID]);
-				$lListeAchat->setAdhNumero($lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO]);
-				$lListeAchat->setAdhIdCompte($lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE]);
-				$lListeAchat->setCptLabel($lLigne[CompteManager::CHAMP_COMPTE_LABEL]);
-				$lListeAchat->setAdhNom($lLigne[AdherentManager::CHAMP_ADHERENT_NOM]);
-				$lListeAchat->setAdhPrenom($lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM]);
-				$lListeAchat->setIdOperation($lLigne[OperationManager::CHAMP_OPERATION_ID]);
-				$pListeAchat->addListeAchatEtReservation($lListeAchat);
+			while ($lLigne = mysql_fetch_assoc($lSql)) {				
+				array_push($lListeAchat, new ListeAchatReservationVO(
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+				null, null,
+				$lLigne[OperationManager::CHAMP_OPERATION_ID]));
 			}
+		} else {
+			$lListeAchat[0] = new ListeAchatReservationVO();
 		}
+		return $lListeAchat;
 	}
 	
 	/**

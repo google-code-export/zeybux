@@ -19,6 +19,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php" );
+include_once(CHEMIN_CLASSES_TOVO . "OperationDetailToVO.php" );
 
 /**
  * @name RechargerCompteControleur
@@ -80,7 +81,7 @@ class RechargerCompteControleur
 	public function rechargerCompte($pParam) {
 		$lVr = RechargementCompteValid::validAjout($pParam);
 		if($lVr->getValid()) {
-			$lOperation = new OperationDetailVO();
+		/*	$lOperation = new OperationDetailVO();
 			$lOperation->setIdCompte($pParam['id']);
 			$lOperation->setMontant($pParam['montant']);
 			$lOperation->setLibelle("Rechargement");
@@ -93,10 +94,10 @@ class RechargerCompteControleur
 					$lOperationChampComplementaire->setValeur($lChamp['valeur']);
 					$lOperation->addChampComplementaire($lOperationChampComplementaire);
 				}
-			}
+			}*/
 			
 			$lOperationService = new OperationService();
-			$lOperationService->set($lOperation);
+			$lOperationService->set(OperationDetailToVO::convertFromArray($pParam));
 		}				
 		return $lVr;
 	}

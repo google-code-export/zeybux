@@ -12,10 +12,6 @@
 namespace NAMESPACE_CLASSE\NAMESPACE_VALIDATEUR\MOD_SERVICE;
 
 // Inclusion des classes
-/*include_once(CHEMIN_CLASSES_VO . "AchatVO.php");
-include_once(CHEMIN_CLASSES_VALIDATEUR . "IdAchatValid.php" );
-include_once(CHEMIN_CLASSES_VALIDATEUR . "DetailReservationValid.php" );*/
-//include_once(CHEMIN_CLASSES_VALIDATEUR . "IdValid.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . "OperationValid.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR  . MOD_SERVICE . "/ProduitFactureValid.php");
 

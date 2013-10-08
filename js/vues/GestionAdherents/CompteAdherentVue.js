@@ -86,10 +86,10 @@
 		});		
 				
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-		var lCommunTemplate = new CommunTemplate();
+		var lCoreTemplate = new CoreTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
-		var lHtml = lCommunTemplate.debutContenu;		
+		var lHtml = lCoreTemplate.debutContenu;		
 		lHtml += lGestionAdherentsTemplate.infoCompteAdherentDebut.template(lResponse.adherent);
 		lHtml += lGestionAdherentsTemplate.infoCompteAdherentAutorisation.template(lResponse);
 		lHtml += lGestionAdherentsTemplate.infoCompteAdherentFin.template(lResponse);
@@ -100,7 +100,7 @@
 			lHtml += lGestionAdherentsTemplate.listeOperationAvenir.template(lResponse);
 		}
 		lHtml += lGestionAdherentsTemplate.listeOperationAdherentFin.template(lResponse);
-		lHtml += lCommunTemplate.finContenu;
+		lHtml += lCoreTemplate.finContenu;
 		
 		lHtml = $(lHtml);
 		if(lResponse.adherent.cptSolde < 0) {

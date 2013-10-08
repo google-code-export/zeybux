@@ -83,6 +83,12 @@ class ReservationDetailViewVO  extends DataTemplate
 	* @desc DcomIdNomProduit de la ReservationDetailViewVO
 	*/
 	protected $mDcomIdNomProduit;	
+	
+	/**
+	* @var varchar(20)
+	* @desc StoUnite de la ReservationDetailViewVO
+	*/
+	protected $mStoUnite;
 
 	/**
 	* @name getStoIdOperation()
@@ -280,6 +286,24 @@ class ReservationDetailViewVO  extends DataTemplate
 	*/
 	public function setDcomIdNomProduit($pDcomIdNomProduit) {
 		$this->mDcomIdNomProduit = $pDcomIdNomProduit;
+	}
+
+	/**
+	* @name getStoUnite()
+	* @return varchar(20)
+	* @desc Renvoie le membre StoUnite de la ReservationDetailViewVO
+	*/
+	public function getStoUnite() {
+		return $this->mStoUnite;
+	}
+
+	/**
+	* @name setStoUnite($pStoUnite)
+	* @param varchar(20)
+	* @desc Remplace le membre StoUnite de la ReservationDetailViewVO par $pStoUnite
+	*/
+	public function setStoUnite($pStoUnite) {
+		$this->mStoUnite = $pStoUnite;
 	}
 }
 ?>

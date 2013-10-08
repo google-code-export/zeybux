@@ -71,6 +71,23 @@ class ListeAchatReservationVO  extends DataTemplate
 	* @desc IdOperation de la ListeAchatReservationVO
 	*/
 	protected $mIdOperation;
+	
+	/**
+	 * @name ListeAchatReservationVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function ListeAchatReservationVO($pAdhId = null, $pAdhNumero = null, $pAdhIdCompte = null, $pCptLabel = null, $pAdhNom = null, $pAdhPrenom = null, $pReservation = null, $pAchat = null, $pIdOperation = null) {
+		if(!is_null($pAdhId)) { $this->mAdhId = $pAdhId; }
+		if(!is_null($pAdhNumero)) { $this->mAdhNumero = $pAdhNumero; }
+		if(!is_null($pAdhIdCompte)) { $this->mAdhIdCompte = $pAdhIdCompte; }
+		if(!is_null($pCptLabel)) { $this->mCptLabel = $pCptLabel; }
+		if(!is_null($pAdhNom)) { $this->mAdhNom = $pAdhNom; }
+		if(!is_null($pAdhPrenom)) { $this->mAdhPrenom = $pAdhPrenom; }
+		if(!is_null($pReservation)) { $this->mReservation = $pReservation; }
+		if(!is_null($pAchat)) { $this->mAchat = $pAchat; }
+		if(!is_null($pIdOperation)) { $this->mIdOperation = $pIdOperation; }
+	}
 
 	/**
 	* @name getAdhId()
