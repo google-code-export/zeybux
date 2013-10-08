@@ -241,51 +241,54 @@ class DbUtils
 				foreach ($lFiltres as $lFiltre) {
 					if(!empty($lFiltre['champ']) ) {
 						$lFiltresString .= $lFiltre['champ'];
-	
-						switch($pTypeFiltre[$i]) {
-							case "LIKE":
-								$lFiltresString .= " LIKE '%" . $lFiltre['valeur'] . "%'";
-							break;
-							
-							case "=":
-								$lFiltresString .= " = '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case "<=":
-								$lFiltresString .= " <= '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case ">=":
-								$lFiltresString .= " >= '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case "<>":
-								$lFiltresString .= " <> '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case "<":
-								$lFiltresString .= " < '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case ">":
-								$lFiltresString .= " > '" . $lFiltre['valeur'] . "'";
-							break;
-							
-							case "in":
-								if(is_array($lFiltre['valeur'])) {
-									$lFiltresString .= " in ( ";
-									foreach($lFiltre['valeur'] as $lVal) {
-										$lFiltresString .= "'" . $lVal . "',";
-									}
-									// suppression de la dernière virgule
-									$lFiltresString = substr($lFiltresString , 0, strlen($lFiltresString) - 1);
-									$lFiltresString .= " )";								
-								} else {
-									$lFiltresString .= " in ( '" . $lFiltre['valeur'] . "' )";
-								}
-							break;
-						}
 						
+						if(is_null($lFiltre['valeur'])) {
+							$lFiltresString .= " IS NULL";
+						} else {
+							switch($pTypeFiltre[$i]) {
+								case "LIKE":
+									$lFiltresString .= " LIKE '%" . $lFiltre['valeur'] . "%'";
+								break;
+								
+								case "=":
+									$lFiltresString .= " = '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case "<=":
+									$lFiltresString .= " <= '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case ">=":
+									$lFiltresString .= " >= '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case "<>":
+									$lFiltresString .= " <> '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case "<":
+									$lFiltresString .= " < '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case ">":
+									$lFiltresString .= " > '" . $lFiltre['valeur'] . "'";
+								break;
+								
+								case "in":
+									if(is_array($lFiltre['valeur'])) {
+										$lFiltresString .= " in ( ";
+										foreach($lFiltre['valeur'] as $lVal) {
+											$lFiltresString .= "'" . $lVal . "',";
+										}
+										// suppression de la dernière virgule
+										$lFiltresString = substr($lFiltresString , 0, strlen($lFiltresString) - 1);
+										$lFiltresString .= " )";								
+									} else {
+										$lFiltresString .= " in ( '" . $lFiltre['valeur'] . "' )";
+									}
+								break;
+							}
+						}
 						$lFiltresString .= " AND ";
 						$lFiltreNonVide = true;
 					}

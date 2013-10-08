@@ -291,15 +291,15 @@
 				"</div>" +
 				"<table class=\"com-table\">" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
-						"<th class=\"com-table-th-med\">Marché</th>	" +
+						"<th class=\"com-table-th-debut\">Marché</th>	" +
+						"<th class=\"com-table-th-med com-center\" colspan=\"2\">N°</th>" +
 						"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 					"</tr>" +
 					"<!-- BEGIN achat -->" +
-					"<tr class=\"com-cursor-pointer ligne-achat\" id={achat.idCommande} >" +
-						"<td class=\"com-table-td-debut com-underline-hover lst-resa-th-num com-text-align-right\">{achat.numero}</td>" +
+					"<tr class=\"com-cursor-pointer ligne-achat\" id=\"{achat.opeId}\" >" +
+						"<td class=\"com-table-td-debut com-underline-hover\">Le {achat.jour} {achat.date}</td>" +
+						"<td class=\"com-table-td-med com-underline-hover lst-resa-th-num com-text-align-right\">{achat.numero}</td>" +
 						"<td class=\"com-table-td-med com-underline-hover lst-resa-td-nom\">{achat.nom}</td>" +
-						"<td class=\"com-table-td-med com-underline-hover\">Le {achat.jourMarcheDebut} {achat.dateMarcheDebut}</td>" +
 						"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
 							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 								"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +

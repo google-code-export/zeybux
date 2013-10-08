@@ -42,14 +42,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_COMMANDE]) || isset($_SE
 	$lTemplate->set_filenames( array('body' => MOD_COMMANDE . '/' . 'MesAchats.html') );
 
 	$lListeAchat = $lPage->getAchats();
-	if(!is_null($lListeAchat[0]->getOpeIdCompte())) {
+	if(!is_null($lListeAchat[0]->getOpeId())) {
 		$lTemplate->set_filenames( array('listeAchat' => MOD_COMMANDE . '/' . 'ListeAchat.html') );
-		
+				
 		foreach($lListeAchat as $lAchat) {
 			$lTemplate->assign_block_vars('achat', array(
 						'numero' => $lAchat->getComNumero(),
-						'dateMarcheDebut' => StringUtils::extractDate($lAchat->getComDateMarcheDebut()),
-						'idCommande' => $lAchat->getComId() ));
+						'dateMarcheDebut' => StringUtils::extractDate($lAchat->getOpeDate()),
+						'idAchat' => $lAchat->getOpeId() ));
 			
 		}
 		

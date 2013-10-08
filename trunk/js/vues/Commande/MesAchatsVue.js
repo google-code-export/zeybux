@@ -30,13 +30,19 @@
 		var lListeAchats = {achat:[]};		
 		// Transforme les dates pour l'affichage
 			$(lResponse.achats).each(function() {
-				if(this.comNumero != null) {
-					var lachat = {};
-					lachat.numero = this.comNumero;
-					lachat.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();					
-					lachat.idCommande = '"' + this.comId + '"';
-					lachat.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
-					lachat.nom = this.comNom;
+				if(this.opeId != null) {
+					var lachat = {numero:'',nom:''};
+					if(this.comNumero != null) {
+						lachat.numero = this.comNumero;
+					}
+					if(this.comNom != null) {
+						lachat.nom = this.comNom;
+					}
+					lachat.date = this.opeDate.extractDbDate().dateDbToFr();					
+					lachat.jour = jourSem(this.opeDate.extractDbDate());
+					lachat.opeId = this.opeId;
+					
+					
 					lListeAchats.achat.push(lachat);
 				}
 			});
@@ -57,7 +63,7 @@
 	
 	this.affectVisualiser = function(pData) {
 		pData.find('.ligne-achat').click(function() {
-				MesAchatsDetailVue({id_commande:$(this).attr('id')});
+				MesAchatsDetailVue({idAchat:$(this).attr('id')});
 			});		
 		return pData;
 	};

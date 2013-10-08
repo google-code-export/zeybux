@@ -174,7 +174,7 @@
 		"</div>";
 	
 	this.dialogAjoutCompte =
-		"<div id=\"dialog-ajout-compte\" title=\"Ajouter un compte {typeCompte}\" class=\"formulaire_identification\">" +
+		"<div id=\"dialog-ajout-compte\" title=\"Ajouter un compte {typeCompte}\" class=\"formulairer_dialog\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -194,19 +194,19 @@
 		"</div>";
 	
 	this.dialogUpdate =
-		"<div id=\"dialog-modif-compte\" title=\"Modifier un compte\" class=\"formulaire_identification\">" +
-			//"<form>" +
+		"<div id=\"dialog-modif-compte\" title=\"Modifier un compte\" class=\"formulairer_dialog\">" +
+			"<form>" +
 				"<table>" +
 					"<tr>" +
 						"<th class=\"com-table-form-th ui-widget-content ui-corner-all\">Login *</th>" +
 						"<td class=\"com-table-form-td\"><input class=\"input_formulaire_identification com-input-text ui-widget-content ui-corner-all\" type=\"text\" name=\"login\" maxlength=\"20\" id=\"login\" value=\"{login}\" /></td>" +
 					"</tr>" +
 				"</table>" +
-			//"</form>" +
+			"</form>" +
 		"</div>";
 	
 	this.dialogUpdatePass =
-		"<div id=\"dialog-modif-compte\" title=\"Modifier le mot de passe\" class=\"formulaire_identification\">" +
+		"<div id=\"dialog-modif-compte\" title=\"Modifier le mot de passe\" class=\"formulairer_dialog\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -222,7 +222,7 @@
 		"</div>";
 	
 	this.dialogDelete =
-		"<div id=\"dialog-sup-compte\" title=\"Supprimer un compte\" class=\"formulaire_identification\">" +
+		"<div id=\"dialog-sup-compte\" title=\"Supprimer un compte\" class=\"formulairer_dialog\">" +
 			"<p class=\"ui-state-error ui-corner-all\"><span class=\"ui-icon ui-icon-alert com-float-left\"></span>ATTENTION : Voulez-vous réellement supprimer le compte : {login}</p>" +
 		"</div>";
 };function ListeComptesSpeciauxVue(pParam) {	
@@ -446,6 +446,7 @@
 				return false;
 			}
 		});
+		lDialog.find('form').submit(function() {return false;});
 	};
 	
 	this.updateCompte = function(pDialog, pIdCompte, pType) {

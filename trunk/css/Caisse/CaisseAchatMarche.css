@@ -3,9 +3,14 @@
 	font-size:12pt;	
 }
 
+#emplacement-info-adherent {
+	display:block;
+	heigth:103px;	
+	padding: 5px;
+}
+
 #info-adherent-widget {
 	font-size: 12pt; 
-	padding: 5px;
 }
 
 .info-adherent-cellule {
@@ -36,7 +41,7 @@
 }
 
 #rechargementtypePaiement {
-	width: 255px;
+	width:165px;
 }
 
 #form-champ-complementaire, #label-champ-complementaire-banque {

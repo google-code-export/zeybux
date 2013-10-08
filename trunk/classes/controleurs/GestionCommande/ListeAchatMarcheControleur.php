@@ -46,11 +46,13 @@ class ListeAchatMarcheControleur
 			$lCSV->setNom('Réservations.csv'); // Le Nom
 			
 			
+			
 			// Les données
 			$contenuTableau = array();
 			$lLigne = array("","","","");
 			// L'entête
 			$lEntete = array("N°","Compte","Nom","Prénom");		
+			$lLotsProduits = array();
 			foreach($lMarche->getProduits() as $lProduit) {
 				$lNomProduit = $lProduit->getNom();
 				if($lProduit->getType() == 1) {
@@ -60,6 +62,9 @@ class ListeAchatMarcheControleur
 				}
 				array_push($lEntete,"","","","","",$lNomProduit,"","","","","","");
 				array_push($lLigne,"","","Réservation","","","Achat","","","","Solidaire","","");
+				foreach($lProduit->getLots() as $lLot) {
+					$lLotsProduits[$lLot->getId()] = $lProduit->getId();
+				}
 			}
 			$lCSV->setEntete($lEntete);
 
@@ -96,9 +101,36 @@ class ListeAchatMarcheControleur
 				
 				$lNbAchat = 0;
 				$lNbAchatSolidaire = 0;
+				
 				foreach($lAchats as $lAchat) {
-					$lDetailsAchat = $lAchat->getDetailAchat();
-					if(!empty($lDetailsAchat)) {
+					
+					$lDetailsAchat = $lAchat->getProduits();
+					foreach($lDetailsAchat as $lDetail) {
+						if(!is_null($lDetail->getIdDetailCommande()) && isset($lLotsProduits[$lDetail->getIdDetailCommande()])) {
+							$lIdProduit = $lLotsProduits[$lDetail->getIdDetailCommande()];
+							
+							if(!isset($lProduits[$lIdProduit][7])) {
+								$lProduits[$lIdProduit][7] = array($lDetail);
+							} else {
+								array_push($lProduits[$lIdProduit][7],$lDetail);
+							}
+							$lNbAchat++;
+						}
+						
+						if(!is_null($lDetail->getIdDetailCommande()) && isset($lLotsProduits[$lDetail->getIdDetailCommandeSolidaire()])) {
+							$lIdProduit = $lLotsProduits[$lDetail->getIdDetailCommandeSolidaire()];
+								
+							if(!isset($lProduits[$lIdProduit][8])) {
+								$lProduits[$lIdProduit][8] = array($lDetail);
+							} else {
+								array_push($lProduits[$lIdProduit][8],$lDetail);
+							}
+							$lNbAchatSolidaire++;
+						}
+					}
+					
+					
+				/*	if(!empty($lDetailsAchat)) {
 						foreach($lDetailsAchat as $lDetail) {
 							if(!isset($lProduits[$lDetail->getIdProduit()][7])) {
 								$lProduits[$lDetail->getIdProduit()][7] = array($lDetail);
@@ -118,12 +150,12 @@ class ListeAchatMarcheControleur
 							}
 							$lNbAchatSolidaire++;
 						}
-					}
+					}*/
 				}
 				if($lNbAchat < $lNbResa) {$lNbAchat = $lNbResa;}
 				if($lNbAchat < $lNbAchatSolidaire) {$lNbAchat = $lNbAchatSolidaire;}
 				
-				if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé on vérifi qu'il faut si il a des ahcats/Résa pour l'ajouter
+				if($lAdherent->getAdhEtat() == 1 || ($lAdherent->getAdhEtat() == 2 && $lNbAchat > 0)) { // Si Adhérent supprimé vérification si il a des achats/Résa pour l'ajouter
 				
 					if($lNbAchat == 0) {
 						$lLigne = array();
@@ -193,15 +225,11 @@ class ListeAchatMarcheControleur
 			$lResponse = new ListeAchatEtReservationResponse();
 			
 			// Les achats adhérents
-			AdherentManager::selectListeAdherentAchatMarche($pParam["id_marche"], $lResponse);
+			$lResponse->setListeAchatEtReservation(AdherentManager::selectListeAdherentAchatMarche($pParam["id_marche"]) );
 			
-			// Les achats du compte invité
-			$lIdAchat = new IdAchatVO();
-			$lIdAchat->setIdCompte(-3);
-			$lIdAchat->setIdCommande($pParam["id_marche"]);
-				
+			// Les achats du compte invité				
 			$lAchatService = new AchatService();
-			$lResponse->setListeAchatInvite($lAchatService->selectOperationAchat($lIdAchat));
+			$lResponse->setListeAchatInvite($lAchatService->selectOperationAchat(-3,$pParam["id_marche"]));
 			
 			return $lResponse;
 		}

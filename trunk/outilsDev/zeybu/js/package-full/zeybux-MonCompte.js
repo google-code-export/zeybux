@@ -99,7 +99,7 @@
 	"</div>";
 	
 	this.dialogEditionPass =
-		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulaire_identification\">" +
+		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulairer_dialog\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -143,8 +143,8 @@
 					"<tbody>" +
 				"<!-- BEGIN operationPassee -->" +
 					"<tr>" +
-						"<td class=\"com-table-td td-date \">{operationPassee.opeDate}</td>" +
-						"<td class=\"com-table-td td-libelle\">{operationPassee.opeLibelle}</td>" +
+						"<td class=\"com-table-td td-date \">{operationPassee.date}</td>" +
+						"<td class=\"com-table-td td-libelle\">{operationPassee.libelle}</td>" +
 						"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType} {operationPassee.opeTypePaiementChampComplementaire}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
 						"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +
@@ -243,20 +243,20 @@
 		this.mInformationAdherent.commentaire = lResponse.adherent.adhCommentaire;
 
 		$(lResponse.operationPassee).each(function() {
-			if(this.opeDate != null) {
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
-				if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
-				if(this.tppId == 2) {
-					this.opeTypePaiementChampComplementaire =' N° ' + this.opeTypePaiementChampComplementaire;
+			if(this.date != null) {
+				this.date = this.date.extractDbDate().dateDbToFr();
+				if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type				
+				if(this.typePaiement == 2) { // Affiche le N° de chèque
+					this.opeTypePaiementChampComplementaire = ' N° ' + this.champComplementaire[3].valeur;
 				} else {
 					this.opeTypePaiementChampComplementaire = '';
 				}
-				if(this.opeMontant < 0) {
-					this.debit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+				if(this.montant < 0) {
+					this.debit = (this.montant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 					this.credit = '';
 				} else {
 					this.debit = '';
-					this.credit = this.opeMontant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+					this.credit = this.montant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 				}
 			}
 		});
@@ -282,10 +282,10 @@
 		});
 		
 		var lMonCompteTemplate = new MonCompteTemplate();
-		var lCommunTemplate = new CommunTemplate();
+		var lCoreTemplate = new CoreTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
-		var lHtml = lCommunTemplate.debutContenu;		
+		var lHtml = lCoreTemplate.debutContenu;		
 		lHtml += lMonCompteTemplate.infoCompteAdherent.template(lResponse.adherent);
 		lHtml += lMonCompteTemplate.listeOperationAdherentDebut.template(lResponse);
 		lHtml += lMonCompteTemplate.listeOperationPassee.template(lResponse);
@@ -298,7 +298,7 @@
 			lHtml += lMonCompteTemplate.listeOperationAvenir.template(lResponse);
 		}
 		lHtml += lMonCompteTemplate.listeOperationAdherentFin.template(lResponse);
-		lHtml += lCommunTemplate.finContenu;
+		lHtml += lCoreTemplate.finContenu;
 		
 		lHtml = $(lHtml);
 		if(lResponse.adherent.cptSolde < 0) {
@@ -412,7 +412,7 @@
 				modal: true,
 				draggable: false,
 				resizable: false,
-				width:600,
+				width:500,
 				buttons: {
 					'Valider': function() {
 						that.changerMotPasse(this);

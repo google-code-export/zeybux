@@ -329,7 +329,7 @@ class OperationManager
 	 * @return OperationVO
 	 * @desc Récupère l'operation de rechargement d'un compte sur un marche et retourne l'OperationVO correspondant
 	 */
-	public static function selectRechargementMarche($pIdCompte, $pIdMarche) {
+	/*public static function selectRechargementMarche($pIdCompte, $pIdMarche) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -368,7 +368,7 @@ class OperationManager
 		} else {
 			return new OperationVO();
 		}
-	}
+	}*/
 	
 	/**
 	 * @name selectOperationAvenir($pIdCompte)
@@ -471,25 +471,43 @@ class OperationManager
 		return OperationManager::rechercheDetail(
 				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
 				array('in','=','=','='),
-				array(array(0,7,15,16), $pId->getIdCompte(), 1, $pId->getIdCommande()),
+				array(array(0,15,16,22), $pId->getIdCompte(), 1, $pId->getIdCommande()),
 				array(OperationManager::CHAMP_OPERATION_DATE, OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 				array('DESC','ASC'));
 	}
 	
 	/**
-	 * @name selectOperationAchat($pId)
-	 * @param IdReservation
+	 * @name selectOperationAchat($pIdCompte, $pIdMarche)
+	 * @param int(11) IdCompte
+	 * @param int(11) IdMarche
 	 * @return array(OperationVO)
 	 * @desc Retourne une liste d'operation
 	 */
-	public function selectOperationAchat($pId) {
+	public function selectOperationAchat($pIdCompte, $pIdMarche) {
 		// ORDER BY date -> récupère la dernière operation en lien avec la commande
 		return OperationManager::rechercheDetail(
 				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
 				array('in','=','=','='),
-				array(array(7,8), $pId->getIdCompte(), 1, $pId->getIdCommande()),
+				array(array(7,8), $pIdCompte, 1, $pIdMarche),
 				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_DATE),
 				array('ASC','DESC'));
+	}
+	
+	/**
+	 * @name selectOperationRechargementSurMarche($pIdCompte, $pIdMarche)
+	 * @param int(11) IdCompte
+	 * @param int(11) IdMarche
+	 * @return array(OperationVO)
+	 * @desc Retourne une liste d'operation
+	 */
+	public function selectOperationRechargementSurMarche($pIdCompte, $pIdMarche) {
+		// ORDER BY date -> récupère la dernière operation en lien avec la commande
+		return OperationManager::rechercheDetail(
+				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
+				array('in','=','=','='),
+				array(array(1,2), $pIdCompte, 1, $pIdMarche),
+				array(''),
+				array(''));
 	}
 	
 	/**
@@ -1105,7 +1123,7 @@ class OperationManager
 		$lListeFacture[0] = new ListeFactureVO();
 		return $lListeFacture;
 	}
-	
+		
 	/**
 	 * @name produitCommandeNonFacture($pIdMarche, $pIdCompte)
 	 * @return array(ProduitDetailFactureAfficheVO) ou false en erreur

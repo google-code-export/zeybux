@@ -58,7 +58,7 @@
 		// Si il y a rechargement du compte on le test
 		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
 				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
-			var lValidRechargement = new RechargementCompteValid();
+			var lValidRechargement = new OperationDetailValid();
 			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
 			if(!lVR.rechargement.valid){
 				lVR.valid = false;
@@ -147,7 +147,7 @@
 		// Si il y a rechargement du compte on le test
 		if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
 				(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
-			var lValidRechargement = new RechargementCompteValid();
+			var lValidRechargement = new OperationDetailValid();
 			lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
 			if(!lVR.rechargement.valid){
 				lVR.valid = false;
@@ -204,7 +204,7 @@
 			
 			// Si il y a rechargement du compte on le test
 			if(!isNaN(pData.rechargement.montant) && pData.rechargement.montant != 0) {
-				var lValidRechargement = new RechargementCompteValid();
+				var lValidRechargement = new OperationDetailValid();
 				lVR.rechargement = lValidRechargement.validAjout(pData.rechargement);
 				if(!lVR.rechargement.valid){lVR.valid = false;}
 			}

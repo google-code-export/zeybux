@@ -16,6 +16,13 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 			$lAffiche = false;
 		}
 	}
+	
+	if($_GET['m'] == "Extract") {
+		if(isset($_GET['e'])) {
+			include_once("./Extract/index.php");
+			$lAffiche = false;
+		}
+	}
 }
 if($lAffiche) {
 ?>
@@ -53,7 +60,10 @@ if($lAffiche) {
 						<a href="./index.php?m=Versions" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "Versions") echo "ui-state-active";?>"><span>Versions</span></a>
 					</li>
 					<li>
-						<a href="./index.php?m=LogLevel" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "LogLevel") echo "ui-state-active";?>"><span>Logs</span></a>
+						<a href="./index.php?m=LogLevel" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "LogLevel") echo "ui-state-active";?>"><span>Logs</span></a>
+					</li>
+					<li>
+						<a href="./index.php?m=Extract" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Extract") echo "ui-state-active";?>"><span>Extract</span></a>
 					</li>
 				</ul>
 			</div>
@@ -87,6 +97,10 @@ if($lAffiche) {
 					
 				case "LogLevel":
 					include_once("./LogLevel/index.php");
+					break;
+					
+				case "Extract":
+					include_once("./Extract/index.php");
 					break;
 					
 				default:

@@ -3,6 +3,6 @@ header("content-type: application/x-javascript; charset=UTF-8");
 $filename = "./classes/utils/MessagesErreurs.js";
 echo file_get_contents($filename);
 
-$filename = "./Commun/Configuration.js";
+$filename = "./Configuration/Configuration.js";
 echo file_get_contents($filename);
 ?>

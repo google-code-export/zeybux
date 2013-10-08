@@ -193,11 +193,11 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			   		&& $entry != 'package'
 			   		&& $entry != 'template'
 			   		&& $entry != 'vues'
+	   				&& $entry != 'Configuration'
 			   		&& $entry != 'zeybux-configuration.php'
 			   		&& $entry != 'zeybux-core.php' 
 			   		&& $entry != 'zeybux-jquery.php'
 			   		&& $entry != 'MessagesErreurs.js'
-			   		&& $entry != 'Configuration.js'
 			   		) {
 			   		if(is_dir($d->path.'/'.$entry)) {
 			   			parcourirDossierCore($d->path.'/'.$entry);
@@ -217,19 +217,17 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		parcourirDossierCore($Path);
 		
 		$fp = fopen("./zeybu/js/zeybux-core.js", 'a');
-		$filename = $lDossierVersionSource . "/js/template/CommunTemplate.js";
-		fwrite($fp,file_get_contents($filename));
-
 		$filename = $lDossierVersionSource . "/js/template/TypePaiementServiceTemplate.js";
 		fwrite($fp,file_get_contents($filename));
 		
-		$filename = $lDossierVersionSource . "/js/vues/CommunVue.js";
-		fwrite($fp,file_get_contents($filename));
 		$filename = $lDossierVersionSource . "/js/template/IdentificationTemplate.js";
 		$lLigne = file_get_contents($filename);
 		$lLigne = preg_replace('/value=\\\"(Z|zeybu)\\\"/',"",$lLigne);
 		fwrite($fp,$lLigne);
-		//fwrite($fp,file_get_contents($filename));		
+		
+		$filename = $lDossierVersionSource . "/js/template/CoreTemplate.js";
+		fwrite($fp,file_get_contents($filename));
+
 		fclose($fp);
 		
 		function parcourirDossierIdentification($pPath, $lVersionTechnique) {
@@ -264,6 +262,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		}
 		$Path = $lDossierVersionSource. '/js/vues/Identification';
 		parcourirDossierIdentification($Path, $lVersionTechnique);
+		$Path = $lDossierVersionSource. '/js/vues/Core';
+		parcourirDossierIdentification($Path, $lVersionTechnique);
 		
 		$fp = fopen("./zeybu/js/zeybux-core-min.js", 'w');
 		fclose($fp);
@@ -281,7 +281,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	    fwrite($fp,file_get_contents($filename));
 	    fclose($fp);
 	    
-	    $filename = $lDossierVersionSource . "/js/Commun/Configuration.js";
+	    $filename = $lDossierVersionSource . "/js/Configuration/Configuration.js";
 		$fp = fopen("./zeybu/js/zeybux-configuration.js", 'a');
 	    fwrite($fp,file_get_contents($filename));
 	    fclose($fp);
@@ -325,7 +325,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 				   		&& $entry != '.project'
 				   		&& $entry != '.htaccess'	
 				   		&& $entry != 'Identification'
-				   		&& $entry != 'CommunVues.js'   		
+				   		&& $entry != 'Core'   		
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 				   			array_push($pListeModule,$entry);

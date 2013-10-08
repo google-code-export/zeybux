@@ -158,8 +158,7 @@ class OperationValid
 	* @desc Test la validite de l'élément
 	*/
 	public function update($pOperation) {
-		if($this->estOperation($pOperation)) {			
-			$lIdValid = new IdValid();
+		if($this->estOperation($pOperation)) {						
 			return $this->id($pOperation->getId())
 				&& $this->compte($pOperation->getIdCompte())
 				&& $this->montant($pOperation->getMontant())

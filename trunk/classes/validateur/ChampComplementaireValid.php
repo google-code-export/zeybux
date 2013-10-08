@@ -82,7 +82,7 @@ class ChampComplementaireValid
 				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
 				$lVr->getId()->addErreur($lErreur);
-			} else {
+			} else {				
 				// Champ Obligatoire
 				if($pTypePaiement == 1 && empty($pData['valeur'])) {
 					$lVr->setValid(false);
@@ -112,8 +112,11 @@ class ChampComplementaireValid
 							$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 							$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 							$lVr->getValeur()->addErreur($lErreur);
+						} else {
+							$lVr->setData(array('marche' => $lMarche));
 						}
 						break;
+						
 					case 4: // Id Operation Reception
 					case 5: // Id Operation émission
 					case 6: // Id Produit

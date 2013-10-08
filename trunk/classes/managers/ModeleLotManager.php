@@ -69,6 +69,48 @@ class ModeleLotManager
 			return new ModeleLotVO();
 		}
 	}
+	
+	/**
+	 * @name selectByArray($pIdModeleLot)
+	 * @param array(integer)
+	 * @return array(ModeleLotVO) 
+	 * @desc Récupère les modèle de Lot par tableau et les retournes sous forme d'un collection de ModeleLotVO
+	 */
+	public static function selectByArray($pIdModeleLot) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete =
+		"SELECT "
+				. ModeleLotManager::CHAMP_MODELELOT_ID . 
+			"," . ModeleLotManager::CHAMP_MODELELOT_ID_NOM_PRODUIT . 
+			"," . ModeleLotManager::CHAMP_MODELELOT_QUANTITE . 
+			"," . ModeleLotManager::CHAMP_MODELELOT_UNITE . 
+			"," . ModeleLotManager::CHAMP_MODELELOT_PRIX . 
+			"," . ModeleLotManager::CHAMP_MODELELOT_ETAT . "
+			FROM " . ModeleLotManager::TABLE_MODELELOT . " 
+			WHERE " . ModeleLotManager::CHAMP_MODELELOT_ID . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pIdModeleLot) ) ) . "');";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeModeleLot = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				$lListeModeleLot[$lLigne[ModeleLotManager::CHAMP_MODELELOT_ID]] =
+					ModeleLotManager::remplirModeleLot(
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_ID],
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_ID_NOM_PRODUIT],
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_QUANTITE],
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_UNITE],
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_PRIX],
+					$lLigne[ModeleLotManager::CHAMP_MODELELOT_ETAT]);
+			}
+		} else {
+			$lListeModeleLot[0] = new ModeleLotVO();
+		}
+		return $lListeModeleLot;
+	}
 
 	/**
 	* @name selectAll()

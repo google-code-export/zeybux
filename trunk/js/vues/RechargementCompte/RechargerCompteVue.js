@@ -103,9 +103,9 @@
 									'Valider': function() {
 								
 										var lVo = that.getRechargementVO();									
-										lVo.id = lCompte;
+										lVo.idCompte = lCompte;
 										
-										var lValid = new RechargementCompteValid();
+										var lValid = new OperationDetailValid();
 										var lVr = lValid.validAjout(lVo);
 										
 										Infobulle.init(); // Supprime les erreurs
@@ -207,7 +207,7 @@
 	};
 	
 	this.getRechargementVO = function() {
-		var lVo = new RechargementCompteVO();
+		var lVo = new OperationDetailVO();
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
 		if(!isNaN(lMontant) && !lMontant.isEmpty()){
 			lMontant = parseFloat(lMontant);

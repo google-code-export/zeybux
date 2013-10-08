@@ -1,7 +1,5 @@
 ;function MesAchatsDetailVue(pParam) {
 	this.pParam = {};
-	this.produit = [];
-	this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
 
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MesAchatsDetailVue(pParam);}} );
@@ -15,19 +13,8 @@
 						if(lResponse.valid) {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
-							}
-							that.produit = lResponse.detailProduit;
-							$(lResponse.achats).each(function() {
-								if(this.detailAchat.length > 0) {
-									that.mAchat.detailAchat = this.detailAchat;
-								}
-								if(this.detailAchatSolidaire.length > 0) {
-									that.mAchat.detailAchatSolidaire = this.detailAchatSolidaire;
-								}
-								that.mAchat.dateAchat = this.dateAchat;
-							});
-					
-							that.afficher();
+							}					
+							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -36,7 +23,7 @@
 		);
 	};
 	
-	this.afficher = function() {
+	this.afficher = function(pResponse) {
 		var that = this;
 		var lCommandeTemplate = new CommandeTemplate();
 		var lTemplate = lCommandeTemplate.detailAchat;
@@ -44,54 +31,58 @@
 		var lData = {};
 		lData.categories = [];
 		lData.sigleMonetaire = gSigleMonetaire;
-		lData.total = 0;
-		lData.totalSolidaire = 0;
-		$.each(that.produit, function() {
-			var lProduit = this ;
-			$(that.mAchat).each(function() {
-				var lAchat = {
-				nproNom : lProduit.nproNom ,
-				stoQuantite : "", prix : "", proUniteMesure : "", sigleMonetaire : "",
-				stoQuantiteSolidaire : "", prixSolidaire : "", proUniteMesureSolidaire : "", sigleMonetaireSolidaire : ""};
-				
-				$(this.detailAchat).each(function() {	
-					if(this.idProduit == lProduit.proId) {
-						lAchat.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-						lAchat.prix = (this.montant * -1).nombreFormate(2,',',' ');
-						lAchat.proUniteMesure = lProduit.proUniteMesure;
-						lAchat.sigleMonetaire = gSigleMonetaire;
-						
-						lData.total += this.montant * -1;
-					}					
-				});		
-				
-				$(this.detailAchatSolidaire).each(function() {	
-					if(this.idProduit == lProduit.proId) {
-						lAchat.stoQuantiteSolidaire = (this.quantite * -1).nombreFormate(2,',',' ');
-						lAchat.prixSolidaire = (this.montant * -1).nombreFormate(2,',',' ');
-						lAchat.proUniteMesureSolidaire = lProduit.proUniteMesure;
-						lAchat.sigleMonetaireSolidaire = gSigleMonetaire;
-						
-						lData.totalSolidaire += this.montant * -1;
-					}					
-				});	
-				
-				if(!lData.categories[lProduit.cproNom]) {
-					lData.categories[lProduit.cproNom] = {nom:lProduit.cproNom,achat:[]};
-				}
-				lData.categories[lProduit.cproNom].achat.push(lAchat);
-				
-			});
+		$.each(pResponse.achats.produits, function() {
+			if(!lData.categories[this.cproNom]) {
+				lData.categories[this.cproNom] = {nom:this.cproNom,achat:[]};
+			}
+			
+			if(this.montant != null) {
+				this.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
+				this.prix = (this.montant * -1).nombreFormate(2,',',' ');
+				this.proUniteMesure = this.unite;
+				this.sigleMonetaire = gSigleMonetaire;
+			} else {
+				this.stoQuantite = '';
+				this.prix = '';
+				this.proUniteMesure = '';
+				this.sigleMonetaire = '';
+			}
+			
+			if(this.montantSolidaire != null) {
+				this.stoQuantiteSolidaire = (this.quantiteSolidaire * -1).nombreFormate(2,',',' ');
+				this.prixSolidaire = (this.montantSolidaire * -1).nombreFormate(2,',',' ');
+				this.proUniteMesureSolidaire = this.uniteSolidaire;
+				this.sigleMonetaireSolidaire = gSigleMonetaire;
+			} else {
+				this.stoQuantiteSolidaire = '';
+				this.prixSolidaire = '';
+				this.proUniteMesureSolidaire = '';
+				this.sigleMonetaireSolidaire = '';
+			}
+			
+			lData.categories[this.cproNom].achat.push(this);
 		});
 		
-		lData.dateAchat = that.mAchat.dateAchat.extractDbDate().dateDbToFr();
+		lData.dateAchat = '';
 		
-		lData.totalMarche = lData.total + lData.totalSolidaire;
+		lData.total = 0;
+		if(pResponse.achats.operationAchat != null) {
+			lData.total = parseFloat(pResponse.achats.operationAchat.montant) * -1;
+			lData.dateAchat = pResponse.achats.operationAchat.date.extractDbDate().dateDbToFr();
+		}
+
+		lData.totalSolidaire = 0;
+		if(pResponse.achats.operationAchatSolidaire != null) {
+			lData.totalSolidaire = parseFloat(pResponse.achats.operationAchatSolidaire.montant) * -1;
+			lData.dateAchat = pResponse.achats.operationAchatSolidaire.date.extractDbDate().dateDbToFr();
+		}
+		
+		lData.totalMarche = parseFloat(lData.total) + parseFloat(lData.totalSolidaire);
 		
 		lData.total = lData.total.nombreFormate(2,',',' ');
 		lData.totalSolidaire = lData.totalSolidaire.nombreFormate(2,',',' ');
 		lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
-				
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
 	};
 	

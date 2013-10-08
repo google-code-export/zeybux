@@ -104,11 +104,11 @@ class TypePaiementManager
 	}
 
 	/**
-	 * @name selectVisible($pTypePaiement)
+	 * @name selectDetail($pTypePaiement, $pVisible)
 	 * @return array(TypePaiementDetailVO)
 	 * @desc Récupères toutes les lignes de la table et les renvoie sous forme d'une collection de TypePaiementDetailVO
 	 */
-	public static function selectVisible($pTypePaiement = NULL) {
+	public static function selectDetail($pTypePaiement = NULL, $pVisible = NULL) {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -122,13 +122,17 @@ class TypePaiementManager
 		FROM " . TypePaiementManager::TABLE_TYPEPAIEMENT . "
 		LEFT JOIN " . TypePaiementChampComplementaireManager::TABLE_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE . "
 			ON " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_TPP_ID . " = " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
-				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . " = 0 
-				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . " = 1
-		LEFT  JOIN " . ChampComplementaireManager::TABLE_CHAMPCOMPLEMENTAIRE . "
+				AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_ETAT . " = 0 ";
+		if(!is_null($pVisible)) {	
+			$lRequete .= " AND " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_VISIBLE . " = 1 ";
+		}		
+		$lRequete .= " LEFT  JOIN " . ChampComplementaireManager::TABLE_CHAMPCOMPLEMENTAIRE . "
 			ON " . TypePaiementChampComplementaireManager::CHAMP_TYPEPAIEMENTCHAMPCOMPLEMENTAIRE_CHCP_ID . " = " . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ID . "
-				AND " . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ETAT . " = 0		
-		WHERE " . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . " = 1 ";
-		
+				AND " . ChampComplementaireManager::CHAMP_CHAMPCOMPLEMENTAIRE_ETAT . " = 0 
+		WHERE 1 = 1 ";
+		if(!is_null($pVisible)) {		
+			$lRequete .= " AND " . TypePaiementManager::CHAMP_TYPEPAIEMENT_VISIBLE . " = 1 ";
+		}
 		if(!is_null($pTypePaiement)) {
 			$lRequete .= " AND " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . " = '" . StringUtils::securiser($pTypePaiement) . "' ";
 		}		

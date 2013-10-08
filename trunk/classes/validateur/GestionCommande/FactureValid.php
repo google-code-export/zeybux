@@ -285,7 +285,7 @@ class FactureValid
 			}
 			
 			$lTypePaiementService = new TypePaiementService();
-			$lTypePaiement = $lTypePaiementService->selectDetail($pData['operationProducteur']['typePaiement']);
+			$lTypePaiement = $lTypePaiementService->selectVisible($pData['operationProducteur']['typePaiement']);
 			// Il est autorisé d'enregistrer un facture (réception de produit) sans payer.
 			if($lTypePaiement->getId() != $pData['operationProducteur']['typePaiement'] && $pData['operationProducteur']['typePaiement'] != 0) {
 				$lVr->setValid(false);

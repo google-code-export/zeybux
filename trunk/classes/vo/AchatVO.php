@@ -9,8 +9,6 @@
 //
 //****************************************************************
 include_once(CHEMIN_CLASSES . "DataTemplate.php");
-include_once(CHEMIN_CLASSES_VO . "DetailReservationVO.php");
-include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 
 /**
  * @name AchatVO
@@ -21,175 +19,119 @@ include_once(CHEMIN_CLASSES_VO . "IdAchatVO.php");
 class AchatVO extends DataTemplate
 {
 	/**
-	* @var int(11)
-	* @desc Id de la AchatVO
+	* @var OperationDetailVO
+	* @desc OperationAchat de la AchatVO
 	*/
-	protected $mId;
-	
+	protected $mOperationAchat;
+
 	/**
-	* @var array(DetailReservationVO)
+	* @var OperationDetailVO
+	* @desc OperationAchatSolidaire de la AchatVO
+	*/
+	protected $mOperationAchatSolidaire;
+
+	/**
+	* @var array(ProduitDetailAchatVO)
 	* @desc Produits de la AchatVO
 	*/
-	protected $mDetailAchat;
-	
+	protected $mProduits;
+
 	/**
-	* @var array(DetailReservationVO)
-	* @desc Produits Solidaire de la AchatVO
+	* @var OperationDetailVO
+	* @desc Rechargement de la AchatVO
 	*/
-	protected $mDetailAchatSolidaire;
-	
-	/**
-	* @var decimal(10,2)
-	* @desc Total de la AchatVO
-	*/
-	protected $mTotal;
-	
-	/**
-	* @var decimal(10,2)
-	* @desc TotalSolidaire de la AchatVO
-	*/
-	protected $mTotalSolidaire;
-	
-	/**
-	* @var datetime
-	* @desc La date d'achat de la AchatVO
-	*/
-	protected $mDateAchat;
+	protected $mRechargement;
 		
 	/**
 	* @name AchatVO()
 	* @desc Le constructeur
 	*/
-	public function AchatVO() {
-		$this->mId = new IdAchatVO();
-		$this->mDetailAchat = array();
-		$this->mDetailAchatSolidaire = array();
+	function AchatVO($pOperationAchat = null, $pOperationAchatSolidaire = null, $pProduits = null, $pRechargement = null) {
+		if(!is_null($pOperationAchat)) {$this->mOperationAchat = $pOperationAchat; }
+		if(!is_null($pOperationAchatSolidaire)) {$this->mOperationAchatSolidaire = $pOperationAchatSolidaire; }
+		if(!is_null($pProduits)) {$this->mProduits = $pProduits; } else { $this->mProduits = array(); }	
+		if(!is_null($pRechargement)) {$this->mRechargement = $pRechargement; }	
 	}
 	
 	/**
-	* @name getId()
-	* @return int(11)
-	* @desc Renvoie le membre Id de la AchatVO
+	* @name getOperationAchat()
+	* @return OperationDetailVO
+	* @desc Renvoie le membre OperationAchat de la AchatVO
 	*/
-	public function getId() {
-		return $this->mId;
+	public function getOperationAchat() {
+		return $this->mOperationAchat;
 	}
 
 	/**
-	* @name setId($pId)
-	* @param int(11)
-	* @desc Remplace le membre Id de la AchatVO par $pId
+	* @name setOperationAchat($pOperationAchat)
+	* @param OperationDetailVO
+	* @desc Remplace le membre OperationAchat de la AchatVO par $pOperationAchat
 	*/
-	public function setId($pId) {
-		$this->mId = $pId;
+	public function setOperationAchat($pOperationAchat) {
+		$this->mOperationAchat = $pOperationAchat;
 	}
 	
 	/**
-	* @name getDetailAchat()
-	* @return array(DetailReservationVO)
-	* @desc Renvoie le membre DetailAchat de la AchatVO
+	* @name getOperationAchatSolidaire()
+	* @return OperationDetailVO
+	* @desc Renvoie le membre OperationAchatSolidaire de la AchatVO
 	*/
-	public function getDetailAchat(){
-		return $this->mDetailAchat;
+	public function getOperationAchatSolidaire() {
+		return $this->mOperationAchatSolidaire;
 	}
 
 	/**
-	* @name setDetailAchat($pProduit)
-	* @param array(DetailReservationVO)
-	* @desc Remplace le membre DetailAchat de la AchatVO par $pDetailAchat
+	* @name setOperationAchatSolidaire($pOperationAchatSolidaire)
+	* @param OperationDetailVO
+	* @desc Remplace le membre OperationAchatSolidaire de la AchatVO par $pOperationAchatSolidaire
 	*/
-	public function setDetailAchat($pDetailAchat) {
-		$this->mDetailAchat = $pDetailAchat;
+	public function setOperationAchatSolidaire($pOperationAchatSolidaire) {
+		$this->mOperationAchatSolidaire = $pOperationAchatSolidaire;
 	}
-	
+		
 	/**
-	* @name addDetailAchat($pProduit)
-	* @return DetailReservationVO
-	* @desc Ajoute $pProduit à DetailAchat
+	* @name getProduits()
+	* @return array(ProduitDetailAchatVO)
+	* @desc Renvoie le membre Produits de la AchatVO
 	*/
-	public function addDetailAchat($pProduit){
-		array_push($this->mDetailAchat,$pProduit);
-	}
-	
-	/**
-	* @name getDetailAchatSolidaire()
-	* @return array(DetailReservationVO)
-	* @desc Renvoie le membre DetailAchatSolidaire de la AchatVO
-	*/
-	public function getDetailAchatSolidaire(){
-		return $this->mDetailAchatSolidaire;
+	public function getProduits(){
+		return $this->mProduits;
 	}
 
 	/**
-	* @name setDetailAchatSolidaire($pProduit)
-	* @param array(DetailReservationVO)
-	* @desc Remplace le membre DetailAchatSolidaire de la AchatVO par $pDetailAchatSolidaire
+	* @name setProduits($pProduit)
+	* @param array(ProduitDetailAchatVO)
+	* @desc Remplace le membre Produits de la AchatVO par $pProduits
 	*/
-	public function setDetailAchatSolidaire($pDetailAchatSolidaire) {
-		$this->mDetailAchatSolidaire = $pDetailAchatSolidaire;
+	public function setProduits($pProduits) {
+		$this->mProduits = $pProduits;
 	}
 	
 	/**
-	* @name addDetailAchatSolidaire($pProduit)
-	* @return DetailReservationVO
-	* @desc Ajoute $pProduit à DetailAchatSolidaire
+	* @name addProduits($pProduit)
+	* @return ProduitDetailAchatVO
+	* @desc Ajoute $pProduit à Produits
 	*/
-	public function addDetailAchatSolidaire($pProduit){
-		array_push($this->mDetailAchatSolidaire,$pProduit);
+	public function addProduits($pProduit){
+		array_push($this->mProduits,$pProduit);
 	}
 	
 	/**
-	* @name getTotal()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre Total de la AchatVO
+	* @name getRechargement()
+	* @return OperationDetailVO
+	* @desc Renvoie le membre Rechargement de la AchatVO
 	*/
-	public function getTotal() {
-		return $this->mTotal;
+	public function getRechargement() {
+		return $this->mRechargement;
 	}
 
 	/**
-	* @name setTotal($pTotal)
-	* @param decimal(10,2)
-	* @desc Remplace le membre Total de la AchatVO par $pTotal
+	* @name setRechargement($pRechargement)
+	* @param OperationDetailVO
+	* @desc Remplace le membre Rechargement de la AchatVO par $pRechargement
 	*/
-	public function setTotal($pTotal) {
-		$this->mTotal = $pTotal;
-	}
-	
-	/**
-	* @name getTotalSolidaire()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre TotalSolidaire de la AchatVO
-	*/
-	public function getTotalSolidaire() {
-		return $this->mTotalSolidaire;
-	}
-
-	/**
-	* @name setTotalSolidaire($pTotalSolidaire)
-	* @param decimal(10,2)
-	* @desc Remplace le membre TotalSolidaire de la AchatVO par $pTotalSolidaire
-	*/
-	public function setTotalSolidaire($pTotalSolidaire) {
-		$this->mTotalSolidaire = $pTotalSolidaire;
-	}
-	
-	/**
-	* @name getDateAchat()
-	* @return datetime
-	* @desc Renvoie le membre DateAchat de la AchatVO
-	*/
-	public function getDateAchat() {
-		return $this->mDateAchat;
-	}
-
-	/**
-	* @name setDateAchat($pDateAchat)
-	* @param datetime
-	* @desc Remplace le membre DateAchat de la AchatVO par $pDateAchat
-	*/
-	public function setDateAchat($pDateAchat) {
-		$this->mDateAchat = $pDateAchat;
+	public function setRechargement($pRechargement) {
+		$this->mRechargement = $pRechargement;
 	}
 }
 ?>

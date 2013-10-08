@@ -142,22 +142,21 @@ class TypePaiementService
 	}
 	
 	/**
-	* @name selectVisible()
+	* @name selectVisible($pTypePaiement)
 	* @return array(TypePaiementDetailVO)
 	* @desc Retourne une liste de type de Paiement
 	*/
-	public function selectVisible() {
-		return TypePaiementManager::selectVisible();
+	public function selectVisible($pTypePaiement = null) {
+		return TypePaiementManager::selectDetail($pTypePaiement, 1);
 	}
 	
 	/**
 	 * @name selectDetail($pTypePaiement)
-	 * @param integer
 	 * @return array(TypePaiementDetailVO)
 	 * @desc Retourne une liste de type de Paiement
 	 */
-	public function selectDetail($pTypePaiement) {
-		return TypePaiementManager::selectVisible($pTypePaiement);
+	public function selectDetail($pTypePaiement = null) {
+		return TypePaiementManager::selectDetail($pTypePaiement);
 	}
 }
 ?>

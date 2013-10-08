@@ -56,44 +56,45 @@
 	this.dialogRecharger = 
 		"<div title=\"Rechargement du compte {compte}\">" +
 			"<div>" +
-				"<div id=\"resa-info-commande\">" +
-					"{numero} :  {prenom} {nom}<br/>" +
-					"N° de Compte : {compte}" +
-				"</div>" +
-				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
-					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{solde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
-				"</div>" +
+				"{numero} : {prenom} {nom}" +
 			"</div>" +
+			"<div>" +
+				"<span>Solde : </span><span class=\"{classSolde}\" id=\"nouveau-solde\">{solde}</span> <span class=\"{classSolde}\" id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
+			"</div><br/>" +
 			"<div class=\"com-widget-content\">" +
 				"<table>" +
 					"<thead>" +
 						"<tr>" +
-							"<th>Montant</th>" +
-							"<th>Type de Paiement</th>" +
-							"<th id=\"label-champ-complementaire\"></th>" +
-							"<th id=\"label-champ-complementaire-banque\">Banque</th>" +
+							"<td>Montant</td>" +
+							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
-						"<tr>" +
-							"<td><input type=\"text\" name=\"montant-rechargement\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
-							"<td class=\"com-center\">" +
+						"<tr id=\"ligne-operation\">" +
+							"<td>Type de Paiement</td>" +
+							"<td>" +
 								"<select name=\"typepaiement\" id=\"typePaiement\">" +
 									"<option value=\"0\">== Choisir ==</option>" +
 									"<!-- BEGIN typePaiement -->" +
-									"<option value=\"{typePaiement.tppId}\">{typePaiement.tppType}</option>" +
+									"<option value=\"{typePaiement.id}\">{typePaiement.type}</option>" +
 									"<!-- END typePaiement -->" +
 								"</select>" +
 							"</td>" +
-							"<td id=\"td-champ-complementaire\"><input type=\"text\" name=\"champ-complementaire\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/></td>" +
-							"<td id=\"td-champ-complementaire-banque\"><input type=\"text\" name=\"champ-complementaire-banque\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"idBanque\" maxlength=\"50\" size=\"15\"/></td>" +
 						"</tr>" +
 					"</tbody>" +
 				"</table>" +
 			"</div>" +
 		"</div>";
-
+	
+	this.champComplementaire =
+		"<!-- BEGIN champComplementaire -->" +
+			"<tr class=\"champ-complementaire\">" +
+				"<td>{champComplementaire.label}</td>" +
+				"<td>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+				"</td>" +
+			"</tr>" +
+		"<!-- END champComplementaire -->";
 };function RechargerCompteVue(pParam) {
 	this.mTypePaiement = [];
 	this.solde = 0;
@@ -110,10 +111,8 @@
 						if(lResponse.valid) {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
-							}
-							$(lResponse.typePaiement).each(function() {
-								that.mTypePaiement[this.tppId] = this;
-							});
+							}							
+							that.mTypePaiement  = lResponse.typePaiement;
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -180,11 +179,6 @@
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
-							
-							/*$(lResponse.banques).each(function() {
-								that.mBanques.push({});
-							});*/
-							
 							that.mBanques = lResponse.banques;
 							
 							that.solde = parseFloat(lResponse.solde);
@@ -196,24 +190,19 @@
 							var lCompte = lResponse.idCompte;
 							
 							var lRechargementCompteTemplate = new RechargementCompteTemplate();
-							var lTemplate = lRechargementCompteTemplate.dialogRecharger;						
-							var lHtml = $(lTemplate.template(lResponse));
-							
-							lHtml = that.affectDialog(lHtml);
-							
-							lHtml.dialog({
+							that.affectDialog($(lRechargementCompteTemplate.dialogRecharger.template(lResponse))).dialog({
 								autoOpen: true,
 								modal: true,
 								draggable: false,
 								resizable: false,
-								width:800,
+								width:350,
 								buttons: {
 									'Valider': function() {
 								
 										var lVo = that.getRechargementVO();									
-										lVo.id = lCompte;
+										lVo.idCompte = lCompte;
 										
-										var lValid = new RechargementCompteValid();
+										var lValid = new OperationDetailValid();
 										var lVr = lValid.validAjout(lVo);
 										
 										Infobulle.init(); // Supprime les erreurs
@@ -265,75 +254,7 @@
 	this.affectDialog = function(pData) {
 		pData = this.affectSelectTypePaiement(pData);
 		pData = this.affectNouveauSolde(pData);
-		pData = this.affectListeBanque(pData);
 		pData = gCommunVue.comNumeric(pData);
-		return pData;
-	};
-	
-	this.affectListeBanque = function(pData) {
-		var that = this;
-		
-		function removeIfInvalid(element) {
-			// Vide le champ si la banque n'existe pas
-			var value = $( element ).val(),
-			matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
-			valid = false;
-			$( that.mBanques ).each(function() {
-				if ( $( this ).text().match( matcher ) ) {
-					this.selected = valid = true;
-					return false;
-				}
-			});
-			if ( !valid ) {
-				$( element ).attr( 'id-banque','' ); 
-				
-				// Message d'information
-				var lVr = new RechargementCompteVR();
-				lVr.valid = false;
-				lVr.idBanque.valid = false;
-				var erreur = new VRerreur();
-				erreur.code = ERR_261_CODE;
-				erreur.message = ERR_261_MSG;
-				lVr.idBanque.erreurs.push(erreur);
-				
-				Infobulle.generer(lVr,'');
-				return false;
-			}
-		};
-		
-		pData.find('#idBanque').autocomplete({
-			minLength: 0,			 
-			source: function( request, response ) {
-				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-					response( $.grep( that.mBanques, 
-						function( item ){
-							return matcher.test( item.nom ) || matcher.test( item.nomCourt );
-						}
-					));
-			},	 
-			focus: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
-				return false;
-			},
-			select: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
-				$( "#idBanque" ).attr('id-banque', ui.item.id );
-				return false;
-			},
-			change: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				if ( !ui.item )
-					return removeIfInvalid( this );
-			}
-		}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
-			.appendTo( ul );
-		};
-		
 		return pData;
 	};
 	
@@ -347,28 +268,13 @@
 	
 	this.changerTypePaiement = function(pObj) {
 		var lId = pObj.val();
-		var lLabel = this.getLabelChamComplementaire(lId);
-		if(lLabel != null) {
-			$("#label-champ-complementaire").text(lLabel).show();
-			//$("#label-champ-complementaire-banque").show();
-			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").show();
+		if(!this.mTypePaiement[lId] || (this.mTypePaiement[lId] && this.mTypePaiement[lId].champComplementaire.length == 0)) {
+			$('.champ-complementaire').remove();
 		} else {
-			$("#label-champ-complementaire").text('').hide();
-			//$("#label-champ-complementaire-banque").hide();
-			$(':input[name="champ-complementaire"], :input[name="champ-complementaire-banque"]').val('');
-			$("#td-champ-complementaire, #td-champ-complementaire-banque, #label-champ-complementaire-banque").hide();
-			$('#idBanque').attr('id-banque','');
+			var lRechargementCompteTemplate = new RechargementCompteTemplate();
+			var lTypePaiementService = new TypePaiementService();
+			$('#ligne-operation').after(lTypePaiementService.affect($(lRechargementCompteTemplate.champComplementaire.template(this.mTypePaiement[lId])),this.mBanques));
 		}
-	};
-	
-	this.getLabelChamComplementaire = function(pId) {
-		var lTpp = this.mTypePaiement;
-		if(lTpp[pId]) {
-			if(lTpp[pId].tppChampComplementaire == 1) {
-				return lTpp[pId].tppLabelChampComplementaire;
-			}
-		}	
-		return null;
 	};
 	
 	this.affectNouveauSolde = function(pData) {
@@ -398,23 +304,17 @@
 	};
 	
 	this.getRechargementVO = function() {
-		var lVo = new RechargementCompteVO();
+		var lVo = new OperationDetailVO();
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
 		if(!isNaN(lMontant) && !lMontant.isEmpty()){
 			lMontant = parseFloat(lMontant);
 		}
 		lVo.montant = lMontant;
 		lVo.typePaiement = $(":input[name=typepaiement]").val();
-		if(this.getLabelChamComplementaire(lVo.typePaiement) != null) {
-			lVo.champComplementaireObligatoire = 1;
-			lVo.champComplementaire = $(":input[name=champ-complementaire]").val();
-		} else {
-			lVo.champComplementaireObligatoire = 0;
-		}
-		// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
-		// il ne faut pas prendre en compte le id-banque
-		if($('#idBanque').val() != "") {
-			lVo.idBanque = $('#idBanque').attr('id-banque');
+		
+		if(this.mTypePaiement[lVo.typePaiement]) {
+			var lTypePaiementService = new TypePaiementService();
+			lVo.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lVo.typePaiement].champComplementaire);
 		}
 		return lVo;
 	};

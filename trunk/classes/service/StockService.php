@@ -86,8 +86,24 @@ class StockService
 					ProduitManager::update($lProduit);
 				}
 				break;
-
-			case 2 : // Livraison Solidaire
+				
+			case 1 : // Achat
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $pStock->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);				
+				break;
+				
+			case 2 : // Livraison/Achat Solidaire
 				// Ajout ou Maj de la qté produit dans le stock
 				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
 				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
@@ -102,6 +118,7 @@ class StockService
 				$lStockQuantite->setUnite($pStock->getUnite());
 				$this->setStockQuantite($lStockQuantite);
 				break;
+				
 			case 4 : // Livraison				
 				/*$lLot = DetailCommandeManager::select($pStock->getIdDetailCommande());
 				$lProduit = ProduitManager::select($lLot->getIdProduit());
@@ -171,7 +188,23 @@ class StockService
 				}
 				break;
 				
-			case 2 : // Livraison Solidaire
+			case 1 : // Achat
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+					
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() + $pStock->getQuantite() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+				break;
+				
+			case 2 : // Livraison/Achat Solidaire
 				// Ajout ou Maj de la qté produit dans le stock
 				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
 				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
@@ -225,6 +258,21 @@ class StockService
 				ProduitManager::update($lProduit);
 				break;
 				
+			case 8 : // Supression d'un achat
+				// Ajout ou Maj de la qté produit dans le stock
+				$lStockQuantiteActuel = $this->selectQuantiteByIdNomProduitUnite($pStock->getIdNomProduit(), $pStock->getUnite());
+				$lStockQuantiteActuel = $lStockQuantiteActuel[0];
+			
+				$lStockQuantite = new StockQuantiteVO();
+				if(!is_null($lStockQuantiteActuel->getId())) {
+					$lStockQuantite->setId($lStockQuantiteActuel->getId());
+					$lStockQuantite->setQuantiteSolidaire($lStockQuantiteActuel->getQuantiteSolidaire());
+				}
+				$lStockQuantite->setQuantite($lStockQuantiteActuel->getQuantite() - $lStockActuel->getQuantite());
+				$lStockQuantite->setIdNomProduit($pStock->getIdNomProduit());
+				$lStockQuantite->setUnite($pStock->getUnite());
+				$this->setStockQuantite($lStockQuantite);
+				break;
 				
 			case 9 : // Supression d'une Livraison
 				// Ajout ou Maj de la qté produit dans le stock

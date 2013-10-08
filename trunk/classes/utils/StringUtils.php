@@ -30,7 +30,7 @@ class StringUtils
 	* @desc Convertit les caractères spéciaux de $pString en entités HTML et renvoie la chaine
 	*/
 	public static function securiser($pString) {
-		return htmlspecialchars($pString , ENT_QUOTES, 'UTF-8');
+		return !is_null($pString) ? htmlspecialchars($pString , ENT_QUOTES, 'UTF-8') : NULL;
 	}
 
 	/**

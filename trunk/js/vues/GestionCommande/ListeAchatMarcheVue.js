@@ -29,6 +29,7 @@
 		$(pResponse.listeAchatEtReservation).each(function() {
 			if(this.idOperation == null) { 
 				this.achat = 'ui-helper-hidden';
+				this.idOperation = '';
 			} else {
 				this.achat = '';
 			}
@@ -63,12 +64,15 @@
 		pResponse.resumeMarcheSelected = '';
 		
 		pResponse.editerMenu = lGestionCommandeTemplate.editerMarcheMenu.template(pResponse);
+		pResponse.rechercheAchat = '';
+		pResponse.achatAdherent = lGestionCommandeTemplate.listeAchatEtReservationVide;
+		
 		if(pResponse.listeAchatEtReservation.length > 0 && pResponse.listeAchatEtReservation[0].adhId != null) {
-			var lTemplate = lGestionCommandeTemplate.listeAchatEtReservation;
-			$('#contenu').replaceWith(that.affectAchatEtReservation($(lTemplate.template(pResponse))));
-		} else {
-			$('#contenu').replaceWith(that.affectAchatEtReservation($(lGestionCommandeTemplate.listeAchatEtReservationVide.template(pResponse))));
-		}							
+			pResponse.rechercheAchat = lGestionCommandeTemplate.rechercheAchatAdherent;
+			pResponse.achatAdherent = lGestionCommandeTemplate.listeAchatAdherent.template(pResponse);
+		}			
+		
+		$('#contenu').replaceWith(that.affectAchatEtReservation($(lGestionCommandeTemplate.listeAchatEtReservation.template(pResponse))));
 	};	
 
 	this.affectAchatEtReservation = function(pData) {
@@ -142,12 +146,25 @@
 	
 	this.affectAchat = function(pData) {
 		var that = this;
-		pData.find('.edt-com-achat-ligne').click(function() {
+		/*pData.find('.edt-com-achat-ligne').click(function() {
 			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":$(this).attr('id-adherent'), "idOperation" : ''});
-		});
+		});*/
 		
-		pData.find('.edt-com-achat-ligne-invite').click(function() {
-			AchatAdherentVue({"id_marche":that.mIdMarche,"id_adherent":-3, "idOperation" : $(this).data("id-operation")});
+		pData.find('.edt-com-achat-ligne-invite, .edt-com-achat-ligne').click(function() {
+			/*var lParam = {
+					id_adherent:$(this).data("id-adherent"),
+					id_commande:that.mIdMarche,
+					module:'GestionCommande',
+					retour:'AchatMarche'};
+			if(!$(this).data("id-operation").isEmpty()) {
+				lParam.id = $(this).data("id-operation");
+			}*/
+			CaisseVue({
+				id :$(this).data("id-operation"),
+				id_adherent:$(this).data("id-adherent"),
+				id_commande:that.mIdMarche,
+				module:'GestionCommande',
+				retour:'AchatMarche'});
 		});
 		return pData;
 	};

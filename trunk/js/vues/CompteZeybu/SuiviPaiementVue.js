@@ -323,31 +323,17 @@
 
 		var lVo = new OperationDetailVO();
 		
-		
-		//var lVo = new RechargementCompteVO();
 		lVo.id = pIdOperation;
 		lVo.fonction="modifier";
 		lVo.montant=$(pDialog).find("#montant").val().numberFrToDb();
-		//if(pType == 1) { // Cheque
-			/*lVo.champComplementaireObligatoire = 1;
-			lVo.champComplementaire = $(pDialog).find("#champComplementaire").val();
-			// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
-			// il ne faut pas prendre en compte le id-banque
-			if($('#idBanque').val() != "") {
-				lVo.idBanque = $('#idBanque').attr('id-banque');
-			}*/
-			lVo.typePaiement = pType;
-	/*	} else { // Espece
-			lVo.typePaiement = 1;
-			//lVo.champComplementaireObligatoire = 0;
-		}*/
+		lVo.typePaiement = pType;
 		
 		if(this.mTypePaiement[lVo.typePaiement]) {
 			var lTypePaiementService = new TypePaiementService();
 			lVo.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lVo.typePaiement].champComplementaire);
 		}
 		
-		var lValid = new RechargementCompteValid();
+		var lValid = new OperationDetailValid();
 		var lVr = lValid.validAjout(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs

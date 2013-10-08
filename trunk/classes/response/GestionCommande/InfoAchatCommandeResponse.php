@@ -37,12 +37,6 @@ class InfoAchatCommandeResponse extends DataTemplate
 	protected $mStock;
 	
 	/**
-	 * @var array(StockProduitViewVO)
-	 * @desc Les Stocks solidaire
-	 */
-	protected $mStockSolidaire;
-	
-	/**
 	 * @var AdherentViewVO
 	 * @desc L'Adherent
 	 */
@@ -59,18 +53,44 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @desc La liste des types de paiement
 	 */
 	protected $mTypePaiement;
+	
+	/**
+	 * @var array(AchatVO)
+	 * @desc Les Achats
+	 */
+	protected $mAchats;
+	
+	/**
+	 * @var array(BanqueVO)
+	 * @desc Les Banques
+	 */
+	protected $mBanques;
+	
+	/**
+	 * @var array(DetailMarcheVO)
+	 * @desc Les Lots
+	 */
+	protected $mLots;
+	
+	/**
+	 * @var varchar
+	 * @desc L'Id de la requete
+	 */
+	protected $mIdRequete;
 
 	/**
-	* @name InfoAchatMarcheResponse()
-	* @desc Le constructeur de InfoAchatMarcheResponse
+	* @name InfoAchatCommandeResponse()
+	* @desc Le constructeur de InfoAchatCommandeResponse
 	*/	
-	public function InfoAchatMarcheResponse() {
+	public function InfoAchatCommandeResponse() {
 		$this->mValid = true;
 		$this->mMarche = array();
 		$this->mStock = array();
-		$this->mStockSolidaire = array();
+		$this->mLots = array();
 		$this->mReservation = array();
 		$this->mTypePaiement = array();
+		$this->mAchats = array();
+		$this->mBanques = array();
 	}
 	
 	/**
@@ -146,33 +166,6 @@ class InfoAchatCommandeResponse extends DataTemplate
 	}
 	
 	/**
-	* @name getStockSolidaire()
-	* @return array(StockProduitViewVO)
-	* @desc Renvoie le StockSolidaire
-	*/
-	public function getStockSolidaire() {
-		return $this->mStockSolidaire;
-	}
-
-	/**
-	* @name setStockSolidaire($pStockSolidaire)
-	* @param array(StockProduitViewVO)
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function setStockSolidaire($pStockSolidaire) {
-		$this->mStockSolidaire = $pStockSolidaire;
-	}
-	
-	/**
-	* @name addStockSolidaire($pStockSolidaire)
-	* @param StockProduitViewVO
-	* @desc Remplace le StockSolidaire par $pStockSolidaire
-	*/
-	public function addStockSolidaire($pStockSolidaire) {
-		array_push($this->mStockSolidaire, $pStockSolidaire);
-	}
-	
-	/**
 	* @name getAdherent()
 	* @return AdherentViewVO
 	* @desc Renvoie le Adherent
@@ -242,6 +235,105 @@ class InfoAchatCommandeResponse extends DataTemplate
 	*/
 	public function addTypePaiement($pTypePaiement) {
 		array_push($this->mTypePaiement, $pTypePaiement);
+	}
+	
+	/**
+	* @name getAchats()
+	* @return array(AchatVO)
+	* @desc Renvoie le Achats
+	*/
+	public function getAchats() {
+		return $this->mAchats;
+	}
+
+	/**
+	* @name setAchats($pAchats)
+	* @param array(AchatVO)
+	* @desc Remplace le Achats par $pAchats
+	*/
+	public function setAchats($pAchats) {
+		$this->mAchats = $pAchats;
+	}
+	
+	/**
+	* @name addAchats($pAchats)
+	* @param AchatVO
+	* @desc Ajoute le $pAchats à Achats
+	*/
+	public function addAchats($pAchats) {
+		array_push($this->mAchats, $pAchats);
+	}
+	
+	/**
+	* @name getBanques()
+	* @return array(BanqueVO)
+	* @desc Renvoie les Banques
+	*/
+	public function getBanques() {
+		return $this->mBanques;
+	}
+
+	/**
+	* @name setBanques($pBanques)
+	* @param array(BanqueVO)
+	* @desc Remplace les Banques par $pBanques
+	*/
+	public function setBanques($pBanques) {
+		$this->mBanques = $pBanques;
+	}
+	
+	/**
+	 * @name addBanques($pBanque)
+	 * @param BanqueVO
+	 * @desc Ajoute la Banque à Banques
+	 */
+	public function addBanques($pBanque) {
+		array_push($this->mBanques,$pBanque);
+	}
+	
+	/**
+	* @name getLots()
+	* @return array(DetailMarcheVO)
+	* @desc Renvoie les Lots
+	*/
+	public function getLots() {
+		return $this->mLots;
+	}
+
+	/**
+	* @name setLots($pLots)
+	* @param array(DetailMarcheVO)
+	* @desc Remplace les Lots par $pLots
+	*/
+	public function setLots($pLots) {
+		$this->mLots = $pLots;
+	}
+	
+	/**
+	 * @name addLots($pLots)
+	 * @param DetailMarcheVO
+	 * @desc Ajoute le Lot à Lots
+	 */
+	public function addLots($pLots) {
+		array_push($this->mLots,$pLots);
+	}
+	
+	/**
+	* @name getIdRequete()
+	* @return varchar
+	* @desc Renvoie les IdRequete
+	*/
+	public function getIdRequete() {
+		return $this->mIdRequete;
+	}
+
+	/**
+	* @name setIdRequete($pIdRequete)
+	* @param varchar
+	* @desc Remplace les IdRequete par $pIdRequete
+	*/
+	public function setIdRequete($pIdRequete) {
+		$this->mIdRequete = $pIdRequete;
 	}
 }
 ?>

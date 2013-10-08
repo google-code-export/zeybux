@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/AfficheAchatAdherentVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_VR . MOD_COMMANDE . "/ProduitMarcheVR.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
+include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php");
 
 /**
  * @name AfficheReservationAdherentVR
@@ -25,7 +26,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 class AfficheAchatAdherentValid
 {
 	/**
-	* @name validAjout($pData)
+	* @name validGetAchatEtReservation($pData)
 	* @return AfficheAchatAdherentVR
 	* @desc Test la validite de l'élément
 	*/
@@ -78,6 +79,65 @@ class AfficheAchatAdherentValid
 				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
 				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
 				$lVr->getId_commande()->addErreur($lErreur);
+			}
+		}
+		return $lVr;
+	}
+	
+	/**
+	 * @name validGetAchat($pData)
+	 * @return AfficheAchatAdherentVR
+	 * @desc Test la validite de l'élément
+	 */
+	public static function validGetAchat($pData) {
+		$lVr = new AfficheAchatAdherentVR();
+		//Tests inputs
+		if(!isset($pData['idAchat'])) {
+			$lVr->setValid(false);
+			$lVr->getId()->setValid(false);
+			$lErreur = new VRerreur();
+			$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+			$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+			$lVr->getId()->addErreur($lErreur);
+		}
+	
+		if($lVr->getValid()) {
+			//Tests Techniques
+			if(!TestFonction::checkLength($pData['idAchat'],0,11)) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_101_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
+			if(!is_int((int)$pData['idAchat'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_108_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
+	
+			//Tests Fonctionnels
+			if(empty($pData['idAchat'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_201_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_201_MSG);
+				$lVr->getId()->addErreur($lErreur);
+			}
+				
+			$lOperationService = new OperationService();
+			if(!$lOperationService->existe($pData['idAchat'])) {
+				$lVr->setValid(false);
+				$lVr->getId()->setValid(false);
+				$lErreur = new VRerreur();
+				$lErreur->setCode(MessagesErreurs::ERR_216_CODE);
+				$lErreur->setMessage(MessagesErreurs::ERR_216_MSG);
+				$lVr->getId()->addErreur($lErreur);
 			}
 		}
 		return $lVr;

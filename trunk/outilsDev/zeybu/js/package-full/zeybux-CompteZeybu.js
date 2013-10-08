@@ -329,6 +329,8 @@
 							"</div>" +
 						"</form>" +
 					"</div>" +
+					"{chequeInvite}" +
+					"Adhérents" +
 					"<table class=\"com-table table-cheque-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
@@ -358,13 +360,13 @@
 								"<td class=\"com-table-td\">{listeChequeAdherent.adhNom}</td>" +
 								"<td class=\"com-table-td\">{listeChequeAdherent.adhPrenom}</td>" +
 								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeAdherent.opeMontant}</span>{listeChequeAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-table-td\">{listeChequeAdherent.opeTypePaiementChampComplementaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeAdherent.numeroCheque}</td>" +
 								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeAdherent.opeId}\">Ok</button>" +
 								"</td>" +
 								
 								"<td class=\"com-table-td-med td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -393,6 +395,8 @@
 							"</div>" +
 						"</form>" +
 					"</div>" +
+					"{especeInvite}" +
+					"Adhérents" +
 					"<table class=\"com-table table-espece-adherent\">" +
 						"<thead>" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
@@ -426,7 +430,7 @@
 								"</td>" +
 								
 								"<td class=\"com-table-td-med td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -480,14 +484,14 @@
 								"</td>" +
 								"<td class=\"com-table-td\">{listeChequeFerme.ferNom}</td>" +
 								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeFerme.opeMontant}</span>{listeChequeFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-table-td\">{listeChequeFerme.opeTypePaiementChampComplementaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeFerme.numeroCheque}</td>" +
 								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeFerme.opeId}\">Ok</button>" +
 								"</td>" +
 								
 
 								"<td class=\"com-table-td-fin td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeChequeFerme.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -540,7 +544,7 @@
 								"</td>" +
 
 								"<td class=\"com-table-td-fin td-edt\">" +
-									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeEspeceFerme.opeId}\" title=\"Modifier\">" +
+									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
@@ -554,6 +558,80 @@
 		"</div>";
 	
 	this.listePaiementVide = "<div id=\"{id}\" class=\"com-center\">Aucun paiement en attente.</div>";
+	
+	this.listeChequeInvite =
+		"Invité" +
+		"<table class=\"com-table table-cheque-invite\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+			"<!-- BEGIN listeChequeInvite -->" +
+				"<tr class=\"com-cursor-pointer compte-ligne-adherent\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeDateTri}</span>{listeChequeInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeMontant}</span>{listeChequeInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td\">{listeChequeInvite.numeroCheque}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
+						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeInvite.opeId}\">Ok</button>" +
+					"</td>" +
+					
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeInvite.opeId}\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeChequeInvite.opeId}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+				"</tr>" +
+			"<!-- END listeChequeInvite -->" +
+			"</tbody>" +
+		"</table>";
+	
+	this.listeEspeceInvite =
+		"Invité" +
+		"<table class=\"com-table table-espece-invite\">" +
+			"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer \"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
+				"</tr>" +
+			"</thead>" +
+			"<tbody>" +
+				"<!-- BEGIN listeEspeceInvite -->" +
+				"<tr class=\"com-cursor-pointer compte-ligne-producteur\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeDateTri}</span>{listeEspeceInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeMontant}</span>{listeEspeceInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
+						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceInvite.opeId}\">Ok</button>" +
+					"</td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceInvite.opeId}\" title=\"Modifier\">" +
+							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+						"</span>" +
+					"</td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
+						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeEspeceInvite.opeId}\" title=\"Supprimer\">" +
+						"<span class=\"ui-icon ui-icon-trash\"></span>" +
+						"</span>" +
+					"</td>" +
+					
+				"</tr>" +
+				"<!-- END listeEspeceInvite -->" +
+			"</tbody>" +
+		"</table>";	
 	
 	this.dialogValiderPaiement = 
 		"<div id=\"dialog-valider-paiement\" title=\"Valider le paiement\">" +
@@ -590,28 +668,24 @@
 			"</form>" +
 		"</div>";
 	
-	this.dialogModifierPaiementCheque = 
+	this.dialogModifierPaiement = 
 		"<div id=\"dialog-modifier-paiement\" title=\"Modifier le paiement\">" +
 			"<form>" +
 				"<table class=\"com-table-100\">" +
 					"<tr>" +
-						"<td>N° de compte : {cptLabel}</td>" +
+						"<td>N° de compte </td>" +
+						"<td>{cptLabel}</td>" +
 					"</tr>" +
-					"<tr class=\"com-center\" >" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"5\"/> {sigleMonetaire}" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"N° <input type=\"text\" value=\"{opeTypePaiementChampComplementaire}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champComplementaire\" id=\"champComplementaire\" maxlength=\"50\" size=\"15\"/>" +
-						"</td>" +
-						"<td class=\"com-table-form-td montant-virement\">" +
-							"Banque <input type=\"text\" value=\"{opeBanque}\" class=\"com-input-text ui-widget-content ui-corner-all\"  name=\"champ-complementaire-banque\" id=\"idBanque\" id-banque=\"{opeIdBanque}\" maxlength=\"50\" size=\"15\"/>" +
-						"</td>" +
+					"<tr>" +
+						"<td>Montant</td>" +
+						"<td><input type=\"text\" name=\"montant-rechargement\" value=\"{opeMontant}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"montant\" maxlength=\"12\" size=\"5\"/> <span>{sigleMonetaire}</span></td>" +
 					"</tr>" +
+					"{champComplementaire}" +
 				"</table>" +
 			"</form>" +
 		"</div>";
 	
-	this.dialogModifierPaiementEspece = 
+	/*this.dialogModifierPaiementEspece = 
 		"<div id=\"dialog-modifier-paiement\" title=\"Modifier le paiement\">" +
 			"<form>" +
 				"<table class=\"com-table-100\">" +
@@ -625,12 +699,13 @@
 					"</tr>" +
 				"</table>" +
 			"</form>" +
-		"</div>";
+		"</div>";*/
 };function SuiviPaiementVue(pParam) {
 	this.mListeOperation = [];
 	this.mSelectedTabs = 0;
 	this.mBanques = [];
 	this.mBanquesTriId = [];
+	this.mTypePaiement = [];
 	
 	
 	this.construct = function(pParam) {
@@ -652,6 +727,8 @@
 							that.mBanquesTriId[this.id] = this;
 						});
 						that.mBanques = lResponse.banques;
+						that.mTypePaiement = lResponse.typePaiement;
+						
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -676,6 +753,19 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
+		var lEspeceInvite = false;
+		$.each(lResponse.listeEspeceInvite,function() {
+			if(this.opeId) {
+				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
+				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
+				that.mListeOperation[this.opeId] = this;
+				lEspeceInvite = true;
+			}
+		});
+		
 		var lTotalChequeAdherent = 0;
 		$.each(lResponse.listeChequeAdherent,function() {
 			if(this.opeId) {
@@ -685,10 +775,31 @@
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
+				this.numeroCheque ='';
+				if(this.opeTypePaiementChampComplementaire[3]) {
+					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
+				}
 				lTotalChequeAdherent += parseFloat(this.opeMontant);		
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
+		var lChequeInvite = false;
+		$.each(lResponse.listeChequeInvite,function() {
+			if(this.opeId) {
+				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
+				this.numeroCheque ='';
+				if(this.opeTypePaiementChampComplementaire[3]) {
+					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
+				}
+				lTotalChequeAdherent += parseFloat(this.opeMontant);		
+				that.mListeOperation[this.opeId] = this;
+				lChequeInvite = true;
+			}
+		});
+		
 		var lTotalEspeceFerme = 0;
 		$.each(lResponse.listeEspeceFerme,function() {
 			if(this.opeId) {
@@ -711,6 +822,10 @@
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
 				this.cptIdTri = this.cptLabel.replace("C","");
+				this.numeroCheque ='';
+				if(this.opeTypePaiementChampComplementaire[3]) {
+					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
+				}
 				lTotalChequeFerme += parseFloat(this.opeMontant);		
 				that.mListeOperation[this.opeId] = this;
 			}
@@ -723,19 +838,26 @@
 		lResponse.totalChequeFerme = lTotalChequeFerme.nombreFormate(2,',',' ');
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		if(lChequeInvite) {
+			lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
+		}
+		if(lEspeceInvite) {
+			lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
+		}
+		
 		var lTemplate = lCompteZeybuTemplate.listePaiement;	
 		var lHtml = $(lTemplate.template(lResponse));
 				
-		if(lResponse.listeChequeAdherent.length <= 0 || lResponse.listeChequeAdherent[0].adhId == null) {
+		if(lResponse.listeChequeAdherent.length <= 0 || (lResponse.listeChequeAdherent[0] && lResponse.listeChequeAdherent[0].adhId == null)) {
 			lHtml.find("#cheque-adherent").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"cheque-adherent"}));
 		}
-		if(lResponse.listeEspeceAdherent.length <= 0 || lResponse.listeEspeceAdherent[0].adhId == null) {
+		if(lResponse.listeEspeceAdherent.length <= 0 || (lResponse.listeEspeceAdherent[0] && lResponse.listeEspeceAdherent[0].adhId == null)) {
 			lHtml.find("#espece-adherent").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"espece-adherent"}));
 		}
-		if(lResponse.listeChequeFerme.length <= 0 || lResponse.listeChequeFerme[0].ferId == null) {
+		if(lResponse.listeChequeFerme.length <= 0 || (lResponse.listeChequeFerme[0] && lResponse.listeChequeFerme[0].ferId == null)) {
 			lHtml.find("#cheque-ferme").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"cheque-ferme"}));
 		}
-		if(lResponse.listeEspeceFerme.length <= 0 || lResponse.listeEspeceFerme[0].ferId == null) {
+		if(lResponse.listeEspeceFerme.length <= 0 || (lResponse.listeEspeceFerme[0] && lResponse.listeEspeceFerme[0].ferId == null)) {
 			lHtml.find("#espece-ferme").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"espece-ferme"}));
 		}
 		
@@ -767,6 +889,8 @@
 		pData.find('.table-espece-adherent').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
 		pData.find('.table-cheque-ferme').tablesorter({sortList: [[0,0]],headers: { 7: {sorter: false} }});
 		pData.find('.table-espece-ferme').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
+		pData.find('.table-cheque-invite').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false} }});
+		pData.find('.table-espece-invite').tablesorter({sortList: [[0,0]],headers: { 2: {sorter: false} }});
 		return pData;
 	};
 	
@@ -801,7 +925,6 @@
 		lOperation.sigleMonetaire = gSigleMonetaire;
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		//var lDialog =
 		$(lCompteZeybuTemplate.dialogValiderPaiement.template(lOperation)).dialog({
 			autoOpen: true,
 			modal: true,
@@ -853,30 +976,34 @@
 		return pData;
 	};
 	
-	this.dialogModifierPaiement = function(pIdOperation,pType) {
+	this.dialogModifierPaiement = function(pIdOperation, pType) {
 		var that = this;
+		
 		var lOperation = this.mListeOperation[pIdOperation];
 		lOperation.sigleMonetaire = gSigleMonetaire;
-		var lBanque = {nom:""};
-		if(this.mBanquesTriId[lOperation.opeIdBanque]) {
-			lBanque = this.mBanquesTriId[lOperation.opeIdBanque];
+		lOperation.champComplementaire = '';
+		if(this.mTypePaiement[pType] && this.mTypePaiement[pType].champComplementaire.length > 0) {
 			
+			var lTypePaiementService = new TypePaiementService();
+			var lChampComplementaire = [];
+			$(this.mTypePaiement[pType].champComplementaire).each(function() {				
+				var lChamp = lOperation.opeTypePaiementChampComplementaire[this.id];
+				lChamp.id = this.id;
+				lChamp.tppCpVisible = 1;
+				lChamp.chCpLabel = this.label;
+				lChampComplementaire.push(lChamp);
+			});
+			
+			lOperation.champComplementaire = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanquesTriId);
 		}
-		lOperation.opeBanque = lBanque.nom;
-		
+
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lTemplate = "";
-		if(pType == 1) {
-			lTemplate = lCompteZeybuTemplate.dialogModifierPaiementCheque;
-		} else {
-			lTemplate = lCompteZeybuTemplate.dialogModifierPaiementEspece;
-		}
-		var lDialog = $(that.affectDialog($(lTemplate.template(lOperation)))).dialog({
+		var lDialog = $(that.affectDialog($(lCompteZeybuTemplate.dialogModifierPaiement.template(lOperation)))).dialog({
 			autoOpen: true,
 			modal: true,
 			draggable: false,
 			resizable: false,
-			width:700,
+			width:400,
 			buttons: {
 				'Valider': function() {
 					that.modifierPaiement(pIdOperation,pType,this);
@@ -896,25 +1023,19 @@
 	this.modifierPaiement = function(pIdOperation,pType,pDialog) {
 		var that = this;
 
-		var lVo = new RechargementCompteVO();
+		var lVo = new OperationDetailVO();
+		
 		lVo.id = pIdOperation;
 		lVo.fonction="modifier";
 		lVo.montant=$(pDialog).find("#montant").val().numberFrToDb();
-		if(pType == 1) { // Cheque
-			lVo.champComplementaireObligatoire = 1;
-			lVo.champComplementaire = $(pDialog).find("#champComplementaire").val();
-			// Si id-banque est alimenté mais qu'on efface le nom de la banque par la suite
-			// il ne faut pas prendre en compte le id-banque
-			if($('#idBanque').val() != "") {
-				lVo.idBanque = $('#idBanque').attr('id-banque');
-			}
-			lVo.typePaiement = 2;
-		} else { // Espece
-			lVo.typePaiement = 1;
-			lVo.champComplementaireObligatoire = 0;
+		lVo.typePaiement = pType;
+		
+		if(this.mTypePaiement[lVo.typePaiement]) {
+			var lTypePaiementService = new TypePaiementService();
+			lVo.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lVo.typePaiement].champComplementaire);
 		}
 		
-		var lValid = new RechargementCompteValid();
+		var lValid = new OperationDetailValid();
 		var lVr = lValid.validAjout(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs
@@ -947,79 +1068,12 @@
 	
 
 	this.affectDialog = function(pData) {
+		var lTypePaiementService = new TypePaiementService();
+		pData = lTypePaiementService.affect(pData, this.mBanques);
 		pData = gCommunVue.comNumeric(pData);
-		pData = this.affectListeBanque(pData);
 		return pData;
 	};
-	
-	this.affectListeBanque = function(pData) {
-		var that = this;
-
-		if(pData.find('#idBanque').length == 1) {
-			function removeIfInvalid(element) {
-				// Vide le champ si la banque n'existe pas
-				var value = $( element ).val(),
-				matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
-				valid = false;
-				$( that.mBanques ).each(function() {
-					if ( $( this ).text().match( matcher ) ) {
-						this.selected = valid = true;
-						return false;
-					}
-				});
-				if ( !valid ) {
-					$( element ).attr( 'id-banque','' ); 
-					
-					// Message d'information
-					var lVr = new RechargementCompteVR();
-					lVr.valid = false;
-					lVr.idBanque.valid = false;
-					var erreur = new VRerreur();
-					erreur.code = ERR_261_CODE;
-					erreur.message = ERR_261_MSG;
-					lVr.idBanque.erreurs.push(erreur);
-					
-					Infobulle.generer(lVr,'');
-					return false;
-				}
-			};
-			
-			pData.find('#idBanque').autocomplete({
-				minLength: 0,			 
-				source: function( request, response ) {
-					var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-						response( $.grep( that.mBanques, 
-							function( item ){
-								return matcher.test( item.nom ) || matcher.test( item.nomCourt );
-							}
-						));
-				},	 
-				focus: function( event, ui ) {
-					Infobulle.init(); // Supprime les erreurs
-					$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
-					return false;
-				},
-				select: function( event, ui ) {
-					Infobulle.init(); // Supprime les erreurs
-					$( "#idBanque" ).val( htmlDecode(ui.item.nom) );
-					$( "#idBanque" ).attr('id-banque', ui.item.id );
-					return false;
-				},
-				change: function( event, ui ) {
-					Infobulle.init(); // Supprime les erreurs
-					if ( !ui.item )
-						return removeIfInvalid( this );
-				}
-			}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-				return $( "<li>" )
-				.data( "item.autocomplete", item )
-				.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
-				.appendTo( ul );
-			};
-		}
-		return pData;
-	};
-	
+		
 	this.affectSupprimerPaiement= function(pData) {
 		var that = this;
 		pData.find(".btn-supprimer").click(function() {that.dialogSupprimerPaiement($(this).attr("id-operation"));});		
@@ -1075,180 +1129,7 @@
 				}
 			},"json"
 		);
-	};
-	
-	
-	
-	
-/*	this.affectVirementSolidaire = function(pData) {
-		var that = this;
-		pData.find("#btn-virement-solidaire").click(function() {that.virementSolidaire(1);});
-		pData.find("#btn-virement-solidaire-inverse").click(function() {that.virementSolidaire(2);});
-		return pData;
-	};
-	
-	this.virementSolidaire = function(pType) {
-		var that = this;			
-		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lTemplate = lCompteZeybuTemplate.dialogVirementSolidaire;
-		var lData = {};
-		lData.sigleMonetaire = gSigleMonetaire;
-		lData.type = 2;
-		if(pType == 1) {
-			lData.cptDebit = "Zeybu";
-			lData.cptCredit = "Solidaire";
-			lData.idCptDebit = -1;
-			lData.idCptCredit = -2;
-		} else {
-			lData.cptDebit = "Solidaire";
-			lData.cptCredit ="Zeybu";
-			lData.idCptDebit = -2;
-			lData.idCptCredit = -1;
-		}
-									
-		var lDialog = $(this.affectDialog($(lTemplate.template(lData)))).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:450,
-			buttons: {
-				'Valider': function() {
-					that.envoyerVirement(this,lData);
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); }
-		});
-		lDialog.find('form').submit(function() {
-			that.envoyerVirement(lDialog,lData);
-			return false;
-		});
-	};
-	
-	this.affectVirement = function(pData) {
-		var that = this;
-		pData.find(".compte-ligne-adherent").each(function() {
-			var lId = $(this).attr("id-adherent");
-			$(this).find(".btn-virement").click(function() {
-				var lData = {};
-				lData.type = 1;
-				lData.cptDebit ="Zeybu";
-				lData.cptCredit = that.listeAdherent[lId].cptLabel;
-				lData.idCptDebit = -1;
-				lData.idCptCredit = that.listeAdherent[lId].adhIdCompte;
-				that.virement(lData);
-			});
-			$(this).find(".btn-virement-inverse").click(function() {
-				var lData = {};
-				lData.type = 1;
-				lData.cptDebit = that.listeAdherent[lId].cptLabel;
-				lData.cptCredit ="Zeybu";
-				lData.idCptDebit = that.listeAdherent[lId].adhIdCompte;
-				lData.idCptCredit = -1;
-				that.virement(lData);
-			});
-		});
-		pData.find(".compte-ligne-producteur").each(function() {
-			var lId = $(this).attr("id-producteur");	
-			$(this).find(".btn-virement").click(function() {
-				var lData = {};
-				lData.type = 1;
-				lData.cptDebit ="Zeybu";
-				lData.cptCredit = that.listeProducteur[lId].cptLabel;
-				lData.idCptDebit = -1;
-				lData.idCptCredit = that.listeProducteur[lId].ferIdCompte;
-				that.virement(lData);
-			});
-			$(this).find(".btn-virement-inverse").click(function() {
-				var lData = {};
-				lData.type = 1;
-				lData.cptDebit = that.listeProducteur[lId].cptLabel;
-				lData.cptCredit ="Zeybu";
-				lData.idCptDebit = that.listeProducteur[lId].ferIdCompte;
-				lData.idCptCredit = -1;
-				that.virement(lData);
-			});
-		});
-		return pData;
-	};
-	
-	this.virement = function(pData) {
-		var that = this;
-		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		var lTemplate = lCompteZeybuTemplate.dialogAjoutVirement;
-		pData.sigleMonetaire = gSigleMonetaire;
-								
-		var lDialog = $(this.affectDialog($(lTemplate.template(pData)))).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:450,
-			buttons: {
-				'Valider': function() {
-					that.envoyerVirement(this,pData);
-				},
-				'Annuler': function() {
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); }
-		});
-		lDialog.find('form').submit(function() {
-			that.envoyerVirement(lDialog,pData);
-			return false;
-		});
-	};
-	
-	this.affectDialog = function(pData) {
-		pData = gCommunVue.comNumeric(pData);
-		return pData;
-	};
-	
-	this.envoyerVirement = function(pDialog,pData) {
-		var lVo = new CompteZeybuAjoutVirementVO();								
-		lVo.idCptDebit = pData.idCptDebit;								
-		lVo.idCptCredit = pData.idCptCredit;								
-		lVo.type = pData.type;
-		lVo.montant = $(pDialog).find(":input[name=montant]").val().numberFrToDb();
-		
-		var lValid = new CompteZeybuVirementValid();
-		var lVr = lValid.validAjout(lVo);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			lVo.fonction = "ajout";
-			var lDialog = this;
-			$.post(	"./index.php?m=CompteZeybu&v=Virements", "pParam=" + $.toJSON(lVo),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							// Message d'information
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_307_CODE;
-							erreur.message = ERR_307_MSG;
-							lVr.log.erreurs.push(erreur);
-							Infobulle.generer(lVr,'');
-							
-							$(pDialog).dialog("close");										
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-			);
-		}else {
-			Infobulle.generer(lVr,'');
-		}
-	};*/
-	
+	};	
 	this.construct(pParam);
 }	;function CompteZeybuVue(pParam) {
 	
