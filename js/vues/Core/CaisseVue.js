@@ -530,6 +530,7 @@
 		pData = this.affectRecherche(pData);
 		pData = this.affectRetour(pData);
 		pData = this.affectEnregistrer(pData);
+		pData = this.affectSupprimer(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
@@ -910,85 +911,7 @@
 		pData = this.affectAfficheFormulaireRechargementChampComplementaire(pData);
 		return pData;
 	};
-	
 		
-	/*this.getLabelChamComplementaire = function(pId) {
-		var lTpp = this.mTypePaiement;
-		if(lTpp[pId]) {
-			if(lTpp[pId].tppChampComplementaire == 1) {
-				return lTpp[pId].tppLabelChampComplementaire;
-			}
-		}	
-		return null;
-	};
-	
-	this.affectListeBanque = function(pData) {
-		var that = this;
-		
-		function removeIfInvalid(element) {
-			// Vide le champ si la banque n'existe pas
-			var value = $( element ).val(),
-			matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
-			valid = false;
-			$( that.mBanques ).each(function() {
-				if ( $( this ).text().match( matcher ) ) {
-					this.selected = valid = true;
-					return false;
-				}
-			});
-			if ( !valid ) {
-				$( element ).attr( 'id-banque','' ); 
-				
-				// Message d'information
-				var lVr = new RechargementCompteVR();
-				lVr.valid = false;
-				lVr.idBanque.valid = false;
-				var erreur = new VRerreur();
-				erreur.code = ERR_261_CODE;
-				erreur.message = ERR_261_MSG;
-				lVr.idBanque.erreurs.push(erreur);
-				
-				Infobulle.generer(lVr,'');
-				return false;
-			}
-		};
-		
-		pData.find('#rechargementidBanque').autocomplete({
-			minLength: 0,			 
-			source: function( request, response ) {
-				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-					response( $.grep( that.mBanques, 
-						function( item ){
-							return matcher.test( item.nom ) || matcher.test( item.nomCourt );
-						}
-					));
-			},	 
-			focus: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
-				return false;
-			},
-			select: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
-				$( "#rechargementidBanque" ).attr('id-banque', ui.item.id );
-				return false;
-			},
-			change: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				if ( !ui.item )
-					return removeIfInvalid( this );
-			}
-		}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
-			.appendTo( ul );
-		};
-		
-		return pData;
-	};*/
-	
 	this.affectValider = function(pData) {
 		var that = this;
 		pData.find('#btn-valider').click(function() {
@@ -1204,11 +1127,6 @@
 				
 		var lValid = new AchatValid();
 		var lVr = lValid.validAjout(lVo);
-	/*	if(pParam.id_adherent != 0) {
-			lVr = lValid.validAjout(lVo);
-		} else {// Invite
-			lVr = lValid.validAjoutInvite(lVo);
-		}*/
 		
 		// Arrêt de la recherche
 		$('#input-rechercher').val('');
@@ -1265,19 +1183,16 @@
 
 			lData.champComplementaireAffiche = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanques, true);
 
-			
 			$('#form-select-typePaiement').hide().after(lCaisseTemplate.champComplementaireAffiche.template(lData));
-
-			
-			/*$('#rechargement-champ-complementaire-affiche').text(lChampComplementaireAffiche);
-			$('#rechargement-banque-affiche').text(lBanqueAffiche);
-			*/
 			
 			// Masque les input pour passer en affichage et change les boutons
 			$('.form-produit, #btn-valider, #btn-modifier, #recherche-produit').toggle(); 
-			
+
 			if(this.mModeEdition == 1) {
 				this.mModeEdition = 0;
+				if(this.mModule == 'GestionCommande') {
+					$('#btn-supprimer').show();
+				}
 			} else {
 				$('#btn-enregistrer').show();
 			}
@@ -1310,7 +1225,7 @@
 	};
 	
 	this.modifier = function() {
-		$('#btn-enregistrer').hide();
+		$('#btn-enregistrer, #btn-supprimer').hide();
 		$('.form-produit, #btn-valider, #btn-modifier, #recherche-produit').toggle(); 
 		$('#formulaire-produit, #form-select-typePaiement').show();
 		$('#formulaire-produit-detail, #affiche-select-typePaiement').remove();
@@ -1368,5 +1283,49 @@
 				},"json"
 			);
 	};	
+	
+	this.affectSupprimer = function(pData) {
+		var that = this;
+		pData.find('#btn-supprimer').click(function() {
+			var lCaisseTemplate = new CaisseTemplate();
+			$(lCaisseTemplate.dialogSuppressionAchat).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Supprimer': function() {
+						var lDialog = $(this);
+						var lVo = {id:that.mParam.id , fonction:"supprimer"};	
+						$.post(	"./index.php?m=GestionCommande&v=CaisseMarcheCommande","pParam=" + $.toJSON(lVo),
+							function(lVoRetour) {
+								if(lVoRetour) {
+									if(lVoRetour.valid) {
+										var lVr = new TemplateVR(false, new VRelement(false, [new VRerreur(ERR_315_CODE, ERR_315_MSG)]));
+										if(that.mParam.retour == 'Achat') {
+											AchatVue({idMarche:that.mParam.id_commande, vr:lVr});
+										} else if(that.mParam.retour == 'AchatMarche') {
+											ListeAchatMarcheVue({id_marche:that.mParam.id_commande, vr:lVr});
+										}
+										lDialog.dialog('close');
+									} else {
+										Infobulle.generer(lVoRetour,"");
+									}
+								}
+							},"json"
+						);
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); }
+						
+			});
+		});
+		return pData;		
+	};
+	
 	this.construct(pParam);
 }
