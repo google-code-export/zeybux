@@ -55,6 +55,26 @@ class CompteZeybuOperationVO  extends DataTemplate
 	protected $mTppType;
 
 	/**
+	* @var varchar(50)
+	* @desc NumeroCheque de la CompteZeybuOperationVO
+	*/
+	protected $mNumeroCheque;
+
+	/**
+	 * @name CompteZeybuOperationVO()
+	 * @desc Le constructeur
+	 */
+	function CompteZeybuOperationVO($pOpeId = null, $pOpeDate = null, $pCptLabel = null, $pOpeLibelle = null, $pOpeMontant = null, $pTppType = null, $pNumeroCheque = null) {
+		if(!is_null($pOpeId)) {$this->mOpeId = $pOpeId; }
+		if(!is_null($pOpeDate)) {$this->mOpeDate = $pOpeDate; }
+		if(!is_null($pCptLabel)) {$this->mCptLabel = $pCptLabel; }
+		if(!is_null($pOpeLibelle)) {$this->mOpeLibelle = $pOpeLibelle; }
+		if(!is_null($pOpeMontant)) {$this->mOpeMontant = $pOpeMontant; }
+		if(!is_null($pTppType)) {$this->mTppType = $pTppType; }
+		if(!is_null($pNumeroCheque)) {$this->mNumeroCheque = $pNumeroCheque; }
+	}
+	
+	/**
 	* @name getOpeId()
 	* @return int(11)
 	* @desc Renvoie le membre OpeId de la CompteZeybuOperationVO
@@ -160,6 +180,24 @@ class CompteZeybuOperationVO  extends DataTemplate
 	*/
 	public function setTppType($pTppType) {
 		$this->mTppType = $pTppType;
+	}
+
+	/**
+	* @name getNumeroCheque()
+	* @return varchar(50)
+	* @desc Renvoie le membre NumeroCheque de la CompteZeybuOperationVO
+	*/
+	public function getNumeroCheque() {
+		return $this->mNumeroCheque;
+	}
+
+	/**
+	* @name setNumeroCheque($pNumeroCheque)
+	* @param varchar(50)
+	* @desc Remplace le membre NumeroCheque de la CompteZeybuOperationVO par $pNumeroCheque
+	*/
+	public function setNumeroCheque($pNumeroCheque) {
+		$this->mNumeroCheque = $pNumeroCheque;
 	}
 
 }

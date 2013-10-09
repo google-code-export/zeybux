@@ -1,5 +1,83 @@
 ;function CompteZeybuTemplate() {
+	this.rechercheListeOperation = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Le Compte du Zeybu" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
+					"<span class=\"ui-icon ui-icon-print\">" +
+				"</span>" +
+			"</div>" +
+			"<table id=\"table-info-solde-zeybu\">" +
+				"<thead>" +
+					"<tr class=\"ui-widget ui-widget-header\">" +
+						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Zeybu Marche : {soldeTotal} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Montant en Banque : {soldeBanque} {sigleMonetaire}</th>" +
+					"</tr>" +
+					"<tr class=\"ui-widget ui-widget-header\">" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde EAU : {soldeSolidaire} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-caisse\" class=\"com-table-th\">Montant en Caisse : {soldeCaisse} {sigleMonetaire}</th>" +
+					"</tr>" +
+				"</thead>" +
+			"</table>" +	
+			"<div id=\"form-recherche-liste-operation\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+				" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+				"Marché " +
+				"<select id=\"idMarche\" >" +
+					"<option value=\"0\" >Tout</option>" +
+					"<option value=\"-1\" >Hors Marché</option>" +
+					"<!-- BEGIN listeMarche -->" +
+					"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+					"<!-- END listeMarche -->" +
+				"</select>" +
+				"<button type=\"button\" id=\"btn-rechercher-liste-operation\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+				
+			"</span>" +
+			"</div>" +
+			"<div id=\"liste-operation\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeOperationVide = "<p id=\"texte-liste-vide\">Aucune Opération effectuée.</p>";
+	
 	this.InfoCompte =
+		"<div>" +				
+			"<div id=\"content-nav-liste-operation\" class=\"ui-helper-clearfix ui-state-default ui-corner-all\">" +	
+				"<form>" +	
+				"	<span id=\"icone-nav-liste-operation-w\" class=\"prev ui-helper-hidden ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-w\"></span></span>" +
+				"	<span id=\"page-compteur\">Page : <span type=\"text\" class=\"pagedisplay\"></span></span>" +
+				"	<span id=\"icone-nav-liste-operation-e\" class=\"next ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-e\"></span></span>" +
+				"	<input type=\"hidden\" class=\"pagesize\" value=\"30\">" +
+				"</form>" +	
+			"</div>" +	
+	
+			"<table id=\"table-operation\" class=\"com-table\">" +
+				"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\" >" +
+					"<th class=\"com-table-th\">Date</th>" +
+					"<th class=\"com-table-th\">Compte</th>" +
+					"<th class=\"com-table-th\">Libellé</th>" +
+					"<th class=\"com-table-th\">Type de paiement</th>" +
+					"<th class=\"com-table-th\">Débit</th>" +
+					"<th class=\"com-table-th\">Crédit</th>" +
+				"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+			"<!-- BEGIN operation -->" +
+				"<tr>" +
+					"<td class=\"com-table-td td-date \">{operation.opeDate}</td>" +
+					"<td class=\"com-table-td td-date \">{operation.cptLabel}</td>" +
+					"<td class=\"com-table-td td-libelle\">{operation.opeLibelle}</td>" +
+					"<td class=\"com-table-td td-type-paiement\">{operation.tppType}</td>" +
+					"<td class=\"com-table-td td-montant\">{operation.debit} {operation.sigleMonetaireDebit}</td>" +
+					"<td class=\"com-table-td td-montant\">{operation.credit} {operation.sigleMonetaireCredit}</td>" +
+				"</tr>" +
+			"<!-- END operation -->" +
+				"</tbody>" +
+			"</table>" +
+		"</div>";
+	
+	/*this.InfoCompte =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Compte du Zeybu</div>" +
@@ -66,7 +144,7 @@
 				"</table>" +
 				"<p id=\"texte-liste-vide\">Aucune Opération effectuée.</p>" +	
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.listeAdherent = 
 		"<div id=\"contenu\" class=\"ui-helper-reset\">" +

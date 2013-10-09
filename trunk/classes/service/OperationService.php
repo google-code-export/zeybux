@@ -473,7 +473,7 @@ class OperationService
 	* @return array(OperationVO)
 	* @desc Retourne la liste des opérations du zeybu
 	*/
-	public function selectOperationZeybu() {
+	/*public function selectOperationZeybu() {
 		// Initialisation du Logger
 		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
@@ -542,6 +542,15 @@ class OperationService
 			$lListeCompteZeybuOperation[0] = new CompteZeybuOperationVO();
 		}
 		return $lListeCompteZeybuOperation;
+	}*/
+	
+	/**
+	 * @name rechercheOperationZeybu($pDateDebut, $pDateFin, $pIdMarche) 
+	 * @return array(CompteZeybuOperationVO)
+	 * @desc Retourne une liste d'operation
+	 */
+	public function rechercheOperationZeybu($pDateDebut = null, $pDateFin = null, $pIdMarche = null) {	
+		return OperationManager::rechercheOperationZeybu($pDateDebut, $pDateFin, $pIdMarche);
 	}
 	
 	/**
@@ -555,7 +564,7 @@ class OperationService
 	* @return CompteZeybuOperationVO
 	* @desc Retourne une CompteZeybuOperationVO remplie
 	*/
-	private static function remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType) {
+	/*private static function remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType) {
 		$lCompteZeybuOperation = new CompteZeybuOperationVO();
 		$lCompteZeybuOperation->setOpeId($pOpeId);
 		$lCompteZeybuOperation->setOpeDate($pOpeDate);
@@ -564,7 +573,7 @@ class OperationService
 		$lCompteZeybuOperation->setOpeMontant($pOpeMontant);
 		$lCompteZeybuOperation->setTppType($pTppType);
 		return $lCompteZeybuOperation;
-	}
+	}*/
 	
 	/**
 	* @name validerPaiement()

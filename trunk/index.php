@@ -8,12 +8,6 @@
 // Description : Page d'index
 //
 //****************************************************************
-/*$ttl = 5; // Une heure, en secondes
-//$local_sessions_save_path = ini_get('session.save_path').'/monsiteweb';     
-session_set_cookie_params($ttl);
-ini_set('session.gc_maxlifetime', $ttl);
-//ini_set('session.save_path', $local_sessions_save_path);*/
-
 session_start();
 
 // Permet de calculer le temps d'exécution du script

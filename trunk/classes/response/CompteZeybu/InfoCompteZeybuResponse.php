@@ -49,18 +49,22 @@ class InfoCompteZeybuResponse extends DataTemplate
 	protected $mSoldeBanque;
 	
 	/**
-	* @var array(OperationPasseeViewVO)
-	* @desc Operation de la InfoCompteZeybuResponse
+	* @var array(CommandeVO)
+	* @desc ListeMarche de la InfoCompteZeybuResponse
 	*/
-	protected $mOperation;
+	protected $mListeMarche;
 	
 	/**
 	* @name InfoCompteZeybuResponse()
 	* @desc Le constructeur de InfoCompteZeybuResponse
 	*/	
-	public function InfoCompteZeybuResponse() {
+	public function InfoCompteZeybuResponse($pSoldeTotal = null, $pSoldeSolidaire = null, $pSoldeCaisse = null, $pSoldeBanque = null, $pListeMarche = null) {
 		$this->mValid = true;		
-		$this->mOperation = array();
+		if(!is_null($pSoldeTotal)) { $this->mSoldeTotal = $pSoldeTotal;}
+		if(!is_null($pSoldeSolidaire)) { $this->mSoldeSolidaire = $pSoldeSolidaire;}
+		if(!is_null($pSoldeCaisse)) { $this->mSoldeCaisse = $pSoldeCaisse;}
+		if(!is_null($pSoldeBanque)) { $this->mSoldeBanque = $pSoldeBanque;}
+		if(!is_null($pListeMarche)) { $this->mListeMarche = $pListeMarche;} else { $this->mListeMarche = array(); }
 	}
 	
 	/**
@@ -154,30 +158,30 @@ class InfoCompteZeybuResponse extends DataTemplate
 	}
 	
 	/**
-	* @name getOperation()
-	* @return array(OperationPasseeViewVO)
-	* @desc Renvoie le membre Operation de la InfoCompteZeybuResponse
+	* @name getListeMarche()
+	* @return array(CommandeVO)
+	* @desc Renvoie le membre ListeMarche de la InfoCompteZeybuResponse
 	*/
-	public function getOperation(){
-		return $this->mOperation;
+	public function getListeMarche(){
+		return $this->mListeMarche;
 	}
 
 	/**
-	* @name setOperation($pOperation)
-	* @param array(OperationPasseeViewVO)
-	* @desc Remplace le membre Operation de la InfoCompteZeybuResponse par $pOperation
+	* @name setListeMarche($pListeMarche)
+	* @param array(CommandeVO)
+	* @desc Remplace le membre ListeMarche de la InfoCompteZeybuResponse par $pListeMarche
 	*/
-	public function setOperation($pOperation) {
-		$this->mOperation = $pOperation;
+	public function setListeMarche($pListeMarche) {
+		$this->mListeMarche = $pListeMarche;
 	}
 	
 	/**
-	* @name addOperation($pOperation)
-	* @param OperationPasseeViewVO
-	* @desc Ajoute $pOperation à Operation
+	* @name addListeMarche($pListeMarche)
+	* @param CommandeVO
+	* @desc Ajoute $pListeMarche à ListeMarche
 	*/
-	public function addOperation($pOperation){
-		array_push($this->mOperation,$pOperation);
+	public function addListeMarche($pListeMarche){
+		array_push($this->mListeMarche,$pListeMarche);
 	}
 }
 ?>
