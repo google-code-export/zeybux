@@ -1,7 +1,8 @@
 @CHARSET "UTF-8";
 
 #table-info-solde-zeybu {
-	margin-left:15px;
+	margin-right:auto;
+	margin-left:auto;
 	margin-bottom:10px;
 }
 
@@ -24,4 +25,15 @@
 
 #btn-virement-solidaire-inverse {
 	margin-top:20px;
+}
+
+#form-recherche-liste-operation #dateDebut, #form-recherche-liste-operation #dateFin {
+	width:80px;
+}
+#form-recherche-liste-operation #dateFin {
+	margin-right:20px;
+}
+#form-recherche-liste-operation #idMarche {
+	width:130px;
+	margin-right:25px;
 }
