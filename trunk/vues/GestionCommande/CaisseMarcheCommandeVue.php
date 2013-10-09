@@ -55,16 +55,10 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						}						
 					break;
 					
-				/*case "modifier":
-						$lResponse = $lControleur->modifierAchat($lParam);
-						echo $lResponse->exportToJson();
-		
-						if($lResponse->getValid()) {
-							$lLogger->log("Enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-						} else {
-							$lLogger->log("Echec de l'enregistrement d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-						}						
-					break;*/
+				case "supprimer":
+						echo $lControleur->supprimerAchat($lParam)->exportToJson();
+						$lLogger->log("Suppressiont d'un achat par l'adherent : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs					
+					break;
 
 				default:
 					$lLogger->log("Demande d'accés à GestionCommande sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs

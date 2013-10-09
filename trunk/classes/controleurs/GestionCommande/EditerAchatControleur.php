@@ -233,5 +233,19 @@ class EditerAchatControleur
 		}				
 		return $lVr;
 	}
+	
+	/**
+	* @name supprimerAchat($pParam)
+	* @return AchatVR
+	* @desc Supprime un achat
+	*/
+	public function supprimerAchat($pParam) {
+		$lVr = AchatValid::validDelete($pParam);
+		if($lVr->getValid()) {
+			$lAchatService = new AchatService();
+			$lAchatService->delete($pParam['id']);
+		}
+		return $lVr;
+	}
 }
 ?>
