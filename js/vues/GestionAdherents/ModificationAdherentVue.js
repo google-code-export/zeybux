@@ -1,6 +1,10 @@
 ;function ModificationAdherentVue(pParam) {
 	this.mIdAdherent = null;
 	this.mIdCompte = null;
+	this.mAdherent = {};
+	this.mAdherentCompte = [];
+	this.mIdAdherentPrincipal = 0;
+	this.mIdAncienAdherentPrincipal = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ModificationAdherentVue(pParam);}} );
@@ -14,8 +18,11 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+							that.mAdherent = lResponse.adherent;
 							that.mIdAdherent = pParam.id;
 							that.mIdCompte = lResponse.adherent.adhIdCompte;
+							that.mAdherentCompte[lResponse.adherent.adhIdCompte] = lResponse.adherentCompte;
+							//that.mIdAncienAdherentPrincipal = lResponse.adherent.cptIdAdherentPrincipal;
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -27,11 +34,25 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lData = lResponse.adherent;		
 		lData.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		lData.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
 		lData.modules = lResponse.modules;
 		
+		if(this.mAdherentCompte[this.mIdCompte].length == 1) {
+			lData.formAdherentPrincipal = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalUnique.template(this.mAdherent)});
+		} else {
+			$.each(this.mAdherentCompte[this.mIdCompte], function() {
+				if(this.id == lResponse.adherent.cptIdAdherentPrincipal) {
+					this.selected = 'selected="selected"';
+				} else {
+					this.selected = '';
+				}
+			});
+			lData.formAdherentPrincipal = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:this.mAdherentCompte[this.mIdCompte]})});
+		}
+				
 		$(lResponse.autorisations).each(function() {
 			var lIdModule = this.idModule;
 			$(lData.modules).each(function() {
@@ -42,7 +63,7 @@
 		});		
 		
 
-		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+		
 		
 		lData.formCompte = lGestionAdherentsTemplate.formulaireCompteModificationAdherent.template(lData);
 		lData.autorisation = lGestionAdherentsTemplate.formulaireAutorisationAdherent.template(lData);		
@@ -64,6 +85,7 @@
 	};
 	
 	this.affectChoixGenerationCompte = function(pData) {
+		var that = this;
 		pData.find('[name="choix_compte"]').change(function() {
 			var lVal = $(this).val();
 			if(lVal == "lier") {
@@ -72,6 +94,73 @@
 				$('#choix_compte_liaison').hide();
 				$('#label_compte_lier').hide().text('').attr('data-id-compte','');
 			}
+			
+			var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+			switch(lVal) {
+				case "actuel":
+					var lHtml = '';
+					if(that.mAdherentCompte[that.mIdCompte].length == 1) {
+						lHtml = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalUnique.template(that.mAdherent)});
+					} else {
+						$.each(that.mAdherentCompte[that.mIdCompte], function() {
+							if(this.id == that.mAdherent.cptIdAdherentPrincipal) {
+								this.selected = 'selected="selected"';
+							} else {
+								this.selected = '';
+							}
+						});
+						lHtml = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:that.mAdherentCompte[that.mIdCompte]})});
+					}
+					$('#ligne-adherent-principal').html(lHtml);
+					break;
+				
+				default:
+					if(that.mAdherent.adhId == that.mAdherent.cptIdAdherentPrincipal) { // Si c'est un adherent Principal il faut en définir un nouveau
+						// Si il y a d'autres adhérents
+						if(that.mAdherentCompte[that.mIdCompte].length > 1) {
+							if(that.mAdherentCompte[that.mIdCompte].length == 2) { // Si il ne reste qu'un autre adhérent on le positionne en principal
+								if(that.mAdherentCompte[that.mIdCompte][0].id == that.mAdherent.adhId) {
+									that.mIdAncienAdherentPrincipal = that.mAdherentCompte[that.mIdCompte][1].id;
+								} else {
+									that.mIdAncienAdherentPrincipal = that.mAdherentCompte[that.mIdCompte][0].id;
+								}
+							} else {
+								var lListeAdherent = [];
+								$.each(that.mAdherentCompte[that.mIdCompte], function() {
+									if(this.id != that.mAdherent.adhId) {
+										lListeAdherent.push(this);
+									}
+								});
+								var lData = {adherentPrincipal:lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:lListeAdherent})})
+										,cptLabel:that.mAdherent.cptLabel};
+							
+								$(lGestionAdherentsTemplate.dialogNvAncienAdhPrincipal.template(lData)).dialog({			
+									autoOpen: true,
+									modal: true,
+									draggable: true,
+									resizable: false,
+									width:900,
+									buttons: {
+										'Valider': function() {
+											that.mIdAncienAdherentPrincipal = $(this).find('#idAdherentPrincipal').val();
+											$(this).dialog('close');
+										}
+									},
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+								});	
+							}						
+						} else { // Dernier adhérent du compte
+							that.mIdAncienAdherentPrincipal = -1;
+						}
+					} else {
+						that.mIdAncienAdherentPrincipal = that.mAdherent.cptIdAdherentPrincipal;
+					}
+					
+					// Affichage de l'adhérent principal du nouveau compte
+					var lHtml = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalUnique.template(that.mAdherent)});
+					$('#ligne-adherent-principal').html(lHtml);
+					break;
+			}			
 		});
 		return pData;
 	};
@@ -95,12 +184,16 @@
 						var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 						var lTemplate = lGestionAdherentsTemplate.dialogListeAdherent;
 						
+						var lListeAdherent = [];
 						$.each(lResponse.listeAdherent,function() {
-							this.adhIdTri = this.adhNumero.replace("Z","");
-							this.cptIdTri = this.cptLabel.replace("C","");
+							if(this.adhIdCompte != that.mIdCompte) {
+								this.adhIdTri = this.adhNumero.replace("Z","");
+								this.cptIdTri = this.cptLabel.replace("C","");
+								lListeAdherent.push(this);
+							}
 						});
 						
-						$(that.affectDialoglisteAdherent($(lTemplate.template(lResponse)))).dialog({			
+						$(that.affectDialoglisteAdherent($(lTemplate.template({listeAdherent:lListeAdherent})))).dialog({			
 							autoOpen: true,
 							modal: true,
 							draggable: true,
@@ -129,7 +222,64 @@
 	};
 	
 	this.affectSelectCompte = function(pData) {
+		var that = this;
 		pData.find('.compte-ligne').click(function() {
+			var lVo = {fonction:"adherentCompte", id:$(this).attr('data-id-compte')};
+			$.post(	"./index.php?m=GestionAdherents&v=ModificationAdherent", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {	
+							var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+							
+							$.each(lResponse.adherentCompte, function() {
+								if(this.id == lResponse.compte.idAdherentPrincipal) {
+									this.selected = 'selected="selected"';
+								} else {
+									this.selected = '';
+								}
+							});
+							
+							// Ajout de l'adhérent à la liste
+							lResponse.adherentCompte.push({id:that.mAdherent.adhId,numero:that.mAdherent.adhNumero,nom:that.mAdherent.adhNom,prenom:that.mAdherent.adhPrenom});
+							
+							var lData = {adherentPrincipal:lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:lResponse.adherentCompte})})
+									, cptLabel:lResponse.compte.label};
+
+							$(that.affectDialoglisteAdherent($(lGestionAdherentsTemplate.dialogNvAncienAdhPrincipal.template(lData)))).dialog({			
+								autoOpen: true,
+								modal: true,
+								draggable: true,
+								resizable: false,
+								width:900,
+								buttons: {
+									'Valider': function() {
+										that.mIdAdherentPrincipal = $(this).find('#idAdherentPrincipal').val();
+										
+										$.each(lResponse.adherentCompte, function() {
+											if(this.id == that.mIdAdherentPrincipal) {
+												this.selected = 'selected="selected"';
+											} else {
+												this.selected = '';
+											}
+										});
+										
+										// Affichage de l'adhérent principal du nouveau compte
+										var lHtml = lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:lResponse.adherentCompte})});
+										$('#ligne-adherent-principal').html(lHtml);
+										
+										$(this).dialog('close');
+									}
+								},
+								close: function(ev, ui) { $(this).remove(); Infobulle.init(); }			
+							});					
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+			
 			$('#label_compte_lier')
 				.text($(this).attr('data-label-compte'))
 				.attr("data-id-compte",$(this).attr('data-id-compte'));
@@ -181,16 +331,27 @@
 		var lVo = new AdherentVO();
 		lVo.id = this.mIdAdherent;
 		lVo.idCompte = "";
+		lVo.idAdherentPrincipal = 0;
+		lVo.idAncienAdherentPrincipal = 0;
+		
 		var lChoixCompte = $(':input[name=choix_compte]:checked').val();
-		if(lChoixCompte == 'actuel' ) {
+		if(lChoixCompte == 'actuel' ) {			
+			if($('#idAdherentPrincipal').length == 1) { // Si plusieurs adhérents
+				lVo.idAdherentPrincipal = $('#idAdherentPrincipal').val();
+			}
+			lVo.idAncienAdherentPrincipal = lVo.idAdherentPrincipal;
 			lVo.idCompte = this.mIdCompte;
 		} else if ( lChoixCompte == 'auto') {
 			lVo.idCompte = 0;
+			lVo.idAdherentPrincipal = lVo.id;
+			lVo.idAncienAdherentPrincipal = this.mIdAncienAdherentPrincipal;
 		} else {
 			var lIdCompte = $('#label_compte_lier').attr("data-id-compte");
 			if(lIdCompte != undefined ) {
 				lVo.idCompte = $('#label_compte_lier').attr("data-id-compte");
-			}			
+			}
+			lVo.idAdherentPrincipal = $('#idAdherentPrincipal').val();
+			lVo.idAncienAdherentPrincipal = this.mIdAncienAdherentPrincipal;
 		}
 				
 		lVo.nom = $(':input[name=nom]').val();

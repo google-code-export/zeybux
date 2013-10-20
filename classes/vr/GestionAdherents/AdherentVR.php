@@ -9,9 +9,8 @@
 //
 //****************************************************************
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VR . "VRelement.php" );
+include_once(CHEMIN_CLASSES_VR . "TemplateVR.php" );
 include_once(CHEMIN_CLASSES_UTILS . "MessagesErreurs.php" );
-include_once(CHEMIN_CLASSES . "DataTemplate.php");
 
 /**
  * @name AdherentVR
@@ -19,31 +18,25 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
  * @since 09/11/2010
  * @desc Classe représentant une AdherentVR
  */
-class AdherentVR extends DataTemplate
+class AdherentVR extends TemplateVR
 {
-	/**
-	 * @var bool
-	 * @desc Donne la validité de l'objet
-	 */
-	protected $mValid;
-
-	/**
-	 * @var VRelement
-	 * @desc Le Log de l'objet
-	 */
-	protected $mLog;
-
 	/**
 	 * @var VRelement
 	 * @desc L'Id de l'objet
 	 */
 	protected $mId;
-
+	
 	/**
 	 * @var VRelement
-	 * @desc MotPasse de la AdherentVR
+	 * @desc L'IdAdherentPrincipal de l'objet
 	 */
-	//protected $mMotPasse;
+	protected $mIdAdherentPrincipal;
+	
+	/**
+	 * @var VRelement
+	 * @desc L'IdAncienAdherentPrincipal de l'objet
+	 */
+	protected $mIdAncienAdherentPrincipal;
 
 	/**
 	 * @var VRelement
@@ -147,10 +140,12 @@ class AdherentVR extends DataTemplate
 	* @desc Constructeur
 	*/
 	function AdherentVR() {
+		parent::__construct();
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId = new VRelement();
-		//$this->mMotPasse = new VRelement();
+		$this->mIdAdherentPrincipal = new VRelement();
+		$this->mIdAncienAdherentPrincipal = new VRelement();
 		$this->mNumero = new VRelement();
 		$this->mIdCompte = new VRelement();
 		$this->mCompte = new VRelement();
@@ -170,42 +165,6 @@ class AdherentVR extends DataTemplate
 	}
 
 	/**
-	* @name getValid()
-	* @return bool
-	* @desc Renvoie la validite de l'élément
-	*/
-	public function getValid() {
-		return $this->mValid;
-	}
-
-	/**
-	* @name setValid($pValid)
-	* @param bool
-	* @desc Remplace la validite de l'élément par $pValid
-	*/
-	public function setValid($pValid) {
-		$this->mValid = $pValid;
-	}
-
-	/**
-	* @name getLog()
-	* @return VRelement
-	* @desc Renvoie le VRelement Log
-	*/
-	public function getLog() {
-		return $this->mLog;
-	}
-
-	/**
-	* @name setLog($pLog)
-	* @param VRelement
-	* @desc Remplace le VRelement Log par $pLog
-	*/
-	public function setLog($pLog) {
-		$this->mLog = $pLog;
-	}
-
-	/**
 	* @name getId()
 	* @return VRelement
 	* @desc Renvoie le VRelement Id
@@ -221,6 +180,42 @@ class AdherentVR extends DataTemplate
 	*/
 	public function setId($pId) {
 		$this->mId = $pId;
+	}
+	
+	/**
+	 * @name getIdAdherentPrincipal()
+	 * @return VRelement
+	 * @desc Renvoie le VRelement IdAdherentPrincipal
+	 */
+	public function getIdAdherentPrincipal() {
+		return $this->mIdAdherentPrincipal;
+	}
+	
+	/**
+	 * @name setIdAdherentPrincipal($pIdAdherentPrincipal)
+	 * @param VRelement
+	 * @desc Remplace le VRelement IdAdherentPrincipal par $pIdAdherentPrincipal
+	 */
+	public function setIdAdherentPrincipal($pIdAdherentPrincipal) {
+		$this->mIdAdherentPrincipal = $pIdAdherentPrincipal;
+	}
+	
+	/**
+	 * @name getIdAncienAdherentPrincipal()
+	 * @return VRelement
+	 * @desc Renvoie le VRelement IdAncienAdherentPrincipal
+	 */
+	public function getIdAncienAdherentPrincipal() {
+		return $this->mIdAncienAdherentPrincipal;
+	}
+	
+	/**
+	 * @name setIdAncienAdherentPrincipal($pIdAncienAdherentPrincipal)
+	 * @param VRelement
+	 * @desc Remplace le VRelement IdAncienAdherentPrincipal par $pIdAncienAdherentPrincipal
+	 */
+	public function setIdAncienAdherentPrincipal($pIdAncienAdherentPrincipal) {
+		$this->mIdAncienAdherentPrincipal = $pIdAncienAdherentPrincipal;
 	}
 
 	/**

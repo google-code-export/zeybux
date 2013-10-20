@@ -1,5 +1,7 @@
 ;function AdherentVO() {
 	this.id = '';
+	this.idAdherentPrincipal = '';
+	this.idAncienAdherentPrincipal = '';
 	this.numero = '';
 	this.compte = '';
 	this.idCompte = '';

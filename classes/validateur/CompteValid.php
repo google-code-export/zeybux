@@ -41,7 +41,7 @@ class CompteValid
 	* @desc Test la validite de l'élément
 	*/
 	public function id($pId) {
-		$lIdValid = new IdValid();
+		$lIdValid = new IdValid();		
 		if(!empty($pId)){
 			return $lIdValid->estId($pId);
 		} else {
@@ -73,6 +73,16 @@ class CompteValid
 	}
 	
 	/**
+	 * @name idAdherentPrincipal($pId)
+	 * @return bool
+	 * @desc Test la validite de l'élément
+	 */
+	public function idAdherentPrincipal($pId) {
+		$lIdValid = new IdValid();
+		return $lIdValid->estId($pId);
+	}
+	
+	/**
 	* @name insert($pCompte)
 	* @return bool
 	* @desc Test la validite de l'élément
@@ -93,11 +103,12 @@ class CompteValid
 	* @return bool
 	* @desc Test la validite de l'élément
 	*/
-	public function update($pCompte) {
+	public function update($pCompte) {		
 		if($this->estCompte($pCompte)) {
 			return $this->id($pCompte->getId())
 			&& $this->label($pCompte->getLabel())
-			&& $this->solde($pCompte->getSolde());
+			&& $this->solde($pCompte->getSolde())
+			&& $this->idAdherentPrincipal($pCompte->getIdAdherentPrincipal());
 		} else {
 			return false;
 		}

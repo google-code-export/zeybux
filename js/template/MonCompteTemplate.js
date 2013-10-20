@@ -20,13 +20,19 @@
 				"</div>" +
 				"<div class=\"com-widget-content edt-info-compte\">" +
 					"<div>{adhNumero} : <span id=\"adh-prenom\">{adhPrenom}</span> <span id=\"adh-nom\">{adhNom}</span></div>" +
-					"<div>Compte : {cptLabel}</div>" +
+					"<div><span id=\"adh-principal\">{adherentPrincipal}</span> : {cptLabel}</div>" +
 					"<div>Date de naissance : <span id=\"adh-date-naissance\">{adhDateNaissance}</span></div>" +
 					"<div>Date d'adhésion : {adhDateAdhesion}</div>" +
 					"<div>Commentaire : <span id=\"adh-commentaire\">{adhCommentaire}</span></div>" +
 				"</div>" +
 				"<div class=\"ui-helper-hidden edt-info-compte\">" +
 					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Adhérent Principal</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"{adherentPrincipalSelect}" +
+							"</td>" +
+						"</tr>" +
 						"<tr>" +
 							"<th class=\"com-table-form-th\">Nom *</th>" +
 							"<td class=\"com-table-form-td\">" +
@@ -97,6 +103,18 @@
 			"</div>" +
 		"</div>" +
 	"</div>";
+	
+	this.adherentPrincipal = "Adherent Principal";
+	this.adherentSecondaire = "Adherent Secondaire";
+	
+	this.adherentPrincipalSelect = 
+		"<select name=\"idAdherentPrincipal\" id=\"idAdherentPrincipal\">" +
+			"<!-- BEGIN adherent -->" +
+				"<option {adherent.selected} value=\"{adherent.id}\">{adherent.numero} : {adherent.nom} {adherent.prenom}</option>" +
+			"<!-- END adherent -->" +
+		"</select>";
+	
+	this.adherentPrincipalUnique = "<span>{adhNumero} : {adhNom} {adhPrenom}</span>";
 	
 	this.dialogEditionPass =
 		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulairer_dialog\">" +

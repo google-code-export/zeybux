@@ -265,8 +265,8 @@ class AdherentManager
 				array(AdherentManager::CHAMP_ADHERENT_ID_COMPTE, AdherentManager::CHAMP_ADHERENT_ETAT),
 				array('=','='),
 				array($pId,1),
-				array(''),
-				array(''));
+				array(AdherentManager::CHAMP_ADHERENT_NUMERO),
+				array('ASC'));
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 ;function MonCompteVue(pParam) {
 	this.mInformationAdherent = {};
+	this.mIdAdherent = 0;
+	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MonCompteVue(pParam);}} );
 		var that = this;
@@ -30,6 +32,8 @@
 			lResponse.adherent.opeMontant = 0;
 			lResponse.adherent.adhDateNaissance = '0000-00-00';
 			lResponse.adherent.adhDateAdhesion = '0000-00-00';
+		} else {
+			this.mIdAdherent = lResponse.adherent.adhId;
 		}
 		lResponse.cptSolde = lResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 		
@@ -92,6 +96,26 @@
 		
 		var lMonCompteTemplate = new MonCompteTemplate();
 		var lCoreTemplate = new CoreTemplate();
+		
+		if(lResponse.adherent.adhId == lResponse.adherent.cptIdAdherentPrincipal) { // Adhérent Principal
+			lResponse.adherent.adherentPrincipal = lMonCompteTemplate.adherentPrincipal;
+		} else { // Adhérent Secondaire
+			lResponse.adherent.adherentPrincipal = lMonCompteTemplate.adherentSecondaire;
+		}
+		
+		if(lResponse.adherentCompte.length == 1) {
+			lResponse.adherent.adherentPrincipalSelect = lMonCompteTemplate.adherentPrincipalUnique.template(lResponse.adherent);
+		} else {
+			$.each(lResponse.adherentCompte, function() {
+				if(this.id == lResponse.adherent.cptIdAdherentPrincipal) {
+					this.selected = 'selected="selected"';
+				} else {
+					this.selected = '';
+				}
+			});
+			lResponse.adherent.adherentPrincipalSelect = lMonCompteTemplate.adherentPrincipalSelect.template({adherent:lResponse.adherentCompte});
+		};
+		
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
 		var lHtml = lCoreTemplate.debutContenu;		
@@ -244,8 +268,13 @@
 	
 	this.modifInformation = function() {
 		var that = this;
-		
 		var lVo = new AdherentVO();
+		if($('#idAdherentPrincipal').length == 0) {
+			lVo.idAdherentPrincipal = this.mIdAdherent;
+		} else {
+			lVo.idAdherentPrincipal = $('#idAdherentPrincipal').val();
+		}
+		
 		lVo.nom = $(':input[name=nom]').val();
 		lVo.prenom = $(':input[name=prenom]').val();
 		lVo.courrielPrincipal = $(':input[name=courriel_principal]').val();
@@ -310,6 +339,13 @@
 							$('#adh-ville').text(that.mInformationAdherent.ville);
 							$('#adh-date-naissance').text(that.mInformationAdherent.dateNaissance);
 							$('#adh-commentaire').text(that.mInformationAdherent.commentaire);
+							
+							var lMonCompteTemplate = new MonCompteTemplate();
+							if(lVo.idAdherentPrincipal == that.mIdAdherent) {
+								$('#adh-principal').text(lMonCompteTemplate.adherentPrincipal);
+							} else {
+								$('#adh-principal').text(lMonCompteTemplate.adherentSecondaire);
+							}
 							
 							$('.edt-info-compte').toggle();
 						} else {

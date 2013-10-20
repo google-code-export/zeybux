@@ -190,6 +190,8 @@ class MessagesErreurs
 	const ERR_266_MSG = 'Le total ne correspond pas à la somme des produits.';
 	const ERR_267_CODE = 267;
 	const ERR_267_MSG = 'Ce champ doit être négatif.';
+	const ERR_268_CODE = 268;
+	const ERR_268_MSG = 'L\'adhérent et l\'adhérent principal doivent être sur le même compte.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;

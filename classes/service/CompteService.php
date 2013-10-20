@@ -195,5 +195,15 @@ class CompteService
 			return count($lTabAdherent);
 		}		
 	}
+	
+	/**
+	 * @name getNombreAdherentSurCompte($pId)
+	 * @param integer
+	 * @return array(AdherentVO)
+	 * @desc Retourne les adhérents du compte
+	 */
+	public function getAdherentCompte($pId) {
+		return AdherentManager::selectActifByIdCompte($pId);
+	}
 }
 ?>

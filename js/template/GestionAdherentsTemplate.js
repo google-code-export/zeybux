@@ -38,6 +38,9 @@
 										"<span class=\"ui-helper-hidden ui-state-default ui-corner-all com-button com-center\" id=\"choix_compte_liaison\">Choisir</span>" +
 									"</td>" +
 								"</tr>" +
+								"<tr id=\"ligne-adherent-principal\">" +
+									"{formAdherentPrincipal}" +
+								"</tr>" +
 								"<tr>" +
 									"<th class=\"ui-widget-content ui-widget-content-transparent ui-corner-all\">Commentaire</th>" +
 									"<td class=\"com-table-form-td\"><textarea class=\"com-input-text ui-widget-content ui-widget-content-transparent ui-corner-all\" name=\"commentaire\" id=\"commentaire\">{adhCommentaire}</textarea></td>" +
@@ -88,6 +91,17 @@
 				"</form>" +
 			"</div>" +
 		"</div>";
+	
+	this.ligneAdherentPrincipal = 
+		"<th class=\"ui-widget-content ui-widget-content-transparent ui-corner-all\">Adherent Principal</th>" +
+		"<td class=\"com-table-form-td\">" +
+			"{adherentPrincipal}" +
+		"</td>";
+	
+	this.dialogNvAncienAdhPrincipal = 
+		"<div id=\"dialog-liste-adherent\" title=\"Nouvel adhérent Principal du compte {cptLabel}\">" +
+				"{adherentPrincipal}" +
+		"</div>";	
 	
 	this.formulaireCompteAjoutAdherent =
 		"<input type=\"radio\" name=\"choix_compte\" value=\"auto\" id=\"btn-auto\" checked=\"checked\"/><label for=\"btn-auto\">Automatique</label> <br/>" +
@@ -143,7 +157,7 @@
 					"</thead>" +
 					"<tbody>" +
 				"<!-- BEGIN listeAdherent -->" +
-						"<tr class=\"com-cursor-pointer compte-ligne\" data-id-compte=\"{listeAdherent.adhIdCompte}\" data-label-compte=\"{listeAdherent.cptLabel}\">" +
+						"<tr class=\"com-cursor-pointer compte-ligne\" data-id-compte=\"{listeAdherent.adhIdCompte}\" data-label-compte=\"{listeAdherent.cptLabel}\" data-id=\"{listeAdherent.adhId}\">" +
 							"<td class=\"com-table-td-debut com-underline-hover\">" +
 								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
 								"{listeAdherent.adhNumero}</td>" +
@@ -257,7 +271,7 @@
 					"</div>" +
 					"<div class=\"com-widget-content\">" +
 						"<div>Numéro d'adhérent : {adhNumero}</div>" +
-						"<div>Numéro de Compte : {cptLabel}</div>" +
+						"<div>{adherentPrincipal} : {cptLabel}</div>" +
 						"<div>Nom : {adhNom}</div>" +
 						"<div>Prénom : {adhPrenom}</div>" +
 						"<div>Date de naissance : {adhDateNaissance}</div>" +
@@ -277,6 +291,18 @@
 						"<div>Code Postal : {adhCodePostal}</div>" +
 					"</div>" +
 				"</div>";
+	
+	this.adherentPrincipal = "Adherent Principal";
+	this.adherentSecondaire = "Adherent Secondaire";
+	
+	this.adherentPrincipalSelect = 
+		"<select name=\"idAdherentPrincipal\" id=\"idAdherentPrincipal\">" +
+			"<!-- BEGIN adherent -->" +
+				"<option {adherent.selected} value=\"{adherent.id}\">{adherent.numero} : {adherent.nom} {adherent.prenom}</option>" +
+			"<!-- END adherent -->" +
+		"</select>";
+	
+	this.adherentPrincipalUnique = "<span>{adhNumero} : {adhNom} {adhPrenom}</span>";
 				
 	this.infoCompteAdherentAutorisation = 
 				"<div id=\"info_compte_autorisations_int\">" +

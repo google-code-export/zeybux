@@ -133,6 +133,12 @@ class AdherentViewVO extends DataTemplate
 	protected $mAdhEtat;
 
 	/**
+	* @var int(11)
+	* @desc CptIdAdherentPrincipal de la AdherentViewVO
+	*/
+	protected $mCptIdAdherentPrincipal;
+
+	/**
 	* @name getAdhId()
 	* @return int(11)
 	* @desc Renvoie le membre AdhId de la AdherentViewVO
@@ -472,6 +478,24 @@ class AdherentViewVO extends DataTemplate
 	*/
 	public function setAdhEtat($pAdhEtat) {
 		$this->mAdhEtat = $pAdhEtat;
+	}
+	
+	/**
+	* @name getCptIdAdherentPrincipal()
+	* @return int(11)
+	* @desc Renvoie le membre CptIdAdherentPrincipal de la AdherentViewVO
+	*/
+	public function getCptIdAdherentPrincipal() {
+		return $this->mCptIdAdherentPrincipal;
+	}
+
+	/**
+	* @name setCptIdAdherentPrincipal($pCptIdAdherentPrincipal)
+	* @param int(11)
+	* @desc Remplace le membre CptIdAdherentPrincipal de la AdherentViewVO par $pCptIdAdherentPrincipal
+	*/
+	public function setCptIdAdherentPrincipal($pCptIdAdherentPrincipal) {
+		$this->mCptIdAdherentPrincipal = $pCptIdAdherentPrincipal;
 	}
 }
 ?>

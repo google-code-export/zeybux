@@ -38,6 +38,12 @@ class AdherentVR extends DataTemplate
 	 * @desc L'Id de l'objet
 	 */
 	protected $mId_adherent;
+	
+	/**
+	 * @var VRelement
+	 * @desc L'adherent principal du compte
+	 */
+	protected $mIdAdherentPrincipal;
 
 	/**
 	 * @var VRelement
@@ -114,6 +120,7 @@ class AdherentVR extends DataTemplate
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mId_adherent = new VRelement();
+		$this->mIdAdherentPrincipal = new VRelement();
 		$this->mNom = new VRelement();
 		$this->mPrenom = new VRelement();
 		$this->mCourrielPrincipal = new VRelement();
@@ -179,6 +186,24 @@ class AdherentVR extends DataTemplate
 	*/
 	public function setId_adherent($pId_adherent) {
 		$this->mId_adherent = $pId_adherent;
+	}
+
+	/**
+	* @name getIdAdherentPrincipal()
+	* @return VRelement
+	* @desc Renvoie le VRelement IdAdherentPrincipal
+	*/
+	public function getIdAdherentPrincipal() {
+		return $this->mIdAdherentPrincipal;
+	}
+
+	/**
+	* @name setIdAdherentPrincipal($pIdAdherentPrincipal)
+	* @param VRelement
+	* @desc Remplace le VRelement IdAdherentPrincipal par $pIdAdherentPrincipal
+	*/
+	public function setIdAdherentPrincipal($pIdAdherentPrincipal) {
+		$this->mIdAdherentPrincipal = $pIdAdherentPrincipal;
 	}
 	
 	/**

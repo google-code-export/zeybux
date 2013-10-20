@@ -14,6 +14,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/InfoCompteAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "ModuleService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 
 /**
  * @name CompteAdherentControleur
@@ -29,13 +30,14 @@ class CompteAdherentControleur
 	* @desc Renvoie le Compte du controleur après avoir récupérer les informations dans la BDD en fonction de l'ID.
 	*/
 	public function afficher($pParam) {
-		$lVr = AdherentValid::validDelete($pParam);
+		$lVr = AdherentValid::validAffiche($pParam);
 		if($lVr->getValid()) {
 			$lIdAdherent = $pParam['id'];
 			$lAdherentService = new AdherentService();				
 			$lResponse = new InfoCompteAdherentResponse();
 			
-			$lResponse->setAdherent($lAdherentService->get($lIdAdherent));			
+			$lAdherent = $lAdherentService->get($lIdAdherent);
+			$lResponse->setAdherent($lAdherent);			
 			$lResponse->setAutorisations( $lAdherentService->getAutorisation($lIdAdherent) );
 			$lResponse->setOperationAvenir( $lAdherentService->getOperationAvenir($lIdAdherent));
 			$lResponse->setOperationPassee( $lAdherentService->getOperationPassee($lIdAdherent));
@@ -45,7 +47,10 @@ class CompteAdherentControleur
 			
 			$lTypePaiementService = new TypePaiementService();
 			$lResponse->setTypePaiement( $lTypePaiementService->get() );
-			
+
+			$lCompteService = new CompteService();
+			$lResponse->setAdherentCompte($lCompteService->getAdherentCompte($lAdherent->getAdhIdCompte()));
+
 			return $lResponse;
 		}
 		return $lVr;
