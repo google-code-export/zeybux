@@ -27,6 +27,7 @@ class CompteManager
 	const CHAMP_COMPTE_ID = "cpt_id";
 	const CHAMP_COMPTE_LABEL = "cpt_label";
 	const CHAMP_COMPTE_SOLDE = "cpt_solde";
+	const CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL = "cpt_id_adherent_principal";
 
 	/**
 	* @name select($pId)
@@ -43,7 +44,8 @@ class CompteManager
 			"SELECT "
 			    . CompteManager::CHAMP_COMPTE_ID . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
-			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . "
 			FROM " . CompteManager::TABLE_COMPTE . " 
 			WHERE " . CompteManager::CHAMP_COMPTE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -55,7 +57,8 @@ class CompteManager
 			return CompteManager::remplirCompte(
 				$pId,
 				$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]);
+				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+				$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]);
 		} else {
 			return new CompteVO();
 		}
@@ -74,7 +77,8 @@ class CompteManager
 			"SELECT "
 			    . CompteManager::CHAMP_COMPTE_ID . 
 			"," . CompteManager::CHAMP_COMPTE_LABEL . 
-			"," . CompteManager::CHAMP_COMPTE_SOLDE . "
+			"," . CompteManager::CHAMP_COMPTE_SOLDE . 
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . "
 			FROM " . CompteManager::TABLE_COMPTE;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -87,7 +91,8 @@ class CompteManager
 					CompteManager::remplirCompte(
 					$lLigne[CompteManager::CHAMP_COMPTE_ID],
 					$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-					$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
+					$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+					$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]));
 			}
 		} else {
 			$lListeCompte[0] = new CompteVO();
@@ -129,7 +134,8 @@ class CompteManager
 		$lChamps = array( 
 			    CompteManager::CHAMP_COMPTE_ID .
 			"," . CompteManager::CHAMP_COMPTE_LABEL .
-			"," . CompteManager::CHAMP_COMPTE_SOLDE		);
+			"," . CompteManager::CHAMP_COMPTE_SOLDE .
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL		);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(CompteManager::TABLE_COMPTE, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -149,7 +155,8 @@ class CompteManager
 						CompteManager::remplirCompte(
 						$lLigne[CompteManager::CHAMP_COMPTE_ID],
 						$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
-						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE]));
+						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+						$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]));
 				}
 			} else {
 				$lListeCompte[0] = new CompteVO();
@@ -163,18 +170,20 @@ class CompteManager
 	}
 
 	/**
-	* @name remplirCompte($pId, $pLabel, $pSolde)
+	* @name remplirCompte($pId, $pLabel, $pSolde, $pIdAdherentPrincipal)
 	* @param int(11)
 	* @param varchar(30)
+	* @param decimal(10,2)
 	* @param int(11)
 	* @return CompteVO
 	* @desc Retourne une CompteVO remplie
 	*/
-	private static function remplirCompte($pId, $pLabel, $pSolde) {
+	private static function remplirCompte($pId, $pLabel, $pSolde, $pIdAdherentPrincipal) {
 		$lCompte = new CompteVO();
 		$lCompte->setId($pId);
 		$lCompte->setLabel($pLabel);
 		$lCompte->setSolde($pSolde);
+		$lCompte->setIdAdherentPrincipal($pIdAdherentPrincipal);
 		return $lCompte;
 	}
 
@@ -193,10 +202,32 @@ class CompteManager
 			"INSERT INTO " . CompteManager::TABLE_COMPTE . "
 				(" . CompteManager::CHAMP_COMPTE_ID . "
 				," . CompteManager::CHAMP_COMPTE_LABEL . "
-				," . CompteManager::CHAMP_COMPTE_SOLDE . ")
-			VALUES (NULL
+				," . CompteManager::CHAMP_COMPTE_SOLDE . "
+				," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . ")
+			VALUES ";
+
+		if(is_array($pVo)) {
+			$lNbVO = count($pVo);
+			$lI = 1;
+			foreach($pVo as $lVo) {
+				$lRequete .= "(NULL
+				,'" . StringUtils::securiser( $lVo->getLabel() ) . "'
+				,'" . StringUtils::securiser( $lVo->getSolde() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdAdherentPrincipal() ) . "')";
+
+				if($lNbVO == $lI) {
+					$lRequete .= ";";
+				} else {
+					$lRequete .= ",";
+				}
+				$lI++;
+			}
+		} else{
+			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
-				,'" . StringUtils::securiser( $pVo->getSolde() ) . "')";
+				,'" . StringUtils::securiser( $pVo->getSolde() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdAdherentPrincipal() ) . "');";
+		}
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequeteInsertRetourId($lRequete);
@@ -217,10 +248,11 @@ class CompteManager
 			 SET
 				 " . CompteManager::CHAMP_COMPTE_LABEL . " = '" . StringUtils::securiser( $pVo->getLabel() ) . "'
 				," . CompteManager::CHAMP_COMPTE_SOLDE . " = '" . StringUtils::securiser( $pVo->getSolde() ) . "'
+				," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . " = '" . StringUtils::securiser( $pVo->getIdAdherentPrincipal() ) . "'
 			 WHERE " . CompteManager::CHAMP_COMPTE_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**
@@ -237,7 +269,7 @@ class CompteManager
 			WHERE " . CompteManager::CHAMP_COMPTE_ID . " = '" . StringUtils::securiser($pId) . "'";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		Dbutils::executerRequete($lRequete);
+		return Dbutils::executerRequete($lRequete);
 	}
 }
 ?>

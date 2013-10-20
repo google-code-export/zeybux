@@ -13,6 +13,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "IdentificationManager.php");
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_MON_COMPTE . "/InfoAdherentValid.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 
 /**
  * @name ModifierMonCompteControleur
@@ -83,6 +84,12 @@ class ModifierMonCompteControleur
 						
 			// Maj de l'adherent dans la BDD
 			AdherentManager::update( $lAdherentActuel );
+			
+			$lCompteService = new CompteService();
+			$lCompte = $lCompteService->get($lAdherentActuel->getIdCompte());
+			$lCompte->setIdAdherentPrincipal($pParam['idAdherentPrincipal']);
+			$lCompteService->set($lCompte);
+			
 		}	
 		return $lVr;
 	}

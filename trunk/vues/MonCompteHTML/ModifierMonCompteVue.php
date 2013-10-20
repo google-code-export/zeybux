@@ -116,6 +116,35 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 				// Body
 				$lTemplate->set_filenames( array('body' => MOD_MON_COMPTE . '/' . 'EditerInformationForm.html') );
 				$lAdherent = $lCompte->getAdherent();
+				
+				$lAdherentCompte = $lCompte->getAdherentCompte();
+				if(count($lAdherentCompte) == 1) {
+					$lTemplate->set_filenames( array('listeAdherent' => MOD_MON_COMPTE . '/AdherentPrincipal.html') );
+					$lTemplate->assign_vars( array( 
+								'id' => $lAdherent->getAdhId(),
+								'numero' => $lAdherent->getAdhNumero(),
+								'nom'  => $lAdherent->getAdhNom(),
+								'prenom' => $lAdherent->getAdhPrenom() ));
+				} else if(count($lAdherentCompte) > 1) {
+					$lTemplate->set_filenames( array('listeAdherent' => MOD_MON_COMPTE . '/SelectListeAdherent.html') );
+					foreach($lAdherentCompte as $lAdh) {
+						if($lAdh->getId() == $lAdherent->getCptIdAdherentPrincipal()) {
+							$lSelected = 'selected="selected"';
+						} else {
+							$lSelected = '';
+						}
+						
+						$lTemplate->assign_block_vars('adherent', array(
+							'id' => $lAdh->getId(),
+							'numero' => $lAdh->getNumero(),
+							'nom' => $lAdh->getNom(),
+							'prenom' => $lAdh->getPrenom(),
+							'selected' => $lSelected ));
+					}
+				} 
+				$lTemplate->assign_var_from_handle('ADHERENT_PRINCIPAL', 'listeAdherent');
+				
+				
 				$lTemplate->assign_vars( array( 
 								'nom'  => $lAdherent->getAdhNom(),
 								'prenom' => $lAdherent->getAdhPrenom(),
@@ -146,7 +175,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 				break;
 		
 			case "information":				
-					if(isset($_POST['nom']) 
+					if(isset($_POST['idAdherentPrincipal']) 
+					&& isset($_POST['nom']) 
 					&& isset($_POST['prenom']) 
 					&& isset($_POST['date_naissance']) 
 					&& isset($_POST['commentaire']) 
@@ -159,6 +189,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 					&& isset($_POST['ville'])  ) {
 						
 					$lParam = array("id_adherent" => $_SESSION[DROIT_ID],
+									"idAdherentPrincipal" => $_POST['idAdherentPrincipal'],
 									"nom" => $_POST['nom'],
 									"prenom" => $_POST['prenom'],
 									"dateNaissance" => StringUtils::dateFrToDb($_POST['date_naissance']),

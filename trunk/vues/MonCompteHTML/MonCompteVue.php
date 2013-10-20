@@ -53,6 +53,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	
 	$lTemplate->set_filenames( array('infoAdherent' => COMMUN_TEMPLATE . 'InfoCompteSoldeAdherent.html') );
 	$lAdherent = $lCompte->getAdherent();
+	
+	$lAdherentPrincipal = '';
+	if($lAdherent->getAdhId() == $lAdherent->getCptIdAdherentPrincipal()) {
+		$lAdherentPrincipal = 'Adhérent Principal';
+	} else {
+		$lAdherentPrincipal = 'Adhérent Secondaire';
+	}
+	
 	$lTemplate->assign_vars( array( 
 					'adhNumero' => $lAdherent->getAdhNumero(),
 					'adhNom'  => $lAdherent->getAdhNom(),
@@ -65,7 +73,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 					'adhAdresse' => $lAdherent->getAdhAdresse(),
 					'adhCodePostal' => $lAdherent->getAdhCodePostal(),
 					'adhVille' => $lAdherent->getAdhVille(),
-					'adhCommentaire' => $lAdherent->getAdhCommentaire() ));
+					'adhCommentaire' => $lAdherent->getAdhCommentaire(),
+					'adherentPrincipal' => $lAdherentPrincipal ));
 
 	// Affichage des dates si elles ne sont pas nulle
 	if(!StringUtils::dateEstNulle($lAdherent->getAdhDateNaissance())) {

@@ -25,6 +25,11 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ADHERENTS]) || i
 					echo $lControleur->getAdherent($lParam)->exportToJson();
 					$lLogger->log("Affichage de la vue modification de l'adhérent par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					break;
+					
+				case "adherentCompte":
+					echo $lControleur->getDetailCompte($lParam)->exportToJson();
+					$lLogger->log("Retourne la liste des adhérents sur un compte par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					break;
 						
 				case "modifier":
 					$lResponse = $lControleur->modifierAdherent($lParam);

@@ -11,6 +11,7 @@
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_ADHERENTS . "/AdherentValid.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/AjoutAdherentResponse.php" );
 
 /**
@@ -32,6 +33,22 @@ class SuppressionAdherentControleur
 			$lAdherentService = new AdherentService();
 			$lAdherentService->delete($lIdAdherent);
 			
+			// Gestion du compte
+			$lCompteService = new CompteService();
+			$lIdAncienCompte = $lVr->getData()['adherent']->getAdhIdCompte();
+			$lAdherentAncienCompte = $lCompteService->getAdherentCompte($lIdAncienCompte);
+			
+			// RAZ de l'adhérent principal
+			$lIdAdherentPrincipalAncienCompte = 0;
+			// Ou positionnement du nouvel
+			if(!is_null($lAdherentAncienCompte[0]->getId()) && $pParam['idAdherentPrincipal'] != -1) {
+				$lIdAdherentPrincipalAncienCompte = $pParam['idAdherentPrincipal'];
+			}
+			// Maj de l'ancien compte
+			$lAncienCompte = $lCompteService->get($lIdAncienCompte);
+			$lAncienCompte->setIdAdherentPrincipal($lIdAdherentPrincipalAncienCompte);			
+			$lCompteService->set($lAncienCompte);
+
 			$lResponse = new AjoutAdherentResponse();
 			$lResponse->setId($lIdAdherent);
 			return $lResponse;						

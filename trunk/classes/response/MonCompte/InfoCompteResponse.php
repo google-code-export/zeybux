@@ -31,6 +31,12 @@ class InfoCompteResponse extends DataTemplate
 	protected $mAdherent;
 	
 	/**
+	* @var array(AdherentVO)
+	* @desc Les adhérent sur le compte de la InfoCompteResponse
+	*/
+	protected $mAdherentCompte;
+	
+	/**
 	* @var array(OperationAvenirViewVO)
 	* @desc ListeCommande de la InfoCompteResponse
 	*/
@@ -50,6 +56,7 @@ class InfoCompteResponse extends DataTemplate
 		$this->mValid = true;
 		$this->mOperationAvenir = array();
 		$this->mOperationPassee = array();
+		$this->mAdherentCompte = array();
 	}
 	
 	/**
@@ -140,6 +147,33 @@ class InfoCompteResponse extends DataTemplate
 	*/
 	public function addOperationPassee($pOperationPassee){
 		array_push($this->mOperationPassee,$pOperationPassee);
+	}
+	
+	/**
+	* @name getAdherentCompte()
+	* @return array(AdherentVO)
+	* @desc Renvoie le membre AdherentCompte de la InfoCompteResponse
+	*/
+	public function getAdherentCompte(){
+		return $this->mAdherentCompte;
+	}
+
+	/**
+	* @name setAdherentCompte($pAdherentCompte)
+	* @param array(AdherentVO)
+	* @desc Remplace le membre AdherentCompte de la InfoCompteResponse par $pAdherentCompte
+	*/
+	public function setAdherentCompte($pAdherentCompte) {
+		$this->mAdherentCompte = $pAdherentCompte;
+	}
+	
+	/**
+	* @name addAdherentCompte($pAdherentCompte)
+	* @param AdherentVO
+	* @desc Ajoute $pAdherentCompte à AdherentCompte
+	*/
+	public function addAdherentCompte($pAdherentCompte){
+		array_push($this->mAdherentCompte,$pAdherentCompte);
 	}
 }
 ?>

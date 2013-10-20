@@ -59,7 +59,8 @@ class AdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . 
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . 
 			"," . CompteManager::CHAMP_COMPTE_SOLDE .  
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT . "
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT . 
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . "
 			FROM " . AdherentViewManager::VUE_ADHERENT . " 
 			WHERE " . AdherentManager::CHAMP_ADHERENT_ID . " = '" . StringUtils::securiser($pId) . "'";
 
@@ -87,7 +88,8 @@ class AdherentViewManager
 				$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 				$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
 				$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]);
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
+				$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]);
 		} else {
 			return new AdherentViewVO();
 		}
@@ -122,7 +124,8 @@ class AdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ . 
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE . 
 			"," . CompteManager::CHAMP_COMPTE_SOLDE .  
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT . "
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT . 
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . "
 			FROM " . AdherentViewManager::VUE_ADHERENT;
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -151,7 +154,8 @@ class AdherentViewManager
 					$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 					$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
 					$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
-					$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]));
+					$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
+					$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]));
 			}
 		} else {
 			$lListeAdherent[0] = new AdherentViewVO();
@@ -223,7 +227,8 @@ class AdherentViewManager
 			"," . AdherentManager::CHAMP_ADHERENT_DATE_MAJ .
 			"," . AdherentManager::CHAMP_ADHERENT_COMMENTAIRE .
 			"," . CompteManager::CHAMP_COMPTE_SOLDE	.  
-			"," . AdherentManager::CHAMP_ADHERENT_ETAT);
+			"," . AdherentManager::CHAMP_ADHERENT_ETAT . 
+			"," . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL);
 
 		// Préparation de la requète de recherche
 		$lRequete = DbUtils::prepareRequeteRecherche(AdherentViewManager::VUE_ADHERENT, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -258,7 +263,8 @@ class AdherentViewManager
 						$lLigne[AdherentManager::CHAMP_ADHERENT_DATE_MAJ],
 						$lLigne[AdherentManager::CHAMP_ADHERENT_COMMENTAIRE],
 						$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
-						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT]));
+						$lLigne[AdherentManager::CHAMP_ADHERENT_ETAT],
+						$lLigne[CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL]));
 				}
 			} else {
 				$lListeAdherent[0] = new AdherentViewVO();
@@ -272,7 +278,7 @@ class AdherentViewManager
 	}
 
 	/**
-	* @name remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pAdhCourrielSecondaire, $pAdhTelephonePrincipal, $pAdhTelephoneSecondaire, $pAdhAdresse, $pAdhCodePostal, $pAdhVille, $pAdhDateNaissance, $pAdhDateAdhesion, $pAdhDateMaj, $pAdhCommentaire, $pCptSolde, $pAdhEtat)
+	* @name remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pAdhCourrielSecondaire, $pAdhTelephonePrincipal, $pAdhTelephoneSecondaire, $pAdhAdresse, $pAdhCodePostal, $pAdhVille, $pAdhDateNaissance, $pAdhDateAdhesion, $pAdhDateMaj, $pAdhCommentaire, $pCptSolde, $pAdhEtat, $pCptIdAdherentPrincipal)
 	* @param int(11)
 	* @param varchar(5)
 	* @param int(11)
@@ -292,10 +298,11 @@ class AdherentViewManager
 	* @param text
 	* @param decimal(32,2)
 	* @param tinyint(1)
+	* @param int(11)
 	* @return AdherentViewVO
 	* @desc Retourne une AdherentViewVO remplie
 	*/
-	private static function remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pAdhCourrielSecondaire, $pAdhTelephonePrincipal, $pAdhTelephoneSecondaire, $pAdhAdresse, $pAdhCodePostal, $pAdhVille, $pAdhDateNaissance, $pAdhDateAdhesion, $pAdhDateMaj, $pAdhCommentaire, $pCptSolde, $pAdhEtat) {
+	private static function remplir($pAdhId, $pAdhNumero, $pAdhIdCompte, $pCptLabel, $pAdhNom, $pAdhPrenom, $pAdhCourrielPrincipal, $pAdhCourrielSecondaire, $pAdhTelephonePrincipal, $pAdhTelephoneSecondaire, $pAdhAdresse, $pAdhCodePostal, $pAdhVille, $pAdhDateNaissance, $pAdhDateAdhesion, $pAdhDateMaj, $pAdhCommentaire, $pCptSolde, $pAdhEtat, $pCptIdAdherentPrincipal) {
 		$lAdherent = new AdherentViewVO();
 		$lAdherent->setAdhId($pAdhId);
 		$lAdherent->setAdhNumero($pAdhNumero);
@@ -316,6 +323,7 @@ class AdherentViewManager
 		$lAdherent->setAdhCommentaire($pAdhCommentaire);
 		$lAdherent->setCptSolde($pCptSolde);
 		$lAdherent->setAdhEtat($pAdhEtat);
+		$lAdherent->setCptIdAdherentPrincipal($pCptIdAdherentPrincipal);
 		return $lAdherent;
 	}
 }

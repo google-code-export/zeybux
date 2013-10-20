@@ -2,6 +2,8 @@
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.idAdherentPrincipal = new VRelement();
+	this.idAncienAdherentPrincipal = new VRelement();
 	this.numero = new VRelement();
 	this.idCompte = new VRelement();
 	this.compte = new VRelement();

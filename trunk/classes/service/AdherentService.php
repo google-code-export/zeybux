@@ -69,12 +69,14 @@ class AdherentService
 		$lLogger->setMask(Log::MAX(LOG_LEVEL));
 			
 		// Si pas de liaison création d'un nouveau compte
+		$lNvCompte = false;
 		if($pAdherent->getIdCompte() == 0) {
 			// Création d'un nouveau compte			
 			$lCompte = new CompteVO();
 			$lCompteService = new CompteService();
 			$lCompte = $lCompteService->set($lCompte);		
-			$pAdherent->setIdCompte($lCompte->getId());
+			$pAdherent->setIdCompte($lCompte->getId());  // Laision avec l'adhérent
+			$lNvCompte = true;
 		}
 		
 		// Insertion de la première mise à jour
@@ -107,6 +109,12 @@ class AdherentService
 		
 		// Enregistre l'adherent dans la BDD
 		$lIdAdherent = AdherentManager::insert( $pAdherent );
+		
+		if($lNvCompte) {
+			$lCompte = $lCompteService->get($lCompte->getId());
+			$lCompte->setIdAdherentPrincipal($lIdAdherent); // Positionnement de l'adhérent en adhérent principal du compte
+			$lCompteService->set($lCompte);
+		}
 		
 		$pAdherent->setId($lIdAdherent);
 		$pAdherent->setNumero('Z' . $lIdAdherent); // Mise à jour du numéro dans l'objet
@@ -204,7 +212,9 @@ class AdherentService
 			$lCompte = new CompteVO();
 			$lCompteService = new CompteService();
 			$lCompte = $lCompteService->set($lCompte);
-			$pAdherent->setIdCompte($lCompte->getId());
+			$pAdherent->setIdCompte($lCompte->getId()); // Laision avec l'adhérent
+			$lCompte->setIdAdherentPrincipal($pAdherent->getId()); // Positionnement de l'adhérent en adhérent principal du compte
+			$lCompteService->set($lCompte);
 		}
 				
 		// Insertion de la date de mise à jour

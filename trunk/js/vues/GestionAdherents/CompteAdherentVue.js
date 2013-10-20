@@ -1,6 +1,8 @@
 ;function CompteAdherentVue(pParam) {
 	this.mIdAdherent = null;
 	this.mAdhNumero = null;
+	this.mCptLabel = null;
+	this.mAdherentCompte = [];
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CompteAdherentVue(pParam);}} );
@@ -14,6 +16,7 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
+							that.mAdherentCompte = lResponse.adherentCompte;
 							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
@@ -28,6 +31,7 @@
 		
 		this.mIdAdherent = lResponse.adherent.adhId;
 		this.mAdhNumero = lResponse.adherent.adhNumero;
+		this.mCptLabel = lResponse.adherent.cptLabel;
 		
 		lResponse.opeMontant = lResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 		lResponse.sigleMonetaire = gSigleMonetaire;
@@ -88,6 +92,12 @@
 		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lCoreTemplate = new CoreTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
+		
+		if(lResponse.adherent.adhId == lResponse.adherent.cptIdAdherentPrincipal) { // Adhérent Principal
+			lResponse.adherent.adherentPrincipal = lGestionAdherentsTemplate.adherentPrincipal;
+		} else { // Adhérent Secondaire
+			lResponse.adherent.adherentPrincipal = lGestionAdherentsTemplate.adherentSecondaire;
+		}
 		
 		var lHtml = lCoreTemplate.debutContenu;		
 		lHtml += lGestionAdherentsTemplate.infoCompteAdherentDebut.template(lResponse.adherent);
@@ -174,72 +184,115 @@
 	
 	this.affectDialogSuppAdherent = function(pData) {
 		var that = this;
-		pData.find("#btn-supp").click(function() {
-			var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-			var lTemplate = lGestionAdherentsTemplate.dialogSuppressionAdherent;
-			
-			$(lTemplate.template({adhNumero:that.mAdhNumero})).dialog({
-				autoOpen: true,
-				modal: true,
-				draggable: false,
-				resizable: false,
-				width:600,
-				buttons: {
-					'Supprimer': function() {
-					/*	var lParam = {id:that.mIdAdherent};*/
-						var lVo = new AdherentVO();
-						lVo.id = that.mIdAdherent;
-						lVo.fonction = 'supprimer';
-						
-						var lValid = new AdherentValid();
-						var lVr = lValid.validDelete(lVo);
-						
-						var lDialog = this;
-						if(lVr.valid) {
-							Infobulle.init(); // Supprime les erreurs
-
-							$.post(	"./index.php?m=GestionAdherents&v=SuppressionAdherent", "pParam=" + $.toJSON(lVo),
-									function(lResponse) {
-										Infobulle.init(); // Supprime les erreurs
-										if(lResponse) {
-											if(lResponse.valid) {
-												/*var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
-												var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
-												$('#contenu').replaceWith(lTemplate.template(lResponse));
-												$(lDialog).dialog('close');*/
-												
-												var lVR = new Object();
-												var erreur = new VRerreur();
-												erreur.code = ERR_357_CODE;
-												erreur.message = ERR_357_MSG;
-												lVR.valid = false;
-												lVR.log = new VRelement();
-												lVR.log.valid = false;
-												lVR.log.erreurs.push(erreur);
-												
-												ListeAdherentVue({vr:lVR});
-												
-												$(lDialog).dialog('close');
-											} else {
-												Infobulle.generer(lResponse,'');
-											}
-										}
-									},"json"
-							);
-						
-						} else {
-							Infobulle.generer(lVr,'');
+		pData.find("#btn-supp").click(function() {			
+			if(that.mAdherentCompte.length == 1) {
+				that.mIdAdherentPrincipal = -1;
+				that.dialogSupprimer();
+			} else if(that.mAdherentCompte.length == 2) {
+				if(that.mAdherentCompte[0].id == that.mIdAdherent) {
+					that.mIdAdherentPrincipal = that.mAdherentCompte[1].id;
+				} else {
+					that.mIdAdherentPrincipal = that.mAdherentCompte[0].id;
+				}
+				that.dialogSupprimer();
+			} else {
+				var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+				
+				var lListeAdherent = [];
+				$.each(that.mAdherentCompte, function() {
+					if(this.id != that.mIdAdherent) {
+						lListeAdherent.push(this);
+					}
+				});
+				var lData = {adherentPrincipal:lGestionAdherentsTemplate.ligneAdherentPrincipal.template({adherentPrincipal:lGestionAdherentsTemplate.adherentPrincipalSelect.template({adherent:lListeAdherent})})
+						,cptLabel:that.mCptLabel};
+				
+				$(lGestionAdherentsTemplate.dialogNvAncienAdhPrincipal.template(lData)).dialog({			
+					autoOpen: true,
+					modal: true,
+					draggable: true,
+					resizable: false,
+					width:900,
+					buttons: {
+						'Valider': function() {
+							that.mIdAdherentPrincipal = $(this).find('#idAdherentPrincipal').val();
+							$(this).dialog('close');
+							that.dialogSupprimer();
 						}
 					},
-					'Annuler': function() {
-						$(this).dialog('close');
-					}
-				},
-				close: function(ev, ui) { $(this).remove(); }
-				
-			});
+					close: function(ev, ui) { $(this).remove(); Infobulle.init(); }				
+				});	
+			}
+			
+			
 		});
 		return pData;
+	};
+	
+	this.dialogSupprimer = function() {
+		var that = this;
+		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+		$(lGestionAdherentsTemplate.dialogSuppressionAdherent.template({adhNumero:that.mAdhNumero})).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Supprimer': function() {
+				/*	var lParam = {id:that.mIdAdherent};*/
+					var lVo = new AdherentVO();
+					lVo.id = that.mIdAdherent;
+					lVo.idAdherentPrincipal = that.mIdAdherentPrincipal;
+					lVo.fonction = 'supprimer';
+					
+					var lValid = new AdherentValid();
+					var lVr = lValid.validDelete(lVo);
+					
+					var lDialog = this;
+					if(lVr.valid) {
+						Infobulle.init(); // Supprime les erreurs
+
+						$.post(	"./index.php?m=GestionAdherents&v=SuppressionAdherent", "pParam=" + $.toJSON(lVo),
+								function(lResponse) {
+									Infobulle.init(); // Supprime les erreurs
+									if(lResponse) {
+										if(lResponse.valid) {
+											/*var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
+											var lTemplate = lGestionAdherentsTemplate.supprimerAdherentSucces;
+											$('#contenu').replaceWith(lTemplate.template(lResponse));
+											$(lDialog).dialog('close');*/
+											
+											var lVR = new Object();
+											var erreur = new VRerreur();
+											erreur.code = ERR_357_CODE;
+											erreur.message = ERR_357_MSG;
+											lVR.valid = false;
+											lVR.log = new VRelement();
+											lVR.log.valid = false;
+											lVR.log.erreurs.push(erreur);
+											
+											ListeAdherentVue({vr:lVR});
+											
+											$(lDialog).dialog('close');
+										} else {
+											Infobulle.generer(lResponse,'');
+										}
+									}
+								},"json"
+						);
+					
+					} else {
+						Infobulle.generer(lVr,'');
+					}
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); }
+			
+		});
 	};
 	
 	this.affectRetour = function(pData) {

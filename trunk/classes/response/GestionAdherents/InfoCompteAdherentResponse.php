@@ -31,6 +31,12 @@ class InfoCompteAdherentResponse extends DataTemplate
 	protected $mAdherent;
 	
 	/**
+	* @var array(AdherentVO)
+	* @desc Les adhérent sur le compte de la InfoCompteAdherentResponse
+	*/
+	protected $mAdherentCompte;
+	
+	/**
 	* @var array(AutorisationVO)
 	* @desc Les autorisations de la InfoCompteAdherentResponse
 	*/
@@ -71,6 +77,7 @@ class InfoCompteAdherentResponse extends DataTemplate
 		$this->mOperationPassee = array();
 		$this->mModules = array();
 		$this->mTypePaiement = array();
+		$this->mAdherentCompte = array();
 	}
 	
 	/**
@@ -242,6 +249,33 @@ class InfoCompteAdherentResponse extends DataTemplate
 	*/
 	public function addTypePaiement($pTypePaiement){
 		array_push($this->mTypePaiement,$pTypePaiement);
+	}
+	
+	/**
+	* @name getAdherentCompte()
+	* @return array(AdherentVO)
+	* @desc Renvoie le membre AdherentCompte de la InfoCompteAdherentResponse
+	*/
+	public function getAdherentCompte(){
+		return $this->mAdherentCompte;
+	}
+
+	/**
+	* @name setAdherentCompte($pAdherentCompte)
+	* @param array(AdherentVO)
+	* @desc Remplace le membre AdherentCompte de la InfoCompteAdherentResponse par $pAdherentCompte
+	*/
+	public function setAdherentCompte($pAdherentCompte) {
+		$this->mAdherentCompte = $pAdherentCompte;
+	}
+	
+	/**
+	* @name addAdherentCompte($pAdherentCompte)
+	* @param AdherentVO
+	* @desc Ajoute $pAdherentCompte à AdherentCompte
+	*/
+	public function addAdherentCompte($pAdherentCompte){
+		array_push($this->mAdherentCompte,$pAdherentCompte);
 	}
 }
 ?>

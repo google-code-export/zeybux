@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 02/07/2011
+// Date de creation : 13/10/2013
 // Fichier : CompteVO.php
 //
 // Description : Classe CompteVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name CompteVO
  * @author Julien PIERRE
- * @since 02/07/2011
+ * @since 13/10/2013
  * @desc Classe représentant une CompteVO
  */
 class CompteVO  extends DataTemplate
@@ -31,10 +31,28 @@ class CompteVO  extends DataTemplate
 	protected $mLabel;
 
 	/**
-	* @var int(11)
+	* @var decimal(10,2)
 	* @desc Solde de la CompteVO
 	*/
 	protected $mSolde;
+
+	/**
+	* @var int(11)
+	* @desc IdAdherentPrincipal de la CompteVO
+	*/
+	protected $mIdAdherentPrincipal;
+
+	/**
+	 * @name CompteVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function CompteVO($pId = null, $pLabel = null, $pSolde = null, $pIdAdherentPrincipal = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pLabel)) { $this->mLabel = $pLabel; }
+		if(!is_null($pSolde)) { $this->mSolde = $pSolde; }
+		if(!is_null($pIdAdherentPrincipal)) { $this->mIdAdherentPrincipal = $pIdAdherentPrincipal; }
+	}
 
 	/**
 	* @name getId()
@@ -74,7 +92,7 @@ class CompteVO  extends DataTemplate
 
 	/**
 	* @name getSolde()
-	* @return int(11)
+	* @return decimal(10,2)
 	* @desc Renvoie le membre Solde de la CompteVO
 	*/
 	public function getSolde() {
@@ -83,11 +101,29 @@ class CompteVO  extends DataTemplate
 
 	/**
 	* @name setSolde($pSolde)
-	* @param int(11)
+	* @param decimal(10,2)
 	* @desc Remplace le membre Solde de la CompteVO par $pSolde
 	*/
 	public function setSolde($pSolde) {
 		$this->mSolde = $pSolde;
+	}
+
+	/**
+	* @name getIdAdherentPrincipal()
+	* @return int(11)
+	* @desc Renvoie le membre IdAdherentPrincipal de la CompteVO
+	*/
+	public function getIdAdherentPrincipal() {
+		return $this->mIdAdherentPrincipal;
+	}
+
+	/**
+	* @name setIdAdherentPrincipal($pIdAdherentPrincipal)
+	* @param int(11)
+	* @desc Remplace le membre IdAdherentPrincipal de la CompteVO par $pIdAdherentPrincipal
+	*/
+	public function setIdAdherentPrincipal($pIdAdherentPrincipal) {
+		$this->mIdAdherentPrincipal = $pIdAdherentPrincipal;
 	}
 
 }
