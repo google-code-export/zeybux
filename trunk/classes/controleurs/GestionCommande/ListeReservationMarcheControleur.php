@@ -13,7 +13,7 @@
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/ListeAdherentResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeReservationValid.php" );
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
-include_once(CHEMIN_CLASSES_UTILS . "phpToPDF.php");
+require_once(CHEMIN_CLASSES_PDF . 'html2pdf.class.php');
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
@@ -49,40 +49,33 @@ class ListeReservationMarcheControleur
 		
 		$lReservationService = new ReservationService();
 		$lReservations = $lReservationService->getReservationProduit($lIdMarche, $lIdProduits);
-		
+
 		// Mise en forme des données par produit
 		$lTableauReservation = array();
 		foreach($lReservations as $lReservation) {			
 			$lLigne = array();
 			
 			$lLigne['compte'] = $lReservation->getCptLabel();
-			$lLigne['Adherent'] = array();
-			
-			$lAdh = array();
-			$lAdh['prenom'] = $lReservation->getAdhPrenom();
-			$lAdh['nom'] = $lReservation->getAdhNom();
-			$lAdh['telephonePrincipal'] = $lReservation->getAdhTelephonePrincipal();
+			$lLigne['prenom'] = $lReservation->getAdhPrenom();
+			$lLigne['nom'] = $lReservation->getAdhNom();
+			$lLigne['telephonePrincipal'] = $lReservation->getAdhTelephonePrincipal();
 			
 			if(isset($lTableauReservation[$lLigne['compte']])) {				
-				$lTableauReservation[$lLigne['compte']]['Adherent'][$lReservation->getAdhId()] = $lAdh;
-				
 				foreach($lIdProduits as $lIdProduit) {
 					if($lReservation->getProId() == $lIdProduit) {
 						$lTableauReservation[$lLigne['compte']][$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
 					}
-				}				
+				}
 			} else {
-				$lLigne['Adherent'][$lReservation->getAdhId()] = $lAdh;
-				
 				foreach($lIdProduits as $lIdProduit) {
 					if($lReservation->getProId() == $lIdProduit) {
 						$lLigne[$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
 					} else $lLigne[$lIdProduit] = '';
 				}
 				$lTableauReservation[$lLigne['compte']] = $lLigne;
-			}			
+			}
+			
 		}
-		
 		return $lTableauReservation;
 	}
 
@@ -95,115 +88,53 @@ class ListeReservationMarcheControleur
 
 		$lVr = ExportListeReservationValid::validAjout($pParam);
 		
-		if($lVr->getValid()) {
-			$lIdProduits = $pParam['id_produits'];
-			
+		if($lVr->getValid()) {			
 			$lTableauReservation = $this->getListeReservationExport($pParam);
+			$lIdProduits = $pParam['id_produits'];
+			$lNbProduit = count($lIdProduits);
 			
-			// Préparation du Tableau pour l'export PDF		
-			$contenuTableau = array();
-			foreach($lTableauReservation as $lVal) {
-				$i = 0;
-				foreach($lVal['Adherent'] as $lAdh) {
-					$lLigne = array();
-					if($i == 0) {
-						array_push($contenuTableau,utf8_decode($lVal['compte']));
-					} else {
-						array_push($contenuTableau,'');
-					}
-					array_push($contenuTableau,utf8_decode($lAdh['nom']));
-					array_push($contenuTableau,utf8_decode($lAdh['prenom']));
-					array_push($contenuTableau,utf8_decode($lAdh['telephonePrincipal']));
-					
-					$j = 0;
-					while(isset($lIdProduits[$j]) && $j < 2) {
-					//foreach($lIdProduits as $lIdProduit) {
-						if($i == 0) {
-							array_push($contenuTableau,utf8_decode($lVal[$lIdProduits[$j]]),"");
-						} else {
-							array_push($contenuTableau,'',"");
-						}
-						$j++;
-					}
-					$i++;
+			$lNbPage = (int)($lNbProduit / 8);
+			
+			
+			// Les pages
+			// get the HTML
+			ob_start();
+			
+			$i = 0;
+			$lOrientation = 'paysage';
+			$lNbProduitPage = 8;
+			while($i < $lNbPage) {
+				include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/Reservation.php');
+				$i++;
+			}
+			
+			// La Dernière page
+			$lNbProduitPage = $lNbProduit % 8;
+			if($lNbProduitPage != 0) {
+				if($lNbProduitPage > 4) { // Choix de l'orientation
+					$lOrientation = 'paysage';
+				} else {
+					$lOrientation = 'portrait';
 				}
+				include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/Reservation.php');
 			}
-					
-			// Contenu du header du tableau.	
-			$contenuHeader = array(18, 30, 30,30);
-			$j = 0;
-			while(isset($lIdProduits[$j]) && $j < 2) {
-			//foreach($lIdProduits as $lIdProduit) {
-				array_push($contenuHeader,20,20);
-				$j++;
+			$content = ob_get_clean();
+			
+			// convert to PDF
+			try {
+				$html2pdf = new HTML2PDF('P', 'A4', 'fr');
+				$html2pdf->pdf->SetDisplayMode('fullpage');
+				$html2pdf->writeHTML($content, 0);
+				$html2pdf->Output('Reservation.pdf','D');
 			}
-			array_push($contenuHeader,"Compte", "Nom", utf8_decode("Prénom"), "Tel.");
-			$j = 0;
-			while(isset($lIdProduits[$j]) && $j < 2) {
-			//foreach($lIdProduits as $lIdProduit) {
-				$lProduit = ProduitManager::select($lIdProduits[$j]);	
-				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
-				$lLabelNomProduit = utf8_decode($lNomProduit->getNom());
-				if($lProduit->getType() == 2) {
-					$lLabelNomProduit .= " (Abonnement)";
-				}
-				array_push($contenuHeader,$lLabelNomProduit,"");
-				$j++;
+			catch(HTML2PDF_exception $e) {
+				// Initialisation du Logger
+				$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+				$lLogger->setMask(Log::MAX(LOG_LEVEL));
+				$lLogger->log("Erreur de génération du PDF de Réservation : " . $e,PEAR_LOG_DEBUG); // Maj des logs
 			}
 			
-			// Préparation du PDF
-			$PDF=new phpToPDF();
-			$PDF->AddPage();
-			$PDF->SetFont('Arial','B',16);
 			
-			// Définition des propriétés du tableau.
-			$proprietesTableau = array(
-				'TB_ALIGN' => 'L',
-				'L_MARGIN' => 5,
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => '0.3',
-				);
-			
-			// Définition des propriétés du header du tableau.	
-			$proprieteHeader = array(
-				'T_COLOR' => array(0,0,0),
-				'T_SIZE' => 12,
-				'T_FONT' => 'Arial',
-				'T_ALIGN' => 'C',
-				'V_ALIGN' => 'T',
-				'T_TYPE' => 'B',
-				'LN_SIZE' => 7,
-				'BG_COLOR_COL0' => array(255,255,255),
-				'BG_COLOR' => array(255,255,255),
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => 0.2,
-				'BRD_TYPE' => '1',
-				'BRD_TYPE_NEW_PAGE' => '',
-				);
-			
-			// Définition des propriétés du reste du contenu du tableau.	
-			$proprieteContenu = array(
-				'T_COLOR' => array(0,0,0),
-				'T_SIZE' => 10,
-				'T_FONT' => 'Arial',
-				'T_ALIGN_COL0' => 'L',
-				'T_ALIGN' => 'R',
-				'V_ALIGN' => 'M',
-				'T_TYPE' => '',
-				'LN_SIZE' => 6,
-				'BG_COLOR_COL0' => array(255,255,255),
-				'BG_COLOR' => array(255,255,255),
-				'BRD_COLOR' => array(0,0,0),
-				'BRD_SIZE' => 0.2,
-				'BRD_TYPE' => '1',
-				'BRD_TYPE_NEW_PAGE' => '',
-				);
-			
-			// Ajout du Tableau au PDF
-			$PDF->drawTableau($PDF, $proprietesTableau, $proprieteHeader, $contenuHeader, $proprieteContenu, $contenuTableau);
-			
-			// Export du PDF
-			$PDF->Output('Réservations.pdf','D');
 		} else {
 			return $lVr;
 		}		
@@ -227,45 +158,35 @@ class ListeReservationMarcheControleur
 	
 			// L'entete
 			$lEntete = array("Compte","Nom","Prénom","Tel.");		
+			$lLigne2 = array("","","","");
+			
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
-				$lLabelNomProduit = utf8_decode($lNomProduit->getNom());
+				$lLabelNomProduit = utf8_decode(htmlspecialchars_decode($lNomProduit->getNom(), ENT_QUOTES));
 				if($lProduit->getType() == 2) {
 					$lLabelNomProduit .= " (Abonnement)";
 				}
 				array_push($lEntete,$lLabelNomProduit,"");
+				array_push($lLigne2,"Prévu","Réel");
 			}
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
 			$contenuTableau = array();
+			array_push($contenuTableau,$lLigne2);
 			foreach($lTableauReservation as $lVal) {
-				$i = 0;
-				//$lLigne = array();
-				foreach($lVal['Adherent'] as $lAdh) {
-					$lLigne = array();
-					if($i == 0) {
-						array_push($lLigne,$lVal['compte']);
-					} else {
-						array_push($lLigne,'');
-					}
-					array_push($lLigne,$lAdh['nom']);
-					array_push($lLigne,$lAdh['prenom']);
-					array_push($lLigne,$lAdh['telephonePrincipal']);
-					
-					//$j = 3;
-					foreach($lIdProduits as $lIdProduit) {
-						if($i == 0) {
-							array_push($lLigne,$lVal[$lIdProduit],"");
-						} else {
-							array_push($lLigne,'',"");
-						}
-						//$j++;
-					}
-					array_push($contenuTableau,$lLigne);
-					$i++;
+				$lLigne = array();
+
+				array_push($lLigne,$lVal['compte']);
+				array_push($lLigne,$lVal['nom']);
+				array_push($lLigne,$lVal['prenom']);
+				array_push($lLigne,$lVal['telephonePrincipal']);
+
+				foreach($lIdProduits as $lIdProduit) {
+					array_push($lLigne,$lVal[$lIdProduit],"");
 				}
+				array_push($contenuTableau,$lLigne);
 			} 
 			$lCSV->setData($contenuTableau);
 			

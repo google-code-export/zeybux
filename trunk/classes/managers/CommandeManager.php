@@ -228,17 +228,18 @@ class CommandeManager
 			ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE ."
 			AND " . StockManager::CHAMP_STOCK_TYPE . " = 0
 			AND " . StockManager::CHAMP_STOCK_ID_COMPTE . " <> 0
+		JOIN " . CompteManager::TABLE_COMPTE . "	
+			ON " . CompteManager::CHAMP_COMPTE_ID . " = " . StockManager::CHAMP_STOCK_ID_COMPTE . "
 		JOIN " . AdherentManager::TABLE_ADHERENT . " 
-			ON " . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE ."
+			ON " . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . "
+			AND " . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . " = " . AdherentManager::CHAMP_ADHERENT_ID . "
 			AND " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 1
 		JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " 
 			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
 			AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = " . CommandeManager::CHAMP_COMMANDE_ID . "
 		JOIN " . OperationManager::TABLE_OPERATION . "
 			ON " . OperationManager::CHAMP_OPERATION_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " 
-			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 0
-		JOIN " . CompteManager::TABLE_COMPTE . "	
-			ON " . CompteManager::CHAMP_COMPTE_ID . " = " . StockManager::CHAMP_STOCK_ID_COMPTE;
+			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = 0";
 		
 		// Uniquement les commandes actives
 		array_push($pTypeRecherche, CommandeManager::CHAMP_COMMANDE_ARCHIVE);
