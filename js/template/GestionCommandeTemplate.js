@@ -1218,8 +1218,8 @@
 					"<table>" +
 						"<tr>" +
 							"<td>Format de sortie : </td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"1\" checked=\"checked\" />CSV</td>" +
-							"<td><input type=\"radio\" name=\"format\" value=\"0\" />Pdf</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"0\" checked=\"checked\" />Pdf</td>" +
+							"<td><input type=\"radio\" name=\"format\" value=\"1\" />CSV</td>" +
 						"</tr>" +
 					"</table>" +
 					"<div>Sélectionner les produits : </div>" +
