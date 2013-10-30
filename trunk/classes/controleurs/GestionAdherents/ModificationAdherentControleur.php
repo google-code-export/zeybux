@@ -84,7 +84,8 @@ class ModificationAdherentControleur
 			$lAdherentService->set($lAdherent);
 			
 			$lIdNouveauCompte = $lAdherent->getIdcompte();
-			$lIdAncienCompte = $lVr->getData()['adherent']->getAdhIdCompte();
+			$lData = $lVr->getData();
+			$lIdAncienCompte = $lData['adherent']->getAdhIdCompte();
 			
 			// Gestion du compte
 			$lCompteService = new CompteService();

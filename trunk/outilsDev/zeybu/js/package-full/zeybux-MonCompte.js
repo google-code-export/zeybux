@@ -20,13 +20,19 @@
 				"</div>" +
 				"<div class=\"com-widget-content edt-info-compte\">" +
 					"<div>{adhNumero} : <span id=\"adh-prenom\">{adhPrenom}</span> <span id=\"adh-nom\">{adhNom}</span></div>" +
-					"<div>Compte : {cptLabel}</div>" +
+					"<div><span id=\"adh-principal\">{adherentPrincipal}</span> : {cptLabel}</div>" +
 					"<div>Date de naissance : <span id=\"adh-date-naissance\">{adhDateNaissance}</span></div>" +
 					"<div>Date d'adhésion : {adhDateAdhesion}</div>" +
 					"<div>Commentaire : <span id=\"adh-commentaire\">{adhCommentaire}</span></div>" +
 				"</div>" +
 				"<div class=\"ui-helper-hidden edt-info-compte\">" +
 					"<table class=\"com-table-form\">" +
+						"<tr>" +
+							"<th class=\"com-table-form-th\">Adhérent Principal</th>" +
+							"<td class=\"com-table-form-td\">" +
+								"{adherentPrincipalSelect}" +
+							"</td>" +
+						"</tr>" +
 						"<tr>" +
 							"<th class=\"com-table-form-th\">Nom *</th>" +
 							"<td class=\"com-table-form-td\">" +
@@ -97,6 +103,18 @@
 			"</div>" +
 		"</div>" +
 	"</div>";
+	
+	this.adherentPrincipal = "Adherent Principal";
+	this.adherentSecondaire = "Adherent Secondaire";
+	
+	this.adherentPrincipalSelect = 
+		"<select name=\"idAdherentPrincipal\" id=\"idAdherentPrincipal\">" +
+			"<!-- BEGIN adherent -->" +
+				"<option {adherent.selected} value=\"{adherent.id}\">{adherent.numero} : {adherent.nom} {adherent.prenom}</option>" +
+			"<!-- END adherent -->" +
+		"</select>";
+	
+	this.adherentPrincipalUnique = "<span>{adhNumero} : {adhNom} {adhPrenom}</span>";
 	
 	this.dialogEditionPass =
 		"<div id=\"dialog-edt-info-cpt\" title=\"Modifier mon mot de passe\" class=\"formulairer_dialog\">" +
@@ -191,6 +209,8 @@
 		"</div>";	
 };function MonCompteVue(pParam) {
 	this.mInformationAdherent = {};
+	this.mIdAdherent = 0;
+	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MonCompteVue(pParam);}} );
 		var that = this;
@@ -221,6 +241,8 @@
 			lResponse.adherent.opeMontant = 0;
 			lResponse.adherent.adhDateNaissance = '0000-00-00';
 			lResponse.adherent.adhDateAdhesion = '0000-00-00';
+		} else {
+			this.mIdAdherent = lResponse.adherent.adhId;
 		}
 		lResponse.cptSolde = lResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 		
@@ -283,6 +305,26 @@
 		
 		var lMonCompteTemplate = new MonCompteTemplate();
 		var lCoreTemplate = new CoreTemplate();
+		
+		if(lResponse.adherent.adhId == lResponse.adherent.cptIdAdherentPrincipal) { // Adhérent Principal
+			lResponse.adherent.adherentPrincipal = lMonCompteTemplate.adherentPrincipal;
+		} else { // Adhérent Secondaire
+			lResponse.adherent.adherentPrincipal = lMonCompteTemplate.adherentSecondaire;
+		}
+		
+		if(lResponse.adherentCompte.length == 1) {
+			lResponse.adherent.adherentPrincipalSelect = lMonCompteTemplate.adherentPrincipalUnique.template(lResponse.adherent);
+		} else {
+			$.each(lResponse.adherentCompte, function() {
+				if(this.id == lResponse.adherent.cptIdAdherentPrincipal) {
+					this.selected = 'selected="selected"';
+				} else {
+					this.selected = '';
+				}
+			});
+			lResponse.adherent.adherentPrincipalSelect = lMonCompteTemplate.adherentPrincipalSelect.template({adherent:lResponse.adherentCompte});
+		};
+		
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
 		var lHtml = lCoreTemplate.debutContenu;		
@@ -435,8 +477,13 @@
 	
 	this.modifInformation = function() {
 		var that = this;
-		
 		var lVo = new AdherentVO();
+		if($('#idAdherentPrincipal').length == 0) {
+			lVo.idAdherentPrincipal = this.mIdAdherent;
+		} else {
+			lVo.idAdherentPrincipal = $('#idAdherentPrincipal').val();
+		}
+		
 		lVo.nom = $(':input[name=nom]').val();
 		lVo.prenom = $(':input[name=prenom]').val();
 		lVo.courrielPrincipal = $(':input[name=courriel_principal]').val();
@@ -501,6 +548,13 @@
 							$('#adh-ville').text(that.mInformationAdherent.ville);
 							$('#adh-date-naissance').text(that.mInformationAdherent.dateNaissance);
 							$('#adh-commentaire').text(that.mInformationAdherent.commentaire);
+							
+							var lMonCompteTemplate = new MonCompteTemplate();
+							if(lVo.idAdherentPrincipal == that.mIdAdherent) {
+								$('#adh-principal').text(lMonCompteTemplate.adherentPrincipal);
+							} else {
+								$('#adh-principal').text(lMonCompteTemplate.adherentSecondaire);
+							}
 							
 							$('.edt-info-compte').toggle();
 						} else {

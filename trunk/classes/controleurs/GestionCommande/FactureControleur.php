@@ -109,7 +109,8 @@ class FactureControleur
 			
 			if(!empty($pParam['idMarche'])) {
 				$lFactureService = new FactureService();
-				$lResponse->setListeProduitCommande($lFactureService->getProduitCommandeNonFacture($pParam['idMarche'], $lVr->getData()['ferme']->getIdCompte() ) );
+				$lData = $lVr->getData();
+				$lResponse->setListeProduitCommande($lFactureService->getProduitCommandeNonFacture($pParam['idMarche'], $lData['ferme']->getIdCompte() ) );
 			}			
 			
 			$lResponse->setListeProduit( ListeNomProduitViewManager::select( $pParam['id'] ) );
@@ -158,9 +159,11 @@ class FactureControleur
 			$lBanqueService = new BanqueService();		
 			$lTypePaiementService = new TypePaiementService();
 			$lFermeService = new FermeService();
-			$lFerme = $lFermeService->getByIdCompte($lVr->getData()['facture']->getId()->getIdCompte())[0];
+			$lData = $lVr->getData();
+			$lFermes = $lFermeService->getByIdCompte($lData['facture']->getId()->getIdCompte());
+			$lFerme = $lFermes[0];
 			
-			return new FactureResponse($lVr->getData()['facture'],
+			return new FactureResponse($lData['facture'],
 					$lBanqueService->getAllActif(),
 					$lTypePaiementService->selectVisible(),
 					$lFerme,
@@ -193,10 +196,11 @@ class FactureControleur
 		$lVr = FactureValid::validDelete($pParam);	
 		if($lVr->getValid()) {
 			// Récupération des informations
-			
-			$lFacture = $lVr->getData()['facture'];
+			$lData = $lVr->getData();
+			$lFacture = $lData['facture'];
 			$lFermeService = new FermeService();
-			$lFerme = $lFermeService->getByIdCompte($lFacture->getId()->getIdCompte())[0];
+			$lFermes = $lFermeService->getByIdCompte($lFacture->getId()->getIdCompte());
+			$lFerme = $lFermes[0];
 							
 			// get the HTML
 			ob_start();
@@ -236,9 +240,11 @@ class FactureControleur
 			$lCSV->setEntete($lEntete);
 				
 			// Les données
-			$lFacture = $lVr->getData()['facture'];
+			$lData = $lVr->getData();
+			$lFacture = $lData['facture'];
 			$lFermeService = new FermeService();
-			$lFerme = $lFermeService->getByIdCompte($lFacture->getId()->getIdCompte())[0];
+			$lFermes = $lFermeService->getByIdCompte($lFacture->getId()->getIdCompte());
+			$lFerme = $lFermes[0];
 			
 			$lContenuTableau = array();
 			$lId = 0;

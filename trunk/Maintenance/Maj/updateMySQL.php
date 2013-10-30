@@ -1,6 +1,7 @@
 <?php
 function parcourirDossierSQL($pPath,&$pUpdateSql) {
 	if(is_dir($pPath)) {
+		$lListeNomFichier = array();
 		$d = dir($pPath);
 		while (false !== ($entry = $d->read())) {
 			if(		$entry != '.'
@@ -15,9 +16,14 @@ function parcourirDossierSQL($pPath,&$pUpdateSql) {
 				// Si la version de la modification est supérieure à celle du site on l'ajoute au début
 				// Bien l'ajouter au début pour que les requêtes soient exécutées dans l'ordre chronologique.
 				if($lNomFichier > ZEYBUX_VERSION_TECHNIQUE) {
-					$pUpdateSql = file_get_contents($d->path.'/'.$entry) . "\n" . $pUpdateSql;
+					array_push($lListeNomFichier,$lNomFichier);
+					//$lListeRequete[(int)$lNomFichier] = file_get_contents($d->path.'/'.$entry);
 				}
 			}
+		}
+		sort($lListeNomFichier, SORT_NUMERIC);
+		foreach($lListeNomFichier as $lIndice => $lNom) {
+			$pUpdateSql .= ' ' . file_get_contents($d->path.'/'.$lNom.'.sql');
 		}
 		$d->close();
 	}
@@ -32,7 +38,7 @@ mysql_select_db(MYSQL_DBNOM, $connexion);
 //$lRequete = file_get_contents(FILE_UPDATE_BDD);
 // Ajout du préfixe
 $lUpdateSql=str_replace('{PREFIXE}', MYSQL_DB_PREFIXE, $lUpdateSql);
-$lRequetes = explode(";\n", $lUpdateSql);	
+$lRequetes = explode(";", $lUpdateSql);	
 $lNbErreur = 0;
 $lNbRequetes = 0;
 mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD
@@ -42,7 +48,7 @@ foreach( $lRequetes as $lReq ) {
 		$lNbRequetes++;
 		if(!mysql_query($lReq, $connexion)) {
 			$lNbErreur++;
-			fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n");
+			fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n" . $lReq . "\n\n");
 		}
 	}
 }

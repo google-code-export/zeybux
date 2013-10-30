@@ -35,7 +35,8 @@ class SuppressionAdherentControleur
 			
 			// Gestion du compte
 			$lCompteService = new CompteService();
-			$lIdAncienCompte = $lVr->getData()['adherent']->getAdhIdCompte();
+			$lData = $lVr->getData();
+			$lIdAncienCompte = $lData['adherent']->getAdhIdCompte();
 			$lAdherentAncienCompte = $lCompteService->getAdherentCompte($lIdAncienCompte);
 			
 			// RAZ de l'adhérent principal

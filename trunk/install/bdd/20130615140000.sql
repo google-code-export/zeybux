@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `opecp_operation_champ_complementaire` (
   `opecp_ope_id` int(11) NOT NULL,
   `opecp_chcp_id` int(11) NOT NULL,
   `opecp_valeur` varchar(50) NOT NULL,
-  PRIMARY KEY (`opecp_ope_id`,`ope_cpchcp_id`)
+  PRIMARY KEY (`opecp_ope_id`,`opecp_chcp_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tppcp_type_paiement_champ_complementaire` (

@@ -132,7 +132,9 @@ class ReservationService
 		$lTestDetailReservation = $pReservation->getDetailReservation();
 		if(!empty($lTestDetailReservation)) { // Si il y a encore des produits dans la réservation
 			$lReservationsActuelle = $this->get($pReservation->getId());
-			$lIdOperation = $this->selectOperationReservation($pReservation->getId())[0]->getId();
+			
+			$lOpeReservations = $this->selectOperationReservation($pReservation->getId());
+			$lIdOperation = $lOpeReservations[0]->getId();
 			/*$lOperation = $lOperations[0];
 			$lIdOperation = $lOperation->getId();*/
 			$lOperationService = new OperationService();

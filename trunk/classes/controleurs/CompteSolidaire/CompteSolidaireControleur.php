@@ -66,7 +66,8 @@ class CompteSolidaireControleur
 			$lVirement->setId($lIdVirement);
 			$lVirement->setCptDebit(-2); // Le Compte solidaire
 			
-			$lAdherent = $lVr->getData()['adherent'];
+			$lData = $lVr->getData();
+			$lAdherent = $lData['adherent'];
 			$lVirement->setCptCredit($lAdherent->getAdhIdCompte());
 			
 			$lVirement->setMontant($pParam['montant']); 

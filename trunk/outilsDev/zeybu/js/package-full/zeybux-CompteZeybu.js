@@ -1,5 +1,83 @@
 ;function CompteZeybuTemplate() {
+	this.rechercheListeOperation = 
+		"<div id=\"contenu\">" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Le Compte du Zeybu" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
+					"<span class=\"ui-icon ui-icon-print\">" +
+				"</span>" +
+			"</div>" +
+			"<table id=\"table-info-solde-zeybu\">" +
+				"<thead>" +
+					"<tr class=\"ui-widget ui-widget-header\">" +
+						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Zeybu Marche : {soldeTotal} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Montant en Banque : {soldeBanque} {sigleMonetaire}</th>" +
+					"</tr>" +
+					"<tr class=\"ui-widget ui-widget-header\">" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde EAU : {soldeSolidaire} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-caisse\" class=\"com-table-th\">Montant en Caisse : {soldeCaisse} {sigleMonetaire}</th>" +
+					"</tr>" +
+				"</thead>" +
+			"</table>" +	
+			"<div id=\"form-recherche-liste-operation\" class=\"com-center com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+				"Entre le <input type=\"text\" value=\"{dateDebut}\" id=\"dateDebut\" class=\"com-input-text ui-widget-content ui-corner-all\">" +
+				" et le <input type=\"text\" value=\"{dateFin}\" id=\"dateFin\" class=\"com-input-text ui-widget-content ui-corner-all\"> " +
+				"Marché " +
+				"<select id=\"idMarche\" >" +
+					"<option value=\"0\" >Tout</option>" +
+					"<option value=\"-1\" >Hors Marché</option>" +
+					"<!-- BEGIN listeMarche -->" +
+					"<option value=\"{listeMarche.id}\">N° {listeMarche.numero}</option>" +
+					"<!-- END listeMarche -->" +
+				"</select>" +
+				"<button type=\"button\" id=\"btn-rechercher-liste-operation\" class=\"ui-state-default ui-corner-all com-button com-center\">Rechercher</button>" +
+				
+			"</span>" +
+			"</div>" +
+			"<div id=\"liste-operation\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+			"</div>" +
+		"</div>";
+	
+	this.listeOperationVide = "<p id=\"texte-liste-vide\">Aucune Opération effectuée.</p>";
+	
 	this.InfoCompte =
+		"<div>" +				
+			"<div id=\"content-nav-liste-operation\" class=\"ui-helper-clearfix ui-state-default ui-corner-all\">" +	
+				"<form>" +	
+				"	<span id=\"icone-nav-liste-operation-w\" class=\"prev ui-helper-hidden ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-w\"></span></span>" +
+				"	<span id=\"page-compteur\">Page : <span type=\"text\" class=\"pagedisplay\"></span></span>" +
+				"	<span id=\"icone-nav-liste-operation-e\" class=\"next ui-state-default ui-corner-all com-button\" ><span class=\"ui-icon ui-icon-circle-arrow-e\"></span></span>" +
+				"	<input type=\"hidden\" class=\"pagesize\" value=\"30\">" +
+				"</form>" +	
+			"</div>" +	
+	
+			"<table id=\"table-operation\" class=\"com-table\">" +
+				"<thead>" +
+				"<tr class=\"ui-widget ui-widget-header\" >" +
+					"<th class=\"com-table-th\">Date</th>" +
+					"<th class=\"com-table-th\">Compte</th>" +
+					"<th class=\"com-table-th\">Libellé</th>" +
+					"<th class=\"com-table-th\">Type de paiement</th>" +
+					"<th class=\"com-table-th\">Débit</th>" +
+					"<th class=\"com-table-th\">Crédit</th>" +
+				"</tr>" +
+				"</thead>" +
+				"<tbody>" +
+			"<!-- BEGIN operation -->" +
+				"<tr>" +
+					"<td class=\"com-table-td td-date \">{operation.opeDate}</td>" +
+					"<td class=\"com-table-td td-date \">{operation.cptLabel}</td>" +
+					"<td class=\"com-table-td td-libelle\">{operation.opeLibelle}</td>" +
+					"<td class=\"com-table-td td-type-paiement\">{operation.tppType}</td>" +
+					"<td class=\"com-table-td td-montant\">{operation.debit} {operation.sigleMonetaireDebit}</td>" +
+					"<td class=\"com-table-td td-montant\">{operation.credit} {operation.sigleMonetaireCredit}</td>" +
+				"</tr>" +
+			"<!-- END operation -->" +
+				"</tbody>" +
+			"</table>" +
+		"</div>";
+	
+	/*this.InfoCompte =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Le Compte du Zeybu</div>" +
@@ -66,7 +144,7 @@
 				"</table>" +
 				"<p id=\"texte-liste-vide\">Aucune Opération effectuée.</p>" +	
 			"</div>" +
-		"</div>";
+		"</div>";*/
 	
 	this.listeAdherent = 
 		"<div id=\"contenu\" class=\"ui-helper-reset\">" +
@@ -1132,17 +1210,136 @@
 	};	
 	this.construct(pParam);
 }	;function CompteZeybuVue(pParam) {
+	//this.mIdMarche = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {CompteZeybuVue(pParam);}} );
 		var that = this;
-		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", 
+		pParam = $.extend(true,{},pParam);
+		
+		/*if(pParam.idMarche) {
+			this.mIdMarche = pParam.idMarche;
+		}*/
+		
+		pParam.fonction = "afficher";
+		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
 						if(lResponse.valid) {
+							
+							var lVo = new RechercheListeOperationVO();
 							if(pParam && pParam.vr) {
-								Infobulle.generer(pParam.vr,'');
+								lVo.vr = pParam.vr;
+							}
+							
+							lVo.dateDebut = getPremierJourDuMois();
+							lResponse.dateDebut = lVo.dateDebut.dateDbToFr();
+							lVo.dateFin = getDernierJourDuMois();
+							lResponse.dateFin = lVo.dateFin.dateDbToFr();
+							
+
+							if(lResponse.soldeTotal != null) {
+								lResponse.soldeTotal = lResponse.soldeTotal.nombreFormate(2,',',' ');
+							} else {
+								lResponse.soldeTotal = '0'.nombreFormate(2,',',' ');
+							}
+							if(lResponse.soldeCaisse != null) {
+								lResponse.soldeCaisse = lResponse.soldeCaisse.nombreFormate(2,',',' ');
+							} else {
+								lResponse.soldeCaisse = '0'.nombreFormate(2,',',' ');
+							}
+							if(lResponse.soldeBanque != null) {
+								lResponse.soldeBanque = lResponse.soldeBanque.nombreFormate(2,',',' ');
+							} else {
+								lResponse.soldeBanque = '0'.nombreFormate(2,',',' ');
+							}
+							if(lResponse.soldeSolidaire != null) {
+								lResponse.soldeSolidaire = lResponse.soldeSolidaire.nombreFormate(2,',',' ');
+							} else {
+								lResponse.soldeSolidaire = '0'.nombreFormate(2,',',' ');
+							}
+							lResponse.sigleMonetaire = gSigleMonetaire;
+							
+							var lCompteZeybuTemplate = new CompteZeybuTemplate();
+							$('#contenu').replaceWith(that.affectEntete($(lCompteZeybuTemplate.rechercheListeOperation.template(lResponse))));
+							that.recherche(lVo);
+							
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+		);
+	};
+	
+	this.affectEntete = function(pData) {
+		pData = this.affectControleDatepicker(pData);
+		pData = this.affectRechercheListeOperation(pData);
+		pData = this.exportListeOperation(pData);
+		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectControleDatepicker = function(pData) {
+		pData = gCommunVue.comLienDatepicker('dateDebut','dateFin',pData);
+		pData.find('#dateDebut, #dateFin').datepicker( "option", "yearRange", '1900:c' );
+		return pData;
+	};
+	
+	this.affectRechercheListeOperation = function(pData) {
+		var that = this;
+		pData.find('#btn-rechercher-liste-operation').click(function() {
+			var lVo = new RechercheListeOperationVO();
+			lVo.dateDebut = $('#dateDebut').val().dateFrToDb();
+			lVo.dateFin = $('#dateFin').val().dateFrToDb();
+			lVo.idMarche = $('#idMarche').val();
+
+			var lValid = new CompteZeybuValid();
+			var lVr = lValid.validRechercheListeOperation(lVo);
+
+			Infobulle.init(); // Supprime les erreurs
+			if(lVr.valid) {
+				that.recherche(lVo);
+			} else {
+				Infobulle.generer(lVr,'');
+			}
+		});
+		return pData;
+	};
+	
+	this.exportListeOperation = function(pData) {
+		pData.find('#btn-export-liste-operation').click(function() {
+			var lVo = new RechercheListeOperationVO();
+			lVo.dateDebut = $('#dateDebut').val().dateFrToDb();
+			lVo.dateFin = $('#dateFin').val().dateFrToDb();
+			lVo.idMarche = $('#idMarche').val();
+
+			var lValid = new CompteZeybuValid();
+			var lVr = lValid.validRechercheListeOperation(lVo);
+
+			Infobulle.init(); // Supprime les erreurs
+			if(lVr.valid) {
+				lVo.fonction = "export";
+				// Affichage
+				$.download("./index.php?m=CompteZeybu&v=CompteZeybu", lVo);
+			} else {
+				Infobulle.generer(lVr,'');
+			}
+		});
+		return pData;
+	};
+	
+	this.recherche = function(pVo) {
+		var that = this;
+		pVo.fonction = "rechercher";
+		$.post(	"./index.php?m=CompteZeybu&v=CompteZeybu", "pParam=" + $.toJSON(pVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(pVo && pVo.vr) {
+								Infobulle.generer(pVo.vr,'');
 							}
 							that.afficher(lResponse);
 						} else {
@@ -1155,49 +1352,31 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
-		
-		if(lResponse.soldeTotal != null) {
-			lResponse.soldeTotal = lResponse.soldeTotal.nombreFormate(2,',',' ');
-		} else {
-			lResponse.soldeTotal = '0'.nombreFormate(2,',',' ');
-		}
-		if(lResponse.soldeCaisse != null) {
-			lResponse.soldeCaisse = lResponse.soldeCaisse.nombreFormate(2,',',' ');
-		} else {
-			lResponse.soldeCaisse = '0'.nombreFormate(2,',',' ');
-		}
-		if(lResponse.soldeBanque != null) {
-			lResponse.soldeBanque = lResponse.soldeBanque.nombreFormate(2,',',' ');
-		} else {
-			lResponse.soldeBanque = '0'.nombreFormate(2,',',' ');
-		}
-		if(lResponse.soldeSolidaire != null) {
-			lResponse.soldeSolidaire = lResponse.soldeSolidaire.nombreFormate(2,',',' ');
-		} else {
-			lResponse.soldeSolidaire = '0'.nombreFormate(2,',',' ');
-		}
-		
-		lResponse.sigleMonetaire = gSigleMonetaire;
-		
+				
 		$(lResponse.operation).each(function() {
-			if(this.opeDate != null) {
+			if(this.opeId != null) {
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				if(this.tppType == null) {this.tppType ='';} // Si ce n'est pas un paiement il n'y a pas de type
+				if(this.numeroCheque != null) {
+					this.tppType += ' N°' + this.numeroCheque;
+				}
 				if(this.opeMontant < 0) {
-					this.debit = (this.opeMontant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+					this.debit = (this.opeMontant * -1).nombreFormate(2,',',' ');
 					this.credit = '';
+					this.sigleMonetaireDebit = gSigleMonetaire;
+					this.sigleMonetaireCredit = '';
 				} else {
 					this.debit = '';
-					this.credit = this.opeMontant.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+					this.credit = this.opeMontant.nombreFormate(2,',',' ');
+					this.sigleMonetaireDebit = '';
+					this.sigleMonetaireCredit = gSigleMonetaire;
 				}
 			}
 		});
 
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
 		if(lResponse.operation.length > 0 && lResponse.operation[0].opeId != null) {
-			var lTemplate = lCompteZeybuTemplate.InfoCompte;
-			
-			var lHtml = $(lTemplate.template(lResponse));
+			var lHtml = $(lCompteZeybuTemplate.InfoCompte.template(lResponse));
 
 			// Ne pas afficher la pagination si il y a moins de 30 éléments
 			if(lResponse.operation.length < 31) {
@@ -1206,10 +1385,9 @@
 				lHtml = this.paginnation(lHtml);
 			}
 			
-			$('#contenu').replaceWith(that.affect(lHtml));
+			$('#liste-operation').html(that.affect(lHtml));
 		} else {
-			var lTemplate = lCompteZeybuTemplate.listeOperationVide;
-			$('#contenu').replaceWith(lTemplate.template(lResponse));
+			$('#liste-operation').html(lCompteZeybuTemplate.listeOperationVide.template(lResponse));
 		}
 	};
 	
