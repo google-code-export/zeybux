@@ -80,7 +80,9 @@ class MarcheValid
 				} else if(isset($pData['operationAchat']['champComplementaire'][1]['valeur'])) {
 					$lIdCompte = $pData['operationAchat']['idCompte'];
 					// Le marche doit être ouvert
-					if($lVr->getOperationAchat()->getChampComplementaire()[1]->getData()['marche']->getArchive() != 0) {
+					$lOpeAchatChampComp = $lVr->getOperationAchat()->getChampComplementaire();
+					$lInfoMarche = $lOpeAchatChampComp[1]->getData();
+					if($lInfoMarche['marche']->getArchive() != 0) {
 						$lVr->setValid(false);
 						$lVr->getLog()->setValid(false);
 						$lErreur = new VRerreur();
@@ -98,7 +100,9 @@ class MarcheValid
 				} else if(isset($pData['operationAchatSolidaire']['champComplementaire'][1]['valeur'])) { 
 					$lIdCompte = $pData['operationAchatSolidaire']['idCompte'];
 					// Le marche doit être ouvert
-					if($lVr->getOperationAchatSolidaire()->getChampComplementaire()[1]->getData()['marche']->getArchive() != 0) {
+					$lOpeAchatChampComp = $lVr->getOperationAchatSolidaire()->getChampComplementaire();
+					$lInfoMarche = $lOpeAchatChampComp[1]->getData();
+					if($lInfoMarche['marche']->getArchive() != 0) {
 						$lVr->setValid(false);
 						$lVr->getLog()->setValid(false);
 						$lErreur = new VRerreur();

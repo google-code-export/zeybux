@@ -208,13 +208,15 @@ class VirementService
 		if(	$lIdVirementValid->estDebit($pVirement->getId()->getIdDebit()) ) {
 			$lOperationService = new OperationService();
 			$lOperation = $lOperationService->getDetail($pVirement->getId()->getIdDebit());
-			$lIdCredit = $lOperation->getChampComplementaire()[4]->getValeur();
+			$lOpeChampComp = $lOperation->getChampComplementaire();
+			$lIdCredit = $lOpeChampComp[4]->getValeur();
 			$pVirement->getId()->setIdCredit($lIdCredit);			
 			return $pVirement;			
 		} else if ($lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {
 			$lOperationService = new OperationService();			
 			$lOperation = $lOperationService->get($pVirement->getId()->getIdCredit());
-			$lIdDebit = $lOperation->getChampComplementaire()[5]->getValeur();
+			$lOpeChampComp = $lOperation->getChampComplementaire();
+			$lIdDebit = $lOpeChampComp[5]->getValeur();
 			$pVirement->getId()->setIdDebit($lIdDebit);
 			return $pVirement;			
 		} else {
@@ -253,7 +255,8 @@ class VirementService
 		$lVirement->setId($lIdVirement);
 		switch($lOperation->getTypePaiement()) {
 			case 3:				
-				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
+				$lOpeChampComp = $lOperation->getChampComplementaire();
+				$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[4]->getValeur());
 				$lVirement->getId()->setIdDebit($pId);
 				$lVirement->getId()->setIdCredit($lOperationSoeur->getId());
 				$lVirement->setCptDebit($lOperation->getIdCompte());
@@ -263,7 +266,8 @@ class VirementService
 				break;
 				
 			case 4:		
-				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
+				$lOpeChampComp = $lOperation->getChampComplementaire();
+				$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[5]->getValeur());
 				$lVirement->getId()->setIdDebit($lOperationSoeur->getId());
 				$lVirement->getId()->setIdCredit($pId);
 				$lVirement->setCptDebit($lOperationSoeur->getIdCompte());
@@ -273,7 +277,8 @@ class VirementService
 				break;
 				
 			case 9:
-				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
+				$lOpeChampComp = $lOperation->getChampComplementaire();
+				$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[4]->getValeur());
 				$lVirement->getId()->setIdDebit($pId);
 				$lVirement->getId()->setIdCredit($lOperationSoeur->getId());
 				$lVirement->setCptDebit($lOperation->getIdCompte());
@@ -282,8 +287,9 @@ class VirementService
 				$lVirement->setType(2);				
 				break;
 				
-			case 10:				
-				$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
+			case 10:		
+				$lOpeChampComp = $lOperation->getChampComplementaire();
+				$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[5]->getValeur());
 				$lVirement->getId()->setIdDebit($lOperationSoeur->getId());
 				$lVirement->getId()->setIdCredit($pId);
 				$lVirement->setCptDebit($lOperationSoeur->getIdCompte());

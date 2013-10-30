@@ -291,15 +291,15 @@
 				"</div>" +
 				"<table class=\"com-table\">" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
-						"<th class=\"com-table-th-med\">Marché</th>	" +
+						"<th class=\"com-table-th-debut\">Marché</th>	" +
+						"<th class=\"com-table-th-med com-center\" colspan=\"2\">N°</th>" +
 						"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 					"</tr>" +
 					"<!-- BEGIN achat -->" +
-					"<tr class=\"com-cursor-pointer ligne-achat\" id={achat.idCommande} >" +
-						"<td class=\"com-table-td-debut com-underline-hover lst-resa-th-num com-text-align-right\">{achat.numero}</td>" +
+					"<tr class=\"com-cursor-pointer ligne-achat\" id=\"{achat.opeId}\" >" +
+						"<td class=\"com-table-td-debut com-underline-hover\">Le {achat.jour} {achat.date}</td>" +
+						"<td class=\"com-table-td-med com-underline-hover lst-resa-th-num com-text-align-right\">{achat.numero}</td>" +
 						"<td class=\"com-table-td-med com-underline-hover lst-resa-td-nom\">{achat.nom}</td>" +
-						"<td class=\"com-table-td-med com-underline-hover\">Le {achat.jourMarcheDebut} {achat.dateMarcheDebut}</td>" +
 						"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
 							"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 								"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -440,13 +440,19 @@
 		var lListeAchats = {achat:[]};		
 		// Transforme les dates pour l'affichage
 			$(lResponse.achats).each(function() {
-				if(this.comNumero != null) {
-					var lachat = {};
-					lachat.numero = this.comNumero;
-					lachat.dateMarcheDebut = this.comDateMarcheDebut.extractDbDate().dateDbToFr();					
-					lachat.idCommande = '"' + this.comId + '"';
-					lachat.jourMarcheDebut = jourSem(this.comDateMarcheDebut.extractDbDate());
-					lachat.nom = this.comNom;
+				if(this.opeId != null) {
+					var lachat = {numero:'',nom:''};
+					if(this.comNumero != null) {
+						lachat.numero = this.comNumero;
+					}
+					if(this.comNom != null) {
+						lachat.nom = this.comNom;
+					}
+					lachat.date = this.opeDate.extractDbDate().dateDbToFr();					
+					lachat.jour = jourSem(this.opeDate.extractDbDate());
+					lachat.opeId = this.opeId;
+					
+					
 					lListeAchats.achat.push(lachat);
 				}
 			});
@@ -467,7 +473,7 @@
 	
 	this.affectVisualiser = function(pData) {
 		pData.find('.ligne-achat').click(function() {
-				MesAchatsDetailVue({id_commande:$(this).attr('id')});
+				MesAchatsDetailVue({idAchat:$(this).attr('id')});
 			});		
 		return pData;
 	};
@@ -475,8 +481,6 @@
 	this.construct(pParam);
 };function MesAchatsDetailVue(pParam) {
 	this.pParam = {};
-	this.produit = [];
-	this.mAchat = {detailAchat:[], detailAchatSolidaire:[]};
 
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {MesAchatsDetailVue(pParam);}} );
@@ -490,19 +494,8 @@
 						if(lResponse.valid) {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
-							}
-							that.produit = lResponse.detailProduit;
-							$(lResponse.achats).each(function() {
-								if(this.detailAchat.length > 0) {
-									that.mAchat.detailAchat = this.detailAchat;
-								}
-								if(this.detailAchatSolidaire.length > 0) {
-									that.mAchat.detailAchatSolidaire = this.detailAchatSolidaire;
-								}
-								that.mAchat.dateAchat = this.dateAchat;
-							});
-					
-							that.afficher();
+							}					
+							that.afficher(lResponse);
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -511,7 +504,7 @@
 		);
 	};
 	
-	this.afficher = function() {
+	this.afficher = function(pResponse) {
 		var that = this;
 		var lCommandeTemplate = new CommandeTemplate();
 		var lTemplate = lCommandeTemplate.detailAchat;
@@ -519,54 +512,58 @@
 		var lData = {};
 		lData.categories = [];
 		lData.sigleMonetaire = gSigleMonetaire;
-		lData.total = 0;
-		lData.totalSolidaire = 0;
-		$.each(that.produit, function() {
-			var lProduit = this ;
-			$(that.mAchat).each(function() {
-				var lAchat = {
-				nproNom : lProduit.nproNom ,
-				stoQuantite : "", prix : "", proUniteMesure : "", sigleMonetaire : "",
-				stoQuantiteSolidaire : "", prixSolidaire : "", proUniteMesureSolidaire : "", sigleMonetaireSolidaire : ""};
-				
-				$(this.detailAchat).each(function() {	
-					if(this.idProduit == lProduit.proId) {
-						lAchat.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
-						lAchat.prix = (this.montant * -1).nombreFormate(2,',',' ');
-						lAchat.proUniteMesure = lProduit.proUniteMesure;
-						lAchat.sigleMonetaire = gSigleMonetaire;
-						
-						lData.total += this.montant * -1;
-					}					
-				});		
-				
-				$(this.detailAchatSolidaire).each(function() {	
-					if(this.idProduit == lProduit.proId) {
-						lAchat.stoQuantiteSolidaire = (this.quantite * -1).nombreFormate(2,',',' ');
-						lAchat.prixSolidaire = (this.montant * -1).nombreFormate(2,',',' ');
-						lAchat.proUniteMesureSolidaire = lProduit.proUniteMesure;
-						lAchat.sigleMonetaireSolidaire = gSigleMonetaire;
-						
-						lData.totalSolidaire += this.montant * -1;
-					}					
-				});	
-				
-				if(!lData.categories[lProduit.cproNom]) {
-					lData.categories[lProduit.cproNom] = {nom:lProduit.cproNom,achat:[]};
-				}
-				lData.categories[lProduit.cproNom].achat.push(lAchat);
-				
-			});
+		$.each(pResponse.achats.produits, function() {
+			if(!lData.categories[this.cproNom]) {
+				lData.categories[this.cproNom] = {nom:this.cproNom,achat:[]};
+			}
+			
+			if(this.montant != null) {
+				this.stoQuantite = (this.quantite * -1).nombreFormate(2,',',' ');
+				this.prix = (this.montant * -1).nombreFormate(2,',',' ');
+				this.proUniteMesure = this.unite;
+				this.sigleMonetaire = gSigleMonetaire;
+			} else {
+				this.stoQuantite = '';
+				this.prix = '';
+				this.proUniteMesure = '';
+				this.sigleMonetaire = '';
+			}
+			
+			if(this.montantSolidaire != null) {
+				this.stoQuantiteSolidaire = (this.quantiteSolidaire * -1).nombreFormate(2,',',' ');
+				this.prixSolidaire = (this.montantSolidaire * -1).nombreFormate(2,',',' ');
+				this.proUniteMesureSolidaire = this.uniteSolidaire;
+				this.sigleMonetaireSolidaire = gSigleMonetaire;
+			} else {
+				this.stoQuantiteSolidaire = '';
+				this.prixSolidaire = '';
+				this.proUniteMesureSolidaire = '';
+				this.sigleMonetaireSolidaire = '';
+			}
+			
+			lData.categories[this.cproNom].achat.push(this);
 		});
 		
-		lData.dateAchat = that.mAchat.dateAchat.extractDbDate().dateDbToFr();
+		lData.dateAchat = '';
 		
-		lData.totalMarche = lData.total + lData.totalSolidaire;
+		lData.total = 0;
+		if(pResponse.achats.operationAchat != null) {
+			lData.total = parseFloat(pResponse.achats.operationAchat.montant) * -1;
+			lData.dateAchat = pResponse.achats.operationAchat.date.extractDbDate().dateDbToFr();
+		}
+
+		lData.totalSolidaire = 0;
+		if(pResponse.achats.operationAchatSolidaire != null) {
+			lData.totalSolidaire = parseFloat(pResponse.achats.operationAchatSolidaire.montant) * -1;
+			lData.dateAchat = pResponse.achats.operationAchatSolidaire.date.extractDbDate().dateDbToFr();
+		}
+		
+		lData.totalMarche = parseFloat(lData.total) + parseFloat(lData.totalSolidaire);
 		
 		lData.total = lData.total.nombreFormate(2,',',' ');
 		lData.totalSolidaire = lData.totalSolidaire.nombreFormate(2,',',' ');
 		lData.totalMarche = lData.totalMarche.nombreFormate(2,',',' ');
-				
+		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
 	};
 	

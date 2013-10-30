@@ -99,8 +99,9 @@ class EditerAchatControleur
 				}
 			}
 			if($pParam["id_adherent"] > 0) { // Si c'est un compte adhérent
-				$lIdCompte = $lVr->getData()['adherent']->getAdhIdCompte();
-				$lResponse->setAdherent($lVr->getData()['adherent']);
+				$lData = $lVr->getData();
+				$lIdCompte = $lData['adherent']->getAdhIdCompte();
+				$lResponse->setAdherent($lData['adherent']);
 			}
 			
 

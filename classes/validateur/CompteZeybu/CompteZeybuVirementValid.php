@@ -309,10 +309,11 @@ class CompteZeybuVirementValid
 				$lOperationService = new OperationService();			
 				$lOperation = $lOperationService->getDetail($pData['id']);
 				
+				$lOpeChampComp = $lOperation->getChampComplementaire();
 				if($lOperation->getTypePaiement() == 3 || $lOperation->getTypePaiement() == 9) {
-					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[4]->getValeur());
+					$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[4]->getValeur());
 				} else if($lOperation->getTypePaiement() == 4 || $lOperation->getTypePaiement() == 10) {
-					$lOperationSoeur = $lOperationService->getDetail($lOperation->getChampComplementaire()[5]->getValeur());
+					$lOperationSoeur = $lOperationService->getDetail($lOpeChampComp[5]->getValeur());
 				}
 				
 				//$lOperationSoeur = $lOperationService->get($lOperation->getTypePaiementChampComplementaire());

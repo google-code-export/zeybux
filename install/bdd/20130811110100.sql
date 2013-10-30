@@ -22,6 +22,7 @@ from (`npro_nom_produit` join `cpro_categorie_produit` on((`cpro_categorie_produ
 
 CREATE TABLE IF NOT EXISTS `dfac_detail_facture` (
   `dfac_id_operation` int(11) NOT NULL,
+  `dfac_id_nom_produit` int(11) NOT NULL,
   `dfac_id_stock` int(11) NOT NULL,
   `dfac_id_detail_operation` int(11) NOT NULL,
   `dfac_id_stock_solidaire` int(11) NOT NULL

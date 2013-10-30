@@ -63,13 +63,16 @@ class AchatService
 				$lOperationRechargement = $pAchat->getRechargement()->getMontant();
 				
 				if(!is_null($lOperationAchat) && !empty($lOperationAchat)) {
-					$lIdRequete = $pAchat->getOperationAchat()->getChampComplementaire()[15]->getValeur();
+					$lOperationAchatChampComp = $pAchat->getOperationAchat()->getChampComplementaire();
+					$lIdRequete = $lOperationAchatChampComp[15]->getValeur();
 				}
 				if(!is_null($lOperationAchatSolidaire) && !empty($lOperationAchatSolidaire)) {
-					$lIdRequete = $pAchat->getOperationAchatSolidaire()->getChampComplementaire()[15]->getValeur();
+					$lOperationAchatSolidaireChampComp = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
+					$lIdRequete = $lOperationAchatSolidaireChampComp[15]->getValeur();
 				}
 				if(!is_null($lOperationRechargement) && !empty($lOperationRechargement)) {
-					$lIdRequete = $pAchat->getRechargement()->getChampComplementaire()[15]->getValeur();
+					$lOperationRechargementChampComp = $pAchat->getRechargement()->getChampComplementaire();
+					$lIdRequete = $lOperationRechargementChampComp[15]->getValeur();
 				}
 
 				$lOperationService = new OperationService();
@@ -128,7 +131,7 @@ class AchatService
 			$lIdCompte = $pAchat->getOperationAchat()->getIdCompte();
 			$ltestChampComplementaire = $pAchat->getOperationAchat()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				$lIdMarche = $pAchat->getOperationAchat()->getChampComplementaire()[1]->getValeur();
+				$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 				
 				$lMarcheService = new MarcheService();
 				$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
@@ -160,7 +163,7 @@ class AchatService
 			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
 				if($lIdMarche == 0) { // Pour éviter de lancer 2 fois la requête
-					$lIdMarche = $pAchat->getOperationAchatSolidaire()->getChampComplementaire()[1]->getValeur();
+					$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 					$lMarcheService = new MarcheService();
 					$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
 				}
@@ -407,12 +410,12 @@ class AchatService
 			$lIdOperationAchatActuel = $lIdOperationAchat;
 			
 			$lMontantAchat = $pAchat->getOperationAchat()->getMontant();
-			$lIdOperationZeybu = $pAchat->getOperationAchat()->getChampComplementaire()[8]->getValeur();
+			$ltestChampComplementaire = $pAchat->getOperationAchat()->getChampComplementaire();
+			$lIdOperationZeybu = $ltestChampComplementaire[8]->getValeur();
 			$lLibelleOperation = $pAchat->getOperationAchat()->getLibelle();
 			$lIdCompte = $pAchat->getOperationAchat()->getIdCompte();
-			$ltestChampComplementaire = $pAchat->getOperationAchat()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				$lIdMarche = $pAchat->getOperationAchat()->getChampComplementaire()[1]->getValeur();
+				$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 			}
 			if(!empty($lMontantAchat) && !is_null($lMontantAchat)) { // Maj de l'achat
 				$lMajAchat = true;
@@ -431,7 +434,7 @@ class AchatService
 			$lIdCompte = $pAchat->getOperationAchat()->getIdCompte();
 			$ltestChampComplementaire = $pAchat->getOperationAchat()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				$lIdMarche = $pAchat->getOperationAchat()->getChampComplementaire()[1]->getValeur();
+				$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 		
 				$lMarcheService = new MarcheService();
 				$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
@@ -466,12 +469,12 @@ class AchatService
 			$lIdOperationAchatSolidaireActuel = $lIdOperationAchatSolidaire;
 			
 			$lMontantAchatSolidaire = $pAchat->getOperationAchatSolidaire()->getMontant();
-			$lIdOperationZeybuSolidaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire()[8]->getValeur();
+			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
+			$lIdOperationZeybuSolidaire = $ltestChampComplementaire[8]->getValeur();
 			$lLibelleOperationSolidaire = $pAchat->getOperationAchatSolidaire()->getLibelle();
 			$lIdCompte = $pAchat->getOperationAchatSolidaire()->getIdCompte();
-			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				$lIdMarche = $pAchat->getOperationAchatSolidaire()->getChampComplementaire()[1]->getValeur();
+				$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 			}
 			if(!empty($lMontantAchatSolidaire) && !is_null($lMontantAchatSolidaire)) { // Maj de l'achat
 				$lMajAchatSolidaire = true;
@@ -492,7 +495,7 @@ class AchatService
 			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
 				if($lIdMarche == 0) { // Pour éviter de lancer 2 fois la requête
-					$lIdMarche = $pAchat->getOperationAchatSolidaire()->getChampComplementaire()[1]->getValeur();
+					$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 					$lMarcheService = new MarcheService();
 					$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
 				}
@@ -868,14 +871,16 @@ class AchatService
 			if(!is_null($lAchatActuel->getOperationAchat())) { // Achat avec Ope Zeybu
 				$lIdOperationAchat = $lAchatActuel->getOperationAchat()->getId();
 				$lOperationService->delete($lAchatActuel->getOperationAchat()->getId());
-				$lOperationService->delete($lAchatActuel->getOperationAchat()->getChampComplementaire()[8]->getValeur());
+				$lOperationAchatChampComp = $lAchatActuel->getOperationAchat()->getChampComplementaire();
+				$lOperationService->delete($lOperationAchatChampComp[8]->getValeur());
 			}
 			
 			$lIdOperationAchatSolidaire = 0;
 			if(!is_null($lAchatActuel->getOperationAchatSolidaire())) { // Achat solidaire avec ope zeybu
 				$lIdOperationAchatSolidaire = $lAchatActuel->getOperationAchatSolidaire()->getId();
 				$lOperationService->delete($lAchatActuel->getOperationAchatSolidaire()->getId());
-				$lOperationService->delete($lAchatActuel->getOperationAchatSolidaire()->getChampComplementaire()[8]->getValeur());
+				$lOperationAchatSolidaireChampComp = $lAchatActuel->getOperationAchatSolidaire()->getChampComplementaire();
+				$lOperationService->delete($lOperationAchatSolidaireChampComp[8]->getValeur());
 			}
 			
 			// Suppression de l'ensemble des lignes de produit

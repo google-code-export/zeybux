@@ -148,8 +148,9 @@ class OperationService
 			$this->set($lOperationFacture);
 			
 			// Maj de l'operation zeybu
-			if(isset($lOperationFacture->getChampComplementaire()[10])) {
-				$lOperationZeybu = $this->getDetail($lOperationFacture->getChampComplementaire()[10]->getValeur());
+			$lOpeFacChampComp = $lOperationFacture->getChampComplementaire();
+			if(isset($lOpeFacChampComp[10])) {
+				$lOperationZeybu = $this->getDetail($lOpeFacChampComp[10]->getValeur());
 				
 				$lOperationZeybu->setMontant(-1 * $lMontant);
 				$lOperationZeybu->setTypePaiement($pOperation->getTypePaiement());
@@ -194,7 +195,8 @@ class OperationService
 				$this->delete($lOperationFacture->getId());	
 				
 				// Suppression de l'operation zeybu
-				$this->delete($lOperationFacture->getChampComplementaire()[10]->getValeur());
+				$lOpeFacChampComp = $lOperationFacture->getChampComplementaire();
+				$this->delete($lOpeFacChampComp[10]->getValeur());
 			}
 			
 			switch($lOperation->getTypePaiement()) {

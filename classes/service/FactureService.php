@@ -402,10 +402,11 @@ class FactureService
 		
 		$lFacture->setId( $lOperationService->getDetail($pId) );
 
-		$lIdOperationProducteur = $lFacture->getId()->getChampComplementaire()[9]->getValeur();
+		$lOpeFacChampComp = $lFacture->getId()->getChampComplementaire();
+		$lIdOperationProducteur = $lOpeFacChampComp[9]->getValeur();
 		$lFacture->setOperationProducteur( $lOperationService->getDetail($lIdOperationProducteur) );
 		
-		$lIdOperationZeybu = $lFacture->getId()->getChampComplementaire()[10]->getValeur();
+		$lIdOperationZeybu = $lOpeFacChampComp[10]->getValeur();
 		$lFacture->setOperationZeybu( $lOperationService->getDetail($lIdOperationZeybu) );
 		
 		$lFacture->setProduits(DetailFactureManager::selectProduitsDetailFacture($pId));

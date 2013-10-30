@@ -804,7 +804,11 @@ String.prototype.extractDbMinute = function() {
 	this.archive = '';
 	this.produits = new Array();
 	this.produitsAbonnement = new Array();
-};function ProduitBonDeCommandeVO() {
+};function RechercheListeOperationVO() {
+	this.idMarche = '';
+	this.dateDebut = '';
+	this.dateFin = '';
+};;function ProduitBonDeCommandeVO() {
 	this.id = '';
 	this.dcomId = '';
 	this.quantite = '';
@@ -1099,6 +1103,8 @@ function CompteZeybuModifierVirementVO() {
 	this.id = '';
 };function AdherentVO() {
 	this.id = '';
+	this.idAdherentPrincipal = '';
+	this.idAncienAdherentPrincipal = '';
 	this.numero = '';
 	this.compte = '';
 	this.idCompte = '';
@@ -1266,7 +1272,13 @@ function CompteZeybuModifierVirementVO() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
-};function ExportBonReservationVR() {
+};function RechercheListeOperationVR() {
+	this.valid = true;
+	this.log = new VRelement();
+	this.idMarche = new VRelement();
+	this.dateDebut = new VRelement();
+	this.dateFin = new VRelement();
+};;function ExportBonReservationVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -1325,6 +1337,8 @@ function CompteZeybuModifierVirementVO() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
+	this.idAdherentPrincipal = new VRelement();
+	this.idAncienAdherentPrincipal = new VRelement();
 	this.numero = new VRelement();
 	this.idCompte = new VRelement();
 	this.compte = new VRelement();
@@ -1403,11 +1417,10 @@ function CompteZeybuAjoutVirementVR() {
 	this.quantiteSolidaire = new VRelement();
 	this.uniteSolidaire = new VRelement();
 	this.montantSolidaire = new VRelement();
-};;function VRelement() {
-	this.valid = true;
-	this.erreurs = new Array();
-}
-function CompteZeybuModifierVirementVR() {
+};;function VRelement(pValid, pErreurs) {
+	if(pValid != undefined) {this.valid = pValid;} else {this.valid = true;}
+	if(pErreurs != undefined) {this.erreurs = pErreurs;} else {this.erreurs = [];}
+};function CompteZeybuModifierVirementVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -1437,9 +1450,9 @@ function CompteZeybuModifierVirementVR() {
 	this.ville = new VRelement();
 	this.dateAdhesion = new VRelement();
 	this.description = new VRelement();
-};function VRerreur() {
-	this.code = '';
-	this.message = '';
+};function VRerreur(pCode, pMessage) {
+	if(pCode != undefined) {this.code = pCode;} else {this.code = '';}
+	if(pMessage != undefined) {this.message = pMessage;} else {this.message = '';}
 };function ProduitMarcheVR() {
 	this.valid = true;
 	this.log = new VRelement();
@@ -1474,10 +1487,10 @@ function CompteZeybuModifierVirementVR() {
 	this.frequence = new VRelement();
 	this.lots = [];
 	this.lotRemplacement = [];
-};;function TemplateVR() {
-	this.valid = true;
-	this.log = new VRelement();
-};function ProduitAchatAdherentVR() {
+};;function TemplateVR(pValid, pLog) {
+	if(pValid != undefined) {this.valid = pValid;} else {this.valid = true;}
+	if(pLog != undefined) {this.log = pLog;} else {this.log = new VRelement();}
+};;function ProduitAchatAdherentVR() {
 	this.valid = true;
 	this.log = new VRelement();
 	this.id = new VRelement();
@@ -2944,7 +2957,7 @@ function CompteZeybuModifierVirementVR() {
 		var lIdCompte = null;
 		var lValidOperation = new OperationDetailValid();
 		if(pData.operationAchat != '') {
-			lVR.operationAchat = lValidOperation.validAjout(pData.operationAchat);
+			lVR.operationAchat = lValidOperation.validAjout(pData.operationAchat, {negatif:true});
 			if(!lVR.operationAchat.valid){
 				lVR.valid = false;
 				lVR.operationAchat.valid = false;
@@ -2954,7 +2967,7 @@ function CompteZeybuModifierVirementVR() {
 		}
 		
 		if(pData.operationAchatSolidaire != '') {
-			lVR.operationAchatSolidaire = lValidOperation.validAjout(pData.operationAchatSolidaire);
+			lVR.operationAchatSolidaire = lValidOperation.validAjout(pData.operationAchatSolidaire, {negatif:true});
 			if(!lVR.operationAchatSolidaire.valid){
 				lVR.valid = false;
 				lVR.operationAchatSolidaire.valid = false;
@@ -3003,8 +3016,12 @@ function CompteZeybuModifierVirementVR() {
 			}
 
 			// Si il y a rechargement du compte on le test
-			if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
-					(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
+			if(  pData.rechargement != '' && 
+					(
+						(!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
+						(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)
+					)
+			) {
 				lVR.rechargement = lValidOperation.validAjout(pData.rechargement);
 				if(!lVR.rechargement.valid){
 					lVR.valid = false;
@@ -3018,9 +3035,13 @@ function CompteZeybuModifierVirementVR() {
 		} else { // Pour les adhérents
 		
 			// Si il y a rechargement du compte on le test
-			if((!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
-					(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)) {
-				lVR.rechargement = lValidOperation.validAjout(pData.rechargement);
+			if(pData.rechargement != '' && 
+				(
+					(!pData.rechargement.montant.isEmpty() && pData.rechargement.montant != 0) ||
+					(!pData.rechargement.typePaiement.isEmpty() && pData.rechargement.typePaiement != 0)
+				)
+			) {
+				lVR.rechargement = lValidOperation.validAjout(pData.rechargement, {zeroAutorise:true});
 				if(!lVR.rechargement.valid){
 					lVR.valid = false;
 					lVR.rechargement.montant.valid = false;
@@ -3034,7 +3055,7 @@ function CompteZeybuModifierVirementVR() {
 				lVR.log.erreurs.push(erreur);					
 			}
 		}
-
+		
 		return lVR;
 	};
 	
@@ -3603,7 +3624,10 @@ function CompteZeybuModifierVirementVR() {
 		return lVR;
 	};
 };function OperationDetailValid() { 
-	this.validAjout = function(pData) { 
+	this.validAjout = function(pData, pParam) { 
+		var lParam = {negatif:false, zeroAutorise: false};
+		lParam = $.extend(true,lParam,pParam);
+		
 		var lVR = new OperationDetailVR();
 		//Tests Techniques
 		if(isNaN(parseInt(pData.idCompte))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
@@ -3614,8 +3638,9 @@ function CompteZeybuModifierVirementVR() {
 		
 		//Tests Fonctionnels
 		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
-		if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
-		if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!lParam.zeroAutorise && pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
+		if(lParam.negatif && pData.montant > 0){lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_267_CODE;erreur.message = ERR_267_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!lParam.negatif && pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.typePaiement.isEmpty() || pData.typePaiement == 0) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.typePaiement.erreurs.push(erreur);}
 
 		if(isArray(pData.champComplementaire) ) {
@@ -3791,6 +3816,7 @@ function CompteZeybuModifierVirementVR() {
 	this.validUpdateInformation = function(pData) {
 		var lVR = new AdherentVR();
 		//Tests Techniques
+		if(isNaN(parseInt(pData.idAdherentPrincipal))) {lVR.valid = false;lVR.idAdherentPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idAdherentPrincipal.erreurs.push(erreur);}
 		if(!pData.nom.checkLength(0,50)) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.nom.erreurs.push(erreur);}
 		if(!pData.prenom.checkLength(0,50)) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.prenom.erreurs.push(erreur);}
 		if(!pData.courrielPrincipal.checkLength(0,100)) {lVR.valid = false;lVR.courrielPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.courrielPrincipal.erreurs.push(erreur);}
@@ -3807,6 +3833,7 @@ function CompteZeybuModifierVirementVR() {
 		if(!pData.commentaire.checkLength(0,500)) {lVR.valid = false;lVR.commentaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.commentaire.erreurs.push(erreur);}
 
 		//Tests Fonctionnels
+		if(pData.idAdherentPrincipal.isEmpty()) {lVR.valid = false;lVR.idAdherentPrincipal.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.idAdherentPrincipal.erreurs.push(erreur);}
 		if(pData.nom.isEmpty()) {lVR.valid = false;lVR.nom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.nom.erreurs.push(erreur);}
 		if(pData.prenom.isEmpty()) {lVR.valid = false;lVR.prenom.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.prenom.erreurs.push(erreur);}
 		if(pData.dateAdhesion.isEmpty()) {lVR.valid = false;lVR.dateAdhesion.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateAdhesion.erreurs.push(erreur);}
@@ -4087,7 +4114,25 @@ function CompteZeybuModifierVirementVR() {
 
 		return lVR;
 	};
-};function CommandeCompleteValid() { 
+};function CompteZeybuValid() { 
+	this.validRechercheListeOperation = function(pData) { 
+		var lVR = new RechercheListeOperationVR();
+		//Tests Techniques
+		if(pData.dateDebut != '' && !pData.dateDebut.checkDate('db')) {lVR.valid = false;lVR.dateDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateDebut.erreurs.push(erreur);}
+		if(pData.dateDebut != '' && !pData.dateDebut.checkDateExist('db')) {lVR.valid = false;lVR.dateDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateDebut.erreurs.push(erreur);}
+		if(pData.dateFin != '' && !pData.dateFin.checkDate('db')) {lVR.valid = false;lVR.dateFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_103_CODE;erreur.message = ERR_103_MSG;lVR.dateFin.erreurs.push(erreur);}
+		if(pData.dateFin != '' && !pData.dateFin.checkDateExist('db')) {lVR.valid = false;lVR.dateFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_105_CODE;erreur.message = ERR_105_MSG;lVR.dateFin.erreurs.push(erreur);}
+		if(pData.idMarche != '' && isNaN(parseInt(pData.idMarche))) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idMarche.erreurs.push(erreur);}
+		if(pData.idMarche != '' && !pData.idMarche.checkLength(0,11)) {lVR.valid = false;lVR.idMarche.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idMarche.erreurs.push(erreur);}
+	
+		//Tests Fonctionnels
+		if(pData.dateDebut != '' && pData.dateFin != '' && !dateEstPLusGrandeEgale(pData.dateFin,pData.dateDebut,'db')) {lVR.valid = false;lVR.dateDebut.valid = false;lVR.dateFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_230_CODE;erreur.message = ERR_230_MSG;lVR.dateDebut.erreurs.push(erreur);lVR.dateFin.erreurs.push(erreur);}
+		if(pData.dateDebut != '' && pData.dateFin == '') {lVR.valid = false;lVR.dateFin.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateFin.erreurs.push(erreur);}
+		if(pData.dateDebut == '' && pData.dateFin != '') {lVR.valid = false;lVR.dateDebut.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.dateDebut.erreurs.push(erreur);}
+
+		return lVR;
+	};
+};;function CommandeCompleteValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new CommandeCompleteVR();
 
@@ -4424,6 +4469,7 @@ function StockQuantiteValid() {
 		if(pData.idStock != '' && isNaN(parseInt(pData.idStock))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 		if(pData.idDetailOperation != '' && isNaN(parseInt(pData.idDetailOperation))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 		if(pData.idStockSolidaire != '' && isNaN(parseInt(pData.idStockSolidaire))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+		if(pData.idDetailOperationSolidaire != '' && isNaN(parseInt(pData.idDetailOperationSolidaire))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
 
 		if(pData.quantite != '' && !pData.quantite.checkLength(0,12)) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.quantite.erreurs.push(erreur);}
 		if(pData.quantite != '' && !pData.quantite.isFloat()) {lVR.valid = false;lVR.quantite.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.quantite.erreurs.push(erreur);}
@@ -4747,7 +4793,7 @@ function StockQuantiteValid() {
 			"<tr class=\"champ-complementaire\">" +
 				"<td>{champComplementaire.chCpLabel}</td>" +
 				"<td>" +
-					"<input {champComplementaire.attr} type=\"text\" value=\"{champComplementaire.valeur}\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+					"<input {champComplementaire.attr} type=\"text\" value=\"{champComplementaire.valeur}\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"{prefixe}champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
 				"</td>" +
 			"</tr>" +
 		"<!-- END champComplementaire -->";
@@ -5280,11 +5326,11 @@ function StockQuantiteValid() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130908225453.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20130908225453.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -5375,7 +5421,7 @@ function StockQuantiteValid() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20130908225453.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20131029133154.js",function() {
 				that.init();
 				IdentificationVue();
 			});
@@ -5525,8 +5571,9 @@ function StockQuantiteValid() {
 		return lListeChampComplementaire;
 	};
 	
-	this.getFormChampcomplementaire = function(pChamp, pBanques, pAffiche) {
+	this.getFormChampcomplementaire = function(pChamp, pBanques, pAffiche, pPrefixe) {
 		//var lChamp = clone(pChamp);
+		if(pPrefixe == undefined) { pPrefixe = ''; }
 		var lChamp = $.extend(true,{},pChamp);
 
 		var lBanques = [];
@@ -5564,7 +5611,7 @@ function StockQuantiteValid() {
 			lTemplate = lTypePaiementServiceTemplate.champComplementaireAffiche;
 		}
 		
-		return lTemplate.template({champComplementaire:lChamp});
+		return lTemplate.template({champComplementaire:lChamp, prefixe:pPrefixe});
 	};
 };;function CommunVue() {
 	
@@ -5705,19 +5752,24 @@ $(document).ready(function() {
 	this.mAdherent = {};
 		
 	this.mLots = [];
-	this.mPrixProduit = [];
+	//this.mPrixProduit = [];
 	this.mLotAchat = [];
 	this.mFocusRechargement = 0;
 	this.mCategorie = [];
 	this.mNomCategorie = [];
 	
 	this.mAchat = {};
-	this.mIdAchat = [];
+	//this.mIdAchat = [];
+	this.mTotalAchatInit = 0;
+	this.mAchatInitial = null;
 	
 	this.mTypePaiementSelect = 0;
 	this.afficheChCpAutorise = true;
 	
 	this.mModule = 'Caisse';
+	this.mIdRequete = '';
+	this.mCompteurIdProduit = 0;
+	this.mModeEdition = 0;
 	
 	
 	this.construct = function(pParam) {
@@ -5733,59 +5785,201 @@ $(document).ready(function() {
 		}
 		
 		this.mModule = pParam.module;
-		
+				
 		$.post(	"./index.php?m=" + this.mModule + "&v=CaisseMarcheCommande", "pParam=" + $.toJSON(pParam),
 				function(lResponse) {
 					Infobulle.init(); // Supprime les erreurs
 					if(lResponse) {
-						if(lResponse.valid) {						
+						if(lResponse.valid) {
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
 							
+						/*	if(pParam.module == 'GestionCommande') {
+								//pParam.id_commande = -1;
+								
+								if(lResponse.achats.operationAchat != null && lResponse.achats.operationAchat.champComplementaire[1] && lResponse.achats.operationAchat.champComplementaire[1].valeur != null) {
+									pParam.id_commande = lResponse.achats.operationAchat.champComplementaire[1].valeur;
+								}
+								if(lResponse.achats.operationAchatSolidaire != null && lResponse.achats.operationAchatSolidaire.champComplementaire[1] && lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur != null) {
+									pParam.id_commande = lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur;
+								}
+								if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.champComplementaire[1] && lResponse.achats.rechargement.champComplementaire[1].valeur != null) {
+									pParam.id_commande = lResponse.achats.rechargement.champComplementaire[1].valeur;
+								}
+							}*/
+							
+							that.mIdRequete = lResponse.idRequete;
+								
 							// Les informations pour le paiement
-							that.mTypePaiement = lResponse.typePaiement;							
-													
+							that.mTypePaiement = lResponse.typePaiement;	
+							that.mBanques = lResponse.banques;
+
 							if(pParam.id_adherent != 0) { // Si pas invité les informations de l'adhérent
 								that.mIdCompte = lResponse.adherent.adhIdCompte;
 								that.mAdherent = lResponse.adherent;
 								that.mSolde = parseFloat(lResponse.adherent.cptSolde);
-								
-								lResponse.adherent.rechargementMontant = '';
-								lResponse.adherent.rechargementChampComplementaire = '';
-								if(lResponse.rechargement != null && lResponse.rechargement.id && lResponse.rechargement.id != null) {
-									that.mSolde = (parseFloat(that.mSolde) - parseFloat(lResponse.rechargement.montant)).toFixed(2);
-									lResponse.adherent.rechargementMontant = lResponse.rechargement.montant.nombreFormate(2,',','');
-									this.mTypePaiementSelect = lResponse.rechargement.typePaiement;
-									
-									var lTypePaiementService = new TypePaiementService();
-									var lChampComplementaire = [];
-									if(this.mTypePaiement[pResponse.rechargement.typePaiement]) {
-										$(this.mTypePaiement[pResponse.rechargement.typePaiement].champComplementaire).each(function() {				
-											var lChamp = pResponse.rechargement.champComplementaire[this.id];
-											lChamp.id = this.id;
-											lChamp.tppCpVisible = 1;
-											lChamp.chCpLabel = this.label;
-											lChampComplementaire.push(lChamp);
-										});
-									}
-									
-									pResponse.adherent.champComplementaire = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanques);
-									
-									
-								}
-								
 							} else {
 								lResponse.adherent = {};
 							}
-							
-							that.mBanques = lResponse.banques;
-							
+							lResponse.adherent.rechargementMontant = '';
+							lResponse.adherent.rechargementChampComplementaire = '';
+							if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.id && lResponse.achats.rechargement.id != null) {
+								that.mSolde = (parseFloat(that.mSolde) - parseFloat(lResponse.achats.rechargement.montant)).toFixed(2);
+								lResponse.adherent.rechargementMontant = lResponse.achats.rechargement.montant.nombreFormate(2,',','');
+								that.mTypePaiementSelect = lResponse.achats.rechargement.typePaiement;
+																	
+								var lTypePaiementService = new TypePaiementService();
+								var lChampComplementaire = [];
+
+								if(that.mTypePaiement[lResponse.achats.rechargement.typePaiement]) {
+									$(that.mTypePaiement[lResponse.achats.rechargement.typePaiement].champComplementaire).each(function() {				
+										var lChamp = lResponse.achats.rechargement.champComplementaire[this.id];
+										lChamp.id = this.id;
+										lChamp.tppCpVisible = 1;
+										lChamp.chCpLabel = this.label;
+										lChampComplementaire.push(lChamp);
+									});
+								}
+								
+								lResponse.adherent.champComplementaire = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, that.mBanques, undefined, 'rechargement');
+							}
+
 							lResponse.adherent.total = 0;
 							lResponse.adherent.totalAchat = 0;
 							lResponse.adherent.totalAchatSolidaire = 0;
+
+							$.each(lResponse.lots,function() {
+								$.each(this.lots,function() {
+									this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
+									this.selected = '';	
+									this.mLotPrixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).toFixed(2).nombreFormate(2,',',' ');
+								});
+							});
+							that.mLots = lResponse.lots;
 							
-							if(pParam.id_commande != -1) { // Traitement des produits du marché
+							$.each(lResponse.stock, function() {
+								var lAfficherCategorie = false;
+								that.mNomCategorie[this.cproId] = {cproNom:this.cproNom};
+								
+								this.visible = 'ui-helper-hidden';
+																
+								$.each(this.produits, function() {
+									
+									that.mCompteurIdProduit--;
+									this.id = that.mCompteurIdProduit;
+																		
+									if(this.montant != null) {
+										that.mTotalAchatInit = (parseFloat(that.mTotalAchatInit) + parseFloat(this.montant * -1)).toFixed(2);
+										this.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
+										this.montantAchat = (this.montant * -1).nombreFormate(2,',','') ;
+										lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(this.montant * -1)).toFixed(2);
+										lAfficherCategorie = true;
+										var lIdLot = ( this.idDetailCommande != 0 ) ? this.idDetailCommande : this.idModeleLot;
+										if(that.mLotAchat[this.id]) {
+											that.mLotAchat[this.id].normal = lIdLot;	
+										} else {
+											that.mLotAchat[this.id] = {normal:lIdLot,solidaire:0};
+										}
+									} else {
+										this.quantiteAchat = '';
+										this.montantAchat = '';
+										this.idStock = 0;
+										this.idDetailOperation = 0;
+									}
+									
+									if(this.montantSolidaire != null) {
+										that.mTotalAchatInit = (parseFloat(that.mTotalAchatInit) + parseFloat(this.montantSolidaire * -1)).toFixed(2);
+										this.quantiteAchatSolidaire = (this.quantiteSolidaire * -1).nombreFormate(2,',','') ;
+										this.montantAchatSolidaire = (this.montantSolidaire * -1).nombreFormate(2,',','') ;
+										lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) + parseFloat(this.montantSolidaire * -1)).toFixed(2);
+										lAfficherCategorie = true;
+										
+										var lIdLot = ( this.idDetailCommandeSolidaire != 0 ) ? this.idDetailCommandeSolidaire : this.idModeleLotSolidaire;
+										if(that.mLotAchat[this.id]) {
+											that.mLotAchat[this.id].solidaire = lIdLot;	
+										} else {
+											that.mLotAchat[this.id] = {normal:0,solidaire:lIdLot};
+										}
+									} else {
+										this.quantiteAchatSolidaire = '' ;
+										this.montantAchatSolidaire = '' ;
+										this.idStockSolidaire = 0;
+										this.idDetailOperationSolidaire = 0;
+									}									
+									
+								});
+								
+								// Affiche la catégorie si il y a un achat ou reservation
+								if(lAfficherCategorie) {
+									this.visible = '';
+								}								
+							});				
+							
+							lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
+							
+							// Si il y a eu un achat ou un rechargement affiche le résumé
+							if((lResponse.achats.produits && lResponse.achats.produits[0] && lResponse.achats.produits[0].cproId != null) || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { 
+								
+
+								if(lResponse.achats != null) {
+									if(lResponse.achats.operationAchat != null) {										
+										var lTempChampComplementaire = [];
+										for( i in lResponse.achats.operationAchat.champComplementaire) {
+											if(lResponse.achats.operationAchat.champComplementaire[i].opeId != null) {
+												lResponse.achats.operationAchat.champComplementaire[i].obligatoire = 0;
+												lResponse.achats.operationAchat.champComplementaire[i].id = i;
+												lTempChampComplementaire[i] = lResponse.achats.operationAchat.champComplementaire[i];
+											}
+										}
+										lResponse.achats.operationAchat.champComplementaire = lTempChampComplementaire;
+									}
+									if(lResponse.achats.operationAchatSolidaire != null) {										
+										var lTempChampComplementaire = [];
+										for( i in lResponse.achats.operationAchatSolidaire.champComplementaire) {
+											if(lResponse.achats.operationAchatSolidaire.champComplementaire[i].opeId != null) {
+												lResponse.achats.operationAchatSolidaire.champComplementaire[i].obligatoire = 0;
+												lResponse.achats.operationAchatSolidaire.champComplementaire[i].id = i;
+												lTempChampComplementaire[i] = lResponse.achats.operationAchatSolidaire.champComplementaire[i];
+											}
+										}
+										lResponse.achats.operationAchatSolidaire.champComplementaire = lTempChampComplementaire;
+									}
+									if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.id != null) {										
+										var lTempChampComplementaire = [];
+										for( i in lResponse.achats.rechargement.champComplementaire) {
+											if(lResponse.achats.rechargement.champComplementaire[i].opeId != null) {
+												lResponse.achats.rechargement.champComplementaire[i].obligatoire = 0;
+												lResponse.achats.rechargement.champComplementaire[i].id = i;
+												lTempChampComplementaire[i] = lResponse.achats.rechargement.champComplementaire[i];
+											}
+										}
+										lResponse.achats.rechargement.champComplementaire = lTempChampComplementaire;
+									} else {
+										lResponse.achats.rechargement = null;
+									}
+								}
+								
+								that.mAchatInitial = lResponse.achats;
+								that.mModeEdition = 1;		
+								that.afficher(lResponse, that.recapitulatifAchat);
+							} else {
+								that.afficher(lResponse);
+							}
+							
+						/*	if(pParam.id_commande != -1) { // Si marché test si achat
+								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
+									that.afficher(lResponse, that.recapitulatifAchat);
+								} else { // Sinon affiche le formulaire
+									that.afficher(lResponse);
+								}
+							} else { // Hors marché affiche le formulaire
+								that.afficher(lResponse);
+							}
+							
+							that.afficher(lResponse);*/
+							
+							/*if(pParam.id_commande != -1) { // Traitement des produits du marché
 								$.each(lResponse.marche.produits, function() {
 									if(this.id) {	
 										var lIdProduit = this.id;
@@ -5816,7 +6010,7 @@ $(document).ready(function() {
 										/*	var lAchatReservation = 0;
 											var lAchat = 0;*/
 																						
-											$.each(lResponse.reservation, function() {
+						/*					$.each(lResponse.reservation, function() {
 												if(this.idProduit == lIdProduit) {
 													lProduit.quantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ') + ' ' + lUnite;
 													if(lResponse.achats.length == 0) { // Si pas d'achat
@@ -5830,57 +6024,13 @@ $(document).ready(function() {
 												}
 											});
 											
-											$.each(lResponse.achats, function() {
-												if(this.id && this.id.idAchat) {
-													that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
-												}
-												$(this.detailAchat).each(function() {
-													if(this.idProduit == lIdProduit) {
-														lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
-														lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
-														lProduit.quantiteAchatAffiche = (this.quantite * -1).nombreFormate(2,',',' ') ;
-														lProduit.prixAchatAffiche = (this.montant * -1).nombreFormate(2,',',' ') ;
-														//lAchat = (parseFloat(lAchat) + parseFloat(this.montant) * -1).toFixed(2);
-														lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
-														lAfficherCategorie = true;
-														that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-														
-														if(that.mLotAchat[lIdProduit]) {
-															that.mLotAchat[lIdProduit].normal = this.idDetailCommande;
-														} else {
-															that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:''};
-														}
-													}
-												});
-												
-												$(this.detailAchatSolidaire).each(function() {
-													if(this.idProduit == lIdProduit) {
-														lProduit.quantiteAchatSolidaire = (this.quantite * -1).nombreFormate(2,',','') ;
-														lProduit.prixAchatSolidaire = (this.montant * -1).nombreFormate(2,',','') ;
-														lProduit.quantiteAchatAfficheSolidaire = (this.quantite * -1).nombreFormate(2,',',' ') ;
-														lProduit.prixAchatAfficheSolidaire = (this.montant * -1).nombreFormate(2,',',' ') ;
-														lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) - parseFloat(this.montant)).toFixed(2);
-														lAfficherCategorie = true;
-														that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-														
-														if(that.mLotAchat[lIdProduit]) {
-															that.mLotAchat[lIdProduit].solidaire = this.idDetailCommande;
-														} else {
-															that.mLotAchat[lIdProduit] = {normal:'',solidaire:this.idDetailCommande};
-														}
-													}
-												});
-											});
-											
-											
-											
 											/*if(lAchat == 0) {// Si pas d'achat affiche le total réservation
 												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchatReservation)).toFixed(2);
 											} else {
 												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchat)).toFixed(2);
 											}*/
 											
-											lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
+						/*					lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
 										}
 										
 										if(!that.mCategorie[this.idCategorie]) {											
@@ -5906,9 +6056,85 @@ $(document).ready(function() {
 								});
 							}
 							
+							
+							$.each(lResponse.achats.produits, function() {
+								
+								var lNproId = this.idNom;
+								var lProduitMarche = false;
+								var lproduitAchat = this;
+																	
+								if(pParam.id_commande != -1) { // Si c'est un marché priorité aux produits du marché
+									$.each(lResponse.marche.produits, function() {
+										if(this.id && this.idNom == lNproId) {
+											lProduitMarche = true;
+											if(this.quantite != null) {
+												this.quantiteAchat = (lproduitAchat.quantite * -1).nombreFormate(2,',','') ;
+												this.prixAchat = (lproduitAchat.montant * -1).nombreFormate(2,',','') ;
+												this.quantiteAchatAffiche = (lproduitAchat.quantite * -1).nombreFormate(2,',',' ') ;
+												this.prixAchatAffiche = (lproduitAchat.montant * -1).nombreFormate(2,',',' ') ;
+												
+												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(lproduitAchat.montant)).toFixed(2);
+												
+												that.mSolde = (parseFloat(that.mSolde) - parseFloat(lproduitAchat.montant)).toFixed(2);
+												
+												if(that.mLotAchat[this.id]) {
+													that.mLotAchat[this.id].normal = lproduitAchat.idDetailCommande;
+												} else {
+													that.mLotAchat[this.id] = {normal:lproduitAchat.idDetailCommande,solidaire:''};
+												}
+											}
+											
+										}
+									});
+								}
+								
+								
+								
+								
+								/*if(this.id && this.id.idAchat) {
+									that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
+								}*/
+							/*	$(this.detailAchat).each(function() {
+									if(this.idProduit == lIdProduit) {
+										lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
+										lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
+										lProduit.quantiteAchatAffiche = (this.quantite * -1).nombreFormate(2,',',' ') ;
+										lProduit.prixAchatAffiche = (this.montant * -1).nombreFormate(2,',',' ') ;
+										//lAchat = (parseFloat(lAchat) + parseFloat(this.montant) * -1).toFixed(2);
+										lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
+										lAfficherCategorie = true;
+										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
+										
+										if(that.mLotAchat[lIdProduit]) {
+											that.mLotAchat[lIdProduit].normal = this.idDetailCommande;
+										} else {
+											that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:''};
+										}
+									}
+								});
+								
+								$(this.detailAchatSolidaire).each(function() {
+									if(this.idProduit == lIdProduit) {
+										lProduit.quantiteAchatSolidaire = (this.quantite * -1).nombreFormate(2,',','') ;
+										lProduit.prixAchatSolidaire = (this.montant * -1).nombreFormate(2,',','') ;
+										lProduit.quantiteAchatAfficheSolidaire = (this.quantite * -1).nombreFormate(2,',',' ') ;
+										lProduit.prixAchatAfficheSolidaire = (this.montant * -1).nombreFormate(2,',',' ') ;
+										lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) - parseFloat(this.montant)).toFixed(2);
+										lAfficherCategorie = true;
+										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
+										
+										if(that.mLotAchat[lIdProduit]) {
+											that.mLotAchat[lIdProduit].solidaire = this.idDetailCommande;
+										} else {
+											that.mLotAchat[lIdProduit] = {normal:'',solidaire:this.idDetailCommande};
+										}
+									}
+								});*/
+						//	});
+							
 							// Ajout des produits en stock
 							
-							var lIdProduitEnStock = -1;
+						/*	var lIdProduitEnStock = -1;
 							$.each(lResponse.stock, function() {
 								if(this.idNom) {
 									var lNproId = this.idNom;
@@ -5961,10 +6187,10 @@ $(document).ready(function() {
 										lIdProduitEnStock--;
 									}
 								}
-							});
+							});*/
 							
 							// Tri des catégories
-							that.mCategorie.sort(function(a,b) {return a.cproNom.localeCompare(b.cproNom);});
+				/*			that.mCategorie.sort(function(a,b) {return a.cproNom.localeCompare(b.cproNom);});
 							// Tri des produits
 							$.each(that.mCategorie,function() {
 								if(this.cproNom) {
@@ -5973,14 +6199,14 @@ $(document).ready(function() {
 							});
 							
 							if(pParam.id_commande != -1) { // Si marché test si achat
-								if(lResponse.achats.length > 0 || (lResponse.rechargement !=null && lResponse.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
+								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
 									that.afficher(lResponse, that.recapitulatifAchat);
 								} else { // Sinon affiche le formulaire
 									that.afficher(lResponse);
 								}
 							} else { // Hors marché affiche le formulaire
 								that.afficher(lResponse);
-							}
+							}*/
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -5991,8 +6217,8 @@ $(document).ready(function() {
 	
 	this.afficher = function(pResponse, pCallBack) {
 		var lCaisseTemplate = new CaisseTemplate();
-
-		var lData = {categories:this.mCategorie, sigleMonetaire: gSigleMonetaire};
+		
+		var lData = {categories:pResponse.stock, sigleMonetaire: gSigleMonetaire};
 		pResponse.adherent.sigleMonetaire = gSigleMonetaire;
 		pResponse.adherent.typePaiement = pResponse.typePaiement;
 
@@ -6019,11 +6245,11 @@ $(document).ready(function() {
 		lData.infoAdherent = lCaisseTemplate.achatInfoAdherent.template(pResponse.adherent);
 		
 		var lHtml = '';
-		if(pParam.id_commande != -1) { // Formulaire Marché
+		/*if(pParam.id_commande != -1) { // Formulaire Marché
 			lHtml = lCaisseTemplate.achatMarcheFormulaire.template(lData);
-		} else { // Formulaire Caisse permanente
+		} else { // Formulaire Caisse permanente*/
 			lHtml = lCaisseTemplate.achatHorsMarcheFormulaire.template(lData);
-		}
+		//}
 		
 		$('#contenu').replaceWith( this.affect($(lHtml)) );
 		if(pCallBack) {
@@ -6048,6 +6274,7 @@ $(document).ready(function() {
 		pData = this.affectRecherche(pData);
 		pData = this.affectRetour(pData);
 		pData = this.affectEnregistrer(pData);
+		pData = this.affectSupprimer(pData);
 		pData = gCommunVue.comNumeric(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
@@ -6117,17 +6344,38 @@ $(document).ready(function() {
 		pData.find(".produit-quantite, .produit-quantite-solidaire, .produit-prix, .produit-prix-solidaire").focus(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
+			var lUnite = $(this).data('unite');
 			var lType = $(this).data('type');
 			
 			if($('#select-' + lNproId + lType).length == 0) {// Si le select est déjà affiché il ne faut pas le réinitialiser			
-				var lProduit = that.mPrixProduit[lNproId];
+				//var lProduit = that.mPrixProduit[lNproId];
 				
-				lProduit.prixUnitaire = lProduit.lots[0].mLotPrixUnitaire;
-
-				if(lProduit.lots.length == 1) {
-					lProduit.lotAffiche = lCaisseTemplate.achatMarcheAfficheLot.template({	id:lProduit.lots[0].id,
-																						tailleAffiche:lProduit.lots[0].tailleAffiche,
-																						unite:lProduit.unite,
+				var lLotsProduit = that.mLots[lNproId + lUnite].lots;
+				var lIdPremierLot = 0;
+				var lNbLots = 0;
+				var lPremierLot = {};
+				var lLotsAffiche = [];
+				for(i in lLotsProduit) {
+					if(lLotsProduit[i].id) {
+						if(lIdPremierLot == 0) {
+							lIdPremierLot = i;
+							lPremierLot = lLotsProduit[i];
+						}
+						lLotsAffiche.push(lLotsProduit[i]);
+						lNbLots++;
+					}
+				}
+				
+				lLotsAffiche.sort(function(a,b) {return a.taille.localeCompare(b.taille);});
+				
+				
+				var lProduit = {nproId:lNproId,lots:lLotsAffiche,unite:lUnite};
+				lProduit.prixUnitaire = lPremierLot.mLotPrixUnitaire;	
+				
+				if(lNbLots == 1) {
+					lProduit.lotAffiche = lCaisseTemplate.achatMarcheAfficheLot.template({	id:lPremierLot.id,
+																						tailleAffiche:lPremierLot.tailleAffiche,
+																						unite:lUnite,
 																						});
 				} else {
 					if(that.mLotAchat[lIdProduit]) {
@@ -6137,6 +6385,7 @@ $(document).ready(function() {
 						} else {
 							lIdLot = that.mLotAchat[lIdProduit].solidaire;
 						}
+						
 						$(lProduit.lots).each(function() {
 							if(this.id == lIdLot) {
 								lProduit.prixUnitaire = this.mLotPrixUnitaire;
@@ -6158,20 +6407,37 @@ $(document).ready(function() {
 				$('#cellule-lot-produit-prix-unitaire').html(lCaisseTemplate.achatMarchePrixUnitaire.template(lProduit));
 				$('.ligne-lot-produit').show();
 			}
-		}).blur(function() { // Masque automaiquement en sortie si il n'y a qu'un lot
+		}).blur(function() { // Masque automatiquement en sortie si il n'y a qu'un lot
 			var lNproId = $(this).data('id-nom-produit');
-			if(that.mPrixProduit[lNproId].lots.length == 1) {
+			var lUnite = $(this).data('unite');
+			
+			var lNbLots = 0;
+			for(i in that.mLots[lNproId + lUnite].lots) {
+				lNbLots++;
+			}
+			if(lNbLots == 1) {
 				$('.ligne-lot-produit').hide();
 			}
 		}).keyup(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
+			var lUnite = $(this).data('unite');
 			var lType = $(this).data('type');
 			var lIdLot = 0;
-			if(that.mPrixProduit[lNproId].lots.length == 1) {
-				lIdLot = that.mPrixProduit[lNproId].lots[0].id;
+			
+			var lNbLots = 0;
+			var lIdPremierLot = 0;
+			for(i in that.mLots[lNproId + lUnite].lots) {
+				if(lIdPremierLot == 0) {
+					lIdPremierLot = i;
+				}
+				lNbLots++;
+			}
+			
+			if(lNbLots == 1) {
+				lIdLot = lIdPremierLot;
 			} else {
-				lIdLot = that.mLots[$('#select-' + lNproId + lType).val()].id;
+				lIdLot = $('#select-' + lNproId + lType).val();
 			}
 			
 			if(that.mLotAchat[lIdProduit]) {
@@ -6195,17 +6461,26 @@ $(document).ready(function() {
 	this.affectCalculPrix = function(pData) {
 		var that = this;
 		pData.find('.produit-quantite, .produit-quantite-solidaire').keyup(function() {
-			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val());
+			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), $(this).data('unite'));
 		});
 		return pData;
 	};
 	
-	this.calculPrix = function(pIdProduit, pIdNomProduit, pType, pQuantite) {
+	this.calculPrix = function(pIdProduit, pIdNomProduit, pType, pQuantite, pUnite) {
 		var lLot = {};
-		if(this.mPrixProduit[pIdNomProduit].lots.length == 1) {
-			lLot = this.mPrixProduit[pIdNomProduit].lots[0];
+		var lPremierLot = {};
+		var lIdPremierLot = 0;
+		var lNbLots = 0;
+		for(i in this.mLots[pIdNomProduit + pUnite].lots) {
+			if(lIdPremierLot == 0) {
+				lPremierLot = this.mLots[pIdNomProduit + pUnite].lots[i];
+			}
+			lNbLots++;
+		}
+		if(lNbLots == 1) {			
+			lLot = lPremierLot;
 		} else {
-			lLot = this.mLots[$('#select-' + pIdNomProduit + pType).val()];
+			lLot = this.mLots[pIdNomProduit + pUnite].lots[$('#select-' + pIdNomProduit + pType).val()];
 		}
 		
 		pQuantite = parseFloat(pQuantite.numberFrToDb());
@@ -6220,13 +6495,14 @@ $(document).ready(function() {
 		var that = this;
 		pData.find('.select-lot').change(function() {
 			var lIdNomProduit = $(this).data('id-nom-produit');
-			var lType= $(this).data('type'); 
+			var lUnite = $(this).data('unite'); 
+			var lType = $(this).data('type'); 
 			var lIdLot = $(this).val();
 			
 			// Raz quantité et prix 
 			$('#produits' + lType + lIdNomProduit + 'quantite' + ', #produits' + lIdNomProduit + 'montant' + lType ).val('');
 			// Maj Prix unitaire
-			$('#prix-unitaire-' + lIdNomProduit).text(that.mLots[lIdLot].mLotPrixUnitaire);
+			$('#prix-unitaire-' + lIdNomProduit).text(that.mLots[lIdNomProduit+lUnite].lots[lIdLot].mLotPrixUnitaire);
 			
 		});
 		return pData;
@@ -6235,15 +6511,18 @@ $(document).ready(function() {
 	this.affectPositionInfoAdherent = function(pData) {
 		var timeout = null;
 		var entryShare = pData.find('#info-adherent-widget').first();
-		var entryContent = pData.find('.tableau-liste-produit').first();
+		var entryContent = pData.find('.tableau-liste-produit');
 				
 		$(window).scroll(function () {
+			//console.log(entryShare.outerHeight());
+			
 		  var scrollTop = $(this).scrollTop();
 		  if(!timeout) {
 			timeout = setTimeout(function() {
 			  timeout = null;
 			  if (entryShare.css('position') !== 'fixed' && entryShare.offset().top < $(document).scrollTop()) {
-				entryContent.css('margin-top', entryShare.outerHeight() + 10 );
+				//entryContent.css('margin-top', entryShare.outerHeight() + 10 );
+				entryContent.css('margin-top', '200' );
 				entryShare.css({'z-index': 999, 'position': 'fixed', 'top': 0, 'width': entryContent.width(), 'box-shadow': '0 0 20px #555'})
 							.removeClass('ui-corner-all').addClass('ui-corner-bottom');
 			  } else if ($(document).scrollTop() <= entryContent.offset().top) {
@@ -6253,7 +6532,7 @@ $(document).ready(function() {
 							.removeClass('ui-corner-bottom').addClass('ui-corner-all');
 				
 			  }
-			}, 250);
+			}, 100);
 		  }
 		});
 		
@@ -6272,7 +6551,7 @@ $(document).ready(function() {
 				lRechargement = 0;
 			}
 			
-			var lSolde = (parseFloat(that.mSolde) - lTotal + lRechargement).toFixed(2);
+			var lSolde = (parseFloat(that.mSolde) - lTotal + parseFloat(that.mTotalAchatInit) + lRechargement).toFixed(2);
 			$('#solde').text(lSolde.nombreFormate(2,',',' '));
 			
 			if(lSolde <= 0) {
@@ -6376,85 +6655,7 @@ $(document).ready(function() {
 		pData = this.affectAfficheFormulaireRechargementChampComplementaire(pData);
 		return pData;
 	};
-	
 		
-	/*this.getLabelChamComplementaire = function(pId) {
-		var lTpp = this.mTypePaiement;
-		if(lTpp[pId]) {
-			if(lTpp[pId].tppChampComplementaire == 1) {
-				return lTpp[pId].tppLabelChampComplementaire;
-			}
-		}	
-		return null;
-	};
-	
-	this.affectListeBanque = function(pData) {
-		var that = this;
-		
-		function removeIfInvalid(element) {
-			// Vide le champ si la banque n'existe pas
-			var value = $( element ).val(),
-			matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
-			valid = false;
-			$( that.mBanques ).each(function() {
-				if ( $( this ).text().match( matcher ) ) {
-					this.selected = valid = true;
-					return false;
-				}
-			});
-			if ( !valid ) {
-				$( element ).attr( 'id-banque','' ); 
-				
-				// Message d'information
-				var lVr = new RechargementCompteVR();
-				lVr.valid = false;
-				lVr.idBanque.valid = false;
-				var erreur = new VRerreur();
-				erreur.code = ERR_261_CODE;
-				erreur.message = ERR_261_MSG;
-				lVr.idBanque.erreurs.push(erreur);
-				
-				Infobulle.generer(lVr,'');
-				return false;
-			}
-		};
-		
-		pData.find('#rechargementidBanque').autocomplete({
-			minLength: 0,			 
-			source: function( request, response ) {
-				var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
-					response( $.grep( that.mBanques, 
-						function( item ){
-							return matcher.test( item.nom ) || matcher.test( item.nomCourt );
-						}
-					));
-			},	 
-			focus: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
-				return false;
-			},
-			select: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				$( "#rechargementidBanque" ).val( htmlDecode(ui.item.nom) );
-				$( "#rechargementidBanque" ).attr('id-banque', ui.item.id );
-				return false;
-			},
-			change: function( event, ui ) {
-				Infobulle.init(); // Supprime les erreurs
-				if ( !ui.item )
-					return removeIfInvalid( this );
-			}
-		}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			return $( "<li>" )
-			.data( "item.autocomplete", item )
-			.append( "<a>" + item.nomCourt + " : " + item.nom + "<br>" + item.description + "</a>" )
-			.appendTo( ul );
-		};
-		
-		return pData;
-	};*/
-	
 	this.affectValider = function(pData) {
 		var that = this;
 		pData.find('#btn-valider').click(function() {
@@ -6476,19 +6677,25 @@ $(document).ready(function() {
 		$('.ligne-produit').each(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
+			var lUnite = $(this).data('unite');
 			var lIdCategorie = $(this).data('id-categorie');
 
 			var lVoProduit = new ProduitDetailAchatVO();
 			lVoProduit.id = lIdProduit;
 			lVoProduit.idNomProduit = lNproId;
-						
+
+			lVoProduit.idStock = $(this).data('id-stock');
+			lVoProduit.idStockSolidaire = $(this).data('id-stock-solidaire');
+			lVoProduit.idDetailOperation = $(this).data('id-detail-operation');
+			lVoProduit.idDetailOperationSolidaire = $(this).data('id-detail-operation-solidaire');
+		
 			if(that.mLotAchat[lIdProduit]) {
-				if(lIdProduit > 0) { // Produit du marche
-					lVoProduit.idDetailCommande = that.mLotAchat[lIdProduit].normal;
-					lVoProduit.idDetailCommandeSolidaire = that.mLotAchat[lIdProduit].solidaire;
-				} else { // Produit en stock
+				if(that.mLots[lNproId + lUnite].type == 'modele') { // Produit en Stock
 					lVoProduit.idModeleLot = that.mLotAchat[lIdProduit].normal;		
-					lVoProduit.idModeleLotSolidaire = that.mLotAchat[lIdProduit].solidaire;	
+					lVoProduit.idModeleLotSolidaire = that.mLotAchat[lIdProduit].solidaire;						
+				} else { // Produit du marche
+					lVoProduit.idDetailCommande = that.mLotAchat[lIdProduit].normal;
+					lVoProduit.idDetailCommandeSolidaire = that.mLotAchat[lIdProduit].solidaire;					
 				}
 			}
 
@@ -6500,7 +6707,7 @@ $(document).ready(function() {
 			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb());
 			if(!isNaN(lMontant)) {
 				lVoProduit.montant = lMontant * -1;
-				lTotal += lMontant;
+				lTotal += lMontant * -1;
 			}	
 			
 			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb());
@@ -6511,11 +6718,10 @@ $(document).ready(function() {
 			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb());
 			if(!isNaN(lMontant)) {
 				lVoProduit.montantSolidaire = lMontant * -1;
-				lTotalSolidaire += lMontant;
+				lTotalSolidaire += lMontant * -1;
 			}
 			
-			var lInfoProduit = that.mPrixProduit[lNproId];
-			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {
+			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {				
 				lVo.produits.push(lVoProduit);
 				lProduitAchete = true;
 				
@@ -6524,97 +6730,157 @@ $(document).ready(function() {
 				}
 				
 				lProduitDetail[lIdCategorie].produits[lNproId] = {
-						nom:lInfoProduit.nom,
+						nom:that.mLots[lNproId + lUnite].nom,
 						quantite:'',montant:'',quantiteSolidaire:'',montantSolidaire:'',
 						unite:'',uniteSolidaire:'',sigleMonetaire:'',sigleMonetaireSolidaire:''};
 				if(lVoProduit.quantite != '') {
 					lProduitDetail[lIdCategorie].produits[lNproId].quantite = (lVoProduit.quantite * -1).nombreFormate(2,',',' ');
-					lProduitDetail[lIdCategorie].produits[lNproId].unite = lInfoProduit.unite;
+					lProduitDetail[lIdCategorie].produits[lNproId].unite = lUnite;
 					lProduitDetail[lIdCategorie].produits[lNproId].montant = (lVoProduit.montant * -1).nombreFormate(2,',',' ');
 					lProduitDetail[lIdCategorie].produits[lNproId].sigleMonetaire = gSigleMonetaire;
 				}
 				if(lVoProduit.quantiteSolidaire != '') {
 					lProduitDetail[lIdCategorie].produits[lNproId].quantiteSolidaire = (lVoProduit.quantiteSolidaire * -1).nombreFormate(2,',',' ');
-					lProduitDetail[lIdCategorie].produits[lNproId].uniteSolidaire = lInfoProduit.unite;
+					lProduitDetail[lIdCategorie].produits[lNproId].uniteSolidaire = lUnite;
 					lProduitDetail[lIdCategorie].produits[lNproId].montantSolidaire = (lVoProduit.montantSolidaire * -1).nombreFormate(2,',',' ');	
 					lProduitDetail[lIdCategorie].produits[lNproId].sigleMonetaireSolidaire = gSigleMonetaire;
 				}
 			}
 			
 		});
-		if(lTotal > 0) {
-			var lOperationAchat = new OperationDetailVO();
-			lOperationAchat.montant = lTotal;
-			lOperationAchat.typePaiement = 7;
-			lOperationAchat.idCompte = this.mIdCompte;
-			
-			// Mode Marché
-			if(this.mParam.id_commande > 0) {
-				var lChampComplementaire = new ChampComplementaireVO();
-				lChampComplementaire.id = 1;
-				lChampComplementaire.obligatoire = 0;
-				lChampComplementaire.valeur = this.mParam.id_commande;
-				lOperationAchat.champComplementaire[1] = lChampComplementaire;
+		
+		if(this.mAchatInitial != null) {
+			if(this.mAchatInitial.operationAchat != null) {
+				lVo.operationAchat = this.mAchatInitial.operationAchat;
 			}
-			lVo.operationAchat = lOperationAchat;
+			if(this.mAchatInitial.operationAchatSolidaire != null) {
+				lVo.operationAchatSolidaire = this.mAchatInitial.operationAchatSolidaire;
+			}
+			if(this.mAchatInitial.rechargement != null) {
+				lVo.rechargement  = this.mAchatInitial.rechargement;
+			}
 		}
 		
-		if(lTotalSolidaire > 0) {
-			var lOperationAchat = new OperationDetailVO();
-			lOperationAchat.montant = lTotalSolidaire;
-			lOperationAchat.typePaiement = 8;
-			lOperationAchat.idCompte = this.mIdCompte;
-			
-			// Mode Marché
-			if(this.mParam.id_commande > 0) {
+		if(lTotal < 0) {
+			if(lVo.operationAchat == '') {
+				var lOperationAchat = new OperationDetailVO();
+				lOperationAchat.montant = lTotal;
+				lOperationAchat.typePaiement = 7;
+				lOperationAchat.idCompte = this.mIdCompte;
+				
+				// Mode Marché
+				if(this.mParam.id_commande > 0) {
+					var lChampComplementaire = new ChampComplementaireVO();
+					lChampComplementaire.id = 1;
+					lChampComplementaire.obligatoire = 0;
+					lChampComplementaire.valeur = this.mParam.id_commande;
+					lOperationAchat.champComplementaire[1] = lChampComplementaire;
+				}
+				
 				var lChampComplementaire = new ChampComplementaireVO();
-				lChampComplementaire.id = 1;
-				lChampComplementaire.obligatoire = 0;
-				lChampComplementaire.valeur = this.mParam.id_commande;
-				lOperationAchat.champComplementaire[1] = lChampComplementaire;
+				lChampComplementaire.id = 15;
+				lChampComplementaire.obligatoire = 1;
+				lChampComplementaire.valeur = this.mIdRequete;
+				lOperationAchat.champComplementaire[15] = lChampComplementaire;
+				
+				lVo.operationAchat = lOperationAchat;
+			} else {
+				lVo.operationAchat.montant = lTotal;
 			}
-			lVo.operationAchatSolidaire = lOperationAchat;
 		}
 		
-		var lRechargementVo = new OperationDetailVO();		
+		if(lTotalSolidaire < 0) {
+			if(lVo.operationAchatSolidaire == '') {
+				var lOperationAchat = new OperationDetailVO();
+				lOperationAchat.montant = lTotalSolidaire;
+				lOperationAchat.typePaiement = 8;
+				lOperationAchat.idCompte = this.mIdCompte;
+				
+				// Mode Marché
+				if(this.mParam.id_commande > 0) {
+					var lChampComplementaire = new ChampComplementaireVO();
+					lChampComplementaire.id = 1;
+					lChampComplementaire.obligatoire = 0;
+					lChampComplementaire.valeur = this.mParam.id_commande;
+					lOperationAchat.champComplementaire[1] = lChampComplementaire;
+				}
+				
+				var lChampComplementaire = new ChampComplementaireVO();
+				lChampComplementaire.id = 15;
+				lChampComplementaire.obligatoire = 1;
+				lChampComplementaire.valeur = this.mIdRequete;
+				lOperationAchat.champComplementaire[15] = lChampComplementaire;
+				
+				lVo.operationAchatSolidaire = lOperationAchat;
+			} else {
+				lVo.operationAchatSolidaire.montant = lTotalSolidaire;
+			}
+		}
+		
+			
 		var lMontant = $(":input[name=montant-rechargement]").val().numberFrToDb();
 		var lMontantAffiche = 0; 
 		var lTypePaiementAffiche = '';
-		
-		lRechargementVo.idCompte = this.mIdCompte;
 
-		if(!isNaN(lMontant) && !lMontant.isEmpty() && lMontant != 0){
+		if(lMontant == '') {
+			lMontant = 0;
+		}		
+		if(!isNaN(lMontant) ){
 			lMontant = parseFloat(lMontant);
-			lRechargementVo.montant = lMontant;
 			lMontantAffiche = lMontant;
 		}
 		lMontantAffiche = lMontantAffiche.nombreFormate(2,',',' ');
 		
-		lRechargementVo.typePaiement = $(":input[name=typepaiement]").val();
-		if(lRechargementVo.typePaiement != 0) {
-			lTypePaiementAffiche = $(":input[name=typepaiement]").selectedTexts();
+		if(lMontant > 0) {
+			var lTypePaiement = $(":input[name=typepaiement]").val();
+			if(lTypePaiement != 0) {
+				lTypePaiementAffiche = $(":input[name=typepaiement]").selectedTexts();
+			}
+	
+			var lTabChampComplementaire = [];
+			if(this.mTypePaiement[lTypePaiement]) {
+				var lTypePaiementService = new TypePaiementService();
+				lTabChampComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lTypePaiement].champComplementaire, 'rechargement');
+	
+				// Mode Marché
+				if(this.mParam.id_commande > 0) {
+					var lChampComplementaire = new ChampComplementaireVO();
+					lChampComplementaire.id = 1;
+					lChampComplementaire.obligatoire = 0;
+					lChampComplementaire.valeur = this.mParam.id_commande;
+					lTabChampComplementaire[1] = lChampComplementaire;
+				}
+				
+				var lChampComplementaire = new ChampComplementaireVO();
+				lChampComplementaire.id = 15;
+				lChampComplementaire.obligatoire = 1;
+				lChampComplementaire.valeur = this.mIdRequete;
+				lTabChampComplementaire[15] = lChampComplementaire;
+			}
+			
+			if(lVo.rechargement == '') {
+				lVo.rechargement = new OperationDetailVO();	
+				lVo.rechargement.idCompte = this.mIdCompte;
+			}
+			lVo.rechargement.typePaiement = lTypePaiement;
+			lVo.rechargement.champComplementaire = lTabChampComplementaire;
+			lVo.rechargement.montant = lMontant;
+		} else if(lMontant == 0 && lVo.rechargement != '') { // Suppression du rechargement
+			lVo.rechargement.montant = 0;
 		}
-
-		if(this.mTypePaiement[lRechargementVo.typePaiement]) {
-			var lTypePaiementService = new TypePaiementService();
-			lRechargementVo.champComplementaire = lTypePaiementService.getChampComplementaire(this.mTypePaiement[lRechargementVo.typePaiement].champComplementaire, 'rechargement');
-		}
-		
-		lVo.rechargement = lRechargementVo;	
-		
+				
 		var lValid = new AchatValid();
 		var lVr = lValid.validAjout(lVo);
-	/*	if(pParam.id_adherent != 0) {
-			lVr = lValid.validAjout(lVo);
-		} else {// Invite
-			lVr = lValid.validAjoutInvite(lVo);
-		}*/
 		
 		// Arrêt de la recherche
 		$('#input-rechercher').val('');
 		that.recherche('');
-
-		Infobulle.init(); // Supprime les erreurs
+		
+		if(this.mParam.vr && this.mParam.vr != null) {
+			this.mParam.vr = null;
+		} else {
+			Infobulle.init(); // Supprime les erreurs
+		}
 		if(lVr.valid) {
 			// Génération de l'affichage
 			// Tri des catégories
@@ -6641,7 +6907,7 @@ $(document).ready(function() {
 			$('#rechargement-affiche').text(lMontantAffiche); // Le Montant
 			
 			//$('#rechargement-select-affiche').text(lTypePaiementAffiche);
-			if(lRechargementVo.typePaiement == 0) {
+			if(lVo.rechargement == '' || (lVo.rechargement != '' && lVo.rechargement.montant <= 0)) {
 				this.afficheChCpAutorise = false;
 			}
 			
@@ -6661,16 +6927,19 @@ $(document).ready(function() {
 
 			lData.champComplementaireAffiche = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, this.mBanques, true);
 
-			
 			$('#form-select-typePaiement').hide().after(lCaisseTemplate.champComplementaireAffiche.template(lData));
-
-			
-			/*$('#rechargement-champ-complementaire-affiche').text(lChampComplementaireAffiche);
-			$('#rechargement-banque-affiche').text(lBanqueAffiche);
-			*/
 			
 			// Masque les input pour passer en affichage et change les boutons
-			$('.form-produit, #btn-valider, #btn-modifier, #btn-enregistrer, #recherche-produit').toggle(); 
+			$('.form-produit, #btn-valider, #btn-modifier, #recherche-produit').toggle(); 
+
+			if(this.mModeEdition == 1) {
+				this.mModeEdition = 0;
+				if(this.mModule == 'GestionCommande') {
+					$('#btn-supprimer').show();
+				}
+			} else {
+				$('#btn-enregistrer').show();
+			}
 			
 			this.mAchat = lVo;
 		} else {
@@ -6700,7 +6969,8 @@ $(document).ready(function() {
 	};
 	
 	this.modifier = function() {
-		$('.form-produit, #btn-valider, #btn-modifier, #btn-enregistrer, #recherche-produit').toggle(); 
+		$('#btn-enregistrer, #btn-supprimer').hide();
+		$('.form-produit, #btn-valider, #btn-modifier, #recherche-produit').toggle(); 
 		$('#formulaire-produit, #form-select-typePaiement').show();
 		$('#formulaire-produit-detail, #affiche-select-typePaiement').remove();
 		
@@ -6710,7 +6980,15 @@ $(document).ready(function() {
 	this.affectRetour = function(pData) {
 		var that = this;
 		pData.find('#lien-retour').click(function() {
-			CaisseMarcheCommandeVue({"id_commande":that.mParam.id_commande});
+			if(that.mModule == 'Caisse') {
+				CaisseMarcheCommandeVue({"id_commande":that.mParam.id_commande});
+			} else if(that.mParam.retour) {
+				if(that.mParam.retour == 'Achat') {
+					AchatVue({idMarche:that.mParam.id_commande});
+				} else if(that.mParam.retour == 'AchatMarche') {
+					ListeAchatMarcheVue({id_marche:that.mParam.id_commande});
+				}
+			}
 		});
 		return pData;
 	};
@@ -6727,31 +7005,71 @@ $(document).ready(function() {
 		var that = this;
 		var lVo = this.mAchat;
 		lVo.fonction = "acheter";
-		lVo.idAchat = this.mIdAchat;
+		//lVo.idAchat = this.mIdAchat;
 		
 		$.post(	"./index.php?m=" + this.mModule + "&v=CaisseMarcheCommande","pParam=" + $.toJSON(lVo),
 				function(lVoRetour) {
 					if(lVoRetour) {
 						if(lVoRetour.valid) {
 							var lCaisseTemplate = new CaisseTemplate();
-							$('#contenu').replaceWith(that.affectRetour($(lCaisseTemplate.achatCommandeSucces)));
-						} else {
-							var lAchatExiste = false;
-							$(lVoRetour.log.erreurs).each(function() {
-								if(this.code == 263) { lAchatExiste = true; }
-							});
-							// Erreur 263 : il y a déjà un achat sur le marché : on affiche le détail de cet achat en modification pour éviter un doublon d'achat.
-							if(lAchatExiste) {
-								CaisseVue({id_commande:that.idCommande, id_adherent:that.idAdherent, vr:lVoRetour});
-							} else {
-								that.modifier();
-								Infobulle.generer(lVoRetour,"");
+							if(that.mModule == 'Caisse') {
+								$('#contenu').replaceWith(that.affectRetour($(lCaisseTemplate.achatCommandeSucces)));
+							} else if(that.mParam.retour) {
+								that.mParam.id = lVoRetour.idAchat;
+								that.mParam.vr = new TemplateVR(false, new VRelement(false, [new VRerreur(ERR_314_CODE, ERR_314_MSG)]));
+								CaisseVue(that.mParam);
 							}
+						} else {
+							that.modifier();
+							Infobulle.generer(lVoRetour,"");
 						}
-						that.etapeValider = 0;
 					}
 				},"json"
 			);
 	};	
+	
+	this.affectSupprimer = function(pData) {
+		var that = this;
+		pData.find('#btn-supprimer').click(function() {
+			var lCaisseTemplate = new CaisseTemplate();
+			$(lCaisseTemplate.dialogSuppressionAchat).dialog({
+				autoOpen: true,
+				modal: true,
+				draggable: false,
+				resizable: false,
+				width:600,
+				buttons: {
+					'Supprimer': function() {
+						var lDialog = $(this);
+						var lVo = {id:that.mParam.id , fonction:"supprimer"};	
+						$.post(	"./index.php?m=GestionCommande&v=CaisseMarcheCommande","pParam=" + $.toJSON(lVo),
+							function(lVoRetour) {
+								if(lVoRetour) {
+									if(lVoRetour.valid) {
+										var lVr = new TemplateVR(false, new VRelement(false, [new VRerreur(ERR_315_CODE, ERR_315_MSG)]));
+										if(that.mParam.retour == 'Achat') {
+											AchatVue({idMarche:that.mParam.id_commande, vr:lVr});
+										} else if(that.mParam.retour == 'AchatMarche') {
+											ListeAchatMarcheVue({id_marche:that.mParam.id_commande, vr:lVr});
+										}
+										lDialog.dialog('close');
+									} else {
+										Infobulle.generer(lVoRetour,"");
+									}
+								}
+							},"json"
+						);
+					},
+					'Annuler': function() {
+						$(this).dialog('close');
+					}
+				},
+				close: function(ev, ui) { $(this).remove(); }
+						
+			});
+		});
+		return pData;		
+	};
+	
 	this.construct(pParam);
 }

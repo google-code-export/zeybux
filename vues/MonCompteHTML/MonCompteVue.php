@@ -153,7 +153,8 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 
 		$lType = '';
 		if($lOperation->getTppId() == 2) {
-			$lType = $lOperation->getTppType() . " N° " . $lOperation->getchampComplementaire()[3]->getValeur();
+			$lOpeChampComp = $lOperation->getchampComplementaire();
+			$lType = $lOperation->getTppType() . " N° " . $lOpeChampComp[3]->getValeur();
 		}
 		
 		if( $lOperation->getMontant() > 0 ) {
