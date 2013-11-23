@@ -52,6 +52,8 @@ class ListeReservationMarcheControleur
 
 		// Mise en forme des données par produit
 		$lTableauReservation = array();
+		$lQuantiteReservation = array();
+		
 		foreach($lReservations as $lReservation) {			
 			$lLigne = array();
 			
@@ -60,23 +62,26 @@ class ListeReservationMarcheControleur
 			$lLigne['nom'] = $lReservation->getAdhNom();
 			$lLigne['telephonePrincipal'] = $lReservation->getAdhTelephonePrincipal();
 			
-			if(isset($lTableauReservation[$lLigne['compte']])) {				
-				foreach($lIdProduits as $lIdProduit) {
-					if($lReservation->getProId() == $lIdProduit) {
-						$lTableauReservation[$lLigne['compte']][$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
-					}
-				}
+			if(isset($lTableauReservation[$lReservation->getCptLabel()])) {
+					$lTableauReservation[$lLigne['compte']][$lReservation->getProId()] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
 			} else {
 				foreach($lIdProduits as $lIdProduit) {
 					if($lReservation->getProId() == $lIdProduit) {
 						$lLigne[$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
-					} else $lLigne[$lIdProduit] = '';
+					} else {
+						$lLigne[$lIdProduit] = '';
+					}
 				}
 				$lTableauReservation[$lLigne['compte']] = $lLigne;
 			}
 			
+			if(isset($lQuantiteReservation[$lReservation->getProId()])) {
+				$lQuantiteReservation[$lReservation->getProId()] += ($lReservation->getStoQuantite() * -1);
+			} else {
+				$lQuantiteReservation[$lReservation->getProId()] = $lReservation->getStoQuantite() * -1;
+			}
 		}
-		return $lTableauReservation;
+		return array('quantite' => $lQuantiteReservation, 'detail' => $lTableauReservation );
 	}
 
 	/**
@@ -89,7 +94,9 @@ class ListeReservationMarcheControleur
 		$lVr = ExportListeReservationValid::validAjout($pParam);
 		
 		if($lVr->getValid()) {			
-			$lTableauReservation = $this->getListeReservationExport($pParam);
+			$lInfoReservation = $this->getListeReservationExport($pParam);
+			$lQuantiteReservation = $lInfoReservation['quantite'];
+			$lTableauReservation = $lInfoReservation['detail'];
 			$lIdProduits = $pParam['id_produits'];
 			$lNbProduit = count($lIdProduits);
 			
@@ -151,7 +158,9 @@ class ListeReservationMarcheControleur
 		if($lVr->getValid()) {	
 			$lIdProduits = $pParam['id_produits'];
 			
-			$lTableauReservation = $this->getListeReservationExport($pParam);
+			$lInfoReservation = $this->getListeReservationExport($pParam);
+			$lQuantiteReservation = $lInfoReservation['quantite'];
+			$lTableauReservation = $lInfoReservation['detail'];
 	
 			$lCSV = new CSV();
 			$lCSV->setNom('Réservations.csv'); // Le Nom
@@ -159,6 +168,7 @@ class ListeReservationMarcheControleur
 			// L'entete
 			$lEntete = array("Compte","Nom","Prénom","Tel.");		
 			$lLigne2 = array("","","","");
+			$lLigne3 = array("","","","");
 			
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
@@ -169,12 +179,19 @@ class ListeReservationMarcheControleur
 				}
 				array_push($lEntete,$lLabelNomProduit,"");
 				array_push($lLigne2,"Prévu","Réel");
+				
+				$lQuantite = '';
+				if(isset($lQuantiteReservation[$lIdProduit])) {
+					$lQuantite = $lQuantiteReservation[$lIdProduit];
+				}				
+				array_push($lLigne3,$lQuantite,"");
 			}
 			$lCSV->setEntete($lEntete);
 			
 			// Les données
 			$contenuTableau = array();
 			array_push($contenuTableau,$lLigne2);
+			array_push($contenuTableau,$lLigne3);
 			foreach($lTableauReservation as $lVal) {
 				$lLigne = array();
 
