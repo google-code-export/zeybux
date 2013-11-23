@@ -35,6 +35,25 @@
 					$j++;
 				} ?>
 			</tr>
+			<tr>
+				<th style="border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+	<?php		$j = 0;
+				while($j < $lNbProduitPage) {
+					$lIdProduit = $lIdProduits[$i + $j];
+					$lQuantite = '';
+					if(isset($lQuantiteReservation[$lIdProduit])) {
+						$lQuantite = $lQuantiteReservation[$lIdProduit];
+					}
+?>
+				<th style="width: 40px; text-align: center; background: #E7E7E7; border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lQuantite; ?></th>
+				<th style="width: 40px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+	<?php 		
+					$j++;
+				} ?>
+			</tr>			
 		</thead>
 		<tbody>
 	<?php 	foreach($lTableauReservation as $lIndice => $lLigneReservation) {?>

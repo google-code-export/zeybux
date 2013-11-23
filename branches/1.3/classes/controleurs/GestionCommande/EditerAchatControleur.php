@@ -148,7 +148,7 @@ class EditerAchatControleur
 			}
 			foreach($lProduitsMarche as $lProduitMarche) {
 				if(!isset($lStock[$lProduitMarche->getCproNom()])) {
-					$lStock[$lProduitMarche->getCproNom()] = array("cproId" => $lProduitMarche->getCproId(), "cproNom" => $lProduitMarche->getCproNom(), "produits" => array());
+					$lStock[$lProduitMarche->getCproNom()] = array("cproId" => $lProduitMarche->getIdCategorie(), "cproNom" => $lProduitMarche->getCproNom(), "produits" => array());
 				}			
 				$lUnite = !is_null($lProduitMarche->getUnite()) ? $lProduitMarche->getUnite() : $lProduitMarche->getUniteSolidaire();
 				$lStock[$lProduitMarche->getCproNom()]["produits"][$lProduitMarche->getNom().$lProduitMarche->getUnite()] = new ProduitDetailAchatAfficheVO(
