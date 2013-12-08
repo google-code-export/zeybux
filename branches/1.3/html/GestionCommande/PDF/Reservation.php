@@ -23,10 +23,10 @@
 				} ?>
 			</tr>
 			<tr>
-				<th style="border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 55px; border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 95px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
 	<?php		$j = 0;
 				while($j < $lNbProduitPage) {?>
 				<th style="width: 40px; text-align: center; background: #E7E7E7; border-bottom: solid 1px black; border-right: solid 1px black;">Prévu</th>
@@ -36,10 +36,10 @@
 				} ?>
 			</tr>
 			<tr>
-				<th style="border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
-				<th style="border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 55px; border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
+				<th style="width: 95px; border-bottom: solid 1px black; border-right: solid 1px black;"></th>
 	<?php		$j = 0;
 				while($j < $lNbProduitPage) {
 					$lIdProduit = $lIdProduits[$i + $j];
@@ -58,16 +58,16 @@
 		<tbody>
 	<?php 	foreach($lTableauReservation as $lIndice => $lLigneReservation) {?>
 			<tr>
-				<td style="border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['compte']; ?></td>
-				<td style="border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['nom']; ?></td>
-				<td style="border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['prenom']; ?></td>
-				<td style="border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['telephonePrincipal']; ?></td>
+				<td style="width: 55px; border-bottom: solid 1px black; border-left: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['compte']; ?></td>
+				<td style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['nom']; ?></td>
+				<td style="width: 125px; border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['prenom']; ?></td>
+				<td style="width: 95px; border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation['telephonePrincipal']; ?></td>
 			
 	<?php	$j = 0;
 			while($j < $lNbProduitPage) { 
 				$lIdProduit = $lIdProduits[$i + $j]; ?>
-				<td style="border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation[$lIdProduit]; ?></td>
-				<td style="border-bottom: solid 1px black; border-right: solid 1px black;"></td>
+				<td style="width: 40px; border-bottom: solid 1px black; border-right: solid 1px black;"><?php echo $lLigneReservation[$lIdProduit]; ?></td>
+				<td style="width: 40px; border-bottom: solid 1px black; border-right: solid 1px black;"></td>
 	<?php	
 				$j++;
 			} ?>	
