@@ -51,7 +51,7 @@ set a.sto_id_nom_produit = (
    join pro_produit on pro_id = dcom_id_produit
   where  a.sto_id_detail_commande = dcom_id
  )
-where sto_type in (2, 4);
+where sto_type in (1, 2, 4);
 
 update sto_stock a
 set a.sto_unite = (
@@ -60,7 +60,7 @@ set a.sto_unite = (
    join pro_produit on pro_id = dcom_id_produit
   where  a.sto_id_detail_commande = dcom_id
  )
-where sto_type in (2, 4);
+where sto_type in (1, 2, 4);
 
 update dope_detail_operation a
 set a.dope_id_nom_produit = (

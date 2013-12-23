@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `chcp_champ_complementaire` (
   `chcp_etat` tinyint(1) NOT NULL,
   PRIMARY KEY (`chcp_id`),
   UNIQUE KEY `chcp_id` (`chcp_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `chcp_champ_complementaire` (`chcp_id`, `chcp_label`, `chcp_obligatoire`, `chcp_etat`) VALUES
 (1, 'id Marche', 0, 0),
