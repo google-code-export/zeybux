@@ -955,26 +955,26 @@
 				}
 			}
 
-			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb());
+			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantite = lQuantite * -1;
+				lVoProduit.quantite = (lQuantite * -1).toFixed(2);
 			}
 					
-			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb());
+			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montant = lMontant * -1;
-				lTotal += lMontant * -1;
+				lVoProduit.montant = (lMontant * -1).toFixed(2);
+				lTotal += (lMontant * -1).toFixed(2);
 			}	
 			
-			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb());
+			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantiteSolidaire = lQuantite * -1;
+				lVoProduit.quantiteSolidaire = (lQuantite * -1).toFixed(2);
 			}
 					
-			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb());
+			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montantSolidaire = lMontant * -1;
-				lTotalSolidaire += lMontant * -1;
+				lVoProduit.montantSolidaire = (lMontant * -1).toFixed(2);
+				lTotalSolidaire += (lMontant * -1).toFixed(2);
 			}
 			
 			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {				
