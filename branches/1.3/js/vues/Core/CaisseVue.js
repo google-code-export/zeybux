@@ -600,7 +600,7 @@
 		pData.find(".produit-quantite, .produit-quantite-solidaire, .produit-prix, .produit-prix-solidaire").focus(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			
 			if($('#select-' + lNproId + lType).length == 0) {// Si le select est déjà affiché il ne faut pas le réinitialiser			
@@ -665,7 +665,7 @@
 			}
 		}).blur(function() { // Masque automatiquement en sortie si il n'y a qu'un lot
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			
 			var lNbLots = 0;
 			for(i in that.mLots[lNproId + lUnite].lots) {
@@ -677,7 +677,7 @@
 		}).keyup(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			var lIdLot = 0;
 			
@@ -717,7 +717,7 @@
 	this.affectCalculPrix = function(pData) {
 		var that = this;
 		pData.find('.produit-quantite, .produit-quantite-solidaire').keyup(function() {
-			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), $(this).data('unite'));
+			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), String($(this).data('unite')));
 		});
 		return pData;
 	};
@@ -751,7 +751,7 @@
 		var that = this;
 		pData.find('.select-lot').change(function() {
 			var lIdNomProduit = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite'); 
+			var lUnite = String($(this).data('unite')); 
 			var lType = $(this).data('type'); 
 			var lIdLot = $(this).val();
 			
@@ -933,7 +933,7 @@
 		$('.ligne-produit').each(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lIdCategorie = $(this).data('id-categorie');
 
 			var lVoProduit = new ProduitDetailAchatVO();
@@ -946,7 +946,7 @@
 			lVoProduit.idDetailOperationSolidaire = $(this).data('id-detail-operation-solidaire');
 		
 			if(that.mLotAchat[lIdProduit]) {
-				if(that.mLots[lNproId + lUnite].type == 'modele') { // Produit en Stock
+				if(that.mLots[lNproId + String(lUnite)].type == 'modele') { // Produit en Stock
 					lVoProduit.idModeleLot = that.mLotAchat[lIdProduit].normal;		
 					lVoProduit.idModeleLotSolidaire = that.mLotAchat[lIdProduit].solidaire;						
 				} else { // Produit du marche
@@ -986,7 +986,7 @@
 				}
 				
 				lProduitDetail[lIdCategorie].produits[lNproId] = {
-						nom:that.mLots[lNproId + lUnite].nom,
+						nom:that.mLots[lNproId + String(lUnite)].nom,
 						quantite:'',montant:'',quantiteSolidaire:'',montantSolidaire:'',
 						unite:'',uniteSolidaire:'',sigleMonetaire:'',sigleMonetaireSolidaire:''};
 				if(lVoProduit.quantite != '') {

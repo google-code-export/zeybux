@@ -140,12 +140,12 @@ class MarcheValid
 					}
 				}
 			}
-			
+						
 			// L'opération doit exister si il y a un total (Normal ou Solidaire)
 			if(($lTotal == 0 && (!is_null($pData['operationAchat']) && !empty($pData['operationAchat']))) 
-					|| ($lTotal != 0 && (is_null($pData['operationAchat']) || empty($pData['operationAchat']) || $lTotal != $pData['operationAchat']["montant"]))
+					|| ($lTotal != 0 && (is_null($pData['operationAchat']) || empty($pData['operationAchat']) || bccomp($lTotal, (float)$pData['operationAchat']["montant"]) != 0))
 					|| ($lTotalSolidaire == 0 && (!is_null($pData['operationAchatSolidaire']) && !empty($pData['operationAchatSolidaire'])))
-					|| ($lTotalSolidaire != 0 && (is_null($pData['operationAchatSolidaire']) || empty($pData['operationAchatSolidaire']) || $lTotalSolidaire != $pData['operationAchatSolidaire']["montant"]))
+					|| ($lTotalSolidaire != 0 && (is_null($pData['operationAchatSolidaire']) || empty($pData['operationAchatSolidaire']) || bccomp($lTotalSolidaire, (float)$pData['operationAchatSolidaire']["montant"]) != 0))
 				) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);
