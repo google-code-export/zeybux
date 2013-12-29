@@ -12,5 +12,5 @@ define("MYSQL_DB_PREFIXE", "");
 define("MYSQL_HOST", "localhost");
 define("MYSQL_LOGIN", "zeybu");
 define("MYSQL_PASS", "zeybu");
-define("MYSQL_DBNOM", "zeybu_maintenance");
+define("MYSQL_DBNOM", "zeybu_1.3");
 ?>
