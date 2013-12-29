@@ -137,6 +137,11 @@
 										} else {
 											that.mLotAchat[this.id] = {normal:lIdLot,solidaire:0};
 										}
+										if(this.idStock == null) { // dans le cas d'un réservation
+											this.idStock = 0;
+											this.idDetailOperation = 0;
+										}
+										
 									} else {
 										this.quantiteAchat = '';
 										this.montantAchat = '';
@@ -156,6 +161,11 @@
 											that.mLotAchat[this.id].solidaire = lIdLot;	
 										} else {
 											that.mLotAchat[this.id] = {normal:0,solidaire:lIdLot};
+										}
+										
+										if(this.idStockSolidaire == null) { // dans le cas d'un réservation
+											this.idStockSolidaire = 0;
+											this.idDetailOperationSolidaire = 0;
 										}
 									} else {
 										this.quantiteAchatSolidaire = '' ;
@@ -769,9 +779,7 @@
 		var entryShare = pData.find('#info-adherent-widget').first();
 		var entryContent = pData.find('.tableau-liste-produit');
 				
-		$(window).scroll(function () {
-			//console.log(entryShare.outerHeight());
-			
+		$(window).scroll(function () {			
 		  var scrollTop = $(this).scrollTop();
 		  if(!timeout) {
 			timeout = setTimeout(function() {
@@ -946,7 +954,7 @@
 			lVoProduit.idDetailOperationSolidaire = $(this).data('id-detail-operation-solidaire');
 		
 			if(that.mLotAchat[lIdProduit]) {
-				if(that.mLots[lNproId + String(lUnite)].type == 'modele') { // Produit en Stock
+				if(that.mLots[lNproId + lUnite].type == 'modele') { // Produit en Stock
 					lVoProduit.idModeleLot = that.mLotAchat[lIdProduit].normal;		
 					lVoProduit.idModeleLotSolidaire = that.mLotAchat[lIdProduit].solidaire;						
 				} else { // Produit du marche
@@ -963,7 +971,7 @@
 			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
 				lVoProduit.montant = (lMontant * -1).toFixed(2);
-				lTotal += (lMontant * -1).toFixed(2);
+				lTotal = (parseFloat(lTotal) + parseFloat(lMontant * -1)).toFixed(2);
 			}	
 			
 			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb()).toFixed(2);
@@ -974,7 +982,7 @@
 			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
 				lVoProduit.montantSolidaire = (lMontant * -1).toFixed(2);
-				lTotalSolidaire += (lMontant * -1).toFixed(2);
+				lTotalSolidaire = (parseFloat(lTotalSolidaire) + parseFloat(lMontant * -1)).toFixed(2);
 			}
 			
 			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {				
@@ -986,7 +994,7 @@
 				}
 				
 				lProduitDetail[lIdCategorie].produits[lNproId] = {
-						nom:that.mLots[lNproId + String(lUnite)].nom,
+						nom:that.mLots[lNproId + lUnite].nom,
 						quantite:'',montant:'',quantiteSolidaire:'',montantSolidaire:'',
 						unite:'',uniteSolidaire:'',sigleMonetaire:'',sigleMonetaireSolidaire:''};
 				if(lVoProduit.quantite != '') {
