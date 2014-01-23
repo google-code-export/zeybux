@@ -173,7 +173,7 @@ class ListeReservationMarcheControleur
 			foreach($lIdProduits as $lIdProduit) {
 				$lProduit = ProduitManager::select($lIdProduit);	
 				$lNomProduit = NomProduitManager::select($lProduit->getIdNomProduit());
-				$lLabelNomProduit = utf8_decode(htmlspecialchars_decode($lNomProduit->getNom(), ENT_QUOTES));
+				$lLabelNomProduit = htmlspecialchars_decode($lNomProduit->getNom(), ENT_QUOTES);
 				if($lProduit->getType() == 2) {
 					$lLabelNomProduit .= " (Abonnement)";
 				}

@@ -246,6 +246,7 @@
 	
 	this.achatHorsMarcheFormulaire = 
 		"<div id=\"contenu\">" +
+			"<table class=\"div-relative\"></table>" +
 			"<div class=\"com-barre-menu-2\">" +
 				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
 					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
