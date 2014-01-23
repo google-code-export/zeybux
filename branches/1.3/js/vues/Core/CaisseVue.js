@@ -785,13 +785,13 @@
 			timeout = setTimeout(function() {
 			  timeout = null;
 			  if (entryShare.css('position') !== 'fixed' && entryShare.offset().top < $(document).scrollTop()) {
-				//entryContent.css('margin-top', entryShare.outerHeight() + 10 );
-				entryContent.css('margin-top', '200' );
+				entryContent.css({'margin-top': entryShare.outerHeight() +10} );
+				//entryContent.css('margin-top', '200' );
 				entryShare.css({'z-index': 999, 'position': 'fixed', 'top': 0, 'width': entryContent.width(), 'box-shadow': '0 0 20px #555'})
 							.removeClass('ui-corner-all').addClass('ui-corner-bottom');
 			  } else if ($(document).scrollTop() <= entryContent.offset().top) {
 				  
-				entryContent.css('margin-top', '');
+				entryContent.css({'margin-top': ''});
 				entryShare.css({ 'position': '', 'z-index': '', 'width': '', 'box-shadow':''})
 							.removeClass('ui-corner-bottom').addClass('ui-corner-all');
 				

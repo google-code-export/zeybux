@@ -146,7 +146,7 @@ class CSV
 	    }
 	    array_walk($lTableau, '__outputCSV', $outstream);	
 		fclose($outstream);	
-	    echo file_get_contents(CHEMIN_TEMPORAIRE . $lFileTemp);
+	    echo "\xEF\xBB\xBF". file_get_contents(CHEMIN_TEMPORAIRE . $lFileTemp);
 		unlink(CHEMIN_TEMPORAIRE . $lFileTemp);
 	    
 	}	

@@ -101,3 +101,7 @@
 .ligne-detail-produit:hover, .ligne-produit:hover {
 	background-color:#4eb305;
 }
+
+.div-relative {
+	position:relative;
+}

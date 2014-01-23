@@ -302,7 +302,7 @@ body {
 
 .com-barre-menu-2 {
 	position: absolute;
-	margin-top: -54px;
+	top: 60px;
 }
 
 /*** Recherche ***/
