@@ -956,9 +956,9 @@
 	
 	this.affectTabs = function(pData) {
 		var that = this;
-		pData.find( "#listePaiement" ).tabs({selected:that.mSelectedTabs});
+		pData.find( "#listePaiement" ).tabs({active:that.mSelectedTabs});
 		pData.find("#li-cheque-adherent,#li-espece-adherent,#li-cheque-ferme,#li-espece-ferme").click(
-				function() {that.mSelectedTabs = $("#listePaiement").tabs("option","selected");});
+				function() {that.mSelectedTabs = $("#listePaiement").tabs("option","active");});
 		return pData;
 	};
 
@@ -1114,7 +1114,7 @@
 		}
 		
 		var lValid = new OperationDetailValid();
-		var lVr = lValid.validAjout(lVo);
+		var lVr = lValid.validUpdateMontant(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {
@@ -1132,6 +1132,7 @@
 							erreur.message = ERR_352_MSG;
 							lVr.log.erreurs.push(erreur);						
 							$(pDialog).dialog("close");	
+							
 							that.construct({vr:lVr,selectedTabs:that.mSelectedTabs});									
 						} else {
 							Infobulle.generer(lResponse,'');
