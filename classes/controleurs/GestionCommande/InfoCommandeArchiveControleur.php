@@ -10,7 +10,7 @@
 //****************************************************************
 
 // Inclusion des classes
-include_once(CHEMIN_CLASSES_VIEW_MANAGER . "InfoCommandeViewManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/InfoCommandeResponse.php" );
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/InfoCommandeValid.php" );
@@ -32,7 +32,7 @@ class InfoCommandeArchiveControleur
 		$lVr = InfoCommandeValid::get($pParam);		
 		if($lVr->getValid()) {
 			$lResponse = new InfoCommandeResponse();
-			$lResponse->setInfoCommande( InfoCommandeViewManager::select($pParam['id_marche']) );
+			$lResponse->setInfoCommande( ProduitManager::selectResumeMarche($pParam['id_marche']) );
 			$lResponse->setDetailMarche( CommandeManager::select($pParam['id_marche']) );
 			return $lResponse;
 		}
