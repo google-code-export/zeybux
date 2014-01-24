@@ -614,7 +614,7 @@ class StockService
 				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 				//", (" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") AS " . StockManager::CHAMP_STOCK_QUANTITE .
 				
-				", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),2) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
 				
 				
 				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
@@ -645,7 +645,7 @@ class StockService
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 						//", ((" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") + 1) AS " . StockManager::CHAMP_STOCK_QUANTITE .
-						", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+						", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),2) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
 						
 						", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 						"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
