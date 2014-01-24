@@ -888,7 +888,7 @@
 								var lGestionProducteurTemplate = new GestionProducteurTemplate();	
 								var lTemplate = lGestionProducteurTemplate.dialogInfoProduit;
 								
-								$(lResponse.produit.modelesLot).each(function() {
+								$.each(lResponse.produit.modelesLot, function() {
 									if(this.mLotId != null) {
 										this.mLotQuantite = this.mLotQuantite.nombreFormate(2,',',' ');
 										this.mLotPrix = this.mLotPrix.nombreFormate(2,',',' ');
