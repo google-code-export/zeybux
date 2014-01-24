@@ -3710,6 +3710,47 @@ function CompteZeybuAjoutVirementVR() {
 		}
 		return lTestId;
 	};
+	
+	this.validUpdateMontant = function(pData) {
+		var lTestId = this.validDelete(pData);
+		if(lTestId.valid) {
+			var lVR = new OperationDetailVR();
+			//Tests Techniques
+			if(isNaN(parseInt(pData.id))) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.log.erreurs.push(erreur);}
+			if(!pData.montant.checkLength(0,12)) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.montant.erreurs.push(erreur);}
+			if(!pData.montant.isFloat()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.montant.erreurs.push(erreur);}
+			if(!pData.typePaiement.checkLength(0,11)) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.typePaiement.erreurs.push(erreur);}
+			if(!pData.typePaiement.isInt()) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_108_CODE;erreur.message = ERR_108_MSG;lVR.typePaiement.erreurs.push(erreur);}
+			
+			//Tests Fonctionnels
+			if(pData.id.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+			if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
+			if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
+			if(pData.typePaiement.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
+
+			if(isArray(pData.champComplementaire) ) {
+				if(pData.champComplementaire.length > 0 && pData.champComplementaire[0] != '') {
+					var lValidChampComplementaire = new ChampComplementaireValid();
+					var i = 0;
+					while(pData.champComplementaire[i]) {
+						var lVrChampComplementaire = lValidChampComplementaire.validUpdate(pData.champComplementaire[i]);
+						
+						if(!lVrChampComplementaire.valid){lVR.valid = false;}
+						if(!pData.champComplementaire[i].id.isEmpty()) {
+							lVR.champComplementaire[pData.champComplementaire[i].id] = lVrChampComplementaire;
+						} else {
+							lVR.champComplementaire.push(lVrChampComplementaire);
+						}
+						
+						i++;
+					}
+				}
+			} else {lVR.valid = false;lVR.champComplementaire.valid = false;var erreur = new VRerreur();erreur.code = ERR_115_CODE;erreur.message = ERR_115_MSG;lVR.champComplementaire.erreurs.push(erreur);}
+
+			return lVR;
+		}
+		return lTestId;
+	};
 };;function AdherentValid() { 
 	this.validAjout = function(pData) { 
 		var lVR = new AdherentVR();
@@ -5326,11 +5367,11 @@ function StockQuantiteValid() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131229213445.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131229213445.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -5421,7 +5462,7 @@ function StockQuantiteValid() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20131029133154.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20131229213445.js",function() {
 				that.init();
 				IdentificationVue();
 			});
@@ -5881,6 +5922,11 @@ $(document).ready(function() {
 										} else {
 											that.mLotAchat[this.id] = {normal:lIdLot,solidaire:0};
 										}
+										if(this.idStock == null) { // dans le cas d'un réservation
+											this.idStock = 0;
+											this.idDetailOperation = 0;
+										}
+										
 									} else {
 										this.quantiteAchat = '';
 										this.montantAchat = '';
@@ -5900,6 +5946,11 @@ $(document).ready(function() {
 											that.mLotAchat[this.id].solidaire = lIdLot;	
 										} else {
 											that.mLotAchat[this.id] = {normal:0,solidaire:lIdLot};
+										}
+										
+										if(this.idStockSolidaire == null) { // dans le cas d'un réservation
+											this.idStockSolidaire = 0;
+											this.idDetailOperationSolidaire = 0;
 										}
 									} else {
 										this.quantiteAchatSolidaire = '' ;
@@ -6344,7 +6395,7 @@ $(document).ready(function() {
 		pData.find(".produit-quantite, .produit-quantite-solidaire, .produit-prix, .produit-prix-solidaire").focus(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			
 			if($('#select-' + lNproId + lType).length == 0) {// Si le select est déjà affiché il ne faut pas le réinitialiser			
@@ -6409,7 +6460,7 @@ $(document).ready(function() {
 			}
 		}).blur(function() { // Masque automatiquement en sortie si il n'y a qu'un lot
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			
 			var lNbLots = 0;
 			for(i in that.mLots[lNproId + lUnite].lots) {
@@ -6421,7 +6472,7 @@ $(document).ready(function() {
 		}).keyup(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			var lIdLot = 0;
 			
@@ -6461,7 +6512,7 @@ $(document).ready(function() {
 	this.affectCalculPrix = function(pData) {
 		var that = this;
 		pData.find('.produit-quantite, .produit-quantite-solidaire').keyup(function() {
-			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), $(this).data('unite'));
+			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), String($(this).data('unite')));
 		});
 		return pData;
 	};
@@ -6495,7 +6546,7 @@ $(document).ready(function() {
 		var that = this;
 		pData.find('.select-lot').change(function() {
 			var lIdNomProduit = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite'); 
+			var lUnite = String($(this).data('unite')); 
 			var lType = $(this).data('type'); 
 			var lIdLot = $(this).val();
 			
@@ -6513,9 +6564,7 @@ $(document).ready(function() {
 		var entryShare = pData.find('#info-adherent-widget').first();
 		var entryContent = pData.find('.tableau-liste-produit');
 				
-		$(window).scroll(function () {
-			//console.log(entryShare.outerHeight());
-			
+		$(window).scroll(function () {			
 		  var scrollTop = $(this).scrollTop();
 		  if(!timeout) {
 			timeout = setTimeout(function() {
@@ -6677,7 +6726,7 @@ $(document).ready(function() {
 		$('.ligne-produit').each(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lIdCategorie = $(this).data('id-categorie');
 
 			var lVoProduit = new ProduitDetailAchatVO();
@@ -6699,26 +6748,26 @@ $(document).ready(function() {
 				}
 			}
 
-			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb());
+			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantite = lQuantite * -1;
+				lVoProduit.quantite = (lQuantite * -1).toFixed(2);
 			}
 					
-			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb());
+			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montant = lMontant * -1;
-				lTotal += lMontant * -1;
+				lVoProduit.montant = (lMontant * -1).toFixed(2);
+				lTotal = (parseFloat(lTotal) + parseFloat(lMontant * -1)).toFixed(2);
 			}	
 			
-			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb());
+			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantiteSolidaire = lQuantite * -1;
+				lVoProduit.quantiteSolidaire = (lQuantite * -1).toFixed(2);
 			}
 					
-			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb());
+			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montantSolidaire = lMontant * -1;
-				lTotalSolidaire += lMontant * -1;
+				lVoProduit.montantSolidaire = (lMontant * -1).toFixed(2);
+				lTotalSolidaire = (parseFloat(lTotalSolidaire) + parseFloat(lMontant * -1)).toFixed(2);
 			}
 			
 			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {				
