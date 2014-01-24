@@ -57,7 +57,7 @@ class ReservationAdherentControleur
 			$lIdReservation = new IdReservationVO();
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 			$lIdReservation->setIdCommande($pParam["id_commande"]);			
-			if($lReservationService->enCours($lIdReservation)) {
+			if($lReservationService->enCoursOuAchete($lIdReservation)) {
 				$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());		
 			}	
 			return $lResponse;
