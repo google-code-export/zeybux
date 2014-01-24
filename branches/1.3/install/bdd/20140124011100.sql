@@ -1,0 +1,1 @@
+DROP VIEW view_info_commande;

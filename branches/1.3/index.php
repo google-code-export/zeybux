@@ -10,6 +10,9 @@
 //****************************************************************
 session_start();
 
+// Définition de la zone horaire
+date_default_timezone_set("Europe/Paris");
+
 // Permet de calculer le temps d'exécution du script
 $lTempsDepart = microtime(true);
 

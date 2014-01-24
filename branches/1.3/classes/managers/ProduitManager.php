@@ -13,9 +13,19 @@ include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "ProduitVO.php");
 include_once(CHEMIN_CLASSES_VO . "DetailProduitVO.php");
+include_once(CHEMIN_CLASSES_VO . "InfoCommandeVO.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CategorieProduitManager.php");
+
+
+include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+
+
 
 define("TABLE_PRODUIT", MYSQL_DB_PREFIXE . "pro_produit");
 /**
@@ -335,6 +345,169 @@ class ProduitManager
 		return $lProduit;
 	}
 
+	/**
+	 * @name selectResumeMarche($pIdMarche)
+	 * @param integer
+	 * @return array(InfoCommandeVO)
+	 * @desc Récupère les infos sur le marche
+	 */
+	public static function selectResumeMarche($pIdMarche) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		
+		$lRequete =
+			"SELECT "
+				. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " AS " . CommandeManager::CHAMP_COMMANDE_ID .
+			"," . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME .
+			"," . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID .
+			"," . ProduitManager::CHAMP_PRODUIT_TYPE .
+			"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
+			"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
+			", info_bon_commande." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " AS dope_montant" .
+			", info_bon_commande." . StockManager::CHAMP_STOCK_QUANTITE . " AS sto_quantite" .
+			
+			", info_bon_livraison." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " AS dope_montant_livraison" .
+			", info_bon_livraison." . StockManager::CHAMP_STOCK_QUANTITE . " AS sto_quantite_livraison" .
+			
+			", stock_solidaire." . StockManager::CHAMP_STOCK_QUANTITE . " AS sto_quantite_solidaire" .
+			
+			", (info_achat." . StockManager::CHAMP_STOCK_QUANTITE . " * -(1)) AS sto_quantite_vente" .
+			", (info_achat_solidaire." . StockManager::CHAMP_STOCK_QUANTITE . " * -(1)) AS sto_quantite_vente_solidaire" .
+			", (info_achat." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * -(1)) AS dope_montant_vente" .
+			", (info_achat_solidaire." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * -(1)) AS dope_montant_vente_solidaire
+			
+			FROM " . ProduitManager::TABLE_PRODUIT . " 
+			JOIN " . NomProduitManager::TABLE_NOMPRODUIT . "
+				ON " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID . "
+			JOIN " . CategorieProduitManager::TABLE_CATEGORIEPRODUIT . " 
+				ON " . CategorieProduitManager::CHAMP_CATEGORIEPRODUIT_ID . " = " . NomProduitManager::CHAMP_NOMPRODUIT_ID_CATEGORIE . "
+			JOIN " . FermeManager::TABLE_FERME . "
+				ON " . FermeManager::CHAMP_FERME_ID_COMPTE . " = " . ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME . "
+			LEFT JOIN (
+				SELECT " 
+						. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
+					"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
+					"," . StockManager::CHAMP_STOCK_QUANTITE . "
+				FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+				JOIN " . StockManager::TABLE_STOCK . " 
+					ON " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . "
+					ON " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				WHERE " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 5
+					AND " . StockManager::CHAMP_STOCK_TYPE . " = 3
+				GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ", " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			) AS info_bon_commande
+				ON info_bon_commande." . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "
+			LEFT JOIN (
+				SELECT "
+						. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . 
+					"," . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
+					"," . StockManager::CHAMP_STOCK_QUANTITE . "
+				FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+				JOIN " . StockManager::TABLE_STOCK . " 
+					ON " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . "
+					ON " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				WHERE " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 6
+					AND " . StockManager::CHAMP_STOCK_TYPE . " = 4
+				GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ", " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			) AS info_bon_livraison
+				ON info_bon_livraison." . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "
+			LEFT JOIN (
+				SELECT "
+						. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT .
+					"," . StockManager::CHAMP_STOCK_QUANTITE . "
+				FROM " . StockManager::TABLE_STOCK . " 			
+				JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+					ON " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				WHERE " . StockManager::CHAMP_STOCK_TYPE . " = 2
+					AND " . StockManager::CHAMP_STOCK_QUANTITE . " > 0 
+				GROUP BY " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . ", " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			) AS stock_solidaire
+				ON stock_solidaire." . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "	
+			LEFT JOIN (
+				SELECT " 
+						. ProduitManager::CHAMP_PRODUIT_ID 
+					. ", SUM( " . StockManager::CHAMP_STOCK_QUANTITE . " ) AS " . StockManager::CHAMP_STOCK_QUANTITE
+					. ", SUM( " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " ) AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . "
+				FROM " . ProduitManager::TABLE_PRODUIT . " 
+				JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+					ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID . "
+				JOIN " . StockManager::TABLE_STOCK . "
+					ON " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . "
+					ON " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+					AND " . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_COMPTE . "
+				WHERE "
+					. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser( $pIdMarche ) . "'
+					AND " . StockManager::CHAMP_STOCK_TYPE . " = 1
+					AND " . StockManager::CHAMP_STOCK_QUANTITE . " < 0
+					AND " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 7
+					AND " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " < 0
+					AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0
+				GROUP BY " . ProduitManager::CHAMP_PRODUIT_ID . "
+			) AS info_achat
+				ON info_achat." . ProduitManager::CHAMP_PRODUIT_ID . " = " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "
+			LEFT JOIN (
+				SELECT " 
+						. ProduitManager::CHAMP_PRODUIT_ID 
+					. ", SUM( " . StockManager::CHAMP_STOCK_QUANTITE . " ) AS " . StockManager::CHAMP_STOCK_QUANTITE
+					. ", SUM( " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " ) AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . "
+				FROM " . ProduitManager::TABLE_PRODUIT . " 
+				JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+					ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID . "
+				JOIN " . StockManager::TABLE_STOCK . "
+					ON " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . "
+					ON " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+					AND " . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_COMPTE . "
+				WHERE "
+					. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser( $pIdMarche ) . "'
+					AND " . StockManager::CHAMP_STOCK_TYPE . " = 2
+					AND " . StockManager::CHAMP_STOCK_QUANTITE . " < 0
+					AND " . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 8
+					AND " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " < 0
+					AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0
+				GROUP BY " . ProduitManager::CHAMP_PRODUIT_ID . "
+			) AS info_achat_solidaire
+				ON info_achat_solidaire." . ProduitManager::CHAMP_PRODUIT_ID . " = " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "	
+			WHERE "
+				. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = '" . StringUtils::securiser( $pIdMarche ) . "'
+				AND " .  ProduitManager::CHAMP_PRODUIT_ETAT . " = 0
+			GROUP BY " . ProduitManager::TABLE_PRODUIT . "." . ProduitManager::CHAMP_PRODUIT_ID . "
+			ORDER BY " . NomProduitManager::CHAMP_NOMPRODUIT_NOM . ";";	
+		
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+
+		$lListeInfoCommande = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				array_push($lListeInfoCommande,
+						new InfoCommandeVO(
+						$lLigne[CommandeManager::CHAMP_COMMANDE_ID],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID_COMPTE_FERME],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_TYPE],
+						$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
+						$lLigne[NomProduitManager::CHAMP_NOMPRODUIT_NOM],
+						$lLigne[DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
+						$lLigne[StockManager::CHAMP_STOCK_QUANTITE],
+						$lLigne["dope_montant_livraison"],
+						$lLigne["sto_quantite_livraison"],
+						$lLigne["sto_quantite_solidaire"],
+						$lLigne["sto_quantite_vente"],
+						$lLigne["sto_quantite_vente_solidaire"],
+						$lLigne["dope_montant_vente"],
+						$lLigne["dope_montant_vente_solidaire"]));
+			}
+		} else {
+			$lListeInfoCommande[0] = new InfoCommandeVO();
+		}
+		return $lListeInfoCommande;
+	}	
+	
 	/**
 	* @name insert($pVo)
 	* @param ProduitVO
