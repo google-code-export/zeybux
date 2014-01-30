@@ -201,7 +201,7 @@ function htmlDecode(value){
 
 
 function jourSem(pDate) {
-	var lDate = new Date(pDate);
+	var lDate = new Date(pDate.extractDbAnnee(), pDate.extractDbMois(), pDate.extractDbJour());
 	return gJourSemaine[ lDate.getDay() ];
 };
 
