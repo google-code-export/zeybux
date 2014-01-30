@@ -41,6 +41,30 @@ String.prototype.extractDbDate = function() {
 	return '';
 };
 
+String.prototype.extractDbAnnee = function() {
+	var pDate = this.toString();
+	if(pDate !== '') {
+		return pDate[0] + pDate[1] + pDate[2] + pDate[3];
+	}
+	return '';
+};
+
+String.prototype.extractDbMois = function() {
+	var pDate = this.toString();
+	if(pDate !== '') {
+		return pDate[5] + pDate[6];
+	}
+	return '';
+};
+
+String.prototype.extractDbJour = function() {
+	var pDate = this.toString();
+	if(pDate !== '') {
+		return pDate[8] + pDate[9];
+	}
+	return '';
+};
+
 String.prototype.extractDbHeure = function() {
 	var pDate = this.toString();
 	if(pDate !== '') {

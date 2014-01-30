@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/ExportListeRes
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 require_once(CHEMIN_CLASSES_PDF . 'html2pdf.class.php');
 include_once(CHEMIN_CLASSES_MANAGERS . "NomProduitManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "ReservationService.php");
 
@@ -63,11 +64,11 @@ class ListeReservationMarcheControleur
 			$lLigne['telephonePrincipal'] = $lReservation->getAdhTelephonePrincipal();
 			
 			if(isset($lTableauReservation[$lReservation->getCptLabel()])) {
-					$lTableauReservation[$lLigne['compte']][$lReservation->getProId()] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
+					$lTableauReservation[$lLigne['compte']][$lReservation->getProId()] = $lReservation->getStoQuantite() * -1;
 			} else {
 				foreach($lIdProduits as $lIdProduit) {
 					if($lReservation->getProId() == $lIdProduit) {
-						$lLigne[$lIdProduit] = $lReservation->getStoQuantite() * -1 . " " . $lReservation->getProUniteMesure();
+						$lLigne[$lIdProduit] = $lReservation->getStoQuantite() * -1;
 					} else {
 						$lLigne[$lIdProduit] = '';
 					}
@@ -93,15 +94,18 @@ class ListeReservationMarcheControleur
 
 		$lVr = ExportListeReservationValid::validAjout($pParam);
 		
-		if($lVr->getValid()) {			
+		if($lVr->getValid()) {		
+			$lLimitePortrait = 3;
+			$lLimitePaysage = 7;
+			
+			
 			$lInfoReservation = $this->getListeReservationExport($pParam);
 			$lQuantiteReservation = $lInfoReservation['quantite'];
 			$lTableauReservation = $lInfoReservation['detail'];
 			$lIdProduits = $pParam['id_produits'];
 			$lNbProduit = count($lIdProduits);
 			
-			$lNbPage = (int)($lNbProduit / 8);
-			
+			$lNbPage = (int)($lNbProduit / $lLimitePaysage);
 			
 			// Les pages
 			// get the HTML
@@ -109,16 +113,16 @@ class ListeReservationMarcheControleur
 			
 			$i = 0;
 			$lOrientation = 'paysage';
-			$lNbProduitPage = 8;
+			$lNbProduitPage = $lLimitePaysage;
 			while($i < $lNbPage) {
 				include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/Reservation.php');
 				$i++;
 			}
 			
 			// La Dernière page
-			$lNbProduitPage = $lNbProduit % 8;
+			$lNbProduitPage = $lNbProduit % $lLimitePaysage;
 			if($lNbProduitPage != 0) {
-				if($lNbProduitPage > 4) { // Choix de l'orientation
+				if($lNbProduitPage > $lLimitePortrait) { // Choix de l'orientation
 					$lOrientation = 'paysage';
 				} else {
 					$lOrientation = 'portrait';
