@@ -8,6 +8,9 @@
 <body>
 <div><a href="./index.php">Retour</a></div>
 <?php 
+// Définition de la zone horaire
+date_default_timezone_set("Europe/Paris");
+
 // Répertoire du site
 $lDossierVersion = dirname(__FILE__). '/../../';
 

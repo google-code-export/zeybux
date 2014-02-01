@@ -8,14 +8,12 @@
 	this.mAdherent = {};
 		
 	this.mLots = [];
-	//this.mPrixProduit = [];
 	this.mLotAchat = [];
 	this.mFocusRechargement = 0;
 	this.mCategorie = [];
 	this.mNomCategorie = [];
 	
 	this.mAchat = {};
-	//this.mIdAchat = [];
 	this.mTotalAchatInit = 0;
 	this.mAchatInitial = null;
 	
@@ -26,6 +24,7 @@
 	this.mIdRequete = '';
 	this.mCompteurIdProduit = 0;
 	this.mModeEdition = 0;
+	this.mRechargementSansAchatAvecReservation = false;
 	
 	
 	this.construct = function(pParam) {
@@ -50,21 +49,7 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							
-						/*	if(pParam.module == 'GestionCommande') {
-								//pParam.id_commande = -1;
-								
-								if(lResponse.achats.operationAchat != null && lResponse.achats.operationAchat.champComplementaire[1] && lResponse.achats.operationAchat.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.operationAchat.champComplementaire[1].valeur;
-								}
-								if(lResponse.achats.operationAchatSolidaire != null && lResponse.achats.operationAchatSolidaire.champComplementaire[1] && lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur;
-								}
-								if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.champComplementaire[1] && lResponse.achats.rechargement.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.rechargement.champComplementaire[1].valeur;
-								}
-							}*/
-							
+														
 							that.mIdRequete = lResponse.idRequete;
 								
 							// Les informations pour le paiement
@@ -184,6 +169,19 @@
 							
 							lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
 							
+							// Si pas d'achat et une réservation il faut calculer le nouveau solde
+							if(lResponse.achats.produits &&  typeof lResponse.achats.produits !== 'undefined' && (lResponse.achats.produits.length == 0 || (lResponse.achats.produits[0] && lResponse.achats.produits[0].cproId == null)) && typeof lResponse.reservation !== 'undefined' && lResponse.reservation.length > 0) {
+								that.mSolde = (parseFloat(that.mSolde) - parseFloat(lResponse.adherent.total)).toFixed(2);
+								
+								if(pParam.id_adherent != 0) { // Si pas invité les informations de l'adhérent
+									lResponse.adherent.cptSolde = parseFloat(that.mSolde);
+								}
+								
+								if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.id && lResponse.achats.rechargement.id != null) {
+									that.mRechargementSansAchatAvecReservation = true;
+								}
+							}
+
 							// Si il y a eu un achat ou un rechargement affiche le résumé
 							if((lResponse.achats.produits && lResponse.achats.produits[0] && lResponse.achats.produits[0].cproId != null) || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { 
 								
@@ -232,247 +230,6 @@
 							} else {
 								that.afficher(lResponse);
 							}
-							
-						/*	if(pParam.id_commande != -1) { // Si marché test si achat
-								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
-									that.afficher(lResponse, that.recapitulatifAchat);
-								} else { // Sinon affiche le formulaire
-									that.afficher(lResponse);
-								}
-							} else { // Hors marché affiche le formulaire
-								that.afficher(lResponse);
-							}
-							
-							that.afficher(lResponse);*/
-							
-							/*if(pParam.id_commande != -1) { // Traitement des produits du marché
-								$.each(lResponse.marche.produits, function() {
-									if(this.id) {	
-										var lIdProduit = this.id;
-										var lUnite = this.unite;
-										var lProduit = {
-												id:this.id,
-												nproId:this.idNom,
-												nom:this.nom,
-												unite:this.unite,
-												quantiteReservation:'',
-												quantiteAchat:'', prixAchat:'', quantiteAchatAffiche:'', prixAchatAffiche:'',
-												quantiteAchatSolidaire:'', prixAchatSolidaire:'', quantiteAchatAfficheSolidaire:'', prixAchatAfficheSolidaire:''};
-										
-										var lLots = [];
-										$.each(this.lots, function() {
-											this.mLotPrixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).toFixed(2).nombreFormate(2,',',' ');											
-											this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
-											this.selected = '';	
-											
-											that.mLots[this.id] = this;
-											lLots.sort(function(a,b) {return a.taille.localeCompare(b.taille);});
-											lLots.push(this);
-										});
-										
-										var lAfficherCategorie = false;
-										if(pParam.id_adherent != 0) { // Si adhérent vérifie la réservation et l'achat
-											
-										/*	var lAchatReservation = 0;
-											var lAchat = 0;*/
-																						
-						/*					$.each(lResponse.reservation, function() {
-												if(this.idProduit == lIdProduit) {
-													lProduit.quantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ') + ' ' + lUnite;
-													if(lResponse.achats.length == 0) { // Si pas d'achat
-														lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
-														lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
-														//lAchatReservation = (parseFloat(lAchatReservation) + parseFloat(this.montant) * -1).toFixed(2);
-														lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
-														that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:0};
-													}
-													lAfficherCategorie = true;
-												}
-											});
-											
-											/*if(lAchat == 0) {// Si pas d'achat affiche le total réservation
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchatReservation)).toFixed(2);
-											} else {
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchat)).toFixed(2);
-											}*/
-											
-						/*					lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
-										}
-										
-										if(!that.mCategorie[this.idCategorie]) {											
-											var lInfoCategorie = {
-													cproId:this.idCategorie,
-													cproNom:this.cproNom,
-													visible:'ui-helper-hidden',
-													produits:[]};
-											
-											that.mCategorie[this.idCategorie] = lInfoCategorie;
-											that.mNomCategorie[this.idCategorie] = lInfoCategorie;
-										}
-										
-										// Affiche la catégorie si il y a un achat ou reservation
-										if(lAfficherCategorie) {
-											that.mCategorie[this.idCategorie].visible = '';
-										}
-										
-										that.mCategorie[this.idCategorie].produits[this.idNom] = lProduit;
-										lProduit.lots = lLots;
-										that.mPrixProduit[this.idNom] = lProduit;	
-									}
-								});
-							}
-							
-							
-							$.each(lResponse.achats.produits, function() {
-								
-								var lNproId = this.idNom;
-								var lProduitMarche = false;
-								var lproduitAchat = this;
-																	
-								if(pParam.id_commande != -1) { // Si c'est un marché priorité aux produits du marché
-									$.each(lResponse.marche.produits, function() {
-										if(this.id && this.idNom == lNproId) {
-											lProduitMarche = true;
-											if(this.quantite != null) {
-												this.quantiteAchat = (lproduitAchat.quantite * -1).nombreFormate(2,',','') ;
-												this.prixAchat = (lproduitAchat.montant * -1).nombreFormate(2,',','') ;
-												this.quantiteAchatAffiche = (lproduitAchat.quantite * -1).nombreFormate(2,',',' ') ;
-												this.prixAchatAffiche = (lproduitAchat.montant * -1).nombreFormate(2,',',' ') ;
-												
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(lproduitAchat.montant)).toFixed(2);
-												
-												that.mSolde = (parseFloat(that.mSolde) - parseFloat(lproduitAchat.montant)).toFixed(2);
-												
-												if(that.mLotAchat[this.id]) {
-													that.mLotAchat[this.id].normal = lproduitAchat.idDetailCommande;
-												} else {
-													that.mLotAchat[this.id] = {normal:lproduitAchat.idDetailCommande,solidaire:''};
-												}
-											}
-											
-										}
-									});
-								}
-								
-								
-								
-								
-								/*if(this.id && this.id.idAchat) {
-									that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
-								}*/
-							/*	$(this.detailAchat).each(function() {
-									if(this.idProduit == lIdProduit) {
-										lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
-										lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
-										lProduit.quantiteAchatAffiche = (this.quantite * -1).nombreFormate(2,',',' ') ;
-										lProduit.prixAchatAffiche = (this.montant * -1).nombreFormate(2,',',' ') ;
-										//lAchat = (parseFloat(lAchat) + parseFloat(this.montant) * -1).toFixed(2);
-										lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
-										lAfficherCategorie = true;
-										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-										
-										if(that.mLotAchat[lIdProduit]) {
-											that.mLotAchat[lIdProduit].normal = this.idDetailCommande;
-										} else {
-											that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:''};
-										}
-									}
-								});
-								
-								$(this.detailAchatSolidaire).each(function() {
-									if(this.idProduit == lIdProduit) {
-										lProduit.quantiteAchatSolidaire = (this.quantite * -1).nombreFormate(2,',','') ;
-										lProduit.prixAchatSolidaire = (this.montant * -1).nombreFormate(2,',','') ;
-										lProduit.quantiteAchatAfficheSolidaire = (this.quantite * -1).nombreFormate(2,',',' ') ;
-										lProduit.prixAchatAfficheSolidaire = (this.montant * -1).nombreFormate(2,',',' ') ;
-										lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) - parseFloat(this.montant)).toFixed(2);
-										lAfficherCategorie = true;
-										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-										
-										if(that.mLotAchat[lIdProduit]) {
-											that.mLotAchat[lIdProduit].solidaire = this.idDetailCommande;
-										} else {
-											that.mLotAchat[lIdProduit] = {normal:'',solidaire:this.idDetailCommande};
-										}
-									}
-								});*/
-						//	});
-							
-							// Ajout des produits en stock
-							
-						/*	var lIdProduitEnStock = -1;
-							$.each(lResponse.stock, function() {
-								if(this.idNom) {
-									var lNproId = this.idNom;
-									var lProduitMarche = false;
-																		
-									if(pParam.id_commande != -1) { // Si c'est un marché priorité aux produits du marché
-										$.each(lResponse.marche.produits, function() {
-											if(this.id && this.idNom == lNproId) {
-												lProduitMarche = true;
-											}
-										});
-									}
-									
-									if(!lProduitMarche) {
-										var lLots = [];
-										$.each(this.lots, function() {
-											this.mLotPrixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).toFixed(2).nombreFormate(2,',',' ');											
-											this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
-											this.selected = '';	
-											
-											that.mLots[this.id] = this;
-											lLots.push(this);
-										});
-									
-										if(!that.mCategorie[this.idCategorie]) {
-											var lInfoCategorie = {
-													cproId:this.idCategorie,
-													cproNom:this.cproNom,
-													visible:'ui-helper-hidden',
-													produits:[]};
-											
-											that.mCategorie[this.idCategorie] = lInfoCategorie;
-											that.mNomCategorie[this.idCategorie] = lInfoCategorie;
-										}
-										
-										var lProduit = {
-												id:lIdProduitEnStock,
-												nproId:this.idNom,
-												nom:this.nom,
-												unite:this.unite,
-												quantiteReservation:'',
-												quantiteAchat:'', prixAchat:'', quantiteAchatAffiche:'', prixAchatAffiche:'',
-												quantiteAchatSolidaire:'', prixAchatSolidaire:'', quantiteAchatAfficheSolidaire:'', prixAchatAfficheSolidaire:''};	
-										
-										that.mCategorie[this.idCategorie].produits[this.idNom] = lProduit;	
-										
-										lLots.sort(function(a,b) {return a.taille.localeCompare(b.taille);});
-										lProduit.lots = lLots;
-										that.mPrixProduit[this.idNom] = lProduit;	
-										lIdProduitEnStock--;
-									}
-								}
-							});*/
-							
-							// Tri des catégories
-				/*			that.mCategorie.sort(function(a,b) {return a.cproNom.localeCompare(b.cproNom);});
-							// Tri des produits
-							$.each(that.mCategorie,function() {
-								if(this.cproNom) {
-									this.produits.sort(function(a,b) {return a.nom.localeCompare(b.nom);});
-								}
-							});
-							
-							if(pParam.id_commande != -1) { // Si marché test si achat
-								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
-									that.afficher(lResponse, that.recapitulatifAchat);
-								} else { // Sinon affiche le formulaire
-									that.afficher(lResponse);
-								}
-							} else { // Hors marché affiche le formulaire
-								that.afficher(lResponse);
-							}*/
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -497,7 +254,6 @@
 			if(parseFloat(pResponse.adherent.cptSolde) <= 0) {
 				pResponse.adherent.adhSoldeEtatClass = 'com-nombre-negatif';		
 			} 
-			
 			pResponse.adherent.adhSolde = pResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 			
 			pResponse.adherent.identite = lCaisseTemplate.achatMarcheIdentiteAdherent.template(pResponse.adherent);
@@ -1025,10 +781,11 @@
 			}
 		}
 		
+		
 		if(lTotal < 0) {
 			if(lVo.operationAchat == '') {
 				var lOperationAchat = new OperationDetailVO();
-				lOperationAchat.montant = lTotal;
+				//lOperationAchat.montant = lTotal;
 				lOperationAchat.typePaiement = 7;
 				lOperationAchat.idCompte = this.mIdCompte;
 				
@@ -1048,15 +805,16 @@
 				lOperationAchat.champComplementaire[15] = lChampComplementaire;
 				
 				lVo.operationAchat = lOperationAchat;
-			} else {
-				lVo.operationAchat.montant = lTotal;
-			}
+			}			
+		
+			lVo.operationAchat.montant = lTotal;
+		} else if(lVo.operationAchat != '') {
+			lVo.operationAchat.montant = 0;
 		}
 		
 		if(lTotalSolidaire < 0) {
 			if(lVo.operationAchatSolidaire == '') {
 				var lOperationAchat = new OperationDetailVO();
-				lOperationAchat.montant = lTotalSolidaire;
 				lOperationAchat.typePaiement = 8;
 				lOperationAchat.idCompte = this.mIdCompte;
 				
@@ -1076,9 +834,11 @@
 				lOperationAchat.champComplementaire[15] = lChampComplementaire;
 				
 				lVo.operationAchatSolidaire = lOperationAchat;
-			} else {
-				lVo.operationAchatSolidaire.montant = lTotalSolidaire;
 			}
+		
+			lVo.operationAchatSolidaire.montant = lTotalSolidaire;
+		} else if(lVo.operationAchatSolidaire != ''){
+			lVo.operationAchatSolidaire.montant = 0;
 		}
 		
 			
@@ -1159,7 +919,12 @@
 			// Les Produits
 			var lCaisseTemplate = new CaisseTemplate();
 			if(lProduitAchete) { // Affiche le detail uniquement si il y a des produits
-				$('#formulaire-produit').hide().before(lCaisseTemplate.achatHorsMarcheDetailAchat.template({categories:lProduitDetail}));
+				// Si il y a eu un rechargement sans achat mais avec un réservation : Ne pas afficher le détail de la réservation (sinon confusion avec un achat)
+				if(this.mModeEdition == 1 && this.mRechargementSansAchatAvecReservation) {
+					$('#formulaire-produit').hide();
+				} else {
+					$('#formulaire-produit').hide().before(lCaisseTemplate.achatHorsMarcheDetailAchat.template({categories:lProduitDetail}));
+				}
 			} else {
 				$('#formulaire-produit').hide();
 			}

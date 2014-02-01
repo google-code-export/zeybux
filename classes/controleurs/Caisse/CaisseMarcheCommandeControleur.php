@@ -80,7 +80,7 @@ class CaisseMarcheCommandeControleur
 		$lResponse->setListeAdherentCommande(ListeAdherentViewManager::selectAll());			
 		return $lResponse;
 	}
-	
+
 	/**
 	* @name getInfoAchatMarche($pParam)
 	* @return InfoAchatCommandeResponse
@@ -240,7 +240,7 @@ class CaisseMarcheCommandeControleur
 					}
 				}
 			}
-			
+			ksort($lStock);
 			$lResponse->setStock($lStock);	// Stock de produit disponible
 			$lResponse->setLots($lLotsProduits);	// Lots des produits
 			
@@ -255,6 +255,7 @@ class CaisseMarcheCommandeControleur
 		}				
 		return $lVr;
 	}
+	
 	
 	/**
 	* @name enregistrerAchat($pParam)

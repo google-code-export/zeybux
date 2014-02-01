@@ -162,7 +162,7 @@ class AchatService
 			
 			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				if($lIdMarche == 0) { // Pour éviter de lancer 2 fois la requête
+				if(!isset($lMarche)) { // Pour éviter de lancer 2 fois la requête
 					$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 					$lMarcheService = new MarcheService();
 					$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
@@ -445,7 +445,7 @@ class AchatService
 			}
 			$pAchat->getOperationAchat()->setLibelle($lLibelleOperation);
 			$lIdOperationAchat = $lOperationService->set($pAchat->getOperationAchat()); // Operation d'achat
-				
+	//		var_dump($lIdOperationAchat);
 			$lOperationZeybu = new OperationDetailVO();
 			$lOperationZeybu->setIdCompte(-1);
 			$lOperationZeybu->setMontant($pAchat->getOperationAchat()->getMontant() * -1);
@@ -477,8 +477,12 @@ class AchatService
 				$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 			}
 			if(!empty($lMontantAchatSolidaire) && !is_null($lMontantAchatSolidaire)) { // Maj de l'achat
+			//	echo 'Maj';
 				$lMajAchatSolidaire = true;
 				$lIdOperationAchatSolidaire = $lOperationService->set($pAchat->getOperationAchatSolidaire());
+				
+			//	var_dump($lIdOperationAchatSolidaire);
+			/*	var_dump($pAchat->getOperationAchatSolidaire());*/
 				
 				$lOperationZeybuSolidaire = $lOperationService->getDetail($lIdOperationZeybuSolidaire);
 				$lOperationZeybuSolidaire->setMontant($pAchat->getOperationAchatSolidaire()->getMontant() * -1);
@@ -494,7 +498,7 @@ class AchatService
 				
 			$ltestChampComplementaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			if(isset($ltestChampComplementaire[1])) {
-				if($lIdMarche == 0) { // Pour éviter de lancer 2 fois la requête
+				if(!isset($lMarche)) { // Pour éviter de lancer 2 fois la requête
 					$lIdMarche = $ltestChampComplementaire[1]->getValeur();
 					$lMarcheService = new MarcheService();
 					$lMarche = $lMarcheService->getInfoMarche($lIdMarche);
@@ -522,13 +526,13 @@ class AchatService
 		if(!is_null($lIdRechargement)) {
 			$lMaj = false;
 			$lRechargementChampComplementaire = $pAchat->getRechargement()->getChampComplementaire();
-			if(!$lMajAchat && !is_null($lIdOperationAchat)) {
+			if(!is_null($lIdOperationAchat)) {
 				$lMaj = true;
 				$lRechargementChampComplementaire[12] = new OperationChampComplementaireVO(null, 12, $lIdOperationAchat);
 			} else if(is_null($lIdOperationAchat)) {
 				unset($lRechargementChampComplementaire[12]);
 			}
-			if(!$lMajAchatSolidaire && !is_null($lIdOperationAchatSolidaire)) {
+			if(!is_null($lIdOperationAchatSolidaire)) {
 				$lMaj = true;
 				$lRechargementChampComplementaire[13] = new OperationChampComplementaireVO(null, 13, $lIdOperationAchatSolidaire);
 			} else if(is_null($lIdOperationAchatSolidaire)) {
@@ -539,17 +543,17 @@ class AchatService
 				$lOperationService->set($pAchat->getRechargement());
 			}
 		}
-		
+				
 		// Liaison achat
 		if(!is_null($lIdOperationAchat)) {
 			$lChampComplementaire = $pAchat->getOperationAchat()->getChampComplementaire();
 			$lChampComplementaire[8] = new OperationChampComplementaireVO(null, 8, $lIdOperationZeybu);
-			if(!$lMajRechargement && !is_null($lIdRechargement)) {
+			if(!is_null($lIdRechargement)) {
 				$lChampComplementaire[14] = new OperationChampComplementaireVO(null, 14, $lIdRechargement);
 			} else if(is_null($lIdRechargement)) {
 				unset($lChampComplementaire[14]);
 			}
-			if(!$lMajAchatSolidaire && !is_null($lIdOperationAchatSolidaire)) {
+			if(!is_null($lIdOperationAchatSolidaire)) {
 				$lChampComplementaire[13] = new OperationChampComplementaireVO(null, 13, $lIdOperationAchatSolidaire);
 			} else if(is_null($lIdOperationAchatSolidaire)) {
 				unset($lChampComplementaire[13]);
@@ -562,16 +566,17 @@ class AchatService
 		if(!is_null($lIdOperationAchatSolidaire)) {
 			$lChampComplementaireSolidaire = $pAchat->getOperationAchatSolidaire()->getChampComplementaire();
 			$lChampComplementaireSolidaire[8] = new OperationChampComplementaireVO(null, 8, $lIdOperationZeybuSolidaire);
-			if(!$lMajRechargement && !is_null($lIdRechargement)) {
+			if(!is_null($lIdRechargement)) {
 				$lChampComplementaireSolidaire[14] = new OperationChampComplementaireVO(null, 14, $lIdRechargement);
 			} else if(is_null($lIdRechargement)) {
 				unset($lChampComplementaireSolidaire[14]);
 			}
-			if(!$lMajAchatSolidaire && !is_null($lIdOperationAchatSolidaire)) {
+			if(!is_null($lIdOperationAchat)) {
 				$lChampComplementaireSolidaire[12] = new OperationChampComplementaireVO(null, 12, $lIdOperationAchat);
 			} else if(is_null($lIdOperationAchat)) {
 				unset($lChampComplementaireSolidaire[12]);
 			}
+			
 			$pAchat->getOperationAchatSolidaire()->setChampComplementaire($lChampComplementaireSolidaire);
 			$lOperationService->set($pAchat->getOperationAchatSolidaire()); // Operation d'achat solidaire avec lien operation zeybu
 		}
@@ -604,6 +609,13 @@ class AchatService
 		
 		// Suppression de l'ensemble des lignes de produit qui seront à nouveau insérées
 		DetailAchatManager::delete($lIdOperationAchatActuel, $lIdOperationAchatSolidaireActuel);
+		
+		
+		/*var_dump($lIdOperationAchatActuel);
+		var_dump($lIdOperationAchatSolidaireActuel);
+		var_dump($lIdOperationAchat);
+		var_dump($lIdOperationAchatSolidaire);*/
+		
 		
 		$lDetailOperationService = new DetailOperationService();
 		$lStockService = new StockService();
@@ -968,7 +980,7 @@ class AchatService
 		$lOperationInitiale = $lOperationService->getDetail($pId);
 		
 		$lChampComplementaire = $lOperationInitiale->getChampComplementaire();
-		
+				
 		$lOperationAchat = NULL;
 		$lOperationAchatSolidaire = NULL;
 		$lRechargement = NULL;
