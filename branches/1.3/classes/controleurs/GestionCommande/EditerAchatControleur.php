@@ -204,7 +204,7 @@ class EditerAchatControleur
 					}
 				}
 			}
-
+			ksort($lStock);
 			$lResponse->setStock($lStock);	// Stock de produit disponible
 			$lResponse->setLots($lLotsProduits);	// Lots des produits
 			
