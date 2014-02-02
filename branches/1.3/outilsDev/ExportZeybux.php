@@ -731,6 +731,23 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			$output = shell_exec('cd ' . $lPath . ' && chmod -R 777 .');
 		}
 		
+		/*** Suppression des fichiers de travail ***/
+		/** CSS **/
+		unlink('./zeybu/css/zeybux-html-min.css');
+		unlink('./zeybu/css/zeybux-html.css');
+		unlink('./zeybu/css/zeybux-min.css');
+		unlink('./zeybu/css/zeybux.css');
+		/*** Js ***/
+		unlink('./zeybu/js/zeybux-core-min.js');
+		unlink('./zeybu/js/zeybux-core.js');
+		unlink('./zeybu/js/zeybux-jquery-min.js');
+		unlink('./zeybu/js/zeybux-jquery.js');
+		
+		// RAZ des dossiers de génération
+		viderDossier("./zeybu/js/package-full/");
+		viderDossier("./zeybu/js/package/");
+		
+		
 		/************** Fin Copie des fichiers **************/
 		
 		echo "<h1>Export Terminé !!</h1>";

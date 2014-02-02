@@ -881,7 +881,7 @@ class MarcheService
 			array('='),
 			array(0),
 			array(CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT),
-			array('ASC'));
+			array('DESC'));
 	}
 }
 ?>
