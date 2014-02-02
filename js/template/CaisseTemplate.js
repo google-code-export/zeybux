@@ -7,16 +7,16 @@
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
-								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
+								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
 								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
 								"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -138,6 +138,8 @@
 	this.achatMarcheEtatCompteInvite = "Compte Invité";
 	this.achatMarcheLabelRechargement = "Recharger";
 	this.achatMarcheLabelPaiement = "Paiement";
+	this.achatMarcheLabelTotal = "Total";
+	this.achatMarcheLabelMarche = "Marché N° {numero}";
 	
 	this.achatInfoAdherent = 	
 			"<div id=\"info-adherent-widget\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
@@ -176,7 +178,7 @@
 						"</tr>" +
 						"<tr>" +
 							"<td colspan=\"2\" class=\"info-adherent-cellule-achat\">" +
-								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">Total : <span id=\"total\">{total}</span> {sigleMonetaire}</div>" +
+								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">{labelTotal} : <span id=\"total\">{total}</span> {sigleMonetaire}</div>" +
 							"</td>" +
 							"<td>" +
 								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">Achat : <span id=\"total-achat\">{totalAchat}</span> {sigleMonetaire}</div>" +

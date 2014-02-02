@@ -91,6 +91,7 @@
 							lResponse.adherent.totalAchatSolidaire = 0;
 
 							$.each(lResponse.lots,function() {
+								console.log(this.nom);
 								$.each(this.lots,function() {
 									this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
 									this.selected = '';	
@@ -245,6 +246,12 @@
 		pResponse.adherent.sigleMonetaire = gSigleMonetaire;
 		pResponse.adherent.typePaiement = pResponse.typePaiement;
 
+		if(pResponse.marche.numero !== undefined) {// Si il y a un marché on affiche son numéro
+			pResponse.adherent.labelTotal = lCaisseTemplate.achatMarcheLabelMarche.template({numero:pResponse.marche.numero});			
+		} else {
+			pResponse.adherent.labelTotal = lCaisseTemplate.achatMarcheLabelTotal;
+		}
+		
 		pResponse.adherent.total = pResponse.adherent.total.nombreFormate(2,',',' ');
 		pResponse.adherent.totalAchat = pResponse.adherent.totalAchat.nombreFormate(2,',',' ');
 		pResponse.adherent.totalAchatSolidaire = pResponse.adherent.totalAchatSolidaire.nombreFormate(2,',',' ');
