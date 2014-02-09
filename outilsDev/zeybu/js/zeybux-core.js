@@ -5326,11 +5326,11 @@ function StockQuantiteValid() {
 			if(this.mModules.length == lNvPosition) { // Si c'est le dernier module on lance la première page
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.initAction();});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131123142214.js",function() {that.initAction();});
 			} else {
 				var lNiveau = parseFloat(lNvPosition) / parseFloat(this.mModules.length) * 100;
 				$("#chargement-module-progressbar").progressbar({value:lNiveau});
-				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131029133154.js",function() {that.chargerModule(lNvPosition);});
+				$.getScript("./js/package/zeybux-" + that.mModules[pPosition] + "-min-20131123142214.js",function() {that.chargerModule(lNvPosition);});
 			}			
 		}		
 	};
@@ -5421,7 +5421,7 @@ function StockQuantiteValid() {
 		} else {	
 			var that = this;
 
-			$.getScript("./js/zeybux-configuration-min-20131029133154.js",function() {
+			$.getScript("./js/zeybux-configuration-min-20131123142214.js",function() {
 				that.init();
 				IdentificationVue();
 			});

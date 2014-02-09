@@ -141,7 +141,7 @@
 		
 		lTypePaiementServiceTemplate = new TypePaiementServiceTemplate();
 		var lTemplate = '';
-		if(pAffiche == undefined) {
+		if(pAffiche == undefined || pAffiche == false) {
 			lTemplate = lTypePaiementServiceTemplate.champComplementaire;
 		} else {
 			lTemplate = lTypePaiementServiceTemplate.champComplementaireAffiche;

@@ -13,6 +13,9 @@
 <?php
 // TODO Détecter l'identifiant si celui-ci n'est pas la première ligne et le placer dans le tableau à la première ligne
 
+// Définition de la zone horaire
+date_default_timezone_set("Europe/Paris");
+
 define("CHEMIN_CLASSES","./zeybu/classes/");
 define("FICHIER_SQL","zeybuStructure.sql");
 define("CHEMIN_FICHIER_SQL","./");

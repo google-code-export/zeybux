@@ -8,14 +8,12 @@
 	this.mAdherent = {};
 		
 	this.mLots = [];
-	//this.mPrixProduit = [];
 	this.mLotAchat = [];
 	this.mFocusRechargement = 0;
 	this.mCategorie = [];
 	this.mNomCategorie = [];
 	
 	this.mAchat = {};
-	//this.mIdAchat = [];
 	this.mTotalAchatInit = 0;
 	this.mAchatInitial = null;
 	
@@ -26,6 +24,7 @@
 	this.mIdRequete = '';
 	this.mCompteurIdProduit = 0;
 	this.mModeEdition = 0;
+	this.mRechargementSansAchatAvecReservation = false;
 	
 	
 	this.construct = function(pParam) {
@@ -50,21 +49,7 @@
 							if(pParam && pParam.vr) {
 								Infobulle.generer(pParam.vr,'');
 							}
-							
-						/*	if(pParam.module == 'GestionCommande') {
-								//pParam.id_commande = -1;
-								
-								if(lResponse.achats.operationAchat != null && lResponse.achats.operationAchat.champComplementaire[1] && lResponse.achats.operationAchat.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.operationAchat.champComplementaire[1].valeur;
-								}
-								if(lResponse.achats.operationAchatSolidaire != null && lResponse.achats.operationAchatSolidaire.champComplementaire[1] && lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.operationAchatSolidaire.champComplementaire[1].valeur;
-								}
-								if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.champComplementaire[1] && lResponse.achats.rechargement.champComplementaire[1].valeur != null) {
-									pParam.id_commande = lResponse.achats.rechargement.champComplementaire[1].valeur;
-								}
-							}*/
-							
+														
 							that.mIdRequete = lResponse.idRequete;
 								
 							// Les informations pour le paiement
@@ -137,6 +122,11 @@
 										} else {
 											that.mLotAchat[this.id] = {normal:lIdLot,solidaire:0};
 										}
+										if(this.idStock == null) { // dans le cas d'un réservation
+											this.idStock = 0;
+											this.idDetailOperation = 0;
+										}
+										
 									} else {
 										this.quantiteAchat = '';
 										this.montantAchat = '';
@@ -157,6 +147,11 @@
 										} else {
 											that.mLotAchat[this.id] = {normal:0,solidaire:lIdLot};
 										}
+										
+										if(this.idStockSolidaire == null) { // dans le cas d'un réservation
+											this.idStockSolidaire = 0;
+											this.idDetailOperationSolidaire = 0;
+										}
 									} else {
 										this.quantiteAchatSolidaire = '' ;
 										this.montantAchatSolidaire = '' ;
@@ -174,6 +169,19 @@
 							
 							lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
 							
+							// Si pas d'achat et une réservation il faut calculer le nouveau solde
+							if(lResponse.achats.produits &&  typeof lResponse.achats.produits !== 'undefined' && (lResponse.achats.produits.length == 0 || (lResponse.achats.produits[0] && lResponse.achats.produits[0].cproId == null)) && typeof lResponse.reservation !== 'undefined' && lResponse.reservation.length > 0) {
+								that.mSolde = (parseFloat(that.mSolde) - parseFloat(lResponse.adherent.total)).toFixed(2);
+								
+								if(pParam.id_adherent != 0) { // Si pas invité les informations de l'adhérent
+									lResponse.adherent.cptSolde = parseFloat(that.mSolde);
+								}
+								
+								if(lResponse.achats.rechargement != null && lResponse.achats.rechargement.id && lResponse.achats.rechargement.id != null) {
+									that.mRechargementSansAchatAvecReservation = true;
+								}
+							}
+
 							// Si il y a eu un achat ou un rechargement affiche le résumé
 							if((lResponse.achats.produits && lResponse.achats.produits[0] && lResponse.achats.produits[0].cproId != null) || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { 
 								
@@ -222,247 +230,6 @@
 							} else {
 								that.afficher(lResponse);
 							}
-							
-						/*	if(pParam.id_commande != -1) { // Si marché test si achat
-								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
-									that.afficher(lResponse, that.recapitulatifAchat);
-								} else { // Sinon affiche le formulaire
-									that.afficher(lResponse);
-								}
-							} else { // Hors marché affiche le formulaire
-								that.afficher(lResponse);
-							}
-							
-							that.afficher(lResponse);*/
-							
-							/*if(pParam.id_commande != -1) { // Traitement des produits du marché
-								$.each(lResponse.marche.produits, function() {
-									if(this.id) {	
-										var lIdProduit = this.id;
-										var lUnite = this.unite;
-										var lProduit = {
-												id:this.id,
-												nproId:this.idNom,
-												nom:this.nom,
-												unite:this.unite,
-												quantiteReservation:'',
-												quantiteAchat:'', prixAchat:'', quantiteAchatAffiche:'', prixAchatAffiche:'',
-												quantiteAchatSolidaire:'', prixAchatSolidaire:'', quantiteAchatAfficheSolidaire:'', prixAchatAfficheSolidaire:''};
-										
-										var lLots = [];
-										$.each(this.lots, function() {
-											this.mLotPrixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).toFixed(2).nombreFormate(2,',',' ');											
-											this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
-											this.selected = '';	
-											
-											that.mLots[this.id] = this;
-											lLots.sort(function(a,b) {return a.taille.localeCompare(b.taille);});
-											lLots.push(this);
-										});
-										
-										var lAfficherCategorie = false;
-										if(pParam.id_adherent != 0) { // Si adhérent vérifie la réservation et l'achat
-											
-										/*	var lAchatReservation = 0;
-											var lAchat = 0;*/
-																						
-						/*					$.each(lResponse.reservation, function() {
-												if(this.idProduit == lIdProduit) {
-													lProduit.quantiteReservation = (this.quantite * -1).nombreFormate(2,',',' ') + ' ' + lUnite;
-													if(lResponse.achats.length == 0) { // Si pas d'achat
-														lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
-														lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
-														//lAchatReservation = (parseFloat(lAchatReservation) + parseFloat(this.montant) * -1).toFixed(2);
-														lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
-														that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:0};
-													}
-													lAfficherCategorie = true;
-												}
-											});
-											
-											/*if(lAchat == 0) {// Si pas d'achat affiche le total réservation
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchatReservation)).toFixed(2);
-											} else {
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lAchat)).toFixed(2);
-											}*/
-											
-						/*					lResponse.adherent.total = (parseFloat(lResponse.adherent.totalAchat) + parseFloat(lResponse.adherent.totalAchatSolidaire)).toFixed(2);
-										}
-										
-										if(!that.mCategorie[this.idCategorie]) {											
-											var lInfoCategorie = {
-													cproId:this.idCategorie,
-													cproNom:this.cproNom,
-													visible:'ui-helper-hidden',
-													produits:[]};
-											
-											that.mCategorie[this.idCategorie] = lInfoCategorie;
-											that.mNomCategorie[this.idCategorie] = lInfoCategorie;
-										}
-										
-										// Affiche la catégorie si il y a un achat ou reservation
-										if(lAfficherCategorie) {
-											that.mCategorie[this.idCategorie].visible = '';
-										}
-										
-										that.mCategorie[this.idCategorie].produits[this.idNom] = lProduit;
-										lProduit.lots = lLots;
-										that.mPrixProduit[this.idNom] = lProduit;	
-									}
-								});
-							}
-							
-							
-							$.each(lResponse.achats.produits, function() {
-								
-								var lNproId = this.idNom;
-								var lProduitMarche = false;
-								var lproduitAchat = this;
-																	
-								if(pParam.id_commande != -1) { // Si c'est un marché priorité aux produits du marché
-									$.each(lResponse.marche.produits, function() {
-										if(this.id && this.idNom == lNproId) {
-											lProduitMarche = true;
-											if(this.quantite != null) {
-												this.quantiteAchat = (lproduitAchat.quantite * -1).nombreFormate(2,',','') ;
-												this.prixAchat = (lproduitAchat.montant * -1).nombreFormate(2,',','') ;
-												this.quantiteAchatAffiche = (lproduitAchat.quantite * -1).nombreFormate(2,',',' ') ;
-												this.prixAchatAffiche = (lproduitAchat.montant * -1).nombreFormate(2,',',' ') ;
-												
-												lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(lproduitAchat.montant)).toFixed(2);
-												
-												that.mSolde = (parseFloat(that.mSolde) - parseFloat(lproduitAchat.montant)).toFixed(2);
-												
-												if(that.mLotAchat[this.id]) {
-													that.mLotAchat[this.id].normal = lproduitAchat.idDetailCommande;
-												} else {
-													that.mLotAchat[this.id] = {normal:lproduitAchat.idDetailCommande,solidaire:''};
-												}
-											}
-											
-										}
-									});
-								}
-								
-								
-								
-								
-								/*if(this.id && this.id.idAchat) {
-									that.mIdAchat.push(this.id.idAchat); // Récupération des IdAchat
-								}*/
-							/*	$(this.detailAchat).each(function() {
-									if(this.idProduit == lIdProduit) {
-										lProduit.quantiteAchat = (this.quantite * -1).nombreFormate(2,',','') ;
-										lProduit.prixAchat = (this.montant * -1).nombreFormate(2,',','') ;
-										lProduit.quantiteAchatAffiche = (this.quantite * -1).nombreFormate(2,',',' ') ;
-										lProduit.prixAchatAffiche = (this.montant * -1).nombreFormate(2,',',' ') ;
-										//lAchat = (parseFloat(lAchat) + parseFloat(this.montant) * -1).toFixed(2);
-										lResponse.adherent.totalAchat = (parseFloat(lResponse.adherent.totalAchat) - parseFloat(this.montant)).toFixed(2);
-										lAfficherCategorie = true;
-										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-										
-										if(that.mLotAchat[lIdProduit]) {
-											that.mLotAchat[lIdProduit].normal = this.idDetailCommande;
-										} else {
-											that.mLotAchat[lIdProduit] = {normal:this.idDetailCommande,solidaire:''};
-										}
-									}
-								});
-								
-								$(this.detailAchatSolidaire).each(function() {
-									if(this.idProduit == lIdProduit) {
-										lProduit.quantiteAchatSolidaire = (this.quantite * -1).nombreFormate(2,',','') ;
-										lProduit.prixAchatSolidaire = (this.montant * -1).nombreFormate(2,',','') ;
-										lProduit.quantiteAchatAfficheSolidaire = (this.quantite * -1).nombreFormate(2,',',' ') ;
-										lProduit.prixAchatAfficheSolidaire = (this.montant * -1).nombreFormate(2,',',' ') ;
-										lResponse.adherent.totalAchatSolidaire = (parseFloat(lResponse.adherent.totalAchatSolidaire) - parseFloat(this.montant)).toFixed(2);
-										lAfficherCategorie = true;
-										that.mSolde = (parseFloat(that.mSolde) - parseFloat(this.montant)).toFixed(2);
-										
-										if(that.mLotAchat[lIdProduit]) {
-											that.mLotAchat[lIdProduit].solidaire = this.idDetailCommande;
-										} else {
-											that.mLotAchat[lIdProduit] = {normal:'',solidaire:this.idDetailCommande};
-										}
-									}
-								});*/
-						//	});
-							
-							// Ajout des produits en stock
-							
-						/*	var lIdProduitEnStock = -1;
-							$.each(lResponse.stock, function() {
-								if(this.idNom) {
-									var lNproId = this.idNom;
-									var lProduitMarche = false;
-																		
-									if(pParam.id_commande != -1) { // Si c'est un marché priorité aux produits du marché
-										$.each(lResponse.marche.produits, function() {
-											if(this.id && this.idNom == lNproId) {
-												lProduitMarche = true;
-											}
-										});
-									}
-									
-									if(!lProduitMarche) {
-										var lLots = [];
-										$.each(this.lots, function() {
-											this.mLotPrixUnitaire = (parseFloat(this.prix) / parseFloat(this.taille)).toFixed(2).nombreFormate(2,',',' ');											
-											this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
-											this.selected = '';	
-											
-											that.mLots[this.id] = this;
-											lLots.push(this);
-										});
-									
-										if(!that.mCategorie[this.idCategorie]) {
-											var lInfoCategorie = {
-													cproId:this.idCategorie,
-													cproNom:this.cproNom,
-													visible:'ui-helper-hidden',
-													produits:[]};
-											
-											that.mCategorie[this.idCategorie] = lInfoCategorie;
-											that.mNomCategorie[this.idCategorie] = lInfoCategorie;
-										}
-										
-										var lProduit = {
-												id:lIdProduitEnStock,
-												nproId:this.idNom,
-												nom:this.nom,
-												unite:this.unite,
-												quantiteReservation:'',
-												quantiteAchat:'', prixAchat:'', quantiteAchatAffiche:'', prixAchatAffiche:'',
-												quantiteAchatSolidaire:'', prixAchatSolidaire:'', quantiteAchatAfficheSolidaire:'', prixAchatAfficheSolidaire:''};	
-										
-										that.mCategorie[this.idCategorie].produits[this.idNom] = lProduit;	
-										
-										lLots.sort(function(a,b) {return a.taille.localeCompare(b.taille);});
-										lProduit.lots = lLots;
-										that.mPrixProduit[this.idNom] = lProduit;	
-										lIdProduitEnStock--;
-									}
-								}
-							});*/
-							
-							// Tri des catégories
-				/*			that.mCategorie.sort(function(a,b) {return a.cproNom.localeCompare(b.cproNom);});
-							// Tri des produits
-							$.each(that.mCategorie,function() {
-								if(this.cproNom) {
-									this.produits.sort(function(a,b) {return a.nom.localeCompare(b.nom);});
-								}
-							});
-							
-							if(pParam.id_commande != -1) { // Si marché test si achat
-								if(lResponse.achats.length > 0 || (lResponse.achats.rechargement !=null && lResponse.achats.rechargement.id != null)) { // Si il y a eu un achat ou un rechargement affiche le résumé
-									that.afficher(lResponse, that.recapitulatifAchat);
-								} else { // Sinon affiche le formulaire
-									that.afficher(lResponse);
-								}
-							} else { // Hors marché affiche le formulaire
-								that.afficher(lResponse);
-							}*/
 						} else {
 							Infobulle.generer(lResponse,'');
 						}
@@ -478,16 +245,29 @@
 		pResponse.adherent.sigleMonetaire = gSigleMonetaire;
 		pResponse.adherent.typePaiement = pResponse.typePaiement;
 
+		
+
+		if(pResponse.marche.numero !== undefined) {// Si il y a un marché on affiche son numéro
+			pResponse.adherent.labelTotal = lCaisseTemplate.achatMarcheLabelMarche.template({numero:pResponse.marche.numero});			
+		} else {
+			pResponse.adherent.labelTotal = lCaisseTemplate.achatMarcheLabelTotal;
+		}
+		
 		pResponse.adherent.total = pResponse.adherent.total.nombreFormate(2,',',' ');
 		pResponse.adherent.totalAchat = pResponse.adherent.totalAchat.nombreFormate(2,',',' ');
 		pResponse.adherent.totalAchatSolidaire = pResponse.adherent.totalAchatSolidaire.nombreFormate(2,',',' ');
 		if(this.mParam.id_adherent != 0) { // Les informations de l'adhérent si ce n'est pas un compte invité		
+			pResponse.adherent.colspan= '';
+			if(pResponse.nbAdhesionEnCours > 0) {
+				pResponse.adherent.adhesion = lCaisseTemplate.adhesionOK;
+			} else {
+				pResponse.adherent.adhesion = lCaisseTemplate.adhesionKO;			
+			}
 			
 			pResponse.adherent.adhSoldeEtatClass = '';
 			if(parseFloat(pResponse.adherent.cptSolde) <= 0) {
 				pResponse.adherent.adhSoldeEtatClass = 'com-nombre-negatif';		
 			} 
-			
 			pResponse.adherent.adhSolde = pResponse.adherent.cptSolde.nombreFormate(2,',',' ');
 			
 			pResponse.adherent.identite = lCaisseTemplate.achatMarcheIdentiteAdherent.template(pResponse.adherent);
@@ -497,6 +277,9 @@
 			pResponse.adherent.identite = lCaisseTemplate.achatMarcheIdentiteInvite;
 			pResponse.adherent.etatCompte = lCaisseTemplate.achatMarcheEtatCompteInvite;
 			pResponse.adherent.labelRecharger = lCaisseTemplate.achatMarcheLabelPaiement;
+			
+			pResponse.adherent.colspan= 'colspan="2"';
+			pResponse.adherent.adhesion = '';
 		}
 		lData.infoAdherent = lCaisseTemplate.achatInfoAdherent.template(pResponse.adherent);
 		
@@ -600,7 +383,7 @@
 		pData.find(".produit-quantite, .produit-quantite-solidaire, .produit-prix, .produit-prix-solidaire").focus(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			
 			if($('#select-' + lNproId + lType).length == 0) {// Si le select est déjà affiché il ne faut pas le réinitialiser			
@@ -665,7 +448,7 @@
 			}
 		}).blur(function() { // Masque automatiquement en sortie si il n'y a qu'un lot
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			
 			var lNbLots = 0;
 			for(i in that.mLots[lNproId + lUnite].lots) {
@@ -677,7 +460,7 @@
 		}).keyup(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lType = $(this).data('type');
 			var lIdLot = 0;
 			
@@ -717,7 +500,7 @@
 	this.affectCalculPrix = function(pData) {
 		var that = this;
 		pData.find('.produit-quantite, .produit-quantite-solidaire').keyup(function() {
-			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), $(this).data('unite'));
+			that.calculPrix($(this).data('id-produit'), $(this).data('id-nom-produit'), $(this).data('type') ,  $(this).val(), String($(this).data('unite')));
 		});
 		return pData;
 	};
@@ -751,7 +534,7 @@
 		var that = this;
 		pData.find('.select-lot').change(function() {
 			var lIdNomProduit = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite'); 
+			var lUnite = String($(this).data('unite')); 
 			var lType = $(this).data('type'); 
 			var lIdLot = $(this).val();
 			
@@ -769,21 +552,19 @@
 		var entryShare = pData.find('#info-adherent-widget').first();
 		var entryContent = pData.find('.tableau-liste-produit');
 				
-		$(window).scroll(function () {
-			//console.log(entryShare.outerHeight());
-			
+		$(window).scroll(function () {			
 		  var scrollTop = $(this).scrollTop();
 		  if(!timeout) {
 			timeout = setTimeout(function() {
 			  timeout = null;
 			  if (entryShare.css('position') !== 'fixed' && entryShare.offset().top < $(document).scrollTop()) {
-				//entryContent.css('margin-top', entryShare.outerHeight() + 10 );
-				entryContent.css('margin-top', '200' );
+				entryContent.css({'margin-top': entryShare.outerHeight() +10} );
+				//entryContent.css('margin-top', '200' );
 				entryShare.css({'z-index': 999, 'position': 'fixed', 'top': 0, 'width': entryContent.width(), 'box-shadow': '0 0 20px #555'})
 							.removeClass('ui-corner-all').addClass('ui-corner-bottom');
 			  } else if ($(document).scrollTop() <= entryContent.offset().top) {
 				  
-				entryContent.css('margin-top', '');
+				entryContent.css({'margin-top': ''});
 				entryShare.css({ 'position': '', 'z-index': '', 'width': '', 'box-shadow':''})
 							.removeClass('ui-corner-bottom').addClass('ui-corner-all');
 				
@@ -933,7 +714,7 @@
 		$('.ligne-produit').each(function() {
 			var lIdProduit = $(this).data('id-produit');
 			var lNproId = $(this).data('id-nom-produit');
-			var lUnite = $(this).data('unite');
+			var lUnite = String($(this).data('unite'));
 			var lIdCategorie = $(this).data('id-categorie');
 
 			var lVoProduit = new ProduitDetailAchatVO();
@@ -955,26 +736,26 @@
 				}
 			}
 
-			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb());
+			var lQuantite = parseFloat($('#produits' + lIdProduit + 'quantite' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantite = lQuantite * -1;
+				lVoProduit.quantite = (lQuantite * -1).toFixed(2);
 			}
 					
-			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb());
+			var lMontant = parseFloat($('#produits' + lIdProduit + 'montant' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montant = lMontant * -1;
-				lTotal += lMontant * -1;
+				lVoProduit.montant = (lMontant * -1).toFixed(2);
+				lTotal = (parseFloat(lTotal) + parseFloat(lMontant * -1)).toFixed(2);
 			}	
 			
-			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb());
+			lQuantite = parseFloat($('#produits' + lIdProduit + 'quantiteSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lQuantite)) {
-				lVoProduit.quantiteSolidaire = lQuantite * -1;
+				lVoProduit.quantiteSolidaire = (lQuantite * -1).toFixed(2);
 			}
 					
-			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb());
+			lMontant = parseFloat($('#produits' + lIdProduit + 'montantSolidaire' ).val().numberFrToDb()).toFixed(2);
 			if(!isNaN(lMontant)) {
-				lVoProduit.montantSolidaire = lMontant * -1;
-				lTotalSolidaire += lMontant * -1;
+				lVoProduit.montantSolidaire = (lMontant * -1).toFixed(2);
+				lTotalSolidaire = (parseFloat(lTotalSolidaire) + parseFloat(lMontant * -1)).toFixed(2);
 			}
 			
 			if(lVoProduit.quantite != '' || lVoProduit.montant != '' || lVoProduit.quantiteSolidaire != '' || lVoProduit.montantSolidaire != '') {				
@@ -1017,10 +798,11 @@
 			}
 		}
 		
+		
 		if(lTotal < 0) {
 			if(lVo.operationAchat == '') {
 				var lOperationAchat = new OperationDetailVO();
-				lOperationAchat.montant = lTotal;
+				//lOperationAchat.montant = lTotal;
 				lOperationAchat.typePaiement = 7;
 				lOperationAchat.idCompte = this.mIdCompte;
 				
@@ -1040,15 +822,16 @@
 				lOperationAchat.champComplementaire[15] = lChampComplementaire;
 				
 				lVo.operationAchat = lOperationAchat;
-			} else {
-				lVo.operationAchat.montant = lTotal;
-			}
+			}			
+		
+			lVo.operationAchat.montant = lTotal;
+		} else if(lVo.operationAchat != '') {
+			lVo.operationAchat.montant = 0;
 		}
 		
 		if(lTotalSolidaire < 0) {
 			if(lVo.operationAchatSolidaire == '') {
 				var lOperationAchat = new OperationDetailVO();
-				lOperationAchat.montant = lTotalSolidaire;
 				lOperationAchat.typePaiement = 8;
 				lOperationAchat.idCompte = this.mIdCompte;
 				
@@ -1068,9 +851,11 @@
 				lOperationAchat.champComplementaire[15] = lChampComplementaire;
 				
 				lVo.operationAchatSolidaire = lOperationAchat;
-			} else {
-				lVo.operationAchatSolidaire.montant = lTotalSolidaire;
 			}
+		
+			lVo.operationAchatSolidaire.montant = lTotalSolidaire;
+		} else if(lVo.operationAchatSolidaire != ''){
+			lVo.operationAchatSolidaire.montant = 0;
 		}
 		
 			
@@ -1151,7 +936,12 @@
 			// Les Produits
 			var lCaisseTemplate = new CaisseTemplate();
 			if(lProduitAchete) { // Affiche le detail uniquement si il y a des produits
-				$('#formulaire-produit').hide().before(lCaisseTemplate.achatHorsMarcheDetailAchat.template({categories:lProduitDetail}));
+				// Si il y a eu un rechargement sans achat mais avec un réservation : Ne pas afficher le détail de la réservation (sinon confusion avec un achat)
+				if(this.mModeEdition == 1 && this.mRechargementSansAchatAvecReservation) {
+					$('#formulaire-produit').hide();
+				} else {
+					$('#formulaire-produit').hide().before(lCaisseTemplate.achatHorsMarcheDetailAchat.template({categories:lProduitDetail}));
+				}
 			} else {
 				$('#formulaire-produit').hide();
 			}

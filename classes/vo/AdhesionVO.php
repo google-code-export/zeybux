@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/07/2012
+// Date de creation : 30/10/2013
 // Fichier : AdhesionVO.php
 //
 // Description : Classe AdhesionVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name AdhesionVO
  * @author Julien PIERRE
- * @since 22/07/2012
+ * @since 30/10/2013
  * @desc Classe représentant une AdhesionVO
  */
 class AdhesionVO  extends DataTemplate
@@ -43,23 +43,36 @@ class AdhesionVO  extends DataTemplate
 	protected $mDateFin;
 
 	/**
+	* @var datetime
+	* @desc DateCreation de la AdhesionVO
+	*/
+	private $mDateCreation;
+
+	/**
+	* @var datetime
+	* @desc DateModification de la AdhesionVO
+	*/
+	private $mDateModification;
+
+	/**
 	* @var tinyint(1)
 	* @desc Etat de la AdhesionVO
 	*/
-	protected $mEtat;
+	private $mEtat;
 
 	/**
-	* @var array(TypeAdhesionVO)
-	* @desc Les types de la AdhesionVO
-	*/
-	protected $mTypes;
-	
-	/**
-	* @name AdhesionVO()
-	* @desc Constructeur
-	*/
-	function AdhesionVO() {
-		$this->mTypes = array();
+	 * @name AdhesionVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function AdhesionVO($pId = null, $pLabel = null, $pDateDebut = null, $pDateFin = null, $pDateCreation = null, $pDateModification = null, $pEtat = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pLabel)) { $this->mLabel = $pLabel; }
+		if(!is_null($pDateDebut)) { $this->mDateDebut = $pDateDebut; }
+		if(!is_null($pDateFin)) { $this->mDateFin = $pDateFin; }
+		if(!is_null($pDateCreation)) { $this->mDateCreation = $pDateCreation; }
+		if(!is_null($pDateModification)) { $this->mDateModification = $pDateModification; }
+		if(!is_null($pEtat)) { $this->mEtat = $pEtat; }
 	}
 
 	/**
@@ -135,6 +148,42 @@ class AdhesionVO  extends DataTemplate
 	}
 
 	/**
+	* @name getDateCreation()
+	* @return datetime
+	* @desc Renvoie le membre DateCreation de la AdhesionVO
+	*/
+	public function getDateCreation() {
+		return $this->mDateCreation;
+	}
+
+	/**
+	* @name setDateCreation($pDateCreation)
+	* @param datetime
+	* @desc Remplace le membre DateCreation de la AdhesionVO par $pDateCreation
+	*/
+	public function setDateCreation($pDateCreation) {
+		$this->mDateCreation = $pDateCreation;
+	}
+
+	/**
+	* @name getDateModification()
+	* @return datetime
+	* @desc Renvoie le membre DateModification de la AdhesionVO
+	*/
+	public function getDateModification() {
+		return $this->mDateModification;
+	}
+
+	/**
+	* @name setDateModification($pDateModification)
+	* @param datetime
+	* @desc Remplace le membre DateModification de la AdhesionVO par $pDateModification
+	*/
+	public function setDateModification($pDateModification) {
+		$this->mDateModification = $pDateModification;
+	}
+
+	/**
 	* @name getEtat()
 	* @return tinyint(1)
 	* @desc Renvoie le membre Etat de la AdhesionVO
@@ -151,32 +200,6 @@ class AdhesionVO  extends DataTemplate
 	public function setEtat($pEtat) {
 		$this->mEtat = $pEtat;
 	}
-	
-	/**
-	* @name getTypes()
-	* @return array(TypeAdhesionVO)
-	* @desc Renvoie le membre Types de la AdhesionVO
-	*/
-	public function getTypes() {
-		return $this->mTypes;
-	}
 
-	/**
-	* @name setTypes($pTypes)
-	* @param array(TypeAdhesionVO)
-	* @desc Remplace le membre Types de la AdhesionVO par $pTypes
-	*/
-	public function setTypes($pTypes) {
-		$this->mTypes = $pTypes;
-	}
-
-	/**
-	* @name addTypes($pTypes)
-	* @param array(TypeAdhesionVO)
-	* @desc ajoute  $pTypes au membre Types de la AdhesionVO 
-	*/
-	public function addTypes($pTypes) {
-		array_push($this->mTypes,$pTypes);
-	}
 }
 ?>

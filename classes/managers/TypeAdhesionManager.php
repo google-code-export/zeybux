@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/07/2012
+// Date de creation : 30/10/2013
 // Fichier : TypeAdhesionManager.php
 //
 // Description : Classe de gestion des TypeAdhesion
@@ -17,7 +17,7 @@ define("TABLE_TYPEADHESION", MYSQL_DB_PREFIXE ."tpa_type_adhesion");
 /**
  * @name TypeAdhesionManager
  * @author Julien PIERRE
- * @since 22/07/2012
+ * @since 30/10/2013
  * 
  * @desc Classe permettant l'accès aux données des TypeAdhesion
  */
@@ -27,8 +27,10 @@ class TypeAdhesionManager
 	const CHAMP_TYPEADHESION_ID = "tpa_id";
 	const CHAMP_TYPEADHESION_ID_ADHESION = "tpa_id_adhesion";
 	const CHAMP_TYPEADHESION_LABEL = "tpa_label";
-	const CHAMP_TYPEADHESION_PERIMETRE = "tpa_perimetre";
+	const CHAMP_TYPEADHESION_ID_PERIMETRE = "tpa_id_perimetre";
 	const CHAMP_TYPEADHESION_MONTANT = "tpa_montant";
+	const CHAMP_TYPEADHESION_DATE_CREATION = "tpa_date_creation";
+	const CHAMP_TYPEADHESION_DATE_MODIFICATION = "tpa_date_modification";
 	const CHAMP_TYPEADHESION_ETAT = "tpa_etat";
 
 	/**
@@ -47,8 +49,10 @@ class TypeAdhesionManager
 			    . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL . 
-			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . "
 			FROM " . TypeAdhesionManager::TABLE_TYPEADHESION . " 
 			WHERE " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = '" . StringUtils::securiser($pId) . "'";
@@ -62,8 +66,10 @@ class TypeAdhesionManager
 				$pId,
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION],
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL],
-				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE],
+				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE],
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT],
+				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION],
+				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION],
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT]);
 		} else {
 			return new TypeAdhesionVO();
@@ -84,8 +90,10 @@ class TypeAdhesionManager
 			    . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL . 
-			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . "
 			FROM " . TypeAdhesionManager::TABLE_TYPEADHESION;
 
@@ -100,8 +108,10 @@ class TypeAdhesionManager
 					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID],
 					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION],
 					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL],
-					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE],
+					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE],
 					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT],
+					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION],
+					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION],
 					$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT]));
 			}
 		} else {
@@ -130,8 +140,10 @@ class TypeAdhesionManager
 			    TypeAdhesionManager::CHAMP_TYPEADHESION_ID .
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION .
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL .
-			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE .
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE .
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT .
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION .
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION .
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT		);
 
 		// Préparation de la requète de recherche
@@ -153,8 +165,10 @@ class TypeAdhesionManager
 						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID],
 						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION],
 						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL],
-						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE],
+						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE],
 						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT],
+						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION],
+						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION],
 						$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT]));
 				}
 			} else {
@@ -169,23 +183,27 @@ class TypeAdhesionManager
 	}
 
 	/**
-	* @name remplirTypeAdhesion($pId, $pIdAdhesion, $pLabel, $pPerimetre, $pMontant, $pEtat)
+	* @name remplirTypeAdhesion($pId, $pIdAdhesion, $pLabel, $pIdPerimetre, $pMontant, $pDateCreation, $pDateModification, $pEtat)
 	* @param int(11)
 	* @param int(11)
 	* @param varchar(45)
-	* @param tinyint(1)
+	* @param int(11)
 	* @param decimal(10,2)
+	* @param datetime
+	* @param datetime
 	* @param tinyint(1)
 	* @return TypeAdhesionVO
 	* @desc Retourne une TypeAdhesionVO remplie
 	*/
-	private static function remplirTypeAdhesion($pId, $pIdAdhesion, $pLabel, $pPerimetre, $pMontant, $pEtat) {
+	private static function remplirTypeAdhesion($pId, $pIdAdhesion, $pLabel, $pIdPerimetre, $pMontant, $pDateCreation, $pDateModification, $pEtat) {
 		$lTypeAdhesion = new TypeAdhesionVO();
 		$lTypeAdhesion->setId($pId);
 		$lTypeAdhesion->setIdAdhesion($pIdAdhesion);
 		$lTypeAdhesion->setLabel($pLabel);
-		$lTypeAdhesion->setPerimetre($pPerimetre);
+		$lTypeAdhesion->setIdPerimetre($pIdPerimetre);
 		$lTypeAdhesion->setMontant($pMontant);
+		$lTypeAdhesion->setDateCreation($pDateCreation);
+		$lTypeAdhesion->setDateModification($pDateModification);
 		$lTypeAdhesion->setEtat($pEtat);
 		return $lTypeAdhesion;
 	}
@@ -206,8 +224,10 @@ class TypeAdhesionManager
 				(" . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . "
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . "
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL . "
-				," . TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE . "
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE . "
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT . "
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION . "
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION . "
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . ")
 			VALUES ";
 
@@ -218,8 +238,10 @@ class TypeAdhesionManager
 				$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $lVo->getIdAdhesion() ) . "'
 				,'" . StringUtils::securiser( $lVo->getLabel() ) . "'
-				,'" . StringUtils::securiser( $lVo->getPerimetre() ) . "'
+				,'" . StringUtils::securiser( $lVo->getIdPerimetre() ) . "'
 				,'" . StringUtils::securiser( $lVo->getMontant() ) . "'
+				, now()
+				,'" . StringUtils::securiser( $lVo->getDateModification() ) . "'
 				,'" . StringUtils::securiser( $lVo->getEtat() ) . "')";
 
 				if($lNbVO == $lI) {
@@ -233,8 +255,10 @@ class TypeAdhesionManager
 			$lRequete .= "(NULL
 				,'" . StringUtils::securiser( $pVo->getIdAdhesion() ) . "'
 				,'" . StringUtils::securiser( $pVo->getLabel() ) . "'
-				,'" . StringUtils::securiser( $pVo->getPerimetre() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdPerimetre() ) . "'
 				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
+				, now()
+				,'" . StringUtils::securiser( $pVo->getDateModification() ) . "'
 				,'" . StringUtils::securiser( $pVo->getEtat() ) . "');";
 		}
 
@@ -257,8 +281,10 @@ class TypeAdhesionManager
 			 SET
 				 " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . " = '" . StringUtils::securiser( $pVo->getIdAdhesion() ) . "'
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL . " = '" . StringUtils::securiser( $pVo->getLabel() ) . "'
-				," . TypeAdhesionManager::CHAMP_TYPEADHESION_PERIMETRE . " = '" . StringUtils::securiser( $pVo->getPerimetre() ) . "'
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_PERIMETRE . " = '" . StringUtils::securiser( $pVo->getIdPerimetre() ) . "'
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT . " = '" . StringUtils::securiser( $pVo->getMontant() ) . "'
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_CREATION . " = '" . StringUtils::securiser( $pVo->getDateCreation() ) . "'
+				," . TypeAdhesionManager::CHAMP_TYPEADHESION_DATE_MODIFICATION . " = now()
 				," . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . " = '" . StringUtils::securiser( $pVo->getEtat() ) . "'
 			 WHERE " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = '" . StringUtils::securiser( $pVo->getId() ) . "'";
 

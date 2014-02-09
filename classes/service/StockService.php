@@ -614,7 +614,7 @@ class StockService
 				"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 				//", (" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") AS " . StockManager::CHAMP_STOCK_QUANTITE .
 				
-				", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+				", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),2) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
 				
 				
 				", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
@@ -624,7 +624,8 @@ class StockService
 				" FROM ((("
 						. ProduitManager::TABLE_PRODUIT	.
 						" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
-				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
+				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")
+				 	AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0))
 				 LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " ON (((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE .") and (" . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0))))
 			WHERE "
 					 		. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande
@@ -645,7 +646,7 @@ class StockService
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NUMERO .
 						"," . NomProduitManager::CHAMP_NOMPRODUIT_NOM .
 						//", ((" . ProduitManager::CHAMP_PRODUIT_STOCK_INITIAL . " - " . ProduitManager::CHAMP_PRODUIT_STOCK_RESERVATION . ") + 1) AS " . StockManager::CHAMP_STOCK_QUANTITE .
-						", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),0) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
+						", (round(sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " * " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . "),2) * -(1)) AS " . StockManager::CHAMP_STOCK_QUANTITE .
 						
 						", sum(" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .") AS " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
 						"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
@@ -654,7 +655,8 @@ class StockService
 						" FROM ((("
 								. ProduitManager::TABLE_PRODUIT	.
 								" JOIN " . NomProduitManager::TABLE_NOMPRODUIT . " ON ((" . NomProduitManager::CHAMP_NOMPRODUIT_ID . " = " . ProduitManager::CHAMP_PRODUIT_ID_NOM_PRODUIT .")))
-				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")))
+				 LEFT JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . " ON ((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID .")
+				 	AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0))
 				 LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " ON (((" . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE .") and (" . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0))))
 			WHERE "
 					 		. ProduitManager::CHAMP_PRODUIT_ID_COMMANDE . " = " . $pIdCommande

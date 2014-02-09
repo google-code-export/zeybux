@@ -27,6 +27,8 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+
+		var lMonCompteTemplate = new MonCompteTemplate();
 		
 		if(lResponse.adherent.adhId == null) { //SuperZeybu
 			lResponse.adherent.opeMontant = 0;
@@ -41,6 +43,12 @@
 
 		lResponse.adherent.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
 		lResponse.adherent.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
+		
+		if(lResponse.nbAdhesionEnCours > 0) {
+			lResponse.adherent.adhesion = lMonCompteTemplate.adhesionOK;
+		} else {
+			lResponse.adherent.adhesion = lMonCompteTemplate.adhesionKO;			
+		}
 		
 		this.mInformationAdherent.nom = lResponse.adherent.adhNom;
 		this.mInformationAdherent.prenom = lResponse.adherent.adhPrenom;
@@ -94,7 +102,6 @@
 			}
 		});
 		
-		var lMonCompteTemplate = new MonCompteTemplate();
 		var lCoreTemplate = new CoreTemplate();
 		
 		if(lResponse.adherent.adhId == lResponse.adherent.cptIdAdherentPrincipal) { // Adhérent Principal

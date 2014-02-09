@@ -270,6 +270,7 @@
 						"</span>" +
 					"</div>" +
 					"<div class=\"com-widget-content\">" +
+						"<div>{adhesion}</div>" +
 						"<div>Numéro d'adhérent : {adhNumero}</div>" +
 						"<div>{adherentPrincipal} : {cptLabel}</div>" +
 						"<div>Nom : {adhNom}</div>" +
@@ -291,6 +292,9 @@
 						"<div>Code Postal : {adhCodePostal}</div>" +
 					"</div>" +
 				"</div>";
+
+	this.adhesionOK = "Adhésion à jour";
+	this.adhesionKO = "<span class=\"com-nombre-negatif\">Adhésion à renouveler</span>";
 	
 	this.adherentPrincipal = "Adherent Principal";
 	this.adherentSecondaire = "Adherent Secondaire";
@@ -342,6 +346,7 @@
 							"<th class=\"com-table-th\">Type de paiement</th>" +
 							"<th class=\"com-table-th\">Débit</th>" +
 							"<th class=\"com-table-th\">Crédit</th>" +
+							"<th class=\"com-table-th\">Solde</th>" +
 						"</tr>" +
 						"</thead>" +
 						"<tbody>" +
@@ -352,6 +357,7 @@
 							"<td class=\"com-table-td td-type-paiement\">{operationPassee.tppType} {operationPassee.opeTypePaiementChampComplementaire}</td>" +
 							"<td class=\"com-table-td td-montant\">{operationPassee.debit}</td>" +
 							"<td class=\"com-table-td td-montant\">{operationPassee.credit}</td>" +
+							"<td class=\"com-table-td td-montant {operationPassee.classSolde}\">{operationPassee.solde}</td>" +
 						"</tr>" +
 					"<!-- END operationPassee -->" +
 						"</tbody>" +

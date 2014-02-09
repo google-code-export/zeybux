@@ -12,6 +12,7 @@
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdhesionService.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_MON_COMPTE . "/InfoCompteResponse.php" );
 
 /**
@@ -37,6 +38,10 @@ class MonCompteControleur
 		$lResponse->setOperationPassee( $lOperationService->getOperationPassee( $lAdherent->getAdhIdCompte() ));
 		$lCompteService = new CompteService();
 		$lResponse->setAdherentCompte($lCompteService->getAdherentCompte($lAdherent->getAdhIdCompte()));
+		
+		$lAdhesionService = new AdhesionService();
+		$lResponse->setNbAdhesionEnCours($lAdhesionService->getNbAdhesionEnCoursSurAdherent($lIdAdherent));
+		
 		return $lResponse;
 	}
 	

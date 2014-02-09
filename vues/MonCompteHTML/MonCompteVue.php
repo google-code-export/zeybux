@@ -50,7 +50,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	
 	// Body
 	$lTemplate->set_filenames( array('body' => MOD_MON_COMPTE . '/' . 'MonCompte.html') );
-	
+		
 	$lTemplate->set_filenames( array('infoAdherent' => COMMUN_TEMPLATE . 'InfoCompteSoldeAdherent.html') );
 	$lAdherent = $lCompte->getAdherent();
 	
@@ -88,6 +88,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	if(!StringUtils::dateEstNulle($lAdherent->getAdhDateMaj())) {
 		$lTemplate->assign_vars( array('adhDateMaj' => StringUtils::dateDbToFr($lAdherent->getAdhDateMaj()) ) );
 	}
+	
+	
+	if($lCompte->getNbAdhesionEnCours() > 0) {
+		$lTemplate->set_filenames( array('adhesion' => MOD_MON_COMPTE . '/' . 'AdhesionOK.html') );
+	} else {
+		$lTemplate->set_filenames( array('adhesion' => MOD_MON_COMPTE . '/' . 'AdhesionKO.html') );
+	}
+	$lTemplate->assign_var_from_handle('ADHESION', 'adhesion');
 	
 	// Ajout des informations du compte dans le body
 	$lTemplate->assign_var_from_handle('INFO_COMPTE_SOLDE_ADHERENT', 'infoAdherent');

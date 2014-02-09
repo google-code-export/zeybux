@@ -25,4 +25,5 @@ define("MOD_GESTION_COMPTES_SPECIAUX", "GestionComptesSpeciaux");
 define("MOD_GESTION_ABONNEMENT", "GestionAbonnement");
 define("MOD_PARAMETRAGE", "Parametrage");
 define("MOD_SERVICE", "Service");
+define("MOD_ADHESION", "Adhesion");
 ?>

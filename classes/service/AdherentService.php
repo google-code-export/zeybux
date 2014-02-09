@@ -12,6 +12,7 @@
 
 // Inclusion des classes
 include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_SERVICE . "/AdherentValid.php");
+include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_SERVICE . "/AdhesionAdherentValid.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ListeAdherentViewManager.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "AdherentViewManager.php");
 
@@ -30,6 +31,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "ModuleService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MailingListeService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AdhesionService.php");
 
 /**
  * @name AdherentService
@@ -110,10 +112,35 @@ class AdherentService
 		// Enregistre l'adherent dans la BDD
 		$lIdAdherent = AdherentManager::insert( $pAdherent );
 		
-		if($lNvCompte) {
+		if($lNvCompte) { // Création d'un compte
 			$lCompte = $lCompteService->get($lCompte->getId());
 			$lCompte->setIdAdherentPrincipal($lIdAdherent); // Positionnement de l'adhérent en adhérent principal du compte
 			$lCompteService->set($lCompte);
+		} else { // Liaison avec un autre compte
+			// Les adhérents du compte
+			$lListeAdherent = $this->selectActifByIdCompte($pAdherent->getIdCompte());
+			// Le premier adhérent
+			$lAdherent = $lListeAdherent[0];
+			
+			$lAdhesionService = new AdhesionService();
+			// Les adhésions sur le premier adhérent
+			$lAdhesions = $lAdhesionService->getAdhesionSurAdherent($lAdherent->getId());
+			
+			// Positionne les mêmes adhésions
+			foreach($lAdhesions as $lAdhesion) {
+				if(!is_null($lAdhesion->getAdadId())) {
+					$lAdhesionAdherentDetail = $lAdhesionService->getAdhesionAdherent($lAdhesion->getAdadId());
+					$lAdhesionAdherent = $lAdhesionAdherentDetail->getAdhesionAdherent();
+					
+					$lTypeAdhesion = $lAdhesionService->getTypeAdhesion($lAdhesionAdherent->getIdTypeAdhesion());
+					
+					if($lTypeAdhesion->getIdPerimetre() == 2) { // Si type d'adhésion sur périmètre compte
+						$lAdhesionAdherent->setId('');
+						$lAdhesionAdherent->setIdAdherent($lIdAdherent);
+						$lAdhesionService->setAdhesionAdherent($lAdhesionAdherent);
+					}
+				}
+			}
 		}
 		
 		$pAdherent->setId($lIdAdherent);
@@ -215,6 +242,32 @@ class AdherentService
 			$pAdherent->setIdCompte($lCompte->getId()); // Laision avec l'adhérent
 			$lCompte->setIdAdherentPrincipal($pAdherent->getId()); // Positionnement de l'adhérent en adhérent principal du compte
 			$lCompteService->set($lCompte);
+		} else if($pAdherent->getIdCompte() != $lAdherentActuel->getIdCompte()){ // Liaison avec un autre compte
+			$lAdhesionService = new AdhesionService();
+			// Suppression des adhésions actuelles
+			$lAdhesionService->deleteAdhesionAdherentByIdAdherent($pAdherent->getId());
+
+			// Les adhérents du compte
+			$lListeAdherent = $this->selectActifByIdCompte($pAdherent->getIdCompte());
+			// Le premier adhérent
+			$lAdherent = $lListeAdherent[0];
+
+			// Les adhésions sur le premier adhérent
+			$lAdhesions = $lAdhesionService->getAdhesionSurAdherent($lAdherent->getId());
+				
+			// Positionne les mêmes adhésions
+			foreach($lAdhesions as $lAdhesion) {
+				$lAdhesionAdherentDetail = $lAdhesionService->getAdhesionAdherent($lAdhesion->getAdadId());
+				$lAdhesionAdherent = $lAdhesionAdherentDetail->getAdhesionAdherent();
+				
+				$lTypeAdhesion = $lAdhesionService->getTypeAdhesion($lAdhesionAdherent->getIdTypeAdhesion());
+				
+				if($lTypeAdhesion->getIdPerimetre() == 2) { // Si type d'adhésion sur périmètre compte
+					$lAdhesionAdherent->setId('');
+					$lAdhesionAdherent->setIdAdherent($pAdherent->getId());
+					$lAdhesionService->setAdhesionAdherent($lAdhesionAdherent);
+				}
+			}
 		}
 				
 		// Insertion de la date de mise à jour
@@ -339,6 +392,10 @@ class AdherentService
 			$lCompteService = new CompteService();
 			$lNbAdherentSurCompte = $lCompteService->getNombreAdherentSurCompte($lAdherent->getIdCompte());
 			
+			$lAdhesionService = new AdhesionService();
+			// Suppression des adhésions
+			$lAdhesionService->deleteAdhesionAdherentByIdAdherent($pIdAdherent);
+			
 			// Change l'état à supprimé
 			$lAdherent->setEtat(2);
 			AdherentManager::update( $lAdherent );
@@ -435,7 +492,7 @@ class AdherentService
 	 * @return AdherentViewVO
 	 * @desc Retourne un adhérent
 	 */
-	private function selectByIdCompte($pIdCompte) {
+	public function selectByIdCompte($pIdCompte) {
 		return AdherentViewManager::selectByIdCompte( $pIdCompte );
 	}	
 
@@ -526,6 +583,14 @@ class AdherentService
 		}
 		return false;
 	}
-
+	
+	/**
+	 * @name selectActifByIdCompte($pIdCompte)
+	 * @return array(AdherentVO)
+	 * @desc Retourne la liste des adhérents par compte
+	 */
+	public function selectActifByIdCompte($pIdCompte) {
+		return AdherentManager::selectActifByIdCompte($pIdCompte);
+	}
 }
 ?>

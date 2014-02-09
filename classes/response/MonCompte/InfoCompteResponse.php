@@ -49,6 +49,12 @@ class InfoCompteResponse extends DataTemplate
 	protected $mOperationPassee;
 	
 	/**
+	 * @var integer
+	 * @desc NbAdhesionEnCours de la InfoCompteResponse
+	 */
+	protected $mNbAdhesionEnCours;
+	
+	/**
 	* @name InfoCompteResponse()
 	* @desc Le constructeur de InfoCompteResponse
 	*/	
@@ -174,6 +180,24 @@ class InfoCompteResponse extends DataTemplate
 	*/
 	public function addAdherentCompte($pAdherentCompte){
 		array_push($this->mAdherentCompte,$pAdherentCompte);
+	}
+	
+	/**
+	* @name getNbAdhesionEnCours()
+	* @return integer
+	* @desc Renvoie le membre NbAdhesionEnCours de la InfoCompteResponse
+	*/
+	public function getNbAdhesionEnCours(){
+		return $this->mNbAdhesionEnCours;
+	}
+
+	/**
+	* @name setNbAdhesionEnCours($pNbAdhesionEnCours)
+	* @param integer
+	* @desc Remplace le membre NbAdhesionEnCours de la InfoCompteResponse par $pNbAdhesionEnCours
+	*/
+	public function setNbAdhesionEnCours($pNbAdhesionEnCours) {
+		$this->mNbAdhesionEnCours = $pNbAdhesionEnCours;
 	}
 }
 ?>

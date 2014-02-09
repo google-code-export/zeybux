@@ -133,6 +133,31 @@ class AdherentVO extends DataTemplate
 	protected $mListeModule;
 	
 	/**
+	 * @name AdherentVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function AdherentVO($pId = null, $pNumero = null, $pIdCompte = null, $pNom = null, $pPrenom = null, $pCourrielPrincipal = null, $pCourrielSecondaire = null, $pTelephonePrincipal = null, $pTelephoneSecondaire = null, $pAdresse = null, $pCodePostal = null, $pVille = null, $pDateNaissance = null, $pDateAdhesion = null, $pDateMaj = null, $pCommentaire = null, $pEtat = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pNumero)) { $this->mNumero = $pNumero; }
+		if(!is_null($pIdCompte)) { $this->mIdCompte = $pIdCompte; }
+		if(!is_null($pNom)) { $this->mNom = $pNom; }
+		if(!is_null($pPrenom)) { $this->mPrenom = $pPrenom; }
+		if(!is_null($pCourrielPrincipal)) { $this->mCourrielPrincipal = $pCourrielPrincipal; }
+		if(!is_null($pCourrielSecondaire)) { $this->mCourrielSecondaire = $pCourrielSecondaire; }
+		if(!is_null($pTelephonePrincipal)) { $this->mTelephonePrincipal = $pTelephonePrincipal; }
+		if(!is_null($pTelephoneSecondaire)) { $this->mTelephoneSecondaire = $pTelephoneSecondaire; }
+		if(!is_null($pAdresse)) { $this->mAdresse = $pAdresse; }
+		if(!is_null($pCodePostal)) { $this->mCodePostal = $pCodePostal; }
+		if(!is_null($pVille)) { $this->mVille = $pVille; }
+		if(!is_null($pDateNaissance)) { $this->mDateNaissance = $pDateNaissance; }
+		if(!is_null($pDateAdhesion)) { $this->mDateAdhesion = $pDateAdhesion; }
+		if(!is_null($pDateMaj)) { $this->mDateMaj = $pDateMaj; }
+		if(!is_null($pCommentaire)) { $this->mCommentaire = $pCommentaire; }
+		if(!is_null($pEtat)) { $this->mEtat = $pEtat; }
+	}
+	
+	/**
 	* @name getId()
 	* @return integer
 	* @desc Renvoie l'Id de l'Adherent

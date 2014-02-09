@@ -1281,7 +1281,7 @@
 							"<span class=\"ui-icon ui-icon-copy\">" +
 							"</span>" +
 						"</span>" +
-						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-facture-com\" title=\"Factures\">" +
+						"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-facture-com\" title=\"Bon de Livraison\">" +
 							"<span class=\"ui-icon ui-icon-cart\">" +
 							"</span>" +
 						"</span>" +
@@ -2012,7 +2012,7 @@
 		"</div>";
 	
 	this.dialogExportFacture =
-		"<div id=\"dialog-export-facture\" title=\"Export de la Facture\">" +
+		"<div id=\"dialog-export-facture\" title=\"Export du Bon de Livraison\">" +
 			"<form>" +
 				"<table>" +
 					"<tr>" +
@@ -2737,8 +2737,8 @@
 			"</div>" +
 			//"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Les Factures" +
-					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter une Facture\">" +
+					"Les Bons de Livraison" +
+					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter un Bon de Livraison\">" +
 						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
 						"</span>Ajouter" +
 					"</span>" +
@@ -2793,7 +2793,7 @@
 	
 	this.listeFactureNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
 	
-	this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucune Facture.</p>";
+	this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucun Bon de Livraison.</p>";
 	
 	this.facture =
 		"<div id=\"contenu\">" +
@@ -2803,9 +2803,9 @@
 				"</button>" +
 			"</div>" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"<span class=\"entete-numero-facture\" >Facture n°{numeroFacture}</span>" +
+				"<span class=\"entete-numero-facture\" >Bon de Livraison n°{numeroFacture}</span>" +
 				"<span>Ferme : {listeFermeAffiche}</span>" +					
-				"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter la facture\">" +
+				"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter le Bon de Livraison\">" +
 					"<span class=\"ui-icon ui-icon-print\">" +
 					"</span>" +
 				"</span>" +
@@ -3033,8 +3033,8 @@
 		"</select>";
 	
 	this.dialogSupprimerFacture =
-		"<div title=\"Supprimer la facture\">" +
-			"<p>Voulez-vous supprimer cette facture ?</p>" +
+		"<div title=\"Supprimer le Bon de Livraison\">" +
+			"<p>Voulez-vous supprimer ce Bon de Livraison ?</p>" +
 		"</div>";	
 	
 	this.rechercheListeAchat = 

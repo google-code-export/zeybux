@@ -41,24 +41,24 @@
 		var lTotalEspeceAdherent = 0;
 		$.each(lResponse.listeEspeceAdherent,function() {
 			if(this.opeId) {
+				lTotalEspeceAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
-				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
 		var lEspeceInvite = false;
 		$.each(lResponse.listeEspeceInvite,function() {
 			if(this.opeId) {
+				lTotalEspeceAdherent += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
-				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
-				lTotalEspeceAdherent += parseFloat(this.opeMontant);			
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');		
 				that.mListeOperation[this.opeId] = this;
 				lEspeceInvite = true;
 			}
@@ -67,6 +67,7 @@
 		var lTotalChequeAdherent = 0;
 		$.each(lResponse.listeChequeAdherent,function() {
 			if(this.opeId) {
+				lTotalChequeAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
@@ -76,14 +77,14 @@
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
-				}
-				lTotalChequeAdherent += parseFloat(this.opeMontant);		
+				}		
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
 		var lChequeInvite = false;
 		$.each(lResponse.listeChequeInvite,function() {
 			if(this.opeId) {
+				lTotalChequeAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
@@ -91,8 +92,7 @@
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
-				}
-				lTotalChequeAdherent += parseFloat(this.opeMontant);		
+				}		
 				that.mListeOperation[this.opeId] = this;
 				lChequeInvite = true;
 			}
@@ -101,19 +101,20 @@
 		var lTotalEspeceFerme = 0;
 		$.each(lResponse.listeEspeceFerme,function() {
 			if(this.opeId) {
+				lTotalEspeceFerme += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
-				this.cptIdTri = this.cptLabel.replace("C","");
-				lTotalEspeceFerme += parseFloat(this.opeMontant);		
+				this.cptIdTri = this.cptLabel.replace("C","");	
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
 		var lTotalChequeFerme = 0;
 		$.each(lResponse.listeChequeFerme,function() {
 			if(this.opeId) {
+				lTotalChequeFerme += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
@@ -123,8 +124,7 @@
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
-				}
-				lTotalChequeFerme += parseFloat(this.opeMontant);		
+				}	
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
@@ -176,9 +176,9 @@
 	
 	this.affectTabs = function(pData) {
 		var that = this;
-		pData.find( "#listePaiement" ).tabs({selected:that.mSelectedTabs});
+		pData.find( "#listePaiement" ).tabs({active:that.mSelectedTabs});
 		pData.find("#li-cheque-adherent,#li-espece-adherent,#li-cheque-ferme,#li-espece-ferme").click(
-				function() {that.mSelectedTabs = $("#listePaiement").tabs("option","selected");});
+				function() {that.mSelectedTabs = $("#listePaiement").tabs("option","active");});
 		return pData;
 	};
 
@@ -334,7 +334,7 @@
 		}
 		
 		var lValid = new OperationDetailValid();
-		var lVr = lValid.validAjout(lVo);
+		var lVr = lValid.validUpdateMontant(lVo);
 		
 		Infobulle.init(); // Supprime les erreurs
 		if(lVr.valid) {

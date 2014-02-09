@@ -44,6 +44,7 @@ include_once(CHEMIN_CLASSES_SERVICE . "AdherentService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "BanqueService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php");
+include_once(CHEMIN_CLASSES_SERVICE . "AdhesionService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");
 include_once(CHEMIN_CLASSES_VO . "DetailMarcheVO.php");
@@ -102,6 +103,9 @@ class EditerAchatControleur
 				$lData = $lVr->getData();
 				$lIdCompte = $lData['adherent']->getAdhIdCompte();
 				$lResponse->setAdherent($lData['adherent']);
+				
+				$lAdhesionService = new AdhesionService();
+				$lResponse->setNbAdhesionEnCours($lAdhesionService->getNbAdhesionEnCoursSurAdherent($pParam["id_adherent"]));
 			}
 			
 
@@ -148,7 +152,7 @@ class EditerAchatControleur
 			}
 			foreach($lProduitsMarche as $lProduitMarche) {
 				if(!isset($lStock[$lProduitMarche->getCproNom()])) {
-					$lStock[$lProduitMarche->getCproNom()] = array("cproId" => $lProduitMarche->getCproId(), "cproNom" => $lProduitMarche->getCproNom(), "produits" => array());
+					$lStock[$lProduitMarche->getCproNom()] = array("cproId" => $lProduitMarche->getIdCategorie(), "cproNom" => $lProduitMarche->getCproNom(), "produits" => array());
 				}			
 				$lUnite = !is_null($lProduitMarche->getUnite()) ? $lProduitMarche->getUnite() : $lProduitMarche->getUniteSolidaire();
 				$lStock[$lProduitMarche->getCproNom()]["produits"][$lProduitMarche->getNom().$lProduitMarche->getUnite()] = new ProduitDetailAchatAfficheVO(
@@ -204,7 +208,7 @@ class EditerAchatControleur
 					}
 				}
 			}
-
+			ksort($lStock);
 			$lResponse->setStock($lStock);	// Stock de produit disponible
 			$lResponse->setLots($lLotsProduits);	// Lots des produits
 			

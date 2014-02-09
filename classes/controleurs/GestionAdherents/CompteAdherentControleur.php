@@ -15,6 +15,7 @@ include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ADHERENTS . "/InfoCompteAdher
 include_once(CHEMIN_CLASSES_SERVICE . "ModuleService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "TypePaiementService.php");
 include_once(CHEMIN_CLASSES_SERVICE . "CompteService.php" );
+include_once(CHEMIN_CLASSES_SERVICE . "AdhesionService.php" );
 
 /**
  * @name CompteAdherentControleur
@@ -50,6 +51,9 @@ class CompteAdherentControleur
 
 			$lCompteService = new CompteService();
 			$lResponse->setAdherentCompte($lCompteService->getAdherentCompte($lAdherent->getAdhIdCompte()));
+						
+			$lAdhesionService = new AdhesionService();
+			$lResponse->setNbAdhesionEnCours($lAdhesionService->getNbAdhesionEnCoursSurAdherent($lIdAdherent));
 
 			return $lResponse;
 		}

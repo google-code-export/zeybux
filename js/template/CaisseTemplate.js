@@ -7,16 +7,16 @@
 						"<table class=\"com-table\">" +
 							"<tr class=\"ui-widget ui-widget-header\">" +
 								"<th class=\"com-table-th-debut com-center\" colspan=\"2\">N°</th>" +
-								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-med\">Marché</th>	" +
+								"<th class=\"com-table-th-med\">Date de cloture des Réservations</th>" +
 								"<th class=\"com-table-th-fin\"></th>" +
 							"</tr>" +
 							"<!-- BEGIN commande -->" +
 							"<tr class=\"com-cursor-pointer btn-marche\" id=\"{commande.id}\">" +
 								"<td class=\"com-table-td-debut lst-resa-th-num com-text-align-right\">{commande.numero} : </td>" +
 								"<td class=\"com-table-td-med lst-resa-td-nom\">{commande.nom}</td>" +
-								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-med\">Le {commande.jourMarcheDebut} {commande.dateMarcheDebut} de {commande.heureMarcheDebut}H{commande.minuteMarcheDebut} à {commande.heureMarcheFin}H{commande.minuteMarcheFin}</td>" +
+								"<td class=\"com-table-td-med\">Le {commande.jourFinReservation} {commande.dateFinReservation} à {commande.heureFinReservation}H{commande.minuteFinReservation}</td>" +
 								"<td class=\"com-table-td-fin\">" +
 									"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 										"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
@@ -138,6 +138,8 @@
 	this.achatMarcheEtatCompteInvite = "Compte Invité";
 	this.achatMarcheLabelRechargement = "Recharger";
 	this.achatMarcheLabelPaiement = "Paiement";
+	this.achatMarcheLabelTotal = "Total";
+	this.achatMarcheLabelMarche = "Marché N° {numero}";
 	
 	this.achatInfoAdherent = 	
 			"<div id=\"info-adherent-widget\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +	
@@ -154,7 +156,7 @@
 								"<div id=\"cellule-recharger\" class=\"info-adherent-cellule ui-widget-header ui-corner-all\">" +
 									"{labelRecharger} : " +
 									"<span class=\"form-produit ui-helper-hidden\" id=\"rechargement-affiche\"></span>" +
-									"<input type=\"text\" name=\"montant-rechargement\" value=\"{rechargementMontant}\" class=\"form-produit com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"12\"/> {sigleMonetaire}" +
+									"<input type=\"text\" name=\"montant-rechargement\" value=\"{rechargementMontant}\" class=\"form-produit com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"rechargementmontant\" maxlength=\"12\" size=\"9\"/> {sigleMonetaire}" +
 								"</div>" +
 								"<div id=\"select-typePaiement\" class=\"info-adherent-cellule-achat ui-widget ui-widget-content ui-helper-hidden ui-corner-bottom\">" +
 									"<table id=\"form-select-typePaiement\">" +
@@ -175,8 +177,9 @@
 							"</td>" +
 						"</tr>" +
 						"<tr>" +
-							"<td colspan=\"2\" class=\"info-adherent-cellule-achat\">" +
-								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">Total : <span id=\"total\">{total}</span> {sigleMonetaire}</div>" +
+							"{adhesion}" +
+							"<td class=\"info-adherent-cellule-achat\" {colspan}>" +
+								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">{labelTotal} : <span id=\"total\">{total}</span> {sigleMonetaire}</div>" +
 							"</td>" +
 							"<td>" +
 								"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">Achat : <span id=\"total-achat\">{totalAchat}</span> {sigleMonetaire}</div>" +
@@ -225,6 +228,17 @@
 		//	"</div>" +
 		"</div>";
 	
+	this.adhesionOK =
+		"<td class=\"info-adherent-cellule-adhesion\">" +
+			"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\">Adhésion à jour</div>" +
+		"</td>";
+	
+	this.adhesionKO =
+		"<td class=\"info-adherent-cellule-adhesion\">" +
+		"<div class=\"info-adherent-cellule ui-widget-header ui-corner-all\"><span class=\"com-nombre-negatif\">Adhésion à renouveler</span></div>" +
+	"</td>";
+	
+	
 	this.champComplementaire =
 		"<!-- BEGIN champComplementaire -->" +
 			"<tr class=\"champ-complementaire\">" +
@@ -246,6 +260,7 @@
 	
 	this.achatHorsMarcheFormulaire = 
 		"<div id=\"contenu\">" +
+			"<table class=\"div-relative\"></table>" +
 			"<div class=\"com-barre-menu-2\">" +
 				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
 					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
