@@ -115,7 +115,9 @@
 
 		if(lResponse.listeFacture.length > 0 && lResponse.listeFacture[0].id != null) {			
 			lResponse.sigleMonetaire = gSigleMonetaire;
+			var lTotal = 0;
 			$.each(lResponse.listeFacture, function() {
+				lTotal += parseFloat(this.montant);
 				this.montant = this.montant.nombreFormate(2,',',' ');
 				this.dateTri = this.date.extractDbDate().dateDbToTri();
 				this.date = this.date.extractDbDate().dateDbToFr();
@@ -126,6 +128,11 @@
 					this.numero = lGestionCommandeTemplate.listeFactureNumeroMarche.template(this);
 				}
 			});			
+			
+			if(this.mIdMarche > 0) {
+				$('#total-bdl-marche').html(lGestionCommandeTemplate.totalBdlMarche.template({total:lTotal.nombreFormate(2,',',' '),sigleMonetaire:gSigleMonetaire}));
+			}
+			
 			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFacture.template(lResponse))));
 		} else {
 			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFactureVide)));

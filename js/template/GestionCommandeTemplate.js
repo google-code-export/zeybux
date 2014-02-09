@@ -2737,7 +2737,7 @@
 			"</div>" +
 			//"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Les Bons de Livraison" +
+					"Les Bons de Livraison <span id=\"total-bdl-marche\"></span>" +
 					"<span class=\"com-btn-header-text ui-widget-content ui-corner-all\" id=\"btn-nv-facture\" title=\"Ajouter un Bon de Livraison\">" +
 						"<span class=\"com-float-left ui-icon ui-icon-plusthick\">" +
 						"</span>Ajouter" +
@@ -2760,6 +2760,8 @@
 			"<div id=\"liste-facture\" class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 			"</div>" +
 		"</div>";
+	
+	this.totalBdlMarche = ": {total} {sigleMonetaire}";
 	
 	this.listeFacture = 
 		"<table class=\"com-table\">" +
