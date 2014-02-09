@@ -8,6 +8,9 @@
 <body>
 <div><a href="./index.php">Retour</a></div>
 <?php 
+// Définition de la zone horaire
+date_default_timezone_set("Europe/Paris");
+
 // Répertoire du site
 $lDossierVersion = dirname(__FILE__). '/../../';
 
@@ -727,6 +730,23 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			copy($lDossierVersionSource . '/install/install.php' , $lPath.'/install.php'); // Le script d'installation
 			$output = shell_exec('cd ' . $lPath . ' && chmod -R 777 .');
 		}
+		
+		/*** Suppression des fichiers de travail ***/
+		/** CSS **/
+		unlink('./zeybu/css/zeybux-html-min.css');
+		unlink('./zeybu/css/zeybux-html.css');
+		unlink('./zeybu/css/zeybux-min.css');
+		unlink('./zeybu/css/zeybux.css');
+		/*** Js ***/
+		unlink('./zeybu/js/zeybux-core-min.js');
+		unlink('./zeybu/js/zeybux-core.js');
+		unlink('./zeybu/js/zeybux-jquery-min.js');
+		unlink('./zeybu/js/zeybux-jquery.js');
+		
+		// RAZ des dossiers de génération
+		viderDossier("./zeybu/js/package-full/");
+		viderDossier("./zeybu/js/package/");
+		
 		
 		/************** Fin Copie des fichiers **************/
 		

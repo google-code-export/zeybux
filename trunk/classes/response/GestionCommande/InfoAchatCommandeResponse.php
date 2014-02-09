@@ -77,6 +77,12 @@ class InfoAchatCommandeResponse extends DataTemplate
 	 * @desc L'Id de la requete
 	 */
 	protected $mIdRequete;
+	
+	/**
+	 * @var integer
+	 * @desc NbAdhesionEnCours de la InfoAchatCommandeResponse
+	 */
+	protected $mNbAdhesionEnCours;
 
 	/**
 	* @name InfoAchatCommandeResponse()
@@ -334,6 +340,24 @@ class InfoAchatCommandeResponse extends DataTemplate
 	*/
 	public function setIdRequete($pIdRequete) {
 		$this->mIdRequete = $pIdRequete;
+	}
+	
+	/**
+	* @name getNbAdhesionEnCours()
+	* @return integer
+	* @desc Renvoie le membre NbAdhesionEnCours de la InfoAchatCommandeResponse
+	*/
+	public function getNbAdhesionEnCours(){
+		return $this->mNbAdhesionEnCours;
+	}
+
+	/**
+	* @name setNbAdhesionEnCours($pNbAdhesionEnCours)
+	* @param integer
+	* @desc Remplace le membre NbAdhesionEnCours de la InfoAchatCommandeResponse par $pNbAdhesionEnCours
+	*/
+	public function setNbAdhesionEnCours($pNbAdhesionEnCours) {
+		$this->mNbAdhesionEnCours = $pNbAdhesionEnCours;
 	}
 }
 ?>

@@ -136,6 +136,17 @@
 				ListeBanqueVue();
 				return false;
 			});
+			
+			pData.find('#menu-Adhesion-GestionAdhesion').click(function() {
+				ListeAdhesionVue();
+				return false;
+			});
+			
+			pData.find('#menu-Adhesion-ListeAdherent').click(function() {
+				ListeAdherentAdhesionVue();
+				return false;
+			});
+			
 				
 			return pData;
 		}

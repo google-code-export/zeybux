@@ -67,6 +67,12 @@ class InfoCompteAdherentResponse extends DataTemplate
 	protected $mTypePaiement;
 	
 	/**
+	 * @var integer
+	 * @desc NbAdhesionEnCours de la InfoCompteAdherentResponse
+	 */
+	protected $mNbAdhesionEnCours;
+	
+	/**
 	* @name InfoCompteAdherentResponse()
 	* @desc Le constructeur de InfoCompteAdherentResponse
 	*/	
@@ -276,6 +282,24 @@ class InfoCompteAdherentResponse extends DataTemplate
 	*/
 	public function addAdherentCompte($pAdherentCompte){
 		array_push($this->mAdherentCompte,$pAdherentCompte);
+	}
+	
+	/**
+	* @name getNbAdhesionEnCours()
+	* @return integer
+	* @desc Renvoie le membre NbAdhesionEnCours de la InfoCompteAdherentResponse
+	*/
+	public function getNbAdhesionEnCours(){
+		return $this->mNbAdhesionEnCours;
+	}
+
+	/**
+	* @name setNbAdhesionEnCours($pNbAdhesionEnCours)
+	* @param integer
+	* @desc Remplace le membre NbAdhesionEnCours de la InfoCompteAdherentResponse par $pNbAdhesionEnCours
+	*/
+	public function setNbAdhesionEnCours($pNbAdhesionEnCours) {
+		$this->mNbAdhesionEnCours = $pNbAdhesionEnCours;
 	}
 }
 ?>

@@ -51,7 +51,7 @@ set a.sto_id_nom_produit = (
    join pro_produit on pro_id = dcom_id_produit
   where  a.sto_id_detail_commande = dcom_id
  )
-where sto_type in (2, 4);
+where sto_type in (0, 1, 2, 4);
 
 update sto_stock a
 set a.sto_unite = (
@@ -60,7 +60,7 @@ set a.sto_unite = (
    join pro_produit on pro_id = dcom_id_produit
   where  a.sto_id_detail_commande = dcom_id
  )
-where sto_type in (2, 4);
+where sto_type in (0, 1, 2, 4);
 
 update dope_detail_operation a
 set a.dope_id_nom_produit = (
@@ -69,6 +69,6 @@ set a.dope_id_nom_produit = (
    join pro_produit on pro_id = dcom_id_produit
   where  a.dope_id_detail_commande = dcom_id
  )
-WHERE dope_type_paiement = 6;
+WHERE dope_type_paiement in (0, 6);
 
 INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '4', 'Facture', 'Facture', '3', '1');

@@ -2,7 +2,7 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 22/07/2012
+// Date de creation : 30/10/2013
 // Fichier : TypeAdhesionVO.php
 //
 // Description : Classe TypeAdhesionVO
@@ -13,7 +13,7 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 /**
  * @name TypeAdhesionVO
  * @author Julien PIERRE
- * @since 22/07/2012
+ * @since 30/10/2013
  * @desc Classe représentant une TypeAdhesionVO
  */
 class TypeAdhesionVO  extends DataTemplate
@@ -37,10 +37,10 @@ class TypeAdhesionVO  extends DataTemplate
 	protected $mLabel;
 
 	/**
-	* @var tinyint(1)
-	* @desc Perimetre de la TypeAdhesionVO
+	* @var int(11)
+	* @desc IdPerimetre de la TypeAdhesionVO
 	*/
-	protected $mPerimetre;
+	protected $mIdPerimetre;
 
 	/**
 	* @var decimal(10,2)
@@ -49,10 +49,38 @@ class TypeAdhesionVO  extends DataTemplate
 	protected $mMontant;
 
 	/**
+	* @var datetime
+	* @desc DateCreation de la TypeAdhesionVO
+	*/
+	private $mDateCreation;
+
+	/**
+	* @var datetime
+	* @desc DateModification de la TypeAdhesionVO
+	*/
+	private $mDateModification;
+
+	/**
 	* @var tinyint(1)
 	* @desc Etat de la TypeAdhesionVO
 	*/
-	protected $mEtat;
+	private $mEtat;
+
+	/**
+	 * @name TypeAdhesionVO()
+	 * @return bool
+	 * @desc Constructeur
+	 */
+	function TypeAdhesionVO($pId = null, $pIdAdhesion = null, $pLabel = null, $pIdPerimetre = null, $pMontant = null, $pDateCreation = null, $pDateModification = null, $pEtat = null) {
+		if(!is_null($pId)) { $this->mId = $pId; }
+		if(!is_null($pIdAdhesion)) { $this->mIdAdhesion = $pIdAdhesion; }
+		if(!is_null($pLabel)) { $this->mLabel = $pLabel; }
+		if(!is_null($pIdPerimetre)) { $this->mIdPerimetre = $pIdPerimetre; }
+		if(!is_null($pMontant)) { $this->mMontant = $pMontant; }
+		if(!is_null($pDateCreation)) { $this->mDateCreation = $pDateCreation; }
+		if(!is_null($pDateModification)) { $this->mDateModification = $pDateModification; }
+		if(!is_null($pEtat)) { $this->mEtat = $pEtat; }
+	}
 
 	/**
 	* @name getId()
@@ -109,21 +137,21 @@ class TypeAdhesionVO  extends DataTemplate
 	}
 
 	/**
-	* @name getPerimetre()
-	* @return tinyint(1)
-	* @desc Renvoie le membre Perimetre de la TypeAdhesionVO
+	* @name getIdPerimetre()
+	* @return int(11)
+	* @desc Renvoie le membre IdPerimetre de la TypeAdhesionVO
 	*/
-	public function getPerimetre() {
-		return $this->mPerimetre;
+	public function getIdPerimetre() {
+		return $this->mIdPerimetre;
 	}
 
 	/**
-	* @name setPerimetre($pPerimetre)
-	* @param tinyint(1)
-	* @desc Remplace le membre Perimetre de la TypeAdhesionVO par $pPerimetre
+	* @name setIdPerimetre($pIdPerimetre)
+	* @param int(11)
+	* @desc Remplace le membre IdPerimetre de la TypeAdhesionVO par $pIdPerimetre
 	*/
-	public function setPerimetre($pPerimetre) {
-		$this->mPerimetre = $pPerimetre;
+	public function setIdPerimetre($pIdPerimetre) {
+		$this->mIdPerimetre = $pIdPerimetre;
 	}
 
 	/**
@@ -145,6 +173,42 @@ class TypeAdhesionVO  extends DataTemplate
 	}
 
 	/**
+	* @name getDateCreation()
+	* @return datetime
+	* @desc Renvoie le membre DateCreation de la TypeAdhesionVO
+	*/
+	public function getDateCreation() {
+		return $this->mDateCreation;
+	}
+
+	/**
+	* @name setDateCreation($pDateCreation)
+	* @param datetime
+	* @desc Remplace le membre DateCreation de la TypeAdhesionVO par $pDateCreation
+	*/
+	public function setDateCreation($pDateCreation) {
+		$this->mDateCreation = $pDateCreation;
+	}
+
+	/**
+	* @name getDateModification()
+	* @return datetime
+	* @desc Renvoie le membre DateModification de la TypeAdhesionVO
+	*/
+	public function getDateModification() {
+		return $this->mDateModification;
+	}
+
+	/**
+	* @name setDateModification($pDateModification)
+	* @param datetime
+	* @desc Remplace le membre DateModification de la TypeAdhesionVO par $pDateModification
+	*/
+	public function setDateModification($pDateModification) {
+		$this->mDateModification = $pDateModification;
+	}
+
+	/**
 	* @name getEtat()
 	* @return tinyint(1)
 	* @desc Renvoie le membre Etat de la TypeAdhesionVO
@@ -161,6 +225,5 @@ class TypeAdhesionVO  extends DataTemplate
 	public function setEtat($pEtat) {
 		$this->mEtat = $pEtat;
 	}
-
 }
 ?>

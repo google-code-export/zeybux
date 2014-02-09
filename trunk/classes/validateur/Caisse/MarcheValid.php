@@ -74,41 +74,52 @@ class MarcheValid
 			//Tests Techniques			
 			$lIdCompte = 0;
 			if(!is_null($pData['operationAchat']) && !empty($pData['operationAchat'])) {
-				$lVr->setOperationAchat(OperationDetailValid::validAjout($pData['operationAchat'], array("negatif" => true)));
-				if(!$lVr->getOperationAchat()->getValid()) {
-					$lVr->setValid(false);
-				} else if(isset($pData['operationAchat']['champComplementaire'][1]['valeur'])) {
-					$lIdCompte = $pData['operationAchat']['idCompte'];
-					// Le marche doit être ouvert
-					$lOpeAchatChampComp = $lVr->getOperationAchat()->getChampComplementaire();
-					$lInfoMarche = $lOpeAchatChampComp[1]->getData();
-					if($lInfoMarche['marche']->getArchive() != 0) {
+				
+				if($pData['operationAchat']['montant'] == 0) {
+					$lVr->setOperationAchat(OperationDetailValid::validDelete($pData['operationAchat']));
+				} else {
+					$lVr->setOperationAchat(OperationDetailValid::validAjout($pData['operationAchat'], array("negatif" => true)));
+				
+					if(!$lVr->getOperationAchat()->getValid()) {
 						$lVr->setValid(false);
-						$lVr->getLog()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_239_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_239_MSG);
-						$lVr->getLog()->addErreur($lErreur);
+					} else if(isset($pData['operationAchat']['champComplementaire'][1]['valeur'])) {
+						$lIdCompte = $pData['operationAchat']['idCompte'];
+						// Le marche doit être ouvert
+						$lOpeAchatChampComp = $lVr->getOperationAchat()->getChampComplementaire();
+						$lInfoMarche = $lOpeAchatChampComp[1]->getData();
+						if($lInfoMarche['marche']->getArchive() != 0) {
+							$lVr->setValid(false);
+							$lVr->getLog()->setValid(false);
+							$lErreur = new VRerreur();
+							$lErreur->setCode(MessagesErreurs::ERR_239_CODE);
+							$lErreur->setMessage(MessagesErreurs::ERR_239_MSG);
+							$lVr->getLog()->addErreur($lErreur);
+						}
 					}
 				}
 				
 			}
 			if(!is_null($pData['operationAchatSolidaire']) && !empty($pData['operationAchatSolidaire'])) {
-				$lVr->setOperationAchatSolidaire(OperationDetailValid::validAjout($pData['operationAchatSolidaire'], array("negatif" => true)));
-				if(!$lVr->getOperationAchatSolidaire()->getValid()) {
-					$lVr->setValid(false);
-				} else if(isset($pData['operationAchatSolidaire']['champComplementaire'][1]['valeur'])) { 
-					$lIdCompte = $pData['operationAchatSolidaire']['idCompte'];
-					// Le marche doit être ouvert
-					$lOpeAchatChampComp = $lVr->getOperationAchatSolidaire()->getChampComplementaire();
-					$lInfoMarche = $lOpeAchatChampComp[1]->getData();
-					if($lInfoMarche['marche']->getArchive() != 0) {
+				if($pData['operationAchatSolidaire']['montant'] == 0) {
+					$lVr->setOperationAchat(OperationDetailValid::validDelete($pData['operationAchatSolidaire']));
+				} else {
+					$lVr->setOperationAchatSolidaire(OperationDetailValid::validAjout($pData['operationAchatSolidaire'], array("negatif" => true)));
+				
+					if(!$lVr->getOperationAchatSolidaire()->getValid()) {
 						$lVr->setValid(false);
-						$lVr->getLog()->setValid(false);
-						$lErreur = new VRerreur();
-						$lErreur->setCode(MessagesErreurs::ERR_239_CODE);
-						$lErreur->setMessage(MessagesErreurs::ERR_239_MSG);
-						$lVr->getLog()->addErreur($lErreur);
+					} else if(isset($pData['operationAchatSolidaire']['champComplementaire'][1]['valeur'])) { 
+						$lIdCompte = $pData['operationAchatSolidaire']['idCompte'];
+						// Le marche doit être ouvert
+						$lOpeAchatChampComp = $lVr->getOperationAchatSolidaire()->getChampComplementaire();
+						$lInfoMarche = $lOpeAchatChampComp[1]->getData();
+						if($lInfoMarche['marche']->getArchive() != 0) {
+							$lVr->setValid(false);
+							$lVr->getLog()->setValid(false);
+							$lErreur = new VRerreur();
+							$lErreur->setCode(MessagesErreurs::ERR_239_CODE);
+							$lErreur->setMessage(MessagesErreurs::ERR_239_MSG);
+							$lVr->getLog()->addErreur($lErreur);
+						}
 					}
 				}
 			}
@@ -140,12 +151,13 @@ class MarcheValid
 					}
 				}
 			}
-			
+									
 			// L'opération doit exister si il y a un total (Normal ou Solidaire)
-			if(($lTotal == 0 && (!is_null($pData['operationAchat']) && !empty($pData['operationAchat']))) 
-					|| ($lTotal != 0 && (is_null($pData['operationAchat']) || empty($pData['operationAchat']) || $lTotal != $pData['operationAchat']["montant"]))
-					|| ($lTotalSolidaire == 0 && (!is_null($pData['operationAchatSolidaire']) && !empty($pData['operationAchatSolidaire'])))
-					|| ($lTotalSolidaire != 0 && (is_null($pData['operationAchatSolidaire']) || empty($pData['operationAchatSolidaire']) || $lTotalSolidaire != $pData['operationAchatSolidaire']["montant"]))
+			if(	//($lTotal == 0 && (!is_null($pData['operationAchat']) && !empty($pData['operationAchat']))) 
+					//||
+			 ($lTotal != 0 && (is_null($pData['operationAchat']) || empty($pData['operationAchat']) || bccomp($lTotal, (float)$pData['operationAchat']["montant"]) != 0))
+			//		|| ($lTotalSolidaire == 0 && (!is_null($pData['operationAchatSolidaire']) && !empty($pData['operationAchatSolidaire'])     ))
+					|| ($lTotalSolidaire != 0 && (is_null($pData['operationAchatSolidaire']) || empty($pData['operationAchatSolidaire']) || bccomp($lTotalSolidaire, (float)$pData['operationAchatSolidaire']["montant"]) != 0))
 				) {
 				$lVr->setValid(false);
 				$lVr->getLog()->setValid(false);

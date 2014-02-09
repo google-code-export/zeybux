@@ -19,6 +19,7 @@
 					"</span>" +
 				"</div>" +
 				"<div class=\"com-widget-content edt-info-compte\">" +
+					"<div>{adhesion}</div>" +
 					"<div>{adhNumero} : <span id=\"adh-prenom\">{adhPrenom}</span> <span id=\"adh-nom\">{adhNom}</span></div>" +
 					"<div><span id=\"adh-principal\">{adherentPrincipal}</span> : {cptLabel}</div>" +
 					"<div>Date de naissance : <span id=\"adh-date-naissance\">{adhDateNaissance}</span></div>" +
@@ -103,6 +104,9 @@
 			"</div>" +
 		"</div>" +
 	"</div>";
+	
+	this.adhesionOK = "Adhésion à jour";
+	this.adhesionKO = "<span class=\"com-nombre-negatif\">Adhésion à renouveler</span>";
 	
 	this.adherentPrincipal = "Adherent Principal";
 	this.adherentSecondaire = "Adherent Secondaire";

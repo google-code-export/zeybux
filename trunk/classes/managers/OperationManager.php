@@ -418,7 +418,7 @@ class OperationManager
 					$lLigne[CommandeManager::CHAMP_COMMANDE_DATE_MARCHE_DEBUT]));
 			}
 		} else {
-			$lListeOperation[0] = new OperationVO();
+			$lListeOperation[0] = new OperationAvenirVO();
 		}
 		return $lListeOperation;
 	}

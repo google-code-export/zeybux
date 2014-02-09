@@ -54,7 +54,7 @@ td    { vertical-align: top; }
     Madame, Monsieur,<br>
     Les amis du zeybu vous confirme l'achat des produits suivants.<br><br>
     </div>
-    <table cellspacing="0" style="width: 100%; background: #E7E7E7; text-align: center; font-size: 10pt;">
+    <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
         <tr>
             <th style="width: 10%; border: solid 1px black;">Produit</th>
             <th style="width: 37%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Désignation</th>
@@ -84,7 +84,7 @@ foreach($lFacture->getProduits() as $lLigne) {
 	}
 
 	?>
-	    <table cellspacing="0" style="width: 100%; background: #F7F7F7; text-align: center; font-size: 10pt;">
+	    <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
 	        <tr>
 	            <td style="width: 10%; text-align: left; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getNproNumero(); ?></td>
 	            <td style="width: 37%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getNproNom(); ?></td>
@@ -98,7 +98,7 @@ foreach($lFacture->getProduits() as $lLigne) {
 	<?php
 }
 ?>
-    <table cellspacing="0" style="width: 100%; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
+    <table cellspacing="0" style="width: 100%; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black; text-align: center; font-size: 10pt;">
         <tr>
             <th style="width: 87%; text-align: right;">Total : </th>
             <th style="width: 13%; text-align: right;"><?php echo number_format($lFacture->getId()->getMontant(), 2, ',', ' ') . ' ' . SIGLE_MONETAIRE; ?></th>

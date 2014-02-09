@@ -265,15 +265,15 @@ class ReservationService
 	 * @desc Met à jour une réservation
 	 */
 	public function updateEnAchat($pIdReservation) {
-		$lReservationsActuelle = $this->get($pIdReservation);
 		$lOperations = $this->selectOperationReservation($pIdReservation);
 		$lOperation = $lOperations[0];
+				
 		$lIdOperation = $lOperation->getId();
 		if(!is_null($lIdOperation)) {
 			// Maj du type paiement
 			$lOperationService = new OperationService();
-			$lOperation = $lOperationService->get($lIdOperation);
-			$lOperation->setTypePaiement(22);
+			$lOperation = $lOperationService->getDetail($lIdOperation);
+			$lOperation->setTypePaiement(22);			
 			$lOperationService->set($lOperation);
 		}
 	}
@@ -328,6 +328,18 @@ class ReservationService
 	}
 	
 	/**
+	 * @name enCoursOuAchete($pId)
+	 * @param IdReservation
+	 * @return bool
+	 * @desc Retourne si une réservation est en cours ou achete
+	 */
+	public function enCoursOuAchete($pId) {
+		$lOperations = $this->selectOperationReservation($pId);
+		$lOperation = $lOperations[0];
+		return ($lOperation->getTypePaiement() == 0 || $lOperation->getTypePaiement() == 22 ) && !is_null($lOperation->getTypePaiement());
+	}
+	
+	/**
 	* @name select($pId)
 	* @param IdReservationVO
 	* @return ReservationVO
@@ -335,7 +347,6 @@ class ReservationService
 	*/
 	public function select($pId) {			
 		$lOperations = $this->selectOperationReservation($pId);
-
 		$lReservation = new ReservationVO();
 		$lReservation->setId($pId);
 		

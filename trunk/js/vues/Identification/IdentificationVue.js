@@ -88,10 +88,10 @@
 	
 	this.initAction = function() {
 		// Affichage des infobulles pour les erreurs	
-		//if (!$.browser.webkit) { // Uniquement si ce n'est pas chrome
+		if (!$.browser.safari) { // Uniquement si ce n'est pas safari
 			$(document).ajaxStart( function() {$("#loading").fadeIn(gTempsTransition);} );
 			$(document).ajaxStop( function() {$("#loading").fadeOut(gTempsTransition);} );
-		//}
+		}
 		
 		// Gestion du F5
 		// Bloque le fonctionnement du F5

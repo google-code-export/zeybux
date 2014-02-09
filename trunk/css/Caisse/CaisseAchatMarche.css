@@ -21,6 +21,10 @@
 	width: 267px;
 }
 
+.info-adherent-cellule-adhesion {
+	width: 222px;
+}
+
 .info-adherent-cellule-nom-adherent {
 	width: 420px;
 }
@@ -100,4 +104,8 @@
 
 .ligne-detail-produit:hover, .ligne-produit:hover {
 	background-color:#4eb305;
+}
+
+.div-relative {
+	position:relative;
 }

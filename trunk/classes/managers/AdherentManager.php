@@ -19,13 +19,14 @@ include_once(CHEMIN_CLASSES_VO . "AdherentVO.php");
 include_once(CHEMIN_CLASSES_VO . "AutorisationVO.php");
 include_once(CHEMIN_CLASSES_VO . "ModuleVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeAchatReservationVO.php");
+include_once(CHEMIN_CLASSES_VO . "ListeAdherentAdhesionVO.php");
 
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "ModuleManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationChampComplementaireManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "AdhesionAdherentManager.php");
 
 
 define("TABLE_ADHERENT", MYSQL_DB_PREFIXE . "adh_adherent");
@@ -154,9 +155,7 @@ class AdherentManager
 		$lSql = Dbutils::executerRequete($lRequete);
 
 		$lListeAdherent = array();
-		if( mysql_num_rows($lSql) > 0 ) {
-			$lListeModuleAll = ModuleManager::selectAll();
-	
+		if( mysql_num_rows($lSql) > 0 ) {	
 			while ( $lLigne = mysql_fetch_assoc($lSql) ) {
 	
 				$lAdherent = AdherentManager::remplirAdherent(
@@ -282,6 +281,167 @@ class AdherentManager
 			array($pId),
 			array(''),
 			array(''));
+	}
+	
+	/**
+	 * @name selectListeAdherentAdhesion($pIdAdhesion)
+	 * @param integer
+	 * @desc Récupère la liste des adhérents actifs et leur statut sur l'adhesion $pIdAdhesion
+	 */
+	public static function selectListeAdherentAdhesion($pIdAdhesion) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		// L'ensebme des adhérents actifs + les adhérents supprimés mais adhérent à cette adhésion.
+		$lRequete = "(
+				SELECT "
+					. AdherentManager::CHAMP_ADHERENT_ID .
+					"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
+					"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
+					"," . CompteManager::CHAMP_COMPTE_LABEL . 
+					"," . AdherentManager::CHAMP_ADHERENT_NOM .
+					"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+					", ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE . 
+					", ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID . "
+				 FROM " . AdherentManager::TABLE_ADHERENT . "
+				 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+				 LEFT JOIN (
+				 	SELECT "
+				 			. AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+				 		, " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID . "
+				 		, " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE . "
+				 	FROM " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
+				 	JOIN " . TypeAdhesionManager::TABLE_TYPEADHESION . "
+					ON " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . "
+				  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . " = 0
+				  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . " = '" . StringUtils::securiser( $pIdAdhesion ) . "'
+				  	WHERE " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ETAT . " = 0
+				  ) ads
+				 	ON " . AdherentManager::CHAMP_ADHERENT_ID . " = ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+				 WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 1 
+			 ) UNION ( 
+			 	SELECT "
+					. AdherentManager::CHAMP_ADHERENT_ID .
+					"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
+					"," . AdherentManager::CHAMP_ADHERENT_ID_COMPTE .
+					"," . CompteManager::CHAMP_COMPTE_LABEL . 
+					"," . AdherentManager::CHAMP_ADHERENT_NOM .
+					"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+					", ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE . 
+					", ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID . "
+				 FROM " . AdherentManager::TABLE_ADHERENT . "
+				 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+				 JOIN (
+				 	SELECT "
+				 			. AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+				 		, " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID . "
+				 		, " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE . "
+				 	FROM " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
+				 	JOIN " . TypeAdhesionManager::TABLE_TYPEADHESION . "
+					ON " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . "
+				  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . " = 0
+				  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . " = '" . StringUtils::securiser( $pIdAdhesion ) . "'
+				  	WHERE " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ETAT . " = 0
+				  ) ads
+				 	ON " . AdherentManager::CHAMP_ADHERENT_ID . " = ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+				 WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 2			 
+			 )
+			 ORDER BY " . AdherentManager::CHAMP_ADHERENT_NOM . " ASC, " . AdherentManager::CHAMP_ADHERENT_PRENOM . " ASC;";
+			
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+		
+		$lListeAdherent = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+			while ($lLigne = mysql_fetch_assoc($lSql)) {				
+				array_push($lListeAdherent, new ListeAdherentAdhesionVO(
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_ID_COMPTE],
+				$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+				$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+				$lLigne[AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID],
+				$lLigne[AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE]));
+			}
+		} else {
+			$lListeAdherent[0] = new ListeAdherentAdhesionVO();
+		}
+		return $lListeAdherent;
+	}
+	
+	/**
+	 * @name selectNbAdherentSurAdhesion($pIdAdhesion)
+	 * @param integer
+	 * @desc Récupère le nombre des adhérents actifs sur l'adhesion $pIdAdhesion
+	 */
+	public static function selectNbAdherentSurAdhesion($pIdAdhesion) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		// L'ensemble des adhérents (actifs ou supprimés) sur l'adhésion
+		$lRequete = "SELECT count(1) AS NB_ADHESION
+			 FROM " . AdherentManager::TABLE_ADHERENT . "
+			 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+			 JOIN (
+			 	SELECT "
+			 		. AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+			 	FROM " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
+			 	JOIN " . TypeAdhesionManager::TABLE_TYPEADHESION . "
+				ON " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . "
+			  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . " = 0
+			  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . " = '" . StringUtils::securiser( $pIdAdhesion ) . "'
+			  	WHERE " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ETAT . " = 0
+			  ) ads
+			 	ON " . AdherentManager::CHAMP_ADHERENT_ID . " = ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+			 	AND ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . " IS NOT NULL;";
+			
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lNbAdherent = 0;
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			$lNbAdherent = $lLigne['NB_ADHESION'];
+		}
+		return $lNbAdherent;
+	}
+	
+	/**
+	 * @name selectNbAdherentHorsAdhesion($pIdAdhesion)
+	 * @param integer
+	 * @desc Récupère le nombre des adhérents actifs qui ne sont pas sur l'adhesion $pIdAdhesion
+	 */
+	public static function selectNbAdherentHorsAdhesion($pIdAdhesion) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+		$lRequete = "SELECT count(1) AS NB_ADHESION
+			 FROM " . AdherentManager::TABLE_ADHERENT . "
+			 JOIN " . CompteManager::TABLE_COMPTE . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
+			 LEFT JOIN (
+			 	SELECT "
+			 		. AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+			 	FROM " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
+			 	JOIN " . TypeAdhesionManager::TABLE_TYPEADHESION . "
+				ON " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID . " = " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . "
+			  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ETAT . " = 0
+			  	AND " . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . " = '" . StringUtils::securiser( $pIdAdhesion ) . "'
+			  	WHERE " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ETAT . " = 0
+			  ) ads
+			 	ON " . AdherentManager::CHAMP_ADHERENT_ID . " = ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . "
+			 WHERE " . AdherentManager::CHAMP_ADHERENT_ETAT . " = 1 
+			 	AND ads." . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . " IS NULL;";
+			
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lNbAdherent = 0;
+		if( mysql_num_rows($lSql) > 0 ) {
+			$lLigne = mysql_fetch_assoc($lSql);
+			$lNbAdherent = $lLigne['NB_ADHESION'];
+		}
+		return $lNbAdherent;
 	}
 	
 	/**

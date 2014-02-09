@@ -28,6 +28,8 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+
+		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		
 		this.mIdAdherent = lResponse.adherent.adhId;
 		this.mAdhNumero = lResponse.adherent.adhNumero;
@@ -39,6 +41,14 @@
 		lResponse.adherent.adhDateNaissance = lResponse.adherent.adhDateNaissance.extractDbDate().dateDbToFr();
 		lResponse.adherent.adhDateAdhesion = lResponse.adherent.adhDateAdhesion.extractDbDate().dateDbToFr();
 		
+		if(lResponse.nbAdhesionEnCours > 0) {
+			lResponse.adherent.adhesion = lGestionAdherentsTemplate.adhesionOK;
+		} else {
+			lResponse.adherent.adhesion = lGestionAdherentsTemplate.adhesionKO;			
+		}
+		
+		var lSolde = null;
+		var lSoldePrecedent = null;
 		$(lResponse.operationPassee).each(function() {
 			if(this.date != null) {
 				this.date = this.date.extractDbDate().dateDbToFr();
@@ -48,7 +58,26 @@
 				} else {
 					this.opeTypePaiementChampComplementaire = '';
 				}
-				if(this.montant < 0) {
+				
+				if(lSolde == null) {
+					lSolde = lResponse.adherent.cptSolde; 
+					lSoldePrecedent = parseFloat(this.montant);
+				} else {
+					lSolde -=  lSoldePrecedent;	
+					lSoldePrecedent = parseFloat(this.montant);
+				}
+				
+				
+				this.solde = lSolde.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+				if(lSolde < 0){
+					this.classSolde = "com-nombre-negatif";
+				} else {
+					this.classSolde = "";
+				}
+				
+				
+				
+				if(this.montant < 0) {					
 					this.debit = (this.montant * -1).nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
 					this.credit = '';
 				} else {
@@ -89,7 +118,6 @@
 			});
 		});		
 				
-		var lGestionAdherentsTemplate = new GestionAdherentsTemplate();
 		var lCoreTemplate = new CoreTemplate();
 		//var lTemplate = lMonCompteTemplate.monCompte;
 		
