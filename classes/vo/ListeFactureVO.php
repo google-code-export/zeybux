@@ -55,17 +55,24 @@ class ListeFactureVO  extends DataTemplate
 	protected $mMontant;
 
 	/**
+	* @var varchar(50)
+	* @desc Cheque de la ListeFactureVO
+	*/
+	protected $mCheque;
+
+	/**
 	 * @name ListeFactureVO()
 	 * @return bool
 	 * @desc Constructeur
 	 */
-	function ListeFactureVO($pId = null, $pValeur = null, $pDate = null, $pNumero = null, $pNom = null, $pMontant = null) {
+	function ListeFactureVO($pId = null, $pValeur = null, $pDate = null, $pNumero = null, $pNom = null, $pMontant = null, $pCheque = null) {
 		if(!is_null($pId)) { $this->mId = $pId; }
 		if(!is_null($pValeur)) { $this->mValeur = $pValeur; }
 		if(!is_null($pDate)) { $this->mDate = $pDate; }
 		if(!is_null($pNumero)) { $this->mNumero = $pNumero; }
 		if(!is_null($pNom)) { $this->mNom = $pNom; }
 		if(!is_null($pMontant)) { $this->mMontant = $pMontant; }
+		if(!is_null($pCheque)) { $this->mCheque = $pCheque; }
 	}
 
 	/**
@@ -176,5 +183,22 @@ class ListeFactureVO  extends DataTemplate
 		$this->mMontant = $pMontant;
 	}
 
+	/**
+	 * @name getCheque()
+	 * @return varchar(50)
+	 * @desc Renvoie le membre Cheque de la ListeFactureVO
+	 */
+	public function getCheque() {
+		return $this->mCheque;
+	}
+	
+	/**
+	 * @name setCheque($pCheque)
+	 * @param varchar(50)
+	 * @desc Remplace le membre Cheque de la ListeFactureVO par $pCheque
+	 */
+	public function setCheque($pCheque) {
+		$this->mCheque = $pCheque;
+	}
 }
 ?>

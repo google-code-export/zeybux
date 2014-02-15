@@ -1624,11 +1624,12 @@ class OperationManager
 		// Préparation de la requète
 		$lChamps = array(
 				OperationManager::CHAMP_OPERATION_ID .
-				",numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR .
-				"," . OperationManager::CHAMP_OPERATION_DATE .
+				",numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " AS valeur
+				 ," . OperationManager::CHAMP_OPERATION_DATE .
 				"," . CommandeManager::CHAMP_COMMANDE_NUMERO .
 				"," . FermeManager::CHAMP_FERME_NOM .
-				"," . OperationManager::CHAMP_OPERATION_MONTANT);
+				"," . OperationManager::CHAMP_OPERATION_MONTANT . 
+				",cheque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " AS cheque ");
 	
 		//Ajout du filtre pour ne remonter que les factures
 		array_push($pTypeRecherche, OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT);
@@ -1646,6 +1647,12 @@ class OperationManager
 				LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " AS marche
 					ON marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
 					AND marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+				LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " AS ope_cpt_marche
+					ON ope_cpt_marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+					AND ope_cpt_marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 10
+				LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " AS cheque
+					ON cheque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = ope_cpt_marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+					AND cheque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 3
 				LEFT JOIN " . CommandeManager::TABLE_COMMANDE . "
 					ON " . CommandeManager::CHAMP_COMMANDE_ID . " = marche." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR
 				, $lChamps, $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri);
@@ -1659,11 +1666,12 @@ class OperationManager
 					array_push($lListeFacture,
 					new ListeFactureVO(
 					$lLigne[OperationManager::CHAMP_OPERATION_ID],
-					$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR],
+					$lLigne["valeur"],
 					$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 					$lLigne[CommandeManager::CHAMP_COMMANDE_NUMERO],
 					$lLigne[FermeManager::CHAMP_FERME_NOM],
-					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT]));
+					$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+					$lLigne["cheque"]));
 				}
 			} else {
 				$lListeFacture[0] = new ListeFactureVO();

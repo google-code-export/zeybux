@@ -2764,26 +2764,29 @@
 	this.totalBdlMarche = ": {total} {sigleMonetaire}";
 	
 	this.listeFacture = 
-		"<table class=\"com-table\">" +
+		"<div>" +
+		"<table id=\"liste-bdl\">" +
 			"<thead>" +
 				"<tr class=\"ui-widget ui-widget-header\">" +
-					"<th class=\"com-table-th-debut com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
-					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
-					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Marché</th>	" +
-					"<th class=\"com-table-th-med com-center com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Ferme</th>	" +
-					"<th class=\"com-table-th-med com-center\">Montant</th>	" +
-					"<th class=\"com-table-th-fin\"></th>" +
+					"<th>N°</th>" +
+					"<th>Date</th>" +
+					"<th>Marché</th>	" +
+					"<th>Ferme</th>	" +
+					"<th>Montant</th>	" +
+					"<th>Chèque</th>" +
+					"<th></th>" +
 				"</tr>" +
 			"</thead>" +
 			"<tbody>" +
 				"<!-- BEGIN listeFacture -->" +
 				"<tr>" +
-					"<td class=\"com-table-td-debut\">{listeFacture.valeur}</td>" +
-					"<td class=\"com-table-td-med\"><span class=\"ui-helper-hidden\">{listeFacture.dateTri}</span>{listeFacture.date}</td>" +
-					"<td class=\"com-table-td-med\">{listeFacture.numero}</td>" +
-					"<td class=\"com-table-td-med\">{listeFacture.nom}</td>" +
-					"<td class=\"com-table-td-med com-text-align-right\">{listeFacture.montant} {sigleMonetaire}</td>" +
-					"<td class=\"com-table-td-fin\">" +
+					"<td>{listeFacture.valeur}</td>" +
+					"<td>{listeFacture.date}</td>" +
+					"<td>{listeFacture.numero}</td>" +
+					"<td>{listeFacture.nom}</td>" +
+					"<td>{listeFacture.montant}</td>" +
+					"<td>{listeFacture.cheque}</td>" +
+					"<td>" +
 						"<span data-id-facture=\"{listeFacture.id}\" class=\"btn-afficher-facture com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 							"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
 						"</span>" +
@@ -2791,11 +2794,12 @@
 				"</tr>" +
 				"<!-- END listeFacture -->" +
 			"</tbody>" +
-		"</table>";
+		"</table>" +
+		"<div/>";
 	
-	this.listeFactureNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
+	//this.listeFactureNumeroMarche = "<span class=\"ui-helper-hidden\">{numero}</span>N°{numero}";
 	
-	this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucun Bon de Livraison.</p>";
+	//this.listeFactureVide = "<p id=\"texte-liste-vide\">Aucun Bon de Livraison.</p>";
 	
 	this.facture =
 		"<div id=\"contenu\">" +
@@ -2950,7 +2954,7 @@
 			"<tr class=\"champ-complementaire\">" +
 				"<td>{champComplementaire.label}</td>" +
 				"<td>" +
-					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"champComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"12\"/>" +
 				"</td>" +
 			"</tr>" +
 		"<!-- END champComplementaire -->";
