@@ -30,6 +30,7 @@ include_once(CHEMIN_CLASSES_VALIDATEUR . MOD_GESTION_COMMANDE . "/FactureValid.p
 include_once(CHEMIN_CLASSES_TOVO . "FactureToVO.php");
 require_once(CHEMIN_CLASSES_PDF . 'html2pdf.class.php');
 include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "ParametreManager.php");
 
 /**
  * @name FactureControleur
@@ -91,10 +92,13 @@ class FactureControleur
 		$lBanqueService = new BanqueService();		
 		$lTypePaiementService = new TypePaiementService();
 		
+		$lTVA = ParametreManager::select(1);
+		
 		return new ListeFermeResponse($lFermeService->get(),
 				$lFactureService->getNouveauNumeroFacture(),
 				$lBanqueService->getAllActif(),
-				$lTypePaiementService->selectVisible());
+				$lTypePaiementService->selectVisible(),
+				$lTVA->getDecimalValeur());
 	}
 	
 	/**
@@ -299,150 +303,6 @@ class FactureControleur
 		} else {
 			return $lVr;
 		}
-			
-			
-			/*$lIdCommande = $pParam["id_commande"];
-			$lOperationService = new OperationService();
-			$lLignesBonLivraison = InfoBonLivraisonViewManager::selectByIdCommande($lIdCommande);
-			$lLignesSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdCommande);
-			$lLignesBonCommande = InfoBonCommandeViewManager::selectByIdCommande($lIdCommande);*/
-				
-	/*		$lContenuTableau = array();
-			$lIdPrdt = 0;
-			foreach($lLignesBonLivraison as $lLigne) {
-				if($lLigne->getProIdCompteFerme() != NULL) { // évite les lignes vides
-					if($lLigne->getProIdCompteFerme() == $lIdPrdt) {
-						$lNomPrdt = "";
-					} else {
-						if($lIdPrdt != 0) {
-							/*$lIdCompteFerme = $lLigne->getProIdCompteFerme();
-								$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
-							$lOperation = $lOperations[0];
-							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
-							if(!is_null($lOperation->getId())) {
-							$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
-							} else {
-							$lOperation->setMontant("");
-							}*/
-			/*				$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdPrdt);
-							$lOperation = $lOperations[0];
-							$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
-								
-							if(!is_null($lOperation->getId())) {
-							/*	$lIds = explode(";",$lOperation->getTypePaiementChampComplementaire());
-								$lOperation = $lOperationService->get($lIds[0]);*/
-	
-			/*					$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
-							} else {
-							$lOperation->setMontant("");
-							}
-								
-								
-							$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
-							array_push($lContenuTableau,$lLignecontenu);
-							$lLignecontenu = array("","","","","","","","","","","","","");
-							array_push($lContenuTableau,$lLignecontenu);
-						}
-						$lNomPrdt = $lLigne->getFerNom();
-						}
-	
-						$lQuantite = '';
-						$lUniteQuantite = '';
-						$lMontant = '';
-						$lSigleMontant = '';
-							
-						foreach($lLignesBonCommande as $lLigneBonCommande) {
-						if($lLigneBonCommande->getProId() == $lLigne->getProId())	{
-						if( $lLigneBonCommande->getStoQuantite() == '' || $lLigneBonCommande->getStoQuantite() == NULL) {
-						$lQuantite = '';
-						$lUniteQuantite = '';
-						} else {
-						$lQuantite = $lLigneBonCommande->getStoQuantite();
-							$lUniteQuantite = $lLigne->getProUniteMesure();
-						}
-							
-						if( $lLigneBonCommande->getDopeMontant() == '' || $lLigneBonCommande->getDopeMontant() == NULL) {
-						$lMontant = '';
-						$lSigleMontant = '';
-						} else {
-						$lMontant = $lLigneBonCommande->getDopeMontant();
-						$lSigleMontant = SIGLE_MONETAIRE;
-						}
-						}
-						}
-							
-						if( $lLigne->getStoQuantite() == '' || $lLigne->getStoQuantite() == NULL) {
-						$lQuantiteLivraison = '';
-						$lUniteQuantiteLivraison = '';
-			} else {
-			$lQuantiteLivraison = $lLigne->getStoQuantite();
-			$lUniteQuantiteLivraison = $lLigne->getProUniteMesure();
-			}
-				
-			if( $lLigne->getDopeMontant() == '' || $lLigne->getDopeMontant() == NULL) {
-			$lMontantLivraison = '';
-			$lSigleMontantLivraison = '';
-			} else {
-			$lMontantLivraison = $lLigne->getDopeMontant();
-			$lSigleMontantLivraison = SIGLE_MONETAIRE;
-			}
-	
-			$lQuantiteSolidaire = '';
-			$lUniteQuantiteSolidaire = '';
-				
-			foreach($lLignesSolidaire as $lLigneSolidaire) {
-			if($lLigneSolidaire->getProId() == $lLigne->getProId())	{
-			if( $lLigneSolidaire->getStoQuantite() == '' || $lLigneSolidaire->getStoQuantite() == NULL) {
-			$lQuantiteSolidaire = '';
-			$lUniteQuantiteSolidaire = '';
-			} else {
-			$lQuantiteSolidaire = $lLigneSolidaire->getStoQuantite();
-			$lUniteQuantiteSolidaire = $lLigne->getProUniteMesure();
-			}
-			}
-			}
-	
-			$lLignecontenu = array(	$lNomPrdt,
-			$lLigne->getNproNumero(),
-			$lLigne->getNproNom(),
-			$lQuantite,
-			$lUniteQuantite,
-			$lMontant,
-			$lSigleMontant,
-			$lQuantiteLivraison,
-			$lUniteQuantiteLivraison,
-			$lMontantLivraison,
-			$lSigleMontantLivraison,
-			$lQuantiteSolidaire,
-			$lUniteQuantiteSolidaire
-			);
-				
-			array_push($lContenuTableau,$lLignecontenu);
-			$lIdPrdt = $lLigne->getProIdCompteFerme();
-			}
-			}
-	
-			$lIdCompteFerme = $lLigne->getProIdCompteFerme();
-			$lOperations = $lOperationService->getBonLivraison($lIdCommande,$lIdCompteFerme);
-			$lOperation = $lOperations[0];
-			$lInfoOperationLivraison = InfoOperationLivraisonManager::select($lOperation->getTypePaiementChampComplementaire());
-			if(!is_null($lOperation->getId())) {
-			$lOperation = $lOperationService->get($lInfoOperationLivraison->getIdOpeProducteur());
-	} else {
-	$lOperation->setMontant("");
 	}
-				
-				
-			$lLignecontenu = array("","","","","","","","","Total : ",$lOperation->getMontant(),SIGLE_MONETAIRE,"","");
-			array_push($lContenuTableau,$lLignecontenu);
-				
-			$lCSV->setData($lContenuTableau);
-				
-			// Export en CSV
-			$lCSV->output();
-			} else {
-			return $lVr;
-			}*/
-			}
 }
 ?>

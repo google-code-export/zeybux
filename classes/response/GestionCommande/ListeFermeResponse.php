@@ -49,15 +49,23 @@ class ListeFermeResponse extends DataTemplate
 	protected $mTypePaiement;
 	
 	/**
+	* @var decimal
+	* @desc Tva de la ListeFermeResponse
+	*/
+	protected $mTva;
+	
+	/**
 	* @name ListeFermeResponse()
 	* @desc Le constructeur de ListeFermeResponse
 	*/	
-	public function ListeFermeResponse($pListeFerme = null, $pNumeroFacture = null, $pBanques = null, $pTypePaiement = null) {
+	public function ListeFermeResponse($pListeFerme = null, $pNumeroFacture = null, $pBanques = null, $pTypePaiement = null, $pTva = null) {
 		$this->mValid = true;
 		if(!is_null($pListeFerme)) { $this->mListeFerme = $pListeFerme; } else { $this->mListeFerme = array(); }
 		if(!is_null($pNumeroFacture)) { $this->mNumeroFacture = $pNumeroFacture; }
 		if(!is_null($pBanques)) { $this->mBanques = $pBanques; } else { $this->mBanques = array(); }
 		if(!is_null($pTypePaiement)) { $this->mTypePaiement = $pTypePaiement; } else { $this->mTypePaiement = array(); }
+		if(!is_null($pTypePaiement)) { $this->mTypePaiement = $pTypePaiement; } else { $this->mTypePaiement = array(); }
+		if(!is_null($pTva)) { $this->mTva = $pTva; }
 	}
 	
 	/**
@@ -175,6 +183,24 @@ class ListeFermeResponse extends DataTemplate
 	*/
 	public function addTypePaiement($pTypePaiement) {
 		array_push($this->mTypePaiement, $pTypePaiement);
+	}
+	
+	/**
+	 * @name getTva()
+	 * @return integer
+	 * @desc Renvoie le Tva de l'élément
+	 */
+	public function getTva() {
+		return $this->mTva;
+	}
+	
+	/**
+	 * @name setTva($pTva)
+	 * @param integer
+	 * @desc Remplace le Tva de l'élément par $pTva
+	 */
+	public function setTva($pTva) {
+		$this->mTva = $pTva;
 	}
 }
 ?>

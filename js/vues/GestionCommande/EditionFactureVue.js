@@ -11,6 +11,7 @@
 	this.mTypeEdition = 0;
 	this.mIdMarche = 0;
 	this.mIdFacture = 0;
+	this.mTva = 0;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {EditionFactureVue(pParam);}} );
@@ -62,6 +63,8 @@
 		if(this.mTypeEdition == 0) { // Pour le formulaire de création
 			if(lResponse.listeFerme.length > 0 && lResponse.listeFerme[0].ferId != null) {		
 				lResponse.listeFermeAffiche = lGestionCommandeTemplate.factureSelectFerme.template(lResponse);
+				lResponse.modeTaxe = lGestionCommandeTemplate.modeTaxeBonDeLivraison;
+				this.mTva = parseFloat(lResponse.tva);
 			} else {
 				// Pas de ferme on n'affiche pas le formulaire
 				var lVR = new Object();
@@ -79,6 +82,7 @@
 			
 			lResponse.numeroFacture = lResponse.facture.id.champComplementaire[11].valeur;
 			lResponse.listeFermeAffiche = lResponse.ferme.nom;
+			lResponse.modeTaxe = '';
 		}
 		
 		$('#contenu').replaceWith(that.affect($(lGestionCommandeTemplate.facture.template(lResponse))));	
@@ -92,7 +96,34 @@
 		pData = this.retour(pData);
 		pData = this.affectSelectFerme(pData);
 		pData = this.affectExport(pData);
+		pData = this.affectModeTaxe(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectModeTaxe = function(pData) {
+		var that = this;
+		pData.find(':input[name=mode-taxe]').change(function() {
+			if($(':input[name=mode-taxe]:checked').val() == 'ttc') {
+				$('.prix-ttc-affiche, .prix-ttc').text('');
+			} else {
+				$('.montant-produit').each(function() {
+					var lMontant = parseFloat($(this).val().numberFrToDb());
+					if(!isNaN(lMontant)) {
+						lMontant = (lMontant * (1 + (that.mTva / 100))).toFixed(2);
+						var lMontantAffiche = '';
+						if(isNaN(lMontant)) { 
+							lMontant = 0; 
+						} else {
+							lMontantAffiche = lMontant.nombreFormate(2,',','') + ' ' + gSigleMonetaire;
+						}
+						$(this).parent().children('.prix-ttc').text(lMontant);
+						$(this).parent().children('.prix-ttc-affiche').text(lMontantAffiche);
+					}
+				});
+			}
+			that.majTotal();
+		});
 		return pData;
 	};
 	
@@ -461,6 +492,17 @@
 	this.affectCalculTotal = function(pData) {
 		var that = this;
 		pData.find('.montant-produit').keyup(function() {
+			if($(':input[name=mode-taxe]:checked').val() == 'ht') {
+				var lMontant = (parseFloat($(this).val().numberFrToDb()) * (1 + (that.mTva / 100))).toFixed(2);
+				var lMontantAffiche = '';
+				if(isNaN(lMontant)) { 
+					lMontant = 0; 
+				} else {
+					lMontantAffiche = lMontant.nombreFormate(2,',','') + ' ' + gSigleMonetaire;
+				}
+				$(this).parent().children('.prix-ttc').text(lMontant);
+				$(this).parent().children('.prix-ttc-affiche').text(lMontantAffiche);
+			}
 			that.majTotal();
 		});
 		return pData;
@@ -468,12 +510,21 @@
 	
 	this.majTotal = function() {
 		var lTotal = 0;
-		$('.montant-produit').each(function() {
-			var lMontant = parseFloat($(this).val().numberFrToDb());
-			if(!isNaN(lMontant)) {
-				lTotal = (parseFloat(lTotal) + lMontant).toFixed(2);
-			}
-		});
+		if($(':input[name=mode-taxe]:checked').val() == 'ht') {
+			$(".prix-ttc").each(function() {
+				var lMontant = parseFloat($(this).text());
+				if(!isNaN(lMontant)) {
+					lTotal = (parseFloat(lTotal) + lMontant).toFixed(2);
+				}
+			});
+		} else {
+			$('.montant-produit').each(function() {
+				var lMontant = parseFloat($(this).val().numberFrToDb());
+				if(!isNaN(lMontant)) {
+					lTotal = (parseFloat(lTotal) + lMontant).toFixed(2);
+				}
+			});
+		}
 		$('#montant').val(lTotal.nombreFormate(2,',',''));
 	};
 	
@@ -599,7 +650,12 @@
 			
 			lProduitDetailFacture.uniteSolidaire = ($(this).find('.produit-detail-facture-stock-solidaire select').length == 1) ? $(this).find('.produit-detail-facture-stock-solidaire select').val() : $(this).find('.produit-detail-facture-stock-solidaire .facture-detail-unite-span').text();
 			
-			var lMontant = $(this).find('.produit-detail-facture-montant :input').val().numberFrToDb();
+			var lMontant = 0;
+			if($(':input[name=mode-taxe]:checked').val() == 'ht') {
+				lMontant = $(this).find('.produit-detail-facture-montant .prix-ttc').text();
+			} else {
+				lMontant = $(this).find('.produit-detail-facture-montant :input').val().numberFrToDb();
+			}
 			if(!isNaN(lMontant) && !lMontant.isEmpty()){ lMontant = parseFloat(lMontant); } else { lMontant = ''; }
 			lProduitDetailFacture.montant = lMontant;
 			
