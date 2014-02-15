@@ -2806,7 +2806,7 @@
 			"</div>" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 				"<span class=\"entete-numero-facture\" >Bon de Livraison n°{numeroFacture}</span>" +
-				"<span>Ferme : {listeFermeAffiche}</span>" +					
+				"<span>Ferme : {listeFermeAffiche}</span>{modeTaxe}" +					
 				"<span class=\"ui-helper-hidden com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-facture\" title=\"Exporter le Bon de Livraison\">" +
 					"<span class=\"ui-icon ui-icon-print\">" +
 					"</span>" +
@@ -2814,6 +2814,9 @@
 			"</div>" +
 			"<div id=\"liste-pdt\"></div>" +
 		"</div>";
+	
+	this.modeTaxeBonDeLivraison =
+		"<input type=\"radio\" name=\"mode-taxe\" value=\"ttc\" checked=\"checked\"/>TTC<input type=\"radio\" name=\"mode-taxe\" value=\"ht\"/>HT";
 	
 	this.factureSelectFerme = 
 		"<select id=\"select-ferme\">" +
@@ -2978,8 +2981,8 @@
 						"<span>{categorie.produits.produit.sigleMonetaireAffiche}</span>" +
 					"</span>" +
 					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
-						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
-						"{categorie.produits.produit.sigleMonetaire}" +
+						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"2\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
+						"{categorie.produits.produit.sigleMonetaire}" +				
 					"</span>" +
 				"</td>" +
 				"<td class=\"produit-detail-facture-stock-solidaire\" data-id-stock-solidaire=\"{categorie.produits.produit.idStockSolidaire}\">" +
@@ -3015,7 +3018,8 @@
 				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantite\" /> <span class=\"facture-detail-unite-span\">{unite}</span>" +
 			"</td>" +
 			"<td class=\"produit-detail-facture-montant\">" +
-				"<input type=\"text\" value=\"\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}montant\" /> {sigleMonetaire}" +
+				"<input type=\"text\" value=\"\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"2\" id=\"produits{compteurStock}montant\" /> {sigleMonetaire}" +
+				"<br/><span class=\"prix-ttc ui-helper-hidden\"></span><span class=\"prix-ttc-affiche\"></span>" +
 			"</td>" +
 			"<td class=\"produit-detail-facture-stock-solidaire\">" +
 				"<input type=\"text\" value=\"\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" id=\"produits{compteurStock}quantiteSolidaire\" /> <span class=\"facture-detail-unite-span\">{uniteSolidaire}</span>" +
