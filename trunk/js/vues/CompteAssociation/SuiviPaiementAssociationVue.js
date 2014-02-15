@@ -57,6 +57,13 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
+		
+		if(lResponse.listeEspece.length == 0 || (lResponse.listeEspece[0] && lResponse.listeEspece[0].adhId == null)) {
+			lResponse.listeEspece = [];
+		}
+		if(lResponse.listeCheque.length == 0 || (lResponse.listeCheque[0] && lResponse.listeCheque[0].adhId == null)) {
+			lResponse.listeCheque = [];
+		}
 
 		lResponse.sigleMonetaire = gSigleMonetaire;
 		lResponse.totalEspece = lTotalEspece.nombreFormate(2,',',' ');

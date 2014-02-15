@@ -433,4 +433,81 @@
 		"<div title=\"Supprimer l'achat\">" +
 			"<p class=\"ui-state-error ui-corner-all\"><span class=\"ui-icon ui-icon-alert com-float-left\"></span>ATTENTION : Voulez-vous réellement supprimer cet achat ?</p>" +
 		"</div>";
+	
+	this.listePaiement = 
+		"<div id=\"contenu\" class=\"ui-helper-reset\">" +
+			"<div class=\"com-barre-menu-2\">" +
+				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
+					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
+				"</button>" +
+			"</div>" +
+			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+				"Les Paiements du Marché N° {numero}" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
+					"<span class=\"ui-icon ui-icon-print\"></span>" +
+				"</span>" +
+			"</div>" +	
+			"<div id=\"listePaiement\" class=\"ui-widget-content-transparent\">" +
+				"<ul>" +
+					"<li><a href=\"#cheque\" id=\"li-cheque\">Chèques</a></li>" +
+					"<li><a href=\"#espece\" id=\"li-espece\">Espèces</a></li>" +
+				"</ul>" +
+				"<div id=\"cheque\" class=\"ui-widget-content-transparent\">" +
+					"<div>Total : {totalCheque} {sigleMonetaire}</div>" +
+					"<table id=\"table-cheque\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th>Date</th>" +
+								"<th></span>N°</th>" +
+								"<th>Compte</th>" +
+								"<th>Nom</th>" +
+								"<th>Prénom</th>" +
+								"<th>Montant</th>" +
+								"<th>N°</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+					"<!-- BEGIN listeCheque -->" +
+							"<tr>" +
+								"<td>{listeCheque.opeDate}</td>" +
+								"<td>{listeCheque.adhNumero}</td>" +
+								"<td>{listeCheque.cptLabel}</td>" +
+								"<td>{listeCheque.adhNom}</td>" +
+								"<td>{listeCheque.adhPrenom}</td>" +
+								"<td>{listeCheque.opeMontant}</td>" +
+								"<td>{listeCheque.numeroCheque}</td>" +
+							"</tr>" +
+					"<!-- END listeCheque -->" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+				"<div id=\"espece\">" +
+					"<div>Total : {totalEspece} {sigleMonetaire}</div>" +
+					"<table id=\"table-espece\">" +
+						"<thead>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th>Date</th>" +
+								"<th>N°</th>" +
+								"<th>Compte</th>" +
+								"<th>Nom</th>" +
+								"<th>Prénom</th>" +
+								"<th>Montant</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody>" +
+					"<!-- BEGIN listeEspece -->" +
+							"<tr>" +
+								"<td>{listeEspece.opeDate}</td>" +
+								"<td>{listeEspece.adhNumero}</td>" +
+								"<td>{listeEspece.cptLabel}</td>" +
+								"<td>{listeEspece.adhNom}</td>" +
+								"<td>{listeEspece.adhPrenom}</td>" +
+								"<td>{listeEspece.opeMontant}</td>" +							
+							"</tr>" +
+					"<!-- END listeEspece -->" +
+						"</tbody>" +
+					"</table>" +					
+				"</div>" +
+			"</div>" +
+		"</div>";
 }

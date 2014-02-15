@@ -1272,6 +1272,125 @@ class OperationManager
 	}
 
 	/**
+	 * @name operationMarche($pIdMarche, $pTypePaiement)
+	 * @return array(OperationDetailVO) ou false en erreur
+	 * @desc Retourne l'ensemble des opérations sur un marché
+	 */
+	public static function operationMarche($pIdMarche, $pTypePaiement) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+	
+		$lRequete =
+		"(SELECT "
+		. AdherentManager::CHAMP_ADHERENT_ID .
+		"," . AdherentManager::CHAMP_ADHERENT_NUMERO .
+		"," . AdherentManager::CHAMP_ADHERENT_NOM .
+		"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
+		"," . CompteManager::CHAMP_COMPTE_LABEL .
+		"," . CompteManager::CHAMP_COMPTE_SOLDE .
+		"," . OperationManager::CHAMP_OPERATION_MONTANT .
+		"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
+		"," . OperationManager::CHAMP_OPERATION_DATE .
+		"," . OperationManager::CHAMP_OPERATION_LIBELLE .
+		"," . OperationManager::CHAMP_OPERATION_ID .
+		", b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID .
+		", b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+		FROM " . OperationManager::TABLE_OPERATION . "
+		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+		JOIN " . AdherentManager::TABLE_ADHERENT . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+		JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " a
+			ON a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+		JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " b
+			ON b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		WHERE a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser($pIdMarche) . "'
+		AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
+		AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
+		) UNION (
+		SELECT 
+		  NULL
+		, NULL
+		, NULL
+		, NULL
+		," . CompteManager::CHAMP_COMPTE_LABEL .
+		"," . CompteManager::CHAMP_COMPTE_SOLDE .
+		"," . OperationManager::CHAMP_OPERATION_MONTANT .
+		"," . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT .
+		"," . OperationManager::CHAMP_OPERATION_DATE .
+		"," . OperationManager::CHAMP_OPERATION_LIBELLE .
+		"," . OperationManager::CHAMP_OPERATION_ID .
+		", b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID .
+		", b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+		FROM " . OperationManager::TABLE_OPERATION . "
+		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+		JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " a
+			ON a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 1
+		JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " b
+			ON b." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		WHERE a." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " = '" . StringUtils::securiser($pIdMarche) . "'
+		AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
+		AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
+		AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = -3
+		)
+		ORDER BY " . OperationManager::CHAMP_OPERATION_DATE . ";";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		$lSql = Dbutils::executerRequete($lRequete);
+	
+		$lListeOperationAttente = array();
+		$lChampComplementaire = array();
+		if( mysql_num_rows($lSql) > 0 ) {
+				
+			$lOpeId = NULL;
+				
+			while ($lLigne = mysql_fetch_assoc($lSql)) {
+				if($lOpeId != $lLigne[OperationManager::CHAMP_OPERATION_ID]) {
+					if(!is_null($lOpeId)) {
+						$lOperationAttente->setOpeTypePaiementChampComplementaire($lChampComplementaire);
+						$lListeOperationAttente[$lOpeId] = $lOperationAttente;
+					}
+					$lOpeId = $lLigne[OperationManager::CHAMP_OPERATION_ID];
+	
+					$lOperationAttente = OperationManager::remplirOperationAttenteAdherentEntete(
+							$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_NUMERO],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+							$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
+							$lLigne[CompteManager::CHAMP_COMPTE_LABEL],
+							$lLigne[CompteManager::CHAMP_COMPTE_SOLDE],
+							$lLigne[OperationManager::CHAMP_OPERATION_MONTANT],
+							$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
+							$lLigne[OperationManager::CHAMP_OPERATION_DATE],
+							$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
+							$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+				}
+	
+				if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
+					$lChampComplementaire[$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID]] = OperationManager::remplirOperationDetail(
+							NULL,
+							NULL,
+							NULL,
+							NULL,
+							NULL,
+							$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID],
+							NULL,
+							NULL,
+							NULL,
+							$lLigne[OperationManager::CHAMP_OPERATION_ID],
+							$lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR]);
+				}
+			}
+			$lOperationAttente->setOpeTypePaiementChampComplementaire($lChampComplementaire);
+			$lListeOperationAttente[$lOpeId] = $lOperationAttente;
+		} else {
+			$lListeOperationAttente[0] = new OperationAttenteAdherentVO();
+		}
+		return $lListeOperationAttente;
+	}
+	
+	/**
 	 * @name operationAttenteAssociation($pTypePaiement)
 	 * @return array(OperationDetailVO) ou false en erreur
 	 * @desc Retourne l'ensemble des des opérations pour le comtpe association non pointées
