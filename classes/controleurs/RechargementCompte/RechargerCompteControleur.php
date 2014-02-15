@@ -80,22 +80,7 @@ class RechargerCompteControleur
 	*/
 	public function rechargerCompte($pParam) {
 		$lVr = RechargementCompteValid::validAjout($pParam);
-		if($lVr->getValid()) {
-		/*	$lOperation = new OperationDetailVO();
-			$lOperation->setIdCompte($pParam['id']);
-			$lOperation->setMontant($pParam['montant']);
-			$lOperation->setLibelle("Rechargement");
-			$lOperation->setTypePaiement($pParam['typePaiement']);		
-			
-			foreach($pParam['champComplementaire'] as $lChamp) {
-				if(!is_null($lChamp)) {
-					$lOperationChampComplementaire = new OperationChampComplementaireVO();
-					$lOperationChampComplementaire->setChcpId($lChamp['id']);
-					$lOperationChampComplementaire->setValeur($lChamp['valeur']);
-					$lOperation->addChampComplementaire($lOperationChampComplementaire);
-				}
-			}*/
-			
+		if($lVr->getValid()) {			
 			$lOperationService = new OperationService();
 			$lOperationService->set(OperationDetailToVO::convertFromArray($pParam));
 		}				

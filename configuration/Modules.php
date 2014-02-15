@@ -26,4 +26,5 @@ define("MOD_GESTION_ABONNEMENT", "GestionAbonnement");
 define("MOD_PARAMETRAGE", "Parametrage");
 define("MOD_SERVICE", "Service");
 define("MOD_ADHESION", "Adhesion");
+define("MOD_COMPTE_ASSOCIATION", "CompteAssociation");
 ?>

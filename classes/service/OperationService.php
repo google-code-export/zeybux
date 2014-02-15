@@ -555,28 +555,17 @@ class OperationService
 		return OperationManager::rechercheOperationZeybu($pDateDebut, $pDateFin, $pIdMarche);
 	}
 	
-	/**
-	* @name remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType)
-	* @param int(11)
-	* @param datetime
-	* @param varchar(30)
-	* @param varchar(100)
-	* @param decimal(10,2)
-	* @param varchar(100)
-	* @return CompteZeybuOperationVO
-	* @desc Retourne une CompteZeybuOperationVO remplie
-	*/
-	/*private static function remplirOperationCompteZeybu($pOpeId, $pOpeDate, $pCptLabel, $pOpeLibelle, $pOpeMontant, $pTppType) {
-		$lCompteZeybuOperation = new CompteZeybuOperationVO();
-		$lCompteZeybuOperation->setOpeId($pOpeId);
-		$lCompteZeybuOperation->setOpeDate($pOpeDate);
-		$lCompteZeybuOperation->setCptLabel($pCptLabel);
-		$lCompteZeybuOperation->setOpeLibelle($pOpeLibelle);
-		$lCompteZeybuOperation->setOpeMontant($pOpeMontant);
-		$lCompteZeybuOperation->setTppType($pTppType);
-		return $lCompteZeybuOperation;
-	}*/
 	
+	/**
+	 * @name rechercheOperationAssociation($pDateDebut, $pDateFin)
+	 * @return array(CompteZeybuOperationVO)
+	 * @desc Retourne une liste d'operation
+	 */
+	public function rechercheOperationAssociation($pDateDebut = null, $pDateFin = null) {
+		return OperationManager::rechercheOperationAssociation($pDateDebut, $pDateFin);
+	}
+	
+		
 	/**
 	* @name validerPaiement()
 	* @param int(11)
@@ -663,12 +652,21 @@ class OperationService
 	}
 	
 	/**
-	 * @name getRechargementMarche($pIdCompte, $pIdMarche)
-	 * @return OperationVO
-	 * @desc Retour le rechargement effectué sur un marché par un compte
-	 */
-	/*public static function getRechargementMarche($pIdCompte, $pIdMarche) {
-		 return OperationManager::selectRechargementMarche($pIdCompte, $pIdMarche);
-	}*/
+	* @name getListeEspeceAssociationNonEnregistre()
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations espèce non validées pour les comptes adhérents et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeEspeceAssociationNonEnregistre() {		
+		return OperationManager::operationAttenteAssociation(1);
+	}
+	
+	/**
+	* @name getListeChequeAssociationNonEnregistre()
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations chèque non validées pour les comptes adhérents et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeChequeAssociationNonEnregistre() {				
+		return OperationManager::operationAttenteAssociation(2);
+	}
 }
 ?>

@@ -64,6 +64,7 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectVirementSolidaire(pData);
 		pData = this.affectVirement(pData);
+		pData = this.affectVirementAssociation(pData);
 		return pData;
 	};
 	
@@ -91,6 +92,46 @@
 		
 		return pData;
 	};
+	
+	this.affectVirementAssociation = function(pData) {
+		var that = this;
+		pData.find("#btn-virement-association").click(function() {that.virementAssociation();});
+		return pData;
+	};
+	
+	this.virementAssociation = function() {
+		var that = this;			
+		var lCompteZeybuTemplate = new CompteZeybuTemplate();
+		var lTemplate = lCompteZeybuTemplate.dialogVirementSolidaire;
+		var lData = {};
+		lData.sigleMonetaire = gSigleMonetaire;
+		lData.type = 1;
+		lData.cptDebit = "Marché";
+		lData.cptCredit = "Association";
+		lData.idCptDebit = -1;
+		lData.idCptCredit = -4;
+									
+		var lDialog = $(this.affectDialog($(lTemplate.template(lData)))).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:450,
+			buttons: {
+				'Valider': function() {
+					that.envoyerVirement(this,lData);
+				},
+				'Annuler': function() {
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); }
+		});
+		lDialog.find('form').submit(function() {
+			that.envoyerVirement(lDialog,lData);
+			return false;
+		});
+	};
 
 	this.affectVirementSolidaire = function(pData) {
 		var that = this;
@@ -107,13 +148,13 @@
 		lData.sigleMonetaire = gSigleMonetaire;
 		lData.type = 2;
 		if(pType == 1) {
-			lData.cptDebit = "Zeybu";
+			lData.cptDebit = "Marché";
 			lData.cptCredit = "Solidaire";
 			lData.idCptDebit = -1;
 			lData.idCptCredit = -2;
 		} else {
 			lData.cptDebit = "Solidaire";
-			lData.cptCredit ="Zeybu";
+			lData.cptCredit ="Marché";
 			lData.idCptDebit = -2;
 			lData.idCptCredit = -1;
 		}
@@ -147,7 +188,7 @@
 			$(this).find(".btn-virement").click(function() {
 				var lData = {};
 				lData.type = 1;
-				lData.cptDebit ="Zeybu";
+				lData.cptDebit ="Marché";
 				lData.cptCredit = that.listeAdherent[lId].cptLabel;
 				lData.idCptDebit = -1;
 				lData.idCptCredit = that.listeAdherent[lId].adhIdCompte;
@@ -157,7 +198,7 @@
 				var lData = {};
 				lData.type = 1;
 				lData.cptDebit = that.listeAdherent[lId].cptLabel;
-				lData.cptCredit ="Zeybu";
+				lData.cptCredit ="Marché";
 				lData.idCptDebit = that.listeAdherent[lId].adhIdCompte;
 				lData.idCptCredit = -1;
 				that.virement(lData);
@@ -168,7 +209,7 @@
 			$(this).find(".btn-virement").click(function() {
 				var lData = {};
 				lData.type = 1;
-				lData.cptDebit ="Zeybu";
+				lData.cptDebit ="Marché";
 				lData.cptCredit = that.listeProducteur[lId].cptLabel;
 				lData.idCptDebit = -1;
 				lData.idCptCredit = that.listeProducteur[lId].ferIdCompte;
@@ -178,7 +219,7 @@
 				var lData = {};
 				lData.type = 1;
 				lData.cptDebit = that.listeProducteur[lId].cptLabel;
-				lData.cptCredit ="Zeybu";
+				lData.cptCredit ="Marché";
 				lData.idCptDebit = that.listeProducteur[lId].ferIdCompte;
 				lData.idCptCredit = -1;
 				that.virement(lData);
