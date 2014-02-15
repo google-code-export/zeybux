@@ -91,7 +91,7 @@
 							lResponse.adherent.totalAchatSolidaire = 0;
 
 							$.each(lResponse.lots,function() {
-								console.log(this.nom);
+								//console.log(this.nom);
 								$.each(this.lots,function() {
 									this.tailleAffiche = this.taille.nombreFormate(2,',',' ');
 									this.selected = '';	
