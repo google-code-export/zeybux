@@ -132,6 +132,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-PaiementCaisse').click(function() {
+				PaiementCaisseVue();
+				return false;
+			});
+			
 			pData.find('#menu-Parametrage-Banque').click(function() {
 				ListeBanqueVue();
 				return false;

@@ -668,5 +668,23 @@ class OperationService
 	public static function getListeChequeAssociationNonEnregistre() {				
 		return OperationManager::operationAttenteAssociation(2);
 	}
+	
+	/**
+	* @name getListeEspeceCaisse($pIdMarche)
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations espèce du marché et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeEspeceCaisse($pIdMarche) {		
+		return OperationManager::operationMarche($pIdMarche, 1);
+	}
+	
+	/**
+	* @name getListeChequeCaisse($pIdMarche)
+	* @return array(OperationAttenteAdherentVO)
+	* @desc Récupères toutes les opérations chèque du marché et les renvoie sous forme d'une collection de OperationAttenteAdherentVO
+	*/
+	public static function getListeChequeCaisse($pIdMarche) {				
+		return OperationManager::operationMarche($pIdMarche, 2);
+	}
 }
 ?>
