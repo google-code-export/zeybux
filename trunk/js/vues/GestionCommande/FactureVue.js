@@ -114,11 +114,11 @@
 		var lGestionCommandeTemplate = new GestionCommandeTemplate();
 
 		if(lResponse.listeFacture.length > 0 && lResponse.listeFacture[0].id != null) {			
-			lResponse.sigleMonetaire = gSigleMonetaire;
+			//lResponse.sigleMonetaire = gSigleMonetaire;
 			var lTotal = 0;
 			$.each(lResponse.listeFacture, function() {
 				lTotal += parseFloat(this.montant);
-				this.montant = this.montant.nombreFormate(2,',',' ');
+				/*this.montant = this.montant.nombreFormate(2,',',' ');
 				this.dateTri = this.date.extractDbDate().dateDbToTri();
 				this.date = this.date.extractDbDate().dateDbToFr();
 				
@@ -126,32 +126,66 @@
 					this.numero = '';
 				} else {
 					this.numero = lGestionCommandeTemplate.listeFactureNumeroMarche.template(this);
-				}
+				}*/
 			});			
 			
 			if(this.mIdMarche > 0) {
 				$('#total-bdl-marche').html(lGestionCommandeTemplate.totalBdlMarche.template({total:lTotal.nombreFormate(2,',',' '),sigleMonetaire:gSigleMonetaire}));
 			}
-			
-			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFacture.template(lResponse))));
 		} else {
-			$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFactureVide)));
-		}
+			lResponse.listeFacture = [];
+		}	
+		$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFacture.template(lResponse))));
 		
+			//$('#liste-facture').html(that.affect($(lGestionCommandeTemplate.listeFactureVide)));		
 	};
 	
 	this.affect = function(pData) {
-		pData = this.affectTri(pData);
 		pData = this.affectAfficherFacture(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		pData = this.affectDataTable(pData);
 		return pData;
 	};
 	
-	this.affectTri = function(pData) {
-		pData.tablesorter({sortList: [[0,1]], headers: { 4: {sorter: false}, 5: {sorter: false} }});
-		return pData;
+	this.affectDataTable = function(pData) {
+		pData.find('#liste-bdl').dataTable({
+	        "bJQueryUI": true,
+	        "sPaginationType": "full_numbers",
+	        "oLanguage": gDataTablesFr,
+	        "iDisplayLength": 25,
+	        "aaSorting": [[0,'desc']],
+	        "aoColumnDefs": [
+	             {"sType": "date",
+                  "mRender": function ( data, type, full ) {
+                	  return data.extractDbDate().dateDbToFr();
+                  	},
+                  "aTargets": [ 1 ]
+                 },
+		          {	 "sType": "numeric",
+	                  	 "mRender": function ( data, type, full ) {
+	                  		if(data != 'null') {
+		             	        return data;
+	                  		} else {
+	                  			return '';
+	                  		}
+	             	      },
+	             	      "aTargets": [ 0,2,5 ]
+		          },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+                	"aTargets": [ 4 ] 
+                  },
+                  { "bSortable": false,
+                  	"aTargets": [ 6 ] 
+                    }]
+	    });
+		return pData;		
 	};
-
 	this.affectAjoutFacture = function(pData) {
 		var that = this;
 		pData.find('#btn-nv-facture').click(function() {
