@@ -1,6 +1,6 @@
 ;function OperationDetailValid() { 
 	this.validAjout = function(pData, pParam) { 
-		var lParam = {negatif:false, zeroAutorise: false};
+		var lParam = {negatif:false, zeroAutorise: false, reel:false};
 		lParam = $.extend(true,lParam,pParam);
 		
 		var lVR = new OperationDetailVR();
@@ -13,9 +13,9 @@
 		
 		//Tests Fonctionnels
 		if(pData.idCompte.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
-		if(!lParam.zeroAutorise && pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
-		if(lParam.negatif && pData.montant > 0){lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_267_CODE;erreur.message = ERR_267_MSG;lVR.montant.erreurs.push(erreur);}
-		if(!lParam.negatif && pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!lParam.reel && !lParam.zeroAutorise && pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!lParam.reel && lParam.negatif && pData.montant > 0){lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_267_CODE;erreur.message = ERR_267_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!lParam.reel && !lParam.negatif && pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 		if(pData.typePaiement.isEmpty() || pData.typePaiement == 0) {lVR.valid = false;lVR.typePaiement.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.typePaiement.erreurs.push(erreur);}
 
 		if(isArray(pData.champComplementaire) ) {
@@ -86,7 +86,10 @@
 		return lTestId;
 	};
 	
-	this.validUpdateMontant = function(pData) {
+	this.validUpdateMontant = function(pData, pParam) { 
+		var lParam = {negatif:false, zeroAutorise: false, reel:false};
+		lParam = $.extend(true,lParam,pParam);
+				
 		var lTestId = this.validDelete(pData);
 		if(lTestId.valid) {
 			var lVR = new OperationDetailVR();
@@ -99,8 +102,9 @@
 			
 			//Tests Fonctionnels
 			if(pData.id.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
-			if(pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
-			if(pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
+			if(!lParam.reel && !lParam.zeroAutorise && pData.montant.isEmpty()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.montant.erreurs.push(erreur);}
+			if(!lParam.reel && lParam.negatif && pData.montant > 0){lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_267_CODE;erreur.message = ERR_267_MSG;lVR.montant.erreurs.push(erreur);}
+			if(!lParam.reel && !lParam.negatif && pData.montant < 0) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_215_CODE;erreur.message = ERR_215_MSG;lVR.montant.erreurs.push(erreur);}
 			if(pData.typePaiement.isEmpty()) {lVR.valid = false;lVR.log.valid = false;var erreur = new VRerreur();erreur.code = ERR_201_CODE;erreur.message = ERR_201_MSG;lVR.log.erreurs.push(erreur);}
 
 			if(isArray(pData.champComplementaire) ) {

@@ -147,6 +147,16 @@
 				return false;
 			});
 			
+			pData.find('#menu-CompteAssociation-CompteAssociation').click(function() {
+				CompteAssociationVue();
+				return false;
+			});
+			
+			pData.find('#menu-CompteAssociation-SuiviPaiement').click(function() {
+				SuiviPaiementAssociationVue();
+				return false;
+			});
+			
 				
 			return pData;
 		}

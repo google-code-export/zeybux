@@ -1,0 +1,3 @@
+;function CompteAssociationAjoutVirementVO() {
+	this.montant = '';
+};
