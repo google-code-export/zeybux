@@ -90,7 +90,10 @@
 		lData.adhNom = this.mAdherent.adhNom;
 		lData.adhPrenom = this.mAdherent.adhPrenom;
 		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
-		
+		lData.classSoldeActuel = "";
+		if(this.mAdherent.cptSolde <= 0) {
+			lData.classSoldeActuel ="com-nombre-negatif";
+		}
 		lData.sigleMonetaire = gSigleMonetaire;
 		lData.comNumero = this.infoCommande.comNumero;
 		lData.dateFinReservation = this.infoCommande.dateFinReservation;
@@ -182,6 +185,10 @@
 		lData.adhNom = this.mAdherent.adhNom;
 		lData.adhPrenom = this.mAdherent.adhPrenom;
 		lData.adhSolde = this.mAdherent.cptSolde.nombreFormate(2,',',' ');
+		lData.classSoldeActuel = "";
+		if(this.mAdherent.cptSolde <= 0) {
+			lData.classSoldeActuel ="com-nombre-negatif";
+		}		
 		lData.adhNouveauSolde = 0;
 		lData.sigleMonetaire = gSigleMonetaire;
 		lData.comNumero = this.infoCommande.comNumero;
