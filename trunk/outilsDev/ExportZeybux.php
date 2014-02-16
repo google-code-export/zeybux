@@ -743,6 +743,9 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		unlink('./zeybu/js/zeybux-jquery-min.js');
 		unlink('./zeybu/js/zeybux-jquery.js');
 		
+		unlink('./zeybu/js/zeybux-configuration.js');
+		unlink('./zeybu/js/zeybux-configuration-min.js');
+				
 		// RAZ des dossiers de génération
 		viderDossier("./zeybu/js/package-full/");
 		viderDossier("./zeybu/js/package/");
