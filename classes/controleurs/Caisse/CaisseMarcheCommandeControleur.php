@@ -111,8 +111,7 @@ class CaisseMarcheCommandeControleur
 				
 							
 				if($pParam["id_adherent"] != 0) { // Si ce n'est pas le compte invité
-					$lAdhesionService = new AdhesionService();
-					$lResponse->setNbAdhesionEnCours($lAdhesionService->getNbAdhesionEnCoursSurAdherent($pParam["id_adherent"]));
+					
 					
 					$lReservationService = new ReservationService();
 					$lIdReservation = new IdReservationVO();
@@ -136,6 +135,11 @@ class CaisseMarcheCommandeControleur
 					}
 					$lResponse->setAchats($lAchat); // L'achat									
 				}
+			}
+			
+			if($pParam["id_adherent"] != 0) { // Si ce n'est pas le compte invité
+				$lAdhesionService = new AdhesionService();
+				$lResponse->setNbAdhesionEnCours($lAdhesionService->getNbAdhesionEnCoursSurAdherent($pParam["id_adherent"]));
 			}
 			
 			// Fusion des stocks

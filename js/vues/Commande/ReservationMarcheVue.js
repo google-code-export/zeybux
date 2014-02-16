@@ -89,6 +89,10 @@
 		
 		var lData = new Object();
 		lData.sigleMonetaire = gSigleMonetaire;
+		lData.classSoldeActuel = "";
+		if(this.solde <= 0) {
+			lData.classSoldeActuel ="com-nombre-negatif";
+		}
 		lData.solde = this.solde.nombreFormate(2,',',' ');
 		lData.comNumero = this.infoCommande.comNumero;
 		lData.dateFinReservation = this.infoCommande.dateFinReservation;
@@ -99,7 +103,6 @@
 		lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 		lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 		lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-		//lData.categories = [];
 		
 		var lIdCategorie = 0;
 		var lNomCategorie = '';
@@ -134,21 +137,13 @@
 				lPdt.stoQuantite = lPdt.stoQuantite.nombreFormate(2,',',' ');		
 				lPdt.prix = lPdt.prix.nombreFormate(2,',',' ');
 				
-
-			/*	if(!lData.categories[this.idCategorie]) {
-					lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-				}*/
-				
 				lPdt.flagType = "";
 				if(lInfoProduit.type == 2) {
 					lPdt.flagType = lCommandeTemplate.flagAbonnement;
 					that.mAbonnementSurReservation = true;
 					
 				}
-				
-				//lData.categories[this.idCategorie].produits.push(lPdt);
-				
-								
+			
 				if(lIdCategorie != this.idCategorie) {
 					lCategoriesTrie.push({
 							nom:lNomCategorie,
@@ -171,9 +166,7 @@
 		});	
 		
 		lData.categories = lCategoriesTrie;
-		
-		
-		
+
 		if(that.mAbonnementSurReservation) {
 			lData.boutonsEdition = lCommandeTemplate.boutonModifier;
 		} else {
@@ -186,7 +179,6 @@
 		
 		
 		$('#contenu').replaceWith(that.affect($(lTemplate.template(lData))));		
-		//this.majNouveauSolde();
 	};
 	
 	this.afficherModifier = function() {		
@@ -207,6 +199,10 @@
 			var lTemplate = lCommandeTemplate.modifierReservation;
 			var lData = {};
 			lData.sigleMonetaire = gSigleMonetaire;
+			lData.classSoldeActuel = "";
+			if(this.solde <= 0) {
+				lData.classSoldeActuel ="com-nombre-negatif";
+			}
 			lData.solde = this.solde.nombreFormate(2,',',' ');
 			lData.soldeNv = this.soldeNv.nombreFormate(2,',',' ');
 			lData.comNumero = this.infoCommande.comNumero;
@@ -218,8 +214,6 @@
 			lData.minuteMarcheDebut = this.infoCommande.minuteMarcheDebut;
 			lData.heureMarcheFin = this.infoCommande.heureMarcheFin;
 			lData.minuteMarcheFin = this.infoCommande.minuteMarcheFin;
-			//lData.produit = new Array();
-			//lData.categories = [];
 				
 			var lIdCategorie = 0;
 			var lNomCategorie = '';
@@ -268,9 +262,7 @@
 						}					
 					}
 					
-				//	var i = 0;
 					var lLotReservation = -1;
-				//	var lLotInit = -1;
 
 					lPdt.stoQuantiteReservation = 0;
 					lPdt.prixReservation = 0;
@@ -318,15 +310,7 @@
 					} else {
 						lPdt.checked = '';
 					}
-					
-				/*	if(lPdt.lot.length == 0) {		
-						lPdt.checked = 'rel="indisponible"';
-					}*/
-					//lData.produit.push(lPdt);
-				/*	if(!lData.categories[this.idCategorie]) {
-						lData.categories[this.idCategorie] = {nom:this.cproNom,produits:[]};
-					}*/
-					
+										
 					lPdt.sigleMonetaire = gSigleMonetaire;
 					var lAjoutProduit = true;
 					if(this.type == 0 ) {
@@ -376,10 +360,7 @@
 			});	
 			
 			lData.categories = lCategoriesTrie;
-			
-			
-			
-			
+
 			// Maj des reservations temp pour modif
 			this.reservationModif = [];
 			$(this.reservation).each(function() {
@@ -456,9 +437,6 @@
 		if(!dateTimeEstPLusGrandeEgale(this.infoCommande.dateTimeFinReservation,getDateTimeAujourdhuiDb(),'db')) {
 			pData.find('.boutons-edition').hide();
 		}
-		/*if(this.mAbonnementSurReservation) {
-			pData.find("#btn-supprimer").remove();
-		}*/
 		return pData;
 	};
 	
@@ -473,7 +451,6 @@
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectInitLot(pData);
 		pData = this.affectInfoProduit(pData);
-		//pData = this.masquerIndisponible(pData);
 		return pData;
 	};
 	

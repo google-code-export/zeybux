@@ -10,7 +10,7 @@
 					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin}" +
 				"</div>" +
 				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
+					"<span>Solde Actuel : </span><span class=\"{classSoldeActuel}\">{solde} {sigleMonetaire}</span><br/>" +
 					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +
@@ -87,7 +87,7 @@
 					"Marché : Le {dateMarcheDebut} de {heureMarcheDebut}H{minuteMarcheDebut} à {heureMarcheFin}H{minuteMarcheFin} <br/>" +
 				"</div>" +
 				"<div>" +
-					"<span>Solde Actuel : </span><span>{solde} {sigleMonetaire}</span><br/>" +
+					"<span>Solde Actuel : </span><span class=\"{classSoldeActuel}\">{solde} {sigleMonetaire}</span><br/>" +
 					"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{soldeNv}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 				"</div>" +
 			"</div>" +

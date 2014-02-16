@@ -1673,7 +1673,7 @@
 						"N° de Compte : {adhCompte}" +
 					"</div>" +
 					"<div>" +
-						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span>" +
+						"<span>Solde Actuel : </span><span class=\"{classSoldeActuel}\">{adhSolde} {sigleMonetaire}</span>" +
 					"</div>" +
 					"<div class=\"com-clear-float-left\"></div>" +
 				"</div>" +
@@ -1744,7 +1744,7 @@
 						"N° de Compte : {adhCompte}" +
 					"</div>" +
 					"<div>" +
-						"<span>Solde Actuel : </span><span>{adhSolde} {sigleMonetaire}</span><br/>" +
+						"<span>Solde Actuel : </span><span class=\"{classSoldeActuel}\">{adhSolde} {sigleMonetaire}</span><br/>" +
 						"<span>Nouveau Solde : </span><span id=\"nouveau-solde\">{adhNouveauSolde}</span> <span id=\"nouveau-solde-sigle\">{sigleMonetaire}</span>" +
 					"</div>" +
 				"</div>" +
