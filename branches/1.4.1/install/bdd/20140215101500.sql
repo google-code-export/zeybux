@@ -1,0 +1,1 @@
+INSERT INTO `vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '12', 'PaiementCaisse', 'Les Paiements de la Caisse', '3', '1');

@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+#liste-type-adhesion {
+	clear:left;
+}
+
+.form-ajout-adhesion-th {
+	width:130px;
+	text-align:left;
+}
+
+.form-ajout-adhesion-td {
+	width:210px;
+}
+
+.form-ajout-adhesion-td-date {
+	width:85px;
+}
+
+.form-ajout-adhesion-input-montant {
+	width:195px;
+}
+
+#div-form-ajout-type-adhesion {
+	margin-left:30px;
+	margin-bottom:20px;
+}
+
+.ligne-type-adhesion-montant {
+	width:250px;
+}
+
+.ligne-type-adhesion-label-perimetre {
+	width:150px;
+}
+
+.ligne-type-adhesion-btn-sup {
+	width:30px;
+}
