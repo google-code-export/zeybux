@@ -517,11 +517,7 @@ class MarcheService
 				}																
 			}
 			// Supprimer Lot
-			if($lMajLot) {
-				$lDeleteLot = DetailCommandeManager::select($lLotActuel->getId());
-				$lDeleteLot->setEtat(1);
-				DetailCommandeManager::update($lDeleteLot);
-				
+			if($lMajLot) {				
 				array_push($lLotSupp,$lLotActuel->getId());
 			}
 		}
@@ -610,6 +606,10 @@ class MarcheService
 					}	
 				}		
 			}
+			
+			$lDeleteLot = DetailCommandeManager::select($lIdLot);
+			$lDeleteLot->setEtat(1);
+			DetailCommandeManager::update($lDeleteLot);
 		}
 	}
 	

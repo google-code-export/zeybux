@@ -5,7 +5,7 @@
 		if(!pData.label.checkLength(0,45)) {lVR.valid = false;lVR.label.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.label.erreurs.push(erreur);}
 		if(!pData.idPerimetre.checkLength(0,11)) {lVR.valid = false;lVR.idPerimetre.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.idPerimetre.erreurs.push(erreur);}
 		if(isNaN(parseInt(pData.idPerimetre))) {lVR.valid = false;lVR.idPerimetre.valid = false;var erreur = new VRerreur();erreur.code = ERR_104_CODE;erreur.message = ERR_104_MSG;lVR.idPerimetre.erreurs.push(erreur);}
-		if(!pData.montant.checkLength(0,12)) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.montant.erreurs.push(erreur);}
+		if(!pData.montant.checkLength(0,12) || pData.montant > 999999999.99) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_101_CODE;erreur.message = ERR_101_MSG;lVR.montant.erreurs.push(erreur);}
 		if(!pData.montant.isFloat()) {lVR.valid = false;lVR.montant.valid = false;var erreur = new VRerreur();erreur.code = ERR_109_CODE;erreur.message = ERR_109_MSG;lVR.montant.erreurs.push(erreur);}
 
 		//Tests Fonctionnels

@@ -102,18 +102,11 @@ class AbonnementService
 					$lLotAbonnement->setTaille($lLotNv->getTaille());
 					$lLotAbonnement->setPrix($lLotNv->getPrix());
 					LotAbonnementManager::update($lLotAbonnement);
-					
-		//			array_push($lLotModif,$lLotAbonnement);
 				}																
 			}
 			
 			// Supprimer Lot
-			if($lSuppLot) {				
-				// Suppression du lot
-				$lDeleteLot = LotAbonnementManager::select($lLotActuel->getId());
-				$lDeleteLot->setEtat(1);
-				LotAbonnementManager::update($lDeleteLot);
-												
+			if($lSuppLot) {
 				array_push($lLotSupp,$lLotActuel->getId());
 			}
 		}
@@ -150,6 +143,7 @@ class AbonnementService
 				
 				// Récupération des abonnements
 				$lListeAbonnement = $this->getAbonnementSurLot($lIdLot);
+				
 				// Modification si il y a des abonnements
 				if(!is_null($lListeAbonnement[0]->getCptAboId())) {
 					foreach($lListeAbonnement as $lAbonnement) {
@@ -160,11 +154,16 @@ class AbonnementService
 				}
 			} else { // Si pas de lot de remplacement suppression des abonnements du lot
 				// Suppression des abonnements du lot
-				$lListeAbonnement = $this->getAbonnementSurLot($lLotActuel->getId());
+				$lListeAbonnement = $this->getAbonnementSurLot($lIdLot);
 				foreach($lListeAbonnement as $lAbonnement) {
 					$this->deleteAbonnement($lAbonnement->getCptAboId());
 				}
 			}
+			
+			// Suppression du lot
+			$lDeleteLot = LotAbonnementManager::select($lIdLot);
+			$lDeleteLot->setEtat(1);
+			LotAbonnementManager::update($lDeleteLot);
 		}
 		
 		return ProduitAbonnementManager::update($pProduitAbonnement);

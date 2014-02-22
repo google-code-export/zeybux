@@ -98,7 +98,7 @@ class TypeAdhesionValid
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getIdPerimetre()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['montant'],0,12)) {
+			if(!TestFonction::checkLength($pData['montant'],0,12) || $pData['montant'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getMontant()->setValid(false);
 				$lErreur = new VRerreur();

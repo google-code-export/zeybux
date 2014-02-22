@@ -163,7 +163,7 @@ class ProduitDetailAchatValid
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getIdNomProduit()->addErreur($lErreur);	
 			}
-			if($pData['quantite'] != '' && !TestFonction::checkLength($pData['quantite'],0,12)) {
+			if($pData['quantite'] != '' && (!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -187,7 +187,7 @@ class ProduitDetailAchatValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getUnite()->addErreur($lErreur);	
 			}
-			if($pData['quantiteSolidaire'] != '' && !TestFonction::checkLength($pData['quantiteSolidaire'],0,12)) {
+			if($pData['quantiteSolidaire'] != '' && (!TestFonction::checkLength($pData['quantiteSolidaire'],0,12) || $pData['quantiteSolidaire'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getQuantiteSolidaire()->setValid(false);
 				$lErreur = new VRerreur();
@@ -211,7 +211,7 @@ class ProduitDetailAchatValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getUniteSolidaire()->addErreur($lErreur);	
 			}
-			if($pData['montant'] != '' && !TestFonction::checkLength($pData['montant'],0,12)) {
+			if($pData['montant'] != '' && (!TestFonction::checkLength($pData['montant'],0,12) || $pData['montant'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getMontant()->setValid(false);
 				$lErreur = new VRerreur();
@@ -227,7 +227,7 @@ class ProduitDetailAchatValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getMontant()->addErreur($lErreur);
 			}
-			if($pData['montantSolidaire'] != '' && !TestFonction::checkLength($pData['montantSolidaire'],0,12)) {
+			if($pData['montantSolidaire'] != '' && (!TestFonction::checkLength($pData['montantSolidaire'],0,12) || $pData['montantSolidaire'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getMontantSolidaire()->setValid(false);
 				$lErreur = new VRerreur();

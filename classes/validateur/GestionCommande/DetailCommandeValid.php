@@ -72,7 +72,7 @@ class DetailCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getIdProduit()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['taille'],0,12)) {
+			if(!TestFonction::checkLength($pData['taille'],0,12) || $pData['taille'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getTaille()->setValid(false);
 				$lErreur = new VRerreur();
@@ -88,7 +88,7 @@ class DetailCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getTaille()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['prix'],0,12)) {
+			if(!TestFonction::checkLength($pData['prix'],0,12) || $pData['prix'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getPrix()->setValid(false);
 				$lErreur = new VRerreur();
@@ -244,7 +244,7 @@ class DetailCommandeValid
 					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 					$lVr->getIdProduit()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['taille'],0,12)) {
+				if(!TestFonction::checkLength($pData['taille'],0,12) || $pData['taille'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getTaille()->setValid(false);
 					$lErreur = new VRerreur();
@@ -260,7 +260,7 @@ class DetailCommandeValid
 					$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 					$lVr->getTaille()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['prix'],0,12)) {
+				if(!TestFonction::checkLength($pData['prix'],0,12) || $pData['prix'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getPrix()->setValid(false);
 					$lErreur = new VRerreur();

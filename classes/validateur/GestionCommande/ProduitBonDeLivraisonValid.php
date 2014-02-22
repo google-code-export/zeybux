@@ -65,7 +65,7 @@ class ProduitBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getId()->addErreur($lErreur);	
 			}
-			if($pData['quantite'] != '' && !TestFonction::checkLength($pData['quantite'],0,12)) {
+			if($pData['quantite'] != '' && (!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -81,7 +81,7 @@ class ProduitBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getQuantite()->addErreur($lErreur);	
 			}
-			if($pData['prix'] != '' && !TestFonction::checkLength($pData['prix'],0,12)) {
+			if($pData['prix'] != '' && (!TestFonction::checkLength($pData['prix'],0,12) || $pData['prix'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getPrix()->setValid(false);
 				$lErreur = new VRerreur();
@@ -97,7 +97,7 @@ class ProduitBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getPrix()->addErreur($lErreur);	
 			}
-			if($pData['quantiteSolidaire'] != '' && !TestFonction::checkLength($pData['quantiteSolidaire'],0,12)) {
+			if($pData['quantiteSolidaire'] != '' && (!TestFonction::checkLength($pData['quantiteSolidaire'],0,12) || $pData['quantiteSolidaire'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getQuantiteSolidaire()->setValid(false);
 				$lErreur = new VRerreur();
