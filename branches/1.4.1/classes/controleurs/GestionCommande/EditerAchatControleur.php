@@ -50,6 +50,7 @@ include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");
 include_once(CHEMIN_CLASSES_VO . "DetailMarcheVO.php");
 include_once(CHEMIN_CLASSES_TOVO . "AchatToVO.php");
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_COMMANDE . "/AchatConfirmResponse.php" );
+include_once(CHEMIN_CLASSES_MANAGERS . "ModeleLotManager.php");
 
 /**
  * @name EditerAchatControleur
@@ -195,14 +196,14 @@ class EditerAchatControleur
 						$lStock[$lProduitAchat->getCproNom()]["produits"][$lProduitAchat->getNproNom().$lUnite] = $lProduitAchat;
 						
 						// Ajout des lots
-						$lModelesLot = ModeleLotViewManager::selectByIdNomProduit($lProduitAchat->getIdNomProduit());
+						$lModelesLot = ModeleLotManager::selectByIdNomProduit($lProduitAchat->getIdNomProduit()); // Récupère même les lots supprimés car il y a peut être eu un achat sur ce lot précédemment
 						$lLots = array();
 						foreach($lModelesLot as $lModeleLot) {
 							$lLot = new DetailMarcheVO();
-							$lLot->setId($lModeleLot->getMLotId());
-							$lLot->setTaille($lModeleLot->getMLotQuantite());
-							$lLot->setPrix($lModeleLot->getMLotPrix());
-							$lLots[$lModeleLot->getMLotId()] = $lLot;
+							$lLot->setId($lModeleLot->getId());
+							$lLot->setTaille($lModeleLot->getQuantite());
+							$lLot->setPrix($lModeleLot->getPrix());
+							$lLots[$lModeleLot->getId()] = $lLot;
 						}
 						$lLotsProduits[$lProduitAchat->getIdNomProduit().$lUnite] = array("nom" => $lProduitAchat->getNproNom(), "type" => "modele", "lots" => $lLots);
 					}
