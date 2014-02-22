@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="js/vues"/>
 	<classpathentry kind="src" path="js/Configuration"/>
 	<classpathentry kind="src" path="js/classes"/>
 	<classpathentry kind="src" path="js/template"/>
+	<classpathentry kind="src" path="js/vues"/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.baseBrowserLibrary"/>
 	<classpathentry kind="output" path=""/>
