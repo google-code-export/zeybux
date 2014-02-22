@@ -12,6 +12,9 @@
 include_once(CHEMIN_CLASSES_UTILS . "DbUtils.php");
 include_once(CHEMIN_CLASSES_UTILS . "StringUtils.php");
 include_once(CHEMIN_CLASSES_VO . "DetailOperationVO.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
 
 define("TABLE_DETAILOPERATION", MYSQL_DB_PREFIXE ."dope_detail_operation");
 /**
@@ -347,5 +350,63 @@ class DetailOperationManager
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		return Dbutils::executerRequete($lRequete);
 	}
+	
+	/**
+	 * @name majTotalReservation($pIdDetailCommande)
+	 * @param integer
+	 * @desc Met à jour le montant du détails des opérations et des opérations de réservation en fonction des valeurs du lot
+	 */
+	public static function majTotalReservation($pIdDetailCommande) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+	
+		$lRequete1 = 
+			"UPDATE " . DetailOperationManager::TABLE_DETAILOPERATION . " a
+			SET " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " = ( SELECT round(" . StockManager::CHAMP_STOCK_QUANTITE . " * ". DetailCommandeManager::CHAMP_DETAILCOMMANDE_PRIX . " / " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_TAILLE . ", 2)
+			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+			JOIN " . StockManager::TABLE_STOCK . "
+				ON " . StockManager::CHAMP_STOCK_TYPE ." = 0 
+				AND " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			WHERE " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = '" . StringUtils::securiser($pIdDetailCommande) . "'
+				AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+				AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0
+				AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = " . StockManager::CHAMP_STOCK_ID_OPERATION . ")
+			
+			WHERE exists (
+			    SELECT 1
+			FROM " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
+			JOIN " . StockManager::TABLE_STOCK . "
+				ON " . StockManager::CHAMP_STOCK_TYPE . " = 0 
+				AND " . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			WHERE " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = '" . StringUtils::securiser($pIdDetailCommande) . "'
+			AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
+			AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0
+			AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = " . StockManager::CHAMP_STOCK_ID_OPERATION . ");";
+		
+		$lRequete2 = "
+			CREATE TEMPORARY table TMP_1
+				SELECT b." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . ", sum(b." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . ") as " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . "
+				FROM " . DetailOperationManager::TABLE_DETAILOPERATION . " a
+				JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " b 
+					ON a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = b." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . "
+				AND b." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0
+				where a." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = '" . StringUtils::securiser($pIdDetailCommande) . "'
+				AND a." . DetailOperationManager::CHAMP_DETAILOPERATION_TYPE_PAIEMENT . " = 0
+				group by b." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . ";";
+		
+		$lRequete3 = "
+			CREATE TEMPORARY table TMP_2
+			SELECT * FROM TMP_1;";
+		
+		$lRequete4 = "
+			UPDATE " . OperationManager::TABLE_OPERATION . " a
+			SET " . OperationManager::CHAMP_OPERATION_MONTANT . " = ( SELECT " . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . " FROM TMP_1 WHERE a." . OperationManager::CHAMP_OPERATION_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " )
+			WHERE exists (SELECT 1 FROM TMP_2 WHERE a." . OperationManager::CHAMP_OPERATION_ID . " = " . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " );";
+	
+		$lLogger->log("Execution de la requete : " . $lRequete1 . " " . $lRequete2 . " " . $lRequete3 . " " . $lRequete4,PEAR_LOG_DEBUG); // Maj des logs
+		return Dbutils::executerRequetesMultiples(array($lRequete1, $lRequete2, $lRequete3, $lRequete4));
+	}
+	
 }
 ?>
