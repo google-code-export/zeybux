@@ -322,7 +322,7 @@ class AfficheAchatAdherentValid
 					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 					$lVr->getIdAchat()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['idAchat'],0,12)) {
+				if(!TestFonction::checkLength($pData['idAchat'],0,12) || $pData['idAchat'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getTotal()->setValid(false);
 					$lErreur = new VRerreur();

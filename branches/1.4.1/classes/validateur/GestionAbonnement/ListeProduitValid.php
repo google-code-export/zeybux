@@ -111,7 +111,7 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getUnite()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['stockInitial'],0,12)) {
+			if(!TestFonction::checkLength($pData['stockInitial'],0,12) || $pData['stockInitial'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getStockInitial()->setValid(false);
 				$lErreur = new VRerreur();
@@ -127,7 +127,7 @@ class ListeProduitValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getStockInitial()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['max'],0,12)) {
+			if(!TestFonction::checkLength($pData['max'],0,12) || $pData['max'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getMax()->setValid(false);
 				$lErreur = new VRerreur();
@@ -386,7 +386,7 @@ class ListeProduitValid
 					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 					$lVr->getUnite()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['stockInitial'],0,12)) {
+				if(!TestFonction::checkLength($pData['stockInitial'],0,12) || $pData['stockInitial'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getStockInitial()->setValid(false);
 					$lErreur = new VRerreur();
@@ -402,7 +402,7 @@ class ListeProduitValid
 					$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 					$lVr->getStockInitial()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['max'],0,12)) {
+				if(!TestFonction::checkLength($pData['max'],0,12) || $pData['max'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getMax()->setValid(false);
 					$lErreur = new VRerreur();

@@ -97,7 +97,7 @@ class ProduitBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_104_MSG);
 				$lVr->getDcomId()->addErreur($lErreur);	
 			}
-			if($pData['quantite'] != '' && !TestFonction::checkLength($pData['quantite'],0,12)) {
+			if($pData['quantite'] != '' && (!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -113,7 +113,7 @@ class ProduitBonDeCommandeValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getQuantite()->addErreur($lErreur);	
 			}
-			if($pData['prix'] != '' && !TestFonction::checkLength($pData['prix'],0,12)) {
+			if($pData['prix'] != '' && (!TestFonction::checkLength($pData['prix'],0,12) || $pData['montant'] > 999999999.99)) {
 				$lVr->setValid(false);
 				$lVr->getPrix()->setValid(false);
 				$lErreur = new VRerreur();

@@ -108,7 +108,7 @@ class ProduitMarcheValid
 				$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 				$lVr->getUnite()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['qteMaxCommande'],0,12)) {
+			if(!TestFonction::checkLength($pData['qteMaxCommande'],0,12) || $pData['qteMaxCommande'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getQteMaxCommande()->setValid(false);
 				$lErreur = new VRerreur();
@@ -124,7 +124,7 @@ class ProduitMarcheValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getQteMaxCommande()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['qteRestante'],0,12)) {
+			if(!TestFonction::checkLength($pData['qteRestante'],0,12) || $pData['qteRestante'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getQteRestante()->setValid(false);
 				$lErreur = new VRerreur();
@@ -396,7 +396,7 @@ class ProduitMarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_101_MSG);
 					$lVr->getUnite()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['qteMaxCommande'],0,12)) {
+				if(!TestFonction::checkLength($pData['qteMaxCommande'],0,12) || $pData['qteMaxCommande'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getQteMaxCommande()->setValid(false);
 					$lErreur = new VRerreur();
@@ -412,7 +412,7 @@ class ProduitMarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 					$lVr->getQteMaxCommande()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['qteRestante'],0,12)) {
+				if(!TestFonction::checkLength($pData['qteRestante'],0,12) || $pData['qteRestante'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getQteRestante()->setValid(false);
 					$lErreur = new VRerreur();
