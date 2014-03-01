@@ -65,18 +65,41 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_ABONNEMENT]) || 
 					break;
 
 				default:
-					$lLogger->log("Demande d'accés à Produits sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					$lLogger->log("Demande d'accés à gestion des abonnements sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+					header('location:./index.php');
+					break;
+			}
+		}  else {
+			$lLogger->log("Demande d'accés à gestion des abonnements sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+			header('location:./index.php');
+		}
+	} else if(isset($_POST['fonction'])) {	
+		if(isset($_POST['id'])) {
+			include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_ABONNEMENT . "/ListeProduitControleur.php");					
+			$lControleur = new ListeProduitControleur();
+			$lParam = array();
+			$lParam['id'] = $_POST['id'];
+			
+			switch($_POST['fonction']) {					
+				case "exportListeAbonneSurProduit":
+					echo $lControleur->exportListeAbonneSurProduit($lParam);
+					break;
+	
+				default:
+					$lLogger->log("Demande d'accés à gestion des abonnements sans fonction par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					header('location:./index.php');
 					break;
 			}
 		} else {
-			$lLogger->log("Demande d'accés à Produits sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+			$lLogger->log("Demande d'accés à gestion des abonnements pour export sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 			header('location:./index.php');
 		}
-	
+	} else {
+		$lLogger->log("Demande d'accés à gestion des abonnements sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+		header('location:./index.php');
 	}
 } else {
-	$lLogger->log("Demande d'accés sans autorisation à Produits",PEAR_LOG_INFO);	// Maj des logs
+	$lLogger->log("Demande d'accés sans autorisation à gestion des abonnements",PEAR_LOG_INFO);	// Maj des logs
 	header('location:./index.php?cx=1');
 }
 ?>

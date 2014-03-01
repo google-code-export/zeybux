@@ -30,6 +30,7 @@ include_once(CHEMIN_CLASSES_VO . "LotAbonnementMarcheVO.php");
 include_once(CHEMIN_CLASSES_VIEW_MANAGER . "ModeleLotViewManager.php");  
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/UniteResponse.php" );
 include_once(CHEMIN_CLASSES_RESPONSE . MOD_GESTION_ABONNEMENT . "/DetailProduitModifierResponse.php" );
+include_once(CHEMIN_CLASSES_UTILS . "CSV.php");
 
 /**
  * @name ListeProduitControleur
@@ -108,6 +109,38 @@ class ListeProduitControleur
 			return $lResponse;		
 		}
 		return $lVr;
+	}
+	
+	/**
+	 * @name exportListeAbonneSurProduit($pParam)
+	 * @desc Exporte la liste des abonnés du produit
+	 */
+	public function exportListeAbonneSurProduit($pParam) {		
+		$lVr = ListeProduitValid::validGetDetailProduit($pParam);
+		if($lVr->getValid()) {
+			$lAbonnementService = new AbonnementService();				
+			$lListeAbonne = $lAbonnementService->getAbonnesProduit($pParam["id"]);
+						
+			$lCSV = new CSV();
+			$lCSV->setNom('Liste_Abonne.csv'); // Le Nom
+				
+			// L'entete
+			$lEntete = array("N°", "Compte", "Nom", "Prénom", "Quantité", "");
+			$lCSV->setEntete($lEntete);
+				
+			$lContenuTableau = array();
+				
+			foreach($lListeAbonne as $lAbonne) {
+				array_push($lContenuTableau, array($lAbonne->getAdhNumero(), $lAbonne->getCptLabel(), $lAbonne->getAdhNom(), $lAbonne->getAdhPrenom(), $lAbonne->getCptAboQuantite(), $lAbonne->getProAboUnite()));
+			}
+			$lCSV->setData($lContenuTableau);
+			
+			// Export en CSV
+			$lCSV->output();
+			
+		} else {
+			return $lVr;
+		}
 	}
 
 	/**
