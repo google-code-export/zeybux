@@ -255,17 +255,19 @@ class AdherentService
 			// Les adhésions sur le premier adhérent
 			$lAdhesions = $lAdhesionService->getAdhesionSurAdherent($lAdherent->getId());
 				
-			// Positionne les mêmes adhésions
+			// Positionne les mêmes adhésions si elles existent
 			foreach($lAdhesions as $lAdhesion) {
 				$lAdhesionAdherentDetail = $lAdhesionService->getAdhesionAdherent($lAdhesion->getAdadId());
-				$lAdhesionAdherent = $lAdhesionAdherentDetail->getAdhesionAdherent();
-				
-				$lTypeAdhesion = $lAdhesionService->getTypeAdhesion($lAdhesionAdherent->getIdTypeAdhesion());
-				
-				if($lTypeAdhesion->getIdPerimetre() == 2) { // Si type d'adhésion sur périmètre compte
-					$lAdhesionAdherent->setId('');
-					$lAdhesionAdherent->setIdAdherent($pAdherent->getId());
-					$lAdhesionService->setAdhesionAdherent($lAdhesionAdherent);
+				if($lAdhesionAdherentDetail) {
+					$lAdhesionAdherent = $lAdhesionAdherentDetail->getAdhesionAdherent();
+					
+					$lTypeAdhesion = $lAdhesionService->getTypeAdhesion($lAdhesionAdherent->getIdTypeAdhesion());
+					
+					if($lTypeAdhesion->getIdPerimetre() == 2) { // Si type d'adhésion sur périmètre compte
+						$lAdhesionAdherent->setId('');
+						$lAdhesionAdherent->setIdAdherent($pAdherent->getId());
+						$lAdhesionService->setAdhesionAdherent($lAdhesionAdherent);
+					}
 				}
 			}
 		}

@@ -107,9 +107,10 @@ class ModificationAdherentControleur
 			
 			// Mise à jour du compte
 			$lNouveauCompte = $lCompteService->get($lIdNouveauCompte);
-			$lNouveauCompte->setIdAdherentPrincipal($pParam['idAdherentPrincipal']);
+			if($pParam['idAdherentPrincipal'] > 0) { // Uniquement si il y a un adhérent pincipal
+				$lNouveauCompte->setIdAdherentPrincipal($pParam['idAdherentPrincipal']);
+			}
 			$lCompteService->set($lNouveauCompte);
-			
 			
 			$lResponse = new AjoutAdherentResponse();
 			$lResponse->setId($lAdherent->getId());
