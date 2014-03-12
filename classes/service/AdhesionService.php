@@ -17,6 +17,7 @@ include_once(CHEMIN_CLASSES_MANAGERS . "/TypeAdhesionManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "/PerimetreAdhesionManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "/AdhesionAdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "/AdherentManager.php");
+include_once(CHEMIN_CLASSES_VO . "/AdhesionAdherentDetailVO.php");
 
 /**
  * @name AdhesionService
@@ -378,7 +379,7 @@ class AdhesionService
 	 * @return integer
 	 * @desc Supprime les adhésions d'adhérent pour un adhérent
 	 */
-	private function deleteAdhesionAdherentByIdAdherent($pIdAdherent) {	
+	public function deleteAdhesionAdherentByIdAdherent($pIdAdherent) {	
 		return AdhesionAdherentManager::deleteByIdAdherent($pIdAdherent);
 	}
 		
