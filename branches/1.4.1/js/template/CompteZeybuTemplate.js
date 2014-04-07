@@ -176,7 +176,7 @@
 					"</table>" +					
 				"</div>" +
 				"<div id=\"virement-association\">" +
-					"<div class=\"com-center\"><button id=\"btn-virement-association\" class=\"ui-state-default ui-corner-all com-button com-center\">Compte Marché vers Compte Solidaire</button></div>" +
+					"<div class=\"com-center\"><button id=\"btn-virement-association\" class=\"ui-state-default ui-corner-all com-button com-center\">Compte Marché vers Compte Association</button></div>" +
 				"</div>" +	
 			"</div>" +
 		"</div>";
