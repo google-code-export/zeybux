@@ -171,75 +171,91 @@
 							that.mTypes[this.id] = this;
 						});
 						
+						var lAfficheDialog = true;
 						if(lResponse.adhesion.types.length > 1) { // Plusieurs types possible => Le select
 							lResponse.type = lAdhesionTemplate.selectTypeAdhesion.template(lResponse.adhesion);
 							lResponse.perimetre = '';
 							lResponse.montant = lAdhesionTemplate.typeAdhesionMontant.template({montant:'',sigleMonetaire:''});
-						} else { // Un seul type => pas de select
+						} else if (lResponse.adhesion.types.length == 1){ // Un seul type => pas de select
 							lResponse.type = lAdhesionTemplate.typeAdhesionUnique.template(lResponse.adhesion.types[0]);
 							lResponse.perimetre = lResponse.adhesion.types[0].perLabel;
 							lResponse.montant = lAdhesionTemplate.typeAdhesionMontant.template({montant:lResponse.adhesion.types[0].montant.nombreFormate(2,',',' '),sigleMonetaire:gSigleMonetaire});
+						} else { // Pas de type
+							lAfficheDialog = false;
+							
+							Infobulle.init(); // Supprime les erreurs
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_367_CODE;
+							erreur.message = ERR_367_MSG;
+							lVr.log.erreurs.push(erreur);
+							Infobulle.generer(lVr,'');
 						}
 						
-						lResponse.label = lResponse.adhesion.label;
-						lResponse.dateDebut = lResponse.adhesion.dateDebut.extractDbDate().dateDbToFr();
-						lResponse.dateFin = lResponse.adhesion.dateFin.extractDbDate().dateDbToFr();
-						
-						
-						that.affectDialog($(lAdhesionTemplate.dialogAdhesionAdherent.template(lResponse))).dialog({
-							autoOpen: true,
-							modal: true,
-							draggable: false,
-							resizable: false,
-							width:370,
-							buttons: {
-								//'Annuler': function() { $(this).dialog("close"); },								
-								'Valider': function() {
+						if(lAfficheDialog) {
+							lResponse.label = lResponse.adhesion.label;
+							lResponse.dateDebut = lResponse.adhesion.dateDebut.extractDbDate().dateDbToFr();
+							lResponse.dateFin = lResponse.adhesion.dateFin.extractDbDate().dateDbToFr();
 							
-									var lVo = new AdhesionAdherentDetailVO();									
-									lVo.adhesionAdherent.idAdherent = pIdAdherent;
-									lVo.adhesionAdherent.idTypeAdhesion = $(':input[name=typeAdhesion]').val();
-									lVo.adhesionAdherent.statutFormulaire = $('#adhesionAdherentstatutFormulaire').is(':checked') ? 1 : 0;
-									lVo.operation = that.getOperationVO();
-									
-									
-									var lValid = new AdhesionAdherentDetailValid();
-									var lVr = lValid.validAjout(lVo);
-									
-									Infobulle.init(); // Supprime les erreurs
-									if(lVr.valid) {
-										lVo.fonction = "ajoutAdhesionAdherent";
-										var lDialog = this;
-										$.post(	"./index.php?m=Adhesion&v=GestionAdhesion", "pParam=" + $.toJSON(lVo),
-											function(lResponse) {
-												Infobulle.init(); // Supprime les erreurs
-												if(lResponse.valid) {
-													
-													// Message d'information
-													var lVr = new TemplateVR();
-													lVr.valid = false;
-													lVr.log.valid = false;
-													var erreur = new VRerreur();
-													erreur.code = ERR_364_CODE;
-													erreur.message = ERR_364_MSG;
-													lVr.log.erreurs.push(erreur);
-													var lParam = {id:that.mIdAdhesion,vr:lVr};
-													that.construct(lParam);
-													
-													$(lDialog).dialog("close");										
-												} else {
-													Infobulle.generer(lResponse,'');
-												}
-											},"json"
-										);
-									}else {
-										Infobulle.generer(lVr,'');
+							
+							that.affectDialog($(lAdhesionTemplate.dialogAdhesionAdherent.template(lResponse))).dialog({
+								autoOpen: true,
+								modal: true,
+								draggable: false,
+								resizable: false,
+								width:370,
+								buttons: {
+									//'Annuler': function() { $(this).dialog("close"); },								
+									'Valider': function() {
+								
+										var lVo = new AdhesionAdherentDetailVO();									
+										lVo.adhesionAdherent.idAdherent = pIdAdherent;
+										lVo.adhesionAdherent.idTypeAdhesion = $(':input[name=typeAdhesion]').val();
+										lVo.adhesionAdherent.statutFormulaire = $('#adhesionAdherentstatutFormulaire').is(':checked') ? 1 : 0;
+										lVo.operation = that.getOperationVO();
+										
+										
+										var lValid = new AdhesionAdherentDetailValid();
+										var lVr = lValid.validAjout(lVo);
+										
+										Infobulle.init(); // Supprime les erreurs
+										if(lVr.valid) {
+											lVo.fonction = "ajoutAdhesionAdherent";
+											var lDialog = this;
+											$.post(	"./index.php?m=Adhesion&v=GestionAdhesion", "pParam=" + $.toJSON(lVo),
+												function(lResponse) {
+													Infobulle.init(); // Supprime les erreurs
+													if(lResponse.valid) {
+														
+														// Message d'information
+														var lVr = new TemplateVR();
+														lVr.valid = false;
+														lVr.log.valid = false;
+														var erreur = new VRerreur();
+														erreur.code = ERR_364_CODE;
+														erreur.message = ERR_364_MSG;
+														lVr.log.erreurs.push(erreur);
+														var lParam = {id:that.mIdAdhesion,vr:lVr};
+														that.construct(lParam);
+														
+														$(lDialog).dialog("close");										
+													} else {
+														Infobulle.generer(lResponse,'');
+													}
+												},"json"
+											);
+										} else {
+											Infobulle.generer(lVr,'');
+										}
 									}
-								}
-							},
-							close: function(ev, ui) { $(this).remove(); }
-						});
-						that.changerTypePaiement($(":input[name=typepaiement]"));
+								},
+								close: function(ev, ui) { $(this).remove(); }
+							});
+							that.changerTypePaiement($(":input[name=typepaiement]"));
+						}
 					} else {
 						Infobulle.generer(lResponse,'');
 					}

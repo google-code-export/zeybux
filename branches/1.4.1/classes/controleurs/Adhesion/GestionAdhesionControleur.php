@@ -261,14 +261,14 @@ class GestionAdhesionControleur
 			$lCSV->setNom('Liste_Adherent.csv'); // Le Nom
 				
 			// L'entete
-			$lCSV->setEntete(array("N°","Compte", "Nom", "Prénom", "Statut"));
+			$lCSV->setEntete(array("N°","Compte", "Nom", "Prénom", "Adhésion"));
 				
 			$lListeAdherent = $lAdhesionService->selectListeAdherentAdhesion($pParam['id']);
 			$lContenuTableau = array();
 			foreach($lListeAdherent as $lAdherent) {
-				$lStatut = 'KO';
+				$lStatut = 'NON';
 				if(!is_null($lAdherent->getIdAdhesionAdherent())) {
-					$lStatut = 'OK';
+					$lStatut = 'OUI';
 				}
 				array_push($lContenuTableau, array($lAdherent->getAdhNumero(), $lAdherent->getCptLabel(), $lAdherent->getAdhNom(), $lAdherent->getAdhPrenom(), $lStatut));
 			}
