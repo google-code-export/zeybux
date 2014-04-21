@@ -334,6 +334,8 @@ class MessagesErreurs
 	const ERR_365_MSG = 'Adhésion modifiée.';
 	const ERR_366_CODE = 366;
 	const ERR_366_MSG = 'Adhésion supprimée.';
+	const ERR_367_CODE = 367;
+	const ERR_367_MSG = 'Pas de périmètre existant pour cette adhésion.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

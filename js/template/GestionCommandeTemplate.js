@@ -2986,7 +2986,8 @@
 					"</span>" +
 					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
 						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"2\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
-						"{categorie.produits.produit.sigleMonetaire}" +				
+						"{categorie.produits.produit.sigleMonetaire}" +		
+						"<br/><span class=\"prix-ttc ui-helper-hidden\"></span><span class=\"prix-ttc-affiche\"></span>" +
 					"</span>" +
 				"</td>" +
 				"<td class=\"produit-detail-facture-stock-solidaire\" data-id-stock-solidaire=\"{categorie.produits.produit.idStockSolidaire}\">" +
