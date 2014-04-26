@@ -63,7 +63,7 @@
 					lSolde = lResponse.adherent.cptSolde; 
 					lSoldePrecedent = parseFloat(this.montant);
 				} else {
-					lSolde -=  lSoldePrecedent;	
+					lSolde =  (lSolde - lSoldePrecedent).toFixed(2);	
 					lSoldePrecedent = parseFloat(this.montant);
 				}
 				

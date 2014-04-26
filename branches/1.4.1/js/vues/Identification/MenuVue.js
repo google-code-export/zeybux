@@ -91,6 +91,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-Caisse-PaiementCaisse').click(function() {
+				PaiementCaisseVue();
+				return false;
+			});
+			
 			pData.find('#menu-CompteSolidaire-CompteSolidaire').click(function() {
 				CompteSolidaireVue();
 				return false;

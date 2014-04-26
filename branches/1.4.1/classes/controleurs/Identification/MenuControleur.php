@@ -125,6 +125,12 @@ class MenuControleur
 			$lMenuModule->setNom('CaisseListeMarche');
 			$lMenuModule->setLabel('Liste des Marchés');						
 			$lMenu->addModules($lMenuModule);		
+			
+			$lMenuModule = new MenuModuleVO();
+			$lMenuModule->setModuleNom(MOD_CAISSE);
+			$lMenuModule->setNom('PaiementCaisse');
+			$lMenuModule->setLabel('Les Paiements de la Caisse');						
+			$lMenu->addModules($lMenuModule);	
 		}
 		
 		$lResponse = new MenuResponse();
