@@ -49,7 +49,7 @@ class StockQuantiteValid
 
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!TestFonction::checkLength($pData['quantite'],0,12)) {
+			if(!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -65,7 +65,7 @@ class StockQuantiteValid
 				$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 				$lVr->getQuantite()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['quantiteSolidaire'],0,12)) {
+			if(!TestFonction::checkLength($pData['quantiteSolidaire'],0,12) || $pData['quantiteSolidaire'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getQuantiteSolidaire()->setValid(false);
 				$lErreur = new VRerreur();
@@ -190,7 +190,7 @@ class StockQuantiteValid
 
 			if($lVr->getValid()) {
 			//Tests Techniques
-				if(!TestFonction::checkLength($pData['quantite'],0,12)) {
+				if(!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getQuantite()->setValid(false);
 					$lErreur = new VRerreur();
@@ -206,7 +206,7 @@ class StockQuantiteValid
 					$lErreur->setMessage(MessagesErreurs::ERR_109_MSG);
 					$lVr->getQuantite()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['quantiteSolidaire'],0,12)) {
+				if(!TestFonction::checkLength($pData['quantiteSolidaire'],0,12) || $pData['quantiteSolidaire'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getQuantiteSolidaire()->setValid(false);
 					$lErreur = new VRerreur();

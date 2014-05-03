@@ -214,7 +214,7 @@ class VirementService
 			return $pVirement;			
 		} else if ($lIdVirementValid->estCredit($pVirement->getId()->getIdCredit()) ) {
 			$lOperationService = new OperationService();			
-			$lOperation = $lOperationService->get($pVirement->getId()->getIdCredit());
+			$lOperation = $lOperationService->getDetail($pVirement->getId()->getIdCredit());
 			$lOpeChampComp = $lOperation->getChampComplementaire();
 			$lIdDebit = $lOpeChampComp[5]->getValeur();
 			$pVirement->getId()->setIdDebit($lIdDebit);

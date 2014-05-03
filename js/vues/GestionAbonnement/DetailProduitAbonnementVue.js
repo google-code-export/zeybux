@@ -438,18 +438,7 @@
 		});
 		return pData;		
 	};
-	
-
-	/*this.ajoutLotModification = function(pId) {
-		$(".btn-lot, #btn-annuler-lot-" + pId + ", #btn-valider-lot-" + pId + ", .champ-lot-" + pId).toggle();
-
-		$("#pro-lot-" + pId + "-quantite").val($("#lot-" + pId + "-quantite").text());
-		$("#pro-lot-" + pId + "-unite").val($("#lot-" + pId + "-unite").text());
-		$("#pro-lot-" + pId + "-prix").val($("#lot-" + pId + "-prix").text());
-
-		this.mEditionLot = true;
-	};*/
-	
+		
 	this.ajoutLotValiderModification = function(pId) {
 		var lVo = new ModeleLotVO();
 		lVo.id = pId;
@@ -526,15 +515,12 @@
 		var lUnite = $('#lot-' + pId + '-unite').text();
 		var lQuantite = parseFloat($('#lot-' + pId + '-quantite').text().numberFrToDb());
 		
-			//$("#dialog-modif-pro").find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();	
 		$("#dialog-modif-pro").find('.ligne-lot').each( function () {								
 			var lId = $(this).find(".lot-id").text();
 			var lQuantiteLot = parseFloat($(this).find(".lot-quantite").text().numberFrToDb());
 			var lPrix = parseFloat($(this).find(".lot-prix").text().numberFrToDb());
 			var lUniteLot = $(this).find(".lot-unite").text();
-			
-			//alert(lQuantite % lQuantiteLot);
-			
+						
 			if(lId != null && lId != pId && lUniteLot == lUnite && lQuantiteLot <= lQuantite && (lQuantite % lQuantiteLot) == 0) {
 				var lVoLot = {	
 						id:lId,
@@ -585,23 +571,12 @@
 			pDialog.dialog('close'); // Fermeture de la fenêtre
 		}
 	};
-	
-	/*this.affectFormUnite = function(pData) {
-		var that = this;
-		pData.find("#pro-unite").keyup(function(event) {
-			$(".unite-stock").text($('#pro-unite').val());
-		}).change(function() {
-			$(".unite-stock").text($('#pro-unite').val());
-		});		
-		return pData;
-	};*/
-	
+		
 	this.modifierProduit = function(pDialog) {
 		var that = this;
 		
 		var lProduitAbonnement = new ProduitAbonnementVO();
 		lProduitAbonnement.id = pDialog.find(':input[name=idProduit]').val();
-		//lProduitAbonnement.unite = pDialog.find(':input[name=pro-formUnite]').val();
 		lProduitAbonnement.unite = pDialog.find(".ligne-lot :checkbox:checked").first().closest(".ligne-lot").find(".lot-unite").text();
 		lProduitAbonnement.stockInitial = pDialog.find(':input[name=pro-stockInitial]').val().numberFrToDb();
 		if(pDialog.find(':input[name=pro-qte-max-choix]:checked').val() == 1) {
@@ -613,8 +588,8 @@
 
 		lProduitAbonnement.quantiteReservation = this.mQuantiteReservation;
 		lProduitAbonnement.tailleLotResaMax = this.mTailleLotResaMax;
-
 		lProduitAbonnement.lotRemplacement = this.mLotRemplacement;
+		
 		pDialog.find('.ligne-lot :checkbox:checked').each( function () {
 			// Récupération des lots
 			var lVoLot = new DetailCommandeVO();

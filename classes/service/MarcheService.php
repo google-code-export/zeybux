@@ -21,6 +21,7 @@ include_once(CHEMIN_CLASSES_UTILS . "TestFonction.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
 include_once(CHEMIN_CLASSES_SERVICE . "StockService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "AbonnementService.php" );
@@ -354,6 +355,9 @@ class MarcheService
 									$lDetailCommande->setTaille($lLotNv->getTaille());
 									$lDetailCommande->setPrix($lLotNv->getPrix());
 									DetailCommandeManager::update($lDetailCommande);
+									
+									// Maj des réservations associées
+									DetailOperationManager::majTotalReservation($lLotActuel->getId());
 								}																
 							}
 							// Supprimer Lot
@@ -513,15 +517,14 @@ class MarcheService
 					$lDetailCommande->setPrix($lLotNv->getPrix());
 					DetailCommandeManager::update($lDetailCommande);
 					
+					// Maj des réservations associées
+					DetailOperationManager::majTotalReservation($lLotActuel->getId());
+					
 					array_push($lLotModif,$lDetailCommande);
 				}																
 			}
 			// Supprimer Lot
-			if($lMajLot) {
-				$lDeleteLot = DetailCommandeManager::select($lLotActuel->getId());
-				$lDeleteLot->setEtat(1);
-				DetailCommandeManager::update($lDeleteLot);
-				
+			if($lMajLot) {				
 				array_push($lLotSupp,$lLotActuel->getId());
 			}
 		}
@@ -610,6 +613,10 @@ class MarcheService
 					}	
 				}		
 			}
+			
+			$lDeleteLot = DetailCommandeManager::select($lIdLot);
+			$lDeleteLot->setEtat(1);
+			DetailCommandeManager::update($lDeleteLot);
 		}
 	}
 	

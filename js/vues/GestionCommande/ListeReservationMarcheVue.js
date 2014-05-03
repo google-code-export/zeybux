@@ -99,82 +99,128 @@
 	};
 	
 	this.affectExportReservation = function(pData) {		
+		var lGestionCommandeTemplate = new GestionCommandeTemplate();
+		
 		var that = this;
 		pData.find('#btn-export-resa')
 		.click(function() {			
-			var lGestionCommandeTemplate = new GestionCommandeTemplate();
-			var lTemplate = lGestionCommandeTemplate.dialogExportListeReservation;
-
-			// N'affiche pas les produits solidaire		
-			var lListe = {fermes:[]};
-			$(that.mListeFerme.fermes).each(function(i,val) {
-				var lAjoutFerme = false;
-				var lFerme = {ferId:this.ferId,
-						ferNom:this.ferNom,
-						categories:[]};
-				$(this.categories).each(function(i,val) {
-					var lAjoutCategorie = false;
-					var lCategorie = {
-							cproId:this.cproId,
-							cproNom:this.cproNom,
-							produits:[]};
-					$(this.produits).each(function(i,val) {									
-						if(this.type == 2 || this.type == 0) {						
-							lCategorie.produits.push(this);
-							lAjoutFerme = true;
-							lAjoutCategorie = true;
-						}
-					});
-					if(lAjoutCategorie) {
-						lFerme.categories.push(lCategorie);
-					}
-		
-				});
-				if(lAjoutFerme) {
-					lListe.fermes.push(lFerme);
-				}
-			});
-			
-			$(lTemplate.template(lListe)).dialog({
-				autoOpen: true,
-				modal: true,
-				draggable: false,
-				resizable: false,
-				width:600,
-				buttons: {
-					'Exporter': function() {
-						// Récupération du formulaire
-						var lIdProduits = '';
-						$(this).find(':input[name=id_produits]:checked').each(function() {
-							lIdProduits += $(this).val() + ',';
-						});
-						lIdProduits = lIdProduits.substr(0,lIdProduits.length-1);
-						
-						var lFormat = $(this).find(':input[name=format]:checked').val();
-						var lParam = new ExportListeReservationVO();
-						lParam = {fonction:"exportReservation",id_commande:that.mIdMarche,id_produits:lIdProduits,format:lFormat};
-						
-						// Test des erreurs
-						var lValid = new ExportListeReservationValid();
-						var lVr = lValid.validAjout(lParam);
-						
+			var lParam = {fonction:'afficher',id_marche:that.mIdMarche};
+			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
+					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
-						if(lVr.valid) {
-							// Affichage
-							$.download("./index.php?m=GestionCommande&v=ListeReservationMarche", lParam);
-						} else {
-							Infobulle.generer(lVr,'');
+						if(lResponse) {
+							if(lResponse.valid) {
+								if(pParam.vr) {
+									Infobulle.generer(pParam.vr,'');
+								}
+								
+								// N'affiche pas les produits solidaire		
+								var lProduits = [];
+								$.each(lResponse.marche.produits, function() {
+									if(this.type != 1) {
+										lProduits.push(this);
+									}
+								});
+								lResponse.marche.produits = lProduits;
+								
+								// La fenêtre de dialog
+								var lDialog = $(that.affectFormExport($(lGestionCommandeTemplate.dialogExportListeReservation.template(lResponse.marche)))).dialog({
+									autoOpen: true,
+									modal: true,
+									draggable: false,
+									resizable: false,
+									width:800,
+									buttons: {
+										'Exporter': function() {
+											// Récupération du formulaire
+											var lIdProduits = '';
+											$('input:checked',lTable.fnGetNodes()).each(function() {
+												lIdProduits += $(this).val() + ',';
+											});
+											lIdProduits = lIdProduits.substr(0,lIdProduits.length-1);
+											
+											var lFormat = $(this).find(':input[name=format]:checked').val();
+											var lParam = new ExportListeReservationVO();
+											lParam = {fonction:"exportReservation",id_commande:that.mIdMarche,id_produits:lIdProduits,format:lFormat};
+											
+											// Test des erreurs
+											var lValid = new ExportListeReservationValid();
+											var lVr = lValid.validAjout(lParam);
+											
+											Infobulle.init(); // Supprime les erreurs
+											if(lVr.valid) {
+												// Affichage
+												$.download("./index.php?m=GestionCommande&v=ListeReservationMarche", lParam);
+												// Déselectionne les produits
+												$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", false);
+											} else {
+												Infobulle.generer(lVr,'');
+											}
+										},
+										'Annuler': function() {
+											$(this).dialog('close');
+										}
+									},
+									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
+								});
+								
+								// Le dataTable avec groupement par catégorie
+								var lTable = 
+									lDialog.find('#liste-produit')
+									.dataTable({								
+											"bJQueryUI": true,
+									        "sPaginationType": "full_numbers",
+									        "oLanguage": gDataTablesFr,
+									        "iDisplayLength": 10,	
+									        "bLengthChange": false,
+											"aoColumnDefs": [
+											                  { "aTargets": [ 2 ] ,
+											                	"bSortable": false, 
+											                	"bSearchable":false
+											                  }, {
+											                	  "aTargets": [ 4 ],
+											                	  "bSortable": false,
+											                	  "mRender": function ( data, type, full ) {
+											                		  if(data == 2) {
+											                			  return lGestionCommandeTemplate.flagAbonnement;
+											                		  }
+											                		  return '';
+										                	      }
+											                  }, {
+											                	  "aTargets": [ 3 ],
+											                	 "bSortable": false
+											                  }]
+									})
+									.rowGrouping({	
+										iGroupingColumnIndex2: 1,
+										sGroupingClass:"ui-widget-header",
+										sGroupingClass2:"ui-widget-header",
+										sGroupLabelPrefix2:"&emsp;"
+									});
+								
+								// Bouton selection de tous les produits
+								lDialog.find("#button-tp").click(function() {
+									$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", true);
+								});
+								// Déselectionne les produits
+								lDialog.find("#button-ap").click(function() {
+									$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", false);
+								});
+								
+							} else {
+								Infobulle.generer(lResponse,'');
+							}
 						}
-					},
-					'Annuler': function() {
-						$(this).dialog('close');
-					}
-				},
-				close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
-			});
-			
+					},"json"
+			);
 		});
 		return pData;
-	};	
+	};
+	
+	this.affectFormExport = function(pData) {
+		pData = gCommunVue.comHoverBtn(pData); 
+		return pData;
+	};
+
 	this.construct(pParam);
 }

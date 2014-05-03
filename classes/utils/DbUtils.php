@@ -142,6 +142,43 @@ class DbUtils
 			return $lResultat;
 		}
 	}
+	
+	/**
+	 * @name executerRequetesMultiples($pRequetes)
+	 * @param array(string)
+	 * @return mysql_result
+	 * @desc Exécute la requête passée en paramètre
+	 */
+	public static function executerRequetesMultiples($pRequetes) {
+		$lDb = DbUtils::creerConnexion();		
+		$lContinuer = true;
+		foreach($pRequetes as $lRequete) {
+			if($lContinuer)  {
+				$lResultat = @mysql_query($lRequete);
+			
+				if (!$lResultat) {
+					$lContinuer = false;
+					
+					// Initialisation du Logger
+					$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+					$lLogger->setMask(Log::MAX(LOG_LEVEL));
+					$lLogger->log(MessagesErreurs::ERR_603_MSG . " : " . mysql_error(),PEAR_LOG_DEBUG); // Maj des logs
+			
+					$lVr = new TemplateVR();
+					$lVr->setValid(false);
+					$lVr->getLog()->setValid(false);
+					$lErreur = new VRerreur();
+					$lErreur->setCode(MessagesErreurs::ERR_603_CODE);
+					$lErreur->setMessage(MessagesErreurs::ERR_603_MSG);
+					$lVr->getLog()->addErreur($lErreur);
+						
+					die($lVr->exportToJson());
+				} 
+			}
+		}
+		DbUtils::fermerConnexion($lDb);
+		return $lResultat;
+	}
 
 	/**
 	* @name executerRequeteInsertRetourId ($requete)

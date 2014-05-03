@@ -490,8 +490,7 @@ class AdhesionAdherentManager
 		$lRequete =
 		"UPDATE " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
 			 SET
-				 " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_ADHERENT . " = '" . StringUtils::securiser( $pVo->getIdAdherent() ) . "'
-				," . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . " = '" . StringUtils::securiser( $pVo->getIdTypeAdhesion() ) . "'
+				 " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_TYPE_ADHESION . " = '" . StringUtils::securiser( $pVo->getIdTypeAdhesion() ) . "'
 				," . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_OPERATION . " = '" . StringUtils::securiser( $pVo->getIdOperation() ) . "'
 				," . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_STATUT_FORMULAIRE . " = '" . StringUtils::securiser( $pVo->getStatutFormulaire() ) . "'
 				," . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_DATE_MODIFICATION . " = now()

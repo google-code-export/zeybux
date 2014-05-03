@@ -151,6 +151,21 @@ class ModeleLotManager
 		}
 		return $lListeModeleLot;
 	}
+	
+	/**
+	 * @name selectByIdNomProduit($pId)
+	 * @param int(11)
+	 * @return array(ModeleLotVO)
+	 * @desc Retourne une liste ModeleLotVO
+	 */
+	public function selectByIdNomProduit($pId) {
+		return ModeleLotManager::recherche(
+				array(ModeleLotManager::CHAMP_MODELELOT_ID_NOM_PRODUIT),
+				array('='),
+				array($pId),
+				array(''),
+				array(''));
+	}
 
 	/**
 	* @name recherche( $pTypeRecherche, $pTypeCritere, $pCritereRecherche, $pTypeTri, $pCritereTri )

@@ -133,7 +133,7 @@ class ProduitsBonDeLivraisonValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getTypePaiement()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['total'],0,12)) {
+			if(!TestFonction::checkLength($pData['total'],0,12) || $pData['total'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getTotal()->setValid(false);
 				$lErreur = new VRerreur();

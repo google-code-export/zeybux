@@ -117,7 +117,7 @@ class ListeAbonneValid
 				$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 				$lVr->getIdLotAbonnement()->addErreur($lErreur);	
 			}
-			if(!TestFonction::checkLength($pData['quantite'],0,12)) {
+			if(!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -370,7 +370,7 @@ class ListeAbonneValid
 					$lErreur->setMessage(MessagesErreurs::ERR_108_MSG);
 					$lVr->getIdLotAbonnement()->addErreur($lErreur);	
 				}
-				if(!TestFonction::checkLength($pData['quantite'],0,12)) {
+				if(!TestFonction::checkLength($pData['quantite'],0,12) || $pData['quantite'] > 999999999.99) {
 					$lVr->setValid(false);
 					$lVr->getQuantite()->setValid(false);
 					$lErreur = new VRerreur();
