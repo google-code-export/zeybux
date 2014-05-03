@@ -1206,11 +1206,11 @@
 				"<p>Vous allez cloturer le Marché n°{comNumero}</p>" +
 			"</div>";
 	
-	this.dialogExportListeAchatEtReservation =
+	/*this.dialogExportListeAchatEtReservation =
 		"<div id=\"dialog-cloturer-com\" title=\"Export des Achats et Réservations du marché n°{comNumero}\">" +
 			"<p>Vous allez exporter les Achats et Réservations du Marché n°{comNumero}.<br/>" +
 			"Cette action peut être longue.</p>" +
-		"</div>";
+		"</div>";*/
 	
 	this.dialogExportListeReservation = 
 			"<div id=\"dialog-export-liste-reservation\" title=\"Export des réservations en cours.\">" +
@@ -1222,28 +1222,67 @@
 							"<td><input type=\"radio\" name=\"format\" value=\"1\" />CSV</td>" +
 						"</tr>" +
 					"</table>" +
-					"<div>Sélectionner les produits : </div>" +
-					"<table class=\"com-table-100\">" +
-						"<!-- BEGIN fermes -->" +
-						"<tr class=\"ui-widget-header\" >" +
-							"<td colspan=\"3\" class=\"com-table-td\">{fermes.ferNom}</td>" +
-						"</tr>" +
-						"<!-- BEGIN fermes.categories -->" +
+					
+					"<div>Sélectionner les produits : " +
+						"<input type=\"button\" value=\"Tous\" id=\"button-tp\" class=\"ui-state-default ui-corner-all com-button com-center\"/> " +
+						"<input type=\"button\" value=\"Aucun\" id=\"button-ap\" class=\"ui-state-default ui-corner-all com-button com-center\"/>" +
+					"</div><br/>" +
+					"<table class=\"com-table-100\" id=\"liste-produit\">" +
+						"<thead>" +
+							"<tr>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th>Produits</th>" +
+								"<th></th>" +
+							"</tr>" +
+						"<thead>" +
+						"<tbody>" +
+						"<!-- BEGIN produits -->" +
 						"<tr>" +
-							"<td colspan=\"3\" class=\"com-table-td\">{fermes.categories.cproNom}</td>" +
+							"<td>{produits.ferNom}</td>" +
+							"<td>{produits.cproNom}</td>" +
+							"<td><input type=\"checkbox\" value=\"{produits.id}\" name=\"id_produits\"/></td>" +
+							"<td>{produits.nom}</td>" +		
+							"<td>{produits.type}</td>" +		
 						"</tr>" +
-						"<!-- BEGIN fermes.categories.produits -->" +
-						"<tr>" +
-							"<td class=\"com-table-td-debut td-edt\"><input type=\"checkbox\" value=\"{fermes.categories.produits.id}\" name=\"id_produits\"/></td>" +
-							"<td class=\"com-table-td-med\">{fermes.categories.produits.nproNom}</td>" +		
-							"<td class=\"com-table-td-fin\">{fermes.categories.produits.abonnement}</td>" +		
-						"</tr>" +
-						"<!-- END fermes.categories.produits -->" +
-						"<!-- END fermes.categories -->" +
-						"<!-- END fermes -->" +
+						"<!-- END produits -->" +
+						"</tbody>" +
 					"</table>" +
 				"</form>" +
 			"</div>";
+	
+	this.dialogExportListeAchatEtReservation = 
+		"<div id=\"dialog-export-liste-ar\" title=\"Export des achats et réservations.\">" +
+			"<form>" +				
+				"<div>Sélectionner les produits : " +
+					"<input type=\"button\" value=\"Tous\" id=\"button-tp\" class=\"ui-state-default ui-corner-all com-button com-center\"/> " +
+					"<input type=\"button\" value=\"Aucun\" id=\"button-ap\" class=\"ui-state-default ui-corner-all com-button com-center\"/>" +
+				"</div><br/>" +
+				"<table class=\"com-table-100\" id=\"liste-produit\">" +
+					"<thead>" +
+						"<tr>" +
+							"<th></th>" +
+							"<th></th>" +
+							"<th></th>" +
+							"<th>Produits</th>" +
+							"<th></th>" +
+						"</tr>" +
+					"<thead>" +
+					"<tbody>" +
+					"<!-- BEGIN produits -->" +
+					"<tr>" +
+						"<td>{produits.ferNom}</td>" +
+						"<td>{produits.cproNom}</td>" +
+						"<td><input type=\"checkbox\" value=\"{produits.id}\" name=\"id_produits\"/></td>" +
+						"<td>{produits.nom}</td>" +		
+						"<td>{produits.type}</td>" +		
+					"</tr>" +
+					"<!-- END produits -->" +
+					"</tbody>" +
+				"</table>" +
+			"</form>" +
+		"</div>";
 	
 	
 	this.editerMarcheMenu = 
@@ -1307,7 +1346,7 @@
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
 			"<div id=\"edt-com-liste\" >" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Gestion des réservations" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-resa\" title=\"Exporter les réservations\">" +
@@ -1899,7 +1938,7 @@
 		"<div id=\"contenu\">" +
 			"{editerMenu}" +
 			"<div>" +
-				"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
+				"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +
 					"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 						"Gestion des réservations" +
 					"</div>" +
@@ -2986,7 +3025,8 @@
 					"</span>" +
 					"<span class=\"ui-helper-hidden affiche-detail-facture\">" +
 						"<input type=\"text\" value=\"{categorie.produits.produit.montant}\" class=\"montant-produit com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"2\" id=\"produits{categorie.produits.produit.compteurStock}montant\" />" +
-						"{categorie.produits.produit.sigleMonetaire}" +				
+						"{categorie.produits.produit.sigleMonetaire}" +		
+						"<br/><span class=\"prix-ttc ui-helper-hidden\"></span><span class=\"prix-ttc-affiche\"></span>" +
 					"</span>" +
 				"</td>" +
 				"<td class=\"produit-detail-facture-stock-solidaire\" data-id-stock-solidaire=\"{categorie.produits.produit.idStockSolidaire}\">" +

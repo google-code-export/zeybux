@@ -48,7 +48,7 @@ td    { vertical-align: top; }
     </table>
     <br>
     <i>
-        <b><u>Objet </u>: &laquo; Facture &raquo;</b><br><br>
+        <b><u>Objet </u>: &laquo; Bon de Livraison &raquo;</b><br><br>
     </i>
     <div>
     Madame, Monsieur,<br>

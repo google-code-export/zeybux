@@ -208,7 +208,7 @@ class FactureControleur
 							
 			// get the HTML
 			ob_start();
-			include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/Facture.php');
+			include(CHEMIN_TEMPLATE . MOD_GESTION_COMMANDE .'/PDF/BonDeLivraison.php');
 			$content = ob_get_clean();
 				
 			// convert to PDF
@@ -216,7 +216,7 @@ class FactureControleur
 				$html2pdf = new HTML2PDF('P', 'A4', 'fr');
 				$html2pdf->pdf->SetDisplayMode('fullpage');
 				$html2pdf->writeHTML($content, 0);
-				$html2pdf->Output('Facture.pdf','D');
+				$html2pdf->Output('BonDeLivraison.pdf','D');
 			}
 			catch(HTML2PDF_exception $e) {
 				// Initialisation du Logger
@@ -237,7 +237,7 @@ class FactureControleur
 		$lVr = FactureValid::validDelete($pParam);	
 		if($lVr->getValid()) {
 			$lCSV = new CSV();
-			$lCSV->setNom('Facture.csv'); // Le Nom
+			$lCSV->setNom('BonDeLivraison.csv'); // Le Nom
 	
 			// L'entete
 			$lEntete = array("Ferme","Ref.", "Produit","Quantite","","Prix","","Solidaire","");

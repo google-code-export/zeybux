@@ -58,7 +58,7 @@ class DetailReservationMarcheValid
 
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!TestFonction::checkLength($pData['stoQuantite'],0,12)) {
+			if(!TestFonction::checkLength($pData['stoQuantite'],0,12) || $pData['stoQuantite'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getStoQuantite()->setValid(false);
 				$lErreur = new VRerreur();
@@ -289,7 +289,7 @@ class DetailReservationMarcheValid
 
 		if($lVr->getValid()) {
 			//Tests Techniques
-			if(!TestFonction::checkLength($pData['stoQuantite'],0,12)) {
+			if(!TestFonction::checkLength($pData['stoQuantite'],0,12) || $pData['stoQuantite'] > 999999999.99) {
 				$lVr->setValid(false);
 				$lVr->getStoQuantite()->setValid(false);
 				$lErreur = new VRerreur();

@@ -7,4 +7,4 @@
 	this.id_commande = new VRelement();
 	this.id_produits = new VRelement();
 	this.format = new VRelement();
-}
+};

@@ -245,7 +245,7 @@ class MarcheValid
 					$lErreur->setMessage(MessagesErreurs::ERR_207_MSG);
 					$lVr->getLog()->addErreur($lErreur);
 				}
-				if(($lTotal + $lTotalSolidaire + $lRechargement) != 0 ) { // Compte invite reste à 0
+				if((bcadd(bcadd($lTotal, $lTotalSolidaire, 2), $lRechargement, 2)) != 0 ) { // Compte invite reste à 0
 					$lVr->setValid(false);
 					$lVr->getLog()->setValid(false);
 					$lErreur = new VRerreur();

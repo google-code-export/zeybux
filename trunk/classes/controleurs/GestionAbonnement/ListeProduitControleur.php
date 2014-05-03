@@ -227,8 +227,6 @@ class ListeProduitControleur
 				$lProduitAbonnement->addLots($lLotAbonnement);
 			 }		 
 			
-			
-			//$lProduitAbonnement->setLots($pParam['lots']);
 			$lAbonnementService->setProduit($lProduitAbonnement,$pParam["lotRemplacement"]);
 		}
 		return $lVr;
