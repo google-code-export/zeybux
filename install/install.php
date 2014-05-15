@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
-		<title>Zeybux 1.0 - Outil de gestion du Zeybu - Installation</title>
+		<title>Zeybux - Installation</title>
 		
 		<style type=\"text/css\">
 /*
@@ -4538,6 +4538,17 @@ color:#FFFFFF;
 					</tr>
 					
 					<tr>
+						<td colspan="2" class="ui-widget-header">Site Zeybux</td>		
+					</tr>
+					<tr>
+						<td>Nom du site</td>
+						<td><input type="text" name="zeybuxTitre" id="zeybuxTitre"/></td>						
+					</tr>
+					<tr>
+						<td>Adresse du site</td>
+						<td><input type="text" name="zeybuxAdresse" id="zeybuxAdresse"/></td>						
+					</tr>
+					<tr>
 						<td colspan="2" class="ui-widget-header">Proprietaire Zeybux</td>		
 					</tr>
 					<tr>
@@ -4564,7 +4575,25 @@ color:#FFFFFF;
 						<td>Courriel</td>
 						<td><input type="text" name="propMail" id="propMail"/></td>						
 					</tr>
-										
+					<tr>
+						<td colspan="2" class="ui-widget-header">Responsable Marché</td>		
+					</tr>
+					<tr>
+						<td>Titre du poste de responsable marché</td>
+						<td><input type="text" name="propRespMarchePoste" id="propRespMarchePoste"/></td>						
+					</tr>
+					<tr>
+						<td>Prénom</td>
+						<td><input type="text" name="propRespMarchePrenom" id="propRespMarchePrenom"/></td>						
+					</tr>
+					<tr>
+						<td>Nom</td>
+						<td><input type="text" name="propRespMarcheNom" id="propRespMarcheNom"/></td>						
+					</tr>
+					<tr>
+						<td>Téléphone</td>
+						<td><input type="text" name="propRespMarcheTel" id="propRespMarcheTel"/></td>						
+					</tr>		
 					<tr>
 						<td colspan="2" class="center">
 							<input type="hidden" name="rep" id="rep" value="<?php echo $p_path; ?>"/>
@@ -4580,12 +4609,14 @@ color:#FFFFFF;
 		if(	isset($_POST['admin-login']) && isset($_POST['admin-pass']) && isset($_POST['admin-confirm-pass'])
 			&& isset($_POST['mailSupport']) && isset($_POST['mailingListe']) && isset($_POST['mailingListeDomain'])
 			&& isset($_POST['adresseWSDL']) && isset($_POST['soapLogin']) && isset($_POST['soapPass'])
+			&& isset($_POST['zeybuxTitre']) && isset($_POST["zeybuxAdresse"])
+			&& isset($_POST["propRespMarcheNom"]) && isset( $_POST["propRespMarchePrenom"]) && isset( $_POST["propRespMarchePoste"] ) && isset($_POST["propRespMarcheTel"] ) 
 			&& isset($_POST['propNom']) && isset($_POST['propAdresse']) && isset($_POST['propCP'])
 			&& isset($_POST['propVille']) && isset($_POST['propTel']) && isset($_POST['propMail'])
 
 			&& isset($_POST['rep']) && isset($_POST['prefixe'])) {
 		
-			if(	empty($_POST['admin-login']) || empty($_POST['admin-pass']) || empty($_POST['admin-confirm-pass']) 
+			if(empty($_POST["zeybuxAdresse"]) ||	empty($_POST['admin-login']) || empty($_POST['admin-pass']) || empty($_POST['admin-confirm-pass']) 
 				&& empty($_POST['mailSupport']) || empty($_POST['mailingListe']) || empty($_POST['mailingListeDomain'])		
 				|| empty($_POST['adresseWSDL'])|| empty($_POST['soapLogin'])|| empty($_POST['soapPass'])	
 			) {	
@@ -4671,7 +4702,7 @@ color:#FFFFFF;
 					fwrite($fp,"?>\n");
 					fclose($fp);
 
-					// Ajout du fichier de config du niveau de Log
+					// Ajout du fichier de config du proprietaire
 					$fp = fopen($_POST["rep"] . '/configuration/Proprietaire.php', 'w');
 					fwrite($fp,"<?php\n");
 					fwrite($fp,"//****************************************************************\n");
@@ -4689,6 +4720,29 @@ color:#FFFFFF;
 					fwrite($fp,"define(\"PROP_VILLE\", \"" . $_POST["propVille"] . "\");\n");
 					fwrite($fp,"define(\"PROP_TEL\", \"" . $_POST["propTel"] . "\");\n");
 					fwrite($fp,"define(\"PROP_MEL\", \"" . $_POST["propMail"] . "\");\n");
+					fwrite($fp,"define(\"PROP_RESP_MARCHE_NOM\", \"" . $_POST["propRespMarcheNom"] . "\");\n");
+					fwrite($fp,"define(\"PROP_RESP_MARCHE_PRENOM\", \"" . $_POST["propRespMarchePrenom"] . "\");\n");
+					fwrite($fp,"define(\"PROP_RESP_MARCHE_POSTE\", \"" . $_POST["propRespMarchePoste"] . "\");\n");
+					fwrite($fp,"define(\"PROP_RESP_MARCHE_TEL\", \"" . $_POST["propRespMarcheTel"] . "\");\n");
+					fwrite($fp,"?>\n");
+					fclose($fp);
+					
+					// Ajout du fichier de config du Titre
+					$fp = fopen($_POST["rep"] . '/configuration/Titre.php', 'w');
+					fwrite($fp,"<?php\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Createur : Julien PIERRE\n");
+					fwrite($fp,"// Date de creation : 25/06/2011\n");
+					fwrite($fp,"// Fichier : Titre.php\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"// Description : Informations sur le Titre du site\n");
+					fwrite($fp,"//\n");
+					fwrite($fp,"//****************************************************************\n");
+					fwrite($fp,"define(\"ZEYBUX_TITRE_DEBUT\",\"\");\n");
+					fwrite($fp,"define(\"ZEYBUX_TITRE_FIN\",\"Zeybux \" . ZEYBUX_VERSION . \" - Outil de gestion\");\n");
+					fwrite($fp,"define(\"ZEYBUX_TITRE_SITE\", \"" . $_POST["zeybuxTitre"] . "\");\n");
+					fwrite($fp,"define(\"ZEYBUX_ADRESSE_SITE\", \"" . $_POST["zeybuxAdresse"] . "\");\n");
 					fwrite($fp,"?>\n");
 					fclose($fp);
 				}

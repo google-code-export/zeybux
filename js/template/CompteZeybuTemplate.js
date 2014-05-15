@@ -2,7 +2,7 @@
 	this.rechercheListeOperation = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"Le Compte du Zeybu" +
+				"Compte Marché" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
 					"<span class=\"ui-icon ui-icon-print\">" +
 				"</span>" +
@@ -10,11 +10,11 @@
 			"<table id=\"table-info-solde-zeybu\">" +
 				"<thead>" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Zeybu Marche : {soldeTotal} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Marché : {soldeTotal} {sigleMonetaire}</th>" +
 						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Montant en Banque : {soldeBanque} {sigleMonetaire}</th>" +
 					"</tr>" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde EAU : {soldeSolidaire} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde Solidaire : {soldeSolidaire} {sigleMonetaire}</th>" +
 						"<th id=\"td-solde-zeybu-caisse\" class=\"com-table-th\">Montant en Caisse : {soldeCaisse} {sigleMonetaire}</th>" +
 					"</tr>" +
 				"</thead>" +

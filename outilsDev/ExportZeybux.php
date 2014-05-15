@@ -555,15 +555,15 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 	//	copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
 	//	copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
 
-		if($lEnv != 'install') {
-
+		if($lEnv != 'install') { // En maintenance
 			mkdir($lPath . '/bdd');
 			parcourirDossierCopie($lDossierVersionSource . '/install/bdd',$lPath . '/bdd', $lVersionTechnique);
 			//copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
-		} else {
+		} else { // En installation
 			unlink($lPath.'/configuration/DB.php');
 			unlink($lPath.'/configuration/Mail.php');
 			unlink($lPath.'/configuration/Proprietaire.php');
+			unlink($lPath.'/configuration/Titre.php');
 			
 			// le install.sql
 			/*$serveur = "127.0.0.1";

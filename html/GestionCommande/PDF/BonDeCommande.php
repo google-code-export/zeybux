@@ -52,7 +52,7 @@ td    { vertical-align: top; }
     </i>
     <div>
     Madame, Monsieur,<br>
-    Les amis du zeybu souhaite commander les produits suivants pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
+    <?php echo PROP_NOM;?> souhaite commander les produits suivants pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
     </div>
     <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
         <tr>
@@ -104,7 +104,7 @@ foreach($lLignesBonCommande as $lLigne) {
     <br>
     <div style="font-size: 11pt;">
     Merci de nous confirmer la bonne prise en compte de cette commande par mail : <a href="mailto:<?php echo PROP_MEL;?>"><?php echo PROP_MEL;?></a><br>
-    Plus les dons en nature à préciser sur la facture au nom des Amis du Zeybu.
+    Plus les dons en nature à préciser sur la facture au nom <?php echo PROP_NOM;?>.
     </div>
     <br>
     <nobreak>
@@ -112,9 +112,9 @@ foreach($lLignesBonCommande as $lLigne) {
             <tr>
                 <td style="width:50%;"></td>
                 <td style="width:50%; ">
-                    Chantal VIOLETTE<br>
-                    Responsable Zeybu Marché<br>
-                    Tel : 06 34 68 46 87<br>
+                    <?php echo PROP_RESP_MARCHE_PRENOM;?> <?php echo PROP_RESP_MARCHE_NOM;?><br>
+                    <?php echo PROP_RESP_MARCHE_POSTE;?><br>
+                    Tel : <?php echo PROP_RESP_MARCHE_TEL;?><br>
                 </td>
             </tr>
         </table>
