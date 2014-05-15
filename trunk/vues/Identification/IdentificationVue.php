@@ -73,7 +73,14 @@ else {
 	$lTemplate = new Template(CHEMIN_TEMPLATE);	
 	$lTemplate->set_filenames( array('index' =>  './index.html') );
 	InfobullesUtils::generer($lTemplate); // Messages d'erreur
-	$lTemplate->assign_vars( array( 'TITRE' => IDE_TITRE) );
+	$lTemplate->assign_vars( array( 'TITRE' => IDE_TITRE,
+			'PROP_NOM' =>	PROP_NOM,
+			'PROP_ADRESSE' =>	PROP_ADRESSE,
+			'PROP_CODE_POSTAL' =>	PROP_CODE_POSTAL,
+			'PROP_VILLE' =>	PROP_VILLE,
+			'PROP_TEL' =>	PROP_TEL,
+			'PROP_MEL' =>	PROP_MEL,
+			'ZEYBUX_TITRE_SITE' =>	ZEYBUX_TITRE_SITE) );
 	
 	// Affichage des templates
 	$lTemplate->pparse('index');

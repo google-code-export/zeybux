@@ -210,6 +210,14 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_MON_COMPTE]) || isset($_
 	
 	// Pied de Page
 	$lTemplate->set_filenames( array('piedPage' => COMMUN_TEMPLATE . 'PiedPage.html') );
+	$lTemplate->assign_vars( array(
+			'PROP_NOM' =>	PROP_NOM,
+			'PROP_ADRESSE' =>	PROP_ADRESSE,
+			'PROP_CODE_POSTAL' =>	PROP_CODE_POSTAL,
+			'PROP_VILLE' =>	PROP_VILLE,
+			'PROP_TEL' =>	PROP_TEL,
+			'PROP_MEL' =>	PROP_MEL,
+			'ZEYBUX_TITRE_SITE' =>	ZEYBUX_TITRE_SITE) );
 	$lTemplate->assign_var_from_handle('PIED_PAGE', 'piedPage');
 	
 	// Affichage

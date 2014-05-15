@@ -52,7 +52,7 @@ td    { vertical-align: top; }
     </i>
     <div>
     Madame, Monsieur,<br>
-    Les amis du zeybu vous confirme l'achat des produits suivants.<br><br>
+    <?php echo PROP_NOM;?> vous confirme l'achat des produits suivants.<br><br>
     </div>
     <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
         <tr>
@@ -109,10 +109,10 @@ foreach($lFacture->getProduits() as $lLigne) {
         <table cellspacing="0" style="width: 100%; text-align: left;">
             <tr>
                 <td style="width:50%;"></td>
-                <td style="width:50%; ">
-                    Chantal VIOLETTE<br>
-                    Responsable Zeybu Marché<br>
-                    Tel : 06 34 68 46 87<br>
+                <td style="width:50%; ">                    
+                    <?php echo PROP_RESP_MARCHE_PRENOM;?> <?php echo PROP_RESP_MARCHE_NOM;?><br>
+                    <?php echo PROP_RESP_MARCHE_POSTE;?><br>
+                    Tel : <?php echo PROP_RESP_MARCHE_TEL;?><br>
                 </td>
             </tr>
         </table>
