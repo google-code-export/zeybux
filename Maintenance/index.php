@@ -44,7 +44,7 @@ if($lAffiche) {
 <body>
 	<div id="site" class="ui-corner-all">
 	
-		<h1><img src="./images/zeybu.png"/> Les Amis du  ZEYBU  <img src="./images/zeybu.png"/></h1>
+		<h1><img src="./images/zeybu.png"/> Zeybux  <img src="./images/zeybu.png"/></h1>
 <?php
 	if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) { ?>
 		<div id="menu_ext">
@@ -114,7 +114,6 @@ if($lAffiche) {
 ?>
 		</div>
 		<div id="piedpage">
-			Les amis du Zeybu - 25 allée du gerbier, EYBENS -  <a href="mailto:lesamisduzeybu@gmail.com">lesamisduzeybu@gmail.com</a> - 04 56 45 64 54
 		</div>
 	</div>
 </body>

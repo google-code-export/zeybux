@@ -27,4 +27,7 @@ define("DOSSIER_SITE_LOGS", DOSSIER_SITE . "/logs/");
 include(DOSSIER_SITE_CONFIGURATION . "/Version.php");
 // Si la version technique n'existe pas définition à 0
 defined( "ZEYBUX_VERSION_TECHNIQUE" ) or define("ZEYBUX_VERSION_TECHNIQUE", 0);
+
+// Adresse du dépot des nouvelles version du zeybux
+define("ADRESSE_DEPOT_ZEYBUX", "");
 ?>
