@@ -2,11 +2,11 @@
 //****************************************************************
 //
 // Createur : Julien PIERRE
-// Date de creation : 02/06/2011
-// Fichier : Maintenance.php
+// Date de creation : 29/05/2014
+// Fichier : Version.php
 //
-// Description : Informations sur l'état de maintenance du site
+// Description : Informations sur la version
 //
 //****************************************************************
-define("MAINTENANCE", 1);
+define( "ZEYBUX_VERSION_MAINTENANCE", "1.5");
 ?>

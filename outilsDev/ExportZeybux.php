@@ -402,6 +402,21 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		mkdir($lPath . '/tmp');
 		if($lEnv == 'install') {
 			mkdir($lPath . '/Maintenance');
+			mkdir($lPath . '/Maintenance/ancien');
+			$fp = fopen($lPath . '/Maintenance/ancien/.htaccess', 'w');
+			fclose($fp);
+			mkdir($lPath . '/Maintenance/archive');
+			$fp = fopen($lPath . '/Maintenance/archive/.htaccess', 'w');
+			fclose($fp);
+			mkdir($lPath . '/Maintenance/conf');
+			$fp = fopen($lPath . '/Maintenance/conf/.htaccess', 'w');
+			fclose($fp);
+			mkdir($lPath . '/Maintenance/nouveau');
+			$fp = fopen($lPath . '/Maintenance/nouveau/.htaccess', 'w');
+			fclose($fp);
+			mkdir($lPath . '/Maintenance/logs');
+			$fp = fopen($lPath . '/Maintenance/logs/.htaccess', 'w');
+			fclose($fp);
 		}
 		/************** Fin Création des dossier **************/
 
@@ -476,8 +491,13 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 				   		&& $entry != '.svn' 
 				   		&& $entry != '.project'
 				   		&& $entry != 'DB.php'
+				   		&& $entry != 'LogLevel.php'
 				   		&& $entry != 'Mail.php'
+				   		&& $entry != 'Maintenance.php'
 				   		&& $entry != 'Proprietaire.php'
+				   		&& $entry != 'SOAP.php'
+				   		&& $entry != 'Titre.php'
+				   		&& $entry != 'conf'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -508,8 +528,12 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 				   		&& $entry != '.svn' 
 				   		&& $entry != '.project'
 				   		&& $entry != 'DB.php'
+				   		&& $entry != 'LogLevel.php'
 				   		&& $entry != 'Mail.php'
+				   		&& $entry != 'Maintenance.php'
 				   		&& $entry != 'Proprietaire.php'
+				   		&& $entry != 'SOAP.php'
+				   		&& $entry != 'Titre.php'
 				   		) {
 				   		if(is_dir($d->path.'/'.$entry)) {
 					   		if(!is_dir($pDest.'/'.$entry)) {
@@ -551,19 +575,15 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		copy('./zeybu/css/zeybux-html-min.css' , $lPath.'/css/zeybux-html-min-' . $lVersionTechnique . '.css'); // Copie du css
 		copy($lDossierVersionSource . '/css/Commun/Entete.css' , $lPath.'/css/Commun/Entete.css'); // Copie du css
 		
-		// Écrase le fichier d'entête pour passer en version statique des fichiers css et js.
-	//	copy('./zeybu/html/Commun/Entete.html' , $lPath.'/html/Commun/Entete.html'); 
-	//	copy('./zeybu/html/index.html' , $lPath.'/html/index.html'); 
-
 		if($lEnv != 'install') { // En maintenance
 			mkdir($lPath . '/bdd');
 			parcourirDossierCopie($lDossierVersionSource . '/install/bdd',$lPath . '/bdd', $lVersionTechnique);
 			//copy('../Maintenance/update.sql' , $lPath.'/update.sql'); // Le script de mise à jour de la BDD
 		} else { // En installation
-			unlink($lPath.'/configuration/DB.php');
+		/*	unlink($lPath.'/configuration/DB.php');
 			unlink($lPath.'/configuration/Mail.php');
 			unlink($lPath.'/configuration/Proprietaire.php');
-			unlink($lPath.'/configuration/Titre.php');
+			unlink($lPath.'/configuration/Titre.php');*/
 			
 			// le install.sql
 			/*$serveur = "127.0.0.1";
@@ -723,8 +743,17 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		
 		include($lPath . "/configuration/Version.php");
 		
-		$output = shell_exec('cd ' . $lPath . ' && tar -czvf zeybux-' . $lEnv . '-' . ZEYBUX_VERSION . '.tar.gz' . $lListeArchive . ' && chmod -R 777 .');
+		// Création de l'archive
+		//$output = shell_exec('cd ' . $lPath . ' && tar -czvf zeybux-' . $lEnv . '-' . ZEYBUX_VERSION . '.tar.gz' . $lListeArchive . ' && chmod -R 777 .');
 		//echo $output;
+		$lVersion = str_replace('.','-',ZEYBUX_VERSION);
+		
+		$phar = new Phar($lPath .'/zeybux_' . $lEnv . '_' . $lVersion . '.phar',0,'zeybux_' . $lEnv . '_' . ZEYBUX_VERSION . '.phar');
+		$phar->buildFromDirectory($lPath);
+		$phar->compress(Phar::BZ2);
+		$phar->stopBuffering();
+		
+		shell_exec('cd ' . $lPath . ' && chmod -R 777 .');
 		
 		if($lEnv == 'install') {
 			copy($lDossierVersionSource . '/install/install.php' , $lPath.'/install.php'); // Le script d'installation

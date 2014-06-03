@@ -3,11 +3,17 @@ session_start();
 $lAffiche = true;
 if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	if($_GET['m'] == "Versions") {	
-		if(isset($_GET['action']) && $_GET['action'] == "sav") {
+		if(isset($_GET['action']) && ($_GET['action'] == "actionSav" || $_GET['action'] == "31" || $_GET['action'] == "actionRollBackConfirm")) {
+			include_once("./Versions/index.php");
+			$lAffiche = false;
+		}
+		
+		
+	/*	if(isset($_GET['action']) && $_GET['action'] == "sav") {
 			header('location:./index.php?m=Versions&action=actionSav');
 		} else if(isset($_GET['action']) && $_GET['action'] == "actionRollBack" && isset($_GET["dir"]) ) {
 			header('location:./index.php?m=Versions&action=actionRollBackConfirm&dir=' . $_GET["dir"]);
-		}
+		}*/
 	}
 	
 	if($_GET['m'] == "LogLevel") {	
@@ -20,6 +26,13 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	if($_GET['m'] == "Extract") {
 		if(isset($_GET['e'])) {
 			include_once("./Extract/index.php");
+			$lAffiche = false;
+		}
+	}
+	
+	if($_GET['m'] == "Maj") {
+		if(isset($_GET['e'])) {
+			include_once("./Maj/maj.php");	
 			$lAffiche = false;
 		}
 	}
@@ -39,7 +52,7 @@ if($lAffiche) {
 	<link href="./css/Commun/Entete.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="./css/cssDev-min.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="./css/Maintenance.css" rel="stylesheet" type="text/css" media="all" />
-
+	<script src="./jquery/jquery-1.11.0.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<div id="site" class="ui-corner-all">
@@ -63,7 +76,10 @@ if($lAffiche) {
 						<a href="./index.php?m=LogLevel" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "LogLevel") echo "ui-state-active";?>"><span>Logs</span></a>
 					</li>
 					<li>
-						<a href="./index.php?m=Extract" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Extract") echo "ui-state-active";?>"><span>Extract</span></a>
+						<a href="./index.php?m=Extract" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "Extract") echo "ui-state-active";?>"><span>Extract</span></a>
+					</li>
+					<li>
+						<a href="./index.php?m=Mdp" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Mdp") echo "ui-state-active";?>"><span>Identifiants</span></a>
 					</li>
 				</ul>
 			</div>
@@ -101,6 +117,10 @@ if($lAffiche) {
 					
 				case "Extract":
 					include_once("./Extract/index.php");
+					break;
+					
+				case "Mdp":
+					include_once("./Identifiant.php");
 					break;
 					
 				default:
