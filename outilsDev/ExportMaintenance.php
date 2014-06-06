@@ -39,6 +39,7 @@ if(isset($_POST['nom']) && isset($_POST['source'])) {
 		mkdir($lPath . '/logs');
 		$fp = fopen($lPath . '/logs/.htaccess', 'w');
 		fclose($fp);
+		mkdir($lPath . '/script');
 		
 		function parcourirDossierCopie($pPath,$pDest) {
 			$d = dir($pPath);
@@ -68,6 +69,8 @@ if(isset($_POST['nom']) && isset($_POST['source'])) {
 			$d->close();
 		}
 		parcourirDossierCopie($lDossierVersionSource . '/Maintenance',$lPath);
+		parcourirDossierCopie($lDossierVersionSource . '/install/maintenance',$lPath . '/script');
+		
 
 		include($lDossierVersionSource . "/Maintenance/version.php");
 

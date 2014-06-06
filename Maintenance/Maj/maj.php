@@ -251,6 +251,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				}
 				parcourirDossier(DOSSIER_EXTRACT,DOSSIER_SITE);
 				
+				// Fonction qui permet de décomposer le numéro de version et de mettre 0 si il n'y a rien
 				function decomposerVersion($pVersion) {
 					$lVersion = split("\.",$pVersion);
 					$lVersionRetour = array(0,0,0);
@@ -265,58 +266,94 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 					}
 					return $lVersionRetour;
 				}
-				
-				function parcourirDossierSQL($pPath,&$pUpdateSql) {
-					if(is_dir($pPath)) {
-						
-						$lTabVersion = array();						
-						$lVersionZeybux = decomposerVersion(ZEYBUX_VERSION);
-						
-						$lListeNomFichier = array();
-						$d = dir($pPath);
-						while (false !== ($entry = $d->read())) {
-							if(		$entry != '.'
-									&& $entry != '..'
-									&& $entry != '.svn'
-									&& $entry != '.project'
-									&& $entry != '.htaccess'
-									&& is_file($d->path . '/' . $entry)
-							) {
-				
-								// enleve l'extention, tout ce qui se trouve apres le '.'
-								$lNomFichier = substr($entry, 0, strrpos($entry,"."));
-								$lVersion = decomposerVersion($lNomFichier);
 								
-								// Si la version de la modification est supérieure à celle du site on l'ajoute
-								if($lVersion[0] > $lVersionZeybux[0] 
-									|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] > $lVersionZeybux[1])
-									|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] = $lVersionZeybux[1] & $lVersion[2] > $lVersionZeybux[2])
-								) {
-									if(!isset($lTabVersion[$lVersion[0]])) {
-										$lTabVersion[$lVersion[0]] = array();
-									}
-									if(!isset($lTabVersion[$lVersion[0]][$lVersion[1]])) {
-										$lTabVersion[$lVersion[0]][$lVersion[1]] = array();
-									}
-									$lTabVersion[$lVersion[0]][$lVersion[1]][$lVersion[2]] = $entry;
-								}
+				$lTabVersion = array();
+				$lVersionZeybux = decomposerVersion(ZEYBUX_VERSION); // Décomposition de la version actuelle
+				
+				$lListeNomFichier = array();
+				$d = dir("./script/");
+				// Scan du dossier des scripts
+				while (false !== ($entry = $d->read())) {
+					if(		$entry != '.'
+							&& $entry != '..'
+							&& $entry != '.svn'
+							&& $entry != '.project'
+							&& $entry != '.htaccess'
+							&& is_file($d->path . '/' . $entry)
+					) {
+				
+						// enleve l'extention, tout ce qui se trouve apres le '.'
+						$lNomFichier = substr($entry, 0, strrpos($entry,"."));
+						$lVersion = decomposerVersion($lNomFichier);
+				
+						// Si la version de la modification est supérieure à celle du site on l'ajoute
+						if($lVersion[0] > $lVersionZeybux[0]
+								|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] > $lVersionZeybux[1])
+								|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] = $lVersionZeybux[1] & $lVersion[2] > $lVersionZeybux[2])
+						) {
+							if(!isset($lTabVersion[$lVersion[0]])) {
+								$lTabVersion[$lVersion[0]] = array();
 							}
-						}
-						foreach($lTabVersion as $lMaj) {
-							foreach($lMaj as $lMin) {
-								foreach($lMin as $lLigne) {
-									$pUpdateSql .= ' ' . file_get_contents($d->path.'/'.$lLigne);
-								}
+							if(!isset($lTabVersion[$lVersion[0]][$lVersion[1]])) {
+								$lTabVersion[$lVersion[0]][$lVersion[1]] = array();
 							}
+							$lTabVersion[$lVersion[0]][$lVersion[1]][$lVersion[2]] = $entry;
 						}
-						$d->close();
 					}
 				}
-				
+				// Lancement des scripts dans l'ordre des versions
+				foreach($lTabVersion as $lMaj) {
+					foreach($lMaj as $lMin) {
+						foreach($lMin as $lLigne) {
+							require_once($d->path.'/'.$lLigne);
+						}
+					}
+				}
+				$d->close();
+
 				$lUpdateSql = "";
 				// Recherche l'ensemble des évolution de la base à partir de la version du site
-				parcourirDossierSQL(DOSSIER_UPDATE_BDD, $lUpdateSql);
-
+				$lTabVersion = array();					
+				$lListeNomFichier = array();
+				$d = dir(DOSSIER_UPDATE_BDD);
+				while (false !== ($entry = $d->read())) {
+					if(		$entry != '.'
+							&& $entry != '..'
+							&& $entry != '.svn'
+							&& $entry != '.project'
+							&& $entry != '.htaccess'
+							&& is_file($d->path . '/' . $entry)
+					) {
+		
+						// enleve l'extention, tout ce qui se trouve apres le '.'
+						$lNomFichier = substr($entry, 0, strrpos($entry,"."));
+						$lVersion = decomposerVersion($lNomFichier);
+						
+						// Si la version de la modification est supérieure à celle du site on l'ajoute
+						if($lVersion[0] > $lVersionZeybux[0] 
+							|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] > $lVersionZeybux[1])
+							|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] = $lVersionZeybux[1] & $lVersion[2] > $lVersionZeybux[2])
+						) {
+							if(!isset($lTabVersion[$lVersion[0]])) {
+								$lTabVersion[$lVersion[0]] = array();
+							}
+							if(!isset($lTabVersion[$lVersion[0]][$lVersion[1]])) {
+								$lTabVersion[$lVersion[0]][$lVersion[1]] = array();
+							}
+							$lTabVersion[$lVersion[0]][$lVersion[1]][$lVersion[2]] = $entry;
+						}
+					}
+				}
+				foreach($lTabVersion as $lMaj) {
+					foreach($lMaj as $lMin) {
+						foreach($lMin as $lLigne) {
+							$lUpdateSql .= ' ' . file_get_contents($d->path.'/'.$lLigne);
+						}
+					}
+				}
+				$d->close();
+					
+				
 				$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 				mysql_select_db(MYSQL_DBNOM, $connexion);
 				// Ajout du préfixe

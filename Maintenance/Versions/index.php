@@ -41,26 +41,23 @@ if(isset($_GET["action"])) {
 			$lListeTable = array();
 						$listeTables = mysql_query("show tables", $connexion);
 			while($table = mysql_fetch_array($listeTables)) {
-						array_push($lListeTable,$table[0]);
+				array_push($lListeTable,$table[0]);
 				// La structure
-							if($table[0] != 'view_info_commande') {
-							$creations .= "-- -----------------------------\n";
-							$creations .= "-- creation de la table ".$table[0]."\n";
-							$creations .= "-- -----------------------------\n";
-									$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
-					while($creationTable = mysql_fetch_array($listeCreationsTables))
-								{
-						if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
-									$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-									$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-									}
-						$creations .= $creationTable[1].";\n\n";
+				$creations .= "-- -----------------------------\n";
+				$creations .= "-- creation de la table ".$table[0]."\n";
+				$creations .= "-- -----------------------------\n";
+				$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
+				while($creationTable = mysql_fetch_array($listeCreationsTables)) {
+					if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
+						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 					}
+					$creations .= $creationTable[1].";\n\n";
 				}
 			}
 		
 			// Cette vue doit être placée en fin car elle dépend d'autres vues
-						$table[0] = "view_info_commande";
+		/*				$table[0] = "view_info_commande";
 			array_push($lListeTable,$table[0]);
 			$creations .= "-- -----------------------------\n";
 			$creations .= "-- creation de la table ".$table[0]."\n";
@@ -73,7 +70,7 @@ if(isset($_GET["action"])) {
 								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 								$creations .= $creationTable[1].";\n\n";
 				}
-			}
+			}*/
 	
 			mysql_close($connexion);
 		
