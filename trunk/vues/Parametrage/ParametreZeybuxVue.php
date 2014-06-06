@@ -30,9 +30,9 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_PARAMETRAGE]) || isset($
 					echo $lResponse->exportToJson();
 						
 					if($lResponse->getValid()) {
-						$lLogger->log("Modification de la ParametreZeybux " . $lResponse->getId() . " par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Modification de ParametreZeybux par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					} else {
-						$lLogger->log("Echec de la modification de la ParametreZeybux " . $lResponse->getId() . " par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
+						$lLogger->log("Echec de la modification de la ParametreZeybux par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					}
 					break;
 					
