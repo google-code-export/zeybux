@@ -9,7 +9,7 @@
 //
 //****************************************************************
 define("ZEYBUX_TITRE_DEBUT","");
-define("ZEYBUX_TITRE_FIN","Zeybux " . ZEYBUX_VERSION . " - Outil de gestion du Zeybu");
+define("ZEYBUX_TITRE_FIN","Zeybux " . ZEYBUX_VERSION . " - Outil de gestion");
 define("ZEYBUX_TITRE_SITE", "Les Amis du ZEYBU");
 define("ZEYBUX_ADRESSE_SITE", "http://marche.lesamisduzeybu.fr");
 ?>

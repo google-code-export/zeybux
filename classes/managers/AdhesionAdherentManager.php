@@ -233,6 +233,7 @@ class AdhesionAdherentManager
 		"SELECT "
 				. AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID . 
 			"," . PerimetreAdhesionManager::CHAMP_PERIMETREADHESION_LABEL . 
+			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL . 
 			"," . TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT . 
 			"," . AdhesionManager::CHAMP_ADHESION_LABEL . 
@@ -261,6 +262,7 @@ class AdhesionAdherentManager
 				new ListeAdhesionVO(
 				$lLigne[AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID],
 				$lLigne[PerimetreAdhesionManager::CHAMP_PERIMETREADHESION_LABEL],
+				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_ID_ADHESION],
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL],
 				$lLigne[TypeAdhesionManager::CHAMP_TYPEADHESION_MONTANT],
 				$lLigne[AdhesionManager::CHAMP_ADHESION_LABEL],
