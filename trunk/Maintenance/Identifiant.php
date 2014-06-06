@@ -3,7 +3,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) { // Vérification de la conn
 ?>
 	<div class="com-widget-window ui-widget-content menu-lien btn-menu ui-corner-all">
 		<div class="com-widget-window ui-widget ui-widget-header ui-corner-all">Modification du mot de passe</div>
-<?
+<?php
 	// Chargement du fichier des identifiants
 	$jsonString = file_get_contents('./conf/identifiant.json');
 	$cIdentifiant = json_decode($jsonString);
@@ -39,7 +39,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) { // Vérification de la conn
 				$newJsonString = json_encode($cIdentifiant);
 				file_put_contents('./conf/identifiant.json', $newJsonString);
 				?>
-				Mise à jour effectuée			
+				<span>Mise à jour effectuée	</span>	
 				<?php 
 			}
 		}

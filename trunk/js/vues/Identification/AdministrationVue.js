@@ -142,6 +142,11 @@
 				return false;
 			});
 			
+			pData.find('#menu-Parametrage-ParametreZeybux').click(function() {
+				ParametreZeybuxVue();
+				return false;
+			});
+			
 			pData.find('#menu-Adhesion-GestionAdhesion').click(function() {
 				ListeAdhesionVue();
 				return false;
