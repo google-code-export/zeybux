@@ -243,8 +243,7 @@ class AdhesionService
 				array(TypeAdhesionManager::CHAMP_TYPEADHESION_LABEL),
 				array('ASC'));
 	}
-	
-	
+
 	/**
 	 * @name selectNbAdherentHorsAdhesion($pIdAdhesion)
 	 * @param integer
@@ -319,6 +318,17 @@ class AdhesionService
 			$lListeAdherent = $lAdherentService->selectActifByIdCompte($lAdherent->getAdhIdCompte());
 			// Positionnement des adhésions
 			foreach($lListeAdherent as $lAdh) {
+				// Récupère la liste des adhésions non supprimées de l'adhérent
+				$lListeAdhesionAdherent = $this->getAdhesionSurAdherent($lAdh->getId());
+				// Pour chaque adhésion de l'adhérent
+				foreach($lListeAdhesionAdherent as $lLigne) {
+					// si l'adhésion correspond on la supprime
+					if($lLigne->getTpaIdAdhesion() == $lTypeAdhesion->getIdAdhesion()) {
+						$this->deleteAdhesionAdherent($lLigne->getAdadId());
+					}
+				}
+				
+				// Création de la nouvelle adhésion
 				$pAdhesionAdherent->getAdhesionAdherent()->setIdAdherent($lAdh->getId());
 				$lIdAdhesionAdherent = AdhesionAdherentManager::insert($pAdhesionAdherent->getAdhesionAdherent());
 			}

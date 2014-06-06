@@ -338,13 +338,13 @@ class GestionAdhesionControleur
 				
 			$lAdhesionAdherent = $lAdhesionService->getAdhesionAdherent($pParam['id']);
 			
-			$lAdherentService = new AdherentService();
-			$lAdherent = $lAdherentService->get($lAdhesionAdherent->getAdhesionAdherent()->getIdAdherent());
-				
-			$lCompteService = new CompteService();
-			$lNbAdherentSurCompte = $lCompteService->getNombreAdherentSurCompte($lAdherent->getAdhIdCompte());
 			$lAdhesion = $lAdhesionAdherent->getAdhesionDetail();
-			if($lNbAdherentSurCompte == 1) { // Si seul adhérent sur le compte ne propose pas les adhésions sur périmètre adhérent
+			
+			
+			$lPerimetre = $lAdhesionService->getTypeAdhesion($lAdhesionAdherent->getAdhesionAdherent()->getIdTypeAdhesion())->getIdPerimetre();
+			
+			
+			if($lPerimetre == 1) { // Si seul adhérent sur le compte ne propose pas les adhésions sur périmètre adhérent
 				$lFiltrePerimetre = 1;
 			} else { // Si plusieurs adhérents uniquement les types adhésion compte
 				$lFiltrePerimetre = 2;
