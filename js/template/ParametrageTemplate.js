@@ -101,4 +101,107 @@ function ParametrageTemplate() {
 			"<div>Nom Court : {nomCourt}</div>" +
 			"<div>Description : {description}</div>" +
 		"</div>";
+	
+	this.formParametreZeybux =
+	"<div id=\"contenu\">" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
+		"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Les comptes</div>" +
+			"<form>" +
+				"<table class=\"com-table-100\">" +
+					"<tr>" +
+						"<td colspan=\"2\" class=\"ui-widget-header\">Mail</td>	" +	
+					"</tr>" +
+					"<tr>" +
+						"<td>Adresse mail du support</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"mailSupport\" id=\"mailSupport\" value=\"{mailSupport}\"/></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Mailing liste</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"mailMailingListe\" id=\"mailMailingListe\" value=\"{mailMailingListe}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Domaine des mailing liste</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"mailMailingListeDomaine\" id=\"mailMailingListeDomaine\" value=\"{mailMailingListeDomaine}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td colspan=\"2\" class=\"ui-widget-header\">Compte OVH : Accès WebServices</td>		" +
+					"</tr>" +
+					"<tr>" +
+						"<td>Adresse du WebService</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"adresseWSDL\" id=\"adresseWSDL\" value=\"{adresseWSDL}\" /></td>			" +			
+					"</tr>" +
+					"<tr>" +
+						"<td>Login</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"sOAPLogin\" id=\"sOAPLogin\" value=\"{sOAPLogin}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td>Mot de passe</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"sOAPPass\" id=\"sOAPPass\" value=\"{sOAPPass}\" /></td>			" +			
+					"</tr>" +			
+					"<tr>" +
+						"<td colspan=\"2\" class=\"ui-widget-header\">Site Zeybux</td>	" +	
+					"</tr>" +
+					"<tr>" +
+						"<td>Nom du site</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"zeybuxTitre\" id=\"zeybuxTitre\" value=\"{zeybuxTitre}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Adresse du site</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"zeybuxAdresse\" id=\"zeybuxAdresse\" value=\"{zeybuxAdresse}\" /></td>			" +			
+					"</tr>" +
+					"<tr>" +
+						"<td colspan=\"2\" class=\"ui-widget-header\">Proprietaire Zeybux</td>	" +	
+					"</tr>" +
+					"<tr>" +
+						"<td>Nom</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propNom\" id=\"propNom\" value=\"{propNom}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td>Adresse</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propAdresse\" id=\"propAdresse\" value=\"{propAdresse}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td>Code Postal</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propCP\" id=\"propCP\" value=\"{propCP}\" /></td>			" +			
+					"</tr>" +
+					"<tr>" +
+						"<td>Ville</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propVille\" id=\"propVille\" value=\"{propVille}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td>Téléphone</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propTel\" id=\"propTel\" value=\"{propTel}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Courriel</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propMail\" id=\"propMail\" value=\"{propMail}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td colspan=\"2\" class=\"ui-widget-header\">Responsable Marché</td>" +		
+					"</tr>" +
+					"<tr>" +
+						"<td>Titre du poste de responsable marché</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propRespMarchePoste\" id=\"propRespMarchePoste\" value=\"{propRespMarchePoste}\" /></td>	" +					
+					"</tr>" +
+					"<tr>" +
+						"<td>Prénom</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propRespMarchePrenom\" id=\"propRespMarchePrenom\" value=\"{propRespMarchePrenom}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Nom</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propRespMarcheNom\" id=\"propRespMarcheNom\" value=\"{propRespMarcheNom}\" /></td>		" +				
+					"</tr>" +
+					"<tr>" +
+						"<td>Téléphone</td>" +
+						"<td><input type=\"text\" class=\"com-input-text ui-widget-content ui-corner-all\" name=\"propRespMarcheTel\" id=\"propRespMarcheTel\" value=\"{propRespMarcheTel}\" /></td>	" +					
+					"</tr>		" +
+					"<tr>" +
+						"<td colspan=\"2\" class=\"com-center\">" +
+							"<input type=\"submit\" value=\"Modifier\" class=\"ui-state-default ui-corner-all com-button com-center\" />" +
+						"</td>	" +			
+					"</tr>" +	
+				"</table>" +
+			"</form>" +
+		"</div>" +
+	"</div>";
 }

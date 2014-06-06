@@ -49,8 +49,75 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 		$p = new Phar("./" . $lNouvelleVersion["maintenance"]["phar"]);
 		// Extraction de l'archive
 		$p->extractTo(".");
-	// 4/ Suppression de l'archive
+	// 4/ Lancement des scripts	
+		// Version actuelle
+		require_once("./version.php");
+		
+		// Fonction qui permet de décomposer le numéro de version et de mettre 0 si il n'y a rien
+		function decomposerVersion($pVersion) {
+			$lVersion = split("\.",$pVersion);
+			$lVersionRetour = array(0,0,0);
+			if(isset($lVersion[0])) {
+				$lVersionRetour[0] = $lVersion[0];
+			}
+			if(isset($lVersion[1])) {
+				$lVersionRetour[1] = $lVersion[1];
+			}
+			if(isset($lVersion[2])) {
+				$lVersionRetour[2] = $lVersion[2];
+			}
+			return $lVersionRetour;
+		}
+		
+		$lTabVersion = array();
+		$lVersionZeybux = decomposerVersion(ZEYBUX_VERSION_MAINTENANCE); // Décomposition de la version actuelle
+
+		$lListeNomFichier = array();
+		$d = dir("./script/");
+		// Scan du dossier des scripts
+		while (false !== ($entry = $d->read())) {
+			if(		$entry != '.'
+					&& $entry != '..'
+					&& $entry != '.svn'
+					&& $entry != '.project'
+					&& $entry != '.htaccess'
+					&& is_file($d->path . '/' . $entry)
+			) {
+
+				// enleve l'extention, tout ce qui se trouve apres le '.'
+				$lNomFichier = substr($entry, 0, strrpos($entry,"."));
+				$lVersion = decomposerVersion($lNomFichier);
+
+				// Si la version de la modification est supérieure à celle du site on l'ajoute
+				if($lVersion[0] > $lVersionZeybux[0]
+						|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] > $lVersionZeybux[1])
+						|| ($lVersion[0] = $lVersionZeybux[0] && $lVersion[1] = $lVersionZeybux[1] & $lVersion[2] > $lVersionZeybux[2])
+				) {
+					if(!isset($lTabVersion[$lVersion[0]])) {
+						$lTabVersion[$lVersion[0]] = array();
+					}
+					if(!isset($lTabVersion[$lVersion[0]][$lVersion[1]])) {
+						$lTabVersion[$lVersion[0]][$lVersion[1]] = array();
+					}
+					$lTabVersion[$lVersion[0]][$lVersion[1]][$lVersion[2]] = $entry;
+				}
+			}
+		}
+		// Lancement des scripts dans l'ordre des versions
+		foreach($lTabVersion as $lMaj) {
+			foreach($lMaj as $lMin) {
+				foreach($lMin as $lLigne) {
+					require_once($d->path.'/'.$lLigne);
+				}
+			}
+		}
+		$d->close();
+
+	// 5/ Suppression de l'archive
 		unlink("./" . $lNouvelleVersion["maintenance"]["phar"]);
+		// Suppression des scripts
+		viderDossier("./script/");
+		rmdir("./script/");
 ?>
 	Mise à jour OK : <a href="./index.php?m=Maj"><button>OK</button></a>
 <?php
