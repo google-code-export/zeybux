@@ -146,7 +146,7 @@ class ParametreZeybuxVR extends DataTemplate
 	* @return bool
 	* @desc Constructeur
 	*/
-	function BanqueVR() {
+	function ParametreZeybuxVR() {
 		$this->mValid = true;
 		$this->mLog = new VRelement();
 		$this->mMailSupport = new VRelement();

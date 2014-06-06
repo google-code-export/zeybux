@@ -33,3 +33,5 @@ CREATE TABLE IF NOT EXISTS `rec_remise_cheque` (
 
 UPDATE `mod_module` SET `mod_label` = 'Compte Marché' WHERE `mod_module`.`mod_id` =6;
 UPDATE `vue_vues` SET `vue_label` = 'Compte Marché' WHERE `vue_vues`.`vue_id` =6;
+
+INSERT INTO {PREFIXE}.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '13', 'ParametreZeybux', 'Les paramètres du zeybux', '2', '1');

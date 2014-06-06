@@ -31,6 +31,12 @@ class ListeAdhesionVO  extends DataTemplate
 	protected $mPadLabel;
 
 	/**
+	* @var int(11)
+	* @desc TpaIdAdhesion de la ListeAdhesionVO
+	*/
+	protected $mTpaIdAdhesion;
+
+	/**
 	* @var varchar(45)
 	* @desc TpaLabel de la ListeAdhesionVO
 	*/
@@ -65,9 +71,10 @@ class ListeAdhesionVO  extends DataTemplate
 	 * @return bool
 	 * @desc Constructeur
 	 */
-	function ListeAdhesionVO($pAdadId = null, $pPadLabel = null, $pTpaLabel = null, $pTpaMontant = null, $pAdsLabel = null, $pAdsDateDebut = null, $pAdsDateFin = null) {
+	function ListeAdhesionVO($pAdadId = null, $pPadLabel = null, $pTpaIdAdhesion = null, $pTpaLabel = null, $pTpaMontant = null, $pAdsLabel = null, $pAdsDateDebut = null, $pAdsDateFin = null) {
 		if(!is_null($pAdadId)) { $this->mAdadId = $pAdadId; }
 		if(!is_null($pPadLabel)) { $this->mPadLabel = $pPadLabel; }
+		if(!is_null($pTpaIdAdhesion)) { $this->mTpaIdAdhesion = $pTpaIdAdhesion; }
 		if(!is_null($pTpaLabel)) { $this->mTpaLabel = $pTpaLabel; }
 		if(!is_null($pTpaMontant)) { $this->mTpaMontant = $pTpaMontant; }
 		if(!is_null($pAdsLabel)) { $this->mAdsLabel = $pAdsLabel; }
@@ -110,7 +117,25 @@ class ListeAdhesionVO  extends DataTemplate
 	public function setPadLabel($pPadLabel) {
 		$this->mPadLabel = $pPadLabel;
 	}
-
+	
+	/**
+	 * @name getTpaId()
+	 * @return int
+	 * @desc Renvoie le membre TpaIdAdhesion de la ListeAdhesionVO
+	 */
+	public function getTpaIdAdhesion() {
+		return $this->mTpaIdAdhesion;
+	}
+	
+	/**
+	 * @name setTpaIdAdhesion($pTpaIdAdhesion)
+	 * @param int
+	 * @desc Remplace le membre TpaIdAdhesion de la ListeAdhesionVO par $pTpaIdAdhesion
+	 */
+	public function setTpaIdAdhesion($pTpaIdAdhesion) {
+		$this->mTpaIdAdhesion = $pTpaIdAdhesion;
+	}
+	
 	/**
 	* @name getTpaLabel()
 	* @return varchar(45)
