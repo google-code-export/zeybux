@@ -138,7 +138,7 @@ color:#FFFFFF;
 <?php 
 	} else if($_GET["page"] == 2) {
 		if(isset($_POST['rep'])) {			
-			define("ADRESSE_DEPOT_ZEYBUX", "127.0.0.1/zeybu/depot-zeybux");
+			define("ADRESSE_DEPOT_ZEYBUX", "depot-zeybux.lesamisduzeybu.fr");
 			define("CANAL", "install");
 		
 			// Récupération de la dernière version du zeybux
