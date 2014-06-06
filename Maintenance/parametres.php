@@ -30,7 +30,7 @@ define("DOSSIER_SITE_LOGS", DOSSIER_SITE . "/logs/");
 defined( "ZEYBUX_VERSION_TECHNIQUE" ) or define("ZEYBUX_VERSION_TECHNIQUE", 0);
 
 // Adresse du dépot des nouvelles version du zeybux
-define("ADRESSE_DEPOT_ZEYBUX", "127.0.0.1/zeybu/depot-zeybux");
+define("ADRESSE_DEPOT_ZEYBUX", "depot-zeybux.lesamisduzeybu.fr");
 
 $jsonString = file_get_contents('./conf/maintenance.json');
 $cMaintenanceConfig = json_decode($jsonString);
