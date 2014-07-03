@@ -50,7 +50,86 @@
 		pData = this.exportListeOperation(pData);
 		pData = this.affectAjoutOperation(pData);
 		pData = this.affectVirement(pData);
+		pData = this.affectEditCompte(pData);
 		pData = gCommunVue.comHoverBtn(pData);
+		return pData;
+	};
+	
+	this.affectEditCompte = function(pData) {
+		var lCompteAssociationTemplate = new CompteAssociationTemplate();
+		
+		pData.find("#btn-edit-compte").click(function() {
+			// Charge les informations du compte
+			$.post(	"./index.php?m=CompteAssociation&v=InformationBancaire", "pParam=" + $.toJSON({fonction:"afficher"}),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							if(lResponse.informationBancaire.id == null) {
+								lResponse.informationBancaire = {};
+							}
+							// Affiche les informations
+							$(lCompteAssociationTemplate.dialogEditerCompte.template(lResponse.informationBancaire)).dialog({
+								autoOpen: true,
+								modal: true,
+								draggable: false,
+								resizable: false,
+								width:400,
+								buttons: {
+									'Valider': function() {
+										var lDialog = $(this);
+										
+										// Récupération du formulaire
+										var lVo = new InformationBancaireVO();
+										lVo.numeroCompte = $(this).find("#numeroCompte").val();
+										lVo.raisonSociale = $(this).find("#raisonSociale").val();
+										
+										// Contrôle des données
+										var lValid = new InformationBancaireValid();
+										var lVr = lValid.validDelete(lVo);
+										
+										Infobulle.init(); // Supprime les erreurs
+										if(lVr.valid) {
+											// Enregistrement
+											lVo.fonction = 'enregistrer';
+											$.post(	"./index.php?m=CompteAssociation&v=InformationBancaire", "pParam=" + $.toJSON(lVo),
+												function(lResponse) {
+													Infobulle.init(); // Supprime les erreurs
+													if(lResponse) {
+														if(lResponse.valid) {
+															// Message d'information
+															var lVr = new TemplateVR();
+															lVr.valid = false;
+															lVr.log.valid = false;
+															var erreur = new VRerreur();
+															erreur.code = ERR_301_CODE;
+															erreur.message = ERR_301_MSG;
+															lVr.log.erreurs.push(erreur);	
+															Infobulle.generer(lVr,'');
+															lDialog.dialog("close");							
+														} else {
+															Infobulle.generer(lResponse,'');
+														}
+													}
+												},"json"
+											);
+										} else {
+											Infobulle.generer(lVr,'');
+										}
+									},
+									'Annuler': function() {
+										$(this).dialog('close');
+									}
+								},
+								close: function(ev, ui) { $(this).remove(); }
+							});
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		});
 		return pData;
 	};
 	

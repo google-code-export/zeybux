@@ -91,12 +91,24 @@ class OperationAttenteAdherentVO  extends DataTemplate
 	protected $mOpeId;
 
 	/**
+	 * @var int(11)
+	 * @desc IdRemiseCheque de la OperationAttenteAdherentVO
+	 */
+	protected $mIdRemiseCheque;
+
+	/**
+	 * @var int(11)
+	 * @desc NumeroRemiseCheque de la OperationAttenteAdherentVO
+	 */
+	protected $mNumeroRemiseCheque;
+	
+	/**
 	 * @name OperationAttenteAdherentVO()
 	 * @return bool
 	 * @desc Constructeur
 	 */
 	function OperationAttenteAdherentVO($pAdhId = null, $pAdhNumero = null, $pAdhNom = null, $pAdhPrenom = null, $pCptLabel = null, $pCptSolde = null,
-			$pOpeMontant = null, $pOpeTypePaiement = null, $pOpeTypePaiementChamComplementaire = null, $pOpeDate = null, $pOpeLibelle = null, $pOpeId = null) {
+			$pOpeMontant = null, $pOpeTypePaiement = null, $pOpeTypePaiementChamComplementaire = null, $pOpeDate = null, $pOpeLibelle = null, $pOpeId = null, $pIdRemiseCheque = null, $pNumeroRemiseCheque = null) {
 		if(!is_null($pAdhId)) {$this->mAdhId = $pAdhId; }
 		if(!is_null($pAdhNumero)) {$this->mAdhNumero = $pAdhNumero; }
 		if(!is_null($pAdhNom)) {$this->mAdhNom = $pAdhNom; }
@@ -109,6 +121,8 @@ class OperationAttenteAdherentVO  extends DataTemplate
 		if(!is_null($pOpeDate)) {$this->mOpeDate = $pOpeDate; }
 		if(!is_null($pOpeLibelle)) {$this->mOpeLibelle = $pOpeLibelle; }
 		if(!is_null($pOpeId)) {$this->mOpeId = $pOpeId; }
+		if(!is_null($pIdRemiseCheque)) {$this->mIdRemiseCheque = $pIdRemiseCheque; }
+		if(!is_null($pNumeroRemiseCheque)) {$this->mNumeroRemiseCheque = $pNumeroRemiseCheque; }
 	}
 	
 	/**
@@ -336,5 +350,40 @@ class OperationAttenteAdherentVO  extends DataTemplate
 		$this->mOpeId = $pOpeId;
 	}
 
+	/**
+	 * @name getIdRemiseCheque()
+	 * @return int(11)
+	 * @desc Renvoie le membre IdRemiseCheque de la OperationAttenteAdherentVO
+	 */
+	public function getIdRemiseCheque() {
+		return $this->mIdRemiseCheque;
+	}
+	
+	/**
+	 * @name setIdRemiseCheque($pIdRemiseCheque)
+	 * @param int(11)
+	 * @desc Remplace le membre IdRemiseCheque de la OperationAttenteAdherentVO par $pIdRemiseCheque
+	 */
+	public function setIdRemiseCheque($pIdRemiseCheque) {
+		$this->mIdRemiseCheque = $pIdRemiseCheque;
+	}
+
+	/**
+	 * @name getNumeroRemiseCheque()
+	 * @return int(11)
+	 * @desc Renvoie le membre NumeroRemiseCheque de la OperationAttenteAdherentVO
+	 */
+	public function getNumeroRemiseCheque() {
+		return $this->mNumeroRemiseCheque;
+	}
+	
+	/**
+	 * @name setNumeroRemiseCheque($pNumeroRemiseCheque)
+	 * @param int(11)
+	 * @desc Remplace le membre NumeroRemiseCheque de la OperationAttenteAdherentVO par $pNumeroRemiseCheque
+	 */
+	public function setNumeroRemiseCheque($pNumeroRemiseCheque) {
+		$this->mNumeroRemiseCheque = $pNumeroRemiseCheque;
+	}
 }
 ?>

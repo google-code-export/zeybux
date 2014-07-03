@@ -221,8 +221,8 @@ class RemiseChequeManager
 				," . RemiseChequeManager::CHAMP_REMISECHEQUE_ETAT . ")
 			VALUES (NULL
 				,'" . StringUtils::securiser( $pVo->getNumero() ) . "'
-				,'" . StringUtils::securiser( $lVo->getIdCompte() ) . "'
-				,'" . StringUtils::securiser( $lVo->getMontant() ) . "'
+				,'" . StringUtils::securiser( $pVo->getIdCompte() ) . "'
+				,'" . StringUtils::securiser( $pVo->getMontant() ) . "'
 				, now()
 				,'" . StringUtils::securiser( $pVo->getDateModification() ) . "'
 				,'" . StringUtils::securiser( $pVo->getEtat() ) . "');";
