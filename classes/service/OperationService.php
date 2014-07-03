@@ -326,6 +326,20 @@ class OperationService
 		return OperationManager::selectDetail($pId);
 	}
 	
+	/**
+	 * @name getByArray($pId)
+	 * @param array(integer)
+	 * @return array(OperationDetailVO)
+	 * @desc Retourne une liste d'operation
+	 */
+	public function getByArray($pId) {
+		return OperationManager::recherche(
+				array(OperationManager::CHAMP_OPERATION_ID),
+				array('in'),
+				array($pId),
+				array(''),
+				array(''));
+	}
 	
 	/**
 	* @name selectByCompte($pIdCompte)
@@ -567,7 +581,7 @@ class OperationService
 	
 		
 	/**
-	* @name validerPaiement()
+	* @name validerPaiement($pId)
 	* @param int(11)
 	* @desc Passe une operation au statut validé
 	*/
@@ -575,6 +589,15 @@ class OperationService
 		$lOperation = $this->getDetail($pId);
 		$lOperation->setType(1);
 		$this->update($lOperation);
+	}
+	
+	/**
+	 * @name validerPaiementByArray($pId)
+	 * @param array(int(11))
+	 * @desc Passe les operations au statut validé
+	 */
+	public function validerPaiementByArray($pId) {
+		OperationManager::validerByArray($pId);
 	}
 	
 	/**

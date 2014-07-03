@@ -4,7 +4,7 @@
 	this.mBanques = [];
 	this.mBanquesTriId = [];
 	this.mTypePaiement = [];
-	
+	this.mTable = {};
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {SuiviPaiementAssociationVue(pParam);}} );
@@ -81,6 +81,7 @@
 		pData = this.affectSupprimerPaiement(pData);
 		pData = gCommunVue.comHoverBtn(pData);
 		pData = this.affectDataTable(pData);
+		pData = this.affectRemiseCheque(pData);
 		return pData;
 	};
 	
@@ -92,19 +93,253 @@
 		return pData;
 	};
 	
+	this.affectRemiseCheque = function(pData) {
+		var that = this;
+		
+		// Création Remise de chèque
+		pData.find("#btn-nv-remise-cheque").click(function() {
+			// Affiche les boutons
+			$(".div-btn-remise-cheque").toggle();
+			// Affiche le form et RAZ
+			$(".checkbox-remise-cheque",that.mTable.fnGetNodes()).show().prop( "checked",false );
+		});
+				
+		// Annuler la création
+		pData.find("#btn-annul-remise-cheque").click(function() {
+			// Masque les boutons
+			$(".div-btn-remise-cheque").toggle();
+			// Remise à 0 du total
+			$("#total-remise-cheque").text(0);
+			// Masque le form et RAZ
+			$(".checkbox-remise-cheque",that.mTable.fnGetNodes()).hide().prop( "checked",false );
+		});
+		
+		// MAj Total
+		$(".checkbox-remise-cheque",this.mTable.fnGetNodes()).click(function() {that.majTotalRemise();});
+		
+		// Bouton de création de remise de cheque
+		pData.find("#btn-ajout-remise-cheque").click(function() {
+			that.dialogCreerRemise();
+		});
+		
+		// Bouton de création de remise de cheque, Ajout Operation
+		pData.find("#btn-ajout-operation-remise-cheque").click(function() {
+			that.dialogAjoutOperation();
+		});
+			
+		return pData;
+	};
+	
+	this.dialogAjoutOperation = function() {
+		var that = this;
+		// Récupération de la liste des remises actives
+		$.post(	"./index.php?m=CompteAssociation&v=RemiseCheque", "pParam=" + $.toJSON({fonction:"listeActive"}),
+			function(lResponse) {
+				Infobulle.init(); // Supprime les erreurs
+				if(lResponse) {
+					if(lResponse.valid) {
+						if(lResponse.liste[0].id == null) { // Pas de remise en cours
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_368_CODE;
+							erreur.message = ERR_368_MSG;
+							lVr.log.erreurs.push(erreur);	
+							Infobulle.generer(lVr,'');		
+						} else {
+							lResponse.sigleMonetaire = gSigleMonetaire;
+							lResponse.montant = $("#total-remise-cheque").text();
+							$(lResponse.liste).each(function() {
+								this.date = this.dateCreation.extractDbDate().dateDbToFr();
+							});
+													
+							var lCompteAssociationTemplate = new CompteAssociationTemplate();
+							$(lCompteAssociationTemplate.dialogAjoutOperationRemiseCheque.template(lResponse)).dialog({
+								autoOpen: true,
+								modal: true,
+								draggable: false,
+								resizable: false,
+								width:800,
+								buttons: {
+									'Valider': function() {
+										that.ajoutOperation($("#select-remise-cheque").val());
+									},
+									'Annuler': function() {
+										Infobulle.init(); // Supprime les erreurs
+										$(this).dialog('close');
+									}
+								},
+								close: function(ev, ui) { $(this).remove(); }
+							});
+						}
+					} else {
+						Infobulle.generer(lResponse,'');
+					}
+				}
+			},"json"
+		);
+	};
+	
+	this.ajoutOperation = function(pIdRemiseCheque) {
+		var that = this;
+		var lVo = new RemiseChequeDetailVO();
+
+		lVo.id = pIdRemiseCheque;
+		
+		// Récupération des opérations dans les deux tableaux
+		$(".checkbox-remise-cheque:checked",this.mTable.fnGetNodes()).each(function() {
+			var lOperation = new OperationDetailVO();
+			lOperation.id = $(this).val();
+			lVo.operations.push(lOperation);
+		});
+		
+		// Contrôle des données
+		var lValid = new RemiseChequeValid();
+		var lVr = lValid.validAjoutOperation(lVo);
+		
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			// Enregistrement de la remise de cheque
+			lVo.fonction = 'ajoutOperation';
+			$.post(	"./index.php?m=CompteAssociation&v=RemiseCheque", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_301_CODE;
+							erreur.message = ERR_301_MSG;
+							lVr.log.erreurs.push(erreur);						
+							$("#dialog-creer-remise-cheque").dialog("close");	
+							that.construct({vr:lVr,selectedTabs:that.mSelectedTabs});									
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	};
+	
+	this.dialogCreerRemise = function() {
+		var that = this;
+		var lData = {sigleMonetaire:gSigleMonetaire, montant:$("#total-remise-cheque").text()};
+		
+		var lCompteAssociationTemplate = new CompteAssociationTemplate();
+		$(lCompteAssociationTemplate.dialogCreerRemiseCheque.template(lData)).dialog({
+			autoOpen: true,
+			modal: true,
+			draggable: false,
+			resizable: false,
+			width:600,
+			buttons: {
+				'Valider': function() {
+					that.creerRemise();
+				},
+				'Annuler': function() {
+					Infobulle.init(); // Supprime les erreurs
+					$(this).dialog('close');
+				}
+			},
+			close: function(ev, ui) { $(this).remove(); }
+		});
+	};
+	
+	this.creerRemise = function() {
+		var that = this;
+		var lVo = new RemiseChequeDetailVO();
+
+		// Récupération des opérations
+		$(".checkbox-remise-cheque:checked",this.mTable.fnGetNodes()).each(function() {
+			var lOperation = new OperationDetailVO();
+			lOperation.id = $(this).val();
+			lVo.operations.push(lOperation);
+		});
+		
+		// Contrôle des données
+		var lValid = new RemiseChequeValid();
+		var lVr = lValid.validAjout(lVo);
+		
+		Infobulle.init(); // Supprime les erreurs
+		if(lVr.valid) {
+			// Enregistrement de la remise de cheque
+			lVo.fonction = 'ajout';
+			$.post(	"./index.php?m=CompteAssociation&v=RemiseCheque", "pParam=" + $.toJSON(lVo),
+				function(lResponse) {
+					Infobulle.init(); // Supprime les erreurs
+					if(lResponse) {
+						if(lResponse.valid) {
+							// Message d'information
+							var lVr = new TemplateVR();
+							lVr.valid = false;
+							lVr.log.valid = false;
+							var erreur = new VRerreur();
+							erreur.code = ERR_301_CODE;
+							erreur.message = ERR_301_MSG;
+							lVr.log.erreurs.push(erreur);						
+							$("#dialog-creer-remise-cheque").dialog("close");	
+							that.construct({vr:lVr,selectedTabs:that.mSelectedTabs});									
+						} else {
+							Infobulle.generer(lResponse,'');
+						}
+					}
+				},"json"
+			);
+		} else {
+			Infobulle.generer(lVr,'');
+		}
+	};
+	
+	this.majTotalRemise = function() {
+		var lTotal = 0;
+		// Ajoute le montant des checkbox sélectionnées au total
+		$(".checkbox-remise-cheque:checked",this.mTable.fnGetNodes()).each(function() {
+			lTotal = ( parseFloat(lTotal) + parseFloat($(this).data('montant')) ).toFixed(2);
+		});
+		// Maj du total
+		$("#total-remise-cheque").text(lTotal.nombreFormate(2,',',' '));
+	};
+	
 	this.affectDataTable = function(pData) {
-		pData.find('#table-cheque').dataTable({
+		var lCompteAssociationTemplate = new CompteAssociationTemplate();
+		this.mTable = pData.find('#table-cheque').dataTable({
 	        "bJQueryUI": true,
 	        "sPaginationType": "full_numbers",
 	        "oLanguage": gDataTablesFr,
 	        "iDisplayLength": 25,
-	        "aaSorting": [[0,'asc']],
+	        "aaSorting": [[2,'asc']],
 	        "aoColumnDefs": [
+	              { "bVisible" : false,
+	            	"bSortable": false, 
+	                "bSearchable":false,
+	                "aTargets": [ 0,11 ] 
+	              },
+	              { "mRender": function ( data, type, full ) {
+	       	        	if(data == 'null') {
+	       	        		if(parseFloat(full[11]) > 0) {
+		         	        	return lCompteAssociationTemplate.checkboxRemiseCheque.template({id:full[0],montant:full[11]});
+	       	        		} else {
+	       	        			return '';
+	       	        		}
+	       				} else {
+	       					return data;
+	       				}
+	     	      	},
+	     	      	"aTargets": [ 1 ]
+	              },
 	             {"sType": "date",
                   "mRender": function ( data, type, full ) {
                 	  return data.extractDbDate().dateDbToFr();
                   	},
-                  "aTargets": [ 0 ]
+                  "aTargets": [ 2 ]
                  },
                  {"sType": "numeric",
    	              "mRender": function ( data, type, full ) {
@@ -117,7 +352,7 @@
    	            		  return '';
    	            	  }
    	               },
-   	               "aTargets": [ 1 ]
+   	               "aTargets": [ 3 ]
    		         },
                  {"sType": "numeric",
 	              "mRender": function ( data, type, full ) {
@@ -130,7 +365,7 @@
 	            		  return '';
 	            	  }
 	               },
-	               "aTargets": [ 2 ]
+	               "aTargets": [ 4 ]
 		          },
 		          {	 "sType": "string",
 	                  	 "mRender": function ( data, type, full ) {
@@ -140,7 +375,7 @@
 	                  			return '';
 	                  		}
 	             	      },
-	             	      "aTargets": [ 3, 4 ]
+	             	      "aTargets": [ 5, 6 ]
 		          },
                   {"sType": "numeric",
 	                "mRender": function ( data, type, full ) {
@@ -149,10 +384,11 @@
          	        	}
          	        	return data;
 	             	},
-                	"aTargets": [ 5 ] 
+                	"aTargets": [ 7 ] 
                   },
                   { "bSortable": false,
-                  	"aTargets": [ 7,8,9 ] 
+                  	"bSearchable":false,
+                  	"aTargets": [ 9,10 ] 
                     }]
 	    });
 		

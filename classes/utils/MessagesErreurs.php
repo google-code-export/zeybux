@@ -200,6 +200,8 @@ class MessagesErreurs
 	const ERR_271_MSG = 'Merci de saisir un type d\'adhésion.';
 	const ERR_272_CODE = 272;
 	const ERR_272_MSG = 'Le périmètre de l\'adhésion n\'est pas correcte.';
+	const ERR_273_CODE = 273;
+	const ERR_273_MSG = 'Une opération est déjà sur une remise de chèque.';
 	
 	//Messages d'Information
 	const ERR_301_CODE = 301;
@@ -336,6 +338,8 @@ class MessagesErreurs
 	const ERR_366_MSG = 'Adhésion supprimée.';
 	const ERR_367_CODE = 367;
 	const ERR_367_MSG = 'Pas de périmètre existant pour cette adhésion.';
+	const ERR_368_CODE = 368;
+	const ERR_368_MSG = 'Aucune remise de chèque active.';
 	/*Fin Nouveaux messages d'erreur*/
 
 	/* ERREURS BDD */

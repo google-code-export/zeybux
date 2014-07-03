@@ -11,19 +11,21 @@ ALTER TABLE `dope_detail_operation` ADD INDEX `id_detail_commande` ( `dope_id_de
 ALTER TABLE `sto_stock` ADD INDEX `sto_id_operation` ( `sto_id_operation` ) COMMENT '';
 
 CREATE TABLE IF NOT EXISTS `orc_operation_remise_cheque` (
+  `orc_id` int(11) NOT NULL AUTO_INCREMENT,
   `orc_id_remise_cheque` int(11) NOT NULL,
   `orc_id_operation` int(11) NOT NULL,
   `orc_date_creation` datetime NOT NULL,
   `orc_date_modification` datetime NOT NULL,
   `orc_etat` tinyint(1) NOT NULL,
-  PRIMARY KEY (`orc_id_remise_cheque`,`orc_id_operation`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`orc_id`)
+  KEY `orc_id_remise_cheque` (`orc_id_remise_cheque`,`orc_id_operation`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `rec_remise_cheque` (
   `rec_id` int(11) NOT NULL AUTO_INCREMENT,
   `rec_numero` int(11) NOT NULL,
   `rec_id_compte` int(11) NOT NULL,
-  `rec_montant` decimal(10,0) NOT NULL,
+  `rec_montant` decimal(10,2) NOT NULL,
   `rec_date_creation` datetime NOT NULL,
   `rec_date_modification` datetime NOT NULL,
   `rec_etat` tinyint(1) NOT NULL,
@@ -35,3 +37,12 @@ UPDATE `mod_module` SET `mod_label` = 'Compte Marché' WHERE `mod_module`.`mod_i
 UPDATE `vue_vues` SET `vue_label` = 'Compte Marché' WHERE `vue_vues`.`vue_id` =6;
 
 INSERT INTO {PREFIXE}.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '13', 'ParametreZeybux', 'Les paramètres du zeybux', '2', '1');
+
+INSERT INTO {PREFIXE}.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '6', 'RemiseCheque', 'Les remises de chèques', '5', '1');
+INSERT INTO {PREFIXE}.`vue_vues` (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '15', 'RemiseCheque', 'Les remises de chèques', '3', '1');
+ALTER TABLE {PREFIXE}.orc_operation_remise_cheque
+  DROP PRIMARY KEY,
+   ADD PRIMARY KEY(
+     `orc_id_remise_cheque`,
+     `orc_date_modification`,
+     `orc_etat`);

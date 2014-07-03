@@ -30,6 +30,8 @@ include_once(CHEMIN_CLASSES_MANAGERS . "CommandeManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "FermeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "OperationRemiseChequeManager.php");
+include_once(CHEMIN_CLASSES_MANAGERS . "RemiseChequeManager.php");
 
 define("TABLE_OPERATION", MYSQL_DB_PREFIXE . "ope_operation");
 /**
@@ -1174,12 +1176,19 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 			"," . OperationManager::CHAMP_OPERATION_ID .
 			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . 
-			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . 
+			',' . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . 
+			',' . RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO . "
 		FROM " . OperationManager::TABLE_OPERATION . "
 		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
 		JOIN " . AdherentManager::TABLE_ADHERENT . " ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
 		LEFT JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " 
 			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		LEFT JOIN " . OperationRemiseChequeManager::TABLE_OPERATIONREMISECHEQUE . " 
+			ON " .	OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ETAT . " = 0
+		LEFT JOIN " . RemiseChequeManager::TABLE_REMISECHEQUE . "
+			ON " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . " = " . RemiseChequeManager::CHAMP_REMISECHEQUE_ID . "
 		WHERE " . OperationManager::CHAMP_OPERATION_TYPE . " = 0 
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
@@ -1213,7 +1222,9 @@ class OperationManager
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
-						$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+						$lLigne[OperationManager::CHAMP_OPERATION_ID],
+						$lLigne[OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE],
+						$lLigne[RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO]);
 				 }	
 
 				 if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
@@ -1240,7 +1251,7 @@ class OperationManager
 	}
 	
 	/**
-	 * @name remplirOperationAttenteAdherentEntete($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId)
+	 * @name remplirOperationAttenteAdherentEntete($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId, $pNumeroRemiseCheque)
 	 * @param int(11)
 	 * @param varchar(20)
 	 * @param varchar(50)
@@ -1252,10 +1263,11 @@ class OperationManager
 	 * @param datetime
 	 * @param varchar(100)
 	 * @param int(11)
+	 * @param int(11)
 	 * @return OperationAttenteAdherentVO
 	 * @desc Retourne une OperationAttenteAdherentVO remplie
 	 */
-	private static function remplirOperationAttenteAdherentEntete($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId) {
+	private static function remplirOperationAttenteAdherentEntete($pAdhId, $pAdhNumero, $pAdhNom, $pAdhPrenom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId, $pIdRemiseCheque, $pNumeroRemiseCheque) {
 		$lOperationAttente = new OperationAttenteAdherentVO();
 		$lOperationAttente->setAdhId($pAdhId);
 		$lOperationAttente->setAdhNumero($pAdhNumero);
@@ -1268,6 +1280,8 @@ class OperationManager
 		$lOperationAttente->setOpeDate($pOpeDate);
 		$lOperationAttente->setOpeLibelle($pOpeLibelle);
 		$lOperationAttente->setOpeId($pOpeId);
+		$lOperationAttente->setIdRemiseCheque($pIdRemiseCheque);
+		$lOperationAttente->setNumeroRemiseCheque($pNumeroRemiseCheque);
 		return $lOperationAttente;
 	}
 
@@ -1414,11 +1428,15 @@ class OperationManager
 		"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 		"," . OperationManager::CHAMP_OPERATION_ID .
 		"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID .
-		"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+		"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . 
+		"," . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE .
+		',' . RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO . "
 		FROM " . OperationManager::TABLE_OPERATION . "
 		LEFT JOIN " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
 		ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
-		
+		LEFT JOIN " . OperationRemiseChequeManager::TABLE_OPERATIONREMISECHEQUE . " 
+			ON " .	OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ETAT . " = 0
 		LEFT JOIN " . AdhesionAdherentManager::TABLE_ADHESIONADHERENT . "
 		ON " . AdhesionAdherentManager::CHAMP_ADHESIONADHERENT_ID_OPERATION . " = " . OperationManager::CHAMP_OPERATION_ID . "
 		LEFT JOIN " . AdherentManager::TABLE_ADHERENT . "
@@ -1427,6 +1445,8 @@ class OperationManager
 		ON " . AdherentManager::CHAMP_ADHERENT_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
 		JOIN " . TypePaiementManager::TABLE_TYPEPAIEMENT . "
 		ON " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = " . TypePaiementManager::CHAMP_TYPEPAIEMENT_ID . "
+		LEFT JOIN " . RemiseChequeManager::TABLE_REMISECHEQUE . "
+			ON " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . " = " . RemiseChequeManager::CHAMP_REMISECHEQUE_ID . "
 		WHERE " . OperationManager::CHAMP_OPERATION_TYPE . " = 0
 		AND " . OperationManager::CHAMP_OPERATION_ID_COMPTE . " = -4
 		AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
@@ -1461,7 +1481,9 @@ class OperationManager
 							$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 							$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 							$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
-							$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+							$lLigne[OperationManager::CHAMP_OPERATION_ID],
+							$lLigne[OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE],
+							$lLigne[RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO]);
 				}
 	
 				if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
@@ -1510,12 +1532,19 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 			"," . OperationManager::CHAMP_OPERATION_ID .
 			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID .
-			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . 
+			"," . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . 
+			',' . RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO . "
 		FROM " . OperationManager::TABLE_OPERATION . "
 		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
 		JOIN " . FermeManager::TABLE_FERME . " ON " . FermeManager::CHAMP_FERME_ID_COMPTE . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
 		LEFT JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
 			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		LEFT JOIN " . OperationRemiseChequeManager::TABLE_OPERATIONREMISECHEQUE . " 
+			ON " .	OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ETAT . " = 0
+		LEFT JOIN " . RemiseChequeManager::TABLE_REMISECHEQUE . "
+			ON " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . " = " . RemiseChequeManager::CHAMP_REMISECHEQUE_ID . "
 		WHERE " . OperationManager::CHAMP_OPERATION_TYPE . " = 0
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
@@ -1548,7 +1577,9 @@ class OperationManager
 						$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
-						$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+						$lLigne[OperationManager::CHAMP_OPERATION_ID],
+						$lLigne[OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE],
+						$lLigne[RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO]);
 				}
 	
 				if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
@@ -1575,7 +1606,7 @@ class OperationManager
 	}
 	
 	/**
-	* @name remplirOperationAttenteFermeEntete($pFerId, $pFerNumero, $pFerNom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId)
+	* @name remplirOperationAttenteFermeEntete($pFerId, $pFerNumero, $pFerNom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId, $pIdRemiseCheque, $pNumeroRemiseCheque)
 	* @param int(11)
 	* @param varchar(20)
 	* @param varchar(50)
@@ -1588,10 +1619,11 @@ class OperationManager
 	* @param datetime
 	* @param varchar(100)
 	* @param int(11)
+	* @param int(11)
 	* @return OperationAttenteFermeVO
 	* @desc Retourne une OperationAttenteFermeVO remplie
 	*/
-	private static function remplirOperationAttenteFermeEntete($pFerId, $pFerNumero, $pFerNom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId) {
+	private static function remplirOperationAttenteFermeEntete($pFerId, $pFerNumero, $pFerNom, $pCptLabel, $pCptSolde, $pOpeMontant, $pOpeTypePaiement, $pOpeDate, $pOpeLibelle, $pOpeId, $pIdRemiseCheque, $pNumeroRemiseCheque) {
 		$lOperationAttente = new OperationAttenteFermeVO();
 		$lOperationAttente->setFerId($pFerId);
 		$lOperationAttente->setFerNumero($pFerNumero);
@@ -1603,6 +1635,8 @@ class OperationManager
 		$lOperationAttente->setOpeDate($pOpeDate);
 		$lOperationAttente->setOpeLibelle($pOpeLibelle);
 		$lOperationAttente->setOpeId($pOpeId);
+		$lOperationAttente->setIdRemiseCheque($pIdRemiseCheque);
+		$lOperationAttente->setNumeroRemiseCheque($pNumeroRemiseCheque);
 		return $lOperationAttente;
 	}
 	
@@ -1788,11 +1822,18 @@ class OperationManager
 			"," . OperationManager::CHAMP_OPERATION_LIBELLE .
 			"," . OperationManager::CHAMP_OPERATION_ID .
 			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . 
-			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+			"," . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . 
+			"," . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE .
+			',' . RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO . "
 		FROM " . OperationManager::TABLE_OPERATION . "
 		JOIN " . CompteManager::TABLE_COMPTE . " ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
 		LEFT JOIN  " . OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " 
 			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationManager::CHAMP_OPERATION_ID . "
+		LEFT JOIN " . OperationRemiseChequeManager::TABLE_OPERATIONREMISECHEQUE . " 
+			ON " .	OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . " = " . OperationManager::CHAMP_OPERATION_ID . "
+			AND " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ETAT . " = 0
+		LEFT JOIN " . RemiseChequeManager::TABLE_REMISECHEQUE . "
+			ON " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . " = " . RemiseChequeManager::CHAMP_REMISECHEQUE_ID . "
 		WHERE " . OperationManager::CHAMP_OPERATION_TYPE . " = 0 
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " in (1,2)
 			AND " . OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT . " = '" . StringUtils::securiser($pTypePaiement) . "'
@@ -1825,7 +1866,9 @@ class OperationManager
 				 		NULL,
 						$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 						$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
-						$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+						$lLigne[OperationManager::CHAMP_OPERATION_ID],
+						$lLigne[OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE],
+						$lLigne[RemiseChequeManager::CHAMP_REMISECHEQUE_NUMERO]);
 				 }	
 
 				 if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
@@ -1932,6 +1975,27 @@ class OperationManager
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
 		return $pVo->getId();
+	}
+	
+	/**
+	 * @name validerByArray($pId)
+	 * @param array(IdOperationVO)
+	 * @desc Met à jour les lignes au type 1
+	 */
+	public static function validerByArray($pId) {
+		// Initialisation du Logger
+		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
+		$lLogger->setMask(Log::MAX(LOG_LEVEL));
+	
+		$lRequete =
+		"UPDATE " . OperationManager::TABLE_OPERATION . "
+		SET
+		" . OperationManager::CHAMP_OPERATION_TYPE . " = '1'
+		," . OperationManager::CHAMP_OPERATION_DATE_MAJ . " = 'now()'
+		WHERE " . OperationManager::CHAMP_OPERATION_ID . " in ( '" .  str_replace(",", "','", StringUtils::securiser( implode(",", $pId) ) ) . "')";
+				
+		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
+		return Dbutils::executerRequete($lRequete);
 	}
 
 	/**

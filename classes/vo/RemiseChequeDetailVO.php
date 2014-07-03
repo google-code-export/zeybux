@@ -28,8 +28,8 @@ class RemiseChequeDetailVO extends RemiseChequeVO
 	* @name RemiseChequeDetailVO()
 	* @desc Le constructeur
 	*/
-	public function RemiseChequeDetailVO($pId = null, $pNumero = null, $pDateCreation = null, $pDateModification = null, $pEtat = null, $pOperations = null)  {
-		parent::__construct($pId, $pNumero, $pDateCreation, $pDateModification, $pEtat) ;
+	public function RemiseChequeDetailVO($pId = null, $pNumero = null, $pIdCompte = null, $pMontant = null, $pOperations = null, $pDateCreation = null, $pDateModification = null, $pEtat = null)  {
+		parent::__construct($pId, $pNumero, $pIdCompte, $pMontant, $pDateCreation, $pDateModification, $pEtat) ;
 		if(!is_null($pOperations)) { $this->mOperations = $pOperations; } else { $this->mOperations = array(); }
 	}
 		
