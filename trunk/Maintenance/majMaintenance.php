@@ -55,7 +55,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 		
 		// Fonction qui permet de décomposer le numéro de version et de mettre 0 si il n'y a rien
 		function decomposerVersion($pVersion) {
-			$lVersion = split("\.",$pVersion);
+			$lVersion = explode("\.",$pVersion);
 			$lVersionRetour = array(0,0,0);
 			if(isset($lVersion[0])) {
 				$lVersionRetour[0] = $lVersion[0];
@@ -118,6 +118,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 		// Suppression des scripts
 		viderDossier("./script/");
 		rmdir("./script/");
+		shell_exec('chmod -R 705 .');
 ?>
 	Mise à jour OK : <a href="./index.php?m=Maj"><button>OK</button></a>
 <?php

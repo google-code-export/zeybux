@@ -62,7 +62,6 @@
 			lResponse.listeEspeceAdherent = [];
 		}
 		
-		var lEspeceInvite = false;
 		var lTestNbLigne = false;
 		$.each(lResponse.listeEspeceInvite,function() {
 			if(this.opeId) {
@@ -75,7 +74,6 @@
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');		
 				that.mListeOperation[this.opeId] = this;
-				lEspeceInvite = true;
 			}
 		});
 		if(!lTestNbLigne) {
@@ -106,8 +104,7 @@
 		if(!lTestNbLigne) {
 			lResponse.listeChequeAdherent = [];
 		}
-		
-		var lChequeInvite = false;
+
 		var lTestNbLigne = false;
 		$.each(lResponse.listeChequeInvite,function() {
 			if(this.opeId) {
@@ -123,7 +120,6 @@
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
 				}		
 				that.mListeOperation[this.opeId] = this;
-				lChequeInvite = true;
 			}
 		});
 		if(!lTestNbLigne) {
@@ -183,15 +179,10 @@
 		lResponse.totalChequeFerme = lTotalChequeFerme.nombreFormate(2,',',' ');
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		if(lChequeInvite) {
-			lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
-		}
-		if(lEspeceInvite) {
-			lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
-		}
+		lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
+		lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
 		
-		var lTemplate = lCompteZeybuTemplate.listePaiement;	
-		var lHtml = $(lTemplate.template(lResponse));
+		var lHtml = $(lCompteZeybuTemplate.listePaiement.template(lResponse));
 				
 		$('#contenu').replaceWith(that.affect(lHtml));
 		

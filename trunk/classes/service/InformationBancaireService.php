@@ -28,7 +28,8 @@ class InformationBancaireService
 	 * @desc Ajoute ou met à jour une Information Bancaire
 	 */
 	public function set($pInformationBancaire) {
-		if(empty($pInformationBancaire->getId())) { // Ajout
+		$lId = $pInformationBancaire->getId();
+		if(empty($lId)) { // Ajout
 			return $this->insert($pInformationBancaire);
 		} else { // Update
 			return $this->update($pInformationBancaire);

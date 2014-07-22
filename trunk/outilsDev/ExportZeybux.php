@@ -400,6 +400,8 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 		mkdir($lPath . '/logs');
 		mkdir($lPath . '/vues');
 		mkdir($lPath . '/tmp');
+		$fp = fopen($lPath . '/tmp/.htaccess', 'w');
+		fclose($fp);
 		if($lEnv == 'install') {
 			mkdir($lPath . '/Maintenance');
 			mkdir($lPath . '/Maintenance/ancien');
