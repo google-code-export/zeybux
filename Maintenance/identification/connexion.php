@@ -9,5 +9,5 @@ if(isset($_POST['login']) && isset($_POST['pass']) ){
 		$_SESSION['cx'] = 1;
 	}
 }
-header('Location: ../index.php');
+header('location:../index.php');
 ?>

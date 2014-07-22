@@ -105,6 +105,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 							if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
 								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 							}
 							$creations .= $creationTable[1].";\n\n";
 						}
@@ -157,10 +158,10 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 						{
 							if($i != 0)
 								$insertions .=  ", ";
-							if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+							//if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
 								$insertions .=  "'";
 							$insertions .= addslashes($nuplet[$i]);
-							if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+							//if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
 								$insertions .=  "'";
 						}
 						$insertions .=  ");\n";
@@ -233,6 +234,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 							&& $entry != 'Maintenance' 
 							&& $entry != 'update.sql' 
 							&& $entry != "bdd"
+							&& $entry != "script"
 					   && $entry != ".htaccess") {
 							if(is_dir($d->path.'/'.$entry)) {
 								if(!is_dir($pPathOut .'/'. $entry)) {
@@ -253,7 +255,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				
 				// Fonction qui permet de décomposer le numéro de version et de mettre 0 si il n'y a rien
 				function decomposerVersion($pVersion) {
-					$lVersion = split("\.",$pVersion);
+					$lVersion = explode("\.",$pVersion);
 					$lVersionRetour = array(0,0,0);
 					if(isset($lVersion[0])) {
 						$lVersionRetour[0] = $lVersion[0];
@@ -271,7 +273,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				$lVersionZeybux = decomposerVersion(ZEYBUX_VERSION); // Décomposition de la version actuelle
 				
 				$lListeNomFichier = array();
-				$d = dir("./script/");
+				$d = dir(DOSSIER_EXTRACT . "/script/");
 				// Scan du dossier des scripts
 				while (false !== ($entry = $d->read())) {
 					if(		$entry != '.'
@@ -365,7 +367,8 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				$lNomFichierLog = LOG_EXTRACT . date('Y-m-d_H:i:s') . "_updateSql.log";
 				$f = fopen($lNomFichierLog, "w");
 				foreach( $lRequetes as $lReq ) {
-					if(!empty(trim($lReq))) {
+					$lReqTrim = trim($lReq);
+					if(!empty($lReqTrim)) {
 						$lNbRequetes++;
 						if(!mysql_query($lReq, $connexion)) {
 							$lNbErreur++;
@@ -391,6 +394,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				} else {
 					echo 0;
 				}
+				shell_exec('cd ../ && chmod -R 705 .');
 				break;
 		}
 	} else {

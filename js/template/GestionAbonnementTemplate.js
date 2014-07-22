@@ -510,8 +510,8 @@
 					"<tr>" +
 						"<td>{abonnes.adhNumero}</td>" +
 						"<td>{abonnes.cptLabel}</td>" +
-						"<td>{abonnes.adhPrenom}</td>" +
 						"<td>{abonnes.adhNom}</td>" +
+						"<td>{abonnes.adhPrenom}</td>" +
 						"<td>{abonnes.cptAboQuantite}</td>" +
 						"<td>{abonnes.proAboUnite}</td>" +
 					"</tr>" +
