@@ -8,6 +8,9 @@ if(isset($_GET["action"])) {
 			// Création d'un nouveau répertoire de sauvegarde
 			$lDossier = FILE_DUMP . "/" . date("YmdHis");
 			mkdir( $lDossier );
+			// Le dossier de sauvegarde de la BDD				
+			$lDossierDump = $lDossier . "/dump/";
+			mkdir( $lDossierDump );
 		
 			// Sauvegarde des fichiers
 			function parcourirDossier($pPathIn,$pPathOut) {
@@ -39,45 +42,54 @@ if(isset($_GET["action"])) {
 			$entete .= "-- ----------------------\n\n\n";
 			$creations = "";
 			$lListeTable = array();
-						$listeTables = mysql_query("show tables", $connexion);
+			$listeTables = mysql_query("show tables", $connexion);
 			while($table = mysql_fetch_array($listeTables)) {
-				array_push($lListeTable,$table[0]);
 				// La structure
 				$creations .= "-- -----------------------------\n";
 				$creations .= "-- creation de la table ".$table[0]."\n";
 				$creations .= "-- -----------------------------\n";
 				$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
 				while($creationTable = mysql_fetch_array($listeCreationsTables)) {
+					// Si c'est une table ajout à la liste pour sauvegarde des données
+					if(preg_match('/CREATE TABLE/',$creationTable[1])) {
+						array_push($lListeTable,$table[0]);
+					}
+					
 					if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
 						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
 					}
 					$creations .= $creationTable[1].";\n\n";
 				}
 			}
-		
-			// Cette vue doit être placée en fin car elle dépend d'autres vues
-		/*				$table[0] = "view_info_commande";
-			array_push($lListeTable,$table[0]);
-			$creations .= "-- -----------------------------\n";
-			$creations .= "-- creation de la table ".$table[0]."\n";
-			$creations .= "-- -----------------------------\n";
-			$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
-			if($listeCreationsTables) {
-				while($creationTable = mysql_fetch_array($listeCreationsTables)) {
-					$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-								$creations .= $creationTable[1].";\n\n";
-				}
-			}*/
-	
 			mysql_close($connexion);
-		
-			$fichierDump = fopen($lDossier . "/dump.sql", "w");
+			
+			$lNomFichier = $lDossierDump . "structure.sql";
+			$fichierDump = fopen($lNomFichier, "w");
 			fwrite($fichierDump, utf8_encode($entete));
 			fwrite($fichierDump, utf8_encode($creations));
 			fclose($fichierDump);
+			
+			// Creation du zip
+			$lZip = new ZipArchive();
+			
+			// On teste si le dossier existe, car sans ça le script risque de provoquer des erreurs.
+			if($lZip->open($lDossier . '/dump.sql.zip', ZipArchive::CREATE) == TRUE) {
+				// Ajout du fichier
+				if(!$lZip->addFile($lNomFichier, "0-structure.sql")) {
+					echo -1;
+				}
+				// On ferme l’archive.
+				$lZip->close();
+			} else {
+				// Erreur lors de l’ouverture.
+				// On peut ajouter du code ici pour gérer les différentes erreurs.
+				echo -2;
+			}
+			
+			// Suppression du fichier
+			unlink($lNomFichier);
 
 			echo json_encode(array("dossier"=>$lDossier,"tables"=>$lListeTable));
 			break;
@@ -85,6 +97,9 @@ if(isset($_GET["action"])) {
 		case 31:
 				// Sauvegarde de la base
 				if(isset($_POST['table']) && isset($_POST['dossier'])) {
+					$lDossier = $_POST['dossier'];
+					$lDossierDump = $lDossier . "/dump/";
+					
 					// Etape 2 Les données
 					$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 					mysql_select_db(MYSQL_DBNOM, $connexion);
@@ -99,21 +114,42 @@ if(isset($_GET["action"])) {
 						$insertions .= "INSERT INTO ".$table." VALUES(";
 						for($i=0; $i < mysql_num_fields($donnees); $i++)
 						{
-						if($i != 0)
-							$insertions .=  ", ";
-							if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+							if($i != 0)
+								$insertions .=  ", ";
+							//if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
 								$insertions .=  "'";
-								$insertions .= addslashes($nuplet[$i]);
-								if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
-									$insertions .=  "'";
+							$insertions .= addslashes($nuplet[$i]);
+							//if(mysql_field_type($donnees, $i) == "string" || mysql_field_type($donnees, $i) == "blob")
+								$insertions .=  "'";
 						}
 						$insertions .=  ");\n";
 					}
 					$insertions .= "\n";
-					$fichierDump = fopen($_POST['dossier'] . "/dump.sql", "a");
+					$lNomFichier = $lDossierDump . $table . ".sql";
+					$fichierDump = fopen($lNomFichier , "w");
 					fwrite($fichierDump, utf8_encode($insertions));
 					fclose($fichierDump);
-					echo 1;
+					
+					// Ajout au zip
+					$lZip = new ZipArchive();
+						
+					// On teste si le dossier existe, car sans ça le script risque de provoquer des erreurs.
+					if($lZip->open($lDossier . '/dump.sql.zip', ZipArchive::CREATE) == TRUE) {
+						// Ajout du fichier
+						if(!$lZip->addFile($lNomFichier, $table . ".sql")) {
+							echo -1;
+						}
+						// On ferme l’archive.
+						$lZip->close();
+						echo 1;
+					} else {
+						// Erreur lors de l’ouverture.
+						// On peut ajouter du code ici pour gérer les différentes erreurs.
+						echo -2;
+					}
+					
+					// Suppression du fichier
+					unlink($lNomFichier);
 				} else {
 					echo 0;
 				}
@@ -148,15 +184,43 @@ if(isset($_GET["action"])) {
 			$lVersion = $_GET["dir"];
 				?>
 			<script type="text/javascript">
-			$(document).ready(function() {		
-				function etape4() {
-					$.post(	"./index.php?m=Versions&action=actionRollBackConfirm", "dir=" + <?php echo $_GET["dir"]; ?>,
+			$(document).ready(function() {	
+				function etape42() { // Ouverture des accès 
+					$.post(	"./index.php?m=Versions&action=42",
 						function(lResponse) {
 							if(lResponse == 1) {
 								$("#etape-4").addClass("ui-icon-check").removeClass("ui-icon-closethick");
 								$("#btn-ok").show();
 							}
 						}
+					);
+				};
+				
+				function etape41(pParam, pIndex) { // Insertion de la BDD
+					$.post(	"./index.php?m=Versions&action=41", "dossier=" + pParam.dossier + "&table=" + pParam.tables[pIndex],
+						function(lResponse) {
+							if(lResponse == 1) {
+								$("#tableEnCoursInsert").text(pIndex + 1);								
+								if( pParam.tables[pIndex + 1]) {
+									etape41(pParam, pIndex + 1);
+								} else {
+									etape42();
+								}
+							}
+						}
+					);
+				};
+					
+				function etape4() {
+					$.post(	"./index.php?m=Versions&action=actionRollBackConfirm", "dir=" + <?php echo $_GET["dir"]; ?>,
+						function(lResponse) {
+							if(lResponse.retour == 1) {								
+								lResponse.dossier = "<?php echo $_GET["dir"]; ?>";
+								$("#tableTotalInsert").text(lResponse.tables.length);
+								$("#etape-4-detail").show();
+								etape41(lResponse,0);
+							}
+						}, "json"
 					);
 				};
 				
@@ -200,12 +264,10 @@ if(isset($_GET["action"])) {
 					<br/><span id="etape-3" class="com-float-left ui-icon ui-icon-closethick"></span> Sauvegarde du zeybux<br/>
 					<span>Table : </span><span id="tableEnCours">0</span>/<span id="tableTotal"></span><br/>
 					<span id="etape-4" class="com-float-left ui-icon ui-icon-closethick"></span> Installation de la version<br/>
+					<span id="etape-4-detail" class="ui-helper-hidden"><span>Table : </span><span id="tableEnCoursInsert">0</span>/<span id="tableTotalInsert">0</span></span><br/>
 					<div id="btn-ok" class="ui-helper-hidden">
 						La version : <?php echo $lVersion[6] . $lVersion[7] ."-". $lVersion[4] . $lVersion[5] . "-" . $lVersion[0] . $lVersion[1] . $lVersion[2] . $lVersion[3] . " " . $lVersion[8] . $lVersion[9] .":". $lVersion[10] . $lVersion[11] .":". $lVersion[12]. $lVersion[13];?> est active. 
 						<a href="./index.php?m=Versions" style="margin-top:15px;margin-bottom:15px;" class="com-btn-edt ui-state-default ui-corner-all com-button com-center">OK</a><br/><br/>
-						<a href="./ancien/<?php echo $lVersion;?>/dump.sql" target="_blank" style="margin-top:15px;margin-bottom:15px;" class="com-btn-edt ui-state-default ui-corner-all com-button com-center" title="Télécharger la base">
-							Télécharger la base à réinstaller
-						</a>
 					</div>
 				</div>
 			</div>
@@ -314,7 +376,9 @@ if(isset($_GET["action"])) {
 								&& $entry != 'Maintenance'
 								&& $entry != 'update.sql'
 								&& $entry != "bdd"
-								&& $entry != ".htaccess") {
+								&& $entry != ".htaccess"
+								&& $entry != "dump"
+								&& $entry != "dump.sql.zip") {
 							if(is_dir($d->path.'/'.$entry)) {
 								if(!is_dir($pPathOut .'/'. $entry)) {
 									mkdir($pPathOut .'/'. $entry);
@@ -336,8 +400,9 @@ if(isset($_GET["action"])) {
 				$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 				mysql_select_db(MYSQL_DBNOM, $connexion);
 				$listeTables = mysql_query("show tables", $connexion);
-			    while($table = mysql_fetch_array($listeTables)) {			    	
-				    	mysql_query("DROP TABLE " . $table[0], $connexion);
+			    while($table = mysql_fetch_array($listeTables)) {			    			    	
+				    mysql_query("DROP TABLE " . $table[0], $connexion);
+				    mysql_query("DROP VIEW " . $table[0], $connexion);
 			    }
 				mysql_close($connexion);
 
@@ -367,15 +432,113 @@ if(isset($_GET["action"])) {
 				mysql_close($connexion); */
 
 				// Ouvre les accès
-				copy(DOSSIER_CONFIGURATION . "/Maintenance_ouvert.php" , DOSSIER_SITE_CONFIGURATION . "/Maintenance.php");
+	//			copy(DOSSIER_CONFIGURATION . "/Maintenance_ouvert.php" , DOSSIER_SITE_CONFIGURATION . "/Maintenance.php");
 				
 			/*	$lVersion = $_GET["dir"];
 				?>
 						<br/><br/>La version : <?php echo $lVersion[6] . $lVersion[7] ."-". $lVersion[4] . $lVersion[5] . "-" . $lVersion[0] . $lVersion[1] . $lVersion[2] . $lVersion[3] . " " . $lVersion[8] . $lVersion[9] .":". $lVersion[10] . $lVersion[11] .":". $lVersion[12]. $lVersion[13];?> est active. 
 				</div>
 				<?php */
-				echo 1;				
+				
+				$lListeTable = array();
+				
+				$lDossier = FILE_DUMP . "/" . $_POST["dir"];
+				$lDossierDump = $lDossier . '/dump/';
+				$zip = new ZipArchive;
+				if ($zip->open($lDossier . "/dump.sql.zip") === TRUE) {
+					$zip->extractTo($lDossierDump);
+					$zip->close();
+
+					$lNomFichier = $lDossierDump . "0-structure.sql";
+					$lUpdateSql = file_get_contents($lNomFichier);
+					
+					$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
+					mysql_select_db(MYSQL_DBNOM, $connexion);
+					// Ajout du préfixe
+					$lRequetes = explode(";", $lUpdateSql);
+					$lNbErreur = 0;
+					$lNbRequetes = 0;
+					mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD
+					$lNomFichierLog = LOG_EXTRACT . date('Y-m-d_H:i:s') . "_updateSql.log";
+					$f = fopen($lNomFichierLog, "w");
+					foreach( $lRequetes as $lReq ) {
+						$lReqTrim = trim($lReq);
+						if(!empty($lReqTrim)) {
+							$lNbRequetes++;
+							if(!mysql_query($lReq, $connexion)) {
+								$lNbErreur++;
+								fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n" . $lReq . "\n\n");
+							} else {
+								fwrite($f," OK : " . $lReq . "\n\n");
+							}
+						}
+					}
+					fclose($f);
+					mysql_close($connexion);
+					
+					unlink($lNomFichier);
+					
+					$d = dir($lDossierDump);
+					while (false !== ($entry = $d->read())) {
+						if(	$entry != '.' && $entry != '..' && $entry != "0-structure.sql") {
+							array_push($lListeTable,$entry);
+						}
+					}
+					$d->close();
+					$lRetour = 1;
+					
+				} else {
+					$lRetour = 0;
+				}
+				
+				echo json_encode(array("retour"=>$lRetour,"tables"=>$lListeTable));
 			}
+			break;
+			
+		case "41":
+			// Sauvegarde de la base
+			if(isset($_POST['table']) && isset($_POST['dossier'])) {
+				$lDossier = FILE_DUMP . "/" . $_POST["dossier"];
+				$lDossierDump = $lDossier . "/dump/";
+				$lNomFichier = $lDossierDump . $_POST['table'];
+				$lUpdateSql = file_get_contents($lNomFichier);
+					
+				$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
+				mysql_select_db(MYSQL_DBNOM, $connexion);
+				// Ajout du préfixe
+				$lRequetes = explode(";", $lUpdateSql);
+				$lNbErreur = 0;
+				$lNbRequetes = 0;
+				mysql_query("SET NAMES UTF8"); // Permet d'initer une connexion en UTF-8 avec la BDD
+				$lNomFichierLog = LOG_EXTRACT . date('Y-m-d_H:i:s') . "_updateSql.log";
+				$f = fopen($lNomFichierLog, "w");
+				foreach( $lRequetes as $lReq ) {
+					$lReqTrim = trim($lReq);
+					if(!empty($lReqTrim)) {
+						$lNbRequetes++;
+						if(!mysql_query($lReq, $connexion)) {
+							$lNbErreur++;
+							fwrite($f, mysql_errno($connexion) . ": " . mysql_error($connexion) . "\n" . $lReq . "\n\n");
+						} else {
+							fwrite($f," OK : " . $lReq . "\n\n");
+						}
+					}
+				}
+				fclose($f);
+				mysql_close($connexion);
+					
+				unlink($lNomFichier);
+				
+				echo 1;
+			} else {
+				echo 0;
+			}
+			break;
+			
+		case 42:
+			// Ouvre les accès
+			copy(DOSSIER_CONFIGURATION . "/Maintenance_ouvert.php" , DOSSIER_SITE_CONFIGURATION . "/Maintenance.php");
+			echo 1;
 			break;
 	}
 } 
@@ -391,7 +554,7 @@ if(isset($_GET["action"])) {
 	$d->close();
 	rsort($lVersions);
 	if(!isset($_GET["action"]) || 
-	(isset($_GET["action"]) && $_GET["action"] != "31" && $_GET["action"] != "actionSav" && $_GET['action'] != "rollBack" && $_GET['action'] != "actionRollBackConfirm") ) {
+	(isset($_GET["action"]) && $_GET["action"] != "31"  && $_GET["action"] != "41"  && $_GET["action"] != "42" && $_GET["action"] != "actionSav" && $_GET['action'] != "rollBack" && $_GET['action'] != "actionRollBackConfirm") ) {
 ?>
 
 <script type="text/javascript">
@@ -447,12 +610,12 @@ $(document).ready(function() {
 		<tr>
 			<td class="com-table-td-debut"><?php echo $lVersion[6] . $lVersion[7] ."-". $lVersion[4] . $lVersion[5] . "-" . $lVersion[0] . $lVersion[1] . $lVersion[2] . $lVersion[3] . " " . $lVersion[8] . $lVersion[9] .":". $lVersion[10] . $lVersion[11] .":". $lVersion[12]. $lVersion[13];?></td>
 			<td class="com-table-td-med">
-				<a href="./ancien/<?php echo $lVersion;?>/dump.sql" target="_blank" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Télécharger la base">
+				<a href="./ancien/<?php echo $lVersion;?>/dump.sql.zip" target="_blank" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Télécharger la base">
 					<span class="ui-icon ui-icon-arrowthick-1-n"></span>
 				</a>
 			</td>
 			<td class="com-table-td-med">
-				<a href="./index.php?m=Versions&amp;action=rollBack&amp;dir=<?php echo $lVersion;?>" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Appliquer">
+				<a href="./index.php?m=Versions&amp;action=rollBack&amp;dir=<?php echo $lVersion;?>" class="com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-edt-supprimer" title="Appliquer (fichier pas la bdd)">
 					<span class="ui-icon ui-icon-check"></span>
 				</a>
 			</td>

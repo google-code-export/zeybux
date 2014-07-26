@@ -3,7 +3,7 @@ session_start();
 $lAffiche = true;
 if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	if($_GET['m'] == "Versions") {	
-		if(isset($_GET['action']) && ($_GET['action'] == "actionSav" || $_GET['action'] == "31" || $_GET['action'] == "actionRollBackConfirm")) {
+		if(isset($_GET['action']) && ($_GET['action'] == "actionSav" || $_GET['action'] == "31" || $_GET['action'] == "41" || $_GET['action'] == "42" || $_GET['action'] == "actionRollBackConfirm")) {
 			include_once("./Versions/index.php");
 			$lAffiche = false;
 		}
