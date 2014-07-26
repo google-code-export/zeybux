@@ -60,6 +60,9 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				// Création d'un nouveau répertoire de sauvegarde
 				$lDossier = FILE_DUMP . "/" . date("YmdHis");
 				mkdir( $lDossier );
+				// Le dossier de sauvegarde de la BDD				
+				$lDossierDump = $lDossier . "/dump/";
+				mkdir( $lDossierDump );
 				
 				// Sauvegarde des fichiers
 				function parcourirDossier($pPathIn,$pPathOut) {
@@ -92,56 +95,64 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 				$creations = "";
 				$lListeTable = array();
 				$listeTables = mysql_query("show tables", $connexion);
-				while($table = mysql_fetch_array($listeTables)) {
-					array_push($lListeTable,$table[0]);
+				while($table = mysql_fetch_array($listeTables)) {					
 					// La structure
-					if($table[0] != 'view_info_commande') {
-						$creations .= "-- -----------------------------\n";
-						$creations .= "-- creation de la table ".$table[0]."\n";
-						$creations .= "-- -----------------------------\n";
-						$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
-						while($creationTable = mysql_fetch_array($listeCreationsTables))
-						{
-							if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
-								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-								$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-							}
-							$creations .= $creationTable[1].";\n\n";
+					$creations .= "-- -----------------------------\n";
+					$creations .= "-- creation de la table ".$table[0]."\n";
+					$creations .= "-- -----------------------------\n";
+					$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
+					while($creationTable = mysql_fetch_array($listeCreationsTables))
+					{
+						// Si c'est une table ajout à la liste pour sauvegarde des données	
+						if(preg_match('/CREATE TABLE/',$creationTable[1])) {
+							array_push($lListeTable,$table[0]);
 						}
-					}
-				}
-				
-				// Cette vue doit être placée en fin car elle dépend d'autres vues
-				$table[0] = "view_info_commande";
-				array_push($lListeTable,$table[0]);
-				$creations .= "-- -----------------------------\n";
-				$creations .= "-- creation de la table ".$table[0]."\n";
-				$creations .= "-- -----------------------------\n";
-				$listeCreationsTables = mysql_query("show create table ".$table[0], $connexion);
-				if($listeCreationsTables) {
-					while($creationTable = mysql_fetch_array($listeCreationsTables)) {
-						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-						$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+						
+						if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
+							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+						}
 						$creations .= $creationTable[1].";\n\n";
 					}
 				}
-			
+							
 				mysql_close($connexion);
-				
-				$fichierDump = fopen($lDossier . "/dump.sql", "w");
+				$lNomFichier = $lDossierDump . "structure.sql";
+				$fichierDump = fopen($lNomFichier, "w");
 				fwrite($fichierDump, utf8_encode($entete));
 				fwrite($fichierDump, utf8_encode($creations));
-				//fwrite($fichierDump, utf8_encode($insertions));
 				fclose($fichierDump);
-
+				
+				// Creation du zip
+				$lZip = new ZipArchive();
+				
+				// On teste si le dossier existe, car sans ça le script risque de provoquer des erreurs.
+				if($lZip->open($lDossier . '/dump.sql.zip', ZipArchive::CREATE) == TRUE) {
+					// Ajout du fichier
+					if(!$lZip->addFile($lNomFichier, "0-structure.sql")) {
+						echo -1;
+					}
+					// On ferme l’archive.
+					$lZip->close();
+				} else {
+					// Erreur lors de l’ouverture.
+					// On peut ajouter du code ici pour gérer les différentes erreurs.
+					echo -2;
+				}
+				
+				// Suppression du fichier
+				unlink($lNomFichier);
+				
 				echo json_encode(array("dossier"=>$lDossier,"tables"=>$lListeTable));
 				break;
 
 			case 31:
 				// Sauvegarde de la base
 				if(isset($_POST['table']) && isset($_POST['dossier'])) {
+					$lDossier = $_POST['dossier'];
+					$lDossierDump = $lDossier . "/dump/";
+					
 					// Etape 2 Les données		
 					$connexion = mysql_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS);
 					mysql_select_db(MYSQL_DBNOM, $connexion);
@@ -167,15 +178,37 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 						$insertions .=  ");\n";
 					}
 					$insertions .= "\n";
-					$fichierDump = fopen($_POST['dossier'] . "/dump.sql", "a");
+					$lNomFichier = $lDossierDump . $table . ".sql";
+					$fichierDump = fopen($lNomFichier , "w");
 					fwrite($fichierDump, utf8_encode($insertions));
 					fclose($fichierDump);
-					echo 1;
+					
+					
+					// Ajout au zip
+					$lZip = new ZipArchive();
+					
+					// On teste si le dossier existe, car sans ça le script risque de provoquer des erreurs.
+					if($lZip->open($lDossier . '/dump.sql.zip', ZipArchive::CREATE) == TRUE) {
+						// Ajout du fichier
+						if(!$lZip->addFile($lNomFichier, $table . ".sql")) {
+							echo -1;
+						}
+						// On ferme l’archive.
+						$lZip->close();
+						echo 1;
+					} else {
+						// Erreur lors de l’ouverture.
+						// On peut ajouter du code ici pour gérer les différentes erreurs.
+						echo -2;
+					}
+					
+					// Suppression du fichier
+					unlink($lNomFichier);
 				} else {
 					echo 0;
 				}
 				break;
-				
+								
 			case 4 : // Déploiement du zeybux
 				// vider le dossier d'extraction
 				viderDossier(DOSSIER_EXTRACT,1);
@@ -428,8 +461,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 			$.post(	"./index.php?m=Maj&e=31", "dossier=" + pParam.dossier + "&table=" + pParam.tables[pIndex],
 				function(lResponse) {
 					if(lResponse == 1) {
-						$("#tableEnCours").text(pIndex + 1);
-						
+						$("#tableEnCours").text(pIndex + 1);						
 						if( pParam.tables[pIndex + 1]) {
 							etape31(pParam, pIndex + 1);
 						} else {
