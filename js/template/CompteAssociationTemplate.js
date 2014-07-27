@@ -149,6 +149,7 @@
 								"<th></th>" +
 								"<th></th>" +
 								"<th></th>" +
+								"<th></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
@@ -162,7 +163,8 @@
 								"<td>{listeCheque.adhNom}</td>" +
 								"<td>{listeCheque.adhPrenom}</td>" +
 								"<td>{listeCheque.opeMontant}</td>" +
-								"<td>{listeCheque.numeroCheque}</td>" +					
+								"<td>{listeCheque.numeroCheque}</td>" +		
+								"<td>{listeCheque.btnValider}</td>" +				
 								"<td>" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeCheque.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
@@ -226,6 +228,7 @@
 		"</div>";
 
 	this.checkboxRemiseCheque = "<input class=\"ui-helper-hidden checkbox-remise-cheque\" type=\"checkbox\" value=\"{id}\" data-montant=\"{montant}\"/>";
+	this.btnValider = "<span><button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{opeId}\">Ok</button></span>";
 	
 	this.dialogCreerRemiseCheque = 
 		"<div id=\"dialog-creer-remise-cheque\" title=\"Remise de Chèque\">" +

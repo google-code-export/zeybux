@@ -23,9 +23,11 @@ td    { vertical-align: top; }
 	<br>
     <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
         <tr>
-            <th style="width: 60%; border: solid 1px black;">Banque</th>
-            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Nombre de chèque</th>
-            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Total</th>
+            <th style="width: 30%; border: solid 1px black;">Banque</th>
+            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Nom</th>
+            <th style="width: 20%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Prénom</th>
+            <th style="width: 15%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Montant</th>
+            <th style="width: 15%; border-right: solid 1px black; border-top: solid 1px black; border-bottom: solid 1px black;">Numéro</th>
         </tr>
     </table>
 <?php
@@ -34,9 +36,11 @@ foreach($lOperations as $lLigne) {
 	?>
 	    <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
 	        <tr>
-	            <td style="width: 60%; text-align: left; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getBanque(); ?></td>
-	            <td style="width: 20%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"> <?php echo $lLigne->getNombreCheque(); ?> x <?php echo number_format($lLigne->getMontant(), 2, ',', ' '); ?> &euro;</td>
-	            <td style="width: 20%; text-align: right; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo number_format($lLigne->getTotal(), 2, ',', ' '); ?> &euro;</td>
+	            <td style="width: 30%; text-align: left; border-right: solid 1px black; border-left: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getBanque(); ?></td>
+	            <td style="width: 20%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getNom(); ?></td>
+	            <td style="width: 20%; text-align: left; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getPrenom(); ?></td>
+	            <td style="width: 15%; text-align: right; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo number_format($lLigne->getMontant(), 2, ',', ' '); ?> &euro;</td>
+	            <td style="width: 15%; text-align: right; border-right: solid 1px black; border-bottom: solid 1px black;"><?php echo $lLigne->getNumero(); ?></td>
 	        </tr>
 	    </table>
 	<?php

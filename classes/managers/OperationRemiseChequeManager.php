@@ -184,20 +184,27 @@ class OperationRemiseChequeManager
 		$lRequete =
 		"SELECT "
 			. BanqueManager::CHAMP_BANQUE_NOM .
-		", 	  count(1) AS NbCheque
-		 ," . OperationManager::CHAMP_OPERATION_MONTANT .
-		", sum(" . OperationManager::CHAMP_OPERATION_MONTANT . ") AS total 
+			"," . AdherentManager::CHAMP_ADHERENT_NOM . 
+			"," . AdherentManager::CHAMP_ADHERENT_PRENOM . 
+		 	"," . OperationManager::CHAMP_OPERATION_MONTANT .
+			", numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . " as numero
 		FROM " . OperationRemiseChequeManager::TABLE_OPERATIONREMISECHEQUE . "
 		JOIN " . OperationManager::TABLE_OPERATION . "
 			ON " . OperationManager::CHAMP_OPERATION_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
-		JOIN " .  OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . "
-			ON " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
-			AND " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 2
+		JOIN " .  OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " banque
+			ON banque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
+			AND banque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 2
 		JOIN " . BanqueManager::TABLE_BANQUE . "
-			ON " . BanqueManager::CHAMP_BANQUE_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "
+			ON " . BanqueManager::CHAMP_BANQUE_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "		
+		JOIN " .  OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " numero
+			ON numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
+			AND numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 3	
+		JOIN " . CompteManager::TABLE_COMPTE . "
+			ON " . CompteManager::CHAMP_COMPTE_ID . " = " . OperationManager::CHAMP_OPERATION_ID_COMPTE . "
+		LEFT JOIN " . AdherentManager::TABLE_ADHERENT . "
+			ON " . AdherentManager::CHAMP_ADHERENT_ID . " = " . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . "
 		WHERE " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ETAT . " = 0
 			AND " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_REMISE_CHEQUE . " = '" . StringUtils::securiser($pIdRemiseCheque) . "'
-		GROUP BY " . BanqueManager::CHAMP_BANQUE_ID . ", " . OperationManager::CHAMP_OPERATION_MONTANT . "
 		ORDER BY " . OperationManager::CHAMP_OPERATION_MONTANT . " ASC, " . BanqueManager::CHAMP_BANQUE_NOM . " ASC;";
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
@@ -209,9 +216,10 @@ class OperationRemiseChequeManager
 				array_push($lListeOperationRemiseCheque,
 						new OperationRemiseChequeExportVO(
 								$lLigne[BanqueManager::CHAMP_BANQUE_NOM],
-								$lLigne["NbCheque" ],
+								$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
+								$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
 								$lLigne[OperationManager::CHAMP_OPERATION_MONTANT ],
-								$lLigne["total" ]));
+								$lLigne["numero"]));
 			}
 		} else {
 			$lListeOperationRemiseCheque[0] = new OperationRemiseChequeExportVO();

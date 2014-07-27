@@ -38,6 +38,8 @@
 	
 	this.afficher = function(lResponse) {
 		var that = this;
+		var lCompteAssociationTemplate = new CompteAssociationTemplate();	
+		
 		var lTotalEspece = 0;
 		$.each(lResponse.listeEspece,function() {
 			if(this.opeId) {
@@ -53,7 +55,11 @@
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
-				}		
+				}
+				this.btnValider = '';
+				if(parseFloat(this.opeMontant) < 0) {
+					this.btnValider = lCompteAssociationTemplate.btnValider.template({opeId:this.opeId});
+				}
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
@@ -68,8 +74,7 @@
 		lResponse.sigleMonetaire = gSigleMonetaire;
 		lResponse.totalEspece = lTotalEspece.nombreFormate(2,',',' ');
 		lResponse.totalCheque = lTotalCheque.nombreFormate(2,',',' ');
-		
-		var lCompteAssociationTemplate = new CompteAssociationTemplate();				
+					
 		$('#contenu').replaceWith(that.affect($(lCompteAssociationTemplate.listePaiement.template(lResponse))));
 		
 	};
@@ -320,12 +325,12 @@
 	              { "bVisible" : false,
 	            	"bSortable": false, 
 	                "bSearchable":false,
-	                "aTargets": [ 0,11 ] 
+	                "aTargets": [ 0,12 ] 
 	              },
 	              { "mRender": function ( data, type, full ) {
 	       	        	if(data == 'null') {
-	       	        		if(parseFloat(full[11]) > 0) {
-		         	        	return lCompteAssociationTemplate.checkboxRemiseCheque.template({id:full[0],montant:full[11]});
+	       	        		if(parseFloat(full[12]) > 0) {
+		         	        	return lCompteAssociationTemplate.checkboxRemiseCheque.template({id:full[0],montant:full[12]});
 	       	        		} else {
 	       	        			return '';
 	       	        		}
@@ -386,9 +391,9 @@
 	             	},
                 	"aTargets": [ 7 ] 
                   },
-                  { "bSortable": false,
+                   {"bSortable": false,
                   	"bSearchable":false,
-                  	"aTargets": [ 9,10 ] 
+                  	"aTargets": [ 9,10,11 ] 
                     }]
 	    });
 		
