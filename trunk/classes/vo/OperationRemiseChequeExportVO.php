@@ -19,93 +19,99 @@ include_once(CHEMIN_CLASSES . "DataTemplate.php");
 class OperationRemiseChequeExportVO  extends DataTemplate
 {
 	/**
+	 * @var varchar(200)
+	 * @desc Date de la OperationRemiseChequeExportVO
+	 */
+	protected $mBanque;
+	
+	/**
+	* @var varchar(50)
+	* @desc Nom de la OperationRemiseChequeExportVO
+	*/
+	protected $mNom;
+	
+	/**
+	 * @var varchar(50)
+	 * @desc Prenom de la OperationRemiseChequeExportVO
+	 */
+	protected $mPrenom;
+
+	/**
 	 * @var decimal(10,2)
 	 * @desc Montant de la OperationRemiseChequeExportVO
 	 */
 	protected $mMontant;
-	
-	/**
-	* @var int(11)
-	* @desc IdOperation de la OperationRemiseChequeExportVO
-	*/
-	protected $mNombreCheque;
 
 	/**
-	* @var varchar(200)
-	* @desc Date de la OperationRemiseChequeExportVO
+	* @var varchar(50)
+	* @desc Numero de la OperationRemiseChequeExportVO
 	*/
-	protected $mBanque;
-
-	/**
-	* @var decimal(10,2)
-	* @desc NumeroAdherent de la OperationRemiseChequeExportVO
-	*/
-	protected $mTotal;
+	protected $mNumero;
 	
 	/**
 	 * @name OperationRemiseChequeExportVO()
 	 * @return bool
 	 * @desc Constructeur
 	 */
-	function OperationRemiseChequeExportVO($pBanque = null, $pNombreCheque = null, $pMontant = null,   $pTotal = null) {
+	function OperationRemiseChequeExportVO($pBanque = null, $pNom = null, $pPrenom = null, $pMontant = null,  $pNumero = null) {
 		if(!is_null($pBanque)) { $this->mBanque = $pBanque; }
-		if(!is_null($pNombreCheque)) { $this->mNombreCheque = $pNombreCheque; }
+		if(!is_null($pNom)) { $this->mNom = $pNom; }
+		if(!is_null($pPrenom)) { $this->mPrenom = $pPrenom; }
 		if(!is_null($pMontant)) { $this->mMontant = $pMontant; }
-		if(!is_null($pTotal)) { $this->mTotal = $pTotal; }
+		if(!is_null($pNumero)) { $this->mNumero = $pNumero; }
 	}
-
 	/**
-	* @name getNombreCheque()
-	* @return int(11)
-	* @desc Renvoie le membre NombreCheque de la OperationRemiseChequeExportVO
-	*/
-	public function getNombreCheque() {
-		return $this->mNombreCheque;
-	}
-
-	/**
-	* @name setNombreCheque($pNombreCheque)
-	* @param int(11)
-	* @desc Remplace le membre NombreCheque de la OperationRemiseChequeExportVO par $pNombreCheque
-	*/
-	public function setNombreCheque($pNombreCheque) {
-		$this->mNombreCheque = $pNombreCheque;
-	}
-
-	/**
-	* @name getBanque()
-	* @return varchar(200)
-	* @desc Renvoie le membre Banque de la OperationRemiseChequeExportVO
-	*/
+	 * @name getBanque()
+	 * @return varchar(200)
+	 * @desc Renvoie le membre Banque de la OperationRemiseChequeExportVO
+	 */
 	public function getBanque() {
 		return $this->mBanque;
 	}
-
+	
 	/**
-	* @name setBanque($pBanque)
-	* @param varchar(200)
-	* @desc Remplace le membre Banque de la OperationRemiseChequeExportVO par $pBanque
-	*/
+	 * @name setBanque($pBanque)
+	 * @param varchar(200)
+	 * @desc Remplace le membre Banque de la OperationRemiseChequeExportVO par $pBanque
+	 */
 	public function setBanque($pBanque) {
 		$this->mBanque = $pBanque;
 	}
 
 	/**
-	* @name getTotal()
-	* @return decimal(10,2)
-	* @desc Renvoie le membre Total de la OperationRemiseChequeExportVO
+	* @name getNom()
+	* @return varchar(50)
+	* @desc Renvoie le membre Nom de la OperationRemiseChequeExportVO
 	*/
-	public function getTotal() {
-		return $this->mTotal;
+	public function getNom() {
+		return $this->mNom;
 	}
 
 	/**
-	* @name setTotal($pTotal)
-	* @param decimal(10,2)
-	* @desc Remplace le membre Total de la OperationRemiseChequeExportVO par $pTotal
+	* @name setNom($pNom)
+	* @param varchar(50)
+	* @desc Remplace le membre Nom de la OperationRemiseChequeExportVO par $pNom
 	*/
-	public function setTotal($pTotal) {
-		$this->mTotal = $pTotal;
+	public function setNom($pNom) {
+		$this->mNom = $pNom;
+	}
+
+	/**
+	* @name getPrenom()
+	* @return varchar(50)
+	* @desc Renvoie le membre Prenom de la OperationRemiseChequeExportVO
+	*/
+	public function getPrenom() {
+		return $this->mPrenom;
+	}
+
+	/**
+	* @name setPrenom($pPrenom)
+	* @param varchar(50)
+	* @desc Remplace le membre Prenom de la OperationRemiseChequeExportVO par $pPrenom
+	*/
+	public function setPrenom($pPrenom) {
+		$this->mPrenom = $pPrenom;
 	}
 	
 	/**
@@ -124,6 +130,24 @@ class OperationRemiseChequeExportVO  extends DataTemplate
 	 */
 	public function setMontant($pMontant) {
 		$this->mMontant = $pMontant;
+	}
+	
+	/**
+	 * @name getNumero()
+	 * @return varchar(50)
+	 * @desc Renvoie le membre Numero de la OperationRemiseChequeExportVO
+	 */
+	public function getNumero() {
+		return $this->mNumero;
+	}
+	
+	/**
+	 * @name setNumero($pNumero)
+	 * @param varchar(50)
+	 * @desc Remplace le membre Numero de la OperationRemiseChequeExportVO par $pNumero
+	 */
+	public function setNumero($pNumero) {
+		$this->mNumero = $pNumero;
 	}
 }
 ?>
