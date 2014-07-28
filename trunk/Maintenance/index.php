@@ -24,7 +24,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	}
 	
 	if($_GET['m'] == "Extract") {
-		if(isset($_GET['e'])) {
+		if(isset($_GET['action'])) {
 			include_once("./Extract/index.php");
 			$lAffiche = false;
 		}
