@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+#categorie-produit {
+	width:300px;
+}
+
+#catalogue-produit {
+	margin-left:5px;
+	width:640px;
+}
+
+.catalogue-input-lot {
+	width:90px;
+}
+
+.catalogue-ligne-lot-quantite {
+	width:110px;
+	text-align:right;
+}
+
+.catalogue-ligne-lot-unite {
+	width:180px;
+}
+
+.catalogue-entete-lot {
+	width:145px;
+}
