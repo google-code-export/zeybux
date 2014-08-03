@@ -1,0 +1,26 @@
+<div id="liste_adherent_solde_int">
+	<div id="widget-liste-adherent" class="com-widget-window ui-widget ui-widget-content ui-corner-all">
+		<table class="com-table">
+			<thead>
+				<tr class="ui-widget ui-widget-header">
+					<th class="com-table-th"><a href={LIEN_TRI_NUMERO} >N°</a></th>
+					<th class="com-table-th"><a href={LIEN_TRI_NOM} >Nom</a></th>
+					<th class="com-table-th"><a href={LIEN_TRI_PRENOM} >Prénom</a></th>
+					<th class="com-table-th"><a href={LIEN_TRI_COURRIEL} >Courriel</a></th>
+					<th class="com-table-th">Solde</th>
+				</tr>
+			</thead>
+			<tbody>
+		<!-- BEGIN adherent -->
+				<tr>
+					<td class="com-table-td"><a href={adherent.LIEN_COMPTE_ADHERENT}>{adherent.ADH_NUMERO}</a></td>
+					<td class="com-table-td">{adherent.ADH_NOM}</td>
+					<td class="com-table-td">{adherent.ADH_PRENOM}</td>
+					<td class="com-table-td">{adherent.ADH_COURRIEL}</td>
+					<td class="com-table-td">{adherent.ADH_SOLDE}</td>
+				</tr>
+		<!-- END adherent -->
+			</tbody>
+		</table>
+	</div>
+</div>
