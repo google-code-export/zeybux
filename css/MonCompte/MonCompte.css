@@ -48,6 +48,8 @@
 }
 
 #btn-edt-valider, #btn-edt-annuler {
-	width: 50%;
+	width:46%;
 	margin-bottom:5px;
+	margin-left:2%;
+	margin-bottom:2%;
 }
