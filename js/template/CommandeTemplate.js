@@ -65,7 +65,7 @@
 		"</div>";
 	
 	this.produitIndisponible = 
-		"<tr><td colspan=\"12\">{nproNom} n'est plus disponible.</td></tr>";
+		"<tr><td>{cproNom}</td><td colspan=\"12\">{nproNom} n'est plus disponible.</td></tr>";
 
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
@@ -93,23 +93,40 @@
 			"</div>" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Ma réservation" +
+					"Ma réservation : <span id=\"total\">{total}</span> {sigleMonetaire}" +
 				"</div>" +
 				"<div>" +
-					"<table>" +
-						"<!-- BEGIN categories -->" +
-						"<tr>" +
+					"<table id=\"table-form-produit\">" +
+						"<thead>" +
+							"<tr>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th>Produit</th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+								"<th></th>" +
+							"</tr>" +
+						"<thead>" +
+						"<tbody>" +
+						//"<!-- BEGIN categories -->" +
+					/*	"<tr>" +
 							"<td colspan=\"4\" class=\"ui-widget-header ui-corner-all com-center\">{categories.nom}</td>" +
 							"<td colspan=\"7\"></td>" +
-						"</tr>" +						
-						"<!-- BEGIN categories.produits -->" +
-						"{categories.produits.detailProduit}" +
-						"<!-- END categories.produits -->" +
-						"<!-- END categories -->" +
-						"<tr>" +
+						"</tr>" +			*/			
+						"<!-- BEGIN produits -->" +
+						"{produits.detailProduit}" +
+						"<!-- END produits -->" +
+						//"<!-- END categories -->" +
+					/*	"<tr>" +
 							"<td colspan=\"10\" class=\"com-text-align-right\">Total : </td>" +
 							"<td class=\"com-text-align-right detail-resa-prix\"><span id=\"total\">{total}</span> {sigleMonetaire}</td>" +
-						"</tr>" +
+						"</tr>" +*/
+
+						"</tbody>" +
 					"</table>" +
 				"</div>" +
 			"</div>" +
@@ -120,51 +137,49 @@
 		"</div>";
 	
 	this.formReservationProduit =
-		"<tr class=\"pdt\">" +
-			"<td><input type=\"checkbox\" {checked}/></td>" +
-			"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{proId}</span></span></td>" +
-			"<td id=\"commandes{proId}stoQuantite\" >{nproNom}</td>" +
-			"<td class=\"td-edt\">" +
+		"<tr class=\"pdt\" data-id-produit=\"{proId}\" >" +
+			"<td>{cproNom}</td>" +
+			"<td><input data-id-produit=\"{proId}\" type=\"checkbox\" {checked}/></td>" +
+			"<td id=\"commandes{proId}stoQuantite\">{nproNom} {flagType}</td>" +
+			"<td>" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{proId}\">" +
 					"<span class=\"ui-icon ui-icon-info\">" +
 					"</span>" +
 				"</span>" +
 			"</td>" +
 			"<td>" +
-				"<select id=\"lot-{proId}\">" +
+				"<select id=\"lot-{proId}\" data-id-produit=\"{proId}\">" +
 					"<!-- BEGIN lot -->" +
 					"<option value=\"{lot.dcomId}\">par {lot.dcomTaille} {proUniteMesure}</option>" +
 					"<!-- END lot -->" +
 				"</select>" +
 			"</td>" +
 			"<td>à <span id=\"prix-unitaire-{proId}\">{prixUnitaire}</span> {sigleMonetaire}/{proUniteMesure}</td>" +
-			"<td>{flagType}</td>" +
-			"<td class=\"ui-helper-hidden resa-pdt-{proId}\"><button class=\"btn-moins\">-</button></td>" +
-			"<td class=\"ui-helper-hidden resa-pdt-{proId}\"><span id=\"qte-pdt-{proId}\"></span> {proUniteMesure}</td>" +
-			"<td class=\"ui-helper-hidden resa-pdt-{proId}\"><button class=\"btn-plus\">+</button></td>" +
-			"<td class=\"ui-helper-hidden resa-pdt-{proId} com-text-align-right\"><span id=\"prix-pdt-{proId}\"></span> {sigleMonetaire}</td>" +
+			"<td><span class=\"ui-helper-hidden resa-pdt-{proId} com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\"><span data-id-produit=\"{proId}\" class=\"ui-icon-circle-minus ui-icon btn-moins\"></span></span></td>" +
+			"<td><span class=\"ui-helper-hidden resa-pdt-{proId}\"><span id=\"qte-pdt-{proId}\"></span> {proUniteMesure}</span></td>" +
+			"<td><span class=\"ui-helper-hidden resa-pdt-{proId} com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\"><span data-id-produit=\"{proId}\" class=\"ui-icon-circle-plus ui-icon btn-plus\"></span></span></td>" +
+			"<td class=\"td-montant\"><span class=\"ui-helper-hidden resa-pdt-{proId}\"><span id=\"prix-pdt-{proId}\"></span> {sigleMonetaire}</span></td>" +
 		"</tr>";
 
 	this.formReservationProduitInfo =
-		"<tr class=\"pdt\">" +
+		"<tr class=\"pdt\" data-id-produit=\"{proId}\" >" +
+			"<td>{cproNom}</td>" +
 			"<td></td>" +
-			"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{proId}</span></span></td>" +
-			"<td id=\"commandes{proId}stoQuantite\" >{nproNom}</td>" +
-			"<td class=\"td-edt\">" +
+			"<td id=\"commandes{proId}stoQuantite\">{nproNom} {flagType}</td>" +
+			"<td>" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{proId}\">" +
 					"<span class=\"ui-icon ui-icon-info\">" +
 					"</span>" +
 				"</span>" +
 			"</td>" +
 			"<td>" +
-				"<select id=\"lot-{proId}\">" +
+				"<select id=\"lot-{proId}\" data-id-produit=\"{proId}\" >" +
 					"<!-- BEGIN lot -->" +
 					"<option value=\"{lot.dcomId}\">par {lot.dcomTaille} {proUniteMesure}</option>" +
 					"<!-- END lot -->" +
 				"</select>" +
 			"</td>" +
 			"<td>à <span id=\"prix-unitaire-{proId}\">{prixUnitaire}</span> {sigleMonetaire}/{proUniteMesure}</td>" +
-			"<td>{flagType}</td>" +
 			"<td></td>" +
 			"<td></td>" +
 			"<td></td>" +
@@ -172,29 +187,28 @@
 		"</tr>";
 	
 	this.formReservationProduitAbonnementInfo =
-		"<tr class=\"pdt\">" +
+		"<tr class=\"pdt\" data-id-produit=\"{proId}\" >" +
+			"<td>{cproNom}</td>" +
 			"<td></td>" +
-			"<td><span class=\"ui-helper-hidden\"><span class=\"pdt-id\">{proId}</span></span></td>" +
-			"<td id=\"commandes{proId}stoQuantite\" >{nproNom}</td>" +
-			"<td class=\"td-edt\">" +
+			"<td id=\"commandes{proId}stoQuantite\">{nproNom} {flagType}</td>" +
+			"<td>" +
 				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-info-produit\" title=\"Information sur le produit\" id-produit=\"{proId}\">" +
 					"<span class=\"ui-icon ui-icon-info\">" +
 					"</span>" +
 				"</span>" +
 			"</td>" +
 			"<td>" +
-				"<select id=\"lot-{proId}\" disabled=\"disabled\">" +
+				"<select id=\"lot-{proId}\" disabled=\"disabled\" data-id-produit=\"{proId}\">" +
 					"<!-- BEGIN lot -->" +
 					"<option value=\"{lot.dcomId}\">par {lot.dcomTaille} {proUniteMesure}</option>" +
 					"<!-- END lot -->" +
 				"</select>" +
 			"</td>" +
 			"<td>à <span id=\"prix-unitaire-{proId}\">{prixUnitaire}</span> {sigleMonetaire}/{proUniteMesure}</td>" +
-			"<td>{flagType}</td>" +
 			"<td></td>" +
 			"<td>{stoQuantiteReservation} {proUniteMesure}</td>" +
 			"<td></td>" +
-			"<td class=\"com-text-align-right\">{prixReservation} {sigleMonetaire}</td>" +
+			"<td class=\"td-montant\">{prixReservation} {sigleMonetaire}</td>" +
 		"</tr>";
 	
 	this.confirmationReservationCommande =
