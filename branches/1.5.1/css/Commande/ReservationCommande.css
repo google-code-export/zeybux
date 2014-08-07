@@ -1,24 +1,7 @@
 @CHARSET "UTF-8";
 /*ReservationCommande*/
 #resa-info-commande {
-float:left;
-margin-right:145px;
+	float:left;
+	margin-right:145px;
 }
 
-.passer-com-radio {
-	text-align:center;
-	width:25px;
-}
-
-.passer-com-sigle {
-	width:60px;
-}
-.passer-com-btn-qte {
-	width:30px;
-}
-.passer-com-qte {
-	text-align: center;
-}
-.passer-com-npro {
-	width:400px;
-}
