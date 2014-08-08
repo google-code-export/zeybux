@@ -87,6 +87,7 @@ class DetailOperationService
 
 			switch($lDetailOperation->getTypePaiement()) {
 				case 0 : // Annulation de la reservation
+				case 16 :
 					$lDetailOperation->setTypePaiement(16);
 					return $this->update($lDetailOperation);
 					break;
