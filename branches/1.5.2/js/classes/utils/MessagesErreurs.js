@@ -183,6 +183,8 @@ const ERR_272_CODE = 272;
 const ERR_272_MSG = 'Le périmètre de l\'adhésion n\'est pas correcte.';
 const ERR_273_CODE = 273;
 const ERR_273_MSG = 'Une opération est déjà sur une remise de chèque.';
+const ERR_274_CODE = 274;
+const ERR_274_MSG = 'Action interdite.';
 
 //Message d'Information
 const ERR_301_CODE = 301;
