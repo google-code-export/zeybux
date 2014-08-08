@@ -56,9 +56,6 @@ class AchatAdherentControleur
 			
 			$lAdherent = AdherentViewManager::select($lIdAdherent);
 			$lResponse->setAdherent($lAdherent);
-			
-	//		$lMarcheService = new MarcheService();
-	//		$lResponse->setMarche($lMarcheService->get($lIdMarche));
 
 			// Tableau pour rechercher le détail des produits achetés
 			$lIdProduits = array();
@@ -72,7 +69,6 @@ class AchatAdherentControleur
 				$lReservation = $lReservationService->get($lIdReservation);
 				$lResponse->setReservation($lReservation);	
 	
-				//$lDetailResa = $lReservation->getDetailReservation();
 				if(!empty($lReservation)) {
 					// Récupère les informations sur les produits achetés				
 					foreach( $lReservation->getDetailReservation() as $lDetailReservation) {
@@ -97,16 +93,7 @@ class AchatAdherentControleur
 						}
 					}
 				}
-			}
-			/*$lAchatService = new AchatService();
-			$lIdAchat = new IdAchatVO();
-			$lIdAchat->setIdCompte($lAdherent->getAdhIdCompte());
-			$lIdAchat->setIdCommande($lIdMarche);
-			$lResponse->setAchats($lAchatService->getAll($lIdAchat));	
-			
-			$lStockSolidaire = StockSolidaireViewManager::selectLivraisonSolidaire($lIdMarche);
-			$lResponse->setStockSolidaire($lStockSolidaire);	*/
-			
+			}			
 			// Récupère l'achat si il il y une operation
 			if(!empty($lIdOperation)) {
 				$lAchatService = new AchatService();
@@ -115,14 +102,12 @@ class AchatAdherentControleur
 				$lAchat = $lAchatService->get($lIdAchat);
 				$lResponse->setAchats($lAchat);
 					
-				//foreach( $lAchats as $lAchat) {
-					foreach($lAchat->getDetailAchat() as $lDetailAchat) {
-						array_push($lIdProduits, $lDetailAchat->getIdProduit());
-					}
-					foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
-						array_push($lIdProduits, $lDetailAchat->getIdProduit());
-					}
-				//}
+				foreach($lAchat->getDetailAchat() as $lDetailAchat) {
+					array_push($lIdProduits, $lDetailAchat->getIdProduit());
+				}
+				foreach($lAchat->getDetailAchatSolidaire() as $lDetailAchat) {
+					array_push($lIdProduits, $lDetailAchat->getIdProduit());
+				}
 			}
 				
 			$lProduitService = new ProduitService();
@@ -175,7 +160,6 @@ class AchatAdherentControleur
 					$lAchat->getId()->setIdCompte($lAchatData["idCompte"]);
 					$lAchat->getId()->setIdCommande($lAchatData["idMarche"]);
 					
-			//		$lAchat->setTotal($lAchatData["total"]);
 					foreach($lAchatData["produits"] as $lDetail) {
 						$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 						
@@ -204,7 +188,6 @@ class AchatAdherentControleur
 				$lAchat->getId()->setIdCommande($lOperation->getIdCommande());
 				$lAchat->getId()->setIdAchat($lOperation->getId());
 				
-			//	$lAchat->setTotal($lAchatData["total"]);
 				foreach($lAchatData["produits"] as $lDetail) {
 					$lDetailCommande = DetailCommandeManager::selectByIdProduit($lDetail["id"]);
 					
