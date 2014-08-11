@@ -195,7 +195,7 @@ class OperationRemiseChequeManager
 			ON banque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
 			AND banque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 2
 		JOIN " . BanqueManager::TABLE_BANQUE . "
-			ON " . BanqueManager::CHAMP_BANQUE_ID . " = " . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "		
+			ON " . BanqueManager::CHAMP_BANQUE_ID . " = banque." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR . "		
 		JOIN " .  OperationChampComplementaireManager::TABLE_OPERATIONCHAMPCOMPLEMENTAIRE . " numero
 			ON numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_OPE_ID . " = " . OperationRemiseChequeManager::CHAMP_OPERATIONREMISECHEQUE_ID_OPERATION . "
 			AND numero." . OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID . " = 3	
