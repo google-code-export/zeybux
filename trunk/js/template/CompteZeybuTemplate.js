@@ -745,21 +745,20 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +		
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Remise de chèque N°{numero} : {date}" +
-
 					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-edt-supprimer\" data-id=\"{id}\" title=\"Supprimer\">" +
 						"<span class=\"ui-icon ui-icon-closethick\">" +
-						"</span>" +
-					"</span>" +
-					
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-export\" data-id=\"{id}\" title=\"Imprimer\">" +
-						"<span class=\"ui-icon ui-icon-print\">" +
 						"</span>" +
 					"</span>" +
 				"</div>" +	
 				"<div>" +
 					"Total : {montant} {sigleMonetaire}" +
 					"<div class=\"com-center\">" +
-						"<button type=\"button\" id=\"btn-valider-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\" data-id=\"{id}\" >Valider</button>" +
+						"<button type=\"button\" id=\"btn-valider-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\" data-id=\"{id}\" >" +
+							"<span class=\"com-float-left ui-icon ui-icon-check\"></span>Valider" +
+						"</button>" +
+						"<button class=\"btn-menu-med ui-state-default ui-corner-all com-button\" id=\"btn-export\" data-id=\"{id}\">" +
+							"<span class=\"com-float-left ui-icon ui-icon-print\"></span>Imprimer" +
+						"</button>" +
 					"</div>" +
 				"</div><br/>" +
 				"<div>" +		
