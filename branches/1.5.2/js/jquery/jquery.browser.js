@@ -1,42 +1,16 @@
 /*
 *	Author: Julien PIERRE
-*	Date: 29.05.2013
-*	Version: 1.0.0
+*	Date: 12.08.2014
+*	Version: 2.0.0
 */
 (function($) {
-jQuery.uaMatch = function( ua ) {
-	ua = ua.toLowerCase();
-
-	var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
-		/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
-		/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
-		/(msie) ([\w.]+)/.exec( ua ) ||
-		ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
-		[];
-
-	return {
-		browser: match[ 1 ] || "",
-		version: match[ 2 ] || "0"
+	var userAgent = navigator.userAgent.toLowerCase();
+	$.browser = {
+	 // version: (userAgent.match( /.+(?:rv|it|ra|ie|me)[\/: ]([d.]+)/ ) || [])[1], // Ne foncitonne pas pour la version
+	   chrome: /chrome/.test( userAgent ),
+	   safari: /webkit/.test( userAgent ) && !/chrome/.test( userAgent ),
+	   opera: /opera/.test( userAgent ),
+	   msie: /(msie|trident)/.test( userAgent ) && !/opera/.test( userAgent ),
+	   mozilla: /mozilla/.test( userAgent ) && !/(compatible|webkit)/.test( userAgent ) && !(/(msie|trident)/.test( userAgent ) && !/opera/.test( userAgent ))
 	};
-};
-
-// Don't clobber any existing jQuery.browser in case it's different
-if ( !jQuery.browser ) {
-	matched = jQuery.uaMatch( navigator.userAgent );
-	browser = {};
-
-	if ( matched.browser ) {
-		browser[ matched.browser ] = true;
-		browser.version = matched.version;
-	}
-
-	// Chrome is Webkit, but Webkit is also Safari.
-	if ( browser.chrome ) {
-		browser.webkit = true;
-	} else if ( browser.webkit ) {
-		browser.safari = true;
-	}
-
-	jQuery.browser = browser;
-}
 }) (jQuery);
