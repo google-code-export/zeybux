@@ -272,19 +272,19 @@
 		
 			"<div id=\"formulaire-produit\" class=\"tableau-liste-produit com-widget-window ui-widget ui-widget-content ui-widget-content-transparent ui-corner-all\">" +
 				
-				"<table class=\"achat-commande-table-pdt\">" +
+				"<table class=\"table-detail-produit-caisse com-center\">" +
 					"<thead>" +
 						"<tr>" +
-							"<th class=\"info-adherent-cellule-nom-adherent\"></th>" +
+							"<th class=\"td-nom-produit-caisse\"></th>" +
 							"<th colspan=\"4\" class=\"info-adherent-cellule-achat\">Achat</th>" +
-							"<th colspan=\"4\" class=\"info-adherent-cellule-achat\">Achat Solidaire</th>" +
+							"<th colspan=\"4\" class=\"info-adherent-cellule-achat td-solidaire\">Achat Solidaire</th>" +
 						"</tr>" +
 						"<tr>" +
 							"<th></th>" +
 							"<th colspan=\"2\" class=\"formulaire-achat-produit-quantite\">Quantite</th>" +
 							"<th colspan=\"2\" class=\"formulaire-achat-produit-prix\">Prix</th>" +
-							"<th colspan=\"2\" class=\"formulaire-achat-produit-quantite\">Quantite</th>" +
-							"<th colspan=\"2\" class=\"formulaire-achat-produit-prix\">Prix</th>" +
+							"<th colspan=\"2\" class=\"formulaire-achat-produit-quantite td-solidaire\">Quantite</th>" +
+							"<th colspan=\"2\" class=\"formulaire-achat-produit-prix td-solidaire\">Prix</th>" +
 						"</tr>" +
 					"</thead>" +
 				"</table>" +
@@ -295,7 +295,7 @@
 						"<span class=\"ui-icon ui-icon-triangle-1-s\">" +
 					"</span>" +
 				"</div>" +
-				"<table id=\"tableau-produit-{categories.cproId}\" class=\"com-table-100 tableau-produit {categories.visible}\">" +
+				"<table id=\"tableau-produit-{categories.cproId}\" class=\"table-detail-produit-caisse tableau-produit {categories.visible}\">" +
 					"<tbody>" +
 						"<!-- BEGIN categories.produits -->" +
 						"<tr class=\"ligne-produit\" data-id-produit=\"{categories.produits.id}\" data-id-nom-produit=\"{categories.produits.idNomProduit}\" data-id-categorie=\"{categories.cproId}\" data-unite=\"{categories.produits.unite}\"  data-id-stock=\"{categories.produits.idStock}\" data-id-stock-solidaire=\"{categories.produits.idStockSolidaire}\" data-id-detail-operation=\"{categories.produits.idDetailOperation}\" data-id-detail-operation-solidaire=\"{categories.produits.idDetailOperationSolidaire}\">" +
@@ -318,16 +318,16 @@
 							"</td>" +
 							
 							// Achat Solidaire		
-							"<td class=\"input-formulaire-achat-produit\">" +
+							"<td class=\"input-formulaire-achat-produit td-solidaire\">" +
 								"<input type=\"text\" value=\"{categories.produits.quantiteAchatSolidaire}\" id=\"produits{categories.produits.id}quantiteSolidaire\" class=\"produit-quantite-solidaire com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" data-id-produit=\"{categories.produits.id}\" data-id-nom-produit=\"{categories.produits.idNomProduit}\" data-unite=\"{categories.produits.unite}\" data-type=\"Solidaire\" />" +
 							"</td>" +
-							"<td class=\"formulaire-achat-produit-unite\">" +
+							"<td class=\"formulaire-achat-produit-unite td-solidaire\">" +
 								"{categories.produits.unite}" +
 							"</td>" +
-							"<td class=\"input-formulaire-achat-produit\">" +
+							"<td class=\"input-formulaire-achat-produit td-solidaire\">" +
 								"<input type=\"text\" value=\"{categories.produits.montantAchatSolidaire}\" id=\"produits{categories.produits.id}montantSolidaire\" class=\"produit-prix-solidaire com-numeric com-input-text ui-widget-content ui-corner-all\" maxlength=\"12\" size=\"3\" data-id-produit=\"{categories.produits.id}\" data-id-nom-produit=\"{categories.produits.idNomProduit}\" data-unite=\"{categories.produits.unite}\" data-type=\"Solidaire\" />" +
 							"</td>" +
-							"<td class=\"formulaire-achat-produit-sigle-monetaire\">" +
+							"<td class=\"formulaire-achat-produit-sigle-monetaire td-solidaire\">" +
 								"{sigleMonetaire}" +
 							"</td>" +
 							
