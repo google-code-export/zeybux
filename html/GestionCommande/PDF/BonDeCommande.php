@@ -52,7 +52,7 @@ td    { vertical-align: top; }
     </i>
     <div>
     Madame, Monsieur,<br>
-    <?php echo PROP_NOM;?> souhaite commander les produits suivants pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
+    L'association "<?php echo PROP_NOM;?>" souhaite commander les produits suivants pour le <?php echo StringUtils::dateDbToFr($lMarche->getDateMarcheDebut());?>.<br><br>
     </div>
     <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
         <tr>
