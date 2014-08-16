@@ -79,7 +79,7 @@
 		pData = this.affectTri(pData);
 		pData = this.affectRecherche(pData);
 		pData = this.affectAchat(pData);
-		pData = this.affectExportAchatEtReservation(pData);
+		pData = this.affectExportDataEtReservation(pData);
 		pData = this.affectMenu(pData);
 		pData = this.affectToggleAchatInvite(pData);
 		return pData;
@@ -115,7 +115,7 @@
 		return pData;
 	};
 
-	/*this.affectExportDataEtReservation = function(pData) {		
+	this.affectExportDataEtReservation = function(pData) {		
 		var that = this;
 		pData.find('#btn-export-achat')
 		.click(function() {			
@@ -141,129 +141,6 @@
 			});
 			
 		});
-		return pData;
-	};*/
-	
-	this.affectExportAchatEtReservation = function(pData) {		
-		var lGestionCommandeTemplate = new GestionCommandeTemplate();
-		
-		var that = this;
-		pData.find('#btn-export-achat')
-		.click(function() {			
-			var lParam = {fonction:'afficher',id_marche:that.mIdMarche};
-			$.post(	"./index.php?m=GestionCommande&v=EditerCommande", "pParam=" + $.toJSON(lParam),
-					function(lResponse) {
-						Infobulle.init(); // Supprime les erreurs
-						if(lResponse) {
-							if(lResponse.valid) {
-								if(pParam.vr) {
-									Infobulle.generer(pParam.vr,'');
-								}
-								
-								// N'affiche pas les produits solidaire		
-								var lProduits = [];
-								$.each(lResponse.marche.produits, function() {
-									if(this.type != 1) {
-										lProduits.push(this);
-									}
-								});
-								lResponse.marche.produits = lProduits;
-								
-								// La fenêtre de dialog
-								var lDialog = $(that.affectFormExport($(lGestionCommandeTemplate.dialogExportListeAchatEtReservation.template(lResponse.marche)))).dialog({
-									autoOpen: true,
-									modal: true,
-									draggable: false,
-									resizable: false,
-									width:800,
-									buttons: {
-										'Exporter': function() {
-											// Récupération du formulaire
-											var lIdProduits = '';
-											$('input:checked',lTable.fnGetNodes()).each(function() {
-												lIdProduits += $(this).val() + ',';
-											});
-											lIdProduits = lIdProduits.substr(0,lIdProduits.length-1);
-											
-											var lParam = new ExportListeReservationVO();
-											lParam = {fonction:"exportAchatEtReservation",id_produits:lIdProduits};
-											
-											// Test des erreurs
-											var lValid = new ExportListeAchatEtReservationValid();
-											var lVr = lValid.validAjout(lParam);
-											
-											Infobulle.init(); // Supprime les erreurs
-											if(lVr.valid) {
-												// Affichage
-												$.download("./index.php?m=GestionCommande&v=ListeAchatMarche", lParam);
-												// Déselectionne les produits
-												$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", false);
-											} else {
-												Infobulle.generer(lVr,'');
-											}
-										},
-										'Annuler': function() {
-											$(this).dialog('close');
-										}
-									},
-									close: function(ev, ui) { $(this).remove(); Infobulle.init(); }	
-								});
-								
-								// Le dataTable avec groupement par catégorie
-								var lTable = 
-									lDialog.find('#liste-produit')
-									.dataTable({								
-											"bJQueryUI": true,
-									        "sPaginationType": "full_numbers",
-									        "oLanguage": gDataTablesFr,
-									        "iDisplayLength": 10,	
-									        "bLengthChange": false,
-											"aoColumnDefs": [
-											                  { "aTargets": [ 2 ] ,
-											                	"bSortable": false, 
-											                	"bSearchable":false
-											                  }, {
-											                	  "aTargets": [ 4 ],
-											                	  "bSortable": false,
-											                	  "mRender": function ( data, type, full ) {
-											                		  if(data == 2) {
-											                			  return lGestionCommandeTemplate.flagAbonnement;
-											                		  }
-											                		  return '';
-										                	      }
-											                  }, {
-											                	  "aTargets": [ 3 ],
-											                	 "bSortable": false
-											                  }]
-									})
-									.rowGrouping({	
-										iGroupingColumnIndex2: 1,
-										sGroupingClass:"ui-widget-header",
-										sGroupingClass2:"ui-widget-header",
-										sGroupLabelPrefix2:"&emsp;"
-									});
-								
-								// Bouton selection de tous les produits
-								lDialog.find("#button-tp").click(function() {
-									$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", true);
-								});
-								// Déselectionne les produits
-								lDialog.find("#button-ap").click(function() {
-									$(":input[name=id_produits]",lTable.fnGetNodes()).prop("checked", false);
-								});
-								
-							} else {
-								Infobulle.generer(lResponse,'');
-							}
-						}
-					},"json"
-			);
-		});
-		return pData;
-	};
-	
-	this.affectFormExport = function(pData) {
-		pData = gCommunVue.comHoverBtn(pData); 
 		return pData;
 	};
 	

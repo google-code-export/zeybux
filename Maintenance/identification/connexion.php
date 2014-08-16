@@ -1,13 +1,11 @@
 <?php
 session_start();
-$jsonString = file_get_contents('../conf/identifiant.json');
-$cIdentifiant = json_decode($jsonString);
-
+require_once("./identifiants.php");
 if(isset($_POST['login']) && isset($_POST['pass']) ){
-	if($_POST['login'] === $cIdentifiant->login && md5($_POST['pass']) === $cIdentifiant->pass) {
+	if($_POST['login'] === LOGIN && md5($_POST['pass']) === PASS) {
 		session_unset();
 		$_SESSION['cx'] = 1;
 	}
 }
-header('location:../index.php');
+header('Location: ../index.php');
 ?>

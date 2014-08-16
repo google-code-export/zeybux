@@ -198,7 +198,7 @@ class AdherentService
 		$lSujet = "Votre Compte zeybux";
 		
 		$lContenu = file_get_contents(CHEMIN_TEMPLATE . MOD_GESTION_ADHERENTS . "/" . "MailAjoutAdherent.html");
-		$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}", "{PROP_NOM}", "{ZEYBUX_ADRESSE_SITE}"), array($pAdherent->getNumero(), $lMdp, PROP_NOM, ZEYBUX_ADRESSE_SITE), $lContenu);
+		$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}"), array($pAdherent->getNumero(), $lMdp), $lContenu);
 			
 		$lHeaders = file_get_contents(CHEMIN_TEMPLATE . COMMUN_TEMPLATE . "/" . "EnteteMail.html");
 		$lHeaders = str_replace("{FROM}", $lFrom, $lHeaders);

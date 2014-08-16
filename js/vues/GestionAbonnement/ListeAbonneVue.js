@@ -24,52 +24,37 @@
 	this.afficher = function(lResponse) {
 		var that = this;
 		var lGestionAbonnementTemplate = new GestionAbonnementTemplate();		
-		if(!(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null)) {
-			lResponse.listeAdherent = [];
-		}		
-		$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.listeAdherent.template(lResponse))));
+		if(lResponse.listeAdherent.length > 0 && lResponse.listeAdherent[0].adhId != null) {
+			var lTemplate = lGestionAbonnementTemplate.listeAdherent;		
+			$.each(lResponse.listeAdherent,function() {
+				this.adhIdTri = this.adhNumero.replace("Z","");
+			});
+			$('#contenu').replaceWith(that.affect($(lTemplate.template(lResponse))));
+		} else {
+			$('#contenu').replaceWith(that.affect($(lGestionAbonnementTemplate.listeAdherentVide)));
+		}
 	};
 	
 	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
 		pData = this.affectLienCompte(pData);
-		pData = gCommunVue.comHoverBtn(pData); 
-		pData = this.affectDataTable(pData);
 		return pData;
 	};
 	
+	this.affectTri = function(pData) {
+		pData.find('.com-table').tablesorter({sortList: [[0,0]],headers: { 4: {sorter: false} }});
+		return pData;
+	};
 	
-	this.affectDataTable = function(pData) {
-		pData.find('#liste-adherent').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 25,
-	        "aaSorting": [[2,'asc'], [3,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 4 ] 
-                  },
-                  {	 "sType": "numeric",
-                	 "mRender": function ( data, type, full ) {
-                		  	if (type === 'sort') {
-                	          return data.replace("Z","");
-                	        }
-                	        return data;
-                	      },
-                	"aTargets": [ 0 ]
-                  },
-                  {	 "sType": "numeric",
-                    	 "mRender": function ( data, type, full ) {
-                    		  	if (type === 'sort') {
-                    	          return data.replace("C","");
-                    	        }
-                    	        return data;
-                    	      },
-                    "aTargets": [ 1 ]
-                  }]
-	    });
-		return pData;		
+	this.affectRecherche = function(pData) {
+		pData.find("#filter").keyup(function() {
+		    $.uiTableFilter( $('.com-table'), this.value );
+		  });
+		
+		pData.find("#filter-form").submit(function () {return false;});
+		
+		return pData;
 	};
 			
 	this.affectLienCompte = function(pData) {

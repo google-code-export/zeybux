@@ -20,7 +20,6 @@ include_once(CHEMIN_CLASSES_VO . "AutorisationVO.php");
 include_once(CHEMIN_CLASSES_VO . "ModuleVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeAchatReservationVO.php");
 include_once(CHEMIN_CLASSES_VO . "ListeAdherentAdhesionVO.php");
-include_once(CHEMIN_CLASSES_VO . "ListeAchatEtReservationExportVO.php");
 
 include_once(CHEMIN_CLASSES_MANAGERS . "TypePaiementManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationManager.php");
@@ -28,11 +27,6 @@ include_once(CHEMIN_CLASSES_MANAGERS . "AutorisationManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "OperationChampComplementaireManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "AdhesionAdherentManager.php");
-
-include_once(CHEMIN_CLASSES_MANAGERS . "ProduitManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "StockManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailOperationManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "DetailCommandeManager.php");
 
 
 define("TABLE_ADHERENT", MYSQL_DB_PREFIXE . "adh_adherent");
@@ -675,132 +669,6 @@ class AdherentManager
 
 		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
 		Dbutils::executerRequete($lRequete);
-	}
-	
-	/**
-	 * @name rechercheAchatEtReservation( $pIdProduits )
-	 * @param array(integer)
-	 * @return ListeAchatEtReservationExportVO
-	 * @desc Récupèrer les achats et réservations pour une liste de produit
-	 */
-	public static function rechercheAchatEtReservation( $pIdProduits ) {
-		// Initialisation du Logger
-		$lLogger = &Log::singleton('file', CHEMIN_FICHIER_LOGS);
-		$lLogger->setMask(Log::MAX(LOG_LEVEL));
-	
-		if(is_array($pIdProduits)) {
-			$lIdProduit = " in ( ";
-			foreach($pIdProduits as $lVal) {
-				$lIdProduit .= "'" . $lVal . "',";
-			}
-			// suppression de la dernière virgule
-			$lIdProduit = substr($lIdProduit , 0, strlen($lIdProduit) - 1);
-			$lIdProduit .= " )";
-		} else {
-			$lIdProduit = " in ( '" . $pIdProduits . "' )";
-		}
-		
-		// Préparation de la requète
-		$lRequete = "SELECT "
-					. ProduitManager::CHAMP_PRODUIT_ID .
-				", b." . StockManager::CHAMP_STOCK_ID . " AS b_" . StockManager::CHAMP_STOCK_ID .
-				", b." . StockManager::CHAMP_STOCK_QUANTITE . " AS b_" . StockManager::CHAMP_STOCK_QUANTITE .				
-				", c." . StockManager::CHAMP_STOCK_ID . " AS c_" . StockManager::CHAMP_STOCK_ID . 
-				", sum(c." . StockManager::CHAMP_STOCK_QUANTITE . ") AS c_" . StockManager::CHAMP_STOCK_QUANTITE .
-				", e." . DetailOperationManager::CHAMP_DETAILOPERATION_ID . " AS e_" . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-				", sum(e." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . ") AS e_" .	DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .			
-				", d." . StockManager::CHAMP_STOCK_ID . " AS d_" . StockManager::CHAMP_STOCK_ID . 
-				", sum(d." . StockManager::CHAMP_STOCK_QUANTITE . ") AS d_" . StockManager::CHAMP_STOCK_QUANTITE .
-				", f." . DetailOperationManager::CHAMP_DETAILOPERATION_ID . " AS f_" . DetailOperationManager::CHAMP_DETAILOPERATION_ID .
-				", sum(f." . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT . ") AS f_" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT .
-				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE .
-				"," . CompteManager::CHAMP_COMPTE_ID .
-				"," . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
-				"," . AdherentManager::CHAMP_ADHERENT_ID .
-				"," . AdherentManager::CHAMP_ADHERENT_NOM .
-				"," . AdherentManager::CHAMP_ADHERENT_PRENOM .
-				"," . AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL .
-				"," . CompteManager::CHAMP_COMPTE_LABEL . "	
-		FROM " . AdherentManager::TABLE_ADHERENT . "
-		RIGHT JOIN " . CompteManager::TABLE_COMPTE . "
-		ON " . CompteManager::CHAMP_COMPTE_ID_ADHERENT_PRINCIPAL . " = " . AdherentManager::CHAMP_ADHERENT_ID . "
-		JOIN (
-			SELECT " 
-					. DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID .
-				"," . ProduitManager::CHAMP_PRODUIT_ID . 
-				"," . ProduitManager::CHAMP_PRODUIT_UNITE_MESURE . "
-			FROM " . ProduitManager::TABLE_PRODUIT . "
-			JOIN " . DetailCommandeManager::TABLE_DETAILCOMMANDE . "
-				ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID_PRODUIT . " = " . ProduitManager::CHAMP_PRODUIT_ID . "
-				AND " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ETAT . " = 0
-				WHERE " . ProduitManager::CHAMP_PRODUIT_ID . $lIdProduit . "
-			) a
-		LEFT JOIN " . StockManager::TABLE_STOCK . " b 
-			ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = b." . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . "
-			AND b." . StockManager::CHAMP_STOCK_TYPE . " = 0
-			AND b." . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
-		LEFT JOIN " . StockManager::TABLE_STOCK . " c 
-			ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = c." . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . "
-			AND c." . StockManager::CHAMP_STOCK_TYPE . " = 1 
-			AND ( 	c." . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
-					OR " . CompteManager::CHAMP_COMPTE_ID . " = -3 
-				)
-		LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " e 
-			ON e." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = c." . StockManager::CHAMP_STOCK_ID_OPERATION . "
-			AND e." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
-		LEFT JOIN " . StockManager::TABLE_STOCK . " d 
-			ON " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . " = d." . StockManager::CHAMP_STOCK_ID_DETAIL_COMMANDE . "
-			AND d." . StockManager::CHAMP_STOCK_TYPE . " = 2
-			AND (	d." . StockManager::CHAMP_STOCK_ID_COMPTE . " = " . CompteManager::CHAMP_COMPTE_ID . "
-					OR " . CompteManager::CHAMP_COMPTE_ID . " = -3 
-				)
-		LEFT JOIN " . DetailOperationManager::TABLE_DETAILOPERATION . " f 
-			ON f." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_OPERATION . " = d." . StockManager::CHAMP_STOCK_ID_OPERATION . "
-			AND f." . DetailOperationManager::CHAMP_DETAILOPERATION_ID_DETAIL_COMMANDE . " = " . DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID . "
-		WHERE ( " . AdherentManager::CHAMP_ADHERENT_ID . " IS NOT NULL 	
-			AND " . AdherentManager::CHAMP_ADHERENT_ETAT . "  = 1
-				OR (" . AdherentManager::CHAMP_ADHERENT_ETAT . " <> 1 
-		        	AND (
-		                b." . StockManager::CHAMP_STOCK_ID . " IS NOT NULL
-		            	OR c." . StockManager::CHAMP_STOCK_ID . " IS NOT NULL
-		            	OR d." . StockManager::CHAMP_STOCK_ID . " IS NOT NULL
-		                )
-		        )
-		      ) OR " . CompteManager::CHAMP_COMPTE_ID . " = -3   
-		GROUP BY " . AdherentManager::CHAMP_ADHERENT_ID . ", " . ProduitManager::CHAMP_PRODUIT_ID . "
-		ORDER BY " . AdherentManager::CHAMP_ADHERENT_NOM . ", " . AdherentManager::CHAMP_ADHERENT_PRENOM . ";";
-		
-		$lLogger->log("Execution de la requete : " . $lRequete,PEAR_LOG_DEBUG); // Maj des logs
-		$lSql = Dbutils::executerRequete($lRequete);
-		
-		$lListeAdherent = array();
-		if( mysql_num_rows($lSql) > 0 ) {
-			while ($lLigne = mysql_fetch_assoc($lSql)) {
-				array_push($lListeAdherent, new ListeAchatEtReservationExportVO(
-				$lLigne[ProduitManager::CHAMP_PRODUIT_ID],
-				$lLigne["b_" . StockManager::CHAMP_STOCK_ID],
-				$lLigne["b_" . StockManager::CHAMP_STOCK_QUANTITE],
-				$lLigne["c_" . StockManager::CHAMP_STOCK_ID],
-				$lLigne["c_" . StockManager::CHAMP_STOCK_QUANTITE],
-				$lLigne["e_" . DetailOperationManager::CHAMP_DETAILOPERATION_ID],
-				$lLigne["e_" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
-				$lLigne["d_" . StockManager::CHAMP_STOCK_ID],
-				$lLigne["d_" . StockManager::CHAMP_STOCK_QUANTITE],
-				$lLigne["f_" . DetailOperationManager::CHAMP_DETAILOPERATION_ID],
-				$lLigne["f_" . DetailOperationManager::CHAMP_DETAILOPERATION_MONTANT],
-				$lLigne[ProduitManager::CHAMP_PRODUIT_UNITE_MESURE],
-				$lLigne[CompteManager::CHAMP_COMPTE_ID],
-				$lLigne[DetailCommandeManager::CHAMP_DETAILCOMMANDE_ID],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_ID],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_NOM],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_PRENOM],
-				$lLigne[AdherentManager::CHAMP_ADHERENT_TELEPHONE_PRINCIPAL],
-				$lLigne[CompteManager::CHAMP_COMPTE_LABEL]));
-			}
-		} else {
-			$lListeAdherent[0] = new ListeAchatEtReservationExportVO();
-		}
-		return $lListeAdherent;
 	}
 }
 ?>

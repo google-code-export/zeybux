@@ -77,12 +77,6 @@ class ListeAbonnesProduitViewVO  extends DataTemplate
 	* @desc ProAboIdNomProduit de la ListeAbonnesProduitViewVO
 	*/
 	protected $mProAboIdNomProduit;
-
-	/**
-	* @var varchar(20)
-	* @desc ProAboUnite de la ListeAbonnesProduitViewVO
-	*/
-	protected $mProAboUnite;
 	
 	/**
 	* @var dateTime
@@ -274,24 +268,6 @@ class ListeAbonnesProduitViewVO  extends DataTemplate
 	*/
 	public function setProAboIdNomProduit($pProAboIdNomProduit) {
 		$this->mProAboIdNomProduit = $pProAboIdNomProduit;
-	}
-
-	/**
-	* @name getProAboUnite()
-	* @return varchar(20)
-	* @desc Renvoie le membre ProAboUnite de la ListeAbonnesProduitViewVO
-	*/
-	public function getProAboUnite() {
-		return $this->mProAboUnite;
-	}
-
-	/**
-	* @name setProAboUnite($pProAboUnite)
-	* @param varchar(20)
-	* @desc Remplace le membre ProAboUnite de la ListeAbonnesProduitViewVO par $pProAboUnite
-	*/
-	public function setProAboUnite($pProAboUnite) {
-		$this->mProAboUnite = $pProAboUnite;
 	}
 
 	/**

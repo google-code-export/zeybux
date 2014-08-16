@@ -96,7 +96,7 @@ class CompteZeybuControleur
 			}
 						
 			$lCSV = new CSV();
-			$lCSV->setNom('CompteMarche.csv'); // Le Nom
+			$lCSV->setNom('CompteZeybu.csv'); // Le Nom
 			
 			// L'entete
 			$lEntete = array("Date","Compte", "Libelle", "Paiement", "N°", "Debit","","Credit","");

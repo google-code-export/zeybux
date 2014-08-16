@@ -2,22 +2,19 @@
 	this.rechercheListeOperation = 
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-				"Compte Marché" +
-				"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
-					"<span class=\"ui-icon ui-icon-print\"></span>" +
-				"</span>" +
-				"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-edit-compte\" title=\"Editer le compte\">" +
-					"<span class=\"ui-icon ui-icon-pencil\"></span>" +
+				"Le Compte du Zeybu" +
+				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export-liste-operation\" title=\"Exporter\">" +
+					"<span class=\"ui-icon ui-icon-print\">" +
 				"</span>" +
 			"</div>" +
 			"<table id=\"table-info-solde-zeybu\">" +
 				"<thead>" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Marché : {soldeTotal} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-total\" class=\"com-table-th\">Solde Zeybu Marche : {soldeTotal} {sigleMonetaire}</th>" +
 						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Montant en Banque : {soldeBanque} {sigleMonetaire}</th>" +
 					"</tr>" +
 					"<tr class=\"ui-widget ui-widget-header\">" +
-						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde Solidaire : {soldeSolidaire} {sigleMonetaire}</th>" +
+						"<th id=\"td-solde-zeybu-banque\" class=\"com-table-th\">Solde EAU : {soldeSolidaire} {sigleMonetaire}</th>" +
 						"<th id=\"td-solde-zeybu-caisse\" class=\"com-table-th\">Montant en Caisse : {soldeCaisse} {sigleMonetaire}</th>" +
 					"</tr>" +
 				"</thead>" +
@@ -325,185 +322,246 @@
 	
 	this.listePaiement = 
 		"<div id=\"contenu\" class=\"ui-helper-reset\">" +
-			"<div id=\"listePaiement\" class=\"ui-widget-content-transparent\">" +
+			"<div id=\"listePaiement\">" +
 				"<ul>" +
 					"<li><a href=\"#cheque-adherent\" id=\"li-cheque-adherent\">Chèques Adhérent</a></li>" +
 					"<li><a href=\"#espece-adherent\" id=\"li-espece-adherent\">Espèces Adhérent</a></li>" +
 					"<li><a href=\"#cheque-ferme\" id=\"li-cheque-ferme\">Chèques Ferme</a></li>" +
 					"<li><a href=\"#espece-ferme\" id=\"li-espece-ferme\">Espèces Ferme</a></li>" +
 				"</ul>" +
-				"<div id=\"cheque-adherent\" class=\"ui-widget-content-transparent\">" +
+				"<div id=\"cheque-adherent\">" +
 					"<div>Total : {totalChequeAdherent} {sigleMonetaire}</div>" +
-					"<div class=\"com-center\">" +
-						"<div class=\"div-btn-remise-cheque\">" +
-							"<button type=\"button\" id=\"btn-nv-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\">Nouvelle Remise de Chèque</button>" +
-						"</div>" +
-						"<div class=\"div-btn-remise-cheque ui-helper-hidden\">" +
-							"<button type=\"button\" id=\"btn-ajout-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\">Créer la remise de Chèque</button> ou " +
-							"<button type=\"button\" id=\"btn-ajout-operation-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter à une remise de Chèque</button> : " +
-							"<span id=\"total-remise-cheque\">0</span> {sigleMonetaire}" +
-							"<button type=\"button\" id=\"btn-annul-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\">Annuler</button>" +
-						"</div>" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-cheque-adherent\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-cheque-adherent\" id=\"filter-cheque-adherent\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
 					"</div>" +
 					"{chequeInvite}" +
-					"<br/>Adhérents" +
-					"<table id=\"table-cheque-adherent\">" +
+					"Adhérents" +
+					"<table class=\"com-table table-cheque-adherent\">" +
 						"<thead>" +
-							"<tr>" +
-								"<th></th>" +
-								"<th>Remise de<br/>Chèque</th>" +
-								"<th>Date</th>" +
-								"<th>N°</th>" +
-								"<th>Compte</th>" +
-								"<th>Nom</th>" +
-								"<th>Prénom</th>" +
-								"<th>Montant</th>" +
-								"<th>N°</th>" +
-								"<th></th>" +
-								"<th></th>" +
-								"<th></th>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeChequeAdherent -->" +
-							"<tr>" +
-								"<td>{listeChequeAdherent.opeId}</td>" +
-								"<td>{listeChequeAdherent.idRemiseCheque}</td>" +
-								"<td>{listeChequeAdherent.opeDate}</td>" +
-								"<td>{listeChequeAdherent.adhNumero}</td>" +
-								"<td>{listeChequeAdherent.cptLabel}</td>" +
-								"<td>{listeChequeAdherent.adhNom}</td>" +
-								"<td>{listeChequeAdherent.adhPrenom}</td>" +
-								"<td>{listeChequeAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td>{listeChequeAdherent.numeroCheque}</td>" +							
-								"<td>" +
+							"<tr class=\"com-cursor-pointer compte-ligne-adherent\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeAdherent.opeDateTri}</span>{listeChequeAdherent.opeDate}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeChequeAdherent.adhIdTri}</span>" +
+									"{listeChequeAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeChequeAdherent.cptIdTri}</span>" +
+									"{listeChequeAdherent.cptLabel}" +
+								"</td>" +
+								"<td class=\"com-table-td\">{listeChequeAdherent.adhNom}</td>" +
+								"<td class=\"com-table-td\">{listeChequeAdherent.adhPrenom}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeAdherent.opeMontant}</span>{listeChequeAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeAdherent.numeroCheque}</td>" +
+								"<td class=\"com-table-td-med com-center\">" +
+									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeAdherent.opeId}\">Ok</button>" +
+								"</td>" +
+								
+								"<td class=\"com-table-td-med td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
-								"<td>" +
+								"<td class=\"com-table-td-fin td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeChequeAdherent.opeId}\" title=\"Supprimer\">" +
 									"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
 								"</td>" +
-								"<td>{listeChequeAdherent.opeMontant}</td>" +
+								
+								
 							"</tr>" +
 					"<!-- END listeChequeAdherent -->" +
 						"</tbody>" +
 					"</table>" +
 				"</div>" +
-				"<div id=\"espece-adherent\" class=\"ui-widget-content-transparent\">" +
+				"<div id=\"espece-adherent\">" +
 					"<div>Total : {totalEspeceAdherent} {sigleMonetaire}</div>" +
+					"<div id=\"liste-prdt-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-espece-adherent\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-espece-adherent\" id=\"filter-espece-adherent\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
 					"{especeInvite}" +
-					"<br/>Adhérents" +
-					"<table id=\"table-espece-adherent\">" +
+					"Adhérents" +
+					"<table class=\"com-table table-espece-adherent\">" +
 						"<thead>" +
-							"<tr >" +
-								"<th></span>Date</th>" +
-								"<th>N°</th>" +
-								"<th>Compte</th>" +
-								"<th>Nom</th>" +
-								"<th>Prénom</th>" +
-								"<th>Montant</th>" +
-								"<th></th>" +
-								"<th></th>" +
-								"<th></th>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeEspeceAdherent -->" +
-							"<tr>" +
-								"<td>{listeEspeceAdherent.opeDate}</td>" +
-								"<td>{listeEspeceAdherent.adhNumero}</td>" +
-								"<td>{listeEspeceAdherent.cptLabel}</td>" +
-								"<td>{listeEspeceAdherent.adhNom}</td>" +
-								"<td>{listeEspeceAdherent.adhPrenom}</td>" +
-								"<td>{listeEspeceAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-center\">" +
+							"<tr class=\"com-cursor-pointer compte-ligne-producteur\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceAdherent.opeDateTri}</span>{listeEspeceAdherent.opeDate}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeEspeceAdherent.adhIdTri}</span>" +
+									"{listeEspeceAdherent.adhNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeEspeceAdherent.cptIdTri}</span>" +
+									"{listeEspeceAdherent.cptLabel}" +
+								"</td>" +
+								"<td class=\"com-table-td\">{listeEspeceAdherent.adhNom}</td>" +
+								"<td class=\"com-table-td\">{listeEspeceAdherent.adhPrenom}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceAdherent.opeMontant}</span>{listeEspeceAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceAdherent.opeId}\">Ok</button>" +
 								"</td>" +
-								"<td>" +
+								
+								"<td class=\"com-table-td-med td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
-								"<td>" +
+								"<td class=\"com-table-td-fin td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeEspeceAdherent.opeId}\" title=\"Supprimer\">" +
 									"<span class=\"ui-icon ui-icon-trash\"></span>" +
 									"</span>" +
-								"</td>" +								
+								"</td>" +
+								
 							"</tr>" +
 					"<!-- END listeEspeceAdherent -->" +
 						"</tbody>" +
 					"</table>" +					
 				"</div>" +
-				"<div id=\"cheque-ferme\" class=\"ui-widget-content-transparent\">" +
+				"<div id=\"cheque-ferme\">" +
 					"<div>Total : {totalChequeFerme} {sigleMonetaire}</div>" +
-					"<br/><table id=\"table-cheque-ferme\">" +
+					"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-cheque-ferme\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-cheque-ferme\" id=\"filter-cheque-ferme\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
+					"<table class=\"com-table table-cheque-ferme\">" +
 						"<thead>" +
-							"<tr>" +
-								"<th></span>Date</th>" +
-								"<th>N°</th>" +
-								"<th>Compte</th>" +
-								"<th>Nom</th>" +
-								"<th>Montant</th>" +
-								"<th>N°</th>" +
-								"<th></th>" +
-								"<th></th>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeChequeFerme -->" +
-							"<tr>" +
-								"<td>{listeChequeFerme.opeDate}</td>" +
-								"<td>{listeChequeFerme.ferNumero}</td>" +
-								"<td>{listeChequeFerme.cptLabel}</td>" +
-								"<td>{listeChequeFerme.ferNom}</td>" +
-								"<td>{listeChequeFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td>{listeChequeFerme.numeroCheque}</td>" +
-								"<td class=\"com-center\">" +
+							"<tr class=\"com-cursor-pointer compte-ligne-adherent\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeFerme.opeDateTri}</span>{listeChequeFerme.opeDate}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeChequeFerme.ferIdTri}</span>" +
+									"{listeChequeFerme.ferNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeChequeFerme.cptIdTri}</span>" +
+									"{listeChequeFerme.cptLabel}" +
+								"</td>" +
+								"<td class=\"com-table-td\">{listeChequeFerme.ferNom}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeFerme.opeMontant}</span>{listeChequeFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td class=\"com-table-td\">{listeChequeFerme.numeroCheque}</td>" +
+								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeFerme.opeId}\">Ok</button>" +
 								"</td>" +
-								"<td>" +
+								
+
+								"<td class=\"com-table-td-fin td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
+								
 							"</tr>" +
 					"<!-- END listeChequeFerme -->" +
 						"</tbody>" +
 					"</table>" +
 				"</div>" +
-				"<div id=\"espece-ferme\" class=\"ui-widget-content-transparent\">" +
+				"<div id=\"espece-ferme\">" +
 					"<div>Total : {totalEspeceFerme} {sigleMonetaire}</div>" +
-					"<br/><table id=\"table-espece-ferme\">" +
+					"<div id=\"liste-prdt-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+						"<form id=\"filter-form-espece-ferme\">" +
+							"<div>" +
+								"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+										"<span class=\"ui-icon ui-icon-search\">" +
+									"</span>" +
+								"</span>" +
+								"<input class=\"com-input-text ui-widget-content ui-corner-right filter\" name=\"filter-espece-ferme\" id=\"filter-espece-ferme\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+							"</div>" +
+						"</form>" +
+					"</div>" +
+					"<table class=\"com-table table-espece-ferme\">" +
 						"<thead>" +
-							"<tr>" +
-								"<th>Date</th>" +
-								"<th>N°</th>" +
-								"<th>Compte</th>" +
-								"<th>Nom</th>" +
-								"<th>Montant</th>" +
-								"<th></th>" +
-								"<th></th>" +
+							"<tr class=\"ui-widget ui-widget-header\">" +
+								"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer tab-cell-compte\"><span class=\"ui-icon span-icon\"></span>Compte</th>" +
+								"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom  com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+								"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+								"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 							"</tr>" +
 						"</thead>" +
 						"<tbody>" +
 					"<!-- BEGIN listeEspeceFerme -->" +
-							"<tr>" +
-								"<td>{listeEspeceFerme.opeDate}</td>" +
-								"<td>{listeEspeceFerme.ferNumero}</td>" +
-								"<td>{listeEspeceFerme.cptLabel}</td>" +
-								"<td>{listeEspeceFerme.ferNom}</td>" +
-								"<td>{listeEspeceFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
-								"<td class=\"com-center\">" +
+							"<tr class=\"com-cursor-pointer compte-ligne-producteur\">" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceFerme.opeDateTri}</span>{listeEspeceFerme.opeDate}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeEspeceFerme.ferIdTri}</span>" +
+									"{listeEspeceFerme.ferNumero}</td>" +
+								"<td class=\"com-table-td\">" +
+									"<span class=\"ui-helper-hidden\">{listeEspeceFerme.cptIdTri}</span>" +
+									"{listeEspeceFerme.cptLabel}" +
+								"</td>" +
+								"<td class=\"com-table-td\">{listeEspeceFerme.ferNom}</td>" +
+								"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceFerme.opeMontant}</span>{listeEspeceFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td class=\"com-table-td-med com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceFerme.opeId}\">Ok</button>" +
 								"</td>" +
-								"<td>" +
+
+								"<td class=\"com-table-td-fin td-edt\">" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceFerme.opeId}\" title=\"Modifier\">" +
 										"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 									"</span>" +
 								"</td>" +
+								
 							"</tr>" +
 					"<!-- END listeEspeceFerme -->" +
 						"</tbody>" +
@@ -512,99 +570,81 @@
 			"</div>" +
 		"</div>";
 	
-	this.checkboxRemiseCheque = "<input class=\"ui-helper-hidden checkbox-remise-cheque\" type=\"checkbox\" value=\"{id}\" data-montant=\"{montant}\"/>";
-	
-	/*this.listePaiementVide = "<div id=\"{id}\" class=\"com-center\">Aucun paiement en attente.</div>";*/
+	this.listePaiementVide = "<div id=\"{id}\" class=\"com-center\">Aucun paiement en attente.</div>";
 	
 	this.listeChequeInvite =
-		"<br/>Invité" +
-		"<table id=\"table-cheque-invite\">" +
+		"Invité" +
+		"<table class=\"com-table table-cheque-invite\">" +
 			"<thead>" +
-				"<tr>" +
-					"<th></th>" +
-					"<th>Remise de<br/>Chèque</th>" +
-					"<th>Date</th>" +
-					"<th>Montant</th>" +
-					"<th>N°</th>" +
-					"<th></th>" +
-					"<th></th>" +
-					"<th></th>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-montant\"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 				"</tr>" +
 			"</thead>" +
 			"<tbody>" +
 			"<!-- BEGIN listeChequeInvite -->" +
-				"<tr>" +
-					"<td>{listeChequeInvite.opeId}</td>" +
-					"<td>{listeChequeInvite.idRemiseCheque}</td>" +
-					"<td>{listeChequeInvite.opeDate}</td>" +
-					"<td>{listeChequeInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
-					"<td>{listeChequeInvite.numeroCheque}</td>" +				
-					"<td>" +
+				"<tr class=\"com-cursor-pointer compte-ligne-adherent\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeDateTri}</span>{listeChequeInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeChequeInvite.opeMontant}</span>{listeChequeInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td\">{listeChequeInvite.numeroCheque}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
+						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeInvite.opeId}\">Ok</button>" +
+					"</td>" +
+					
+					"<td class=\"com-table-td-med td-edt\">" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeInvite.opeId}\" title=\"Modifier\">" +
 							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 						"</span>" +
 					"</td>" +
-					"<td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeChequeInvite.opeId}\" title=\"Supprimer\">" +
 						"<span class=\"ui-icon ui-icon-trash\"></span>" +
 						"</span>" +
 					"</td>" +
-					"<td>{listeChequeInvite.opeMontant}</td>" +
 				"</tr>" +
 			"<!-- END listeChequeInvite -->" +
 			"</tbody>" +
 		"</table>";
 	
 	this.listeEspeceInvite =
-		"<br/>Invité" +
-		"<table id=\"table-espece-invite\">" +
+		"Invité" +
+		"<table class=\"com-table table-espece-invite\">" +
 			"<thead>" +
-				"<tr\">" +
-					"<th>Date</th>" +
-					"<th>Montant</th>" +
-					"<th></th>" +
-					"<th></th>" +
-					"<th></th>" +
+				"<tr class=\"ui-widget ui-widget-header\">" +
+					"<th class=\"com-table-th-debut com-underline-hover td-date com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Date</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer \"><span class=\"ui-icon span-icon\"></span>Montant</th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-med com-underline-hover com-cursor-pointer td-edt\"></th>" +
+					"<th class=\"com-table-th-fin com-underline-hover com-cursor-pointer td-edt\"></th>" +
 				"</tr>" +
 			"</thead>" +
 			"<tbody>" +
 				"<!-- BEGIN listeEspeceInvite -->" +
-				"<tr>" +
-					"<td>{listeEspeceInvite.opeDate}</td>" +
-					"<td>{listeEspeceInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
-					"<td class=\"com-center\">" +
+				"<tr class=\"com-cursor-pointer compte-ligne-producteur\">" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeDateTri}</span>{listeEspeceInvite.opeDate}</td>" +
+					"<td class=\"com-table-td\"><span class=\"ui-helper-hidden\">{listeEspeceInvite.opeMontant}</span>{listeEspeceInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td class=\"com-table-td-med com-center\">" +
 						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceInvite.opeId}\">Ok</button>" +
 					"</td>" +
-					"<td>" +
+					"<td class=\"com-table-td-med td-edt\">" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"1\" id-operation=\"{listeEspeceInvite.opeId}\" title=\"Modifier\">" +
 							"<span class=\"ui-icon ui-icon-pencil\"></span>" +
 						"</span>" +
 					"</td>" +
-					"<td>" +
+					"<td class=\"com-table-td-fin td-edt\">" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-supprimer\"  id-operation=\"{listeEspeceInvite.opeId}\" title=\"Supprimer\">" +
 						"<span class=\"ui-icon ui-icon-trash\"></span>" +
 						"</span>" +
-					"</td>" +					
+					"</td>" +
+					
 				"</tr>" +
 				"<!-- END listeEspeceInvite -->" +
 			"</tbody>" +
 		"</table>";	
-	
-	this.dialogCreerRemiseCheque = 
-		"<div id=\"dialog-creer-remise-cheque\" title=\"Remise de Chèque\">" +
-			"Voulez-vous créer une Remise de Chèque pour un montant de : {montant} {sigleMonetaire} ?" +
-		"</div>";
-	
-	this.dialogAjoutOperationRemiseCheque = 
-		"<div id=\"dialog-creer-remise-cheque\" title=\"Remise de Chèque\">" +
-			"A quelle remise voulez-vous ajouter ces opérations d’un total de : {montant} {sigleMonetaire} ?" +
-			"<select id=\"select-remise-cheque\">" +
-				"<option value=\"0\">--- Sélectionner ---</option>" +
-				"<!-- BEGIN liste -->" +
-				"<option value=\"{liste.id}\">{liste.numero} {liste.date}</option>" +
-				"<!-- END liste -->" +
-			"</select>" +
-		"</div>";
 	
 	this.dialogValiderPaiement = 
 		"<div id=\"dialog-valider-paiement\" title=\"Valider le paiement\">" +
@@ -657,174 +697,20 @@
 				"</table>" +
 			"</form>" +
 		"</div>";
-		
-	this.listeRemiseCheque =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-barre-menu-2\">" +
-				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-remise-archive\">" +
-					"<span class=\"com-float-left\">Les remises encaissées</span>" +
-					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-e\"></span>" +
-				"</button>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +		
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Liste des remises de chèques</div>" +						
-				"<div>" +		
-					"<table id=\"table-liste-remise-cheque\">" +
-						"<thead>" +
-						"<tr>" +
-							"<th>Remise de chèque</th>" +
-							"<th>Date</th>" +
-							"<th>Montant</th>" +
-							"<th></th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-					"<!-- BEGIN liste -->" +
-						"<tr>" +
-							"<td>{liste.numero}</td>" +
-							"<td>{liste.dateCreation}</td>" +
-							"<td>{liste.montant}</td>" +
-							"<td>" +
-								"<span class=\"btn-detail-remise com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" data-id=\"{liste.id}\">" +
-									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-					"<!-- END liste -->" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +				
-			"</div>" +
-		"</div>";
 	
-	this.listeRemiseChequeArchive =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-barre-menu-2\">" +
-				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-remise-encours\">" +
-					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Les remises en cours" +
-				"</button>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +		
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">Liste des remises de chèques encaissées</div>" +						
-				"<div>" +		
-					"<table id=\"table-liste-remise-cheque\">" +
-						"<thead>" +
-						"<tr>" +
-							"<th>Remise de chèque</th>" +
-							"<th>Date</th>" +
-							"<th>Montant</th>" +
-							"<th></th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-					"<!-- BEGIN liste -->" +
-						"<tr>" +
-							"<td>{liste.numero}</td>" +
-							"<td>{liste.dateCreation}</td>" +
-							"<td>{liste.montant}</td>" +
-							"<td>" +
-								"<span class=\"btn-detail-remise com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" data-id=\"{liste.id}\">" +
-									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-					"<!-- END liste -->" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +				
-			"</div>" +
-		"</div>";
-	
-	this.detailRemiseCheque =
-		"<div id=\"contenu\">" +
-			"<div class=\"com-barre-menu-2\">" +
-				"<button class=\"ui-state-default ui-corner-top com-button\" id=\"lien-retour\">" +
-					"<span class=\"com-float-left ui-icon ui-icon-arrowthick-1-w\"></span>Retour" +
-				"</button>" +
-			"</div>" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +		
-				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
-					"Remise de chèque N°{numero} : {date}" +
-					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-edt-supprimer\" data-id=\"{id}\" title=\"Supprimer\">" +
-						"<span class=\"ui-icon ui-icon-closethick\">" +
-						"</span>" +
-					"</span>" +
-				"</div>" +	
-				"<div>" +
-					"Total : {montant} {sigleMonetaire}" +
-					"<div class=\"com-center\">" +
-						"<button type=\"button\" id=\"btn-valider-remise-cheque\" class=\"ui-state-default ui-corner-all com-button com-center\" data-id=\"{id}\" >" +
-							"<span class=\"com-float-left ui-icon ui-icon-check\"></span>Valider" +
-						"</button>" +
-						"<button class=\"btn-menu-med ui-state-default ui-corner-all com-button\" id=\"btn-export\" data-id=\"{id}\">" +
-							"<span class=\"com-float-left ui-icon ui-icon-print\"></span>Imprimer" +
-						"</button>" +
-					"</div>" +
-				"</div><br/>" +
-				"<div>" +		
-					"<table id=\"table-liste-operation\">" +
-						"<thead>" +
-						"<tr>" +
-							"<th>Date</th>" +
-							"<th>N°</th>" +
-							"<th>Compte</th>" +
-							"<th>Nom</th>" +
-							"<th>Prénom</th>" +
-							"<th>Montant</th>" +
-							"<th>N° chèque</th>" +
-							"<th></th>" +
-						"</tr>" +
-						"</thead>" +
-						"<tbody>" +
-					"<!-- BEGIN operations -->" +
-						"<tr>" +
-							"<td>{operations.date}</td>" +
-							"<td>{operations.numeroAdherent}</td>" +
-							"<td>{operations.compte}</td>" +
-							"<td>{operations.nom}</td>" +
-							"<td>{operations.prenom}</td>" +
-							"<td>{operations.montant}</td>" +
-							"<td>{operations.numeroCheque}</td>" +
-							"<td>" +
-								"<span class=\"btn-sup-operation com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" data-id=\"{operations.idOperation}\">" +
-									"<span class=\"ui-icon ui-icon-closethick\"></span>" +
-								"</span>" +
-							"</td>" +
-						"</tr>" +
-					"<!-- END operations -->" +
-						"</tbody>" +
-					"</table>" +
-				"</div>" +				
-			"</div>" +
-		"</div>";
-	
-	this.dialogValiderRemiseCheque = 
-		"<div id=\"dialog-remise-cheque\" title=\"Valider la remise de Chèque\">" +
-			"Voulez-vous valider cette Remise de Chèque ?" +
-		"</div>";
-
-	this.dialogSupprimerOperationRemiseCheque = 
-		"<div id=\"dialog-remise-cheque\" title=\"Supprimer l'opération de la remise de Chèque\">" +
-			"Voulez-vous enlever cette opération de la remise de chèque ?" +
-		"</div>";
-
-	this.dialogSupprimerRemiseCheque = 
-		"<div id=\"dialog-remise-cheque\" title=\"Supprimer la remise de Chèque\">" +
-			"Voulez-vous supprimer cette remise de chèque ?<br/>" +
-			"L’ensemble des opérations seront sans Remise de Chèque." +
-		"</div>";
-
-	this.dialogEditerCompte = 
-		"<div id=\"dialog-edit-compte\" title=\"Editer le compte\">" +
-			"<table>" +
-				"<tr>" +
-					"<td>N° de compte</td>" +
-					"<td><input type=\"text\" value=\"{numeroCompte}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"numeroCompte\"/></td>" +
-				"</tr>" +
-				"<tr>" +
-					"<td>Raison Sociale</td>" +
-					"<td><input type=\"text\" value=\"{raisonSociale}\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" id=\"raisonSociale\"/></td>" +
-				"</tr>" +
-			"</table>" +
-		"</div>";
+	/*this.dialogModifierPaiementEspece = 
+		"<div id=\"dialog-modifier-paiement\" title=\"Modifier le paiement\">" +
+			"<form>" +
+				"<table class=\"com-table-100\">" +
+					"<tr>" +
+						"<td>N° de compte : {cptLabel}</td>" +
+					"</tr>" +
+					"<tr class=\"com-center\" >" +
+						"<td class=\"com-table-form-td montant-virement\">" +
+							"Montant <input type=\"text\" class=\"com-numeric com-input-text ui-widget-content ui-corner-all\" value=\"{opeMontant}\" name=\"montant\" id=\"montant\" maxlength=\"12\" size=\"3\"/> {sigleMonetaire}" +
+						"</td>" +
+					"</tr>" +
+				"</table>" +
+			"</form>" +
+		"</div>";*/
 }

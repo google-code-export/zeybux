@@ -87,11 +87,6 @@
 				return false;
 			});
 			
-			pData.find('#menu-CompteZeybu-RemiseCheque').click(function() {
-				ListeRemiseChequeVue();
-				return false;
-			});
-			
 			pData.find('#menu-RechargementCompte-RechargerCompte').click(function() {
 				RechargerCompteVue();
 				return false;
@@ -147,11 +142,6 @@
 				return false;
 			});
 			
-			pData.find('#menu-Parametrage-ParametreZeybux').click(function() {
-				ParametreZeybuxVue();
-				return false;
-			});
-			
 			pData.find('#menu-Adhesion-GestionAdhesion').click(function() {
 				ListeAdhesionVue();
 				return false;
@@ -171,11 +161,7 @@
 				SuiviPaiementAssociationVue();
 				return false;
 			});
-						
-			pData.find('#menu-CompteAssociation-RemiseCheque').click(function() {
-				ListeRemiseChequeAssociationVue();
-				return false;
-			});
+			
 				
 			return pData;
 		}

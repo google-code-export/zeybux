@@ -1,5 +1,4 @@
 ;function DetailProduitAbonnementVue(pParam) {
-	this.mId = 0;
 	this.mLotAbonnes = [];
 	this.mIdLot = 0;
 	this.mEditionLot = false;
@@ -21,7 +20,6 @@
 						if(pParam && pParam.vr) {
 							Infobulle.generer(pParam.vr,'');
 						}
-						that.mId = lParam.id;
 						that.afficher(lResponse);
 					} else {
 						Infobulle.generer(lResponse,'');
@@ -61,10 +59,11 @@
 				this.cptAboQuantite = this.cptAboQuantite.nombreFormate(2,',',' ');
 				this.proAboUnite = lData.proAboUnite;
 			});
+			
+			lData.listeAbonnes = lGestionAbonnementTemplate.detailProduitListeAbonnes.template(lResponse);
 		} else {
-			lResponse.abonnes = [];
+			lData.listeAbonnes = lGestionAbonnementTemplate.detailProduitListeAbonnesVide;
 		}
-		lData.listeAbonnes = lGestionAbonnementTemplate.detailProduitListeAbonnes.template(lResponse);
 
 		this.mQuantiteReservation = parseFloat(lResponse.produit[0].proAboReservation);
 		if(this.mQuantiteReservation <= 0) {
@@ -79,62 +78,8 @@
 		pData = this.affectLienRetour(pData);
 		pData = this.affectModifier(pData);
 		pData = affectDialogSuppProduit(pData);
-		pData = this.affectExport(pData);
 		pData = gCommunVue.comHoverBtn(pData);
-		pData = this.affectDataTable(pData);
 		return pData;
-	};
-	
-	this.affectExport = function(pData) {
-		var that = this;
-		pData.find('#btn-export').click(function() {
-			$.download("./index.php?m=GestionAbonnement&v=ListeProduit", {fonction:'exportListeAbonneSurProduit',id:that.mId});
-		});
-		return pData;
-	};
-	
-	this.affectDataTable = function(pData) {
-		pData.find('#liste-adherent').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 25,
-	        "aaSorting": [[2,'asc'], [3,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 5 ] 
-                  },
-                  {	 "sType": "numeric",
-                	 "mRender": function ( data, type, full ) {
-            		  	if (type === 'sort') {
-            	          return data.replace("Z","");
-            	        }
-            	        return data;
-            	      },
-                	"aTargets": [ 0 ]
-                  },
-                  {	 "sType": "numeric",
-                	 "mRender": function ( data, type, full ) {
-            		  	if (type === 'sort') {
-            	          return data.replace("C","");
-            	        }
-            	        return data;
-            	      },
-                    "aTargets": [ 1 ]
-                  },
-                  {	 "sType": "numeric",
-                 	 "mRender": function ( data, type, full ) {
-                 		  	if (type === 'sort') {
-                 	          return data.numberFrToDb();
-                 	        }
-                 	        return data;
-                 	      },
-	                 "sClass":"com-text-align-right",
-	                 "aTargets": [ 4 ]
-	               }]
-	    });
-		return pData;		
 	};
 	
 	this.affectLienRetour = function(pData) {

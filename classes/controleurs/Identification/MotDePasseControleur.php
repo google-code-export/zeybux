@@ -70,7 +70,7 @@ class MotDePasseControleur
 			$lSujet = "Réinitialisation de votre mot de passe zeybux - $jour $heure";
 
 			$lContenu = file_get_contents(CHEMIN_TEMPLATE . MOD_IDENTIFICATION . "/" . "MailReInitMdp.html");
-			$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}", "{ZEYBUX_ADRESSE_SITE}"), array($pParam['numero'], $lMdp, ZEYBUX_ADRESSE_SITE), $lContenu);
+			$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}"), array($pParam['numero'], $lMdp), $lContenu);
 			
 			$lHeaders = file_get_contents(CHEMIN_TEMPLATE . COMMUN_TEMPLATE . "/" . "EnteteMail.html");
 			$lHeaders = str_replace("{FROM}", $lFrom, $lHeaders);

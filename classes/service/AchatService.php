@@ -36,7 +36,6 @@ include_once(CHEMIN_CLASSES_SERVICE . "OperationService.php" );
 include_once(CHEMIN_CLASSES_SERVICE . "MarcheService.php" );
 include_once(CHEMIN_CLASSES_MANAGERS . "ModeleLotManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "DetailAchatManager.php");
-include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 
 /**
  * @name AchatService
@@ -1072,16 +1071,6 @@ class AchatService
 				$lCritereRecherche,
 				array(''),
 				array(''));
-	}
-	
-	/**
-	 * @name getAchatEtReservationProduit( $pIdProduits)
-	 * @param array(integer)
-	 * @return array(ListeAchatEtReservationExportVO)
-	 * @desc Retourne les achats et réservations positionnées sur les produits
-	 */
-	public function getAchatEtReservationProduit($pIdProduits) {
-		return AdherentManager::rechercheAchatEtReservation($pIdProduits);
 	}
 }
 ?>

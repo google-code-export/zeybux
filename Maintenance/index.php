@@ -3,17 +3,11 @@ session_start();
 $lAffiche = true;
 if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	if($_GET['m'] == "Versions") {	
-		if(isset($_GET['action']) && ($_GET['action'] == "actionSav" || $_GET['action'] == "31" || $_GET['action'] == "41" || $_GET['action'] == "42" || $_GET['action'] == "actionRollBackConfirm")) {
-			include_once("./Versions/index.php");
-			$lAffiche = false;
-		}
-		
-		
-	/*	if(isset($_GET['action']) && $_GET['action'] == "sav") {
+		if(isset($_GET['action']) && $_GET['action'] == "sav") {
 			header('location:./index.php?m=Versions&action=actionSav');
 		} else if(isset($_GET['action']) && $_GET['action'] == "actionRollBack" && isset($_GET["dir"]) ) {
 			header('location:./index.php?m=Versions&action=actionRollBackConfirm&dir=' . $_GET["dir"]);
-		}*/
+		}
 	}
 	
 	if($_GET['m'] == "LogLevel") {	
@@ -24,15 +18,8 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1 && isset($_GET['m']) ) {
 	}
 	
 	if($_GET['m'] == "Extract") {
-		if(isset($_GET['action'])) {
-			include_once("./Extract/index.php");
-			$lAffiche = false;
-		}
-	}
-	
-	if($_GET['m'] == "Maj") {
 		if(isset($_GET['e'])) {
-			include_once("./Maj/maj.php");	
+			include_once("./Extract/index.php");
 			$lAffiche = false;
 		}
 	}
@@ -52,12 +39,12 @@ if($lAffiche) {
 	<link href="./css/Commun/Entete.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="./css/cssDev-min.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="./css/Maintenance.css" rel="stylesheet" type="text/css" media="all" />
-	<script src="./jquery/jquery-1.11.0.min.js" type="text/javascript"></script>
+
 </head>
 <body>
 	<div id="site" class="ui-corner-all">
 	
-		<h1><img src="./images/zeybu.png"/> Zeybux  <img src="./images/zeybu.png"/></h1>
+		<h1><img src="./images/zeybu.png"/> Les Amis du  ZEYBU  <img src="./images/zeybu.png"/></h1>
 <?php
 	if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) { ?>
 		<div id="menu_ext">
@@ -76,10 +63,7 @@ if($lAffiche) {
 						<a href="./index.php?m=LogLevel" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "LogLevel") echo "ui-state-active";?>"><span>Logs</span></a>
 					</li>
 					<li>
-						<a href="./index.php?m=Extract" class="com-cursor-pointer ui-widget-header menu-lien btn-menu <?php if(isset($_GET['m']) && $_GET['m'] == "Extract") echo "ui-state-active";?>"><span>Extract</span></a>
-					</li>
-					<li>
-						<a href="./index.php?m=Mdp" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Mdp") echo "ui-state-active";?>"><span>Identifiants</span></a>
+						<a href="./index.php?m=Extract" class="com-cursor-pointer ui-widget-header menu-lien btn-menu ui-corner-br <?php if(isset($_GET['m']) && $_GET['m'] == "Extract") echo "ui-state-active";?>"><span>Extract</span></a>
 					</li>
 				</ul>
 			</div>
@@ -119,10 +103,6 @@ if($lAffiche) {
 					include_once("./Extract/index.php");
 					break;
 					
-				case "Mdp":
-					include_once("./Identifiant.php");
-					break;
-					
 				default:
 					include_once("./accueil.php");	
 					break;	
@@ -134,6 +114,7 @@ if($lAffiche) {
 ?>
 		</div>
 		<div id="piedpage">
+			Les amis du Zeybu - 25 allée du gerbier, EYBENS -  <a href="mailto:lesamisduzeybu@gmail.com">lesamisduzeybu@gmail.com</a> - 04 56 45 64 54
 		</div>
 	</div>
 </body>

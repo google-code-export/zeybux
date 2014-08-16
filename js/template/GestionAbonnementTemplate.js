@@ -487,53 +487,44 @@
 		"</div>";
 	
 	this.detailProduitListeAbonnes =
-		"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +
+		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 				"Adhérents Abonnés" +
-				"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all\" id=\"btn-export\" title=\"Exporter\">" +
-					"<span class=\"ui-icon ui-icon-print\"></span>" +
-				"</span>" +
 			"</div>" +
-			"<table id=\"liste-adherent\" class=\"com-table\">" +
+			"<table class=\"com-table\">" +
 				"<thead>" +
-					"<tr>" +
-						"<th>N°</th>" +
-						"<th>Compte</th>" +
-						"<th>Nom</th>" +
-						"<th>Prénom</th>" +
-						"<th>Quantité</th>" +
-						"<th></th>" +
+					"<tr class=\"ui-widget-header\" >" +
+						"<th class=\"com-table-th-debut liste-adh-th-num\">N°</th>" +
+						"<th class=\"com-table-th-med liste-adh-th-nom\">Adhérent</th>" +
+						"<th class=\"com-table-th-fin edt-marche-pro-unite\">Quantité</th>" +
 					"</tr>" +
 				"</thead>" +
 				"<tbody>" +
 					"<!-- BEGIN abonnes -->" +
 					"<tr>" +
-						"<td>{abonnes.adhNumero}</td>" +
-						"<td>{abonnes.cptLabel}</td>" +
-						"<td>{abonnes.adhNom}</td>" +
-						"<td>{abonnes.adhPrenom}</td>" +
-						"<td>{abonnes.cptAboQuantite}</td>" +
-						"<td>{abonnes.proAboUnite}</td>" +
+						"<td class=\"com-table-td-debut com-underline-hover\">{abonnes.adhNumero}</td>" +
+						"<td class=\"com-table-td-med com-underline-hover\">{abonnes.adhPrenom} {abonnes.adhNom}</td>" +
+						"<td class=\"com-table-td-fin com-underline-hover edt-marche-pro-unite\">{abonnes.cptAboQuantite} {abonnes.proAboUnite}</td>" +
 					"</tr>" +
 					"<!-- END abonnes -->" +
 				"</tbody>" +
 			"</table>" +
 		"</div>";
 	
-	/*this.detailProduitListeAbonnesVide =
+	this.detailProduitListeAbonnesVide =
 		"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 			"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 				"Adhérents Abonnés" +
 			"</div>" +
 			"<p id=\"texte-liste-vide\">Aucun abonné sur ce produit.</p>" +	
-		"</div>";*/
+		"</div>";
 	
 	this.dialogSuppressionProduit =
 		"<div id=\"dialog-supp-produit\" title=\"Supprimer abonnement de produit\">" +
 			"<p class=\"ui-state-error ui-corner-all\"><span class=\"ui-icon ui-icon-alert com-float-left\"></span>ATTENTION : Voulez-vous réellement supprimer l'abonnement à ce produit?</p>" +
 		"</div>";
 	
-	/*this.listeAdherentVide =
+	this.listeAdherentVide =
 		"<div id=\"contenu\">" +
 			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
@@ -541,34 +532,44 @@
 				"</div>" +
 				"<p id=\"texte-liste-vide\">Aucun adhérent.</p>" +	
 			"</div>" +
-		"</div>";*/
+		"</div>";
 	
 	this.listeAdherent = 
 		"<div id=\"contenu\">" +
-			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +
+			"<div class=\"com-widget-window ui-widget ui-widget-content ui-corner-all\">" +
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Les Adhérents" +
 				"</div>" +
-				"<table id=\"liste-adherent\" class=\"com-table\">" +
+				"<div id=\"liste-adh-recherche\" class=\"recherche com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
+					"<form id=\"filter-form\">" +
+						"<div>" +
+							"<span class=\"conteneur-icon com-float-left ui-widget-content ui-corner-left\" title=\"Chercher\">" +
+									"<span class=\"ui-icon ui-icon-search\">" +
+								"</span>" +
+							"</span>" +
+							"<input class=\"com-input-text ui-widget-content ui-corner-right\" name=\"filter\" id=\"filter\" value=\"\" maxlength=\"30\" size=\"15\" type=\"text\" />" +
+						"</div>" +
+					"</form>" +
+				"</div>" +
+				"<table class=\"com-table\">" +
 					"<thead>" +
 						"<tr class=\"ui-widget ui-widget-header\">" +
-							"<th>N°</th>" +
-							"<th>Compte</th>" +
-							"<th>Nom</th>" +
-							"<th>Prénom</th>" +
-							"<th></th>" +
+							"<th class=\"com-table-th-debut com-underline-hover liste-adh-th-num com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>N°</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Nom</th>" +
+							"<th class=\"com-table-th-med com-underline-hover liste-adh-th-nom com-cursor-pointer\"><span class=\"ui-icon span-icon\"></span>Prénom</th>" +
+							"<th class=\"com-table-th-fin liste-adh-th-solde\"></th>" +
 						"</tr>" +
 					"</thead>" +
 					"<tbody>" +
 				"<!-- BEGIN listeAdherent -->" +
-						"<tr class=\"compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
-							"<td>" +
+						"<tr class=\"com-cursor-pointer compte-ligne\" id-adherent=\"{listeAdherent.adhId}\">" +
+							"<td class=\"com-table-td-debut com-underline-hover\">" +
+								"<span class=\"ui-helper-hidden\">{listeAdherent.adhIdTri}</span>" +
 								"{listeAdherent.adhNumero}" +
 							"</td>" +
-							"<td>{listeAdherent.cptLabel}</td>" +
-							"<td>{listeAdherent.adhNom}</td>" +
-							"<td>{listeAdherent.adhPrenom}</td>" +
-							"<td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhNom}</td>" +
+							"<td class=\"com-table-td-med com-underline-hover\">{listeAdherent.adhPrenom}</td>" +
+							"<td class=\"com-table-td-fin com-underline-hover liste-adh-td-solde\">" +
 								"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\">" +
 									"<span class=\"ui-icon ui-icon-triangle-1-e\"></span>" +
 								"</span>" +

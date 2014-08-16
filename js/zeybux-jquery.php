@@ -1,9 +1,9 @@
 <?php
 header("content-type: application/x-javascript; charset=UTF-8");
-$filenameJQuery = "jquery-1.11.0.min.js";
+$filenameJQuery = "jquery-1.10.0.min.js";
 $filename = "./jquery/" . $filenameJQuery;
 echo file_get_contents($filename);
-$filenameJQUI = "jquery-ui-1.10.4.custom.min.js";
+$filenameJQUI = "jquery-ui-1.10.3.custom.min.js";
 $filename = "./jquery/" . $filenameJQUI;
 echo file_get_contents($filename);
 

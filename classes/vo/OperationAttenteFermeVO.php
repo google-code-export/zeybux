@@ -83,18 +83,6 @@ class OperationAttenteFermeVO  extends DataTemplate
 	* @desc OpeId de la OperationAttenteFermeVO
 	*/
 	protected $mOpeId;
-
-	/**
-	* @var int(11)
-	* @desc IdRemiseCheque de la OperationAttenteFermeVO
-	*/
-	protected $mIdRemiseCheque;
-
-	/**
-	 * @var int(11)
-	 * @desc NumeroRemiseCheque de la OperationAttenteFermeVO
-	 */
-	protected $mNumeroRemiseCheque;
 	
 	/**
 	 * @name OperationAttenteFermeVO()
@@ -311,41 +299,6 @@ class OperationAttenteFermeVO  extends DataTemplate
 	public function setOpeId($pOpeId) {
 		$this->mOpeId = $pOpeId;
 	}
-		
-	/**
-	 * @name getIdRemiseCheque()
-	 * @return int(11)
-	 * @desc Renvoie le membre IdRemiseCheque de la OperationAttenteFermeVO
-	 */
-	public function getIdRemiseCheque() {
-		return $this->mIdRemiseCheque;
-	}
-	
-	/**
-	 * @name setIdRemiseCheque($pIdRemiseCheque)
-	 * @param int(11)
-	 * @desc Remplace le membre IdRemiseCheque de la OperationAttenteFermeVO par $pIdRemiseCheque
-	 */
-	public function setIdRemiseCheque($pIdRemiseCheque) {
-		$this->mIdRemiseCheque = $pIdRemiseCheque;
-	}
-	
-	/**
-	 * @name getNumeroRemiseCheque()
-	 * @return int(11)
-	 * @desc Renvoie le membre NumeroRemiseCheque de la OperationAttenteFermeVO
-	 */
-	public function getNumeroRemiseCheque() {
-		return $this->mNumeroRemiseCheque;
-	}
-	
-	/**
-	 * @name setNumeroRemiseCheque($pNumeroRemiseCheque)
-	 * @param int(11)
-	 * @desc Remplace le membre NumeroRemiseCheque de la OperationAttenteFermeVO par $pNumeroRemiseCheque
-	 */
-	public function setNumeroRemiseCheque($pNumeroRemiseCheque) {
-		$this->mNumeroRemiseCheque = $pNumeroRemiseCheque;
-	}
+
 }
 ?>

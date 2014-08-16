@@ -44,10 +44,12 @@ define("CHEMIN_FICHIER_LOGS", CHEMIN_RACINE . "/logs/" . date('Ymd') . ".log");
 	include_once(CHEMIN_CONFIGURATION . "Version.php"); // La version
 	include_once(CHEMIN_CONFIGURATION . "Titre.php"); // Définition des constantes de titre
 	include_once(CHEMIN_CLASSES_UTILS . "Log.php"); // La classe de Log
-	include_once(CHEMIN_CONFIGURATION . "LogLevel.php"); // Définition du level de log
-	include_once(CHEMIN_CONFIGURATION . "Proprietaire.php"); // Définition du level de log
 
 // Inclusion des classes
+//include_once(CHEMIN_CLASSES_UTILS."/Log.php");
+
+// Définition du level de log
+define("LOG_LEVEL",PEAR_LOG_DEBUG);
 
 include_once(CHEMIN_CLASSES_MANAGERS . "AdherentManager.php");
 include_once(CHEMIN_CLASSES_MANAGERS . "CompteManager.php");
@@ -226,7 +228,7 @@ if( isset($_FILES["compte"]) ) {
 				$lSujet = "Votre Compte zeybux";
 	
 				$lContenu = file_get_contents(CHEMIN_TEMPLATE . MOD_GESTION_ADHERENTS . "/" . "MailAjoutAdherent.html");
-				$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}", "{PROP_NOM}", "{ZEYBUX_ADRESSE_SITE}"), array($pAdherent->getNumero(), $lMdp, PROP_NOM, ZEYBUX_ADRESSE_SITE), $lContenu);
+				$lContenu = str_replace(array("{LOGIN}", "{MOT_PASSE}"), array($lAdherent->getNumero(), $lMdp), $lContenu);
 				
 				$lHeaders = file_get_contents(CHEMIN_TEMPLATE . COMMUN_TEMPLATE . "/" . "EnteteMail.html");
 				$lHeaders = str_replace("{FROM}", $lFrom, $lHeaders);

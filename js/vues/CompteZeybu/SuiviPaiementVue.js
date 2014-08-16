@@ -4,8 +4,6 @@
 	this.mBanques = [];
 	this.mBanquesTriId = [];
 	this.mTypePaiement = [];
-	this.mTableInvite = {};
-	this.mTableAdherent = {};
 	
 	
 	this.construct = function(pParam) {
@@ -41,13 +39,8 @@
 	this.afficher = function(lResponse) {
 		var that = this;
 		var lTotalEspeceAdherent = 0;
-		
-		var lTestNbLigne = false;
 		$.each(lResponse.listeEspeceAdherent,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}				
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
@@ -58,40 +51,27 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeEspeceAdherent = [];
-		}
-		
-		var lTestNbLigne = false;
+		var lEspeceInvite = false;
 		$.each(lResponse.listeEspeceInvite,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');		
 				that.mListeOperation[this.opeId] = this;
+				lEspeceInvite = true;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeEspeceInvite = [];
-		}
 		
 		var lTotalChequeAdherent = 0;
-
-		var lTestNbLigne = false;
 		$.each(lResponse.listeChequeAdherent,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}
 				lTotalChequeAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
 				this.cptIdTri = this.cptLabel.replace("C","");
 				this.numeroCheque ='';
@@ -101,38 +81,26 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeChequeAdherent = [];
-		}
-
-		var lTestNbLigne = false;
+		var lChequeInvite = false;
 		$.each(lResponse.listeChequeInvite,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}
 				lTotalChequeAdherent += parseFloat(this.opeMontant);
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
 				}		
 				that.mListeOperation[this.opeId] = this;
+				lChequeInvite = true;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeChequeInvite = [];
-		}
 		
 		var lTotalEspeceFerme = 0;
-		var lTestNbLigne = false;
 		$.each(lResponse.listeEspeceFerme,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}
 				lTotalEspeceFerme += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
@@ -143,17 +111,9 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeEspeceFerme = [];
-		}
 		var lTotalChequeFerme = 0;
-		
-		var lTestNbLigne = false;
 		$.each(lResponse.listeChequeFerme,function() {
 			if(this.opeId) {
-				if(this.opeId!= null) {
-					lTestNbLigne = true;
-				}
 				lTotalChequeFerme += parseFloat(this.opeMontant);	
 				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
@@ -168,9 +128,6 @@
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
-		if(!lTestNbLigne) {
-			lResponse.listeChequeFerme = [];
-		}
 
 		lResponse.sigleMonetaire = gSigleMonetaire;
 		lResponse.totalEspeceAdherent = lTotalEspeceAdherent.nombreFormate(2,',',' ');
@@ -179,386 +136,42 @@
 		lResponse.totalChequeFerme = lTotalChequeFerme.nombreFormate(2,',',' ');
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
-		lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
+		if(lChequeInvite) {
+			lResponse.chequeInvite = lCompteZeybuTemplate.listeChequeInvite.template(lResponse);
+		}
+		if(lEspeceInvite) {
+			lResponse.especeInvite = lCompteZeybuTemplate.listeEspeceInvite.template(lResponse);
+		}
 		
-		var lHtml = $(lCompteZeybuTemplate.listePaiement.template(lResponse));
+		var lTemplate = lCompteZeybuTemplate.listePaiement;	
+		var lHtml = $(lTemplate.template(lResponse));
 				
+		if(lResponse.listeChequeAdherent.length <= 0 || (lResponse.listeChequeAdherent[0] && lResponse.listeChequeAdherent[0].adhId == null)) {
+			lHtml.find("#cheque-adherent").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"cheque-adherent"}));
+		}
+		if(lResponse.listeEspeceAdherent.length <= 0 || (lResponse.listeEspeceAdherent[0] && lResponse.listeEspeceAdherent[0].adhId == null)) {
+			lHtml.find("#espece-adherent").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"espece-adherent"}));
+		}
+		if(lResponse.listeChequeFerme.length <= 0 || (lResponse.listeChequeFerme[0] && lResponse.listeChequeFerme[0].ferId == null)) {
+			lHtml.find("#cheque-ferme").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"cheque-ferme"}));
+		}
+		if(lResponse.listeEspeceFerme.length <= 0 || (lResponse.listeEspeceFerme[0] && lResponse.listeEspeceFerme[0].ferId == null)) {
+			lHtml.find("#espece-ferme").replaceWith(lCompteZeybuTemplate.listePaiementVide.template({id:"espece-ferme"}));
+		}
+		
 		$('#contenu').replaceWith(that.affect(lHtml));
 		
 	};
 	
 	this.affect = function(pData) {
+		pData = this.affectTri(pData);
+		pData = this.affectRecherche(pData);
 		pData = this.affectTabs(pData);
 		pData = this.affectValiderPaiement(pData);
 		pData = this.affectModifierPaiement(pData);
 		pData = this.affectSupprimerPaiement(pData);
 		pData = gCommunVue.comHoverBtn(pData);
-		pData = this.affectDataTable(pData);
-		pData = this.affectRemiseCheque(pData);
 		return pData;
-	};
-	
-	this.affectRemiseCheque = function(pData) {
-		var that = this;
-		
-		// Création Remise de chèque
-		pData.find("#btn-nv-remise-cheque").click(function() {
-			// Affiche les boutons
-			$(".div-btn-remise-cheque").toggle();
-			// Affiche le form et RAZ
-			$(".checkbox-remise-cheque",that.mTableInvite.fnGetNodes()).show().prop( "checked",false );
-			$(".checkbox-remise-cheque",that.mTableAdherent.fnGetNodes()).show().prop( "checked",false );
-		});
-				
-		// Annuler la création
-		pData.find("#btn-annul-remise-cheque").click(function() {
-			// Masque les boutons
-			$(".div-btn-remise-cheque").toggle();
-			// Remise à 0 du total
-			$("#total-remise-cheque").text(0);
-			// Masque le form et RAZ
-			$(".checkbox-remise-cheque",that.mTableInvite.fnGetNodes()).hide().prop( "checked",false );
-			$(".checkbox-remise-cheque",that.mTableAdherent.fnGetNodes()).hide().prop( "checked",false );
-		});
-		
-		// MAj Total
-		$(".checkbox-remise-cheque",this.mTableInvite.fnGetNodes()).click(function() {that.majTotalRemise();});
-		$(".checkbox-remise-cheque",this.mTableAdherent.fnGetNodes()).click(function() {that.majTotalRemise();});
-		
-		// Bouton de création de remise de cheque
-		pData.find("#btn-ajout-remise-cheque").click(function() {
-			that.dialogCreerRemise();
-		});
-		
-		// Bouton de création de remise de cheque, Ajout Operation
-		pData.find("#btn-ajout-operation-remise-cheque").click(function() {
-			that.dialogAjoutOperation();
-		});
-			
-		return pData;
-	};
-	
-	
-	this.dialogAjoutOperation = function() {
-		var that = this;
-		
-		// Récupération de la liste des remises actives
-		$.post(	"./index.php?m=CompteZeybu&v=RemiseCheque", "pParam=" + $.toJSON({fonction:"listeActive"}),
-			function(lResponse) {
-				Infobulle.init(); // Supprime les erreurs
-				if(lResponse) {
-					if(lResponse.valid) {
-						if(lResponse.liste[0].id == null) { // Pas de remise en cours
-							// Message d'information
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_368_CODE;
-							erreur.message = ERR_368_MSG;
-							lVr.log.erreurs.push(erreur);	
-							Infobulle.generer(lVr,'');		
-						} else {
-							lResponse.sigleMonetaire = gSigleMonetaire;
-							lResponse.montant = $("#total-remise-cheque").text();
-							$(lResponse.liste).each(function() {
-								this.date = this.dateCreation.extractDbDate().dateDbToFr();
-							});
-													
-							var lCompteZeybuTemplate = new CompteZeybuTemplate();
-							$(lCompteZeybuTemplate.dialogAjoutOperationRemiseCheque.template(lResponse)).dialog({
-								autoOpen: true,
-								modal: true,
-								draggable: false,
-								resizable: false,
-								width:800,
-								buttons: {
-									'Valider': function() {
-										that.ajoutOperation($("#select-remise-cheque").val());
-									},
-									'Annuler': function() {
-										Infobulle.init(); // Supprime les erreurs
-										$(this).dialog('close');
-									}
-								},
-								close: function(ev, ui) { $(this).remove(); }
-							});
-						}
-					} else {
-						Infobulle.generer(lResponse,'');
-					}
-				}
-			},"json"
-		);
-	};
-	
-	this.ajoutOperation = function(pIdRemiseCheque) {
-		var that = this;
-		var lVo = new RemiseChequeDetailVO();
-
-		lVo.id = pIdRemiseCheque;
-		
-		// Récupération des opérations dans les deux tableaux
-		$(".checkbox-remise-cheque:checked",this.mTableInvite.fnGetNodes()).each(function() {
-			var lOperation = new OperationDetailVO();
-			lOperation.id = $(this).val();
-			lVo.operations.push(lOperation);
-		});
-		$(".checkbox-remise-cheque:checked",this.mTableAdherent.fnGetNodes()).each(function() {
-			var lOperation = new OperationDetailVO();
-			lOperation.id = $(this).val();
-			lVo.operations.push(lOperation);
-		});
-		
-		// Contrôle des données
-		var lValid = new RemiseChequeValid();
-		var lVr = lValid.validAjoutOperation(lVo);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			// Enregistrement de la remise de cheque
-			lVo.fonction = 'ajoutOperation';
-			$.post(	"./index.php?m=CompteZeybu&v=RemiseCheque", "pParam=" + $.toJSON(lVo),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							// Message d'information
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_301_CODE;
-							erreur.message = ERR_301_MSG;
-							lVr.log.erreurs.push(erreur);						
-							$("#dialog-creer-remise-cheque").dialog("close");	
-							that.construct({vr:lVr,selectedTabs:that.mSelectedTabs});									
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-			);
-		} else {
-			Infobulle.generer(lVr,'');
-		}
-	};
-	
-	this.dialogCreerRemise = function() {
-		var that = this;
-		var lData = {sigleMonetaire:gSigleMonetaire, montant:$("#total-remise-cheque").text()};
-		
-		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		$(lCompteZeybuTemplate.dialogCreerRemiseCheque.template(lData)).dialog({
-			autoOpen: true,
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width:600,
-			buttons: {
-				'Valider': function() {
-					that.creerRemise();
-				},
-				'Annuler': function() {
-					Infobulle.init(); // Supprime les erreurs
-					$(this).dialog('close');
-				}
-			},
-			close: function(ev, ui) { $(this).remove(); }
-		});
-	};
-	
-	this.creerRemise = function() {
-		var that = this;
-		var lVo = new RemiseChequeDetailVO();
-
-		// Récupération des opérations dans les deux tableaux
-		$(".checkbox-remise-cheque:checked",this.mTableInvite.fnGetNodes()).each(function() {
-			var lOperation = new OperationDetailVO();
-			lOperation.id = $(this).val();
-			lVo.operations.push(lOperation);
-		});
-		$(".checkbox-remise-cheque:checked",this.mTableAdherent.fnGetNodes()).each(function() {
-			var lOperation = new OperationDetailVO();
-			lOperation.id = $(this).val();
-			lVo.operations.push(lOperation);
-		});
-		
-		// Contrôle des données
-		var lValid = new RemiseChequeValid();
-		var lVr = lValid.validAjout(lVo);
-		
-		Infobulle.init(); // Supprime les erreurs
-		if(lVr.valid) {
-			// Enregistrement de la remise de cheque
-			lVo.fonction = 'ajout';
-			$.post(	"./index.php?m=CompteZeybu&v=RemiseCheque", "pParam=" + $.toJSON(lVo),
-				function(lResponse) {
-					Infobulle.init(); // Supprime les erreurs
-					if(lResponse) {
-						if(lResponse.valid) {
-							// Message d'information
-							var lVr = new TemplateVR();
-							lVr.valid = false;
-							lVr.log.valid = false;
-							var erreur = new VRerreur();
-							erreur.code = ERR_301_CODE;
-							erreur.message = ERR_301_MSG;
-							lVr.log.erreurs.push(erreur);						
-							$("#dialog-creer-remise-cheque").dialog("close");	
-							that.construct({vr:lVr,selectedTabs:that.mSelectedTabs});									
-						} else {
-							Infobulle.generer(lResponse,'');
-						}
-					}
-				},"json"
-			);
-		} else {
-			Infobulle.generer(lVr,'');
-		}
-	};
-	
-	this.majTotalRemise = function() {
-		var lTotal = 0;
-		// Ajoute le montant des checkbox sélectionnées au total 
-		$(".checkbox-remise-cheque:checked",this.mTableInvite.fnGetNodes()).each(function() {
-			lTotal = ( parseFloat(lTotal) + parseFloat($(this).data('montant')) ).toFixed(2);
-		});
-		$(".checkbox-remise-cheque:checked",this.mTableAdherent.fnGetNodes()).each(function() {
-			lTotal = ( parseFloat(lTotal) + parseFloat($(this).data('montant')) ).toFixed(2);
-		});
-		// Maj du total
-		$("#total-remise-cheque").text(lTotal.nombreFormate(2,',',' '));
-	};
-	
-	this.affectDataTable = function(pData) {
-		var lCompteZeybuTemplate = new CompteZeybuTemplate();
-		
-		this.mTableInvite = pData.find('#table-cheque-invite').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[2,'asc']],
-	        "aoColumnDefs": [
-   	              { "bVisible" : false,
-  	            	"bSortable": false, 
-  	                "bSearchable":false,
-  	                "aTargets": [ 0,7 ] 
-  	              },
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 5,6 ] 
-                  },
-                  { "mRender": function ( data, type, full ) {
-       	        	if(data == 'null') {
-           	        	return lCompteZeybuTemplate.checkboxRemiseCheque.template({id:full[0],montant:full[7]});
-	       				} else {
-	       					return data;
-	       				}
-       	      		},
-       	      		"aTargets": [ 1 ]
-                  }]
-	    });
-		
-		this.mTableAdherent = pData.find('#table-cheque-adherent').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[2,'asc']],
-	        "aoColumnDefs": [
-	              { "bVisible" : false,
-	            	"bSortable": false, 
-	                "bSearchable":false,
-	                "aTargets": [ 0,11 ] 
-	              },
-                  { "mRender": function ( data, type, full ) {
-         	        	if(data == 'null') {
-             	        	return lCompteZeybuTemplate.checkboxRemiseCheque.template({id:full[0],montant:full[11]});
-	       				} else {
-	       					return data;
-	       				}
-         	      	},
-         	      	"aTargets": [ 1 ]
-                  },
-	              { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 9,10 ] 
-                  },
-                  {	 "sType": "numeric",
-                	 "mRender": function ( data, type, full ) {
-                		  	if (type === 'sort') {
-                	          return data.replace("Z","");
-                	        }
-                	        return data;
-                	      },
-                	"aTargets": [ 3 ]
-                  },
-                  {	 "sType": "numeric",
-                    	 "mRender": function ( data, type, full ) {
-                    		  	if (type === 'sort') {
-                    	          return data.replace("C","");
-                    	        }
-                    	        return data;
-                    	      },
-                    "aTargets": [ 4 ]
-                  }]
-	    });
-		
-		pData.find('#table-espece-invite').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[0,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 2,3,4 ] 
-                  }]
-	    });
-		
-		pData.find('#table-espece-adherent').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[0,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 6,7,8 ] 
-                  }]
-	    });
-		
-		pData.find('#table-cheque-ferme').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[0,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 6,7 ] 
-                  }]
-	    });
-		
-		pData.find('#table-espece-ferme').dataTable({
-	        "bJQueryUI": true,
-	        "sPaginationType": "full_numbers",
-	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
-	        "aaSorting": [[0,'asc']],
-	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 5,6 ] 
-                  }]
-	    });
-		return pData;		
 	};
 	
 	this.affectTabs = function(pData) {
@@ -566,6 +179,35 @@
 		pData.find( "#listePaiement" ).tabs({active:that.mSelectedTabs});
 		pData.find("#li-cheque-adherent,#li-espece-adherent,#li-cheque-ferme,#li-espece-ferme").click(
 				function() {that.mSelectedTabs = $("#listePaiement").tabs("option","active");});
+		return pData;
+	};
+
+	this.affectTri = function(pData) {
+		pData.find('.table-cheque-adherent').tablesorter({sortList: [[0,0]],headers: { 7: {sorter: false} }});
+		pData.find('.table-espece-adherent').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
+		pData.find('.table-cheque-ferme').tablesorter({sortList: [[0,0]],headers: { 7: {sorter: false} }});
+		pData.find('.table-espece-ferme').tablesorter({sortList: [[0,0]],headers: { 6: {sorter: false} }});
+		pData.find('.table-cheque-invite').tablesorter({sortList: [[0,0]],headers: { 3: {sorter: false} }});
+		pData.find('.table-espece-invite').tablesorter({sortList: [[0,0]],headers: { 2: {sorter: false} }});
+		return pData;
+	};
+	
+	this.affectRecherche = function(pData) {
+		pData.find("#filter-cheque-adherent").keyup(function() {
+			$.uiTableFilter( $('.table-cheque-adherent'), this.value );
+		});
+		pData.find("#filter-espece-adherent").keyup(function() {
+			$.uiTableFilter( $('.table-espece-adherent'), this.value );
+		});
+		pData.find("#filter-cheque-ferme").keyup(function() {
+			$.uiTableFilter( $('.table-cheque-ferme'), this.value );
+		});
+		pData.find("#filter-espece-ferme").keyup(function() {
+			$.uiTableFilter( $('.table-espece-ferme'), this.value );
+		});
+		
+		pData.find("#filter-form-cheque-adherent, #filter-form-espece-adherent, #filter-form-cheque-ferme, #filter-form-espece-ferme").submit(function () {return false;});
+		
 		return pData;
 	};
 	

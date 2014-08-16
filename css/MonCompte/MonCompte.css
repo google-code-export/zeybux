@@ -37,17 +37,3 @@
 .input-edt-compte {
 	width:190px;
 }
-
-#btn-edt-pass, #btn-edt-compte {
-	width:100%;
-}
-
-#btn-edt-compte {
-	margin-top:5px;
-	margin-bottom:5px;
-}
-
-#btn-edt-valider, #btn-edt-annuler {
-	width: 50%;
-	margin-bottom:5px;
-}

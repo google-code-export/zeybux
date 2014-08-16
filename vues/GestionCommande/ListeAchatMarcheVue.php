@@ -34,7 +34,7 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 			header('location:./index.php');
 		}
 	
-	/*} else if(isset($_POST['fonction'])) {
+	} else if(isset($_POST['fonction'])) {
 		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/ListeAchatMarcheControleur.php");						
 		$lControleur = new ListeAchatMarcheControleur();
 		
@@ -47,28 +47,6 @@ if( isset($_SESSION[DROIT_ID]) && ( isset($_SESSION[MOD_GESTION_COMMANDE]) || is
 						$lLogger->log("Export de la liste des achats et reservations par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 					} else {
 						$lLogger->log("Demande d'accés à EditerCommande pour export des réservations sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-						header('location:./index.php');
-					}
-				break;
-
-			default:
-				$lLogger->log("Demande d'accés à ListeAchatMarche sans identifiant commande par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
-				header('location:./index.php');
-				break;
-		}	*/	
-	} else if(isset($_POST['fonction'])) {
-		include_once(CHEMIN_CLASSES_CONTROLEURS . MOD_GESTION_COMMANDE . "/ListeAchatMarcheControleur.php");						
-		$lControleur = new ListeAchatMarcheControleur();
-		
-		switch($_POST['fonction']) {					
-			case "exportAchatEtReservation":
-					if(isset($_POST['id_produits'])) {
-						$lParam = array();
-						$lParam['id_produits'] = explode(',',urldecode($_POST['id_produits']));
-						echo $lControleur->getListeAchatEtReservationCSV($lParam);
-						
-					} else {
-						$lLogger->log("Demande d'accés à ListeAchatMarche pour export des achats et réservations sans identifiant par : " . $_SESSION[ID_CONNEXION],PEAR_LOG_INFO);	// Maj des logs
 						header('location:./index.php');
 					}
 				break;
