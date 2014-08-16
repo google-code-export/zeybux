@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+#formulaire_modifier_adherent_int {
+/*	width:700px;
+	margin-left:150px;*/
+}
+
+#formulaire_modifier_adherent_int table {
+/*	margin-left:50px; */
+}
+
+#formulaire_modifier_adherent_int table th {
+	font-size: 12pt;
+    padding-right: 5px;
+    text-align: right;
+    width: 150px;
+}
+
+/*#formulaire-modifier-adherent-table-autorisation {
+	width:450px;
+	padding-left:150px;
+}*/
+
+#div-info-adherent {
+	float:left;
+	width:469px;
+	height: 285px;
+}
+
+#div-coord-adherent {
+	float:left;
+	width:469px;
+	height: 285px;
+	margin-left:10px;
+}
+
+#div-submit-ajout-adherent {
+	clear:left;
+}
