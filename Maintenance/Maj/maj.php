@@ -109,9 +109,7 @@ if(isset($_SESSION['cx']) && $_SESSION['cx'] == 1) {
 						}
 						
 						if(preg_match('/CREATE ALGORITHM=UNDEFINED/',$creationTable[1])) {
-							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`julien`@`localhost` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
-							$creationTable[1] = str_replace('CREATE ALGORITHM=UNDEFINED DEFINER=`lesamisdpdev1`@`%` SQL SECURITY DEFINER VIEW `', "CREATE VIEW `", $creationTable[1]);
+							$creationTable[1] = preg_replace('/CREATE ALGORITHM=UNDEFINED DEFINER=`(.*)`@`(.*)` SQL SECURITY DEFINER VIEW/', "CREATE VIEW", $creationTable[1]);
 						}
 						$creations .= $creationTable[1].";\n\n";
 					}
