@@ -37,10 +37,9 @@ CREATE TABLE IF NOT EXISTS `rec_remise_cheque` (
 UPDATE `mod_module` SET `mod_label` = 'Compte Marché' WHERE `mod_module`.`mod_id` =6;
 UPDATE `vue_vues` SET `vue_label` = 'Compte Marché' WHERE `vue_vues`.`vue_id` =6;
 
-INSERT INTO {PREFIXE}.vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '13', 'ParametreZeybux', 'Les paramètres du zeybux', '2', '1');
-
-INSERT INTO {PREFIXE}.vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '6', 'RemiseCheque', 'Les remises de chèques', '5', '1');
-INSERT INTO {PREFIXE}.vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '15', 'RemiseCheque', 'Les remises de chèques', '3', '1');
+INSERT INTO {PREFIXE}vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '13', 'ParametreZeybux', 'Les paramètres du zeybux', '2', '1');
+INSERT INTO {PREFIXE}vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '6', 'RemiseCheque', 'Les remises de chèques', '5', '1');
+INSERT INTO {PREFIXE}vue_vues (`vue_id`, `vue_id_module`, `vue_nom`, `vue_label`, `vue_ordre`, `vue_visible`) VALUES (NULL, '15', 'RemiseCheque', 'Les remises de chèques', '3', '1');
 
 CREATE TABLE IF NOT EXISTS {PREFIXE}.inb_information_bancaire (
   `inb_id` int(11) NOT NULL AUTO_INCREMENT,
