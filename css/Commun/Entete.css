@@ -11,6 +11,11 @@
 	font-size: 1em;
 }
 
+/* Suppression de Lucida Sans */
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: Lucida Grande,Arial,sans-serif;
+}
+
 /* Progressbar */
 .ui-progressbar { height:10px; text-align: left; }
 
