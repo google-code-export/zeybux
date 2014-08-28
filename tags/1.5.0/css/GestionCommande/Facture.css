@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+.entete-numero-facture {
+	display:inline-block;
+	width:250px;
+}
+
+#select-ferme {
+	width:370px;
+}
+
+#facture-catalogue-produit {
+	float:left;
+	width:250px;
+}
+
+#facture-detail {
+	float: left;
+	margin-left: 3px;
+	width: 711px;
+}
+
+.facture-detail-ref {
+	width:75px;
+}
+
+.facture-detail-nom {
+	width:260px;
+}
+
+.facture-detail-quantite {
+	width:138px;
+}
+
+.facture-detail-montant {
+	width:80px;
+}
+
+.facture-detail-unite {
+	width:72px;
+}
+
+#btn-enregistrer-modifier-facture, #btn-supprimer-facture {
+	margin-left:100px;
+}
+
+#form-recherche-liste-facture #dateDebut, #form-recherche-liste-facture #dateFin {
+	width:80px;
+}
+#form-recherche-liste-facture #dateFin {
+	margin-right:20px;
+}
+#form-recherche-liste-facture #idMarche {
+	width:130px;
+	margin-right:25px;
+}
