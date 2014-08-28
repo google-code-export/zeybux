@@ -401,7 +401,6 @@
 						"<button class=\"btn-menu-med ui-state-default ui-corner-all com-button\" id=\"btn-export\" data-id=\"{id}\">" +
 							"<span class=\"com-float-left ui-icon ui-icon-print\"></span>Imprimer" +
 						"</button>" +
-					"</span>" +
 					"</div>" +
 				"</div><br/>" +
 				"<div>" +		
