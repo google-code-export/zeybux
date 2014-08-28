@@ -1378,7 +1378,7 @@ class OperationManager
 							$lLigne[OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT],
 							$lLigne[OperationManager::CHAMP_OPERATION_DATE],
 							$lLigne[OperationManager::CHAMP_OPERATION_LIBELLE],
-							$lLigne[OperationManager::CHAMP_OPERATION_ID]);
+							$lLigne[OperationManager::CHAMP_OPERATION_ID], NULL, NULL);
 				}
 	
 				if(!is_null($lLigne[OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID])) {
