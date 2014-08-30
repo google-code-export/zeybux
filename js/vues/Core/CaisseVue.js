@@ -83,6 +83,8 @@
 									});
 								}
 								
+								
+								
 								lResponse.adherent.champComplementaire = lTypePaiementService.getFormChampcomplementaire(lChampComplementaire, that.mBanques, undefined, 'rechargement');
 							}
 
@@ -305,7 +307,7 @@
 		pData = this.affectSelectTypePaiement(pData);
 		//pData = this.affectListeBanque(pData);
 		var lTypePaiementService = new TypePaiementService();
-		pData = lTypePaiementService.affect(pData, this.mBanques);
+		pData = lTypePaiementService.affect(pData, this.mBanques, 'rechargement');
 		
 		pData = this.affectValider(pData);
 		pData = this.affectModifier(pData);
@@ -617,7 +619,9 @@
 		var that = this;
 		var lCelluleRecharger = pData.find("#cellule-recharger");
 		
-		pData.find('#rechargementmontant, #rechargementtypePaiement').focus(function() {
+		//pData.find('#rechargementmontant, #rechargementtypePaiement').focus(function() {
+		pData.find('#form-select-typePaiement :input').focus(function() {
+			
 			that.mFocusRechargement++;
 			if(that.afficheChCpAutorise) {
 				$('#select-typePaiement').show();
