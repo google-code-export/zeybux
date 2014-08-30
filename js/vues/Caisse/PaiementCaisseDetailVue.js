@@ -154,6 +154,7 @@
          	        	}
          	        	return data;
 	             	},
+	                "sClass":"com-text-align-right",
                 	"aTargets": [ 5 ] 
                   }]
 	    });
@@ -214,6 +215,7 @@
          	        	}
          	        	return data;
 	             	},
+	                "sClass":"com-text-align-right",
                 	"aTargets": [ 5 ] 
                   }]
 	    });
