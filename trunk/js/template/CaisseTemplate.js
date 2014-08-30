@@ -244,7 +244,7 @@
 			"<tr class=\"champ-complementaire\">" +
 				"<td>{champComplementaire.label}</td>" +
 				"<td>" +
-					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"15\"/>" +
+					"<input type=\"text\" value=\"\" class=\"com-input-text ui-widget-content ui-corner-all\" id=\"rechargementchampComplementaire{champComplementaire.id}valeur\" data-id-champ-complementaire=\"{champComplementaire.id}\" maxlength=\"50\" size=\"12\"/>" +
 				"</td>" +
 			"</tr>" +
 		"<!-- END champComplementaire -->";
