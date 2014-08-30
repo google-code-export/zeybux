@@ -374,7 +374,7 @@
 								"<td>{listeChequeAdherent.cptLabel}</td>" +
 								"<td>{listeChequeAdherent.adhNom}</td>" +
 								"<td>{listeChequeAdherent.adhPrenom}</td>" +
-								"<td>{listeChequeAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td>{listeChequeAdherent.opeMontant}</td>" +
 								"<td>{listeChequeAdherent.numeroCheque}</td>" +							
 								"<td>" +
 									"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeAdherent.opeId}\" title=\"Modifier\">" +
@@ -418,7 +418,7 @@
 								"<td>{listeEspeceAdherent.cptLabel}</td>" +
 								"<td>{listeEspeceAdherent.adhNom}</td>" +
 								"<td>{listeEspeceAdherent.adhPrenom}</td>" +
-								"<td>{listeEspeceAdherent.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td>{listeEspeceAdherent.opeMontant}</td>" +
 								"<td class=\"com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceAdherent.opeId}\">Ok</button>" +
 								"</td>" +
@@ -442,7 +442,7 @@
 					"<br/><table id=\"table-cheque-ferme\">" +
 						"<thead>" +
 							"<tr>" +
-								"<th></span>Date</th>" +
+								"<th>Date</th>" +
 								"<th>N°</th>" +
 								"<th>Compte</th>" +
 								"<th>Nom</th>" +
@@ -459,7 +459,7 @@
 								"<td>{listeChequeFerme.ferNumero}</td>" +
 								"<td>{listeChequeFerme.cptLabel}</td>" +
 								"<td>{listeChequeFerme.ferNom}</td>" +
-								"<td>{listeChequeFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td>{listeChequeFerme.opeMontant}</td>" +
 								"<td>{listeChequeFerme.numeroCheque}</td>" +
 								"<td class=\"com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeChequeFerme.opeId}\">Ok</button>" +
@@ -495,7 +495,7 @@
 								"<td>{listeEspeceFerme.ferNumero}</td>" +
 								"<td>{listeEspeceFerme.cptLabel}</td>" +
 								"<td>{listeEspeceFerme.ferNom}</td>" +
-								"<td>{listeEspeceFerme.opeMontantAffichage} {sigleMonetaire}</td>" +
+								"<td>{listeEspeceFerme.opeMontant}</td>" +
 								"<td class=\"com-center\">" +
 									"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceFerme.opeId}\">Ok</button>" +
 								"</td>" +
@@ -537,7 +537,7 @@
 					"<td>{listeChequeInvite.opeId}</td>" +
 					"<td>{listeChequeInvite.idRemiseCheque}</td>" +
 					"<td>{listeChequeInvite.opeDate}</td>" +
-					"<td>{listeChequeInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td>{listeChequeInvite.opeMontant}</td>" +
 					"<td>{listeChequeInvite.numeroCheque}</td>" +				
 					"<td>" +
 						"<span class=\"com-cursor-pointer com-btn-header ui-widget-content ui-corner-all btn-modifier\" type=\"2\" id-operation=\"{listeChequeInvite.opeId}\" title=\"Modifier\">" +
@@ -571,7 +571,7 @@
 				"<!-- BEGIN listeEspeceInvite -->" +
 				"<tr>" +
 					"<td>{listeEspeceInvite.opeDate}</td>" +
-					"<td>{listeEspeceInvite.opeMontantAffichage} {sigleMonetaire}</td>" +
+					"<td>{listeEspeceInvite.opeMontant}</td>" +
 					"<td class=\"com-center\">" +
 						"<button class=\"btn-valid ui-state-default ui-corner-all com-button com-center\" id-operation=\"{listeEspeceInvite.opeId}\">Ok</button>" +
 					"</td>" +
