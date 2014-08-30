@@ -662,9 +662,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			            $insertions .= "\n";
 			         break;
 		        }
-		        
 		    }
-		    	 
 		    mysql_close($connexion);
 		 
 		    // Gestion des préfixes de table

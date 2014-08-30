@@ -83,6 +83,7 @@
          	        	}
          	        	return data;
 	             	},
+	                "sClass":"com-text-align-right",
                 	"aTargets": [ 2 ] 
                   }]
 	    });	

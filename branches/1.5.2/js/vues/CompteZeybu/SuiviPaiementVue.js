@@ -49,12 +49,13 @@
 					lTestNbLigne = true;
 				}				
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				/*this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
 				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.adhIdTri = this.adhNumero.replace("Z","");
-				this.cptIdTri = this.cptLabel.replace("C","");
+				this.cptIdTri = this.cptLabel.replace("C","");*/
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
@@ -69,10 +70,11 @@
 					lTestNbLigne = true;
 				}
 				lTotalEspeceAdherent += parseFloat(this.opeMontant);	
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
-				this.opeMontant = this.opeMontant.nombreFormate(2,',','');		
+				//this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				//this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
+				//this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				//this.opeMontant = this.opeMontant.nombreFormate(2,',','');		
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
@@ -89,11 +91,11 @@
 					lTestNbLigne = true;
 				}
 				lTotalChequeAdherent += parseFloat(this.opeMontant);
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				/*this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.adhIdTri = this.adhNumero.replace("Z","");
-				this.cptIdTri = this.cptLabel.replace("C","");
+				this.cptIdTri = this.cptLabel.replace("C","");*/
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
@@ -112,9 +114,9 @@
 					lTestNbLigne = true;
 				}
 				lTotalChequeAdherent += parseFloat(this.opeMontant);
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				/*this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();*/
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
@@ -134,12 +136,12 @@
 					lTestNbLigne = true;
 				}
 				lTotalEspeceFerme += parseFloat(this.opeMontant);	
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				/*this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
-				this.cptIdTri = this.cptLabel.replace("C","");	
+				this.cptIdTri = this.cptLabel.replace("C","");	*/
 				that.mListeOperation[this.opeId] = this;
 			}
 		});
@@ -155,12 +157,12 @@
 					lTestNbLigne = true;
 				}
 				lTotalChequeFerme += parseFloat(this.opeMontant);	
-				this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
-				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontantAffichage = this.opeMontant.nombreFormate(2,',',' ');
+				/*this.opeDateTri = this.opeDate.extractDbDate().replace("-","");
+				this.opeDate = this.opeDate.extractDbDate().dateDbToFr();
 				this.opeMontant = this.opeMontant.nombreFormate(2,',','');
 				this.ferIdTri = this.ferNumero.replace("F","");
-				this.cptIdTri = this.cptLabel.replace("C","");
+				this.cptIdTri = this.cptLabel.replace("C","");*/
 				this.numeroCheque ='';
 				if(this.opeTypePaiementChampComplementaire[3]) {
 					this.numeroCheque = this.opeTypePaiementChampComplementaire[3].valeur; 
@@ -459,7 +461,26 @@
 	       				}
        	      		},
        	      		"aTargets": [ 1 ]
-                  }]
+                  },
+                  {"sType": "date",
+                      "mRender": function ( data, type, full ) {
+                    	  return data.extractDbDate().dateDbToFr();
+                      	},
+                      "aTargets": [ 2 ]
+                  },
+                  {"sType": "numeric",
+  	                "mRender": function ( data, type, full ) {
+           	        	if(type !== 'sort' && data.length > 0) {
+           	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+           	        	}
+           	        	return data;
+  	             	},
+	                "sClass":"com-text-align-right",
+                  	"aTargets": [ 3 ] 
+                    },
+                    {"sType": "numeric",
+                     "aTargets": [ 4 ] 
+                     }]
 	    });
 		
 		this.mTableAdherent = pData.find('#table-cheque-adherent').dataTable({
@@ -483,9 +504,11 @@
          	      	},
          	      	"aTargets": [ 1 ]
                   },
-	              { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 9,10 ] 
+                  {"sType": "date",
+                      "mRender": function ( data, type, full ) {
+                    	  return data.extractDbDate().dateDbToFr();
+                      	},
+                      "aTargets": [ 2 ]
                   },
                   {	 "sType": "numeric",
                 	 "mRender": function ( data, type, full ) {
@@ -504,6 +527,33 @@
                     	        return data;
                     	      },
                     "aTargets": [ 4 ]
+                  },
+		          {	 "sType": "string",
+	                  	 "mRender": function ( data, type, full ) {
+	                  		if(data != 'null') {
+		             	        return data;
+	                  		} else {
+	                  			return '';
+	                  		}
+	             	      },
+	             	      "aTargets": [ 5, 6 ]
+		          },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+	                "sClass":"com-text-align-right",
+                	"aTargets": [ 7 ] 
+                  },
+                  {"sType": "numeric",
+	               "aTargets": [ 8 ] 
+	              },
+	              { "bSortable": false, 
+                	"bSearchable":false,
+                	"aTargets": [ 9,10 ] 
                   }]
 	    });
 		
@@ -517,6 +567,22 @@
                   { "bSortable": false, 
                 	"bSearchable":false,
                 	"aTargets": [ 2,3,4 ] 
+                  },
+                  {   "sType": "date",
+                	  "mRender": function ( data, type, full ) {
+                    	  return data.extractDbDate().dateDbToFr();
+                      },
+                	  "aTargets": [ 0 ] 
+                  },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+	                "sClass":"com-text-align-right",
+                	"aTargets": [ 1 ] 
                   }]
 	    });
 		
@@ -527,10 +593,61 @@
 	        "iDisplayLength": 10,
 	        "aaSorting": [[0,'asc']],
 	        "aoColumnDefs": [
-                  { "bSortable": false, 
-                	"bSearchable":false,
-                	"aTargets": [ 6,7,8 ] 
-                  }]
+                   {"sType": "date",
+                  "mRender": function ( data, type, full ) {
+                	  return data.extractDbDate().dateDbToFr();
+                  	},
+                  "aTargets": [ 0 ]
+                 },
+                 {"sType": "numeric",
+   	              "mRender": function ( data, type, full ) {
+   	            	  if(data != 'null') {
+   	            		  if (type === 'sort') {
+   	            			  return data.replace("Z","");
+   	            		  }
+   	            		  return data;
+   	            	  } else {
+   	            		  return '';
+   	            	  }
+   	               },
+   	               "aTargets": [ 1 ]
+   		         },
+                 {"sType": "numeric",
+	              "mRender": function ( data, type, full ) {
+	            	  if(data != 'null') {
+	            		  if (type === 'sort') {
+	            			  return data.replace("C","");
+	            		  }
+	            		  return data;
+	            	  } else {
+	            		  return '';
+	            	  }
+	               },
+	               "aTargets": [ 2 ]
+		          },
+		          {	 "sType": "string",
+	                  	 "mRender": function ( data, type, full ) {
+	                  		if(data != 'null') {
+		             	        return data;
+	                  		} else {
+	                  			return '';
+	                  		}
+	             	      },
+	             	      "aTargets": [ 3, 4 ]
+		          },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+	                "sClass":"com-text-align-right",
+                	"aTargets": [ 5 ] 
+                  },
+                  { "bSortable": false,
+                  	"aTargets": [ 6,7,8 ] 
+                    }]
 	    });
 		
 		pData.find('#table-cheque-ferme').dataTable({
@@ -543,7 +660,63 @@
                   { "bSortable": false, 
                 	"bSearchable":false,
                 	"aTargets": [ 6,7 ] 
-                  }]
+                  },
+                  {"sType": "date",
+                      "mRender": function ( data, type, full ) {
+                    	  return data.extractDbDate().dateDbToFr();
+                      	},
+                      "aTargets": [ 0 ]
+                  },
+                  {"sType": "numeric",
+	              "mRender": function ( data, type, full ) {
+	            	  if(data != 'null') {
+	            		  if (type === 'sort') {
+	            			  return data.replace("F","");
+	            		  }
+	            		  return data;
+	            	  } else {
+	            		  return '';
+	            	  }
+	               },
+	               "aTargets": [ 1 ]
+		          },
+                 {"sType": "numeric",
+	              "mRender": function ( data, type, full ) {
+	            	  if(data != 'null') {
+	            		  if (type === 'sort') {
+	            			  data = data.replace("CF",""); // Incohérence de données datant de la création du zeybux
+	            			  return data.replace("C","");
+	            		  }
+	            		  return data;
+	            	  } else {
+	            		  return '';
+	            	  }
+	               },
+	               "aTargets": [ 2 ]
+		          },
+		          {	 "sType": "string",
+                  	 "mRender": function ( data, type, full ) {
+                  		if(data != 'null') {
+	             	        return data;
+                  		} else {
+                  			return '';
+                  		}
+             	      },
+             	      "aTargets": [ 3 ]
+		          },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+	                "sClass":"com-text-align-right",
+                	"aTargets": [ 4 ] 
+                  },
+                  {"sType": "numeric",
+   	               "aTargets": [ 5 ] 
+   	              },]
 	    });
 		
 		pData.find('#table-espece-ferme').dataTable({
@@ -556,6 +729,59 @@
                   { "bSortable": false, 
                 	"bSearchable":false,
                 	"aTargets": [ 5,6 ] 
+                  },
+                  {"sType": "date",
+                      "mRender": function ( data, type, full ) {
+                    	  return data.extractDbDate().dateDbToFr();
+                      	},
+                      "aTargets": [ 0 ]
+                  },
+                  {"sType": "numeric",
+	              "mRender": function ( data, type, full ) {
+	            	  if(data != 'null') {
+	            		  if (type === 'sort') {
+	            			  return data.replace("F","");
+	            		  }
+	            		  return data;
+	            	  } else {
+	            		  return '';
+	            	  }
+	               },
+	               "aTargets": [ 1 ]
+		          },
+                 {"sType": "numeric",
+	              "mRender": function ( data, type, full ) {
+	            	  if(data != 'null') {
+	            		  if (type === 'sort') {
+	            			  data = data.replace("CF",""); // Incohérence de données datant de la création du zeybux
+	            			  return data.replace("C","");
+	            		  }
+	            		  return data;
+	            	  } else {
+	            		  return '';
+	            	  }
+	               },
+	               "aTargets": [ 2 ]
+		          },
+		          {	 "sType": "string",
+                  	 "mRender": function ( data, type, full ) {
+                  		if(data != 'null') {
+	             	        return data;
+                  		} else {
+                  			return '';
+                  		}
+             	      },
+             	      "aTargets": [ 3 ]
+		          },
+                  {"sType": "numeric",
+	                "mRender": function ( data, type, full ) {
+         	        	if(type !== 'sort' && data.length > 0) {
+         	        		return data.nombreFormate(2,',',' ') + ' ' + gSigleMonetaire;
+         	        	}
+         	        	return data;
+	             	},
+	                "sClass":"com-text-align-right",
+                	"aTargets": [ 4 ] 
                   }]
 	    });
 		return pData;		
@@ -578,7 +804,7 @@
 	this.dialogValiderPaiement = function(pIdOperation) {
 		var that = this;
 		var lOperation = this.mListeOperation[pIdOperation];
-		lOperation.sigleMonetaire = gSigleMonetaire;
+		lOperation.sigleMonetaire = gSigleMonetaire;		
 		
 		var lCompteZeybuTemplate = new CompteZeybuTemplate();
 		$(lCompteZeybuTemplate.dialogValiderPaiement.template(lOperation)).dialog({
@@ -638,6 +864,8 @@
 		var lOperation = this.mListeOperation[pIdOperation];
 		lOperation.sigleMonetaire = gSigleMonetaire;
 		lOperation.champComplementaire = '';
+		lOperation.opeMontant = lOperation.opeMontant.nombreFormate(2,',','');
+				
 		if(this.mTypePaiement[pType] && this.mTypePaiement[pType].champComplementaire.length > 0) {
 			
 			var lTypePaiementService = new TypePaiementService();
