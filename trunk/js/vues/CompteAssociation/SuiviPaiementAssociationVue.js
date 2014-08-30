@@ -389,8 +389,12 @@
          	        	}
          	        	return data;
 	             	},
+	                "sClass":"com-text-align-right",
                 	"aTargets": [ 7 ] 
                   },
+                  {"sType": "numeric",
+                    	"aTargets": [ 8 ] 
+                      },
                    {"bSortable": false,
                   	"bSearchable":false,
                   	"aTargets": [ 9,10,11 ] 
@@ -453,6 +457,7 @@
          	        	}
          	        	return data;
 	             	},
+	                "sClass":"com-text-align-right",
                 	"aTargets": [ 5 ] 
                   },
                   { "bSortable": false,
