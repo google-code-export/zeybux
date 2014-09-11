@@ -65,7 +65,18 @@
 		"</div>";
 	
 	this.produitIndisponible = 
-		"<tr><td>{cproNom}</td><td colspan=\"12\">{nproNom} n'est plus disponible.</td></tr>";
+		"<tr>" +
+			"<td>{cproNom}</td>" +
+			"<td></td>" +
+			"<td>{nproNom} n'est plus disponible.</td>" +
+			"<td></td>" +
+			"<td></td>" +
+			"<td></td>" +
+			"<td></td>" +
+			"<td></td>" +
+			"<td></td>" +
+			"<td></td>" +
+		"</tr>";
 
 	this.lotUnique = 
 		"<input type=\"hidden\" id=\"lot-{IdPdt}\" value=\"{valeur}\" /><span>{text}</span>";
