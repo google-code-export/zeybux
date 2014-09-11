@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+/*
+#formulaire_confirmation_suppression_adherent_ext {
+	width:700px;
+	margin-left:150px;
+}*/
+
+#dialog-supp-adh p {
+	margin-bottom:0;
+	padding:5px;
+}
