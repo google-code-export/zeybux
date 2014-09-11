@@ -104,7 +104,7 @@ class ReservationMarcheControleur
 	public function modifierReservation($pParam) {
 		$pParam['idCompte'] = $_SESSION[ID_COMPTE];
 
-		$lVr = ReservationMarcheValid::validAjout($pParam);
+		$lVr = ReservationMarcheValid::validUpdate($pParam);
 		if($lVr->getValid()) {
 			$lReservationService = new ReservationService();
 			

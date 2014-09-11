@@ -364,6 +364,7 @@ class StockService
 			$lStock = $this->get($pId);
 			switch($lStock->getType()) {
 				case 0 : // Annulation de la reservation
+				case 6 :
 					$lStock->setType(6);
 					return $this->update($lStock);
 					break;

@@ -7,6 +7,7 @@
 	this.solde = 0;
 	this.soldeNv = 0;
 	this.mPremiereReservation = true;
+	this.mEtatReservation = null;
 	
 	this.construct = function(pParam) {
 		$.history( {'vue':function() {ReservationAdherentVue(pParam);}} );
@@ -56,6 +57,9 @@
 									});
 								}
 							});
+							
+							that.mEtatReservation = lResponse.etat;
+							
 							if(lResponse.reservation.length > 0)  {
 								that.mPremiereReservation = false;
 								that.afficher(1);								
@@ -220,7 +224,7 @@
 				lPdt.proId = this.id;
 				lPdt.nproNom = this.nom;
 				lPdt.proUniteMesure = this.unite;
-				
+				lPdt.cproNom = this.cproNom;
 				lPdt.proMaxProduitCommande = parseFloat(this.qteMaxCommande);
 				lPdt.flagType = "";
 				
@@ -341,7 +345,7 @@
 				
 				if(lAjoutProduit) {
 					//lData.categories[this.idCategorie].produits.push(lPdt);
-					if(lIdCategorie != this.idCategorie) {
+					/*if(lIdCategorie != this.idCategorie) {
 						lCategoriesTrie.push({
 								nom:lNomCategorie,
 								produits:lProduits
@@ -349,7 +353,7 @@
 						lIdCategorie = this.idCategorie;
 						lNomCategorie = this.cproNom;
 						lProduits = [];
-					} 
+					} */
 					lProduits.push(lPdt);
 				}
 			}
@@ -362,7 +366,7 @@
 		});	
 		
 		lData.categories = lCategoriesTrie;
-		
+		lData.produits = lProduits;
 		
 		// Maj des reservations temp pour modif
 		this.reservationModif = [];
@@ -392,9 +396,35 @@
 		pData = this.affectSupprimerReservation(pData);		
 		pData = this.affectInfoProduit(pData);
 		pData = gCommunVue.comHoverBtn(pData);
-		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
+		// Si le marché est archivé on ne peut plus faire de modification
+		// Si la réservation est achetée on ne peut plus faire de modification
+		if(this.infoCommande.comArchive == 2 || this.mEtatReservation == 22 ) { 
 			pData = this.affectDroitArchive(pData);
 		}
+		return pData;
+	};
+	
+	this.affectDataTable = function(pData) {
+		pData.find('#table-form-produit')
+		.dataTable({								
+				"bJQueryUI": true,
+		        "oLanguage": gDataTablesFr,
+		        "bPaginate": false,
+		        "aaSorting": [[2,'asc']],
+				"aoColumnDefs": [
+								{ 	"aTargets": [ 0 ] ,
+									"bSortable": false, 
+									"bSearchable":false,
+									"bVisible":false
+								  },
+								  { 	"aTargets": [ 1,3,4,5,6,7,8,9 ] ,
+										"bSortable": false, 
+										"bSearchable":false
+								  }]
+		}).rowGrouping({	
+			iGroupingColumnIndex: 0,
+			sGroupingClass:"ui-widget-header"
+		});		
 		return pData;
 	};
 		
@@ -413,6 +443,7 @@
 		if(this.infoCommande.comArchive == 2) { // Si le marché est archivé on ne peut plus faide de modification
 			pData = this.affectDroitArchive(pData);
 		}
+		pData = this.affectDataTable(pData);
 		return pData;
 	};
 	
@@ -464,15 +495,15 @@
 		var that = this;
 		pData.find('.btn-plus').click(function() {
 			Infobulle.init(); // Supprime les erreurs
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
-			that.nouvelleQuantite(	lIdPdt,
-									$(this).parent().parent().find('#lot-' + lIdPdt).val(),
-									1);
+			//var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			var lIdPdt = $(this).data("id-produit");
+			that.nouvelleQuantite( lIdPdt, $('#lot-' + lIdPdt).val(), 1);
 		});	
 		pData.find('.btn-moins').click(function() {
 			Infobulle.init(); // Supprime les erreurs
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
-			that.nouvelleQuantite(lIdPdt,$(this).parent().parent().find('#lot-' + lIdPdt).val(),-1);
+			//var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			var lIdPdt = $(this).data("id-produit");
+			that.nouvelleQuantite(lIdPdt,$('#lot-' + lIdPdt).val(),-1);
 		});
 		return pData;		
 	};
@@ -481,7 +512,7 @@
 		var that = this;
 		pData.find('.pdt select').change(function() {
 			Infobulle.init(); // Supprime les erreurs
-			that.changerLot($(this).parent().parent().find(".pdt-id").text(),$(this).val());
+			that.changerLot($(this).data("id-produit"),$(this).val());
 		});
 		return pData;
 	};
@@ -490,7 +521,7 @@
 		var that = this;
 		pData.find('.pdt :checkbox').click(function() {
 			Infobulle.init(); // Supprime les erreurs
-			that.changerProduit($(this).parent().parent().find(".pdt-id").text());			
+			that.changerProduit($(this).data("id-produit"));			
 		});
 		return pData;
 	};
@@ -534,7 +565,7 @@
 	this.affectInitLot = function(pData) {
 		var that = this;
 		pData.find('.pdt select').each(function() {
-			var lIdPdt = $(this).parent().parent().find(".pdt-id").text();
+			var lIdPdt = $(this).data("id-produit");;
 			var lIdLot = $(this).val();
 			
 			if(that.pdtCommande[lIdPdt] && that.pdtCommande[lIdPdt].lots[lIdLot]) {
@@ -709,7 +740,7 @@
 		var that = this;
 		
 		$(pData).find('.pdt').each(function() {
-			var lIdPdt = $(this).find('.pdt-id').text();
+			var lIdPdt = $(this).data("id-produit");
 			if(that.reservation[lIdPdt] != null) {
 				var lResa = that.reservation[lIdPdt];
 				var lIdLot = lResa.dcomId;
@@ -721,7 +752,7 @@
 				$(pData).find('#lot-' + lIdPdt).selectOptions(lIdLot);
 				
 				//$(pData).find('.resa-pdt-' + lIdPdt).show();
-				$(pData).find('.resa-pdt-' + lIdPdt).css("display","table-cell"); //Show ne fonctionne pas sur chrome
+				$(pData).find('.resa-pdt-' + lIdPdt).css("display","inline"); //Show ne fonctionne pas sur chrome
 			}
 		});
 		return pData;
@@ -752,6 +783,7 @@
 				// Maj de la reservation
 				lVo.fonction = "modifierReservation";
 				lVo.id_compte = this.mAdherent.adhIdCompte;
+				lVo.id_commande = this.infoCommande.comId;
 				//lParam = {"reservation":lVo,"id_compte":this.mAdherent.adhIdCompte,fonction:"modifierReservation"};
 				$.post(	"./index.php?m=GestionCommande&v=ReservationAdherent", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
@@ -878,7 +910,7 @@
 				var lGestionCommandeTemplate = new GestionCommandeTemplate();
 				var lTemplate = lGestionCommandeTemplate.lotUnique;
 				var lData = {};
-				lData.IdPdt = $(this).parent().parent().find(".pdt-id").text();
+				lData.IdPdt = $(this).data("id-produit");
 				lData.valeur = $(this).val();
 				lData.text = $(this).text();
 				

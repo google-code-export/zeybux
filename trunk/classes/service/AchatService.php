@@ -868,12 +868,19 @@ class AchatService
 			if(!is_null($lAchatActuel->getRechargement())) { // Rechargement
 				$lOperationService->delete($lAchatActuel->getRechargement()->getId());
 			}
+			
+			$lIdCompte = 0;
+			$lIdMarche = 0;
+			
 			$lIdOperationAchat = 0;
 			if(!is_null($lAchatActuel->getOperationAchat())) { // Achat avec Ope Zeybu
 				$lIdOperationAchat = $lAchatActuel->getOperationAchat()->getId();
 				$lOperationService->delete($lAchatActuel->getOperationAchat()->getId());
 				$lOperationAchatChampComp = $lAchatActuel->getOperationAchat()->getChampComplementaire();
 				$lOperationService->delete($lOperationAchatChampComp[8]->getValeur());
+				
+				$lIdCompte = $lAchatActuel->getOperationAchat()->getIdCompte();
+				$lIdMarche = $lOperationAchatChampComp[1]->getValeur();
 			}
 			
 			$lIdOperationAchatSolidaire = 0;
@@ -882,6 +889,9 @@ class AchatService
 				$lOperationService->delete($lAchatActuel->getOperationAchatSolidaire()->getId());
 				$lOperationAchatSolidaireChampComp = $lAchatActuel->getOperationAchatSolidaire()->getChampComplementaire();
 				$lOperationService->delete($lOperationAchatSolidaireChampComp[8]->getValeur());
+				
+				$lIdCompte = $lAchatActuel->getOperationAchatSolidaire()->getIdCompte();
+				$lIdMarche = $lOperationAchatSolidaireChampComp[1]->getValeur();
 			}
 			
 			// Suppression de l'ensemble des lignes de produit
@@ -895,6 +905,13 @@ class AchatService
 				$lStockService->delete( $lProduitInital->getIdStockSolidaire() );
 				$lDetailOperationService->delete($lProduitInital->getIdDetailOperationSolidaire());
 			}
+			
+			// Suppression de la réservation
+			$lReservationService = new ReservationService();
+			$lIdReservation = new IdReservationVO();
+			$lIdReservation->setIdCompte($lIdCompte);
+			$lIdReservation->setIdCommande($lIdMarche);
+			$lReservationService->delete($lIdReservation);
 			
 			return true;
 		}
@@ -951,7 +968,6 @@ class AchatService
 		$lAchats = array();
 		if(!is_null($lOperations[0]->getId())) {
 			foreach($lOperations as $lOperation) {
-				//$pId->setIdAchat($lOperation->getId());
 				array_push($lAchats,$this->select($lOperation->getId()));
 			}
 		}

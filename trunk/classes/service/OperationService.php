@@ -201,7 +201,14 @@ class OperationService
 			
 			switch($lOperation->getTypePaiement()) {
 				case 0 : // Annulation de la reservation
+				case 16 :
+				case 22 :
 					$lOperation->setTypePaiement(16);
+					return $this->update($lOperation);
+					break;
+
+				case 15 : // Réservation non récupérée
+					$lOperation->setTypePaiement(15);
 					return $this->update($lOperation);
 					break;
 					

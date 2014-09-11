@@ -118,7 +118,8 @@ class CaisseMarcheCommandeControleur
 					$lIdReservation = new IdReservationVO();
 					$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 					$lIdReservation->setIdCommande($pParam["id_commande"]);		
-					$lProduitsReservation = $lReservationService->get($lIdReservation)->getDetailReservation();
+					// Récupère les réservations actives
+					$lProduitsReservation = $lReservationService->get($lIdReservation, true)->getDetailReservation();
 					$lResponse->setReservation($lProduitsReservation);	// La réservation	
 					
 					$lAchatService = new AchatService();

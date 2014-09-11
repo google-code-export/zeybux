@@ -762,6 +762,7 @@
 			} else {
 				// Maj de la reservation
 				lVo.fonction = "modifier";
+				lVo.id_commande = this.infoCommande.comId;
 				$.post(	"./index.php?m=Commande&v=ReservationMarche", "pParam=" + $.toJSON(lVo),
 					function(lResponse) {
 						Infobulle.init(); // Supprime les erreurs
