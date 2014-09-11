@@ -43,6 +43,12 @@ class ReservationAdherentResponse extends DataTemplate
 	protected $mReservation;
 	
 	/**
+	 * @var int
+	 * @desc L'état de la réservation
+	 */
+	protected $mEtat;
+	
+	/**
 	* @name ReservationAdherentResponse()
 	* @desc Le constructeur de ReservationAdherentResponse
 	*/	
@@ -122,6 +128,24 @@ class ReservationAdherentResponse extends DataTemplate
 	*/
 	public function setReservation($pReservation) {
 		$this->mReservation = $pReservation;
+	}
+	
+	/**
+	* @name getEtat()
+	* @return int
+	* @desc Renvoie le Etat
+	*/
+	public function getEtat() {
+		return $this->mEtat;
+	}
+
+	/**
+	* @name setEtat($pEtat)
+	* @param int
+	* @desc Remplace le Etat par $pEtat
+	*/
+	public function setEtat($pEtat) {
+		$this->mEtat = $pEtat;
 	}
 }
 ?>

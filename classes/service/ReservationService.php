@@ -284,23 +284,24 @@ class ReservationService
 	* @return array(ReservationVO) ou ReservationVO
 	* @desc Retourne une liste de reservation
 	*/
-	public function get($pId = null) {
+	public function get($pId = null, $pActive = false) {
 		$lReservationValid = new ReservationValid();
 		if(!is_null($pId) && $lReservationValid->select($pId)) {
-			return $this->select($pId);
+			return $this->select($pId, $pActive);
 		} else {
 			return false;
 		}
 	}
 	
 	/**
-	* @name selectOperationReservation($pId)
+	* @name selectOperationReservation($pId, $pActive)
 	* @param IdReservation
+	* @param bool
 	* @return array(OperationVO)
 	* @desc Retourne une liste d'operation
 	*/
-	public function selectOperationReservation($pId) {
-		return OperationManager::selectOperationReservation($pId);
+	public function selectOperationReservation($pId, $pActive = false) {
+		return OperationManager::selectOperationReservation($pId, $pActive);
 	}
 
 	/**
@@ -340,13 +341,14 @@ class ReservationService
 	}
 	
 	/**
-	* @name select($pId)
+	* @name select($pId, $pActive)
 	* @param IdReservationVO
+	* @param bool
 	* @return ReservationVO
 	* @desc Retourne une Reservation
 	*/
-	public function select($pId) {			
-		$lOperations = $this->selectOperationReservation($pId);
+	public function select($pId, $pActive = false) {			
+		$lOperations = $this->selectOperationReservation($pId, $pActive);
 		$lReservation = new ReservationVO();
 		$lReservation->setId($pId);
 		

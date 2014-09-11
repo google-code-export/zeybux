@@ -49,7 +49,7 @@ class ReservationAdherentControleur
 			
 			$lAdherent = AdherentViewManager::select($lIdAdherent);
 			$lResponse->setAdherent($lAdherent);
-			
+
 			$lMarcheService = new MarcheService();
 			$lResponse->setMarche($lMarcheService->get($pParam["id_commande"]));
 
@@ -58,11 +58,15 @@ class ReservationAdherentControleur
 			$lIdReservation->setIdCompte($lAdherent->getAdhIdCompte());
 			$lIdReservation->setIdCommande($pParam["id_commande"]);			
 			if($lReservationService->enCoursOuAchete($lIdReservation)) {
-				$lResponse->setReservation($lReservationService->get($lIdReservation)->getDetailReservation());		
-			}	
+				$lReservation = $lReservationService->get($lIdReservation);				
+				$lResponse->setReservation($lReservation->getDetailReservation());	
+				$lResponse->setEtat($lReservation->getEtat());		
+			} else {
+				$lResponse->setEtat(null);
+			}
 			return $lResponse;
 		}
-		return $lVr;		
+		return $lVr;
 	}
 	
 	/**
@@ -71,7 +75,7 @@ class ReservationAdherentControleur
 	* @desc Met à jour une réservation
 	*/
 	public function modifierReservation($pParam) {
-		$lVr = CommandeReservationValid::validAjout($pParam);
+		$lVr = CommandeReservationValid::validUpdate($pParam);
 		if($lVr->getValid()) {
 			$lIdLot = $pParam["detailReservation"][0]["stoIdDetailCommande"];
 			$lDetailMarche = DetailMarcheViewManager::selectByLot($lIdLot);

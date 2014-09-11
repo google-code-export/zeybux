@@ -463,17 +463,23 @@ class OperationManager
 	}
 	
 	/**
-	 * @name selectOperationReservation($pId)
+	 * @name selectOperationReservation($pId, $pActive)
 	 * @param IdReservation
+	 * @param bool
 	 * @return array(OperationVO)
 	 * @desc Retourne une liste d'operation
 	 */
-	public function selectOperationReservation($pId) {
+	public function selectOperationReservation($pId, $pActive = false) {
+		$lStatusReservation = array(0,15,16,22);
+		if($pActive) { // Ne retourne que les réservations actives
+			$lStatusReservation = array(0);
+		}
+
 		// ORDER BY date -> récupère la dernière operation en lien avec la commande
 		return OperationManager::rechercheDetail(
 				array(OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT,OperationManager::CHAMP_OPERATION_ID_COMPTE,OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_CHCP_ID, OperationChampComplementaireManager::CHAMP_OPERATIONCHAMPCOMPLEMENTAIRE_VALEUR),
 				array('in','=','=','='),
-				array(array(0,15,16,22), $pId->getIdCompte(), 1, $pId->getIdCommande()),
+				array($lStatusReservation, $pId->getIdCompte(), 1, $pId->getIdCommande()),
 				array(OperationManager::CHAMP_OPERATION_DATE, OperationManager::CHAMP_OPERATION_TYPE_PAIEMENT),
 				array('DESC','ASC'));
 	}

@@ -29,6 +29,10 @@
 	width: 420px;
 }
 
+.td-nom-produit-caisse {
+	width: 414px;
+}
+
 .formulaire-achat-produit-nom-produit-reservation {
 	width: 280px;
 }
@@ -108,4 +112,13 @@
 
 .div-relative {
 	position:relative;
+}
+
+.td-solidaire {
+	background-color: rgba(0, 254, 126, 0.3);
+}
+
+.table-detail-produit-caisse {
+	border-collapse: collapse;
+    width: 100%;
 }
