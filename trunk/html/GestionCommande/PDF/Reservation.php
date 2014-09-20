@@ -21,15 +21,20 @@
 	   <?php 
 	    $lNbLignePrixProduit = 0;
 		$j = 0;
+		$lCategorieProduit = array();
 		while($j < $lNbProduitPage) {
 			$lIdProduit = $lIdProduits[$i * $lLimitePaysage  + $j];
 			$lProduits = ProduitManager::selectDetailProduits(array($lIdProduit));
 			$lProduit = $lProduits[0];		
-			$lLabelNomProduit = $lProduit->getNproNom();
-		?>
-		<td style="width:<?php echo $lWidth;?>px;padding-left:<?php echo $lPadding;?>px;padding-right:<?php echo $lPadding;?>px;text-align:center;font-size:16pt;"><?php echo $lLabelNomProduit; ?></td>
-		<?php		
+			$lCategorieProduit[$lProduit->getCproNom()] = $lProduit->getCproNom();
 			$j++;
+		}
+		ksort($lCategorieProduit);
+		foreach($lCategorieProduit as $lCategorie) {
+		?>
+		<td style="width:<?php echo $lWidth;?>px;padding-left:<?php echo $lPadding;?>px;padding-right:<?php echo $lPadding;?>px;text-align:center;font-size:16pt;"><?php echo $lCategorie; ?></td>
+		<?php		
+			
 		} ?>
 		</tr>
 		</table>
