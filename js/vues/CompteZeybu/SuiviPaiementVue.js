@@ -464,7 +464,10 @@
                   },
                   {"sType": "date",
                       "mRender": function ( data, type, full ) {
-                    	  return data.extractDbDate().dateDbToFr();
+	                    	if (type === 'sort') {
+	                    		return data.replace(' ','T');
+	                    	}
+	                    	return data.extractDbDate().dateDbToFr();
                       	},
                       "aTargets": [ 2 ]
                   },
@@ -505,9 +508,12 @@
          	      	"aTargets": [ 1 ]
                   },
                   {"sType": "date",
-                      "mRender": function ( data, type, full ) {
-                    	  return data.extractDbDate().dateDbToFr();
-                      	},
+                     "mRender": function ( data, type, full ) {
+                    	if (type === 'sort') {
+                    		return data.replace(' ','T');
+                    	}
+                    	return data.extractDbDate().dateDbToFr();
+                      },
                       "aTargets": [ 2 ]
                   },
                   {	 "sType": "numeric",
@@ -570,6 +576,9 @@
                   },
                   {   "sType": "date",
                 	  "mRender": function ( data, type, full ) {
+	                    	if (type === 'sort') {
+	                    		return data.replace(' ','T');
+	                    	}
                     	  return data.extractDbDate().dateDbToFr();
                       },
                 	  "aTargets": [ 0 ] 
@@ -595,6 +604,9 @@
 	        "aoColumnDefs": [
                    {"sType": "date",
                   "mRender": function ( data, type, full ) {
+                  	if (type === 'sort') {
+                		return data.replace(' ','T');
+                	}
                 	  return data.extractDbDate().dateDbToFr();
                   	},
                   "aTargets": [ 0 ]
@@ -663,6 +675,9 @@
                   },
                   {"sType": "date",
                       "mRender": function ( data, type, full ) {
+                    	if (type === 'sort') {
+                    		return data.replace(' ','T');
+                    	}
                     	  return data.extractDbDate().dateDbToFr();
                       	},
                       "aTargets": [ 0 ]
@@ -732,6 +747,9 @@
                   },
                   {"sType": "date",
                       "mRender": function ( data, type, full ) {
+                    	if (type === 'sort') {
+                    		return data.replace(' ','T');
+                    	}
                     	  return data.extractDbDate().dateDbToFr();
                       	},
                       "aTargets": [ 0 ]
