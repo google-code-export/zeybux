@@ -1121,9 +1121,10 @@
 		if(this.mNbProduit > 0) {
 			if($("#btn-gestion-marche").length < 1) {
 				if(pData) {
-					pData.find("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+					//pData.find("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+					pData.find("#btn-ajout-produit").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
 				} else {
-					$("#liste-ferme").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
+					$("#btn-ajout-produit").after( this.affectCeerMarche($(lGestionCommandeTemplate.btnValiderAjoutMarche)) );	
 				}
 			}
 		} else {
@@ -1593,6 +1594,7 @@
 		pData.find("#btn-modifier-creation-commande").click(function() {
 			that.editerMarche();
 		});
+		pData = gCommunVue.comHoverBtn(pData);
 		return pData;
 	};
 	
@@ -1632,7 +1634,7 @@
 					$("#time-fin-marche-span").text($(':input[name=heure-fin]').val() + 'H' + $(':input[name=minute-fin]').val());
 					$("#description-marche-span").text(this.mMarche.description);
 			
-					$("#btn-ajout-produit-div, .informations-marche, #btn-modifier-creation-commande, .btn-modifier-produit, .btn-supprimer-produit").toggle();
+					$("#btn-ajout-produit, .informations-marche, #btn-modifier-creation-commande, .btn-modifier-produit, .btn-supprimer-produit").toggle();
 				} else {
 					// Affiche les erreurs
 					Infobulle.generer(lVR,"marche-");						
@@ -1726,7 +1728,7 @@
 	
 	this.editerMarche = function() {
 		this.mEtapeCreationMarche = 0;
-		$("#btn-ajout-produit-div, .informations-marche, #btn-modifier-creation-commande, .btn-modifier-produit, .btn-supprimer-produit").toggle();
+		$("#btn-ajout-produit, .informations-marche, #btn-modifier-creation-commande, .btn-modifier-produit, .btn-supprimer-produit").toggle();
 	};
 
 
