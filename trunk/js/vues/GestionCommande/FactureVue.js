@@ -157,6 +157,9 @@
 	        "aoColumnDefs": [
 	             {"sType": "date",
                   "mRender": function ( data, type, full ) {
+                  	if (type === 'sort') {
+                		return data.replace(' ','T');
+                	}
                 	  return data.extractDbDate().dateDbToFr();
                   	},
                   "aTargets": [ 1 ]
