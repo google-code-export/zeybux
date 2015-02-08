@@ -745,7 +745,6 @@
 			"<div class=\"com-widget-window ui-widget ui-widget-content-transparent ui-corner-all\">" +		
 				"<div class=\"com-widget-header ui-widget ui-widget-header ui-corner-all\">" +
 					"Remise de chèque N°{numero} : {date}" +
-
 					"<span class=\"com-cursor-pointer com-btn-header-multiples ui-widget-content ui-corner-all\" id=\"btn-edt-supprimer\" data-id=\"{id}\" title=\"Supprimer\">" +
 						"<span class=\"ui-icon ui-icon-closethick\">" +
 						"</span>" +
