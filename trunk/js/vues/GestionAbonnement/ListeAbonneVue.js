@@ -43,7 +43,7 @@
 	        "bJQueryUI": true,
 	        "sPaginationType": "full_numbers",
 	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 25,
+	//        "iDisplayLength": 25,
 	        "aaSorting": [[2,'asc'], [3,'asc']],
 	        "aoColumnDefs": [
                   { "bSortable": false, 

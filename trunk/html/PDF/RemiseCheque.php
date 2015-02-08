@@ -21,7 +21,6 @@ td    { vertical-align: top; }
 	</table>
 	<br>
 	<br>
-    
     <table cellspacing="0" style="width: 100%; text-align: center; font-size: 10pt;">
     	<thead>
 	        <tr>
