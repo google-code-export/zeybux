@@ -140,7 +140,7 @@
 	        "bJQueryUI": true,
 	        "sPaginationType": "full_numbers",
 	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
+	   //     "iDisplayLength": 10,
 	        "aaSorting": [[0,'asc']],
 	        "aoColumnDefs": lOptionTable
 	    });	

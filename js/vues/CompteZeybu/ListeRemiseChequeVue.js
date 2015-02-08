@@ -67,7 +67,7 @@
 	        "bJQueryUI": true,
 	        "sPaginationType": "full_numbers",
 	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 10,
+	   //     "iDisplayLength": 10,
 	        "aaSorting": [[1,'asc']],
 	        "aoColumnDefs": [
                   {"sType": "date",
