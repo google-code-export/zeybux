@@ -235,7 +235,7 @@
 	        "bJQueryUI": true,
 	        "sPaginationType": "full_numbers",
 	        "oLanguage": gDataTablesFr,
-	        "iDisplayLength": 25,
+	  //      "iDisplayLength": 25,
 	        "aaSorting": [[0,'desc']],
 	        "aoColumnDefs": [
                   { "bSortable": false,
@@ -251,6 +251,9 @@
                   },
                   {	 "sType": "date",
                  	 "mRender": function ( data, type, full ) {
+                    	if (type === 'sort') {
+                    		return data.replace(' ','T');
+                    	}
                  		return data.extractDbDate().dateDbToFr();
                  	  },
                  	"aTargets": [ 0 ]

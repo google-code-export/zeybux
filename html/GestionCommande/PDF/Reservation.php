@@ -1,40 +1,4 @@
-<page orientation="<?php echo $lOrientation;?>" backbottom="10mm" backtop="20mm">	
-    <page_header>
-    	<table cellspacing="0" style="width:100%;">
-    	<?php 
-    	$lLimite = 0;
-    	if($lOrientation == "portrait") {
-    		$lLimite = $lLimitePortrait;
-    		$lLargeurPage = 750;
-    	} else {
-    		$lLimite = $lLimitePaysage;
-    		$lLargeurPage = 1400;
-    	}
-    	$lPadding = 5;
-    	$lWidth = round(($lLargeurPage/$lLimite)-($lPadding*$lLimite*2));
-    	if($lWidth < 0) {
-    		$lWidth = round($lLargeurPage/$lLimite);
-    		$lPadding = 0;
-    	}
-    	?>
-    	<tr>
-	   <?php 
-	    $lNbLignePrixProduit = 0;
-		$j = 0;
-		while($j < $lNbProduitPage) {
-			$lIdProduit = $lIdProduits[$i * $lLimitePaysage  + $j];
-			$lProduits = ProduitManager::selectDetailProduits(array($lIdProduit));
-			$lProduit = $lProduits[0];		
-			$lLabelNomProduit = $lProduit->getNproNom();
-		?>
-		<td style="width:<?php echo $lWidth;?>px;padding-left:<?php echo $lPadding;?>px;padding-right:<?php echo $lPadding;?>px;text-align:center;font-size:16pt;"><?php echo $lLabelNomProduit; ?></td>
-		<?php		
-			$j++;
-		} ?>
-		</tr>
-		</table>
-	</page_header>
-	
+<page orientation="<?php echo $lOrientation;?>" backbottom="10mm">	
     <page_footer>
         <table style="width: 100%;">
             <tr>

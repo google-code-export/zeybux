@@ -147,30 +147,32 @@ class CaisseMarcheCommandeControleur
 			// Fusion des stocks
 			$lLotsProduits = array();
 			foreach($lStockProduitsDisponible as $lProduitStock) {
-				$lAjout = true;
-				foreach($lProduitsMarche as $lProduitMarche) {
-					if($lProduitStock->getIdNom() == $lProduitMarche->getIdNom() && $lProduitStock->getUnite() == $lProduitMarche->getUnite()) {
-						$lAjout = false;
+				if(!is_null($lProduitStock->getId())) {
+					$lAjout = true;
+					foreach($lProduitsMarche as $lProduitMarche) {
+						if($lProduitStock->getIdNom() == $lProduitMarche->getIdNom() && $lProduitStock->getUnite() == $lProduitMarche->getUnite()) {
+							$lAjout = false;
+						}
 					}
-				}
-				if($lAjout) {
-					if(!isset($lStock[$lProduitStock->getCproNom()])) {
-						$lStock[$lProduitStock->getCproNom()] = array("cproId" => $lProduitStock->getIdCategorie(), "cproNom" => $lProduitStock->getCproNom(), "produits" => array());
+					if($lAjout) {
+						if(!isset($lStock[$lProduitStock->getCproNom()])) {
+							$lStock[$lProduitStock->getCproNom()] = array("cproId" => $lProduitStock->getIdCategorie(), "cproNom" => $lProduitStock->getCproNom(), "produits" => array());
+						}
+						$lUnite = $lProduitStock->getUnite();
+						$lStock[$lProduitStock->getCproNom()]["produits"][$lProduitStock->getNom().$lProduitStock->getUnite()] = new ProduitDetailAchatAfficheVO(
+								$lProduitStock->getIdNom(),
+								null, null, null, null, null, null, null, null, null,
+								$lUnite,
+								null,
+								$lUnite,
+								null, null,
+								$lProduitStock->getIdCategorie(),
+								$lProduitStock->getCproNom(),
+								null,
+								$lProduitStock->getNom());
+							
+						$lLotsProduits[$lProduitStock->getIdNom().$lProduitStock->getUnite()] = array("nom" => $lProduitStock->getNom(), "type" => "modele", "lots" => $lProduitStock->getLots());
 					}
-					$lUnite = !is_null($lProduitStock->getUnite()) ? $lProduitStock->getUnite() : $lProduitStock->getUniteSolidaire();
-					$lStock[$lProduitStock->getCproNom()]["produits"][$lProduitStock->getNom().$lProduitStock->getUnite()] = new ProduitDetailAchatAfficheVO(
-							$lProduitStock->getIdNom(),
-							null, null, null, null, null, null, null, null, null,
-							$lUnite,
-							null,
-							$lUnite,
-							null, null,
-							$lProduitStock->getIdCategorie(),
-							$lProduitStock->getCproNom(),
-							null,
-							$lProduitStock->getNom());
-						
-					$lLotsProduits[$lProduitStock->getIdNom().$lProduitStock->getUnite()] = array("nom" => $lProduitStock->getNom(), "type" => "modele", "lots" => $lProduitStock->getLots());
 				}
 			}
 			foreach($lProduitsMarche as $lProduitMarche) {

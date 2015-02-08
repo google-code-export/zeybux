@@ -422,10 +422,10 @@
 		"</tr>" ;
 	
 	this.btnValiderAjoutMarche = 
-		"<div id=\"btn-gestion-marche\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
+		"<span id=\"btn-gestion-marche\">" +
 			"<button type=\"button\" id=\"btn-modifier-creation-commande\" class=\"com-btn-edt-multiples ui-helper-hidden ui-state-default ui-corner-all com-button com-center\">Modifier</button>" +
 			"<button type=\"button\" id=\"btn-creer-marche\" class=\"ui-state-default ui-corner-all com-button com-center\">Valider</button>" +
-		"</div>";
+		"</span>";
 	
 	this.ajoutMarcheListeProduit = 
 		"<div id=\"liste-ferme\">" +
@@ -1030,10 +1030,10 @@
 											"<option value=\"00\">00</option>" +
 										    "<option value=\"05\">05</option>" +
 										    "<option value=\"10\">10</option>" +
-										    "<option value=\"15\">15</option>" +
+										    "<option selected=\"selected\" value=\"15\">15</option>" +
 										    "<option value=\"20\">20</option>" +
 										    "<option value=\"25\">25</option>" +
-										    "<option selected=\"selected\" value=\"30\">30</option>" +
+										    "<option value=\"30\">30</option>" +
 										    "<option value=\"35\">35</option>" +
 										    "<option value=\"40\">40</option>" +
 										    "<option value=\"45\">45</option>" +
@@ -1077,10 +1077,10 @@
 										    "<option value=\"15\">15</option>" +
 										    "<option value=\"20\">20</option>" +
 										    "<option value=\"25\">25</option>" +
-										    "<option value=\"30\">30</option>" +
+										    "<option selected=\"selected\" value=\"30\">30</option>" +
 										    "<option value=\"35\">35</option>" +
 										    "<option value=\"40\">40</option>" +
-										    "<option selected=\"selected\" value=\"45\">45</option>" +
+										    "<option value=\"45\">45</option>" +
 										    "<option value=\"50\">50</option>" +
 										    "<option value=\"55\">55</option>" +
 										  "</select>" +
@@ -1098,7 +1098,7 @@
 					"</div>" +
 				"</div>" +
 				"<div id=\"btn-ajout-produit-div\" class=\"com-widget-window ui-widget ui-widget-header ui-corner-all com-center\">" +
-					"<button type=\"button\" id=\"btn-ajout-produit\" class=\"ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
+					"<button type=\"button\" id=\"btn-ajout-produit\" class=\"com-btn-edt-multiples ui-state-default ui-corner-all com-button com-center\">Ajouter un produit</button>" +
 				"</div>" +
 				"<div id=\"liste-ferme\">" +
 				"</div>" +

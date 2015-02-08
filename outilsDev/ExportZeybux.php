@@ -640,6 +640,7 @@ if(isset($_POST['nom']) && isset($_POST['env']) && isset($_POST['source'])) {
 			        case "mod_module":    
 			        case "tpp_type_paiement":    
 			        case "vue_vues":
+			        case "pad_perimetre_adhesion":
 			            $donnees = mysql_query("SELECT * FROM ".$table[0]);
 			            $insertions .= "-- -----------------------------\n";
 			            $insertions .= "-- insertions dans la table ".$table[0]."\n";
